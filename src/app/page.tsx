@@ -19,7 +19,7 @@ export default function Home() {
 								alt="mImg"
 							/>
 							<div className="text-blue-500 text-3xl font-bold leading-10 self-stretch grow shrink basis-auto">
-								EndoTracker I AM DEV
+								EndoTracker
 							</div>
 						</div>
 						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
