@@ -1,7 +1,41 @@
 import * as React from "react";
 
+const navigation = [
+  {
+    name: "DELA CRUZ, Juan",
+    age: "70",
+    href: "",
+    src: "",
+  },
+  {
+    name: "RIZAL, Jose",
+    age: "43",
+    href: "",
+    src: "",
+  },
+  {
+    name: "BONIFACIO, Andres",
+    age: "39",
+    href: "",
+    src: "",
+  },
+  {
+    name: "QUEZON, Manuel",
+    age: "44",
+    href: "",
+    src: "",
+  },
+  {
+    name: "SORA, Tandang",
+    age: "61",
+    href: "",
+    src: "",
+  },
+];
+
 export default function MyComponent() {
   return (
+
     <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
       <div className="flex flex-col justify-center items-stretch">
         <div className="shadow-sm bg-white flex w-full items-stretch justify-between gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
@@ -137,185 +171,37 @@ export default function MyComponent() {
                   </span>
                 </div>
               </span>
-              <div className="flex flex-col items-stretch mt-8 pl-3.5 pr-20 max-md:max-w-full max-md:pr-5">
-                <div className="flex w-full items-stretch justify-between gap-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/c389cff7fd79d2d12cc0ed7c292e5809ac87b9a64ef863fa7036a9a3e9c2cf8e?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-                <div className="flex w-full items-stretch justify-between gap-5 mt-5 pr-14 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
-                  <div className="flex items-stretch justify-between gap-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/09d495857b94bb2ba4fbb11f923f035e57e1c4b11f976b910fd888c303af7f81?"
-                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-                    />
-                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
-                        DELA CRUZ, JUAN
-                      </div>
-                      <div className="text-black text-xs leading-5 mt-3">
-                        AGE: 70
-                      </div>
-                    </span>
-                  </div>
-                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
-                      View
-                    </button>
-                  </div>
-                </div>
-              </div>
             </span>
+
+            {navigation.map((item) => (
+              <div key={item.name} className="flex max-w-[940px] flex-col items-center">
+                <div className="flex w-full max-w-[856px] items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
+                  <div className="flex items-stretch justify-between gap-5">
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/5fee24394139ee09d61af596b82e9174ea8a73c2e68f5ff59e2c793c7b2e08ee?"
+                      className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
+                    />
+                    <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
+                      <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">
+                        {item.name}
+                      </div>
+                      <div className="text-black text-xs leading-5 mt-2">AGE: {item.age}</div>
+                    </span>
+                  </div>
+                  <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
+                    <span className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
+                      View
+                    </span>
+                  </div>
+                </div>
+              <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full" />
+            </div>
+
+            ))}
+
+            
+            
           </div>
         </div>
       </div>
