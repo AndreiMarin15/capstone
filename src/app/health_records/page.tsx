@@ -36,7 +36,7 @@ const navigation = [
 
 export default function MyComponent() {
   return (
-    <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
+    <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh]">
       <div className="flex flex-col justify-center items-stretch">
         <div className="shadow-sm bg-white flex w-full items-stretch justify-between gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
           <span className="flex items-stretch justify-between gap-2">
@@ -73,8 +73,8 @@ export default function MyComponent() {
           </span>
         </div>
       </div>
-      <div className="w-full max-md:max-w-full">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+      <div className="w-full max-md:max-w-full h-full">
+        <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0 h-full">
           <div className="flex flex-col items-stretch w-[17%] max-md:w-full max-md:ml-0">
           <Navbar />
           </div>
