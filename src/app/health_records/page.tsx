@@ -83,7 +83,7 @@ export default function MyComponent() {
               <div className="text-black text-xl font-semibold leading-8 max-md:max-w-full">
                 Health Records
               </div>
-              <span className="flex w-full items-center justify-between gap-5 mt-8 pr-16 max-md:max-w-full max-md:flex-wrap max-md:mt-10 max-md:pr-5">
+              <span className="flex w-full items-center justify-between gap-5 mt-8 mb-8 pr-16 max-md:max-w-full max-md:flex-wrap max-md:mt-10 max-md:pr-5">
                 <div className="text-black text-base font-medium leading-6 my-auto">
                   PATIENTS
                 </div>
