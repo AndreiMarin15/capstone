@@ -1,4 +1,5 @@
 import * as React from "react";
+import Navbar from "../../navbar";
 
 export default function MyComponent() {
   return (
@@ -39,70 +40,10 @@ export default function MyComponent() {
       </div>
       <div className="w-full max-md:max-w-full">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-          <div className="flex flex-col items-stretch w-[17%] max-md:w-full max-md:ml-0">
-            <div className="items-stretch shadow-sm flex w-full grow flex-col mx-auto pt-7 pb-12 px-3 max-md:mt-10" style={{background: "linear-gradient(180deg, #00296C 0%, rgba(0, 82, 216, 0.51) 99.99%, rgba(0, 97, 255, 0.57) 100%)"}}>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 px-3 py-2.5 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/47e67a9dca9eb1ad1f1ee586eb9c4f52b09e2baf7a6546db2b589db473c7bf7a?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Dashboard
-                </div>
-              </span>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 mt-2.5 px-3 py-2.5 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Health Records
-                </div>
-              </span>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 mt-2.5 px-3 py-2.5 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/65003c7954e9060e7972c1395d284ed0394b1a751cd4a8dfbb06cba627b76ab5?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Predictive Analytics
-                </div>
-              </span>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 mt-2.5 px-3 py-2.5 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/db8d1ed60ebf26f113c515de8a5f6b0346b09bef90f202687d2d4e5c65ef6b04?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Referral
-                </div>
-              </span>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 mt-2.5 px-3 py-2.5 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/1f97c38d1861c9f15e7785d2fb60aa2e67056d9cbf10b632c0a227519b230848?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Messages
-                </div>
-              </span>
-              <span className="items-stretch rounded shadow-sm bg-white bg-opacity-0 flex justify-between gap-2.5 mt-2.5 mb-80 px-3 py-2.5 max-md:mb-10 max-md:pr-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/e8f4408bbd37502169ad0ec9c3bb74645681e1577ab7fba2e42998850f280320?"
-                  className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                />
-                <div className="text-white text-xs font-semibold grow whitespace-nowrap self-start">
-                  Account
-                </div>
-              </span>
-            </div>
+        <div className="flex flex-col items-stretch w-[17%] max-md:w-full max-md:ml-0">
+          <Navbar />
           </div>
+          
           <div className="flex flex-col items-stretch w-[83%] ml-5 max-md:w-full max-md:ml-0">
             <span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
               <span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
