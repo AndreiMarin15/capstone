@@ -3,13 +3,7 @@ import Image from "next/image";
 export default function PersonalInformation() {
   return (
     <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
-      <div className="shadow-sm bg-white flex w-full flex-col justify-center pl-6 pr-16 py-3 items-start max-md:max-w-full max-md:px-5">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a43ad9299962a7d876716fc60a0ff9494e82b4a360aec04248621314cc15755?"
-          className="aspect-square object-contain object-center w-[22px] overflow-hidden max-w-full"
-        />
-      </div>
+     
       <div className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
         <div className="self-stretch flex items-center justify-between gap-5 ml-4 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5">
           <div className="text-black text-xl font-semibold leading-8 my-auto">
