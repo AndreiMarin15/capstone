@@ -1,7 +1,11 @@
+import Image from "next/image";
 export default function PatientProfile() {
 	return (
 		<div className="flex items-center gap-3.5 mt-10">
-			<img
+			<Image 
+            alt="picture"
+            height={0}
+            width={0}
 				loading="lazy"
 				src="https://cdn.builder.io/api/v1/image/assets/TEMP/f93d5b041a77641729755adbc288033a6c368ab9f2f47627fb102ac12928179c?"
 				className="aspect-square object-contain object-center w-[59px] overflow-hidden shrink-0 max-w-full"
