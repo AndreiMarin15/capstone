@@ -32,7 +32,10 @@ export default function PersonalInformation() {
               <div className="text-white text-xl font-semibold leading-8 whitespace-nowrap self-stretch aspect-square justify-center items-stretch px-4 py-3.5 rounded-[50%]">
                 2
               </div>
-              <img
+              <Image
+              alt="picture"
+              height={0}
+              width={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d6d8a4f1f780d171fc0c5979ae4dc06265006cb1fe0d65d68ef9c0b303f1fd7b?"
                 className="aspect-[83.5] object-contain object-center w-[167px] stroke-[2px] stroke-gray-400 overflow-hidden shrink-0 max-w-full my-auto"
@@ -40,7 +43,10 @@ export default function PersonalInformation() {
               <div className="text-white text-xl font-semibold leading-8 whitespace-nowrap self-stretch aspect-square justify-center items-stretch px-4 py-3.5 rounded-[50%]">
                 3
               </div>
-              <img
+              <Image
+              alt="picture"
+              height={0}
+              width={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d6d8a4f1f780d171fc0c5979ae4dc06265006cb1fe0d65d68ef9c0b303f1fd7b?"
                 className="aspect-[83.5] object-contain object-center w-[167px] stroke-[2px] stroke-gray-400 overflow-hidden shrink-0 max-w-full my-auto"
@@ -150,7 +156,10 @@ export default function PersonalInformation() {
             <div className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] border-solid border-black" />
           </div>
         </div>
-        <img
+        <Image
+        alt="picture"
+        height={0}
+        width={0}
           loading="lazy"
           srcSet="..."
           className="aspect-[1.99] object-contain object-center w-[147px] overflow-hidden self-center max-w-full mt-10"
