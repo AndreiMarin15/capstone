@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import {useRouter} from "next/navigation"
 
 const navigation = [
 	{
@@ -37,6 +38,7 @@ const navigation = [
 ];
 
 export default function Navbar() {
+	const router = useRouter()
 	return (
 		<div
 			className="items-stretch shadow-sm flex w-full grow flex-col mx-auto pt-7 pb-12 px-3 max-md:mt-10"
@@ -57,9 +59,9 @@ export default function Navbar() {
 						alt={item.name}
 						className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
 					/>
-					<Link href={item.href} className="text-white text-sm font-semibold grow whitespace-nowrap self-start">
+					<button onClick={() => router.push(item.href)} className="text-white text-sm font-semibold grow whitespace-nowrap self-start">
 						{item.name}
-					</Link>
+					</button>
 				</span>
 			))}
 		</div>
