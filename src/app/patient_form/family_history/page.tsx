@@ -4,12 +4,11 @@ import * as React from "react";
   /* MISSING ITEMS 
     - Progress Bar
     - Add buttons 
-    - Upload profile picture
-    - Multiple Choice options (Gender)
-    - Restrict input (Contact number, birthdate)*/
+    - Multiple Choice options (Gender, Condition Outcomes)
+    - Restrict input (Age, Date when Condition Started)*/
 }
 
-export default function personal_information() {
+export default function family_history() {
   return (
     <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
       <div className="shadow-sm bg-white flex w-full flex-col justify-center pl-4 pr-16 py-3 items-start max-md:max-w-full max-md:pr-5 max-sm:hidden">
@@ -93,7 +92,7 @@ export default function personal_information() {
           {/* Left Column */}
           <div className="w-1/2 pr-8">
             <div className="text-black text-base font-semibold leading-6">
-              Personal Information
+              Family History
             </div>
             <div className="text-zinc-600 text-base leading-6 mt-2">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -106,45 +105,52 @@ export default function personal_information() {
             <div className="flex items-stretch justify-between gap-5 mr-4  max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
               <span className="items-stretch flex grow basis-[0%] flex-col self-start">
                 <div className="text-black text-sm font-semibold leading-5">
-                  First name
+                  Family member first name
                 </div>
                 <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </span>
               <span className="items-stretch flex grow basis-[0%] flex-col self-start">
                 <div className="text-black text-sm font-semibold leading-5">
-                  Last name
+                  Family member last name
                 </div>
                 <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </span>
             </div>
 
-            <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              <span className="items-stretch flex grow basis-[0%] flex-col self-start">
+            <div className="flex items-stretch justify-between gap-3 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+              <span className="items-stretch flex-col self-start">
                 <div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">
-                  Contact number
+                  Age
                 </div>
-                <span className="items-stretch rounded shadow-sm flex justify-between gap-1 mt-2 px-3 py-1.5 border-[0.5px] border-solid border-black">
-                  <div className="text-zinc-600 text-sm leading-5 whitespace-nowrap justify-center pl-2.5 pr-1 py-1 items-start max-md:pr-5">
-                    +63
-                  </div>
-                  <div className="text-stone-300 text-sm leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5">
-                    9171234567
-                  </div>
-                </span>
+                <input className="rounded shadow-sm flex-shrink-0 w-14 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </span>
-              <span className="items-stretch flex grow basis-[0%] flex-col">
+              <span className="items-stretch flex-grow basis-[0%] flex-col">
                 <div className="text-black text-sm font-semibold leading-5">
                   Gender
                 </div>
-                <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm justify-center mt-2 pl-2 pr-16 py-2.5 border-[0.5px] border-solid border-black items-start max-md:pr-5">
-                  Select
-                </span>
+                <input className="rounded shadow-sm flex-shrink-0 w-32 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </span>
+              <div className="flex items-stretch self-stretch flex-grow flex-col">
+                <div className="text-black text-sm font-semibold leading-5">
+                  Patient Relationship with Family Member
+                </div>
+                <input className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+              </div>
+            </div>
+
+            <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+              <div className="flex items-stretch self-stretch flex-grow flex-col">
+                <div className="text-black text-sm font-semibold leading-5">
+                  Medical Condition of the Family Member
+                </div>
+                <input className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+              </div>
               <div className="flex items-stretch gap-2.5 mt-1. self-start">
                 <span className="flex grow basis-[0%] flex-col items-stretch">
                   <div className="text-black text-sm font-semibold leading-5">
-                    Birthdate
+                    Date when Condition Started
                   </div>
+
                   <div className="flex items-stretch justify-between gap-2.5 mt-2">
                     <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm aspect-[1.8333333333333333] justify-center items-stretch px-4 py-2.5 border-[0.5px] border-solid border-black">
                       MM
@@ -152,51 +158,19 @@ export default function personal_information() {
                     <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm aspect-[1.8333333333333333] justify-center items-stretch px-5 py-2.5 border-[0.5px] border-solid border-black">
                       DD
                     </span>
+                    <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm aspect-[1.8333333333333333] justify-center items-stretch px-5 py-2.5 border-[0.5px] border-solid border-black">
+                      YYYY
+                    </span>
                   </div>
-                </span>
-                <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm grow justify-center items-stretch mt-6 px-5 py-2.5 border-[0.5px] border-solid border-black self-end max-md:px-5">
-                  YYYY
                 </span>
               </div>
             </div>
 
             <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Street address
+              Medical Condition Outcomes of the Family Member
             </div>
             <input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
 
-            <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-                <div className="text-black text-sm font-semibold leading-5">
-                  City
-                </div>
-                <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
-              </span>
-              <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-                <div className="text-black text-sm font-semibold leading-5">
-                  State/Province
-                </div>
-                <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
-              </span>
-              <span className="flex items-stretch self-stretch flex-grow flex-col">
-                <div className="text-black text-sm font-semibold leading-5">
-                  Postal Code
-                </div>
-                <input className="w-40 rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
-              </span>
-            </div>
-
-            <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              <span className="items-stretch flex grow basis-[0%] flex-col">
-                <div className="text-black text-sm font-semibold leading-5">
-                  Allergies
-                </div>
-                <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
-              </span>
-              {/*<span className="text-black text-lg font-semibold leading-7 whitespace-nowrap aspect-square justify-center items-stretch mt-7 px-2 py-2.5 rounded-[50%] self-end">
-                +
-</span>*/}
-            </div>
             <div className="w-full flex justify-end">
               <button className="text-white text-xs font-semibold whitespace-nowrap justify-center flex items-stretch bg-sky-900 mr-2 mt-12 px-7 py-2 rounded max-md:mr-2.5 max-md:px-5">
                 NEXT
