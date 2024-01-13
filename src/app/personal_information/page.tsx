@@ -156,14 +156,15 @@ export default function PersonalInformation() {
             <div className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] border-solid border-black" />
           </div>
         </div>
-        <Image
+        {/* TODO: GENERATE IMAGE RESOURCE
+         <Image 
         alt="picture"
         height={0}
         width={0}
           loading="lazy"
           srcSet="..."
           className="aspect-[1.99] object-contain object-center w-[147px] overflow-hidden self-center max-w-full mt-10"
-        />
+        /> */}
         <div className="text-black text-sm font-semibold leading-5 self-center ml-32 mt-8">
           Allergies
         </div>

@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import Image from "next/image";
 {
   /* MISSING ITEMS 
     - Progress Bar
@@ -14,12 +14,18 @@ export default function family_history() {
       <div className="shadow-sm bg-white flex w-full flex-col justify-center pl-4 pr-16 py-3 items-start max-md:max-w-full max-md:pr-5 max-sm:hidden">
         <span className="flex items-stretch gap-2">
           <div className="flex-col fill-[radial-gradient(59.93%_59.93%_at_50%_50%,#D9D9D9_0%,#3B82F6_0.01%,#A4CFFF_45.83%,#00358C_100%)] overflow-hidden relative flex aspect-square w-[22px] items-center pt-2.5">
-            <img
+            <Image 
+            alt="picture"
+            height={0}
+            width={0}
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c3f4d00fff88c11c0b749d752a37d84fc9a7f14af72ad4d2717c52156cc88e1?"
               className="absolute h-full w-full object-cover object-center inset-0"
             />
-            <img
+            <Image 
+            alt="picture"
+            height={0}
+            width={0}
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/52c2481ba9b5fc07f4dfb5bb7e3e915846d4b1f7f4bc690044aa72edf8a759a5?"
               className="aspect-[1.69] object-contain object-center w-full fill-[radial-gradient(50.07%_88.54%_at_50.07%_11.46%,#3B82F6_0%,rgba(30,64,175,0.00)_100%)] overflow-hidden"
@@ -58,7 +64,10 @@ export default function family_history() {
               <span className="text-white text-xl font-semibold leading-8 whitespace-nowrap self-stretch aspect-square justify-center items-stretch px-4 py-3.5 rounded-[50%]">
                 2
               </span>
-              <img
+              <Image 
+              alt="picture"
+              height={0}
+              width={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d6d8a4f1f780d171fc0c5979ae4dc06265006cb1fe0d65d68ef9c0b303f1fd7b?"
                 className="aspect-[83.5] object-contain object-center w-[167px] stroke-[2px] stroke-gray-400 overflow-hidden shrink-0 max-w-full my-auto"
@@ -66,7 +75,10 @@ export default function family_history() {
               <span className="text-white text-xl font-semibold leading-8 whitespace-nowrap self-stretch aspect-square justify-center items-stretch px-4 py-3.5 rounded-[50%]">
                 3
               </span>
-              <img
+              <Image 
+              alt="picture"
+              height={0}
+              width={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d6d8a4f1f780d171fc0c5979ae4dc06265006cb1fe0d65d68ef9c0b303f1fd7b?"
                 className="aspect-[83.5] object-contain object-center w-[167px] stroke-[2px] stroke-gray-400 overflow-hidden shrink-0 max-w-full my-auto"
