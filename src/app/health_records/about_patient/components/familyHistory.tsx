@@ -34,23 +34,23 @@ export default function FamilyHistory() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-8 max-md:ml-1 max-md:mt-10">MASTER DATA</div>
-
-			<table className="max-w-[750px] border-spacing-y-7 border-separate">
-				{fHistory.map((item) => (
-					<tr key={item.variable}>
-						<td className="w-5">
-							<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
-						</td>
-						<td className="border-l-[16px] border-transparent">
-							<div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
-						</td>
-						<td className="border-l-[16px] border-transparent">
-							<div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
-						</td>
-					</tr>
-				))}
-			</table>
+		  <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MASTER DATA</div>
+	
+		  <table className="max-w-fit border-spacing-y-7 border-separate">
+			{fHistory.map((item) => (
+			  <tr key={item.variable}>
+				<td className="w-5">
+				  <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
+				</td>
+				<td className="border-l-[16px] border-transparent">
+				  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
+				</td>
+				<td className="border-l-[5rem] border-transparent">
+				  <div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
+				</td>
+			  </tr>
+			))}
+		  </table>
 		</>
-	);
+	  );
 }

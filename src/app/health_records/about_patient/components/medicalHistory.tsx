@@ -50,38 +50,38 @@ export default function MasterData() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-8 max-md:ml-1 max-md:mt-10">MEDICAL HISTORY</div>
-
-			<span className="flex items-center gap-2.5 mb-8">
-				<div className="text-black text-xs font-bold leading-5 whitespace-nowrap">STATUS:</div>
-				<span className="border self-stretch flex justify-between gap-5 pl-6 pr-2 py-1.5 rounded-md border-solid border-zinc-400 items-start">
-					<div className="text-black text-xs font-medium leading-5">Active</div>
-					<Image 
-					alt="picture"
-					height={0}
-					width={0}
-						loading="lazy"
-						src="https://cdn.builder.io/api/v1/image/assets/TEMP/554c1e18059b6f0490f9d598b5f23e6954398601ddfbab70a22496a73e532e48?"
-						className="aspect-[0.55] object-contain object-center w-1.5 overflow-hidden self-stretch shrink-0 max-w-full"
-					/>
-				</span>
+		  <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MEDICAL HISTORY</div>
+	
+		  <span className="flex items-center gap-2.5 mb-1">
+			<div className="text-black text-xs font-bold leading-5 whitespace-nowrap">Status:</div>
+			<span className="border self-stretch flex justify-between gap-5 pl-6 pr-2 rounded-md border-solid border-zinc-400 items-start">
+			  <div className="text-black text-xs font-medium leading-5">Active</div>
+			  <Image 
+			  alt="picture"
+			  height={0}
+			  width={0}
+				loading="lazy"
+				src="https://cdn.builder.io/api/v1/image/assets/TEMP/554c1e18059b6f0490f9d598b5f23e6954398601ddfbab70a22496a73e532e48?"
+				className="aspect-[0.55] object-contain object-center w-1.5 overflow-hidden self-stretch shrink-0 max-w-full"
+			  />
 			</span>
-
-			<table className="max-w-[750px] border-spacing-y-7 border-separate">
-				{mHistory.map((item) => (
-					<tr key={item.variable}>
-						<td className="w-5">
-							<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
-						</td>
-						<td className="border-l-[16px] border-transparent">
-							<div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
-						</td>
-						<td className="border-l-[16px] border-transparent">
-							<div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
-						</td>
-					</tr>
-				))}
-			</table>
+		  </span>
+	
+		  <table className="max-w-fit border-spacing-y-7 border-separate">
+			{mHistory.map((item) => (
+			  <tr key={item.variable}>
+				<td className="w-5">
+				  <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
+				</td>
+				<td className="border-l-[16px] border-transparent">
+				  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
+				</td>
+				<td className="border-l-[5rem] border-transparent">
+				  <div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
+				</td>
+			  </tr>
+			))}
+		  </table>
 		</>
-	);
+	  );
 }
