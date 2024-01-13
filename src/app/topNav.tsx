@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { pathIncluded } from "../../globals";
 
 export default function TopNav() {
-    const path = usePathname()
+	const path = usePathname();
 	return (
 		<div className="flex flex-col justify-center items-stretch">
 			<div className="shadow-sm bg-white flex w-full items-stretch justify-between gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
@@ -30,7 +31,7 @@ export default function TopNav() {
 						EndoTracker
 					</div>
 				</span>
-				{(path !== "/" && path !== "/personal_information") && (
+				{path !== "/" && !pathIncluded(path) && (
 					<span className="flex items-stretch gap-3 self-start">
 						<Image
 							alt="pic"

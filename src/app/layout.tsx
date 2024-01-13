@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import TopNav from "./topNav";
+import { Providers } from "./providers";
+import Navbar from "./navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,11 +14,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" className="light">
 			<body className={inter.className}>
-				<TopNav />
-
-				{children}
+				<Providers>
+					<TopNav />
+					<div className="flex">
+						<Navbar />
+						<div className="w-full">{children}</div>
+					</div>
+				</Providers>
 			</body>
 		</html>
 	);

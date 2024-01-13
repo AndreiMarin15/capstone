@@ -7,18 +7,18 @@ import MedicalHistory from "./components/medicalHistory";
 import MasterData from "./components/masterData";
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/familyHistory";
+import SocialHistory from "./components/socialHistory";
+import Vitals from "./components/vitals";
 
-export default function MyComponent() {
+export default function AboutPatient() {
 	const { selected } = useHRNav();
 
 	return (
 		<>
-			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
+			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh]">
 				<div className="w-full max-md:max-w-full">
 					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-						<div className="flex flex-col items-stretch w-[17%] max-md:w-full max-md:ml-0">
-							<Navbar />
-						</div>
+						
 
 						<div className="flex flex-col items-stretch w-[83%] ml-5 max-md:w-full max-md:ml-0 h-[100vh]">
 							<span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
@@ -33,6 +33,11 @@ export default function MyComponent() {
 									<MedicalHistory />
 								) : selected === "Family History" ? (
 									<FamilyHistory />
+								) : selected === "Vitals & Social History" ? (
+									<>
+										<SocialHistory />
+										<Vitals />
+									</>
 								) : (
 									""
 								)}
