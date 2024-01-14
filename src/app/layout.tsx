@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<TopNav />
 					<div className="flex">
 					<Navbar/>
-						<div className="w-full flex grow">{children}</div>
+						<div className="w-full">{children}</div>
 					</div>
 				</Providers>
 			</body>
