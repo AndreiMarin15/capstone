@@ -15,7 +15,7 @@ export default function MasterData() {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
 			variable: "Doctor",
 			value: (
-				<button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 items-stretch pt-1.5 px-6 rounded">
+				<button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 items-stretch pt-1.5 px-6 rounded text-center">
 					Dr. Johnny Santos - Cardiologist
 				</button>
 			),
@@ -24,7 +24,7 @@ export default function MasterData() {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?",
 			variable: "Procedure/s",
 			value: (
-				<button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 items-stretch pt-1.5 px-6 rounded">
+				<button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 items-stretch pt-1.5 px-6 rounded text-center">
 					View
 				</button>
 			),
