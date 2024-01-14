@@ -14,9 +14,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
+<<<<<<< Updated upstream
 				<TopNav />
 
 				{children}
+=======
+				<Providers>
+					<TopNav />
+					<div className="flex">
+						<Navbar />
+						<div className="w-full flex grow">{children}</div>
+					</div>
+				</Providers>
+>>>>>>> Stashed changes
 			</body>
 		</html>
 	);
