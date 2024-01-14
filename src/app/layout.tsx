@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import TopNav from "./topNav";
 import { Providers } from "./providers";
+import TopNav from "./topNav";
 import Navbar from "./navbar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,8 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<Providers>
 					<TopNav />
 					<div className="flex">
-						<Navbar />
-						<div className="w-full">{children}</div>
+					<Navbar/>
+						<div className="w-full flex grow">{children}</div>
 					</div>
 				</Providers>
 			</body>

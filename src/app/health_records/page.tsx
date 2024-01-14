@@ -1,6 +1,8 @@
+'use client';
 import * as React from "react";
 import Navbar from "../navbar";
 import Image from "next/image";
+
 const navigation = [
 	{
 		name: "DELA CRUZ, Juan",
@@ -36,7 +38,7 @@ const navigation = [
 
 export default function MyComponent() {
 	return (
-		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh]">
+		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
 			<div className="w-full max-md:max-w-full h-full">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0 h-full">
 					
@@ -77,8 +79,8 @@ export default function MyComponent() {
 						</span>
 
 						{navigation.map((item) => (
-							<div key={item.name} className="flex max-w-[940px] flex-col items-center">
-								<div className="flex w-full max-w-[856px] items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
+							<div key={item.name} className="ml-5 flex w-full flex-col">
+								<div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
 									<div className="flex items-stretch justify-between gap-5">
 										<Image
 											alt="picture"
@@ -94,12 +96,12 @@ export default function MyComponent() {
 										</span>
 									</div>
 									<div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-										<button className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
+										<button onClick={() => {window.location.href = "/health_records/about_patient"}} className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
 											View
 										</button>
 									</div>
 								</div>
-								<div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full" />
+								<div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full w-full" />
 							</div>
 						))}
 					</div>
