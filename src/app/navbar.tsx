@@ -17,11 +17,6 @@ const navigation = [
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
 	},
 	{
-		name: "Predictive Analytics",
-		href: "/predictive_analytics",
-		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a45516ac3673ac81db0f38b3586d9e129d0181c1734edf497d91b48346f8cc51?",
-	},
-	{
 		name: "Referral",
 		href: "/referral",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a5e4e41b96b3a1133c733ca6c34896fe7a85b581c2bce0b6d63f16bd85dd4deb?",

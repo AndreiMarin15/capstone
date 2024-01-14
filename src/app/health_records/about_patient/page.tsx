@@ -9,6 +9,7 @@ import Vitals from "./components/vitals";
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/familyHistory";
 import SocialHistory from "./components/socialHistory";
+import PredictiveAnalytics from "./components/predictiveAnalytics";
 
 export default function AboutPatient() {
 	const { selected } = useHRNav();
@@ -38,7 +39,12 @@ export default function AboutPatient() {
 										<SocialHistory />
 										<Vitals />
 									</>
-								) : (
+								) : selected === "Predictive Analytics" ? (
+									<>
+										<PredictiveAnalytics />
+									</>
+								) : 
+								(
 									""
 								)}
 							</span>
