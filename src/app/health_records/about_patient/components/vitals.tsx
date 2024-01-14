@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import Image from "next/image";
 export default function Vitals() {
 	const fHistory = [
@@ -92,4 +90,3 @@ export default function Vitals() {
 		</>
 	);
 }
->>>>>>> Stashed changes

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 import TopNav from "./topNav";
+import Navbar from "./navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,19 +16,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-<<<<<<< Updated upstream
-				<TopNav />
-
-				{children}
-=======
 				<Providers>
 					<TopNav />
 					<div className="flex">
-						<Navbar />
 						<div className="w-full flex grow">{children}</div>
 					</div>
 				</Providers>
->>>>>>> Stashed changes
 			</body>
 		</html>
 	);

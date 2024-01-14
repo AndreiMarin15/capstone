@@ -5,6 +5,7 @@ import HealthRecordsNav from "../healthRecordsNav";
 import PatientProfile from "../patientProfile";
 import MedicalHistory from "./components/medicalHistory";
 import MasterData from "./components/masterData";
+import Vitals from "./components/vitals";
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/familyHistory";
 
@@ -13,11 +14,7 @@ export default function MyComponent() {
 
 	return (
 		<>
-<<<<<<< Updated upstream
-			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
-=======
 			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
->>>>>>> Stashed changes
 				<div className="w-full max-md:max-w-full">
 					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 						<div className="flex flex-col items-stretch w-[17%] max-md:w-full max-md:ml-0">
@@ -32,14 +29,16 @@ export default function MyComponent() {
 								</span>
 								<HealthRecordsNav />
 								{selected === "Master Data" ? (
-									<MasterData />
-								) : selected === "Medical History" ? (
-									<MedicalHistory />
-								) : selected === "Family History" ? (
-									<FamilyHistory />
-								) : (
-									""
-								)}
+                                    <MasterData />
+                                ) : selected === "Medical History" ? (
+                                    <MedicalHistory />
+                                ) : selected === "Family History" ? (
+                                    <FamilyHistory />
+                                ) : selected === "Vitals & Social History" ? (
+                                    <Vitals />
+                                ) : (
+                                    ""
+                                )}
 							</span>
 						</div>
 					</div>
