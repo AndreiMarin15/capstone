@@ -1,4 +1,13 @@
 import Image from "next/image";
+import {
+	Table,
+	TableHeader,
+	TableBody,
+	TableColumn,
+	TableRow,
+	TableCell
+  } from "@nextui-org/react";
+  
 export default function MasterData() {
 	const mData = [
 		{

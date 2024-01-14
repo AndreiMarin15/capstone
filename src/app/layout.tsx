@@ -14,11 +14,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" className="light">
 			<body className={inter.className}>
 				<Providers>
 					<TopNav />
 					<div className="flex">
+					<Navbar/>
 						<div className="w-full flex grow">{children}</div>
 					</div>
 				</Providers>
