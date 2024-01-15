@@ -22,9 +22,17 @@ export default function AttendingDoctor() {
     ];
 	return (
 		<>
-		 <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
-          PROCEDURES
+     <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
+      <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
+            PROCEDURES
       </div>
+      <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
+        <span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
+          <div className="text-white text-xs font-semibold leading-5">Add</div>
+        </span>
+      </div>
+      </span>
+      
       {currentPage === 0 ? ( <>
          {procedures.map((item) => (
             <div className="flex flex-col items-stretch mt-8" key={item.variable}>
@@ -48,15 +56,15 @@ export default function AttendingDoctor() {
                       {item.startDate} <br />
                       {item.endDate}
                       </div>
-                      <div className="ml-auto flex justify-end items-center">
-                      <button
-                          onClick={() => {
-                            setCurrentPage(currentPage + 1);
-                          }}
-                          className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
-                      >
-                          View
-                      </button>
+                      <div className="pl-10 ml-28 items-center">
+                        <button
+                            onClick={() => {
+                              setCurrentPage(currentPage + 1);
+                            }}
+                            className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
+                        >
+                            View
+                        </button>
                   </div>
               </span>
             </div>
