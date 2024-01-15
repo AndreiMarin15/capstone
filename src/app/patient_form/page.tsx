@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import ProgressBar, { ProgressBarProps } from "./components/progressBar";
+import ProgressBar from "./components/progressBar";
 import SignUpPersonalInformation from "./components/personalInformation";
 import SignUpFamilyHistory from "./components/familyHistory";
 import SignUpSocialHistory from "./components/socialHistory";
@@ -40,19 +40,19 @@ export default function PatientInformation() {
 
 				<ProgressBar currentStep={currentState} />
 				<>
-				<div className={currentState === 4 ? "pb-20" : ''}>
-					{currentState === 1 ? (
-						<SignUpPersonalInformation />
-					) : currentState === 2 ? (
-						<SignUpFamilyHistory />
-					) : currentState === 3 ? (
-						<SignUpSocialHistory />
-					) : currentState === 4 ? (
-						<SignUpMedicalHistory />
-					) : (
-						<SignUpPersonalInformation />
-					)}
-				</div>
+					<div className={currentState === 4 ? "pb-20" : ""}>
+						{currentState === 1 ? (
+							<SignUpPersonalInformation />
+						) : currentState === 2 ? (
+							<SignUpFamilyHistory />
+						) : currentState === 3 ? (
+							<SignUpSocialHistory />
+						) : currentState === 4 ? (
+							<SignUpMedicalHistory />
+						) : (
+							<SignUpPersonalInformation />
+						)}
+					</div>
 				</>
 
 				<div className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5">

@@ -1,7 +1,7 @@
 import React from "react";
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
-	const steps = ["Personal Information", "Family History", "Social History", "Medical History"];
+const ProgressBarReferral: React.FC<ProgressBarProps> = ({ currentStep }) => {
+	const steps = ["Select Patient", "Select Doctor(s)", "Select Attachments", "Notes and Review"];
 
 	return (
 		<div className="flex items-center pt-10">
@@ -29,4 +29,4 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
 	);
 };
 
-export default ProgressBar;
+export default ProgressBarReferral;
