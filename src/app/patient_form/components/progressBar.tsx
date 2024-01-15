@@ -1,6 +1,6 @@
 import React from "react";
 
-type ProgressBarProps = {
+export type ProgressBarProps = {
 	currentStep: 1 | 2 | 3 | 4;
 };
 
