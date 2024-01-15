@@ -12,7 +12,7 @@ export default function SignUpPersonalInformation() {
 			{/* Right Column */}
 			<div className="w-1/2 pl-8">
 				<div className="flex items-stretch justify-between gap-5 mr-4  max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
+					<span className="items-stretch flex grow basis-[0%] flex-col ml-3.5 self-start">
 						<div className="text-black text-sm font-semibold leading-5">First name</div>
 						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
 					</span>
@@ -36,9 +36,13 @@ export default function SignUpPersonalInformation() {
 					</span>
 					<span className="items-stretch flex grow basis-[0%] flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Gender</div>
-						<span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm justify-center mt-2 pl-2 pr-16 py-2.5 border-[0.5px] border-solid border-black items-start max-md:pr-5">
-							Select
-						</span>
+						<select className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black">
+							{" "}
+							<option value="">Select</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+							<option value="other">Other</option>
+						</select>
 					</span>
 					<div className="flex items-stretch gap-2.5 mt-1. self-start">
 						<span className="flex grow basis-[0%] flex-col items-stretch">
@@ -81,7 +85,15 @@ export default function SignUpPersonalInformation() {
 				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Allergies</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                        <div className="flex items-stretch">
+                  <input
+                    className="rounded shadow-sm flex shrink-0 h-[30px] w-64 flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+                    // Adjust the class name and styling as needed for your design
+                  />
+                  <button className="text-white text-xs font-semibold bg-zinc-400 rounded-full ml-2 px-3 py-2 mt-2 h-[30px]">
+                    +
+                  </button>
+                </div>
 					</span>
 					{/*<span className="text-black text-lg font-semibold leading-7 whitespace-nowrap aspect-square justify-center items-stretch mt-7 px-2 py-2.5 rounded-[50%] self-end">
                 +

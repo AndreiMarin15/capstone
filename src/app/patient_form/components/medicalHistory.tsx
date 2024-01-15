@@ -14,7 +14,16 @@ export default function SignUpMedicalHistory() {
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-4 mt-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Have you been taking any blood pressure medications?
 				</div>
-
+				<div className="flex items-center gap-2 text-sm">
+					<label htmlFor="bloodPressureYes" className="flex items-center">
+						<input type="checkbox" id="bloodPressureYes" name="bloodPressure" className="mr-2" />
+						Yes
+					</label>
+					<label htmlFor="bloodPressureNo" className="flex items-center">
+						<input type="checkbox" id="bloodPressureNo" name="bloodPressure" className="mr-2" />
+						No
+					</label>
+				</div>
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Enter Medications
 				</div>
@@ -23,11 +32,29 @@ export default function SignUpMedicalHistory() {
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Have you had a stroke in the past year?
 				</div>
-
+				<div className="flex items-center gap-2 text-sm">
+					<label htmlFor="bloodPressureYes" className="flex items-center">
+						<input type="checkbox" id="bloodPressureYes" name="bloodPressure" className="mr-2" />
+						Yes
+					</label>
+					<label htmlFor="bloodPressureNo" className="flex items-center">
+						<input type="checkbox" id="bloodPressureNo" name="bloodPressure" className="mr-2" />
+						No
+					</label>
+				</div>
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-6 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Have you had hypertension in the past year?
 				</div>
-
+				<div className="flex items-center gap-2 text-sm">
+					<label htmlFor="bloodPressureYes" className="flex items-center">
+						<input type="checkbox" id="bloodPressureYes" name="bloodPressure" className="mr-2" />
+						Yes
+					</label>
+					<label htmlFor="bloodPressureNo" className="flex items-center">
+						<input type="checkbox" id="bloodPressureNo" name="bloodPressure" className="mr-2" />
+						No
+					</label>
+				</div>
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Past Medical Procedures
 				</div>
