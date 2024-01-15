@@ -24,7 +24,9 @@ export default function AboutPatient() {
 						<div className="flex flex-col items-stretch w-[83%] ml-5 max-md:w-full max-md:ml-0 h-[100vh]">
 							<span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
 								<span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
-									<div className="text-black text-xl font-semibold leading-8">Health Records</div>
+									<div className="text-black text-xl font-semibold leading-8">
+										Health Records
+									</div>
 									<PatientProfile />
 								</span>
 								<HealthRecordsNav />

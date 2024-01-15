@@ -40,6 +40,11 @@ export default function MasterData() {
 			variable: "Allergies",
 			value: "Penicillin",
 		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/c163756f1f65cfb23626895302a38a9dec286abce91a363b1450b4de8e512180?",
+			variable: "Had stroke in the past year",
+			value: "Yes",
+		},
 	];
 	return (
 		<>
