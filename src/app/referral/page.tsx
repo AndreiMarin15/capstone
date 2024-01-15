@@ -3,28 +3,11 @@
 import * as React from "react";
 import Image from "next/image";
 import ProgressBar from "./components/progressBar";
-import SignUpPersonalInformation from "./components/personalInformation";
-import SignUpFamilyHistory from "./components/familyHistory";
-import SignUpSocialHistory from "./components/socialHistory";
-import SignUpMedicalHistory from "./components/medicalHistory";
-
-{
-	/* MISSING ITEMS 
-    - Progress Bar
-    - Add buttons 
-    - Upload profile picture
-    - Multiple Choice options (Gender)
-    - Restrict input (Contact number, birthdate)
-    - NEED BACK BUTTON
-
-    - WILL USE TO CONVERT TO DYNAMIC
-    */
-}
 
 export default function PatientInformation() {
 	const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
 	return (
-		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
+		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[100vh]">
 			<span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
 				<span className="self-stretch flex items-center justify-between gap-5 ml-4 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5">
 					<div className="text-black text-xl font-semibold leading-8 my-auto">Patient Registration</div>
@@ -40,18 +23,11 @@ export default function PatientInformation() {
 
 				<ProgressBar currentStep={currentState} />
 				<>
-					<div className={currentState === 4 ? "pb-20" : ""}>
-						{currentState === 1 ? (
-							<SignUpPersonalInformation />
-						) : currentState === 2 ? (
-							<SignUpFamilyHistory />
-						) : currentState === 3 ? (
-							<SignUpSocialHistory />
-						) : currentState === 4 ? (
-							<SignUpMedicalHistory />
-						) : (
-							<SignUpPersonalInformation />
-						)}
+					{/* PUT YOUR COMPONENTS HERE, REPLACE THE EMPTY QUOTES CALLING THE COMPONENTS
+        see patient_form/page.tsx for reference
+        */}
+					<div className={"pb-20"}>
+						{currentState === 1 ? "" : currentState === 2 ? "" : currentState === 3 ? "" : currentState === 4 ? "" : ""}
 					</div>
 				</>
 
@@ -63,7 +39,7 @@ export default function PatientInformation() {
 									setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
 								}
 							}}
-							className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
+							className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 						>
 							BACK
 						</button>
