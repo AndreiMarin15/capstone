@@ -37,8 +37,17 @@ export default function AttendingDoctor() {
 	];
 	return (
 		<>
-		  <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MEDICAL HISTORY</div>
-	
+		 
+         <span className="flex items-stretch mt-8">
+            <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5ec8c802c0081cff6d71681da0ea2345c020d033a9bd2aa231051f180a7bf939?"
+                className="aspect-square object-contain object-center overflow-hidden shrink-0 max-w-full"
+            />
+            <div className="text-black text-xs font-normal leading-5 grow whitespace-nowrap mt-2 self-start">
+                CREATED BY: <span className="">Dr. Johnny Santos - Cardiology</span>
+            </div>
+        </span>
 		  <table className="max-w-fit border-spacing-y-7 border-separate">
 			{mData.map((item) => (
 			  <tr key={item.variable}>
