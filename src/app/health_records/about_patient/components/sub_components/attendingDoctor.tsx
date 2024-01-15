@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
   
 export default function AttendingDoctor() {
+	const router = useRouter();
 	const mData = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f9570b6e6a66485deb61e3be7f716dcc833a18186bd495614adfdc111e2a133d?",
@@ -48,21 +50,29 @@ export default function AttendingDoctor() {
                 CREATED BY: <span className="">Dr. Johnny Santos - Cardiology</span>
             </div>
         </span>
-		  <table className="max-w-fit border-spacing-y-7 border-separate">
+			<table className="max-w-fit border-spacing-y-7 border-separate">
 			{mData.map((item) => (
-			  <tr key={item.variable}>
+				<tr key={item.variable}>
 				<td className="w-5">
-				  <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
+					<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
 				</td>
 				<td className="border-l-[16px] border-transparent">
-				  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
+					<div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
 				</td>
 				<td className="border-l-[5rem] border-transparent">
-				  <div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
+					<div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
 				</td>
-			  </tr>
+				</tr>
 			))}
-		  </table>
+			</table>
+			<button 
+				onClick={() => {
+					router.push("/health_records/about_patient");
+				}}
+				className="text-white text-center text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-16 px-14 py-2.5 rounded self-start max-md:mt-10 max-md:px-5">
+				Back
+			</button>
+
 		</>
 	  );
 }
