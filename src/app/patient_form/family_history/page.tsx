@@ -4,7 +4,6 @@ import ProgressBar from "../components/progressBar";
 {
   /* MISSING ITEMS 
     - Add buttons 
-    - Multiple Choice options (Gender, Condition Outcomes)
     - Restrict input (Age, Date when Condition Started)*/
 }
 
@@ -54,7 +53,6 @@ export default function FamilyHistory() {
                 <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </span>
             </div>
-
             <div className="flex items-stretch justify-between gap-3 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
               <span className="items-stretch flex-col self-start">
                 <div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">
@@ -66,7 +64,12 @@ export default function FamilyHistory() {
                 <div className="text-black text-sm font-semibold leading-5">
                   Gender
                 </div>
-                <input className="rounded shadow-sm flex-shrink-0 w-32 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                <select className="text-black rounded shadow-sm flex-shrink-0 w-32 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+                  {" "}
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>{" "}
               </span>
               <div className="flex items-stretch self-stretch flex-grow flex-col">
                 <div className="text-black text-sm font-semibold leading-5">
@@ -75,7 +78,6 @@ export default function FamilyHistory() {
                 <input className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
               </div>
             </div>
-
             <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
               <div className="flex items-stretch self-stretch flex-grow flex-col">
                 <div className="text-black text-sm font-semibold leading-5">
@@ -103,11 +105,17 @@ export default function FamilyHistory() {
                 </span>
               </div>
             </div>
-
             <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
               Medical Condition Outcomes of the Family Member
             </div>
-            <input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
+            <select className="text-black rounded shadow-sm flex-shrink-0 w-60 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-5 border-solid border-black">
+              {" "}
+              <option value="">Select</option>
+              <option value="deceased">Deceased</option>
+              <option value="recovered">Recovered</option>
+              <option value="chronic">Chronic</option>
+              <option value="chronic">Improved</option>
+            </select>{" "}
           </div>
         </div>
       </span>

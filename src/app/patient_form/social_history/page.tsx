@@ -3,7 +3,6 @@ import Image from "next/image";
 import ProgressBar from "../components/progressBar";
 {
   /* MISSING ITEMS 
-    - Multiple Choice options (Smoker Status, Alcohol Consumption, Physical Activities)
     - Restrict input (Cigarettes per day)*/
 }
 
@@ -44,7 +43,12 @@ export default function SocialHistory() {
                 <div className="text-black text-sm font-semibold leading-5">
                   Smoker Status
                 </div>
-                <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                <select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+                  {" "}
+                  <option value="">Select</option>
+                  <option value="smoker">Smoker</option>
+                  <option value="not">Not a Smoker</option>
+                </select>{" "}
               </span>
               <span className="items-start flex grow basis-[0%] flex-col self-start">
                 <div className="text-black text-sm font-semibold leading-5">
@@ -59,7 +63,13 @@ export default function SocialHistory() {
                 <div className="text-black text-sm font-semibold leading-5">
                   Alcohol Consumption
                 </div>
-                <input className="w-52 rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                <select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+                  {" "}
+                  <option value="">Select</option>
+                  <option value="non-drinker">Non-Drinker</option>
+                  <option value="moderate">Moderate Drinker</option>
+                  <option value="heavy">Heavy Drinker</option>
+                </select>{" "}
               </span>
             </div>
 
@@ -68,7 +78,15 @@ export default function SocialHistory() {
                 <div className="text-black text-sm font-semibold leading-5">
                   Physical Activities
                 </div>
-                <input className="w-52 rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                <select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+                  {" "}
+                  <option value="">Select</option>
+                  <option value="sedentary">Sedentary</option>
+                  <option value="low">Low Activity</option>
+                  <option value="moderateact">Moderate Activity</option>
+                  <option value="high">High Activity</option>
+                  <option value="regular">Regular Exercise</option>
+                </select>{" "}
               </span>
             </div>
           </div>

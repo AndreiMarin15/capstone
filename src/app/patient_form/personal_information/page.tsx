@@ -5,7 +5,6 @@ import ProgressBar from "../components/progressBar";
   /* MISSING ITEMS 
     - Add buttons 
     - Upload profile picture
-    - Multiple Choice options (Gender)
     - Restrict input (Contact number, birthdate)*/
 }
 
@@ -71,13 +70,17 @@ export default function PersonalInformation() {
                   </div>
                 </span>
               </span>
-              <span className="items-stretch flex grow basis-[0%] flex-col">
+              <span className="items-stretch flex grow basis-[0%] flex-col ml-3.5">
                 <div className="text-black text-sm font-semibold leading-5">
                   Gender
                 </div>
-                <span className="text-stone-300 text-sm leading-5 whitespace-nowrap rounded shadow-sm justify-center mt-2 pl-2 pr-16 py-2.5 border-[0.5px] border-solid border-black items-start max-md:pr-5">
-                  Select
-                </span>
+                <select className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black">
+                  {" "}
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
               </span>
               <div className="flex items-stretch gap-2.5 mt-1. self-start">
                 <span className="flex grow basis-[0%] flex-col items-stretch">
@@ -130,12 +133,18 @@ export default function PersonalInformation() {
                 <div className="text-black text-sm font-semibold leading-5">
                   Allergies
                 </div>
-                <input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+                <div className="flex items-stretch">
+                  <input
+                    className="rounded shadow-sm flex shrink-0 h-[30px] w-64 flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+                    // Adjust the class name and styling as needed for your design
+                  />
+                  <button className="text-white text-xs font-semibold bg-zinc-400 rounded-full ml-2 px-3 py-2 mt-2 h-[30px]">
+                    +
+                  </button>
+                </div>
               </span>
-              {/*<span className="text-black text-lg font-semibold leading-7 whitespace-nowrap aspect-square justify-center items-stretch mt-7 px-2 py-2.5 rounded-[50%] self-end">
-                +
-</span>*/}
             </div>
+
             <div className="w-full flex justify-end">
               <button className="text-white text-xs font-semibold whitespace-nowrap justify-center flex items-stretch bg-sky-900 mr-2 mt-12 px-7 py-2 rounded max-md:mr-2.5 max-md:px-5">
                 NEXT
