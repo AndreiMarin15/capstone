@@ -3,7 +3,6 @@ import Image from "next/image";
 import ProgressBar from "../components/progressBar";
 {
   /* MISSING ITEMS 
-    - Progress Bar
     - Add buttons 
     - Multiple Choice options (Specialization)
     - Restrict input (Date when Condition Started)
@@ -13,7 +12,6 @@ import ProgressBar from "../components/progressBar";
 export default function MedicalHistory() {
   return (
     <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
-     
       <span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
         <span className="self-stretch flex items-center justify-between gap-5 ml-4 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5">
           <div className="text-black text-xl font-semibold leading-8 my-auto">
@@ -30,41 +28,42 @@ export default function MedicalHistory() {
         </span>
         <ProgressBar currentStep={4} />
 
-        <div className="container mx-auto mt-16 flex h-[100vh]">
+        <div className="container mx-auto mt-16 flex h-[55vh]">
           {/* Left Column */}
           <div className="w-1/2 pr-8">
             <div className="text-black text-base font-semibold leading-6">
               Medical History
             </div>
             <div className="text-zinc-600 text-base leading-6 mt-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod.
+              Kindly answer the following regarding your medical history.
             </div>
           </div>
 
           {/* Right Column */}
           <div className="w-1/2 pl-8">
-            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-4  max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Current Medications
+            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-4 mt-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+              Have you been taking any blood pressure medications?
+            </div>
+
+            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+              Enter Medications
             </div>
             <input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
 
             <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Have you been taking any blood pressure medications?
+              Have you had a stroke in the past year?
+            </div>
+
+            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-6 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+              Have you had hypertension in the past year?
             </div>
 
             <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Past Medical Conditions
+              Past Medical Procedures
             </div>
             <input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
 
             <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              <div className="flex items-stretch self-stretch flex-grow flex-col">
-                <div className="text-black text-sm font-semibold leading-5">
-                  Specialization
-                </div>
-                <input className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
-              </div>
               <div className="flex items-stretch gap-2.5 mt-1. self-start">
                 <span className="flex grow basis-[0%] flex-col items-stretch">
                   <div className="text-black text-sm font-semibold leading-5">
@@ -85,28 +84,17 @@ export default function MedicalHistory() {
                 </span>
               </div>
             </div>
-
-            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Past Medical Procedures Related to Past Condition
-            </div>
-            <input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
-
-            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Have you had a stroke in the past year?
-            </div>
-
-            <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-              Have you had hypertension in the past year?
-            </div>
-
-            <div className="w-full flex justify-end">
-              <button className="text-white text-xs font-semibold whitespace-nowrap justify-center flex items-stretch bg-sky-900 mr-2 mt-12 px-7 py-2 rounded max-md:mr-2.5 max-md:px-5">
-                NEXT
-              </button>
-            </div>
           </div>
         </div>
       </span>
+      <div className="w-full flex justify-between px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
+        <button className="text-white text-xs font-medium whitespace-nowrap px-4 py-2 rounded border border-solid bg-gray-400">
+          BACK
+        </button>
+        <button className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch px-6 py-2 rounded max-md:px-5">
+          NEXT
+        </button>
+      </div>
     </div>
   );
 }
