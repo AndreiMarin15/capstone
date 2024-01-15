@@ -61,7 +61,9 @@ export default function Navbar() {
 								alt={item.name}
 								className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
 							/>
-							<div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">{item.name}</div>
+							<div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+								{item.name}
+							</div>
 						</span>
 					))}
 				</div>
