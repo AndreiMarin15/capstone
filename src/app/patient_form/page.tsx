@@ -63,7 +63,7 @@ export default function PatientInformation() {
 									setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
 								}
 							}}
-							className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
+							className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 						>
 							BACK
 						</button>
