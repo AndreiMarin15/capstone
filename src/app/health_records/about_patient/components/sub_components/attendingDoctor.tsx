@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
   
 export default function AttendingDoctor() {
+	const router = useRouter();
 	const mData = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f9570b6e6a66485deb61e3be7f716dcc833a18186bd495614adfdc111e2a133d?",
@@ -37,23 +39,40 @@ export default function AttendingDoctor() {
 	];
 	return (
 		<>
-		  <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MEDICAL HISTORY</div>
-	
-		  <table className="max-w-fit border-spacing-y-7 border-separate">
+		 
+         <span className="flex items-stretch mt-8">
+            <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5ec8c802c0081cff6d71681da0ea2345c020d033a9bd2aa231051f180a7bf939?"
+                className="aspect-square object-contain object-center overflow-hidden shrink-0 max-w-full"
+            />
+            <div className="text-black text-xs font-normal leading-5 grow whitespace-nowrap mt-2 self-start">
+                CREATED BY: <span className="">Dr. Johnny Santos - Cardiology</span>
+            </div>
+        </span>
+			<table className="max-w-fit border-spacing-y-7 border-separate">
 			{mData.map((item) => (
-			  <tr key={item.variable}>
+				<tr key={item.variable}>
 				<td className="w-5">
-				  <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
+					<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
 				</td>
 				<td className="border-l-[16px] border-transparent">
-				  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
+					<div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
 				</td>
 				<td className="border-l-[5rem] border-transparent">
-				  <div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
+					<div className="text-black text-xs leading-5 ml-auto">{item.value}</div>
 				</td>
-			  </tr>
+				</tr>
 			))}
-		  </table>
+			</table>
+			<button 
+				onClick={() => {
+					router.push("/health_records/about_patient");
+				}}
+				className="text-white text-center text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-16 px-14 py-2.5 rounded self-start max-md:mt-10 max-md:px-5">
+				Back
+			</button>
+
 		</>
 	  );
 }
