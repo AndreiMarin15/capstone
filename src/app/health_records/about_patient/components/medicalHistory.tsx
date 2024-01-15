@@ -118,5 +118,6 @@ export default function MasterData() {
 			{currentPage === 3 ? <CarePlan /> : ""}
 			{currentPage === 4 ? <LabTest /> : ""}
 		</>
+		
 	);
 }
