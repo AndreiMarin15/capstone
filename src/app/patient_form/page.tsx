@@ -1,6 +1,13 @@
+"use client";
+
 import * as React from "react";
 import Image from "next/image";
-import ProgressBar from "./components/progressBar";
+import ProgressBar, { ProgressBarProps } from "./components/progressBar";
+import SignUpPersonalInformation from "./components/personalInformation";
+import SignUpFamilyHistory from "./components/familyHistory";
+import SignUpSocialHistory from "./components/socialHistory";
+import SignUpMedicalHistory from "./components/medicalHistory";
+
 {
 	/* MISSING ITEMS 
     - Progress Bar
@@ -15,6 +22,7 @@ import ProgressBar from "./components/progressBar";
 }
 
 export default function PatientInformation() {
+	const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
 	return (
 		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
 			<span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
@@ -30,11 +38,40 @@ export default function PatientInformation() {
 					</span>
 				</span>
 
-				<ProgressBar currentStep={1} />
+				<ProgressBar currentStep={currentState} />
 
-				
-				<div className="w-full flex justify-end">
-					<button className="text-white text-xs font-semibold whitespace-nowrap justify-center flex items-stretch bg-sky-900 mr-2 mt-12 px-7 py-2 rounded max-md:mr-2.5 max-md:px-5">
+				{currentState === 1 ? (
+					<SignUpPersonalInformation />
+				) : currentState === 2 ? (
+					<SignUpFamilyHistory />
+				) : currentState === 3 ? (
+					<SignUpSocialHistory />
+				) : currentState === 4 ? (
+					<SignUpMedicalHistory />
+				) : (
+					<SignUpPersonalInformation />
+				)}
+
+				<div className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5">
+					<button
+						onClick={() => {
+							if (currentState > 1) {
+								setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+							}
+						}}
+						className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
+					>
+						BACK
+					</button>
+					<button
+						onClick={() => {
+							if (currentState < 4) {
+								setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+							}
+							console.log(currentState);
+						}}
+						className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-3"
+					>
 						NEXT
 					</button>
 				</div>
