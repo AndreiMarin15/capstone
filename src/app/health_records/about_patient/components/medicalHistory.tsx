@@ -2,10 +2,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AttendingDoctor from "./sub_components/attendingDoctor";
+
 import Procedures from "./sub_components/procedureList";
 import CarePlan from "./sub_components/carePlanList";
 import LabTest from "./sub_components/labTestList";
 import Status from "./status";
+
 
 export default function MasterData() {
 	const router = useRouter();
@@ -123,6 +125,6 @@ export default function MasterData() {
 				""
 			)}
 		</>
-		
+	
 	);
 }
