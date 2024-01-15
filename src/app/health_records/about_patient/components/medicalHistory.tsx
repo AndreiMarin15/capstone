@@ -8,7 +8,6 @@ import CarePlan from "./sub_components/carePlanList";
 import LabTest from "./sub_components/labTestList";
 import Status from "./status";
 
-
 export default function MasterData() {
 	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(0);
@@ -125,38 +124,17 @@ export default function MasterData() {
 				""
 			)}
 
-
-			{currentPage === 1 ? (
-				<>
-					<Status statusText="Active" />
-					<AttendingDoctor />
-				</>
-			) : currentPage === 2 ? (
-				<>
-					<Status statusText="In Progress" />
-					<Procedures />
-				</>
-			) : currentPage === 3 ? (
-				<CarePlan />
-			) : currentPage === 4 ? (
-				<LabTest />
-			) : (
-				""
-			)}
+			
 			{currentPage > 0 && (
 				<button
 					onClick={() => {
 						setCurrentPage(0);
 					}}
-
 					className="text-white text-center text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-10 px-14 py-2.5 rounded self-start max-md:mt-10 max-md:px-5"
-
 				>
 					Back
 				</button>
 			)}
-
 		</>
-
 	);
 }
