@@ -1,7 +1,8 @@
-'use client';
+"use client";
 import * as React from "react";
 import Navbar from "../navbar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const navigation = [
 	{
@@ -34,18 +35,30 @@ const navigation = [
 		href: "",
 		src: "",
 	},
+	{
+		name: "LUNA, Juan",
+		age: "30",
+		href: "",
+		src: "",
+	},
+	{
+		name: "LUNA, Antonio",
+		age: "18",
+		href: "",
+		src: "",
+	},
 ];
 
 export default function MyComponent() {
+	const router = useRouter();
 	return (
 		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
 			<div className="w-full max-md:max-w-full h-full">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0 h-full">
-					
 					<div className="flex flex-col items-stretch w-[83%] ml-5 max-md:w-full max-md:ml-0">
-						<span className="flex flex-col items-stretch mt-8 px-5 max-md:max-w-full max-md:mt-10">
+						<span className="flex flex-col items-stretch mt-8 ml-5 w-full max-md:max-w-full max-md:mt-10">
 							<div className="text-black text-xl font-semibold leading-8 max-md:max-w-full">Health Records</div>
-							<span className="flex w-full items-center justify-between gap-5 mt-8 mb-8 pr-16 max-md:max-w-full max-md:flex-wrap max-md:mt-10 max-md:pr-5">
+							<span className="flex w-full items-center justify-between gap-5 mt-8 mb-8 max-md:max-w-full max-md:flex-wrap max-md:mt-10 max-md:pr-5">
 								<div className="text-black text-base font-medium leading-6 my-auto">PATIENTS</div>
 								<div className="self-stretch flex items-stretch justify-between gap-2.5">
 									<span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
@@ -96,7 +109,12 @@ export default function MyComponent() {
 										</span>
 									</div>
 									<div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-										<button onClick={() => {window.location.href = "/health_records/about_patient"}} className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
+										<button
+											onClick={() => {
+												router.push("/health_records/about_patient");
+											}}
+											className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
+										>
 											View
 										</button>
 									</div>
