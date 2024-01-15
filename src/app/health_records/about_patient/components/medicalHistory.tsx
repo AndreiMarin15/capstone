@@ -112,8 +112,8 @@ export default function MasterData() {
 				</>
 			) : currentPage === 2 ? (
 				<>
-				<Status statusText="In Progress" />
-				<Procedures />
+					<Status statusText="In Progress" />
+					<Procedures />
 				</>
 			) : currentPage === 3 ? (
 				<CarePlan />
@@ -122,7 +122,17 @@ export default function MasterData() {
 			) : (
 				""
 			)}
+
+			{currentPage > 0 && (
+				<button
+					onClick={() => {
+						setCurrentPage(0);
+					}}
+					className="text-white text-center text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-16 px-14 py-2.5 rounded self-start max-md:mt-10 max-md:px-5"
+				>
+					Back
+				</button>
+			)}
 		</>
-		
 	);
 }
