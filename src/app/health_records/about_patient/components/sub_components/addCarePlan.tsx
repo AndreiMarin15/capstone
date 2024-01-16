@@ -66,7 +66,8 @@ export default function AddCarePlan() {
             </td>
             </tr>
         ))}
-          <div className="bg-blue-800 flex w-[100px] item-center gap-1.5 mt-7 px-4 py-1.5 rounded">
+        </table>
+        <div className="bg-blue-800 flex w-[100px] item-center gap-1.5 mt-7 px-4 py-1.5 rounded">
               <div className="text-white text-xs font-semibold leading-5">
               Add More
               </div>
@@ -76,8 +77,6 @@ export default function AddCarePlan() {
               className="aspect-square object-contain object-center w-full justify-center items-center overflow-hidden shrink-0 flex-1"
               />
           </div>
-        </table>
-        
         </>
 	  ); 
 }
