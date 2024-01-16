@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProgressBarReferral: React.FC<ProgressBarProps> = ({ currentStep }) => {
-	const steps = ["Select Patient", "Select Doctor(s)", "Select Attachments", "Notes and Review"];
+	const steps = ["Select Patient(s)", "Select Doctor(s)", "Notes and Review"];
 
 	return (
 		<div className="flex items-center pt-10 pb-10">

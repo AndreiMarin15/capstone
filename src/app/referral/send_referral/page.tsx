@@ -76,7 +76,6 @@ const navigation2 = [
     href: "",
     src: "",
   },
-
 ];
 
 export default function SendReferral() {
@@ -88,7 +87,6 @@ export default function SendReferral() {
       setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
     }
     console.log(currentState);
-    
   };
 
   const handleBack = () => {
@@ -102,11 +100,6 @@ export default function SendReferral() {
       <div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
       <ProgressBar currentStep={currentState} />
       <>
-
-      {/* {navigation.map((item) => (
-        <ReferralPatients key={item.name} name={item.name} age={item.age} onClick={handleSelect} />
-      ))} */}
-
         <div className={currentState === 4 ? "pb-20" : ""}>
           {currentState === 1 ? (
             navigation.map((item) => (
@@ -119,17 +112,32 @@ export default function SendReferral() {
           ) : null}
         </div>
       </>
-
-
       <div className="w-full flex justify-between px-14 max-md:max-w-full max-md:px-5">
-        {currentState > 1 && (
+        {currentState > 1 ? (
           <button
-            onClick={handleBack}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
+            onClick={() => {
+              if (currentState > 1) {
+                setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+              }
+            }}
+            className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
           >
             BACK
           </button>
+        ) : (
+          <div></div>
         )}
+        <button
+          onClick={() => {
+            if (currentState < 4) {
+              setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+            }
+            console.log(currentState);
+          }}
+          className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
+        >
+          NEXT
+        </button>
       </div>
     </div>
   );

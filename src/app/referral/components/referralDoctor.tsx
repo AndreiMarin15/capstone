@@ -13,6 +13,9 @@ const ReferralDoctors: React.FC<ReferralDoctorsProps> = ({ name, age, onClick })
     <div className="ml-10 flex w-full flex-col">
       <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
         <div className="flex items-stretch justify-between gap-5">
+                <div className="flex items-center my-4">
+                    <input type="checkbox" className="mr-2" />
+                 </div>
           <Image
             alt="picture"
             height={0}
@@ -27,12 +30,6 @@ const ReferralDoctors: React.FC<ReferralDoctorsProps> = ({ name, age, onClick })
           </span>
         </div>
         <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-          <button
-            onClick={onClick}
-            className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
-          >
-            Select
-          </button>
         </div>
       </div>
       <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full w-full" />
