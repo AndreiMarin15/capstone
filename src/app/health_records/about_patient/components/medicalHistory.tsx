@@ -8,7 +8,6 @@ import CarePlan from "./sub_components/carePlanList";
 import LabTest from "./sub_components/labTestList";
 import Status from "./status";
 
-
 export default function MasterData() {
 	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(0);
@@ -82,10 +81,11 @@ export default function MasterData() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MEDICAL HISTORY</div>
-
 			{currentPage === 0 ? (
 				<>
+					<div className="text-black text-xs font-bold leading-5 mt-8 mb-3 max-md:ml-1 max-md:mt-10">
+						MEDICAL HISTORY
+					</div>
 					<Status statusText="Active" />
 					<table className="max-w-fit border-spacing-y-7 border-separate">
 						{mHistory.map((item) => (
@@ -132,10 +132,9 @@ export default function MasterData() {
 					}}
 					className="text-black text-center text-xs font-semibold whitespace-nowrap justify-center items-stretch mt-16 py-2.5 rounded self-start max-md:mt-10 max-md:px-5"
 				>
-					 ◀︎ Back
+					◀︎ Back
 				</button>
 			)}
 		</>
-
 	);
 }
