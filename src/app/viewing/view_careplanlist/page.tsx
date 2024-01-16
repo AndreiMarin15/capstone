@@ -46,12 +46,13 @@ export default function viewCarePlanList() {
 					</span>
 				</div>
 			</div>
+      {/* TODO: UPDATE IMAGE SRC */}
 			<Image
 				alt="picture"
 				height={0}
 				width={0}
 				loading="lazy"
-				src="..."
+				src="..." 
 				className="aspect-[16.57] object-contain object-center w-[928px] shadow-sm overflow-hidden max-w-[928px] ml-24 mt-8 rounded-lg max-md:max-w-full"
 			/>
 			<div className="shadow-sm bg-white flex w-full max-w-[928px] flex-col items-stretch mt-2 mb-2 pt-6 pb-9 px-6 rounded-lg max-md:max-w-full max-md:px-5">
