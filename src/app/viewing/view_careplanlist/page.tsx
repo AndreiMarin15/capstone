@@ -74,35 +74,10 @@ export default function viewCarePlanList() {
             className="aspect-[1.04] object-contain object-center w-[25px] fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full self-start"
           />
         </div>
-        <div className="flex w-full justify-between gap-5 mt-6 pl-2 pr-5 pb-5 items-start max-md:max-w-full max-md:flex-wrap">
-          <span className="flex items-stretch justify-between gap-5 mt-1.5">
-            <div className="text-black text-base leading-6">2023-01-07</div>
-            <div className="text-black text-base leading-6">Dr. John Doe</div>
-          </span>
-          <span className="self-stretch flex items-start justify-between gap-5">
-            <div className="text-black text-base leading-6 self-center grow whitespace-nowrap my-auto">
-              Endocrinology
-            </div>
-            <div className="text-black text-base leading-6 self-center my-auto">
-              2023-01-28
-            </div>
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/563df85092d5b0450f0170c683ae9cae5a7696bba4532f8cb3aab08c8dcbfc71?"
-              className="aspect-[1.12] object-contain object-center w-[29px] overflow-hidden self-stretch shrink-0 max-w-full"
-            />
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/43ed71cf96d6b0942728148ab22b8fc301a4b955f7bf89879c69e4dfb9aa7bd1?"
-              className="aspect-[1.04] object-contain object-center w-[25px] fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full self-start"
-            />
-          </span>
-        </div>
+        
     
         
       </div>
     </div>
   );
 }
-
-
