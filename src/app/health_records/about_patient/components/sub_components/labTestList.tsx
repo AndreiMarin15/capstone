@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
   
-export default function AttendingDoctor() {
+export default function LabTestList() {
     const router = useRouter();
 	const lTest = [
 		{
