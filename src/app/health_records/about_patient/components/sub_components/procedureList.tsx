@@ -23,27 +23,25 @@ export default function ProcedureList() {
 	];
 	return (
 		<>
-			<span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-				<div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
-					PROCEDURES
-				</div>
-				<div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
-					<span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
-						<button
-							onClick={() => {
-								<AddProcedure />;
-							}}
-							className="text-white text-xs font-semibold leading-5"
-						>
-							{" "}
-							Add
-						</button>
-					</span>
-				</div>
-			</span>
-
 			{currentPage === 0 ? (
 				<>
+					<span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
+						<div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
+							PROCEDURES
+						</div>
+						<div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
+							<button
+								onClick={() => {
+									setCurrentPage(currentPage + 1);
+								}}
+								className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded text-white text-xs font-semibold leading-5"
+							>
+								{" "}
+								Add
+							</button>
+						</div>
+					</span>
+
 					{procedures.map((item) => (
 						<div className="flex flex-col items-stretch mt-8" key={item.variable}>
 							<span className="flex items-stretch justify-between gap-4">
