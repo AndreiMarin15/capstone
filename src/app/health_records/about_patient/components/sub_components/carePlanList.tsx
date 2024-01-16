@@ -6,7 +6,7 @@ import ViewCarePlan from "./viewCarePlan";
 export default function CarePlanList() {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(0);
-	  const viewCarePlan = [
+	  const carePlanList = [
       {
         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
         variable: "Care Plan #1",
@@ -42,7 +42,7 @@ export default function CarePlanList() {
       </span>
 
         {currentPage === 0 ? ( <>
-         {viewCarePlan.map((item) => (
+         {carePlanList.map((item) => (
             <div className="flex flex-col items-stretch mt-8" key={item.variable}>
             <span className="flex items-stretch justify-between gap-4">
               <img
