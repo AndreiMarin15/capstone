@@ -7,6 +7,7 @@ import SignUpPersonalInformation from "./components/personalInformation";
 import SignUpFamilyHistory from "./components/familyHistory";
 import SignUpSocialHistory from "./components/socialHistory";
 import SignUpMedicalHistory from "./components/medicalHistory";
+import { useRouter } from "next/router";
 
 {
 	/* MISSING ITEMS 
@@ -23,6 +24,7 @@ import SignUpMedicalHistory from "./components/medicalHistory";
 
 export default function PatientInformation() {
 	const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
+	const router = useRouter();
 	return (
 		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
 			<span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
@@ -74,8 +76,9 @@ export default function PatientInformation() {
 						onClick={() => {
 							if (currentState < 4) {
 								setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+							} else if (currentState >= 4) {
+								router.push("/dashboard");
 							}
-							console.log(currentState);
 						}}
 						className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-3"
 					>
