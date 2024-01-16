@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import ProgressBar from "../components/progressBar";
-
-
-import { useRouter } from "next/navigation";  // Fix the import statement for next/router
+import { useRouter } from "next/navigation";
+import ReferralPatients from "../components/referralPatients";
+import ReferralDoctors from "../components/referralDoctor";
 
 const navigation = [
   {
@@ -52,65 +51,84 @@ const navigation = [
   },
 ];
 
+const navigation2 = [
+  {
+    name: "SKYWALKER, Anakin",
+    age: "71",
+    href: "",
+    src: "",
+  },
+  {
+    name: "SOLO, Han",
+    age: "43",
+    href: "",
+    src: "",
+  },
+  {
+    name: "KENOBI, Obi",
+    age: "39",
+    href: "",
+    src: "",
+  },
+  {
+    name: "REN, Kylo",
+    age: "44",
+    href: "",
+    src: "",
+  },
+
+];
+
 export default function SendReferral() {
   const router = useRouter();
   const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
 
-  return (
+  const handleSelect = () => {
+    if (currentState < 4) {
+      setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+    }
+    console.log(currentState);
     
+  };
+
+  const handleBack = () => {
+    if (currentState > 1) {
+      setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+    }
+  };
+
+  return (
     <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[100vh]">
       <div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
       <ProgressBar currentStep={currentState} />
-      
-      {navigation.map((item) => (
-        <div key={item.name} className="ml-10 flex  w-full flex-col">
-          <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
-            <div className="flex items-stretch justify-between gap-5">
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5fee24394139ee09d61af596b82e9174ea8a73c2e68f5ff59e2c793c7b2e08ee?"
-                className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
-              />
-              <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                <div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">{item.name}</div>
-                <div className="text-black text-xs leading-5 mt-2">AGE: {item.age}</div>
-              </span>
-            </div>
-            <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-              <button
-                onClick={() => {
-                  if (currentState < 4) {
-                    setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
-                  }
-                  console.log(currentState);
-                }}
-                className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
-              >
-                Select
-              </button>
-            </div>
-          </div>
-          <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full w-full" />
+      <>
+
+      {/* {navigation.map((item) => (
+        <ReferralPatients key={item.name} name={item.name} age={item.age} onClick={handleSelect} />
+      ))} */}
+
+        <div className={currentState === 4 ? "pb-20" : ""}>
+          {currentState === 1 ? (
+            navigation.map((item) => (
+              <ReferralPatients key={item.name} name={item.name} age={item.age} onClick={handleSelect} />
+            ))
+          ) : currentState === 2 ? (
+            navigation2.map((item2) => (
+              <ReferralDoctors key={item2.name} name={item2.name} age={item2.age} onClick={handleSelect} />
+            ))
+          ) : null}
         </div>
-      ))}
+      </>
+
 
       <div className="w-full flex justify-between px-14 max-md:max-w-full max-md:px-5">
-        {currentState > 1 ? (
+        {currentState > 1 && (
           <button
-            onClick={() => {
-              if (currentState > 1) {
-                setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
-              }
-            }}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
+            onClick={handleBack}
+            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
           >
             BACK
           </button>
-        ) : (
-          <div></div>
         )}
       </div>
     </div>
