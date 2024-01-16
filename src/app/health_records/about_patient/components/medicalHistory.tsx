@@ -130,9 +130,10 @@ export default function MasterData() {
 					onClick={() => {
 						setCurrentPage(0);
 					}}
-					className="text-white text-center text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-10 px-14 py-2.5 rounded self-start max-md:mt-10 max-md:px-5"
+					className="text-black text-center text-xs font-semibold whitespace-nowrap justify-center items-stretch mt-16 py-2.5 rounded self-start max-md:mt-10 max-md:px-5"
 				>
 					Back
+					 ◀︎ Back
 				</button>
 			)}
 		</>
