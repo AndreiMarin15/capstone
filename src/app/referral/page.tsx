@@ -12,7 +12,7 @@ export default function SendReceiveScreen() {
       <div className="flex mt-8">
         <button
           onClick={() => {
-            router.push("/referral/patient_referral");
+            router.push("/referral/send_referral");
           }}
           className="text-white text-xs font-semibold bg-sky-900 px-6 py-2 rounded mr-4"
         >
@@ -20,7 +20,7 @@ export default function SendReceiveScreen() {
         </button>
         <button
           onClick={() => {
-            router.push("/referral/doctor_referral");
+            router.push("/referral/receive_referral");
           }}
           className="text-white text-xs font-semibold bg-sky-900 px-6 py-2 rounded"
         >

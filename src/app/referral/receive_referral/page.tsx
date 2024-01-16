@@ -52,7 +52,7 @@ const navigation = [
   },
 ];
 
-export default function PushReferral() {
+export default function ReceiveReferral() {
   const router = useRouter();
   const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
 

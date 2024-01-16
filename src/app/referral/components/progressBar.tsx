@@ -4,7 +4,7 @@ const ProgressBarReferral: React.FC<ProgressBarProps> = ({ currentStep }) => {
 	const steps = ["Select Patient", "Select Doctor(s)", "Select Attachments", "Notes and Review"];
 
 	return (
-		<div className="flex items-center pt-10">
+		<div className="flex items-center pt-10 pb-10">
 			{steps.map((step, index) => (
 				<React.Fragment key={index}>
 					<div className={`flex flex-col items-center ${currentStep > index ? "text-blue-500" : "text-gray-500"}`}>
