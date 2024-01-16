@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ViewCarePlan from "./viewCarePlan";
   
-export default function AttendingDoctor() {
+export default function CarePlanList() {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(0);
 	  const viewCarePlan = [

@@ -2,8 +2,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ViewProcedure from "./viewProcedure";
+import AddProcedure from "./addProcedure";
   
-export default function AttendingDoctor() {
+export default function ProcedureList() {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(0);
     const procedures = [
@@ -28,7 +29,12 @@ export default function AttendingDoctor() {
       </div>
       <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
         <span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
-          <div className="text-white text-xs font-semibold leading-5">Add</div>
+          <button 
+            onClick={() => {
+              <AddProcedure /> 
+            }}
+            className="text-white text-xs font-semibold leading-5"> Add
+          </button>
         </span>
       </div>
       </span>
@@ -59,7 +65,7 @@ export default function AttendingDoctor() {
                       <div className="pl-10 ml-28 items-center">
                         <button
                             onClick={() => {
-                              setCurrentPage(currentPage + 1);
+                              setCurrentPage(currentPage + 2);
                             }}
                             className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
                         >

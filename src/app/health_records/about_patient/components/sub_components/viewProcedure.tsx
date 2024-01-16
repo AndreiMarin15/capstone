@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
   
-export default function AttendingDoctor() {
+export default function ViewProcedure() {
     const router = useRouter();
-	const viewProcedures = [
+	const viewProcedure = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
 			variable: "Start Date",
@@ -27,7 +27,7 @@ export default function AttendingDoctor() {
         </div>
 
         <table className="max-w-fit border-spacing-y-7 border-separate">
-			{viewProcedures.map((item) => (
+			{viewProcedure.map((item) => (
 			  <tr key={item.variable}>
 				<td className="w-5">
 				  <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
