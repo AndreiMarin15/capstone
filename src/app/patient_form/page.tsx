@@ -7,7 +7,7 @@ import SignUpPersonalInformation from "./components/personalInformation";
 import SignUpFamilyHistory from "./components/familyHistory";
 import SignUpSocialHistory from "./components/socialHistory";
 import SignUpMedicalHistory from "./components/medicalHistory";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 {
 	/* MISSING ITEMS 

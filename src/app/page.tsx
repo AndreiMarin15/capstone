@@ -3,7 +3,7 @@
 import Image from "next/image";
 import * as React from "react";
 import sideImg from "./assets/national-cancer-institute-NFvdKIhxYlU-unsplash1.png";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 	const router = useRouter();
