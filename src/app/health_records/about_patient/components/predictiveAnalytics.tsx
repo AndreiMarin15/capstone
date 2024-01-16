@@ -68,22 +68,22 @@ export default function PredictiveAnalytics() {
                             <tr key={`${item1.variable}-${item2 ? item2.variable : ''}`}>
                         
                                 <td className="border-l-[16px] border-transparent">
-                                <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item1.variable}</div>
+                                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto text-left">{item1.variable}</div>
                                 </td>
 
                                 <td className="border-l-[5rem] border-transparent text-center">
-                                <div className="text-black text-xs leading-5 ml-auto">{item1.value}</div>
+                                    <div className="text-black text-xs leading-5 ml-auto text-left">{item1.value}</div>
                                 </td>
 
                                 {item2 && (
-                                <td className="border-l-[5rem] border-transparent">
-                                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item2.variable}</div>
+                                <td className="border-l-[10rem] border-transparent">
+                                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto text-left">{item2.variable}</div>
                                 </td>
                                 )}
 
                                 {item2 && (
-                                <td className="border-l-[5rem] border-transparent text-center">
-                                    <div className="text-black text-xs leading-5 ml-auto">{item2.value}</div>
+                                <td className="border-l-[10rem] border-transparent text-center">
+                                    <div className="text-black text-xs leading-5 ml-auto text-left">{item2.value}</div>
                                 </td>
                                 )}
                             </tr>
@@ -94,7 +94,7 @@ export default function PredictiveAnalytics() {
                 </table>
 
                 <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-                    <button onClick={() => {window.location.href = "/health_records/about_patient"}} className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
+                    <button onClick={() => {window.location.href = "/health_records/about_patient"}} className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] mt-10 justify-center items-stretch px-5 py-1.5 rounded max-md:px-5">
                             Generate
                         </button>
                 </div>

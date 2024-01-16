@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
   
-export default function AttendingDoctor() {
+export default function LabTestList() {
     const router = useRouter();
 	const lTest = [
 		{
@@ -37,7 +37,9 @@ export default function AttendingDoctor() {
          {lTest.map((item) => (
             <div className="flex flex-col items-stretch mt-8" key={item.variable}>
             <span className="flex items-stretch justify-between gap-4">
-              <img
+              <Image
+              height={0}
+              width={0}
                 loading="lazy"
                 src={item.src}
                 className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
