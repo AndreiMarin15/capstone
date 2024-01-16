@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 
-export default function viewCarePlan() {
+export default function ViewCarePlan() {
 	const cplan = [
 		{
 			variable: "Brand Name",
