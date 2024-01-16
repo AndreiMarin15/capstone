@@ -2,7 +2,7 @@ import * as React from "react";
 import Image from "next/image";
 export default function Messaging() {
 	return (
-		<div className="bg-white flex flex-col items-end max-md:pl-5">
+		<div className="bg-white flex flex-col items-end max-md:pl-5 h-[100vh]">
 			<span className="shadow-sm bg-white z-[1] flex w-full max-w-full justify-between gap-5 pl-7 pr-10 py-9 self-start max-md:flex-wrap max-md:px-5">
 				<div className="text-black text-xl font-semibold leading-8 mt-1.5">Messaging</div>
 				{/* <div className="self-stretch flex justify-between gap-3.5 items-start">
@@ -38,7 +38,7 @@ export default function Messaging() {
 					</div>
 					<div className="flex flex-col items-stretch w-[74%] max-md:w-full max-md:ml-0">
 						<span className="text-black text-lg font-semibold leading-7 whitespace-nowrap items-stretch grow mt-3 pr-3 pb-5 max-md:mt-10">
-							Dr. John Doe
+							Juan Dela Cruz
 						</span>
 					</div>
 				</div>
