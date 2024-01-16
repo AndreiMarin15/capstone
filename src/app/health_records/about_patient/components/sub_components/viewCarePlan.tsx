@@ -65,7 +65,7 @@ export default function ViewCarePlan() {
 				</td>
 			  </tr>
 			))}
-		  </table>
+		</table>
 		</>
 	  );
 }

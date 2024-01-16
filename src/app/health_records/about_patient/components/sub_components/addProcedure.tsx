@@ -31,7 +31,7 @@ export default function AddProcedure() {
 		<>
         <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
             <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
-                Add Care Plan
+                Add Procedure
             </div>
         </span>
 

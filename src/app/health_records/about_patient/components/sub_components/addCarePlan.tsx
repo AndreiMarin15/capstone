@@ -51,31 +51,31 @@ export default function AddCarePlan() {
         </span>
 
         <table className="max-w-fit border-spacing-y-7 border-separate">
-            {careplan.map((item) => (
-                <tr key={item.variable}>
-                <td className="w-5">
-                    <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
-                </td>
-                <td className="border-l-[16px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
-                </td>
-                <td className="border-l-[5rem] border-transparent">
-                    <span className="text-zinc-400 text-xs leading-5 rounded justify-center items-stretch pl-1.5 pr-96 py-1.5 border-[0.5px] border-solid border-black max-md:pr-10">
-                        {item.value}
-                    </span>
-                </td>
-                </tr>
-            ))}
-            <div className="bg-blue-800 flex w-[100px] item-center gap-1.5 mt-7 px-4 py-1.5 rounded">
-                <div className="text-white text-xs font-semibold leading-5">
-                Add More
-                </div>
-                <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/ef0e07509ac492d8205739e7dd9bc2331178b8b5c283870e3cf0cc7434e33fe2"
-                className="aspect-square object-contain object-center w-full justify-center items-center overflow-hidden shrink-0 flex-1"
-                />
-            </div>
+        {careplan.map((item) => (
+            <tr key={item.variable}>
+            <td className="w-5">
+                <Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
+            </td>
+            <td className="border-l-[16px] border-transparent">
+                <div className="text-black text-xs font-semibold leading-5 self-center my-auto">{item.variable}</div>
+            </td>
+            <td className="border-l-[5rem] border-transparent">
+                <span className="text-zinc-400 text-xs leading-5 rounded justify-center items-stretch pl-1.5 pr-96 py-1.5 border-[0.5px] border-solid border-black max-md:pr-10">
+                    {item.value}
+                </span>
+            </td>
+            </tr>
+        ))}
+          <div className="bg-blue-800 flex w-[100px] item-center gap-1.5 mt-7 px-4 py-1.5 rounded">
+              <div className="text-white text-xs font-semibold leading-5">
+              Add More
+              </div>
+              <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/ef0e07509ac492d8205739e7dd9bc2331178b8b5c283870e3cf0cc7434e33fe2"
+              className="aspect-square object-contain object-center w-full justify-center items-center overflow-hidden shrink-0 flex-1"
+              />
+          </div>
         </table>
         
         </>
