@@ -1,4 +1,8 @@
+import { useRouter } from "next/navigation";
+
 export default function CarePlans() {
+	const router = useRouter();
+
 	const cPList = [
 		{
 			date: "2023-01-07",
@@ -62,7 +66,12 @@ export default function CarePlans() {
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
 					{cPList.map((item) => (
-						<tr key={item.doctor}>
+						<tr
+							key={item.doctor}
+							onClick={() => {
+								router.push("careplan_list/careplan");
+							}}
+						>
 							<td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
 							<td className="px-6 py-4 whitespace-nowrap">{item.doctor}</td>
 							<td className="px-6 py-4 whitespace-nowrap">{item.specialization}</td>
