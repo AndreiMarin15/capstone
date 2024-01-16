@@ -86,6 +86,16 @@ export default function Vitals() {
 						</td>
 					</tr>
 				))}
+				<div className="bg-blue-800 flex w-[100px] item-center gap-1.5 mt-7 px-4 py-1.5 rounded">
+					<div className="text-white text-xs font-semibold leading-5">
+					Add More
+					</div>
+					<img
+					loading="lazy"
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/ef0e07509ac492d8205739e7dd9bc2331178b8b5c283870e3cf0cc7434e33fe2"
+					className="aspect-square object-contain object-center w-full justify-center items-center overflow-hidden shrink-0 flex-1"
+					/>
+            	</div>
 			</table>
 		</>
 	);
