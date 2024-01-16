@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ViewCarePlan from "./viewCarePlan";
+import AddCarePlan from "./addCarePlan";
   
 export default function CarePlanList() {
     const router = useRouter();
@@ -30,18 +31,23 @@ export default function CarePlanList() {
 	];
 	return (
 		<>
+    {currentPage === 0 ? ( <>
 		 <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-      <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
-            CARE PLANS
-      </div>
-      <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
-        <span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
-          <div className="text-white text-xs font-semibold leading-5">Add</div>
-        </span>
-      </div>
+        <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
+              CARE PLANS
+        </div>
+        <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
+          <span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
+            <button 
+              onClick={() => {
+                setCurrentPage(currentPage + 1);
+              }}
+            className="text-white text-xs font-semibold leading-5">Add
+            </button>
+          </span>
+        </div>
       </span>
 
-        {currentPage === 0 ? ( <>
          {carePlanList.map((item) => (
             <div className="flex flex-col items-stretch mt-8" key={item.variable}>
             <span className="flex items-stretch justify-between gap-4">
@@ -67,7 +73,7 @@ export default function CarePlanList() {
                     <div className="pl-10 ml-28 items-center">
                       <button
                           onClick={() => {
-                            setCurrentPage(currentPage + 1);
+                            setCurrentPage(currentPage + 2);
                           }}
                           className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
                       >
@@ -81,7 +87,8 @@ export default function CarePlanList() {
             ) : (
               ""
             )} 
-            {currentPage === 1 ? <ViewCarePlan /> : ""}
+            {currentPage === 1 ? <AddCarePlan /> : ""}
+            {currentPage === 2 ? <ViewCarePlan /> : ""}
 		    </>
 	  );
 }
