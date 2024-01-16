@@ -3,6 +3,16 @@ export default function FamilyHistory() {
 	const fHistory = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
+			variable: "First Name",
+			value: "Juana",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
+			variable: "Last Name",
+			value: "Dela Cruz",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
 			variable: "Relationship",
 			value: "Mother",
 		},
