@@ -41,7 +41,10 @@ export default function AttendingDoctor() {
 		<>
 		 
          <span className="flex items-stretch mt-8">
-            <img
+            <Image
+			alt="picture"
+			height={0}
+			width={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/5ec8c802c0081cff6d71681da0ea2345c020d033a9bd2aa231051f180a7bf939?"
                 className="aspect-square object-contain object-center overflow-hidden shrink-0 max-w-full"

@@ -45,7 +45,9 @@ export default function ProcedureList() {
 					{procedures.map((item) => (
 						<div className="flex flex-col items-stretch mt-8" key={item.variable}>
 							<span className="flex items-stretch justify-between gap-4">
-								<img
+								<Image
+                height={0}
+                width={0}
 									loading="lazy"
 									src={item.src}
 									className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
