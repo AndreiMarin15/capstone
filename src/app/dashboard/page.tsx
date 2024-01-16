@@ -75,18 +75,18 @@ export default function Dashboard() {
 			imageSrc:
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/dea6bee3adc06f5e28838c43497ed31c14d61da632e1e5c0d2cbf2d92a1cd813?apiKey=66e07193974a40e683930e95115a1cfd&",
 			title: "Referral",
-			content: "Dr. Santos is requesting some documents.",
+			content: "Awaiting patient approval to pull documents.",
 		},
 		{
 			imageSrc:
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/dea6bee3adc06f5e28838c43497ed31c14d61da632e1e5c0d2cbf2d92a1cd813?apiKey=66e07193974a40e683930e95115a1cfd&",
 			title: "Referral",
-			content: "Dr. Abalos is requesting some documents.",
+			content: "Awaiting patient approval to pull documents.",
 		},
 	];
 	return (
 		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
-			<div className="w-full px-5 max-md:max-w-full">
+			<div className="w-full px-5 max-md:max-w-full h-[100vh]">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 					<div className="flex flex-col items-stretch w-[49%] ml-5 max-md:w-full max-md:ml-0">
 						<span className="flex flex-col items-stretch my-auto pt-10 max-md:max-w-full max-md:mt-10">
