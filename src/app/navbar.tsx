@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { noNavPaths, pathIncluded } from "../../globals";
+import { useEffect } from "react";
 
 const navigation = [
 	{
@@ -37,6 +38,10 @@ export default function Navbar() {
 	const router = useRouter();
 	const path = usePathname();
 
+	useEffect(() => {
+		console.log(path);
+	}, []);
+
 	return (
 		<>
 			{path !== "/" && !pathIncluded(path) && (
@@ -50,7 +55,11 @@ export default function Navbar() {
 					{navigation.map((item) => (
 						<span
 							onClick={() => router.push(item.href)}
-							className="items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6]"
+							className={
+								path.includes(item.href)
+									? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
+									: "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
+							}
 							key={item.name}
 						>
 							<Image
