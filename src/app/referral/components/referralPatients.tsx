@@ -29,7 +29,7 @@ const ReferralPatients: React.FC<ReferralPatientsProps> = ({ name, age, onClick 
               </span>
             </div>
           </div>
-          <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full w-full" />
+          <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 w-full max-md:max-w-full" />
         </div>
       );
     };

@@ -5,7 +5,7 @@ import ProgressBar from "../components/progressBar";
 import { useRouter } from "next/navigation";
 import ReferralPatients from "../components/referralPatients";
 import ReferralDoctors from "../components/referralDoctor";
-
+import NotesAndReview from "../components/notesAndReview";
 const navigation = [
   {
     name: "DELA CRUZ, Juan",
@@ -80,18 +80,18 @@ const navigation2 = [
 
 export default function SendReferral() {
   const router = useRouter();
-  const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
+  const [currentState, setCurrentState] = React.useState<1 | 2 | 3> (1);
 
   const handleSelect = () => {
-    if (currentState < 4) {
-      setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+    if (currentState < 3) {
+      setCurrentState((currentState + 1) as 1 | 2 | 3 );
     }
     console.log(currentState);
   };
 
   const handleBack = () => {
     if (currentState > 1) {
-      setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+      setCurrentState((currentState - 1) as 1 | 2 | 3 );
     }
   };
 
@@ -100,7 +100,7 @@ export default function SendReferral() {
       <div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
       <ProgressBar currentStep={currentState} />
       <>
-        <div className={currentState === 4 ? "pb-20" : ""}>
+        <div className={currentState === 3 ? "pb-20" : ""}>
           {currentState === 1 ? (
             navigation.map((item) => (
               <ReferralPatients key={item.name} name={item.name} age={item.age} onClick={handleSelect} />
@@ -109,7 +109,9 @@ export default function SendReferral() {
             navigation2.map((item2) => (
               <ReferralDoctors key={item2.name} name={item2.name} age={item2.age} onClick={handleSelect} />
             ))
-          ) : null}
+          ) : (<NotesAndReview />
+          
+          )}
         </div>
       </>
       <div className="w-full flex justify-between px-14 max-md:max-w-full max-md:px-5">
@@ -117,7 +119,7 @@ export default function SendReferral() {
           <button
             onClick={() => {
               if (currentState > 1) {
-                setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+                setCurrentState((currentState - 1) as 1 | 2 | 3 );
               }
             }}
             className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
@@ -129,14 +131,13 @@ export default function SendReferral() {
         )}
         <button
           onClick={() => {
-            if (currentState < 4) {
-              setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
-            }
-            console.log(currentState);
+            if (currentState < 3) {
+              setCurrentState((currentState + 1) as 1 | 2 | 3);
+            } 
           }}
-          className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
-        >
-          NEXT
+          className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
+          >
+          {currentState === 3 ? "SEND" : "NEXT"}
         </button>
       </div>
     </div>
