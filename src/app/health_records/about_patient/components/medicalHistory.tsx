@@ -114,7 +114,7 @@ export default function MasterData() {
 				</>
 			) : currentPage === 2 ? (
 				<>
-					<Status statusText="In Progress" />
+					
 					<Procedures />
 				</>
 			) : currentPage === 3 ? (
