@@ -5,7 +5,17 @@ export default function SignUpFamilyHistory() {
 			<div className="w-1/2 pr-8 flex flex-col">
 				<div className="text-black text-base font-semibold leading-6">Family History</div>
 				<div className="text-zinc-600 text-base leading-6 mt-2">
-					Kindly enter any patient family history that is relevant with the disease.
+					Kindly enter any patient family history that is relevant with the disease. <br />
+					<br />
+					This includes:
+					<br />
+					- Diseases related to the heart
+					<br />
+					- Diseases related to the eyes
+					<br />
+					- Disease related to the kidney
+					<br />
+					- Diseases related to the digestive system
 				</div>
 			</div>
 
@@ -21,7 +31,6 @@ export default function SignUpFamilyHistory() {
 						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
 					</span>
 				</div>
-
 				<div className="flex items-stretch justify-between gap-3 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">Age</div>
@@ -41,7 +50,6 @@ export default function SignUpFamilyHistory() {
 						<input className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
 					</div>
 				</div>
-
 				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<div className="flex items-stretch self-stretch flex-grow flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Medical Condition of the Family Member</div>
@@ -65,18 +73,17 @@ export default function SignUpFamilyHistory() {
 						</span>
 					</div>
 				</div>
-
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Medical Condition Outcomes of the Family Member
 				</div>
 				<select className="text-black rounded shadow-sm flex-shrink-0 w-60 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-5 border-solid border-black">
-              {" "}
-              <option value="">Select</option>
-              <option value="deceased">Deceased</option>
-              <option value="recovered">Recovered</option>
-              <option value="chronic">Chronic</option>
-              <option value="chronic">Improved</option>
-            </select>{" "}
+					{" "}
+					<option value="">Select</option>
+					<option value="deceased">Deceased</option>
+					<option value="recovered">Recovered</option>
+					<option value="chronic">Chronic</option>
+					<option value="chronic">Improved</option>
+				</select>{" "}
 			</div>
 		</div>
 	);
