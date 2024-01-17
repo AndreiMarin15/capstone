@@ -86,7 +86,7 @@ export default function MasterData() {
 					<div className="text-black text-xs font-bold leading-5 mt-8 mb-3 max-md:ml-1 max-md:mt-10">
 						MEDICAL HISTORY
 					</div>
-					<Status statusText="Active" />
+					<Status statusText="Managed" />
 					<table className="max-w-fit border-spacing-y-7 border-separate">
 						{mHistory.map((item) => (
 							<tr key={item.variable}>
@@ -109,7 +109,7 @@ export default function MasterData() {
 
 			{currentPage === 1 ? (
 				<>
-					<Status statusText="Active" />
+					<Status statusText="Managed" />
 					<AttendingDoctor />
 				</>
 			) : currentPage === 2 ? (
