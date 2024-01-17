@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ViewProcedure from "./viewProcedure";
 import AddProcedure from "./addProcedure";
+import Status from "../status";
 
 export default function ProcedureList() {
 	const router = useRouter();
@@ -25,6 +26,7 @@ export default function ProcedureList() {
 		<>
 			{currentPage === 0 ? (
 				<>
+					<Status statusText="In Progress" />
 					<span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
 						<div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
 							PROCEDURES
@@ -46,8 +48,8 @@ export default function ProcedureList() {
 						<div className="flex flex-col items-stretch mt-8" key={item.variable}>
 							<span className="flex items-stretch justify-between gap-4">
 								<Image
-                height={0}
-                width={0}
+									height={0}
+									width={0}
 									loading="lazy"
 									src={item.src}
 									className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
