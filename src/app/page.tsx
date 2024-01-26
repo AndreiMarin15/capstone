@@ -63,12 +63,12 @@ export default function Home() {
 						</button>
 					</div>
 				</div>
-				<div className="flex flex-col items-stretch w-[57%] ml-5 max-md:w-full max-md:ml-0">
+				<div className="flex flex-col items-stretch justify-end h-[100vh] ml-5 w-full">
 					<Image
 						src={sideImg}
-						width={599}
-						height={944}
-						className="aspect-[0.63] object-contain object-center w-full overflow-hidden grow max-md:max-w-full max-md:mt-10"
+						width={0}
+						height={0}
+						className="w-full object-cover aspect-[0.63] object-center overflow-hidden grow max-md:max-w-full max-md:mt-10"
 						alt="side"
 					/>
 				</div>
