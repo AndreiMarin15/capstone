@@ -77,7 +77,7 @@ export default function PatientInformation() {
 							if (currentState < 4) {
 								setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
 							} else if (currentState >= 4) {
-								router.push("/dashboard");
+								router.push("/patient/dashboard");
 							}
 						}}
 						className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-3"

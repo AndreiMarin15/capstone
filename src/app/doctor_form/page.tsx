@@ -54,7 +54,7 @@ export default function DoctorForm() {
 							
 							<button
 								onClick={() => {
-									router.push("/patient_form");
+									router.push("/dashboard");
 								}}
 								className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 							>
