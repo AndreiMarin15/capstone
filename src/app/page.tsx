@@ -7,6 +7,11 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
 	const router = useRouter();
+	const [signUpAs, setSignUp] = React.useState("Doctor");
+
+	const onChangeSignUp = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSignUp(e.target.value);
+	};
 	return (
 		<div className="border bg-white pl-20 border-solid border-stone-300 max-md:pl-5">
 			<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -37,15 +42,21 @@ export default function Home() {
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
 						<input
-							type="text"
+							type="password"
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
 							I am signing up as a..
 						</div>
-						<div className="text-stone-300 text-xl leading-7 shadow-sm self-stretch w-full justify-center mt-2.5 pl-3 pr-16 py-3 rounded-md border-[0.638px] border-solid border-black items-start max-md:ml-2 max-md:pr-5">
-							Select
-						</div>
+						<select
+							onChange={(e) => {
+								onChangeSignUp(e);
+							}}
+							className=" text-xl leading-7 shadow-sm self-stretch w-full justify-center mt-2.5 pl-3 pr-16 py-3 rounded-md border-[0.638px] border-solid border-black items-start max-md:ml-2 max-md:pr-5"
+						>
+							<option value="Doctor">Doctor</option>
+							<option value="Patient">Patient</option>
+						</select>
 						<div className="items-center self-stretch flex justify-between gap-1.5 mt-6">
 							<div className="border-gray-400 bg-white flex w-3 shrink-0 h-3 flex-col my-auto rounded-sm border-[0.4px] border-solid" />
 							<div className="text-blue-500 text-sm leading-5 underline self-stretch grow whitespace-nowrap">
@@ -55,7 +66,7 @@ export default function Home() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("/patient_form");
+								signUpAs === "Doctor" ? router.push("/doctor_form") : router.push("/patient_form");
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 						>

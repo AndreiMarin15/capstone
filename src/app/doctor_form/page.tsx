@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import * as React from "react";
-import sideImg from "../assets/national-cancer-institute-NFvdKIhxYlU-unsplash1.png";
+import sideImg from "../assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
 
 export default function DoctorForm() {
