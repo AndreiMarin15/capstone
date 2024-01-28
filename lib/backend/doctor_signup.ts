@@ -7,7 +7,9 @@ export const DoctorSignUp = {
 		return specializationQuery;
 	},
 
-    // signUpAsDoctor: async (email: string, password: string, doctorData: {}) => {
-    //      authentication.signUpNewUser()
-    // }
+    signUpAsDoctor: async (doctorData: DoctorInfo) => {
+         authentication.signUpNewUser(doctorData.email, doctorData.password)
+
+         
+    }
 };
