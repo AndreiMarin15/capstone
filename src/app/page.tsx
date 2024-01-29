@@ -4,14 +4,17 @@ import Image from "next/image";
 import * as React from "react";
 import sideImg from "./assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
+import { useDoctorInfo, useUserInfo } from "./store";
 
 export default function Home() {
 	const router = useRouter();
+	const userStore = useUserInfo();
 	const [signUpAs, setSignUp] = React.useState("Doctor");
 
 	const onChangeSignUp = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSignUp(e.target.value);
 	};
+
 	return (
 		<div className="border bg-white pl-20 border-solid border-stone-300 max-md:pl-5">
 			<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -38,11 +41,21 @@ export default function Home() {
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
 						<input
 							type="text"
+							id="email"
+							onChange={(e) => {
+								userStore.setEmail(e.target.value);
+							}}
+							value={userStore.email}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
 						<input
 							type="password"
+							id="password"
+							onChange={(e) => {
+								userStore.setPassword(e.target.value);
+							}}
+							value={userStore.password}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
@@ -66,7 +79,11 @@ export default function Home() {
 						</div>
 						<button
 							onClick={() => {
-								signUpAs === "Doctor" ? router.push("/doctor_form") : router.push("/patient_form");
+								if (signUpAs === "Doctor") {
+									router.push("/doctor_form");
+								} else {
+									router.push("/patient_form");
+								}
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 						>
