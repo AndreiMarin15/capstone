@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 
-export default function LabTest(props: { testName: string }) {
+export default function LabTest(props) {
 	return (
 		<>
 			<div className="text-black text-xs font-semibold leading-5 self-stretch mt-5 max-md:max-w-full max-md:mt-10">

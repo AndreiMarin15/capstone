@@ -1,13 +1,9 @@
 import React from "react";
 import Image from "next/image";
 
-interface ReferralPatientsProps {
-  name: string;
-  age: string;
-  onClick: () => void;
-}
 
-const ReferralPatients: React.FC<ReferralPatientsProps> = ({ name, age, onClick }) => {
+
+const ReferralPatients = ({ name, age, onClick }) => {
     return (
         <div className="ml-5 flex flex-col w-full max-md:w-[83%] max-md:ml-0">
           <div className="flex items-stretch justify-between gap-5 w-full max-md:w-full">
