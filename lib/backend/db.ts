@@ -1,11 +1,10 @@
 import { supabase } from "../initSupabase";
 
-
 export const db = {
 	selectAllFrom: async (table: string) => {
-		const { data: data } = await supabase.from(table).select();
+		const { data: data, error } = await supabase.from(table).select();
 
-		return data;
+		return error ? error : data;
 	},
 
 	selectFrom: async (table: string, options: string) => {

@@ -2,11 +2,29 @@
 
 import Image from "next/image";
 import * as React from "react";
-import sideImg from "../assets/national-cancer-institute-NFvdKIhxYlU-unsplash1.png";
+import sideImg from "../assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
+import { DoctorSignUp } from "../../../lib/backend/doctor_signup";
+import { PostgrestError } from "@supabase/supabase-js";
+import { useDoctorInfo, useUserInfo } from "../store";
 
 export default function DoctorForm() {
 	const router = useRouter();
+	const doctorStore = useDoctorInfo();
+	const userStore = useUserInfo();
+	const [specializations, setSpecializations] = React.useState<any[] | PostgrestError>([]);
+	
+	React.useEffect(() => {
+		const getSpecials = async () => {
+			const specials = await DoctorSignUp.selectSpecializations();
+			setSpecializations(specials);
+		};
+
+		getSpecials();
+
+	}, []);
+
+	
 	return (
 		<>
 			<div className="border bg-white pl-20 border-solid border-stone-300 max-md:pl-5">
@@ -31,30 +49,57 @@ export default function DoctorForm() {
 
 							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">License ID</div>
 							<input
+								onChange={(e) => {
+									doctorStore.setDoctor_license({
+										license_number: e.target.value,
+									});
+								}}
+								id="lice"
+								value={doctorStore.doctor_license.license_number}
 								type="text"
 								className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 							/>
 							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Last Name</div>
 							<input
+								onChange={(e) => {
+									doctorStore.setLast_name(e.target.value);
+								}}
 								type="text"
+								value={doctorStore.last_name}
 								className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 							/>
 
 							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">First Name</div>
 							<input
+								onChange={(e) => {
+									doctorStore.setFirst_name(e.target.value);
+								}}
+								value={doctorStore.first_name}
 								type="text"
 								className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 							/>
 							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
 								Specialization
 							</div>
-							<div className="text-stone-300 text-xl leading-7 shadow-sm self-stretch w-full justify-center mt-2.5 pl-3 pr-16 py-3 rounded-md border-[0.638px] border-solid border-black items-start max-md:ml-2 max-md:pr-5">
-								Select
-							</div>
-							
+							<select
+								onChange={(e) => {
+									doctorStore.setSpecialization_id(parseInt(e.target.value));
+								}}
+								className=" text-xl leading-7 shadow-sm self-stretch w-full justify-center mt-2.5 pl-3 pr-16 py-3 rounded-md border-[0.638px] border-solid border-black items-start max-md:ml-2 max-md:pr-5"
+							>
+								{Array.isArray(specializations) &&
+									specializations.map((item) => {
+										return (
+											<option key={item.id} value={item.id}>
+												{item.doctor_specialization_name}
+											</option>
+										);
+									})}
+							</select>
+
 							<button
 								onClick={() => {
-									router.push("/patient_form");
+									router.push("/dashboard");
 								}}
 								className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 							>
