@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 }
 
 export default function PatientInformation() {
-	const [currentState, setCurrentState] = React.useState<1 | 2 | 3 | 4>(1);
+	const [currentState, setCurrentState] = React.useState(1);
 	const router = useRouter();
 	return (
 		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
