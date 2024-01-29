@@ -12,7 +12,7 @@ export default function DoctorForm() {
 	const router = useRouter();
 	const doctorStore = useDoctorInfo();
 	const userStore = useUserInfo();
-	const [specializations, setSpecializations] = React.useState<any[] | PostgrestError>([]);
+	const [specializations, setSpecializations] = React.useState([]);
 	
 	React.useEffect(() => {
 		const getSpecials = async () => {

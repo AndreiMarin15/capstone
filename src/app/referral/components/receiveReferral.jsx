@@ -2,12 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-interface ReceiveReferralProps {
-  name: string;
-  patient: string;
-}
 
-const ReceiveReferral: React.FC<ReceiveReferralProps> = ({ name, patient }) => {
+
+const ReceiveReferral= ({ name, patient }) => {
   const router = useRouter();
 
   return (

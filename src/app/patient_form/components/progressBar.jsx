@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
+const ProgressBar = ({ currentStep }) => {
 	const steps = ["Personal Information", "Family History", "Social History", "Medical History"];
 
 	return (

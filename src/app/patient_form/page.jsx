@@ -62,7 +62,7 @@ export default function PatientInformation() {
 						<button
 							onClick={() => {
 								if (currentState > 1) {
-									setCurrentState((currentState - 1) as 1 | 2 | 3 | 4);
+									setCurrentState((currentState - 1) );
 								}
 							}}
 							className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
@@ -75,7 +75,7 @@ export default function PatientInformation() {
 					<button
 						onClick={() => {
 							if (currentState < 4) {
-								setCurrentState((currentState + 1) as 1 | 2 | 3 | 4);
+								setCurrentState((currentState + 1) );
 							} else if (currentState >= 4) {
 								router.push("/patient/dashboard");
 							}
