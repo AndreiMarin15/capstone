@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProgressBarReferral: React.FC<ProgressBarProps> = ({ currentStep }) => {
+const ProgressBarReferral = ({ currentStep }) => {
 	const steps = ["Select Patient(s)", "Select Doctor(s)", "Notes and Review"];
 
 	return (

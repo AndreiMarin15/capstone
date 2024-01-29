@@ -80,18 +80,18 @@ const navigation2 = [
 
 export default function SendReferral() {
   const router = useRouter();
-  const [currentState, setCurrentState] = React.useState<1 | 2 | 3> (1);
+  const [currentState, setCurrentState] = React.useState (1);
 
   const handleSelect = () => {
     if (currentState < 3) {
-      setCurrentState((currentState + 1) as 1 | 2 | 3 );
+      setCurrentState((currentState + 1)  );
     }
     console.log(currentState);
   };
 
   const handleBack = () => {
     if (currentState > 1) {
-      setCurrentState((currentState - 1) as 1 | 2 | 3 );
+      setCurrentState((currentState - 1)  );
     }
   };
 
@@ -119,7 +119,7 @@ export default function SendReferral() {
           <button
             onClick={() => {
               if (currentState > 1) {
-                setCurrentState((currentState - 1) as 1 | 2 | 3 );
+                setCurrentState((currentState - 1)  );
               }
             }}
             className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
@@ -132,7 +132,7 @@ export default function SendReferral() {
         <button
           onClick={() => {
             if (currentState < 3) {
-              setCurrentState((currentState + 1) as 1 | 2 | 3);
+              setCurrentState((currentState + 1) );
             } 
           }}
           className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}

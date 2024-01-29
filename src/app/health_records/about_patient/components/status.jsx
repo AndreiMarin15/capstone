@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Status(props: StatusProps) {
+export default function Status(props) {
 	return (
 		<span className="flex items-center gap-2.5 mb-1">
 			<div className="text-black text-xs font-regular leading-5 whitespace-nowrap">Status:</div>

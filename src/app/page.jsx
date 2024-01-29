@@ -11,7 +11,7 @@ export default function Home() {
 	const userStore = useUserInfo();
 	const [signUpAs, setSignUp] = React.useState("Doctor");
 
-	const onChangeSignUp = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const onChangeSignUp = (e) => {
 		setSignUp(e.target.value);
 	};
 

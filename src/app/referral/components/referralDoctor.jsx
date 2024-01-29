@@ -2,13 +2,9 @@
 import React from "react";
 import Image from "next/image";
 
-interface ReferralDoctorsProps {
-  name: string;
-  age: string;
-  onClick: () => void;
-}
 
-const ReferralDoctors: React.FC<ReferralDoctorsProps> = ({ name, age, onClick }) => {
+
+const ReferralDoctors= ({ name, age, onClick }) => {
   return (
     <div className="ml-10 flex w-full flex-col">
       <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
@@ -32,7 +28,7 @@ const ReferralDoctors: React.FC<ReferralDoctorsProps> = ({ name, age, onClick })
         <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
         </div>
       </div>
-      <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full w-full" />
+      <div className="bg-gray-400 self-stretch min-h-[1px] w-full mt-2 mb-2 max-md:max-w-full " />
     </div>
   );
 };
