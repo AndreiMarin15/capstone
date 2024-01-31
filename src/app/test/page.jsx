@@ -1,12 +1,14 @@
-import { db } from "../../../lib/backend/db";
+import { PROJECT } from "../../../lib/backend/project/db";
+import { PUBLIC } from "../../../lib/backend/public/db";
 export default async function Notes() {
-	const database = db;
+	const database = PROJECT;
 
-	const notes = await database.selectAllFrom("notes-test");
-	console.log(notes);
+	const fhir = {
+		
+	}
 
-	const specials = await database.selectAllFrom("doctor-specialization");
-	console.log(specials);
+	const test = await database.selectAllFrom("specializations");
+	console.log(test);
 
-	return <pre>{JSON.stringify(specials, null, 2)}</pre>;
+	return <pre>{JSON.stringify(test, null, 2)}</pre>;
 }
