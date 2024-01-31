@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import TopNav from "./topNav";
 import Navbar from "./navbar";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en" className="light">
 			<body className={inter.className}>
+				<ToastContainer />
 				<Providers>
 					<TopNav />
 					<div className="flex">
-					<Navbar/>
+						<Navbar />
 						<div className="w-full">{children}</div>
 					</div>
 				</Providers>
