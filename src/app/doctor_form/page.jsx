@@ -99,24 +99,33 @@ export default function DoctorForm() {
 
 							<button
 								onClick={async () => {
-									const account = await DoctorSignUp.signUpAsDoctor(userStore);
+									const doctorInfo = {
+										email: userStore.email,
+										password: userStore.password,
+										license_id: doctorStore.doctor_license.license_number,
+										specialization_id: doctorStore.specialization_id,
+										first_name: doctorStore.first_name,
+										last_name: doctorStore.last_name,
+									};
+
+									const account = await DoctorSignUp.signUpAsDoctor(doctorInfo);
 									console.log(account.message);
 									if (account.message) {
 										toast.error(account.message, {
 											position: "top-left",
 											theme: "colored",
-											autoClose: 2000
+											autoClose: 2000,
 										});
 									} else {
 										toast.success("Registration Success! Redirecting...", {
 											position: "top-left",
 											theme: "colored",
-											autoClose: 2000
+											autoClose: 2000,
 										});
 
 										setTimeout(() => {
 											router.push("/dashboard");
-										}, 2500); 
+										}, 2500);
 									}
 								}}
 								className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
