@@ -3,7 +3,7 @@ import * as React from "react";
 import Navbar from "../../navbar";
 import HealthRecordsNav from "../healthRecordsNav";
 import PatientProfile from "../patientProfile";
-import MedicalHistory from "./components/medicalHistory";
+import ClinicVisits from "./components/clinicVisits";
 import MasterData from "./components/masterData";
 import Vitals from "./components/vitals";
 import { useHRNav } from "@/app/store";
@@ -28,18 +28,14 @@ export default function AboutPatient() {
 								<HealthRecordsNav />
 								{selected === "Master Data" ? (
 									<MasterData />
-								) : selected === "Medical History" ? (
-									<MedicalHistory />
-								) : selected === "Family History" ? (
-									<FamilyHistory />
-								) : selected === "Vitals & Social History" ? (
+								) : selected === "Clinic Visits" ? (
+									<ClinicVisits />
+								) : selected === "Vitals & Biometrics" ? (
+									<Vitals />
+								) : selected === "Family & Social History" ? (
 									<>
+										<FamilyHistory />
 										<SocialHistory />
-										<Vitals />
-									</>
-								) : selected === "Predictive Analytics" ? (
-									<>
-										<PredictiveAnalytics />
 									</>
 								) : (
 									""
