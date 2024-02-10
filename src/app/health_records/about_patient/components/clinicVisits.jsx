@@ -80,7 +80,6 @@ export default function MasterData() {
                     <div>Date: 2023-07-01</div>
                 </div>
             </button>
-            <div class="border-b border-gray-300 w-full mb-2 mt-1"></div>
 
             <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
                 <div>Follow-up Visits</div>
