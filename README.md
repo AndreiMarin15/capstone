@@ -14,10 +14,10 @@ EndoTracker is an EHR made in consideration of Endocrinologists working in eithe
 
 ### Dependencies
 
-requirements:
-next.js 14.1.0
-nodejs 18.0
-supabase database
+requirements:\n
+next.js 14.1.0 \n
+nodejs 18.0 \n
+supabase database \n
 
 ## Contributing
 
@@ -36,11 +36,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Acknowledgments
 This is a project made by 4th Year BS Information Systems Undergraduates at De La Salle University for their Capstone.
 
-Developers / Capstone Group:
-Darrell Kenji Hartigan-Go | darrell_hartigan-go@dlsu.edu.ph
-Kay Eliana Y. Juson | kay_eliana_juson@dlsu.edu.ph
-Misael Andrei C. Marin | misael_marin@dlsu.edu.ph
-Nicole Angela P. Tabije | nicole_tabije@dlsu.edu.ph
+Developers / Capstone Group: \n
+Darrell Kenji Hartigan-Go | darrell_hartigan-go@dlsu.edu.ph \n
+Kay Eliana Y. Juson | kay_eliana_juson@dlsu.edu.ph \n
+Misael Andrei C. Marin | misael_marin@dlsu.edu.ph \n
+Nicole Angela P. Tabije | nicole_tabije@dlsu.edu.ph \n
 
 Capstone Adviser:
 Mr. Oliver Malabanan | oliver.malabanan@dlsu.edu.ph
