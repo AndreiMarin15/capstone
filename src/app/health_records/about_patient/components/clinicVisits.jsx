@@ -1,15 +1,8 @@
 import Image from "next/image";
-import {
-	Table,
-	TableHeader,
-	TableBody,
-	TableColumn,
-	TableRow,
-	TableCell
-  } from "@nextui-org/react";
+import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
 
 import * as React from "react";
-  
+
 export default function MasterData() {
 	const mData = [
 		{
@@ -45,108 +38,111 @@ export default function MasterData() {
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d354e02d857f0929bd9b58b2f172642a26d8df38bfdf167b22bd115bfe9b4fea?",
 			variable: "Allergies",
-				value: 
-				{
-					label: "View", 
-					onClick: () => 
-					{
-						alert("Button clicked for Penicillin");
-					},
+			value: {
+				label: "View",
+				onClick: () => {
+					alert("Button clicked for Penicillin");
 				},
+			},
 		},
 	];
 	return (
 		<>
-		    <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-                <div>CLINIC VISITS</div>
-                <button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
-                    <div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-                        <div>Add  New Diagnosis</div>
-                    </div>
-                </button>
-            </div>
+			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+				<div>CLINIC VISITS</div>
+				<button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
+					<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
+						<div>Add New Diagnosis</div>
+					</div>
+				</button>
+			</div>
 
+			<button className="flex gap-2.5 mt-8 text-xs text-black">
+				<Image
+                height={0}
+                width={0}
+					alt="image"
+					loading="lazy"
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+					className="self-start aspect-square fill-black w-[15px]"
+				/>
+				<div className="flex flex-col flex-1 px-5 text-left">
+					<div className="font-semibold whitespace-nowrap">Diagnosis: Type 2 Diabetes Mellitus</div>
+					<div>Date: 2023-07-01</div>
+				</div>
+			</button>
 
-            <button className="flex gap-2.5 mt-8 text-xs text-black">
-                <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                    className="self-start aspect-square fill-black w-[15px]"
-                />
-                <div className="flex flex-col flex-1 px-5 text-left">
-                    <div className="font-semibold whitespace-nowrap">
-                    Diagnosis: Type 2 Diabetes Mellitus
-                    </div>
-                    <div>Date: 2023-07-01</div>
-                </div>
-            </button>
+			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+				<div>Follow-up Visits</div>
+				<button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
+					<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
+						<div>Add New Follow-up</div>
+					</div>
+				</button>
+			</div>
 
-            <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-                <div>Follow-up Visits</div>
-                <button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
-                    <div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-                        <div>Add  New Follow-up</div>
-                    </div>
-                </button>
-            </div>
+			<button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
+				<Image
+                height={0}
+                width={0}
+					alt="image"
+					loading="lazy"
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+					className="self-start aspect-square fill-black w-[15px]"
+				/>
+				<div className="flex flex-col flex-1 px-5 text-left">
+					<div className="font-semibold whitespace-nowrap">Follow-up Visit #1</div>
+					<div>Date: 2023-10-30</div>
+				</div>
+			</button>
 
-            <button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
-                <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                    className="self-start aspect-square fill-black w-[15px]"
-                />
-                <div className="flex flex-col flex-1 px-5 text-left">
-                    <div className="font-semibold whitespace-nowrap">
-                    Follow-up Visit #1
-                    </div>
-                    <div>Date: 2023-10-30</div>
-                </div>
-            </button>
+			<button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
+				<Image
+                height={0}
+                width={0}
+					alt="image"
+					loading="lazy"
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+					className="self-start aspect-square fill-black w-[15px]"
+				/>
+				<div className="flex flex-col flex-1 px-5 text-left">
+					<div className="font-semibold whitespace-nowrap">Follow-up Visit #2</div>
+					<div>Date: 2023-11-26</div>
+				</div>
+			</button>
 
-            <button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
-                <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                    className="self-start aspect-square fill-black w-[15px]"
-                />
-                <div className="flex flex-col flex-1 px-5 text-left">
-                    <div className="font-semibold whitespace-nowrap">
-                    Follow-up Visit #2
-                    </div>
-                    <div>Date: 2023-11-26</div>
-                </div>
-            </button>
+			<button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
+				<Image
+                height={0}
+                width={0}
+					alt="image"
+					loading="lazy"
+					src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+					className="self-start aspect-square fill-black w-[15px]"
+				/>
+				<div className="flex flex-col flex-1 px-5 text-left">
+					<div className="font-semibold whitespace-nowrap">Follow-up Visit #3</div>
+					<div>Date: 2024-02-14</div>
+				</div>
+			</button>
 
-            <button className="flex gap-2.5 mt-4 mb-4 text-xs text-black ml-8">
-                <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                    className="self-start aspect-square fill-black w-[15px]"
-                />
-                <div className="flex flex-col flex-1 px-5 text-left">
-                    <div className="font-semibold whitespace-nowrap">
-                    Follow-up Visit #3
-                    </div>
-                    <div>Date: 2024-02-14</div>
-                </div>
-            </button>
-          
-
-            { /* BACK BUTTON */ }
+			{/* BACK BUTTON */}
 			<div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
-				<button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
+				<button className="flex items-center justify-center px-10 py-1 w-full rounded border-sky-900 border-solid font-semibold border-1.5">
 					<div className="flex gap-0.5 justify-between items-center">
-					<img
-						loading="lazy"
-						src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-						className="w-4 h-4 aspect-square"
-						alt="Back Arrow"
-					/>
-					<div className="ml-1">BACK</div>
+						<Image
+                        height={0}
+                        width={0}
+							alt="image"
+							loading="lazy"
+							src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
+							className="w-4 h-4 aspect-square"
+							
+						/>
+						<div className="ml-1">BACK</div>
 					</div>
 				</button>
 			</div>
 		</>
-	  );
+	);
 }
