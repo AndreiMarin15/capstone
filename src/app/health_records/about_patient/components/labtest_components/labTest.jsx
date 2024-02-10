@@ -9,7 +9,9 @@ export default function LabTest(props) {
 			</div>
 
 			{/* eslint-disable-next-line jsx-a11y/alt-text */}
-			<img
+			<Image
+				height={0}
+				width={0}
 				loading="lazy"
 				srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/435a0562ebd01ad567058149307e2442ecac83804ec50c76b11d2547d884d771?apiKey=66e07193974a40e683930e95115a1cfd&"
 				className="aspect-[1.31] object-contain object-center w-[523px] overflow-hidden self-center max-w-full mt-9"
