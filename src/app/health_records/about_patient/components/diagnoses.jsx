@@ -14,46 +14,33 @@ import * as React from "react";
 export default function MasterData() {
     const mData = [
         {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
-            variable: "Name",
-            value: "Juan Dela Cruz",
+            variable: "Diagnoses",
+            value: "Type 2 Diabetes Mellitus",
         },
         {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/bdc83ab0b012624934a85572bc069777ad324e289e4cc66764a07f718b44bf9d?",
-            variable: "Age",
-            value: "74",
+            variable: "Date of Diagnosis",
+            value: "2020-01-10",
         },
         {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?",
-            variable: "Birthday",
-            value: "January 01, 1950",
+            variable: "Status",
+            value: "Being Managed",
         },
         {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4c3ec2f045c5a91d05c1f074f660097897b8fc83403da81ed7f44111303ef22f?",
-            variable: "Gender",
-            value: "Male",
+            variable: "Doctor",
+            value: "Dr. John  Doe",
         },
         {
-            src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/e77ec5f69c4c6a607193ae426085edd6fc84819ef906d2d9ebb491b796c8519b?"',
-            variable: "Address",
-            value: "1 Pasay Rd. Pasay City, Metro Manila",
+            variable: "Hospital",
+            value: "PGH",
         },
         {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d354e02d857f0929bd9b58b2f172642a26d8df38bfdf167b22bd115bfe9b4fea?",
-            variable: "Stroke in the past year",
-            value: "Yes",
-        },
-        {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d354e02d857f0929bd9b58b2f172642a26d8df38bfdf167b22bd115bfe9b4fea?",
-            variable: "Allergies",
-                value: 
-                {
-                    label: "View", 
-                    onClick: () => 
-                    {
-                        alert("Button clicked for Penicillin");
-                    },
-                },
+            variable: "Medications & Procedures",
+			value: {
+				label: "View",
+				onClick: () => {
+					alert("Button clicked for Medications & Procedures");
+				},
+			},
         },
     ];
     return (
@@ -65,43 +52,30 @@ export default function MasterData() {
             <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
                 <thead>
                     <tr className="font-medium text-left">
-                    <th>Diagnoses</th>
-                    <th>Date of Diagnosis</th>
-                    <th>Status</th>
-                    <th>Doctor</th>
-                    <th>Hospital</th>
-                    <th>Medications & Procedures</th>
+                        {mData.map((item, index) => (
+                            <th key={index}>{item.variable}</th>
+                        ))}
                     </tr>
                 </thead>
-            <tbody>
-                <tr>
-                    <td className="font-normal">Type 2 Diabetes Mellitus</td>
-                        <td>2020-01-24</td>
-                        <td>Being Managed</td>
-                        <td>Dr. John Doe</td>
-                        <td>Philippine General Hospital</td>
-                        <td>
-                            <button className="font-semibold text-sky-900 rounded px-5 py-1.5 border border-sky-900">
-                            View
-                            </button>
-                        </td>
-                    </tr>
-                   
+                <tbody>
                     <tr>
-                        <td className="font-normal">Hypertension</td>
-                        <td>2022-01-30</td>
-                        <td>Being Managed</td>
-                        <td>Dr. Maria Cruz</td>
-                        <td>Batangas Hospital</td>
-                        <td>
-                            <button className="font-semibold text-sky-900 rounded px-5 py-1.5 border border-sky-900">
-                            View
-                            </button>
-                        </td>
+                        {mData.map((item, index) => (
+                            <td key={index} className={`${index === 0 ? 'font-normal' : 'mt-8'}`}>
+                                {typeof item.value === 'object' ? (
+                                    <button
+                                        className="font-semibold text-sky-900 rounded px-5 py-1.5 border border-sky-900"
+                                        onClick={item.value.onClick}
+                                    >
+                                        {item.value.label}
+                                    </button>
+                                ) : (
+                                    item.value
+                                )}
+                            </td>
+                        ))}
                     </tr>
-            </tbody>
-            
-        </table>
+                </tbody>
+            </table>
 
             { /* BACK BUTTON */ }
             <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
