@@ -75,13 +75,13 @@ export default function Dashboard() {
 			imageSrc:
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/dea6bee3adc06f5e28838c43497ed31c14d61da632e1e5c0d2cbf2d92a1cd813?apiKey=66e07193974a40e683930e95115a1cfd&",
 			title: "Referral",
-			content: "Awaiting patient approval to pull documents.",
+			content: "You have an unread message from Dr. Maria Santos",
 		},
 		{
 			imageSrc:
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/dea6bee3adc06f5e28838c43497ed31c14d61da632e1e5c0d2cbf2d92a1cd813?apiKey=66e07193974a40e683930e95115a1cfd&",
 			title: "Referral",
-			content: "Awaiting patient approval to pull documents.",
+			content: "You have an unread message from Dr. Aimee Ramirez",
 		},
 	];
 	return (
@@ -137,7 +137,7 @@ export default function Dashboard() {
 										Multidisciplinary Managed Patients
 									</div>
 								</span>
-								<div className="flex gap-4 mt-8 items-start">
+								<div className="flex gap-4 mt-8 items-start w-full">
 									<span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
 										{managedPatients.map((patient) => (
 											<>
@@ -152,7 +152,7 @@ export default function Dashboard() {
 														</>
 													))}
 												</span>
-												<hr />
+												<div class="border-b border-gray-300 w-full mb-4"></div>
 											</>
 										))}
 									</span>
