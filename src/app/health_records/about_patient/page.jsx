@@ -4,6 +4,7 @@ import Navbar from "../../navbar";
 import HealthRecordsNav from "../healthRecordsNav";
 import PatientProfile from "../patientProfile";
 import ClinicVisits from "./components/clinicVisits";
+import Diagnoses from "./components/diagnoses"
 import MasterData from "./components/masterData";
 import Vitals from "./components/vitals";
 import { useHRNav } from "@/app/store";
@@ -30,6 +31,8 @@ export default function AboutPatient() {
 									<MasterData />
 								) : selected === "Clinic Visits" ? (
 									<ClinicVisits />
+								) : selected === "Diagnoses" ? (
+									<Diagnoses />
 								) : selected === "Vitals & Biometrics" ? (
 									<Vitals />
 								) : selected === "Family & Social History" ? (
