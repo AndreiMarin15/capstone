@@ -7,6 +7,7 @@ import ClinicVisits from "./components/clinicVisits";
 import Diagnoses from "./components/diagnoses"
 import MasterData from "./components/masterData";
 import Vitals from "./components/vitals";
+import Medications from "./components/medications"
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/familyHistory";
 import SocialHistory from "./components/socialHistory";
@@ -33,6 +34,8 @@ export default function AboutPatient() {
 									<ClinicVisits />
 								) : selected === "Diagnoses" ? (
 									<Diagnoses />
+								) : selected === "Medications" ? (
+									<Medications />
 								) : selected === "Vitals & Biometrics" ? (
 									<Vitals />
 								) : selected === "Family & Social History" ? (
