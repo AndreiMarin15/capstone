@@ -41,31 +41,30 @@ export default function PatientInformation() {
 				</span>
 
 				<ProgressBar currentStep={currentState} />
-				<>
-					<div className={currentState === 4 ? "pb-20" : ""}>
-						{currentState === 1 ? (
-							<SignUpPersonalInformation />
-						) : currentState === 2 ? (
-							<SignUpFamilyHistory />
-						) : currentState === 3 ? (
-							<SignUpSocialHistory />
-						) : currentState === 4 ? (
-							<SignUpMedicalHistory />
-						) : (
-							<SignUpPersonalInformation />
-						)}
-					</div>
-				</>
+
+				<div className="mb-20" >
+					{currentState === 1 ? (
+						<SignUpPersonalInformation />
+					) : currentState === 2 ? (
+						<SignUpFamilyHistory />
+					) : currentState === 3 ? (
+						<SignUpSocialHistory />
+					) : currentState === 4 ? (
+						<SignUpMedicalHistory />
+					) : (
+						<SignUpPersonalInformation />
+					)}
+				</div>
 
 				<div className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5">
 					{currentState > 1 ? (
 						<button
 							onClick={() => {
 								if (currentState > 1) {
-									setCurrentState((currentState - 1) );
+									setCurrentState(currentState - 1);
 								}
 							}}
-							className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
+							className=" text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 						>
 							BACK
 						</button>
@@ -75,12 +74,12 @@ export default function PatientInformation() {
 					<button
 						onClick={() => {
 							if (currentState < 4) {
-								setCurrentState((currentState + 1) );
+								setCurrentState(currentState + 1);
 							} else if (currentState >= 4) {
 								router.push("/patient/dashboard");
 							}
 						}}
-						className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-3"
+						className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 					>
 						NEXT
 					</button>

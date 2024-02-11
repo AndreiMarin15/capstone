@@ -28,7 +28,10 @@ export default function Medications() {
             {tests.map((medication, index) => (
                 <button key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
                     <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
-                        <img
+                        <Image
+                        alt="image"
+                        height={0}
+                        width={0}
                             loading="lazy"
                             src={medication.srctest}
                             className="aspect-square fill-black w-[15px]"
@@ -37,7 +40,10 @@ export default function Medications() {
                     </div>
                     <div className="flex gap-5 justify-between ml-12 max-md:ml-2.5">
                         <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
-                            <img
+                            <Image
+                            alt="image"
+                            height={0}
+                            width={0}
                                 loading="lazy"
                                 src={medication.srddoctor}
                                 className="w-4 aspect-square"

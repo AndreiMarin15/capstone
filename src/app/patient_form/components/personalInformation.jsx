@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function SignUpPersonalInformation() {
   return (
     <div className="container mx-auto mt-16 flex h-[120dvh]">
@@ -123,7 +125,10 @@ export default function SignUpPersonalInformation() {
         </div>
 
         <span className="flex gap-5 justify-between mt-3 max-w-full text-xs font-semibold whitespace-nowrap text-zinc-600 w-[146px]">
-          <img
+          <Image 
+                alt="image"
+                height={0}
+                width={0}
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/245d6ea395b4c712a6f541d78979f36e05242f760c2b5899f9e58d63bf27d745?"
             className="flex-1 shrink-0 w-full aspect-square"
@@ -138,7 +143,10 @@ export default function SignUpPersonalInformation() {
             <div className="flex flex-col text-sm font-semibold leading-5 mt-10 text-black">
               <div>Allergies</div>
               <div className="flex gap-4 justify-between mt-6">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f6c16bf79fcef72c689d9cf0dca5633ff9c15a7fd4a0cfecf641759b0e5e537?"
                   className="self-start aspect-square w-[18px]"
@@ -146,7 +154,10 @@ export default function SignUpPersonalInformation() {
                 <div className="flex-auto">Category of Allergen</div>
               </div>
               <div className="flex gap-4 justify-between mt-6 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/8d83467a6242c7712b40f0ed0318ecf32eb3765ea8bbaaa517562b75d192879b?"
                   className="self-start aspect-square w-[18px]"
@@ -154,23 +165,32 @@ export default function SignUpPersonalInformation() {
                 <div className="flex-auto">Allergen</div>
               </div>
               <div className="flex gap-4 justify-between mt-6 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
-                  srcSet="..."
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f79f841ae91f66e8662f831b661819a926269652b904eff7314e2b43bb39640?apiKey=66e07193974a40e683930e95115a1cfd&width=100"
                   className="aspect-square w-[18px]"
                 />
                 <div className="grow">Select Reactions</div>
               </div>
               <div className="flex gap-5 justify-between mt-7">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
-                  srcSet="..."
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/09f59612784184ecb36b692dc99a1889ca09a88615d7298261028160ecff647b?apiKey=66e07193974a40e683930e95115a1cfd&width=100"
                   className="self-start aspect-square w-[15px]"
                 />
                 <div className="flex-auto">Severity of Allergy</div>
               </div>
               <div className="flex gap-4 justify-between mt-7 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                   className="aspect-square fill-black w-[15px]"
@@ -178,7 +198,10 @@ export default function SignUpPersonalInformation() {
                 <div className="grow">Date of Onset</div>
               </div>
               <div className="flex gap-4 justify-between mt-7 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                height={0}
+                width={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/35d66426cc909742122370c08977979ec58e47bea43f66c6158506c2d6dea5ca?"
                   className="aspect-square w-[18px]"
