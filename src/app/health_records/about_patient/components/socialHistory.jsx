@@ -24,7 +24,9 @@ export default function SocialHistory() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">SOCIAL HISTORY</div>
+			<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+				SOCIAL HISTORY
+			</div>
 
 			<table className="max-w-fit border-spacing-y-7 border-separate">
 				{sHistory.map((item) => (

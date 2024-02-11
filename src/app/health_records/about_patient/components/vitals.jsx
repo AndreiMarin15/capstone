@@ -52,8 +52,9 @@ export default function Vitals() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">VITALS</div>
-
+			<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+				VITALS & BIOMETRICS
+			</div>
 			<table className="max-w-fit border-spacing-y-7 border-separate text-black">
 				<tr>
 					<th></th>
@@ -66,7 +67,7 @@ export default function Vitals() {
 
 				{fHistory.map((item) => (
 					<tr key={item.variable}>
-						<td className="w-5">
+						<td>
 							<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />
 						</td>
 						<td className="border-l-[16px] border-transparent">

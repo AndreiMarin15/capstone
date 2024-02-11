@@ -48,7 +48,9 @@ export default function MasterData() {
 	];
 	return (
 		<>
-			<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MASTER DATA</div>
+			<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+				MASTER DATA
+			</div>
 			<table className="max-w-fit border-spacing-y-7 border-separate">
 				{mData.map((item) => (
 					<tr key={item.variable}>
