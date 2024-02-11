@@ -58,10 +58,9 @@ export default function MasterData() {
     ];
     return (
         <>
-            <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-                <div>CLINIC VISITS</div>
-            </div>
-
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+				CLINIC VISIT
+			</div>
 
             <button className="flex gap-2.5 mt-8 text-xs text-black">
                 <img
