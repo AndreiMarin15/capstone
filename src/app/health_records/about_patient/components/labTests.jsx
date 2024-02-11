@@ -26,7 +26,7 @@ export default function Medications() {
             </div>
 
             {tests.map((medication, index) => (
-                <div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
+                <button key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
                     <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
                         <img
                             loading="lazy"
@@ -46,7 +46,7 @@ export default function Medications() {
                         </div>
                         <div className="flex-auto my-auto"> {medication.date} </div>
                     </div>
-                </div>
+                </button>
             ))}
         </>
     );
