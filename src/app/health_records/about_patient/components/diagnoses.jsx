@@ -45,9 +45,9 @@ export default function MasterData() {
     ];
     return (
         <>
-            <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-                <div>DIAGNOSES</div>
-            </div>
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+				DIAGNOSES
+			</div>
 
             <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
                 <thead>
