@@ -94,92 +94,76 @@ export default function FollowUpVisit() {
     ];
 	return (
         <>
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             FOLLOW UP VISIT #1
-          </div>
-      
-        <div className="max-w-[759px]">
-            <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
+            </div>
+    
+        <div>
+            <div className="flex gap-[4rem] align-baseline">
                 <table className="max-w-fit border-spacing-y-7 border-separate">
-                    {followup.map((item, index) => (
-                    <tr key={index}>
-                    <td className="w-5">
-                        <img
-                        loading="lazy"
-                        src={item.src}
-                        className="self-start aspect-square fill-black w-[15px]"
-                        />
-                    </td>
-                    <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                        {item.variable}
-                        </div>
-                    </td>
-                    <td className="border-l-[5rem] border-transparent">
-                        {typeof item.value === "string" ? (
-                        <div className="text-black text-xs leading-5 ml-auto">
-                            {item.value}
-                        </div>
-                        ) : (
-                        <div className="ml-auto">
-                            <button
-                            onClick={item.value.onClick}
-                            className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
-                            >
-                            {item.value.label}
-                            </button>
-                        </div>
-                        )}
-                    </td>
-                    </tr>
-                ))}
-                </table>
-
-                 {/* VITALS AND BIOMETRICS */}
-      
-                <div className="flex flex-col ml-5 w-[39%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col grow px-5 mt-2 text-xs leading-5 text-black max-md:mt-10">
-                        <div className="font-semibold common-heading">VITALS</div>
-
-                        <table className="max-w-fit border-spacing-y-7 border-separate mt-4">
-                        <tbody>
-                            {clinicVitals.map((item, index) => (
-                            <React.Fragment key={index}>
-                                <tr>
+                    <tbody className=" text-xs leading-5 text-black">
+                        {followup.map((item, index) => (
+                            <tr key={index} className="h-8">
                                 <td className="w-5">
                                     <img
                                     loading="lazy"
                                     src={item.src}
-                                    className="self-start w-4 aspect-square"
+                                    className="self-start aspect-square fill-black w-[15px]"
                                     />
                                 </td>
                                 <td className="border-l-[16px] border-transparent">
-                                    <div className="flex-auto font-semibold">{item.variable}</div>
+                                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                                    {item.variable}
+                                    </div>
                                 </td>
                                 <td className="border-l-[5rem] border-transparent">
-                                    {item.variable === 'Heart Rate' ? (
-                                    <div className="text-black text-xs leading-5 ml-auto">70</div>
+                                    {typeof item.value === "string" ? (
+                                    <div className="text-black text-xs leading-5 ml-auto">
+                                        {item.value}
+                                    </div>
                                     ) : (
-                                    <div className="ml-auto">{item.value}</div>
+                                    <div className="ml-auto">
+                                        <button
+                                        onClick={item.value.onClick}
+                                        className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
+                                        >
+                                        {item.value.label}
+                                        </button>
+                                    </div>
                                     )}
                                 </td>
-                                </tr>
-
-                                {item.variable === 'Heart Rate' && (
-                                <tr>
-                                    <td colSpan="3" className="font-semibold common-heading">
-                                    BIOMETRICS
-                                    </td>
-                                </tr>
-                                )}
-                            </React.Fragment>
-                            ))}
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+              {/*  VITALS AND BIOMETRICS */}
+            <table className="max-w-fit border-spacing-y-7 border-separate">
+                <tbody className=" text-xs leading-5 text-black">
+                    {clinicVitals.map((item, index) => (
+                    <tr key={index} className="h-8">
+                      <td className="w-5">
+                        <img
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[16px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[5rem] border-transparent">
+                        <div className="text-black text-xs leading-5 ml-auto">
+                          {item.variable === "Heart Rate" ? 70 : item.value}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-        </div>
-		</>
-	);
+          </div>
+        </>
+      );
 }
