@@ -5,15 +5,32 @@ import { usePatientInfo } from "@/app/store";
 export default function SignUpPersonalInformation() {
 	const patientStore = usePatientInfo();
 
+	const handleImageUpload = async (e) => {
+		const file = e.target.files[0];
+		const base64 = await convertToBase64(file);
 
-	const getBase64 = (file) => {
+		patientStore.setPersonalInformation({ photo: base64.toString() });
+
+		console.log(patientStore);
+	};
+
+	const convertToBase64 = (file) => {
 		return new Promise((resolve, reject) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = () => resolve(reader.result);
-			reader.onerror = (error) => reject(error);
+			const fileReader = new FileReader();
+
+			fileReader.readAsDataURL(file);
+			fileReader.onload = () => {
+				resolve(fileReader.result);
+			};
+			fileReader.onerror = (error) => {
+				reject(error);
+			};
 		});
 	};
+
+	useEffect(() => {
+		console.log(patientStore);
+	}, [patientStore]);
 
 	return (
 		<div className="container mx-auto mt-16 flex h-[120dvh]">
@@ -31,6 +48,11 @@ export default function SignUpPersonalInformation() {
 					<span className="items-stretch flex grow basis-[0%] flex-col">
 						<div className="text-black text-sm font-semibold leading-5">PhilHealth ID</div>
 						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ philhealth_id: e.target.value });
+							}}
+							value={patientStore.personal_information.philhealth_id}
 							className="rounded shadow-sm flex shrink-0 h-[30px] w-64 flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
 							// Adjust the class name and styling as needed for your design
 						/>
@@ -40,11 +62,25 @@ export default function SignUpPersonalInformation() {
 				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">First Name</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ first_name: e.target.value });
+							}}
+							value={patientStore.personal_information.first_name}
+							className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						/>
 					</span>
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">Last Name</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ last_name: e.target.value });
+							}}
+							value={patientStore.personal_information.last_name}
+							className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						/>
 					</span>
 				</div>
 
@@ -57,6 +93,10 @@ export default function SignUpPersonalInformation() {
 							</div>
 							<input
 								type="text"
+								onChange={(e) => {
+									patientStore.setPersonalInformation({ contact_number: "0" + e.target.value });
+								}}
+								value={patientStore.personal_information.contact_number}
 								className="text-black-300 text-sm leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5"
 								placeholder="9171234567"
 							></input>
@@ -64,7 +104,13 @@ export default function SignUpPersonalInformation() {
 					</span>
 					<span className="items-stretch flex grow basis-[0%] flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Gender</div>
-						<select className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black">
+						<select
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ gender: e.target.value });
+							}}
+							value={patientStore.personal_information.gender}
+							className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black"
+						>
 							{" "}
 							<option value="">Select</option>
 							<option value="male">Male</option>
@@ -80,6 +126,10 @@ export default function SignUpPersonalInformation() {
 								<div className="flex justify-between gap-2.5">
 									<input
 										type="date"
+										onChange={(e) => {
+											patientStore.setPersonalInformation({ birthdate: e.target.value });
+										}}
+										value={patientStore.personal_information.birthdate}
 										className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
 									/>
 								</div>
@@ -91,20 +141,48 @@ export default function SignUpPersonalInformation() {
 				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					Street address
 				</div>
-				<input className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5" />
+				<input
+					type="text"
+					onChange={(e) => {
+						patientStore.setPersonalInformation({ street_address: e.target.value });
+					}}
+					value={patientStore.personal_information.street_address}
+					className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
+				/>
 
 				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">City</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ city: e.target.value });
+							}}
+							value={patientStore.personal_information.city}
+							className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						/>
 					</span>
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">State/Province</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ state: e.target.value });
+							}}
+							value={patientStore.personal_information.state}
+							className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						/>
 					</span>
 					<span className="flex items-stretch self-stretch flex-grow flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Postal Code</div>
-						<input className="w-40 rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<input
+							type="text"
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ postal_code: e.target.value });
+							}}
+							value={patientStore.personal_information.postal_code}
+							className="w-40 rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						/>
 					</span>
 				</div>
 
@@ -130,7 +208,13 @@ export default function SignUpPersonalInformation() {
 						className="justify-center px-3 py-1.5 my-auto bg-white rounded-sm border-solid shadow-sm aspect-[2.48] border-[0.5px] border-zinc-600 cursor-pointer"
 					>
 						Change Photo
-						<input id="fileInput" type="file" className="hidden" />
+						<input
+							onChange={handleImageUpload}
+							id="fileInput"
+							type="file"
+							accept=".jpeg, .png, .jpg"
+							className="hidden"
+						/>
 					</label>
 				</span>
 

@@ -51,104 +51,85 @@ const usePatientInfo = create(
 		(set) => ({
 			personal_information: {
 				philhealth_id: "",
-				setPhilhealthId: (item) => set(() => ({ philhealth_id: item })),
 				last_name: "",
-				setLastName: (item) => set(() => ({ last_name: item })),
 				first_name: "",
-				setFirstName: (item) => set(() => ({ first_name: item })),
 				contact_number: "",
-				setContact: (item) => set(() => ({ contact_number: item })),
 				gender: "",
-				setGender: (item) => set(() => ({ gender: item })),
 				birthdate: "",
-				setBirthdate: (item) => set(() => ({ birthdate: item })),
 				street_address: "",
-				setStreet: (item) => set(() => ({ street_address: item })),
 				city: "",
-				setCity: (item) => set(() => ({ city: item })),
 				state: "",
-				setState: (item) => set(() => ({ state: item })),
 				postal_code: "",
-				setPostalCode: (item) => set(() => ({ postal_code: item })),
 				photo: "",
-				setPhoto: (item) => set(() => ({ gender: item })),
 			},
-			setPersonalInformation: (item) => set(() => ({ personal_information: item })),
+			setPersonalInformation: (item) =>
+				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
 
 			allergies: [
 				{
 					category_of_allergen: "",
-					setCategoryOfAllergen: (item) => set(() => ({ category_of_allergen: item })),
 					allergen: "",
-					setAllergen: (item) => set(() => ({ allergen: item })),
 					reactions: [],
-					setReactions: (item) => set(() => ({ reactions: item })),
 					severity_of_allergy: "",
-					setSeverity: (item) => set(() => ({ severity_of_allergy: item })),
 					date_of_onset: "",
-					setDateOnset: (item) => set(() => ({ date_of_onset: item })),
 					comments: "",
-					setComments: (item) => set(() => ({ comments: item })),
 				},
 			],
-			setAllergies: (item) => set(() => ({ allergies: item })),
+			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
+			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
 
 			family_history: [
 				{
 					last_name: "",
-					setLastName: (item) => set(() => ({ last_name: item })),
 					first_name: "",
-					setFirstName: (item) => set(() => ({ first_name: item })),
 					age: 0,
-					setAge: (item) => set(() => ({ age: item })),
-					gender: "Male" | "Female",
-					setGender: (item) => set(() => ({ gender: item })),
+					gender: "Male",
 					relationship: "",
-					setRelationship: (item) => set(() => ({ relationship: item })),
 					medical_condition: "",
-					setMedicalCondition: (item) => set(() => ({ medical_condition: item })),
 					medical_condition_date: "",
-					setMedicalConditionDate: (item) => set(() => ({ medical_condition_date: item })),
 					medical_condition_outcome: "",
-					setMedicalConditionOutcome: (item) => set(() => ({ medical_condition_outcome: item })),
 					medical_procedures: [],
-					setMedicalProcedures: (item) => set(() => ({ medical_procedures: item })),
 				},
 			],
-			setFamilyHistory: (item) => set(() => ({ family_history: item })),
+			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
+			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
 
 			social_history: {
-				smoker_status: "Smoker" | "Non Smoker",
-				setSmokerStatus: (item) => set(() => ({ smoker_status: item })),
+				smoker_status: "Smoker",
 				cigarettes_per_day: 1,
-				setCigarettesPerDay: (item) => set(() => ({ cigarettes_per_day: item })),
-				alcohol_consumption: "Non-Drinker" | "Moderate Drinker" | "Heavy Drinker",
-				setAlcoholConsumption: (item) => set(() => ({ alcohol_consumption: item })),
-				physical_activities: "Sedentary" | "Low Activity" | "Moderate Activity" | "High Activity" | "Regular Exercise",
-				setPhysicalActivities: (item) => set(() => ({ physical_activities: item })),
+				alcohol_consumption: "Non-Drinker",
+				physical_activities: "Sedentary",
 			},
-
-			setSocialHistory: (item) => set(() => ({ social_history: item })),
+			setSmokerStatus: (item) => set((state) => ({ social_history: { ...state.social_history, smoker_status: item } })),
+			setCigarettesPerDay: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, cigarettes_per_day: item } })),
+			setAlcoholConsumption: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, alcohol_consumption: item } })),
+			setPhysicalActivities: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
 
 			medical_history: {
 				hypertensions: "No",
-				setHypertesion: (item) => set(() => ({ hypertensions: item })),
 				blood_pressure_medications: "No",
-				setBloodPressureMedication: (item) => set(() => ({ blood_pressure_medications: item })),
 				stroke: "No",
-				setStroke: (item) => set(() => ({ stroke: item })),
 				medications: [],
-				setMedications: (item) => set(() => ({ medications: item })),
 				past_medical_procedures: "",
-				setPastMedicalProcedures: (item) => set(() => ({ past_medical_procedures: item })),
 			},
-
-			setSocialHistory: (item) => set(() => ({ medical_history: item })),
+			setHypertension: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, hypertensions: item } })),
+			setBloodPressureMedication: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, blood_pressure_medications: item } })),
+			setStroke: (item) => set((state) => ({ medical_history: { ...state.medical_history, stroke: item } })),
+			setMedications: (item) => set((state) => ({ medical_history: { ...state.medical_history, medications: item } })),
+			setPastMedicalProcedures: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, past_medical_procedures: item } })),
 		}),
 		{
 			name: "ENDO_TRACKER_PATIENT_INFO",
 		}
 	)
 );
+
+
 
 module.exports = { useHRNav, useCPNav, useUserInfo, useDoctorInfo, usePatientInfo };
