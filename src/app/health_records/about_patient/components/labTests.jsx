@@ -22,7 +22,7 @@ export default function Medications() {
     return (
         <>
             <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
-                MEDICATIONS
+                LAB TESTS
             </div>
 
             {tests.map((medication, index) => (
