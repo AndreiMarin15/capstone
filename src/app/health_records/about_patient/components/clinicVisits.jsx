@@ -97,7 +97,7 @@ export default function MasterData() {
 					setCurrentPage(currentPage + 1);
 			}}>
 				<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-				<div>Add New Follow-up</div>
+					<div>Add New Follow-up</div>
 				</div>
 			</button>
 		</div>

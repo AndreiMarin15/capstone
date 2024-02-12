@@ -91,29 +91,38 @@ export default function FollowUpVisit() {
                             <tr key={index} className="h-8">
                                 <td className="w-5">
                                     <img
-                                    loading="lazy"
-                                    src={item.src}
-                                    className="self-start aspect-square fill-black w-[15px]"
+                                        loading="lazy"
+                                        src={item.src}
+                                        className="self-start aspect-square fill-black w-[15px]"
                                     />
                                 </td>
                                 <td className="border-l-[16px] border-transparent">
                                     <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                                    {item.variable}
+                                        {item.variable}
                                     </div>
                                 </td>
                                 <td className="border-l-[5rem] border-transparent">
                                     {typeof item.value === "string" ? (
-                                    <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
-                                        Enter Here
-                                        {item.value}
-                                    </div>
+                                        // Check if the variable is one of the specified ones
+                                        ["Medications", "Care Plan", "Tests"].includes(item.variable) ? (
+                                            <button
+                                                onClick={item.value.onClick}
+                                                className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                            >
+                                                Add
+                                            </button>
+                                        ) : (
+                                            <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
+                                                Enter Here {item.value}
+                                            </div>
+                                        )
                                     ) : (
                                     <div className="ml-auto">
                                         <button
-                                        onClick={item.value.onClick}
-                                        className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
+                                            onClick={item.value.onClick}
+                                            className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
                                         >
-                                        {item.value.label}
+                                            {item.value.label}
                                         </button>
                                     </div>
                                     )}
@@ -150,7 +159,7 @@ export default function FollowUpVisit() {
                 </tbody>
               </table>
             </div>
-          </div>
+        </div>
           {/* BACK BUTTON */}
             <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
                 <button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
