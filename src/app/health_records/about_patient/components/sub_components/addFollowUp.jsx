@@ -8,52 +8,37 @@ export default function FollowUpVisit() {
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
 			variable: "Date",
-			value: "2020-01-02",
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
 			variable: "Diagnosis",
-			value: "Type 2 Diabetes Mellitus",
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
 			variable: "Complaint",
-			value: "Frequent urination and increased thirst",
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
 			variable: "Procedures",
-			value: "Initial consultation for diabetes management",
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Medications",
-			value: {
-				label: "View",
-				onClick: () => {
-					alert("Button clicked for Medications");
-				},
-			},
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Care Plan",
-			value: {
-				label: "View",
-				onClick: () => {
-					alert("Button clicked for Care Plan");
-				},
-			},
+			value: "",
 		},
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Tests",
-			value: {
-				label: "View",
-				onClick: () => {
-					alert("Button clicked for Tests");
-				},
-			},
+			value: "",
 		},
 		
 	];
@@ -63,39 +48,39 @@ export default function FollowUpVisit() {
         {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
 			variable: "Systolic Blood Pressure",
-			value: "110",
+			value: "",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
 			variable: "Diastolic Blood Pressure",
-			value: "90",
+			value: "",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
 			variable: "Heart Rate",
-			value: "60",
+			value: "",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
 			variable: "Height",
-			value: "180cm",
+			value: "",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
 			variable: "Weight",
-			value: "70kg",
+			value: "",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
 			variable: "Body Mass Index",
-			value: "50",
+			value: "",
 		},
 
     ];
 	return (
         <>
             <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            FOLLOW UP VISIT #1
+            ADD FOLLOW UP VISIT
             </div>
     
         <div>
@@ -118,7 +103,8 @@ export default function FollowUpVisit() {
                                 </td>
                                 <td className="border-l-[5rem] border-transparent">
                                     {typeof item.value === "string" ? (
-                                    <div className="text-black text-xs leading-5 ml-auto">
+                                    <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
+                                        Enter Here
                                         {item.value}
                                     </div>
                                     ) : (
@@ -141,29 +127,46 @@ export default function FollowUpVisit() {
                 <tbody className=" text-xs leading-5 text-black">
                     {clinicVitals.map((item, index) => (
                     <tr key={index} className="h-8">
-                      <td className="w-5">
-                        <img
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[5rem] border-transparent">
-                        <div className="text-black text-xs leading-5 ml-auto">
-                          {item.variable === "Heart Rate" ? 70 : item.value}
-                        </div>
-                      </td>
+                        <td className="w-5">
+                            <img
+                                loading="lazy"
+                                src={item.src}
+                                className="self-start aspect-square fill-black w-[15px]"
+                            />
+                        </td>
+                        <td className="border-l-[16px] border-transparent">
+                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                                {item.variable}
+                            </div>
+                        </td>
+                        <td className="border-l-[5rem] border-transparent">
+                            <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
+                            Enter Here
+                            {item.variable === "Heart Rate" ? "": item.value}
+                            </div>
+                        </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
+          {/* BACK BUTTON */}
+            <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
+                <button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
+                <div className="flex gap-0.5 justify-between items-center">
+                    <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
+                    className="w-4 h-4 aspect-square"
+                    />
+                    <div className="ml-1">BACK</div>
+                </div>
+                </button>
+            </div>
         </>
       );
 }

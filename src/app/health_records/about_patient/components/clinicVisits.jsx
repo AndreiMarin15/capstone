@@ -3,6 +3,7 @@ import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FollowUpVisit from "./sub_components/followUpVisit"
+import AddFollowUpVisit from "./sub_components/addFollowUp"
 import * as React from "react";
 
 export default function MasterData() {
@@ -24,7 +25,7 @@ export default function MasterData() {
 		value: (
 			<button
 				onClick={() => {
-					setCurrentPage(currentPage + 1);
+					setCurrentPage(currentPage + 2);
 				}}
 			>
 			</button>
@@ -37,7 +38,7 @@ export default function MasterData() {
 		value: (
 		<button
 			onClick={() => {
-				setCurrentPage(currentPage + 2);
+				setCurrentPage(currentPage + 3);
 			}}
 		>
 		</button>
@@ -50,7 +51,7 @@ export default function MasterData() {
 		value: (
 		<button
 			onClick={() => {
-				setCurrentPage(currentPage + 3);
+				setCurrentPage(currentPage + 4);
 			}}
 		>
 		</button>
@@ -89,12 +90,16 @@ export default function MasterData() {
       	<div className="border-b border-gray-300 w-full mt-4"></div>
 
 		<div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-		<div>Follow-up Visits</div>
-		<button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
-			<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-			<div>Add New Follow-up</div>
-			</div>
-		</button>
+			<div>Follow-up Visits</div>
+			<button 
+				className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap"
+				onClick={() => {
+					setCurrentPage(currentPage + 1);
+			}}>
+				<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
+				<div>Add New Follow-up</div>
+				</div>
+			</button>
 		</div>
 
 		{visits.map((item, index) => (
@@ -114,28 +119,32 @@ export default function MasterData() {
 		</button>
 		))}
 
-      {/* BACK BUTTON */}
-      <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
-        <button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
-          <div className="flex gap-0.5 justify-between items-center">
-            <Image
-              alt="image"
-              height={0}
-              width={0}
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-              className="w-4 h-4 aspect-square"
-            />
-            <div className="ml-1">BACK</div>
-          </div>
-        </button>
-      </div>
+		{/* BACK BUTTON */}
+		<div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
+			<button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
+			<div className="flex gap-0.5 justify-between items-center">
+				<Image
+				alt="image"
+				height={0}
+				width={0}
+				loading="lazy"
+				src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
+				className="w-4 h-4 aspect-square"
+				/>
+				<div className="ml-1">BACK</div>
+			</div>
+			</button>
+		</div>
 	  </>
 		) : (
 			""
 		)}
 
-		{currentPage === 1 ? (
+		{ currentPage === 1 ? (
+			<>
+				<AddFollowUpVisit />
+			</>
+		) : currentPage === 2 ? (
 			<>
 				<FollowUpVisit />
 			</>
