@@ -1,4 +1,9 @@
+
+import { usePatientInfo } from "@/app/store";
+import { useEffect } from "react";
 export default function SignUpSocialHistory() {
+	const patientStore = usePatientInfo()
+
 	return (
 		<div className="container mx-auto mt-16 flex h-[48vh]">
 			{/* Left Column */}

@@ -8,7 +8,7 @@ import SignUpFamilyHistory from "./components/familyHistory";
 import SignUpSocialHistory from "./components/socialHistory";
 import SignUpMedicalHistory from "./components/medicalHistory";
 import { useRouter } from "next/navigation";
-
+import { usePatientInfo, useUserInfo } from "../store";
 {
 	/* MISSING ITEMS 
     - Progress Bar
@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 export default function PatientInformation() {
 	const [currentState, setCurrentState] = React.useState(1);
 	const router = useRouter();
+
 	return (
 		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300">
 			<span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
@@ -42,7 +43,7 @@ export default function PatientInformation() {
 
 				<ProgressBar currentStep={currentState} />
 
-				<div className="mb-20" >
+				<div className="mb-20">
 					{currentState === 1 ? (
 						<SignUpPersonalInformation />
 					) : currentState === 2 ? (
