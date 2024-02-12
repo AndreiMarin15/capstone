@@ -10,8 +10,9 @@ import Vitals from "./components/vitals";
 import Medications from "./components/medications"
 import LabTests from "./components/labTests"
 import { useHRNav } from "@/app/store";
-import FamilyHistory from "./components/familyHistory";
+import FamilyHistory from "./components/sub_components/familyHistory";
 import SocialHistory from "./components/socialHistory";
+import FamilySocialHistory from "./components/family&SocialHistory"
 import PredictiveAnalytics from "./components/predictiveAnalytics";
 
 export default function AboutPatient() {
@@ -43,8 +44,8 @@ export default function AboutPatient() {
 									<Vitals />
 								) : selected === "Family & Social History" ? (
 									<>
-										<FamilyHistory />
-										<SocialHistory />
+										<FamilySocialHistory />
+										
 									</>
 								) : (
 									""

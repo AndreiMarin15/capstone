@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-export default function Vitals() {
+export default function FollowUpVisit() {
 	const followup = [
 		
 		{

@@ -44,7 +44,7 @@
 		"src/app/health_records/about_patient/components/predictiveAnalytics.jsx",
 		"src/app/health_records/about_patient/components/medicalHistory.jsx",
 		"src/app/health_records/about_patient/components/masterData.jsx",
-		"src/app/health_records/about_patient/components/familyHistory.jsx",
+		"src/app/health_records/about_patient/components/sub_components/familyHistory.jsx",
 		"src/app/health_records/about_patient/components/sub_components/addCarePlan.jsx",
 		"src/app/health_records/about_patient/components/sub_components/addProcedure.jsx",
 		"src/app/health_records/about_patient/components/sub_components/attendingDoctor.jsx",
