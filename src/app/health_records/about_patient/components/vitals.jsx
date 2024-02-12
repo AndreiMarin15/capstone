@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 export default function Vitals() {
-	const fHistory = [
+	const vitals = [
 		
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -66,7 +66,7 @@ export default function Vitals() {
 					<td className="border-l-[5rem] border-transparent text-black text-xs leading-5 font-semibold">2024-08-01</td>
 					</tr>
 
-					{fHistory.map((item) => (
+					{vitals.map((item) => (
 					<React.Fragment key={item.variable}>
 						<tr>
 						<td>
@@ -101,6 +101,11 @@ export default function Vitals() {
 					</React.Fragment>
 					))}
 				</table>
+				<button className="flex gap-1.5 justify-end text-xs font-bold text-blue-800 whitespace-nowrap">
+					<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
+						<div>Add New</div>
+					</div>
+				</button>
 			</div>
 		</>
 	);
