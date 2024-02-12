@@ -6,9 +6,8 @@ const PrivacyPolicy = () => {
   const router = useRouter();
 
   return (
-<div className="border bg-white flex flex-col items-center h-screen overflow-auto">
-    
-  <div className="text-black text-xl font-semibold mb-8">Privacy Policy</div>
+<div className="border bg-white flex flex-col items-center  h-screen overflow-auto">
+  <div className="text-black text-xl font-semibold mb-8 mt-8">Privacy Policy</div>
   <div className="ml-8 mb-8 mr-8">
     <p className="text-gray-700">
         <h1><strong>Effective date: Feb 12, 2024</strong></h1> <br />
