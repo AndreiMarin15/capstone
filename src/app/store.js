@@ -65,32 +65,11 @@ const usePatientInfo = create(
 			setPersonalInformation: (item) =>
 				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
 
-			allergies: [
-				{
-					category_of_allergen: "",
-					allergen: "",
-					reactions: [],
-					severity_of_allergy: "",
-					date_of_onset: "",
-					comments: "",
-				},
-			],
+			allergies: [],
 			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
 			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
 
-			family_history: [
-				{
-					last_name: "",
-					first_name: "",
-					age: 0,
-					gender: "Male",
-					relationship: "",
-					medical_condition: "",
-					medical_condition_date: "",
-					medical_condition_outcome: "",
-					medical_procedures: [],
-				},
-			],
+			family_history: [],
 			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
 			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
 
@@ -129,7 +108,5 @@ const usePatientInfo = create(
 		}
 	)
 );
-
-
 
 module.exports = { useHRNav, useCPNav, useUserInfo, useDoctorInfo, usePatientInfo };

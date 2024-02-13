@@ -5,7 +5,7 @@ export default function SignUpMedicalHistory() {
   const patientStore = usePatientInfo()
 
   return (
-    <div className="container mx-auto mt-16 flex h-[55vh]">
+    <div className="container mx-auto mt-16 flex h-auto pb-10">
       {/* Left Column */}
       <div className="w-1/2 pr-8">
         <div className="text-black text-base font-semibold leading-6">

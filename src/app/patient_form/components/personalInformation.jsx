@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePatientInfo } from "@/app/store";
+import AllergyForm from "./subcomponents/allergies";
 
 export default function SignUpPersonalInformation() {
 	const patientStore = usePatientInfo();
+	const [numberOfAllergy, setNumberOfAllergy] = useState(0);
 
 	const handleImageUpload = async (e) => {
 		const file = e.target.files[0];
@@ -33,7 +35,7 @@ export default function SignUpPersonalInformation() {
 	}, [patientStore]);
 
 	return (
-		<div className="container mx-auto mt-16 flex h-[120dvh]">
+		<div className="container mx-auto mt-16 flex h-auto pb-10">
 			{/* Left Column */}
 			<div className="w-1/2 pr-8">
 				<div className="text-black text-base font-semibold leading-6">Personal Information</div>
@@ -222,123 +224,31 @@ export default function SignUpPersonalInformation() {
 					<div className="flex flex-col w-[39%] max-md:ml-0 max-md:w-full">
 						<div className="flex flex-col text-sm font-semibold leading-5 mt-10 text-black">
 							<div>Allergies</div>
-							<div className="flex gap-4 justify-between mt-6">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f6c16bf79fcef72c689d9cf0dca5633ff9c15a7fd4a0cfecf641759b0e5e537?"
-									className="self-start aspect-square w-[18px]"
-								/>
-								<div className="flex-auto">Category of Allergen</div>
-							</div>
-							<div className="flex gap-4 justify-between mt-6 whitespace-nowrap">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/8d83467a6242c7712b40f0ed0318ecf32eb3765ea8bbaaa517562b75d192879b?"
-									className="self-start aspect-square w-[18px]"
-								/>
-								<div className="flex-auto">Allergen</div>
-							</div>
-							<div className="flex gap-4 justify-between mt-6 whitespace-nowrap">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f79f841ae91f66e8662f831b661819a926269652b904eff7314e2b43bb39640?apiKey=66e07193974a40e683930e95115a1cfd&width=100"
-									className="aspect-square w-[18px]"
-								/>
-								<div className="grow">Select Reactions</div>
-							</div>
-							<div className="flex gap-5 justify-between mt-7">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/09f59612784184ecb36b692dc99a1889ca09a88615d7298261028160ecff647b?apiKey=66e07193974a40e683930e95115a1cfd&width=100"
-									className="self-start aspect-square w-[15px]"
-								/>
-								<div className="flex-auto">Severity of Allergy</div>
-							</div>
-							<div className="flex gap-4 justify-between mt-7 whitespace-nowrap">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
-									className="aspect-square fill-black w-[15px]"
-								/>
-								<div className="grow">Date of Onset</div>
-							</div>
-							<div className="flex gap-4 justify-between mt-7 whitespace-nowrap">
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/35d66426cc909742122370c08977979ec58e47bea43f66c6158506c2d6dea5ca?"
-									className="aspect-square w-[18px]"
-								/>
-								<div className="flex-auto">Comments</div>
-							</div>
-						</div>
-					</div>
-					<div className="flex flex-col ml-5 w-[61%] max-md:ml-0 max-md:w-full mt-8">
-						<div className="flex flex-col grow mt-10 text-xs leading-5 whitespace-nowrap text-stone-300">
-							<select className="rounded shadow-sm h-8 mt-2 border-[0.5px] px-2 py-2 border-solid border-black">
-								<option value="">Select Category</option>
-								{/* Add more options here */}
-							</select>
-							<select className="rounded shadow-sm h-8 mt-3 border-[0.5px] px-2 py-2 border-solid border-black">
-								<option value="">Select Allergen</option>
-								{/* Add more options here */}
-							</select>
-							<select className="rounded shadow-sm h-8 mt-3 border-[0.5px] px-2 py-2 border-solid border-black">
-								<option value="">Select Reactions</option>
-								{/* Add more options here */}
-							</select>
-							<select className="rounded shadow-sm h-8 mt-3 border-[0.5px] px-2 py-2 border-solid border-black">
-								<option value="">Select Severity of Allergy</option>
-								{/* Add more options here */}
-							</select>
-							<input
-								type="date"
-								className="w-40 text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 mt-2 border-[0.5px] border-solid border-black"
-							/>
 
-							<input className="shrink-0 mt-6 rounded border-black border-solid border-[0.5px] h-[81px]" />
+							{Array(numberOfAllergy)
+								.fill(null)
+								.map((_, index) => (
+									<div key={index}>
+										<AllergyForm />
+									</div>
+								))}
+
+							<div className="flex gap-1.5 self-start mt-10 whitespace-nowrap">
+								<button
+									onClick={() => {
+										setNumberOfAllergy(numberOfAllergy + 1);
+									}}
+									className="justify-center items-center px-1.5 text-lg text-white bg-gray-400 rounded-full aspect-square h-[25px]"
+								>
+									+
+								</button>
+								<div className="grow text-base text-gray-400">Add Allergy</div>
+							</div>
 						</div>
 					</div>
+					<div className="flex flex-col ml-5 w-[61%] max-md:ml-0 max-md:w-full mt-8"></div>
 				</div>
 			</div>
-
-			{/*
-        <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-          <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
-              Allergies
-            </div>
-            <div className="flex items-stretch">
-              <input
-                className="rounded shadow-sm flex shrink-0 h-[30px] w-64 flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
-                // Adjust the class name and styling as needed for your design
-              />
-              <button className="text-white text-xs font-semibold bg-zinc-400 rounded-full ml-2 px-3 py-2 mt-2 h-[30px]">
-                +
-              </button>
-            </div>
-          </span>
-         <span className="text-black text-lg font-semibold leading-7 whitespace-nowrap aspect-square justify-center items-stretch mt-7 px-2 py-2.5 rounded-[50%] self-end">
-                +
-</span>
-        </div>*/}
 		</div>
 	);
 }
