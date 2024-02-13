@@ -5,125 +5,150 @@ import { useRouter } from "next/navigation";
 
 export default function Referral() {
   const router = useRouter();
-	
+
   return (
-    <div className="flex h-screen">
-      {/* Space for additional content */}
-      <div className="w-1/4 bg-gray-200">
+    <div className=" bg-white border border-solid border-stone-300">
+          <div className="flex flex-col ml-5 w-[85%]">
+              <div className="flex gap-5 justify-between px-14 py-9 mt-1.5 w-full whitespace-nowrap bg-white shadow-sm max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+                <div className="mt-2.5 text-xl font-semibold text-black">
+                  Referral
+                </div>
+                <div className="flex gap-3.5 justify-between text-xs">
+                  <div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                      className="aspect-square fill-stone-300 w-[13px] ml-4"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                    />
+                  </div>
+                    <button 
+                      onClick={() => {
+                        router.push("/referral/send_referral");
+                      }}
+                      className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
+                    >
+                      Refer a Patient
+                  </button>
+                </div>
+              </div>
+            
+                  
+                <div className="flex gap-5">
+                  <div className="flex flex-col w-[36%]">
+                    <div className="flex gap-5 px-5 mt-9">
+                      <div className="w-2.5 bg-blue-500 h-[129px]" />
+                      <img
+                        alt="picture"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                        className="self-start mt-7 w-[43px]"
+                      />
+                      <div className="flex flex-col flex-1 my-auto">
+                        <div className="text-lg font-semibold whitespace-nowrap">
+                          Dr. Johnny Santos
+                          <div classname= "mt-4 text-xs text-zinc-600">
+                            <span className="text-zinc-300 font-medium">Cardiologist</span>
+                            <div className="mt-4 text-xs font-medium text-zinc-600">
+                            <span className="font-bold">PATIENT</span>: Juan Dela
+                              Cruz
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col ml-5 w-[64%] max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col grow max-md:mt-10 max-md:max-w-full">
+                      <div className="pt-12 pr-20 pb-5 pl-6 bg-white shadow-sm max-md:px-5 max-md:max-w-full">
+                        <div className="flex max-md">
+                          <div className="flex flex-col">
+                            <img
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                              className="mt-4 aspect-square w-[43px]"
+                            />
+                          </div>
+                          <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
+                            <div className="mt-2 text-lg font-semibold text-black">
+                              Dr. Johnny Santos
+                              <div classname= "mt-4 text-xs text-zinc-600">
+                                <span className="text-zinc-300 font-medium">Cardiologist</span>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
+                        <div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
+                          <div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+                            <img
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                              className="self-start w-7 aspect-square ml-2"
+                            />
+                            <div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
+                              Loremi ipsum dolor sit amet, consectetur adipiscing
+                              elit, sed do eiusmod tempor incididunt ut labore
+                              et dolore magna aliqua. Ut enim ad minim veniam,
+                              quis nostrud{" "}
+                            </div>
+                          </div>
+                          <div className="flex gap-4 self-end mt-6 text-white">
+                            <div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <img
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                              className="self-start w-7 aspect-square "
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+                          <img
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                            className="self-start w-7 aspect-square ml-8"
+                          />
+                          <div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis
+                            nostrud{" "}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-" style={{ width: "900px" }}>
 
-          {/* Add your additional content here */}
-      </div>
-
-      {/* Main content */}
-      <div className="bg-white flex flex-col items-end max-md:pl-5 flex-grow">
-        <span className="shadow-sm bg-white z-[1] flex w-full max-w-full justify-between gap-5 pl-7 pr-10 self-start max-md:flex-wrap max-md:px-5">
-          <div className="text-black text-xl font-semibold leading-8 mt-1.5">Referral</div>
-          <div className="flex items-center">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="text-xs bg-stone-50 text-zinc-500 text-base leading-6 pl-3 pr-5 py-1 rounded-lg border border-gray-300 focus:outline-none mr-3"
-            />
-            <button 
-              onClick={() => {
-                router.push("/referral/send_referral");
-              }}
-              className="text-white text-xs font-semibold bg-sky-900 px-6 py-2 rounded mr-4"
-            >
-              Refer a Patient
-            </button>
-          </div>
-        </span>
-        <div className="shadow-sm bg-white mt-0 w-full max-w-full pl-5 pr-20 pt-8 pb-4 max-md:px-5">
-          <div className="bg-gray-400 self-stretch min-h-[1px] max-md:w-full w-full" />
-          <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0 mt-5">
-            <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/e6422eb52375a50afd15b70553c37dc9849d7544cde4956bbb282ba7a868bffd?"
-                className="aspect-square object-contain object-center w-[43px] overflow-hidden shrink-0 max-w-full ml-2 mt-1.5 max-md:mt-10"
-              />
+                        <div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
+                          <input
+                            type="text"
+                            placeholder="Message..."
+                            style={{ width: "100%", height: "300%"}}
+                          />
+                        </div>
+                        <div className=" self-end  py-2 mt-8 text-zinc-500 text-xs font-medium text-white bg-sky-900 rounded">
+                        <button  
+                        onClick={() => {
+                        // router.push("/referral/send_referral");
+                        }}
+                        className="text-white text-xs font-semibold bg-sky-900 px-8 rounded">
+                          SEND
+                        </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col items-stretch w-[74%] max-md:w-full max-md:ml-0">
-              <span className="text-black text-lg font-semibold leading-7 whitespace-nowrap items-stretch grow mt-3 pr-3 pb-5 max-md:mt-10">
-                Dr. Johnny Santos
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="bg-stone-50 self-center flex w-full max-w-full flex-col items-stretch pt-6 pb-12 max-md:max-w-full">
-          <div className="flex flex-col px-7 items-start max-md:max-w-full max-md:px-5">
-            <div className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap">
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
-                className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
-              />
-              <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud{" "}
-              </span>
-            </div>
-            <div className="justify-end items-stretch flex gap-4 mt-12 self-end max-md:max-w-full max-md:flex-wrap max-md:mt-10">
-              <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-              </span>
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/de9c67effad7bceb2cc1b7c7e86cd59aa8389013374f7f725ff726686166f85f?"
-                className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full self-start"
-              />
-            </div>
-          </div>
-          <div className="flex gap-4 ml-7 mt-12 mb-20 self-start items-start max-md:max-w-full max-md:flex-wrap max-md:my-10">
-            <Image
-              alt="picture"
-              height={0}
-              width={0}
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/4b22ea85d41d4f064a89b11204518bb621ac7e3a8c3c3468a5e2e1d018b44e95?"
-              className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
-            />
-            <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud{" "}
-            </span>
-          </div>
-        </div>
-        <div className="shadow-sm bg-white self-center flex w-full max-w-full flex-col items-stretch px-12 py-3.5 max-md:max-w-full max-md:px-5">
-          <input
-            className="text-zinc-500 text-base leading-6 whitespace-nowrap bg-stone-50 pl-5 pr-16 pt-3.5 pb-14 rounded-lg items-start max-md:max-w-full max-md:pr-5"
-            placeholder=" Message..."
-          />
-          <div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
-            <span className="flex items-stretch gap-2 my-auto">
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
-                className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
-              />
-              <button className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto">
-                Attachment
-              </button>
-            </span>
-            <button className="text-white text-xs font-semibold bg-sky-900 px-6 py-2 rounded mr-4">
-              SEND
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
+
