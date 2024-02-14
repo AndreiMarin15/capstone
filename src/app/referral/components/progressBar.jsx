@@ -4,7 +4,7 @@ const ProgressBarReferral = ({ currentStep }) => {
 	const steps = ["Select Patient(s)", "Select Doctor(s)", "Notes and Review"];
 
 	return (
-		<div className="flex items-center pt-10 pb-10">
+		<div className="flex items-center justify-center pt-10 pb-10 pl-10 pr-10">
 			{steps.map((step, index) => (
 				<React.Fragment key={index}>
 					<div className={`flex flex-col items-center ${currentStep > index ? "text-blue-500" : "text-gray-500"}`}>
@@ -20,7 +20,8 @@ const ProgressBarReferral = ({ currentStep }) => {
 					{index < steps.length - 1 && (
 						// This is the line connecting the circles. You can edit its properties here.
 						<div
-							className={`flex-grow h-[1px] mx-0 mb-6 ${currentStep > index + 1 ? "bg-blue-500" : "bg-gray-500"}`}
+							className={`h-[1px] mx-0 mb-6 ${currentStep > index + 1 ? "bg-blue-500" : "bg-gray-500"}`}
+							style={{ width: "300px" }}
 						></div>
 					)}
 				</React.Fragment>
