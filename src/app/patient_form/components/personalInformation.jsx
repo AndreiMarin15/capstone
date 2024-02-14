@@ -5,7 +5,7 @@ import AllergyForm from "./subcomponents/allergies";
 
 export default function SignUpPersonalInformation() {
 	const patientStore = usePatientInfo();
-	const [numberOfAllergy, setNumberOfAllergy] = useState(0);
+	const [showAllergy, setshowAllergy] = useState(false);
 
 	const handleImageUpload = async (e) => {
 		const file = e.target.files[0];
@@ -225,25 +225,25 @@ export default function SignUpPersonalInformation() {
 						<div className="flex flex-col text-sm font-semibold leading-5 mt-10 text-black">
 							<div>Allergies</div>
 
-							{Array(numberOfAllergy)
-								.fill(null)
-								.map((_, index) => (
-									<div key={index}>
-										<AllergyForm />
-									</div>
-								))}
+							{showAllergy && (
+								<div>
+									<AllergyForm />
+								</div>
+							)}
 
-							<div className="flex gap-1.5 self-start mt-10 whitespace-nowrap">
-								<button
-									onClick={() => {
-										setNumberOfAllergy(numberOfAllergy + 1);
-									}}
-									className="justify-center items-center px-1.5 text-lg text-white bg-gray-400 rounded-full aspect-square h-[25px]"
-								>
-									+
-								</button>
-								<div className="grow text-base text-gray-400">Add Allergy</div>
-							</div>
+							{!showAllergy && (
+								<div className="flex gap-1.5 self-start mt-10 whitespace-nowrap">
+									<button
+										onClick={() => {
+											setshowAllergy(true);
+										}}
+										className="justify-center items-center px-1.5 text-lg text-white bg-gray-400 rounded-full aspect-square h-[25px]"
+									>
+										+
+									</button>
+									<div className="grow text-base text-gray-400">Add Allergy</div>
+								</div>
+							)}
 						</div>
 					</div>
 					<div className="flex flex-col ml-5 w-[61%] max-md:ml-0 max-md:w-full mt-8"></div>

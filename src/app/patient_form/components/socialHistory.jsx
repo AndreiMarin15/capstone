@@ -1,8 +1,7 @@
-
 import { usePatientInfo } from "@/app/store";
 import { useEffect } from "react";
 export default function SignUpSocialHistory() {
-	const patientStore = usePatientInfo()
+	const patientStore = usePatientInfo();
 
 	return (
 		<div className="container mx-auto mt-16 flex h-auto pb-10">
@@ -19,28 +18,46 @@ export default function SignUpSocialHistory() {
 				<div className="flex items-stretch justify-between gap-5 mr-32 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">Smoker Status</div>
-						<input className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black" />
+						<select
+							onChange={(e) => {
+								patientStore.setSmokerStatus(e.target.value);
+							}}
+							value={patientStore.social_history.smoker_status}
+							className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						>
+							{" "}
+							<option value="">Select</option>
+							<option value="Smoker">Smoker</option>
+							<option value="Non-Smoker">Not a Smoker</option>
+						</select>{" "}
 					</span>
 					<span className="items-start flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">Cigarettes per day</div>
-						<select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
-							{" "}
-							<option value="">Select</option>
-							<option value="smoker">Smoker</option>
-							<option value="not">Not a Smoker</option>
-						</select>{" "}
+						<input
+							onChange={(e) => {
+								patientStore.setCigarettesPerDay(parseInt(e.target.value));
+							}}
+							value={patientStore.social_history.cigarettes_per_day}
+							type="number"
+							className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						></input>{" "}
 					</span>
 				</div>
 
 				<div className="flex items-stretch justify-between gap-3 mr-32 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">Alcohol Consumption</div>
-						<select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+						<select
+						onChange={(e) => {
+							patientStore.setAlcoholConsumption(e.target.value);
+						}}
+						value={patientStore.social_history.alcohol_consumption}
+						className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
 							{" "}
 							<option value="">Select</option>
-							<option value="non-drinker">Non-Drinker</option>
-							<option value="moderate">Moderate Drinker</option>
-							<option value="heavy">Heavy Drinker</option>
+							<option value="Non-Drinker">Non-Drinker</option>
+							<option value="Moderate">Moderate Drinker</option>
+							<option value="Heavy">Heavy Drinker</option>
 						</select>{" "}
 					</span>
 				</div>
@@ -48,14 +65,19 @@ export default function SignUpSocialHistory() {
 				<div className="flex items-stretch justify-between gap-3 mr-32 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
 						<div className="text-black text-sm font-semibold leading-5">Physical Activities</div>
-						<select className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+						<select
+						onChange={(e) => {
+							patientStore.setPhysicalActivities(e.target.value);
+						}}
+						value={patientStore.social_history.physical_activities}
+						className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
 							{" "}
 							<option value="">Select</option>
-							<option value="sedentary">Sedentary</option>
-							<option value="low">Low Activity</option>
-							<option value="moderateact">Moderate Activity</option>
-							<option value="high">High Activity</option>
-							<option value="regular">Regular Exercise</option>
+							<option value="Sedentary">Sedentary</option>
+							<option value="Low">Low Activity</option>
+							<option value="ModerateAct">Moderate Activity</option>
+							<option value="High">High Activity</option>
+							<option value="Regular">Regular Exercise</option>
 						</select>{" "}
 					</span>
 				</div>

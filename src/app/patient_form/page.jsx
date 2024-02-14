@@ -79,6 +79,8 @@ export default function PatientInformation() {
 									if (currentState < 4) {
 										setCurrentState(currentState + 1);
 									} else if (currentState >= 4) {
+										
+
 										router.push("/patient/dashboard");
 									}
 								}}

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import FamilyMembersForm from "./subcomponents/familyMembers";
 export default function SignUpFamilyHistory() {
 	const patientStore = usePatientInfo();
-	const [numberOfFamily, setNumberOfFamily] = useState(0);
+	const [showFamily, setshowFamily] = useState(false);
 	return (
 		<div className="container mx-auto mt-16 mb-5 flex h-auto pb-10">
 			{/* Left Column */}
@@ -25,25 +25,24 @@ export default function SignUpFamilyHistory() {
 
 			{/* Right Column */}
 			<div className="w-1/2 pl-8">
-				{Array(numberOfFamily)
-					.fill(null)
-					.map((_, index) => (
-						<div key={index}>
-							<FamilyMembersForm />
-						</div>
-					))}
-				<div className="flex gap-1.5 self-start mt-10 whitespace-nowrap">
-					<button
-						onClick={() => {
-							setNumberOfFamily(numberOfFamily + 1);
-							console.log(numberOfFamily)
-						}}
-						className="justify-center items-center px-1.5 text-lg text-white bg-gray-400 rounded-full aspect-square h-[25px]"
-					>
-						+
-					</button>
-					<div className="grow text-base text-gray-400">Add another family member</div>
-				</div>
+				{showFamily && (
+					<div>
+						<FamilyMembersForm />
+					</div>
+				)}
+				{!showFamily && (
+					<div className="flex gap-1.5 self-start mt-10 whitespace-nowrap">
+						<button
+							onClick={() => {
+								setshowFamily(true);
+							}}
+							className="justify-center items-center px-1.5 text-lg text-white bg-gray-400 rounded-full aspect-square h-[25px]"
+						>
+							+
+						</button>
+						<div className="grow text-base text-gray-400">Add Family Member</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

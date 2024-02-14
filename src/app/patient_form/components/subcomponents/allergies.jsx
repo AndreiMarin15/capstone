@@ -26,6 +26,7 @@ export default function AllergyForm() {
 							};
 						});
 					}}
+					value={allergy.category_of_allergen}
 					className="rounded shadow-sm h-10 mt-2 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
 					<option value="">Select Category</option>
@@ -48,9 +49,10 @@ export default function AllergyForm() {
 							};
 						});
 					}}
+					value={allergy.allergen}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="">Select Allergen</option>
+					<option value="0">Select Allergen</option>
 					<option value="1">Allergen 1</option>
 					<option value="2">Allergen 2</option>
 					{/* Add more options here */}
@@ -70,9 +72,10 @@ export default function AllergyForm() {
 							};
 						});
 					}}
+					value={allergy.reactions[0]}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="">Select Reactions</option>
+					<option value="0">Select Reactions</option>
 					{/* Add more options here */}
 				</select>
 			),
@@ -90,9 +93,10 @@ export default function AllergyForm() {
 							};
 						});
 					}}
+					value={allergy.severity_of_allergy}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="">Select Severity of Allergy</option>
+					<option value="0">Select Severity of Allergy</option>
 					{/* Add more options here */}
 				</select>
 			),
@@ -109,8 +113,11 @@ export default function AllergyForm() {
 								date_of_onset: e.target.value,
 							};
 						});
+
+						console.log(allergy.date_of_onset);
 					}}
 					type="date"
+					value={allergy.date_of_onset}
 					className=" rounded  border-[0.5px]  border-solid border-black"
 				/>
 			),
@@ -128,6 +135,7 @@ export default function AllergyForm() {
 							};
 						});
 					}}
+					value={allergy.comments}
 					className="text-black shrink-0 mt-6 p-2 rounded border-black border-solid border-[0.5px] h-[81px]"
 				/>
 			),
@@ -164,6 +172,19 @@ export default function AllergyForm() {
 					if (saved === false) {
 						patient.addAllergy(allergy);
 						setSaved(true);
+
+						setAllergy({
+							category_of_allergen: "0",
+							allergen: "0",
+							reactions: ["0"],
+							severity_of_allergy: "0",
+							date_of_onset: "",
+							comments: "",
+						});
+
+						setTimeout(() => {
+							setSaved(false);
+						}, 500);
 					}
 				}}
 				className={
@@ -172,7 +193,7 @@ export default function AllergyForm() {
 					"self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 				}
 			>
-				{saved ? "Saved" : "Save Allergy"}
+				{saved ? "Saved" : "Save or Add"}
 			</button>
 		</div>
 	);

@@ -88,20 +88,31 @@ const usePatientInfo = create(
 				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
 
 			medical_history: {
-				hypertensions: "No",
-				blood_pressure_medications: "No",
-				stroke: "No",
-				medications: [],
-				past_medical_procedures: "",
+				hypertensions: false,
+				blood_pressure_medications: false,
+				stroke: false,
+				medications: [""],
+				past_medical_procedures: [""],
+				date_of_procedures: "",
 			},
 			setHypertension: (item) =>
 				set((state) => ({ medical_history: { ...state.medical_history, hypertensions: item } })),
 			setBloodPressureMedication: (item) =>
 				set((state) => ({ medical_history: { ...state.medical_history, blood_pressure_medications: item } })),
 			setStroke: (item) => set((state) => ({ medical_history: { ...state.medical_history, stroke: item } })),
+
 			setMedications: (item) => set((state) => ({ medical_history: { ...state.medical_history, medications: item } })),
+
+			addMedication: (item) =>
+				set((state) => ({
+					medical_history: { ...state.medical_history, medications: [...state.medications, item] },
+				})),
+
 			setPastMedicalProcedures: (item) =>
 				set((state) => ({ medical_history: { ...state.medical_history, past_medical_procedures: item } })),
+
+			setDateOfProcedures: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, date_of_procedures: item } })),
 		}),
 		{
 			name: "ENDO_TRACKER_PATIENT_INFO",
