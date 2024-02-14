@@ -32,6 +32,11 @@ const navigation = [
 		href: "/account",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/eaae319e37fb27c62aab1d5827ee3cda4208176639bcfdd1abb7781f36505a6c?",
 	},
+	{
+		name: "Legal Notices",
+		href: "/legal",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/5b215db570dce3331c1d756a9bd33ac4707518a8b2db9764d3818bef87b91718?apiKey=7e8c8e70f3bd479289a042d9c544736c&",
+	}
 ];
 
 const patientNavigation = [
@@ -65,6 +70,12 @@ const patientNavigation = [
 		href: "/patient/account",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
 	},
+
+	{
+		name: "Legal Notices",
+		href: "/patient/legal",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/5b215db570dce3331c1d756a9bd33ac4707518a8b2db9764d3818bef87b91718?apiKey=7e8c8e70f3bd479289a042d9c544736c&",
+	}
 ];
 
 export default function Navbar() {
