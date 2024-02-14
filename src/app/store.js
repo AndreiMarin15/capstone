@@ -68,31 +68,14 @@ const usePatientInfo = create(
 				postal_code: "",
 				photo: "",
 			},
-			setPersonalInformation: (item) =>
-				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
-
 			allergies: [],
-			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
-			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
-
 			family_history: [],
-			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
-			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
-
 			social_history: {
 				smoker_status: "Smoker",
 				cigarettes_per_day: 1,
 				alcohol_consumption: "Non-Drinker",
 				physical_activities: "Sedentary",
 			},
-			setSmokerStatus: (item) => set((state) => ({ social_history: { ...state.social_history, smoker_status: item } })),
-			setCigarettesPerDay: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, cigarettes_per_day: item } })),
-			setAlcoholConsumption: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, alcohol_consumption: item } })),
-			setPhysicalActivities: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
-
 			medical_history: {
 				hypertensions: false,
 				blood_pressure_medications: false,
@@ -101,6 +84,23 @@ const usePatientInfo = create(
 				past_medical_procedures: [""],
 				date_of_procedures: "",
 			},
+			setPersonalInformation: (item) =>
+				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
+
+			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
+			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
+
+			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
+			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
+
+			setSmokerStatus: (item) => set((state) => ({ social_history: { ...state.social_history, smoker_status: item } })),
+			setCigarettesPerDay: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, cigarettes_per_day: item } })),
+			setAlcoholConsumption: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, alcohol_consumption: item } })),
+			setPhysicalActivities: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
+
 			setHypertension: (item) =>
 				set((state) => ({ medical_history: { ...state.medical_history, hypertensions: item } })),
 			setBloodPressureMedication: (item) =>
