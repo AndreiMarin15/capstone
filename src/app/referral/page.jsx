@@ -15,9 +15,9 @@ export default function Referral() {
 
   return (
     <div className="bg-white border border-solid border-stone-300">
-      <div className="flex flex-col ml-5 w-[85%]">
-        <div className="flex gap-5 justify-between px-14 py-9 mt-1.5 w-full whitespace-nowrap bg-white shadow-sm max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-          <div className="mt-2.5 text-xl font-semibold text-black">
+      <div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
+        <div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
+          <div className="text-xl font-semibold text-black">
             Referral
           </div>
           <div className="flex gap-3.5 justify-between text-xs">
@@ -58,7 +58,7 @@ export default function Referral() {
               <div className="flex flex-col flex-1 my-auto">
                 <div className="text-lg font-semibold whitespace-nowrap">
                   {doctorInfo.name}
-                  <div className="mt-4 text-xs text-zinc-600">
+                  <div className="text-m text-zinc-600">
                     <span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
                     <div className="mt-4 text-xs font-medium text-zinc-600">
                       <span className="font-bold">PATIENT</span>: {doctorInfo.patient}
@@ -82,7 +82,7 @@ export default function Referral() {
                   <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
                     <div className="mt-2 text-lg font-semibold text-black">
                       {doctorInfo.name}
-                      <div className="mt-4 text-xs text-zinc-600">
+                      <div className="text-m text-zinc-600">
                         <span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
                       </div>
                     </div>
