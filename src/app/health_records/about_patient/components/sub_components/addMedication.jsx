@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import VisitMedications from "./visitMedications"
+import VisitMedications from "./visitMedications";
 
 export default function addMedications() {
   const followup = [
