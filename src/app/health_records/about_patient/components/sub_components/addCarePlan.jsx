@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+
 export default function AddCarePlan() {
 	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(0);
