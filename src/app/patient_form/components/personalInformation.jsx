@@ -96,7 +96,7 @@ export default function SignUpPersonalInformation() {
 							<input
 								type="text"
 								onChange={(e) => {
-									patientStore.setPersonalInformation({ contact_number: "0" + e.target.value });
+									patientStore.setPersonalInformation({ contact_number: e.target.value });
 								}}
 								value={patientStore.personal_information.contact_number}
 								className="text-black-300 text-sm leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5"
@@ -110,14 +110,13 @@ export default function SignUpPersonalInformation() {
 							onChange={(e) => {
 								patientStore.setPersonalInformation({ gender: e.target.value });
 							}}
-							value={patientStore.personal_information.gender}
 							className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black"
 						>
 							{" "}
 							<option value="">Select</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-							<option value="other">Other</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
 						</select>
 					</span>
 					<div className="flex items-stretch gap-2.5 mt-1. self-start">
