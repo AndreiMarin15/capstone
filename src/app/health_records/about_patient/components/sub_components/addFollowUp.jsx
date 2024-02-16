@@ -123,7 +123,9 @@ export default function FollowUpVisit() {
                             </button>
                           ) : (
                             
-                            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" value={item.value}/>
+                            <input onChange={(e) => {
+                              item.value = e.target.value
+                            }} className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" value={item.value}/>
                             
                           )
                         ) : (
