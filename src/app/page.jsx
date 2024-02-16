@@ -58,6 +58,16 @@ export default function Home() {
 							value={userStore.password}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
+						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Re-type Password</div>
+						<input
+							type="password"
+							id="password"
+							onChange={(e) => {
+								
+							}}
+							value={""}
+							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
 							I am signing up as a..
 						</div>
