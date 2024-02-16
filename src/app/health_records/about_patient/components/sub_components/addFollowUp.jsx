@@ -16,7 +16,7 @@ export default function FollowUpVisit() {
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Diagnosis",
-      value: "",
+      value: "123",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
@@ -123,9 +123,11 @@ export default function FollowUpVisit() {
                               Add
                             </button>
                           ) : (
-                            <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
-                              Enter Here {item.value}
-                            </div>
+                            
+                            <input onChange={(e) => {
+                              item.value = e.target.value
+                            }} className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" value={item.value}/>
+                            
                           )
                         ) : (
                           <div className="ml-auto">
@@ -160,10 +162,8 @@ export default function FollowUpVisit() {
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
-                          Enter Here
-                          {item.variable === "Heart Rate" ? "" : item.value}
-                        </div>
+                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
+                        {item.variable === "Heart Rate" ? "" : item.value}
                       </td>
                     </tr>
                   ))}
