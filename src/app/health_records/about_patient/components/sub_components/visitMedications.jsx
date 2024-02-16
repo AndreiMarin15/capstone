@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import AddMedication from "./addMedication";
+import AddMedications from "./addMedication";
 
 export default function VisitMedications() {
   const medications = [
@@ -116,7 +116,7 @@ export default function VisitMedications() {
           ))}
         </>
       ) : currentScreen === 1 ? (
-        <AddMedication />
+        <AddMedications />
       ) : (
         ""
       )}

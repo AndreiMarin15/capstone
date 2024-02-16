@@ -9,9 +9,7 @@ const ReferralDoctors= ({ name, age, onClick }) => {
     <div className="ml-5 flex w-full flex-col">
       <div className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap">
         <div className="flex items-stretch justify-between gap-5">
-                <div className="flex items-center my-4">
-                    <input type="checkbox" className="mr-2" />
-                 </div>
+             
           <Image
             alt="picture"
             height={0}

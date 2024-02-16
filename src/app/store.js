@@ -52,23 +52,79 @@ const useDoctorInfo = create(
 );
 
 const usePatientInfo = create(
-  persist(
-    (set) => ({
-      personal_information: {
-        last_name: "",
-        setLastName: (item) => set(() => ({ last_name: item })),
-        first_name: "",
-        setFirstName: (item) => set(() => ({ first_name: item })),
-        contact_number: "",
-        setFirstName: (item) => set(() => ({ contact_number: item })),
-        gender: "",
-        setFirstName: (item) => set(() => ({ gender: item })),
-      },
-    }),
-    {
-      name: "ENDO_TRACKER_PATIENT_INFO",
-    }
-  )
+
+	persist(
+		(set) => ({
+			personal_information: {
+				philhealth_id: "",
+				last_name: "",
+				first_name: "",
+				contact_number: "",
+				gender: "",
+				birthdate: "",
+				street_address: "",
+				city: "",
+				state: "",
+				postal_code: "",
+				photo: "",
+			},
+			allergies: [],
+			family_history: [],
+			social_history: {
+				smoker_status: "Smoker",
+				cigarettes_per_day: 1,
+				alcohol_consumption: "Non-Drinker",
+				physical_activities: "Sedentary",
+			},
+			medical_history: {
+				hypertensions: false,
+				blood_pressure_medications: false,
+				stroke: false,
+				medications: [""],
+				past_medical_procedures: [""],
+				date_of_procedures: "",
+			},
+			setPersonalInformation: (item) =>
+				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
+
+			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
+			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
+
+			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
+			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
+
+			setSmokerStatus: (item) => set((state) => ({ social_history: { ...state.social_history, smoker_status: item } })),
+			setCigarettesPerDay: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, cigarettes_per_day: item } })),
+			setAlcoholConsumption: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, alcohol_consumption: item } })),
+			setPhysicalActivities: (item) =>
+				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
+
+			setHypertension: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, hypertensions: item } })),
+			setBloodPressureMedication: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, blood_pressure_medications: item } })),
+			setStroke: (item) => set((state) => ({ medical_history: { ...state.medical_history, stroke: item } })),
+
+			setMedications: (item) => set((state) => ({ medical_history: { ...state.medical_history, medications: item } })),
+
+			addMedication: (item) =>
+				set((state) => ({
+					medical_history: { ...state.medical_history, medications: [...state.medications, item] },
+				})),
+
+			setPastMedicalProcedures: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, past_medical_procedures: item } })),
+
+			setDateOfProcedures: (item) =>
+				set((state) => ({ medical_history: { ...state.medical_history, date_of_procedures: item } })),
+		}),
+		{
+			name: "ENDO_TRACKER_PATIENT_INFO",
+		}
+	)
+
 );
 
 module.exports = {

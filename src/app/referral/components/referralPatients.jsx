@@ -5,9 +5,7 @@ const ReferralPatients = ({ name, age, onClick }) => {
     return (
         <div className="ml-5 flex flex-col w-full max-md:w-[83%] max-md:ml-0 overflow-hidden">
             <div className="flex items-stretch gap-5">
-                <div className="flex items-center my-4">
-                    <input type="checkbox" className="mr-2" />
-                </div>
+              
                 <Image
                     alt="picture"
                     height={0}
