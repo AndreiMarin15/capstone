@@ -85,8 +85,8 @@ export default function Dashboard() {
 		},
 	];
 	return (
-		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300">
-			<div className="w-full px-5 max-md:max-w-full h-[100vh]">
+		<div className=" bg-white flex flex-col items-stretch h-auto">
+			<div className="w-full px-5 max-md:max-w-full">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 					<div className="flex flex-col items-stretch w-[49%] ml-5 max-md:w-full max-md:ml-0">
 						<span className="flex flex-col items-stretch my-auto pt-10 max-md:max-w-full max-md:mt-10">
@@ -123,7 +123,7 @@ export default function Dashboard() {
 									</div>
 								</span>
 							</div>
-							<div className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex flex-col mt-6 pl-8 pr-20 py-10 border-solid items-start max-md:max-w-full max-md:px-5">
+							<div className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex flex-col my-6 pl-8 pr-20 py-10 border-solid items-start max-md:max-w-full max-md:px-5">
 								<span className="flex items-stretch justify-between gap-5">
 									<Image
 										alt="picture"
@@ -152,7 +152,7 @@ export default function Dashboard() {
 														</>
 													))}
 												</span>
-												<div class="border-b border-gray-300 w-full mb-4"></div>
+												<div className="border-b border-gray-300 w-full mb-4"></div>
 											</>
 										))}
 									</span>

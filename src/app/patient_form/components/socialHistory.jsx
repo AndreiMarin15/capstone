@@ -23,7 +23,7 @@ export default function SignUpSocialHistory() {
 								patientStore.setSmokerStatus(e.target.value);
 							}}
 							value={patientStore.social_history.smoker_status}
-							className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
 						>
 							{" "}
 							<option value="">Select</option>
@@ -52,7 +52,7 @@ export default function SignUpSocialHistory() {
 							patientStore.setAlcoholConsumption(e.target.value);
 						}}
 						value={patientStore.social_history.alcohol_consumption}
-						className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+						className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black">
 							{" "}
 							<option value="">Select</option>
 							<option value="Non-Drinker">Non-Drinker</option>
@@ -70,7 +70,7 @@ export default function SignUpSocialHistory() {
 							patientStore.setPhysicalActivities(e.target.value);
 						}}
 						value={patientStore.social_history.physical_activities}
-						className="text-black rounded shadow-sm flex-shrink-0 w-52 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black">
+						className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black">
 							{" "}
 							<option value="">Select</option>
 							<option value="Sedentary">Sedentary</option>

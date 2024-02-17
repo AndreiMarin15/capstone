@@ -10,6 +10,8 @@ import SignUpMedicalHistory from "./components/medicalHistory";
 import { useRouter } from "next/navigation";
 import { usePatientInfo, useUserInfo } from "../store";
 import { PatientSignUp } from "../../../lib/backend/patient_signup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 {
 	/* MISSING ITEMS 
@@ -88,6 +90,12 @@ export default function PatientInformation() {
 										
 										if (account.user) {
 											router.push("/patient/dashboard");
+										} else {
+											toast.error(account.message, {
+												position: "top-left",
+												theme: "colored",
+												autoClose: 2000,
+											});
 										}
 									}
 								}}
