@@ -126,6 +126,7 @@ export default function DoctorRegistration() {
 						doctorStore.setYearsOfPractice(parseInt(e.target.value));
 					}}
 					value={doctorStore.years_of_practice}
+					type="number"
 					className="w-16 rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
 				/>
 			</div>
