@@ -113,7 +113,7 @@ export default function MyComponent() {
 										</div>
 									</div>
 								</button>
-								<div class="border-b border-gray-300 w-full mb-2 mt-2"></div>
+								<div className="border-b border-gray-300 w-full mb-2 mt-2"></div>
 							</div>
 						))}
 					</div>
