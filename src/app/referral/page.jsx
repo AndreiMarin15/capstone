@@ -15,7 +15,10 @@ export default function Referral() {
                 </div>
                 <div className="flex gap-3.5 justify-between text-xs">
                   <div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
-                    <img
+                    <Image
+                    alt="image"
+                    height={0}
+                    width={0}
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
                       className="aspect-square fill-stone-300 w-[13px] ml-4"
@@ -41,7 +44,10 @@ export default function Referral() {
                   <div className="flex flex-col w-[36%]">
                     <div className="flex gap-5 px-5 mt-9">
                       <div className="w-2.5 bg-blue-500 h-[129px]" />
-                      <img
+                      <Image
+                      alt="image"
+                      height={0}
+                      width={0}
                         alt="picture"
                         height={0}
                         width={0}
@@ -68,7 +74,10 @@ export default function Referral() {
                       <div className="pt-12 pr-20 pb-5 pl-6 bg-white shadow-sm max-md:px-5 max-md:max-w-full">
                         <div className="flex max-md">
                           <div className="flex flex-col">
-                            <img
+                            <Image
+                            alt="image"
+                            height={0}
+                            width={0}
                               loading="lazy"
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
                               className="mt-4 aspect-square w-[43px]"
@@ -87,7 +96,10 @@ export default function Referral() {
                       <div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
                         <div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
                           <div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-                            <img
+                            <Image
+                            alt="image"
+                            height={0}
+                            width={0}
                               loading="lazy"
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
                               className="self-start w-7 aspect-square ml-2"
@@ -104,7 +116,10 @@ export default function Referral() {
                               Lorem ipsum dolor sit amet, consectetur adipiscing
                               elit, sed do eiusmod tempor incididunt ut labore.
                             </div>
-                            <img
+                            <Image
+                            alt="image"
+                            height={0}
+                            width={0}
                               loading="lazy"
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
                               className="self-start w-7 aspect-square "
@@ -112,7 +127,10 @@ export default function Referral() {
                           </div>
                         </div>
                         <div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-                          <img
+                          <Image
+                          alt="image"
+                          height={0}
+                          width={0}
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
                             className="self-start w-7 aspect-square ml-8"

@@ -73,7 +73,10 @@ export default function AddLabTest() {
                       </div>
                       <div className="flex gap-10 mt-6 ml-48 w-full">
                         <div className="flex flex-col items-center px-20 py-2 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[268px]">
-                          <img
+                          <Image
+                          alt="image"
+                          height={0}
+                          width={0}
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
                             className="aspect-[1.03] w-[38px]"
