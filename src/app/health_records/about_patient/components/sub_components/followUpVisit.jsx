@@ -105,7 +105,10 @@ export default function FollowUpVisit() {
                         {followup.map((item, index) => (
                             <tr key={index} className="h-8">
                                 <td className="w-5">
-                                    <img
+                                    <Image
+                                    alt="image"
+                                    height={0}
+                                    width={0}
                                     loading="lazy"
                                     src={item.src}
                                     className="self-start aspect-square fill-black w-[15px]"
@@ -142,7 +145,10 @@ export default function FollowUpVisit() {
                     {clinicVitals.map((item, index) => (
                     <tr key={index} className="h-8">
                       <td className="w-5">
-                        <img
+                        <Image
+                        alt="image"
+                        height={0}
+                        width={0}
                           loading="lazy"
                           src={item.src}
                           className="self-start aspect-square fill-black w-[15px]"
