@@ -77,7 +77,7 @@ export default function FamilyMemberForm() {
 							});
 						}}
 						value={familyMember.gender}
-						className="text-black rounded shadow-sm flex-shrink-0 w-32 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
 					>
 						{" "}
 						<option value="">Select</option>
@@ -154,7 +154,7 @@ export default function FamilyMemberForm() {
 					});
 				}}
 				value={familyMember.medical_condition_outcome}
-				className="text-black rounded shadow-sm flex-shrink-0 w-60 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-5 border-solid border-black"
+				className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
 			>
 				{" "}
 				<option value="">Select</option>
@@ -174,12 +174,13 @@ export default function FamilyMemberForm() {
 							setFamilyMember((prev) => {
 								return {
 									...prev,
-									medical_procedures: [...prev.medical_procedures, e.target.value],
+									medical_procedures:  e.target.value,
 								};
 							});
 						}}
-						value={familyMember.medical_procedures[0]}
-						className="rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+						value={familyMember.medical_procedures}
+						type="text"
+						className="text-black rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
 					/>
 
 					<button className="justify-center items-center px-2 my-auto bg-gray-400 rounded-full aspect-square h-[25px]">

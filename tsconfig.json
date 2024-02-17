@@ -33,7 +33,7 @@
 		"lib/backend/doctor_signup.js",
 		"lib/backend/patient_signup.js",
 		"src/app/dashboard/page.jsx",
-		"src/app/doctor_form/page.jsx",
+		"src/app/doctor_form/old.jsx",
 		"src/app/health_records/healthRecordsNav.jsx",
 		"src/app/health_records/page.jsx",
 		"src/app/health_records/patientProfile.jsx",

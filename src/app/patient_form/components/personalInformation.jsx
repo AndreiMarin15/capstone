@@ -109,10 +109,13 @@ export default function SignUpPersonalInformation() {
 						<select
 							onChange={(e) => {
 								patientStore.setPersonalInformation({ gender: e.target.value });
+								console.log(patientStore.personal_information.gender)
 							}}
-							className="text-black rounded shadow-sm flex-shrink-0 w-36 h-[30px] flex-col mt-2  border-[0.5px] px-4 py-5 border-solid border-black"
+							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+						
+						value={patientStore.personal_information.gender}
 						>
-							{" "}
+							
 							<option value="">Select</option>
 							<option value="Male">Male</option>
 							<option value="Female">Female</option>
