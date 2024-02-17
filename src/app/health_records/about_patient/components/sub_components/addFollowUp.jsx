@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CarePlanList from "./carePlanList";
 import VisitMedicationList from "./visitMedications";
+import VisitLabTests from "./visitLabTests";
 
 export default function FollowUpVisit() {
   const followup = [
@@ -175,6 +176,8 @@ export default function FollowUpVisit() {
         <CarePlanList />
       ) : currentScreen === 2 ? (
         <VisitMedicationList />
+      ) : currentScreen === 3 ? (
+        <VisitLabTests />
       ) : (
         ""
       )}
