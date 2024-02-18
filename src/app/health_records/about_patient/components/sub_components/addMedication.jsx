@@ -225,9 +225,6 @@ export default function AddMedications() {
                   </div>
                 </div>
               </div>
-              <button className="justify-center self-end px-14 py-2.5 mt-28 text-xs font-semibold text-white whitespace-nowrap bg-sky-900 rounded max-md:px-5 max-md:mt-10">
-                Save
-              </button>
             </div>
           </div>
         </>
