@@ -8,9 +8,6 @@ export default function VisitMedications() {
       srcmedicine:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       medicinename: "IBUPROFEN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Maria Santos",
       startdate: "2020-01-24",
       enddate: "2020-01-30",
       form: "Tablet",
@@ -23,9 +20,6 @@ export default function VisitMedications() {
       srcmedicine:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       medicinename: "ASPIRIN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Johnny Santos",
       startdate: "2020-10-10",
       enddate: "2020-10-12",
       form: "Tablet",
@@ -38,9 +32,6 @@ export default function VisitMedications() {
       srcmedicine:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       medicinename: "AMLOPIDINE",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Johnny Santos",
       startdate: "2020-10-10",
       enddate: "2020-10-12",
       form: "Tablet",
