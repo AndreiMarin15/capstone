@@ -16,7 +16,7 @@ export default function FollowUpVisit() {
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Diagnosis",
-      value: "123",
+      value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
@@ -188,15 +188,10 @@ export default function FollowUpVisit() {
         ""
       )}
 
-      {/* BACK BUTTON */}
-      <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
+      {/* BACK & SAVE BUTTON */}
+      <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
         <button
-          onClick={() => {
-            if (currentScreen > 0) {
-              setCurrentScreen(0);
-            }
-          }}
-          className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5"
+          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5"
         >
           <div className="flex gap-0.5 justify-between items-center">
             <Image
@@ -209,6 +204,11 @@ export default function FollowUpVisit() {
             />
             <div className="ml-1">BACK</div>
           </div>
+        </button>
+        <button
+          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
+        >
+          SAVE
         </button>
       </div>
     </>
