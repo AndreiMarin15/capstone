@@ -7,6 +7,7 @@ import AddFollowUpVisit from "./sub_components/addFollowUp"
 import * as React from "react";
 
 export default function MasterData() {
+	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(0);
 	const diagnosis = [
 	{
@@ -96,9 +97,12 @@ export default function MasterData() {
 				onClick={() => {
 					setCurrentPage(currentPage + 1);
 			}}>
-				<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-					<div>Add New Follow-up</div>
-				</div>
+			</button>
+			<button className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+			onClick={() => {
+				setCurrentPage(10);
+			}}>
+				Add New Follow-up
 			</button>
 		</div>
 
@@ -124,17 +128,18 @@ export default function MasterData() {
 			""
 		)}
 
-		{ currentPage === 1 ? (
-			<>
-				<AddFollowUpVisit />
-			</>
-		) : currentPage === 2 ? (
-			<>
-				<FollowUpVisit />
-			</>
+		{currentPage === 1 ? (
+		<>
+			<FollowUpVisit />
+		</>
+		) : currentPage === 10 ? (
+		<>
+			<AddFollowUpVisit />
+		</>
 		) : (
-			""
+		""
 		)}
+
     </>
   );
 }
