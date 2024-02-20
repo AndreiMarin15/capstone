@@ -30,13 +30,7 @@ export default function FollowUpVisit() {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Medications",
-      value: "",
-      component: 2,
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Care Plan",
+      variable: "Medications & Care Plan",
       value: "",
       component: 1,
     },
@@ -44,7 +38,7 @@ export default function FollowUpVisit() {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Tests",
       value: "",
-      component: 3,
+      component: 2,
     },
   ];
 
@@ -114,17 +108,32 @@ export default function FollowUpVisit() {
                       <td className="border-l-[5rem] border-transparent">
                         {typeof item.value === "string" ? (
                           // Check if the variable is one of the specified ones
-                          ["Medications", "Care Plan", "Tests"].includes(
+                          ["Medications & Care Plan", "Tests"].includes(
                             item.variable
                           ) ? (
-                            <button
-                              onClick={() => {
-                                setCurrentScreen(item.component);
-                              }}
-                              className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                            >
-                              Add
-                            </button>
+                            <div className="flex gap-1.5">
+                              <>
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(item.component);
+                                  }}
+                                  className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                >
+                                  {item.variable === "Tests" ? "Request" : "Add"}
+                                </button>
+                                {item.variable === "Tests" && (
+                                  <button
+                                    onClick={() => {
+                                      // Handle the click event for the "Record" button
+                                      console.log("Record button clicked!");
+                                    }}
+                                    className="flex gap-1.5 justify-between px-10 py-1 rounded border border-green-800 text-green-800 border-solid font-semibold border-1.5"
+                                  >
+                                    Record
+                                  </button>
+                                )}
+                              </>
+                            </div>
                           ) : (
                             
                             <input onChange={(e) => {
@@ -179,10 +188,8 @@ export default function FollowUpVisit() {
           </div>
         </>
       ) : currentScreen === 1 ? (
-        <CarePlanList />
-      ) : currentScreen === 2 ? (
         <VisitMedicationList />
-      ) : currentScreen === 3 ? (
+      ) : currentScreen === 2 ? (
         <VisitLabTests />
       ) : (
         ""
