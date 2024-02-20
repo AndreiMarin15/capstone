@@ -33,15 +33,7 @@ export default function MasterData() {
             variable: "Hospital",
             value: "PGH",
         },
-        {
-            variable: "Medications & Procedures",
-			value: {
-				label: "View",
-				onClick: () => {
-					alert("Button clicked for Medications & Procedures");
-				},
-			},
-        },
+
     ];
     return (
         <>
