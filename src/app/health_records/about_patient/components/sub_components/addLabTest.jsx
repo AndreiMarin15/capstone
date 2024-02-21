@@ -41,56 +41,67 @@ export default function AddLabTest() {
             <div className="flex flex-col max-w-full">
               <div className="w-full max-md:max-w-full">
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
-                  <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col text-xs leading-5 max-md:mt-10">
-                      <div className="flex gap-14 pr-14 mt-4 w-full max-md:pr-5">
-                        <div className="flex gap-4 my-auto font-semibold text-black">
-                          <Image
-                            alt="image"
-                            height={0}
-                            width={0}
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
-                            className="aspect-square fill-black w-[15px]"
-                          />
-                          <div className="my-auto">Date of Result </div>
-                        </div>
-                        <input className="ml-5 justify-center items-start py-1.5 pr-16 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
-                      </div>
-                      <div className="flex gap-16 pr-14 mt-6 w-full whitespace-nowrap max-md:pr-5">
-                        <div className="flex gap-5 my-auto font-semibold text-black">
-                          <Image
-                            alt="image"
-                            height={0}
-                            width={0}
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/05dd7068174eb76cbab2ba8d9608b143eabae9c2e3d1be451a944916466c9ae8?"
-                            className="aspect-square fill-black w-[15px]"
-                          />
-                          <div className="my-auto">Name of Lab Test</div>
-                        </div>
-                        <input className="justify-center items-start py-1.5 pr-16 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
-                      </div>
-                      <div className="flex gap-10 mt-6 ml-48 w-full">
-                        <div className="flex flex-col items-center px-20 py-2 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[268px]">
-                          <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
-                            className="aspect-[1.03] w-[38px]"
-                          />
-                          <div className="self-stretch mt-1.5 text-black">
-                            Drag or drop here.
+                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
+                    <tbody>
+                      <tr>
+                        <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
+                          <div className="flex gap-4 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="my-auto">Date of Result </div>
                           </div>
-                          <div className="mt-3.5 font-light text-sky-600 underline">
-                            Upload
+                          <td>
+                            <input className="justify-center items-start py-1.5 pr-16 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                          </td>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="flex gap-12 pr-14 mt-6 w-full whitespace-nowrap max-md:pr-5">
+                          <div className="flex gap-4 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/05dd7068174eb76cbab2ba8d9608b143eabae9c2e3d1be451a944916466c9ae8?"
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="my-auto">Name of Lab Test</div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                          <td>
+                            <input className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                          </td>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="flex gap-10 mt-6 ml-44 w-full">
+                          <div className="flex flex-col items-center px-20 py-2 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[250px]">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
+                              className="aspect-[1.03] w-[38px]"
+                            />
+                            <div className="self-stretch mt-1.5 text-black">
+                              Drag or drop here.
+                            </div>
+                            <div className="mt-3.5 font-light text-sky-600 underline">
+                              Upload
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
                   <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
                     <table className="max-w-fit border-separate">
                       <tr>
@@ -142,7 +153,10 @@ export default function AddLabTest() {
                         ))}
                       </tbody>
                     </table>
-                    <button className="flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]" onClick>
+                    <button
+                      className="flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+                      onClick
+                    >
                       <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[20] w-[24]">
                         +
                       </div>
