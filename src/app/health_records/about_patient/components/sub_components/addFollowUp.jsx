@@ -3,7 +3,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CarePlanList from "./carePlanList";
-import VisitMedicationList from "./visitMedications";
+import AddMedications from "./addMedication"
+import AddLabTest from "./addLabTest";
 import VisitLabTests from "./visitLabTests";
 
 export default function FollowUpVisit() {
@@ -111,34 +112,17 @@ export default function FollowUpVisit() {
                           ["Medications & Care Plan", "Tests"].includes(
                             item.variable
                           ) ? (
-                            <div className="flex gap-1.5">
-                              <>
-                                <button
-                                  onClick={() => {
-                                    setCurrentScreen(item.component);
-                                  }}
-                                  className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                                >
-                                  {item.variable === "Tests" ? "Request" : "Add"}
-                                </button>
-                                {item.variable === "Tests" && (
-                                  <button
-                                    onClick={() => {
-                                      // Handle the click event for the "Record" button
-                                      console.log("Record button clicked!");
-                                    }}
-                                    className="flex gap-1.5 justify-between px-10 py-1 rounded border border-green-800 text-green-800 border-solid font-semibold border-1.5"
-                                  >
-                                    Record
-                                  </button>
-                                )}
-                              </>
-                            </div>
+                            <button
+                              onClick={() => {
+                                setCurrentScreen(item.component);
+                              }}
+                              className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                            >
+                              Add
+                            </button>
                           ) : (
                             
-                            <input onChange={(e) => {
-                              item.value = e.target.value
-                            }} className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" value={item.value}/>
+                            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
                             
                           )
                         ) : (
@@ -188,9 +172,9 @@ export default function FollowUpVisit() {
           </div>
         </>
       ) : currentScreen === 1 ? (
-        <VisitMedicationList />
+        <AddMedications />
       ) : currentScreen === 2 ? (
-        <VisitLabTests />
+        <AddLabTest />
       ) : (
         ""
       )}
