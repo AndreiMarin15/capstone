@@ -27,7 +27,7 @@ export default function LabTests() {
 
             {tests.map((medication, index) => (
                 <button key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
-                    <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+                    <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                         <Image
                         alt="image"
                         height={0}

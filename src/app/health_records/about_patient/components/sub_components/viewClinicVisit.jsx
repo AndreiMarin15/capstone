@@ -32,7 +32,7 @@ export default function FollowUpVisit() {
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-			variable: "Medications",
+			variable: "Medications & Care Plans",
 			value: {
 				label: "View",
 				onClick: () => {
@@ -42,21 +42,11 @@ export default function FollowUpVisit() {
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-			variable: "Care Plan",
-			value: {
-				label: "View",
-				onClick: () => {
-					setCurrentPage(currentPage + 2);
-				},
-			},
-		},
-		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Tests",
 			value: {
 				label: "View",
 				onClick: () => {
-					setCurrentPage(currentPage + 3);
+					setCurrentPage(currentPage + 2);
 				},
 			},
 		},
@@ -104,7 +94,7 @@ export default function FollowUpVisit() {
 			{currentPage === 0 ? (
 				<>
 					<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-						FOLLOW UP VISIT #1
+						CLINIC VISIT #1
 					</div>
 
 					<div>
@@ -189,12 +179,6 @@ export default function FollowUpVisit() {
 			)}
 
 			{currentPage === 2 && (
-				<>
-					<CarePlanList />
-				</>
-			)}
-
-			{currentPage === 3 && (
 				<>
 					<LabTestList />
 				</>

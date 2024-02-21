@@ -3,8 +3,8 @@ import * as React from "react";
 import Navbar from "../../navbar";
 import HealthRecordsNav from "../healthRecordsNav";
 import PatientProfile from "../patientProfile";
-import ClinicVisits from "./components/clinicVisits";
-import Diagnoses from "./components/diagnoses"
+import ClinicVisits from "./components/clinicVisitsDashboard";
+import Diagnoses from "./components/diagnosesDashboard"
 import MasterData from "./components/masterDataDashboard";
 import Vitals from "./components/vitalsDashboard";
 import Medications from "./components/medicationsDashboard"
