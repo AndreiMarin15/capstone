@@ -87,7 +87,7 @@ export default function FollowUpVisit() {
 
           <div>
             <div className="flex gap-[4rem] align-baseline">
-              <table className="max-w-fit border-spacing-y-7 border-separate">
+              <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className=" text-xs leading-5 text-black">
                   {followup.map((item, index) => (
                     <tr key={index} className="h-8">
@@ -141,7 +141,7 @@ export default function FollowUpVisit() {
                 </tbody>
               </table>
               {/*  VITALS AND BIOMETRICS */}
-              <table className="max-w-fit border-spacing-y-7 border-separate">
+              <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className=" text-xs leading-5 text-black">
                   {clinicVitals.map((item, index) => (
                     <tr key={index} className="h-8">
