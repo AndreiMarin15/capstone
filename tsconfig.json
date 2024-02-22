@@ -87,6 +87,6 @@
 		"src/app/topNav.jsx",
 		"global.d.js",
 		"globals.js"
-	],
+, "src/app/patient/careplan_list/labtest/page.jsx"	],
 	"exclude": ["node_modules"]
 }

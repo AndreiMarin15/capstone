@@ -101,11 +101,6 @@ export default function Vitals() {
 					</React.Fragment>
 					))}
 				</table>
-				<button className="flex gap-1.5 justify-end text-xs font-bold text-blue-800 whitespace-nowrap">
-					<div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-						<div>Add New</div>
-					</div>
-				</button>
 			</div>
 		</>
 	);

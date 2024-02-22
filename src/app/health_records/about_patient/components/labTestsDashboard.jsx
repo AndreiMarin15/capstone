@@ -38,7 +38,7 @@ export default function LabTests() {
                         />
                         <div className="my-auto">{medication.testname}</div>
                     </div>
-                    <div className="flex gap-5 justify-between ml-12 max-md:ml-2.5">
+                    <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
                         <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                             <Image
                             alt="image"
