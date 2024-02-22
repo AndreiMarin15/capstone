@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FollowUpVisit from "./sub_components/viewClinicVisit"
@@ -58,6 +59,7 @@ export default function MasterData() {
 	};
 
   return (
+	
     <>
 	{currentPage === 0 ? (
 	<>
