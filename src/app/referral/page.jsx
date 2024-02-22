@@ -88,7 +88,7 @@ export default function Referral() {
                   </div>
                 </div>
               </div>
-              <div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
+              <div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full" style={{ width: "780px" }}>
                 <div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
                   <div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
                     <img
@@ -97,7 +97,7 @@ export default function Referral() {
                       className="self-start w-7 aspect-square ml-2"
                     />
                     <div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-                      Loremi ipsum dolor sit amet, consectetur adipiscing
+                      Loremimimi ipsum dolor sit amet, consectetur adipiscing
                       elit, sed do eiusmod tempor incididunt ut labore
                       et dolore magna aliqua. Ut enim ad minim veniam,
                       quis nostrud{" "}
@@ -129,7 +129,7 @@ export default function Referral() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-" style={{ width: "900px" }}>
+              <div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-" style={{ width: "800px" }}>
                 <div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
                   <input
                     type="text"
