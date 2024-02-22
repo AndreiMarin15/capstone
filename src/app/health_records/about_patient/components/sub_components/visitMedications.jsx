@@ -42,6 +42,28 @@ export default function VisitMedications() {
     },
   ];
 
+  const careplan = [
+    {
+      srccareplan:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      careplanname: "Dietary Management",
+      value: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
+    },
+    {
+      srccareplan:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      careplanname: "Physical Activities",
+      value: "Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
+    },
+    {
+      srccareplan:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      careplanname: "Self-Monitoring",
+      value: "Pay attention to your feet and check for any cuts, sores, or redness",
+    },
+  ];
+
+
   const [currentScreen, setCurrentScreen] = useState(0);
 
   return (
@@ -49,15 +71,19 @@ export default function VisitMedications() {
       {currentScreen === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            VISITS - MEDICATION
+            VISITS - MEDICATIONS & CARE PLAN
+          </div>
+
+          <div className="text-start text-xs mt-7 whitespace-nowrap font-semibold text-black">
+            Medications
           </div>
 
           {medications.map((medication, index) => (
             <div
               key={index}
-              className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
+              className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[701px]"
             >
-              <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+              <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                 <Image
                   alt="image"
                   height={0}
@@ -68,10 +94,10 @@ export default function VisitMedications() {
                 />
                 <div className="my-auto">{medication.medicinename}</div>
               </div>
-              <div className="flex gap-5 justify-between ml-12 max-md:ml-2.5">
+              <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
                 <div className="flex-auto my-auto">{`${medication.startdate} - ${medication.enddate}`}</div>
               </div>
-              <div className="flex gap-5 justify-between self-stretch ml-12 mt-6 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
+              <div className="flex gap-5 justify-between self-stretch ml-7 mt-6 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
                 <div className="pr-8">
                   <span className="">Form</span>:{" "}
                   <span className="font-medium">{medication.form}</span>
@@ -95,6 +121,55 @@ export default function VisitMedications() {
               </div>
             </div>
           ))}
+
+          {/* CARE PLAN */}
+          <div className="text-start text-xs mt-10 whitespace-nowrap font-semibold text-black">
+            Care Plan
+          </div>
+
+          {careplan.map((careplan, index) => (
+            <div
+              key={index}
+              className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[701px]"
+            >
+              <div className="flex gap-3.5 mb-5 font-semibold whitespace-nowrap">
+                <Image
+                  alt="image"
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src={careplan.srccareplan}
+                  className="aspect-square fill-black w-[15px]"
+                />
+                <div className="my-auto">{careplan.careplanname}</div>
+              </div>
+              <div className="flex gap-5 justify-between self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
+                <div className="pr-8">
+                  <span className="font-normal">{careplan.value}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+
+
+        
+        {/* BACK BUTTON */}
+        <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
+          <button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
+            <div className="flex gap-0.5 justify-between items-center">
+              <Image
+                height={0}
+                width={0}
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
+                className="w-4 h-4 aspect-square"
+                alt="Back Arrow"
+              />
+              <div className="ml-1">BACK</div>
+            </div>
+          </button>
+        </div>
+         
         </>
       ) : currentScreen === 1 ? (
         <AddMedications />

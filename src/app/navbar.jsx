@@ -46,8 +46,8 @@ const patientNavigation = [
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b8c918617a9191e94be3756699add9828c7972f6092c7a5aad4ba4bc3881ef28?",
 	},
 	{
-		name: "My Health Records",
-		href: "/patient/health_records",
+		name: "My Health Record",
+		href: "/patient/health_record",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
 	},
 	{

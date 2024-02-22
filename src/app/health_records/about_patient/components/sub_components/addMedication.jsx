@@ -93,8 +93,8 @@ export default function AddMedications() {
               <div className="w-full max-md:max-w-full">
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                   <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col ml-5 w-[100%] text-xs max-md:ml-0 max-md:w-full">
-                      <div className="text-start whitespace-nowrap font-semibold text-black">
+                    <div className="flex flex-col w-[100%] text-xs max-md:ml-0 max-md:w-full">
+                      <div className="text-start text-xs whitespace-nowrap font-semibold text-black">
                         Dosage Instructions
                       </div>
                       <div className="flex gap-10 justify-between mt-6 w-[80%]">
