@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDoctorInfo } from "../../../../store";
+import { useDoctorInfo } from "../../store";
 import { DoctorSignUp } from "../../../../lib/backend/doctor_signup";
 export default function DoctorRegistration() {
 	const doctorStore = useDoctorInfo();
