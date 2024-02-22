@@ -176,7 +176,7 @@ export default function AddMedications() {
 
                   <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
                     <div className="flex flex-col text-xs leading-5 max-md:mt-10">
-                      <div className="font-semibold text-start text-xs text-black">
+                      <div className="font-semibold text-start text-black">
                         Prescription Duration
                       </div>
                       <div className="flex gap-14 pr-14 mt-9 w-full max-md:pr-5">
