@@ -33,15 +33,7 @@ export default function MasterData() {
             variable: "Hospital",
             value: "PGH",
         },
-        {
-            variable: "Medications & Procedures",
-			value: {
-				label: "View",
-				onClick: () => {
-					alert("Button clicked for Medications & Procedures");
-				},
-			},
-        },
+
     ];
     return (
         <>
@@ -49,7 +41,7 @@ export default function MasterData() {
 				DIAGNOSES
 			</div>
 
-            <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
+            <table className="pt-1.5 text-xs leading-5 text-black mt-10 max-w-[914px]">
                 <thead>
                     <tr className="font-medium text-left">
                         {mData.map((item, index) => (

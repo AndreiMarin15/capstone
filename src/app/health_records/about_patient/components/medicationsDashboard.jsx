@@ -37,7 +37,7 @@ export default function Medications() {
 
             {medications.map((medication, index) => (
                 <div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
-                    <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+                    <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                         <Image
                         alt="image"
                         height={0}
@@ -48,7 +48,7 @@ export default function Medications() {
                         />
                         <div className="my-auto">{medication.medicinename}</div>
                     </div>
-                    <div className="flex gap-5 justify-between ml-12 max-md:ml-2.5">
+                    <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
                         <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                             <Image
                             alt="image"

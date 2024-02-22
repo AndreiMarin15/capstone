@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Referral() {
-  const router = useRouter();
+	const router = useRouter();
 
-  // Dynamic data
   const doctorInfo = {
     name: "Dr. Johnny Santos",
     specialty: "Cardiologist",

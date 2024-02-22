@@ -5,14 +5,42 @@ import * as React from "react";
 import sideImg from "./assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
 import { useDoctorInfo, useUserInfo } from "./store";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
 	const router = useRouter();
 	const userStore = useUserInfo();
 	const [signUpAs, setSignUp] = React.useState("Doctor");
+	const [passwordVerify, setPasswordVerify] = React.useState("");
+
+	const passwordValid = () => {
+		if (userStore.password === passwordVerify) {
+			if (userStore.password.length >= 8) {
+				return {
+					status: true,
+					message: `Registration for ${userStore.email} is now ongoing. Please answer the forms in the next page.`,
+				};
+			}
+
+			return {
+				status: false,
+				message: "Password length too short. Please input atleast 8 characters",
+			};
+		}
+
+		return {
+			status: false,
+			message: "Passwords do not match. Please try again.",
+		};
+	};
 
 	const onChangeSignUp = (e) => {
 		setSignUp(e.target.value);
+	};
+
+	const handleLoginClick = () => {
+		router.push("/login");
 	};
 
 	return (
@@ -35,9 +63,12 @@ export default function Home() {
 						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
 							Get started
 						</div>
-						<div className="text-zinc-950 text-base leading-6 underline self-stretch mt-6">
+						<button
+							className="text-left text-zinc-950 text-base leading-6 underline self-stretch mt-6"
+							onClick={handleLoginClick}
+						>
 							Already have an account? <span className="underline text-zinc-950">Sign in</span>
-						</div>
+						</button>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
 						<input
 							type="text"
@@ -56,6 +87,18 @@ export default function Home() {
 								userStore.setPassword(e.target.value);
 							}}
 							value={userStore.password}
+							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+						/>
+						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
+							Re-type Password
+						</div>
+						<input
+							type="password"
+							id="password"
+							onChange={(e) => {
+								setPasswordVerify(e.target.value);
+							}}
+							value={passwordVerify}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
@@ -79,10 +122,27 @@ export default function Home() {
 						</div>
 						<button
 							onClick={() => {
-								if (signUpAs === "Doctor") {
-									router.push("/doctor_form");
+								const result = passwordValid();
+								if (result.status === true) {
+									toast.success(result.message, {
+										position: "top-left",
+										theme: "colored",
+										autoClose: 2000,
+									});
+
+									setTimeout(() => {
+										if (signUpAs === "Doctor") {
+											router.push("/doctor_form");
+										} else {
+											router.push("/patient_form");
+										}
+									}, 2300);
 								} else {
-									router.push("/patient_form");
+									toast.error(result.message, {
+										position: "top-left",
+										theme: "colored",
+										autoClose: 2000,
+									});
 								}
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"

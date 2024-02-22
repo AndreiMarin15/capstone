@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import FamilyHistory from "./sub_components/familyHistory";
+import FamilyHistory from "./sub_components/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
 
 export default function SocialHistory() {
@@ -63,15 +63,16 @@ export default function SocialHistory() {
 		<>
         {currentPage === 0 ? (
         <>
-            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-4 max-md:ml-1 max-md:mt-10">
 				FAMILY HISTORY
 			</div>
 
             {fHistory.map((item, index) => (
-                <button key={index} className="flex gap-2.5 mt-4 mb-4 text-xs text-black" onClick={handleVisitClick}>
+                <button key={index} className="flex gap-2.5 mt-3 mb-3 text-xs text-black" onClick={handleVisitClick}>
                     <div className="flex flex-col flex-1 text-left">
                         <div className="font-semibold whitespace-nowrap">{item.name}</div>
                         <div>{item.relationship}</div>
+						<div className="border-b border-gray-300 w-full mt-2"></div>
                     </div>
                 </button>
             ))}

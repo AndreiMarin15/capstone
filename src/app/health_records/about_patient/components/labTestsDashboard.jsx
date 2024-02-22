@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Medications() {
+export default function LabTests() {
     const tests = [
         {
             srctest: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -27,7 +27,7 @@ export default function Medications() {
 
             {tests.map((medication, index) => (
                 <button key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
-                    <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+                    <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                         <Image
                         alt="image"
                         height={0}
