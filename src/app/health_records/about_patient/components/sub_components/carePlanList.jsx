@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ViewCarePlan from "./viewCarePlan";
 
   
 export default function CarePlanList() {
@@ -87,8 +86,8 @@ export default function CarePlanList() {
             ) : (
               ""
             )} 
-            {currentPage === 1 ? <AddCarePlan /> : ""}
-            {currentPage === 2 ? <ViewCarePlan /> : ""}
+            
+        
 		    </>
 	  );
 }
