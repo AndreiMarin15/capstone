@@ -17,9 +17,15 @@ import SocialHistory from "./components/socialHistory";
 import FamilySocialHistory from "./components/familysocialHistoryDashboard"
 import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
 
+
 export default function AboutPatient() {
 	const { selected } = useHRNav();
 	const router = useRouter();
+	const [currentPage, setCurrentPage] = React.useState(0);
+
+	const handleBack = () => {
+        setCurrentPage(currentPage - 1); // Go back one page
+    };
 
 	return (
 		<>
@@ -34,9 +40,9 @@ export default function AboutPatient() {
 								</span>
 								<HealthRecordsNav />
 								{selected === "Master Data" ? (
-									<MasterData />
+									 <MasterData/>
 								) : selected === "Clinic Visits" ? (
-									<ClinicVisits />
+									<ClinicVisits currentPage={currentPage} setCurrentPage={setCurrentPage} />
 								) : selected === "Diagnoses" ? (
 									<Diagnoses />
 								) : selected === "Medications" ? (
@@ -63,7 +69,15 @@ export default function AboutPatient() {
 
 							<button
 								onClick={() => {
-									router.push("/health_records");
+									if (currentPage === 10) {
+										setCurrentPage(0);
+									} 
+									else if (currentPage) {
+										setCurrentPage(0);
+									}
+									else {
+										router.push("/health_records"); // Navigate back to the default route
+									}
 								}}
 								className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5"
 							>

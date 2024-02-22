@@ -7,9 +7,9 @@ import FollowUpVisit from "./sub_components/viewClinicVisit"
 import AddFollowUpVisit from "./sub_components/addClinicVisit"
 import * as React from "react";
 
-export default function MasterData() {
+export default function MasterData({ currentPage, setCurrentPage }) {
 	const router = useRouter();
-	const [currentPage, setCurrentPage] = useState(0);
+	
 
 	const visits = [
 	{
