@@ -2,10 +2,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import CarePlanList from "./carePlanList";
 import AddMedications from "./addMedication"
 import AddLabTest from "./addLabTest";
-import VisitLabTests from "./visitLabTests";
 
 export default function FollowUpVisit() {
   const followup = [
@@ -21,12 +19,12 @@ export default function FollowUpVisit() {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Complaint",
+      variable: "Complaint/s",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Procedures",
+      variable: "Procedure/s",
       value: "",
     },
     {
@@ -82,20 +80,20 @@ export default function FollowUpVisit() {
       {currentScreen === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            ADD FOLLOW UP VISIT
+            ADD CLINIC VISIT
           </div>
 
           <div>
             <div className="flex gap-[4rem] align-baseline">
               <table className="max-w-fit border-spacing-y-5 border-separate">
-                <tbody className=" text-xs leading-5 text-black">
+                <tbody className="text-xs leading-5 text-black">
                   {followup.map((item, index) => (
-                    <tr key={index} className="h-8">
+                    <tr key={index} className={`h-${item.variable === "Procedures" || item.variable === "Complaint" ? '14' : '8'}`}>
                       <td className="w-5">
                         <Image
-                        alt="image"
-                        height={0}
-                        width={0}
+                          alt="image"
+                          height={0}
+                          width={0}
                           loading="lazy"
                           src={item.src}
                           className="self-start aspect-square fill-black w-[15px]"
@@ -108,10 +106,7 @@ export default function FollowUpVisit() {
                       </td>
                       <td className="border-l-[5rem] border-transparent">
                         {typeof item.value === "string" ? (
-                          // Check if the variable is one of the specified ones
-                          ["Medications & Care Plan", "Tests"].includes(
-                            item.variable
-                          ) ? (
+                          ["Medications & Care Plan", "Tests"].includes(item.variable) ? (
                             <button
                               onClick={() => {
                                 setCurrentScreen(item.component);
@@ -121,18 +116,24 @@ export default function FollowUpVisit() {
                               Add
                             </button>
                           ) : (
+                            <textarea
                             
-                            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
-                            
+                            onChange={(e) => {
+                              // Calculate the number of rows based on the length of the input value
+                              const inputRows = Math.max(Math.ceil(e.target.value.length / 40), 1);
+                              
+                            }}
+                            className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5`}
+                            style={{
+                              height: item.variable === "Procedure/s" || item.variable === "Complaint/s" ? '3rem' : 'auto',
+                              whiteSpace: 'pre-wrap'
+                            }}
+                            wrap="soft" // "soft" allows wrapping
+                          />
                           )
                         ) : (
                           <div className="ml-auto">
-                            <button
-                              onClick={item.value.onClick}
-                              className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
-                            >
-                              {item.value.label}
-                            </button>
+                            
                           </div>
                         )}
                       </td>

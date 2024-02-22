@@ -11,7 +11,7 @@ export default function VisitLabtests() {
       medicinename: "Hb1Ac (Glycated Hemoglobin)",
       srddoctor:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      startdate: "2024/01/24",
+      startdate: "2024-01-24",
     },
   ];
 
