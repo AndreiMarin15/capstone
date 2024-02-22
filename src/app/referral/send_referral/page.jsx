@@ -129,6 +129,19 @@ export default function SendReferral() {
         ) : (
           <div></div>
         )}
+
+        {currentState === 1 && (
+          <button
+          onClick={() => {
+            router.push("/referral");
+          }}
+          className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
+          style={{ marginRight: 'auto' }}
+        >
+          BACK
+        </button>
+        )}  
+
         <button
           onClick={() => {
             if (currentState < 3) {
