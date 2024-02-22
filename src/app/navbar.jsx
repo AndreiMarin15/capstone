@@ -46,14 +46,24 @@ const patientNavigation = [
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b8c918617a9191e94be3756699add9828c7972f6092c7a5aad4ba4bc3881ef28?",
 	},
 	{
-		name: "My Health Records",
-		href: "/patient/health_records",
+		name: "My Health Record",
+		href: "/patient/health_record",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
 	},
 	{
-		name: "Care Plans and Laboratory Tests",
-		href: "/patient/careplan_list",
-		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b6de349e8c69b6b0060cd2e1b31fc9db9b32f5ffe30c9fc9c4fa3011da0d1873?apiKey=66e07193974a40e683930e95115a1cfd&",
+		name: "Medications & Care Plans",
+		href: "/patient/medications_and_careplans",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
+	},
+	{
+		name: "Lab Tests",
+		href: "/patient/lab_tests",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d9227b6298b463189efefc5f7ac4076d3f31e5c8cf805f3377eeac6b717d533b?",
+	},
+	{
+		name: "Sharing Request",
+		href: "/patient/sharing_request",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/83dda067dae7a93c2533039e7b5c4922a5216df1fd9d3775dd133dc76cdf3f39?",
 	},
 	{
 		name: "Attending Doctors",

@@ -18,7 +18,7 @@ export default function DoctorForm() {
 	React.useEffect(() => {
 		const getSpecials = async () => {
 			const specials = await DoctorSignUp.selectSpecializations();
-			
+
 			setSpecializations(specials);
 		};
 

@@ -30,7 +30,7 @@ export default function LabTestList() {
   return (
     <>
       {isTest ? (
-        <VisitLabtests testName={testName} />
+        <VisitLabtests />
       ) : isAdd ? (
         <AddLabTest />
       ) : (
@@ -40,23 +40,26 @@ export default function LabTestList() {
               LAB TESTS
             </div>
             <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
-              <span className="bg-blue-800 flex items-stretch justify-between gap-1.5 px-10 py-1.5 rounded">
+              <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
                 <button
                   onClick={() => {
                     setTest(false);
                     setAdd(true);
                   }}
-                  className="text-white text-xs font-semibold leading-5"
+                  className="text-xs font-semibold leading-5"
                 >
                   Add
                 </button>
               </span>
             </div>
           </span>
-
           {lTest.map((item) => (
-            <div
-              className="flex flex-col items-stretch mt-8"
+            <button
+              onClick={() => {
+                setTest(true);
+                setAdd(false);
+              }}
+              className="flex flex-col mt-8"
               key={item.variable}
             >
               <span className="flex items-stretch justify-between gap-4">
@@ -79,20 +82,8 @@ export default function LabTestList() {
                 <div className="text-black text-xs font-medium leading-5">
                   {item.date} <br />
                 </div>
-                <div className="pl-10 ml-28 items-center">
-                  <button
-                    onClick={() => {
-                      setTestName(item.variable);
-                      setAdd(false);
-                      setTest(true);
-                    }}
-                    className="text-white text-xs font-semibold leading-5 whitespace-nowrap bg-sky-900 aspect-[3.3333333333333335] justify-center items-stretch px-5 py-1.5 rounded max-md:px-5"
-                  >
-                    View
-                  </button>
-                </div>
               </span>
-            </div>
+            </button>
           ))}
         </>
       )}
