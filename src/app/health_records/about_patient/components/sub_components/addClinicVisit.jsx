@@ -6,7 +6,6 @@ import AddMedications from "./addMedication"
 import AddLabTest from "./addLabTest";
 
 export default function FollowUpVisit() {
-  const [textAreaRows, setTextAreaRows] = useState(1);
   const followup = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -118,18 +117,15 @@ export default function FollowUpVisit() {
                             </button>
                           ) : (
                             <textarea
-                            // Use textAreaRows to dynamically set the number of rows
-                            rows={textAreaRows}
-                            // Handle input changes to update textAreaRows
+                            
                             onChange={(e) => {
                               // Calculate the number of rows based on the length of the input value
                               const inputRows = Math.max(Math.ceil(e.target.value.length / 40), 1);
-                              setTextAreaRows(inputRows);
+                              
                             }}
                             className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5`}
                             style={{
                               height: item.variable === "Procedure/s" || item.variable === "Complaint/s" ? '3rem' : 'auto',
-                              overflow: 'hidden',
                               whiteSpace: 'pre-wrap'
                             }}
                             wrap="soft" // "soft" allows wrapping
