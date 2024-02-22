@@ -1,6 +1,6 @@
 // store.js
-const { create } = require("zustand");
-const { persist } = require("zustand/middleware");
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 const useHRNav = create((set) => ({
 	selected: "Master Data",
@@ -15,6 +15,11 @@ const useAllergyNav = create((set) => ({
 const useCPNav = create((set) => ({
 	selected: "Care Plans",
 	setSelected: (item) => set(() => ({ selected: item })),
+}));
+
+const currentUser = create((set) => ({
+	info: {},
+	setInfo: (item) => set(() => ({ info: item })),
 }));
 
 const useUserInfo = create(
@@ -145,4 +150,5 @@ module.exports = {
 	useUserInfo,
 	useDoctorInfo,
 	usePatientInfo,
+	currentUser
 };
