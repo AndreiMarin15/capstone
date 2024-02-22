@@ -52,13 +52,18 @@ const patientNavigation = [
 	},
 	{
 		name: "Medications & Care Plans",
-		href: "/patient/medicationsandcareplans",
+		href: "/patient/medications_and_careplans",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
 	},
 	{
 		name: "Lab Tests",
-		href: "/patient/labtests",
-		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
+		href: "/patient/lab_tests",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d9227b6298b463189efefc5f7ac4076d3f31e5c8cf805f3377eeac6b717d533b?",
+	},
+	{
+		name: "Sharing Request",
+		href: "/patient/sharing_request",
+		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/83dda067dae7a93c2533039e7b5c4922a5216df1fd9d3775dd133dc76cdf3f39?",
 	},
 	{
 		name: "Attending Doctors",

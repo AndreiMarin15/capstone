@@ -4,17 +4,15 @@ import Image from "next/image";
 import * as React from "react";
 import sideImg from "../assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
-import { useDoctorInfo, useUserInfo } from "../store";
+import { authentication } from "../../../lib/backend/auth";
+import { login } from "../../../lib/backend/login";
+import { useUserInfo } from "../store";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
 	const router = useRouter();
-	const userStore = useUserInfo();
-	const [signUpAs, setSignUp] = React.useState("Doctor");
-
-	const onChangeSignUp = (e) => {
-		setSignUp(e.target.value);
-	};
-
+	const loginInfo = useUserInfo();
 	return (
 		<div className="border bg-white pl-20 border-solid border-stone-300 max-md:pl-5">
 			<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -40,9 +38,9 @@ export default function Home() {
 							type="text"
 							id="email"
 							onChange={(e) => {
-								userStore.setEmail(e.target.value);
+								loginInfo.setEmail(e.target.value);
 							}}
-							value={userStore.email}
+							value={loginInfo.email}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
@@ -50,17 +48,27 @@ export default function Home() {
 							type="password"
 							id="password"
 							onChange={(e) => {
-								userStore.setPassword(e.target.value);
+								loginInfo.setPassword(e.target.value);
 							}}
-							value={userStore.password}
+							value={loginInfo.password}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<button
-							onClick={() => {
-								if (signUpAs === "Doctor") {
-									router.push("/doctor_form");
+							onClick={async () => {
+								const user = await login.loginUser();
+
+								const type = await login.getUserType(user);
+
+								if (type === "patient") {
+									router.push("/patient/dashboard");
+								} else if (type === "doctor") {
+									router.push("/dashboard");
 								} else {
-									router.push("/patient_form");
+									toast.error("User not found. Kindly retry or register.", {
+										position: "top-left",
+										theme: "colored",
+										autoClose: 2000,
+									});
 								}
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"

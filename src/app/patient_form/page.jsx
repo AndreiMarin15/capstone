@@ -87,7 +87,7 @@ export default function PatientInformation() {
 										setCurrentState(currentState + 1);
 									} else if (currentState >= 4) {
 										const account = await patientSignUp.signUpAsPatient(user, patientInfo);
-										
+
 										if (account.user) {
 											router.push("/patient/dashboard");
 										} else {

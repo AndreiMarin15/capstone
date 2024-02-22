@@ -47,7 +47,6 @@ export default function DoctorInformation() {
 				<div
 					onClick={() => {
 						router.push("/");
-            
 					}}
 					className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5"
 				>
