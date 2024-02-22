@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import RegisterDoctor from "./components/doctorRegistration";
-import { useDoctorInfo, useUserInfo } from "../store";
+import { useDoctorInfo, useUserInfo } from "../../../store";
 import { useRouter } from "next/navigation";
 import { DoctorSignUp } from "../../../lib/backend/doctor_signup";
 import { toast } from "react-toastify";
@@ -47,7 +47,6 @@ export default function DoctorInformation() {
 				<div
 					onClick={() => {
 						router.push("/");
-            
 					}}
 					className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5"
 				>
