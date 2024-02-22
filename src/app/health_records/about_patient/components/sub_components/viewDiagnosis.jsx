@@ -26,7 +26,7 @@ export default function ViewDiagnosis() {
   return (
     <>
       {pDiagnosis.map((val) => (
-        <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+        <div key={val.name} className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
           {val.name}
         </div>
       ))}

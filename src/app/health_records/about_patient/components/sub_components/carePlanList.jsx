@@ -87,7 +87,7 @@ export default function CarePlanList() {
               ""
             )} 
             
-            {currentPage === 2 ? <ViewCarePlan /> : ""}
+        
 		    </>
 	  );
 }
