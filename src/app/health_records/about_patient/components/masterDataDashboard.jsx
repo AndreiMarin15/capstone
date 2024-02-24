@@ -46,7 +46,7 @@ export default function MasterData() {
           }}
           className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[5] font-semibold text-xs border-1.5 bg-sky-900 text-white"
         >
-          View
+          VIEW
         </button>
       ),
     },
