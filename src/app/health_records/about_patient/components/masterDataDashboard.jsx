@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function MasterData() {
   const router = useRouter(); 
-  const [currentPage, setCurrentPage] = useState(1);
 
   const mData = [
     {
