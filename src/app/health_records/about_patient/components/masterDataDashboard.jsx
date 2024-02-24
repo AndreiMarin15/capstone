@@ -1,16 +1,11 @@
 import Image from "next/image";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@nextui-org/react";
-
-import * as React from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function MasterData() {
+  const router = useRouter(); 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const mData = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
@@ -45,14 +40,19 @@ export default function MasterData() {
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d354e02d857f0929bd9b58b2f172642a26d8df38bfdf167b22bd115bfe9b4fea?",
       variable: "Allergies",
-      value: {
-        label: "View",
-        onClick: () => {
-          alert("Button clicked for Allergy");
-        },
-      },
+      value: (
+        <button
+          onClick={() => {
+            router.push("/health_records/about_patient/allergies");
+          }}
+          className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[5] font-semibold text-xs border-1.5 bg-sky-900 text-white"
+        >
+          View
+        </button>
+      ),
     },
   ];
+
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
@@ -83,12 +83,7 @@ export default function MasterData() {
                 </div>
               ) : (
                 <div className="ml-auto">
-                  <button
-                    onClick={item.value.onClick}
-                    className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
-                  >
-                    {item.value.label}
-                  </button>
+                  {item.value}
                 </div>
               )}
             </td>
