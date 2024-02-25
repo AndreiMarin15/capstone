@@ -98,7 +98,10 @@ export default function AddMedications() {
                       <table className="w-full">
                         <tbody>
                           {dosage.map((item, index) => (
-                            <tr key={index} className="flex gap-5 justify-between mt-6 w-full">
+                            <tr
+                              key={index}
+                              className="flex gap-5 justify-between mt-6 w-full"
+                            >
                               <td className="flex gap-2 my-auto font-semibold text-black">
                                 <Image
                                   alt="image"
@@ -108,7 +111,9 @@ export default function AddMedications() {
                                   src={item.src}
                                   className="aspect-[1.14] fill-black w-[17px]"
                                 />
-                                <div className="flex-auto my-auto">{item.variable}</div>
+                                <div className="flex-auto my-auto">
+                                  {item.variable}
+                                </div>
                               </td>
                               <td>
                                 <input
@@ -131,7 +136,10 @@ export default function AddMedications() {
                       <table className="w-full">
                         <tbody>
                           {prescription.map((item, index) => (
-                            <tr key={index} className="flex gap-5 justify-between mt-6 w-full">
+                            <tr
+                              key={index}
+                              className="flex gap-5 justify-between mt-6 w-full"
+                            >
                               <td className="flex gap-2 my-auto font-semibold text-black">
                                 <Image
                                   alt="image"
@@ -141,7 +149,9 @@ export default function AddMedications() {
                                   src={item.src}
                                   className="aspect-square fill-black w-[15px]"
                                 />
-                                <div className="flex-auto my-auto">{item.variable}</div>
+                                <div className="flex-auto my-auto">
+                                  {item.variable}
+                                </div>
                               </td>
                               <td>
                                 <input
@@ -157,45 +167,61 @@ export default function AddMedications() {
                   </div>
                 </div>
                 {/* CARE PLAN */}
-                <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
-                  <div className="text-start text-sm mt-10 mb-3 whitespace-nowrap font-semibold text-black">
-                    Care Plan
+                <div className="flex gap-5">
+                  <div className="w-[50%]">
+                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
+                      <div className="text-start text-sm mt-10 mb-3 whitespace-nowrap font-semibold text-black">
+                        Care Plan
+                      </div>
+                      <table className="flex flex-col max-md:ml-0 max-md:w-full">
+                        <tbody>
+                          {careplan.map((item, index) => (
+                            <tr
+                              key={index}
+                              className="flex gap-5 justify-between mt-6 w-full"
+                            >
+                              <td className="flex gap-2 my-auto font-semibold text-black">
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src={item.src}
+                                  className="aspect-square fill-black w-[15px]"
+                                />
+                                <div className="flex-auto text-xs my-auto">
+                                  {item.variable}
+                                </div>
+                              </td>
+                              <td>
+                                <textarea
+                                  onChange={(e) => {
+                                    // Handle textarea change
+                                    const newValue = e.target.value;
+                                    // You may want to update the state or perform any other actions here
+                                  }}
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 min-w-[207px]"
+                                  value={item.value}
+                                  style={{
+                                    height: [
+                                      "Dietary Management",
+                                      "Physical Actvities",
+                                      "Self-Monitoring",
+                                    ].includes(item.variable)
+                                      ? "3rem"
+                                      : "auto",
+                                    whiteSpace: "pre-wrap",
+                                  }}
+                                  wrap="soft"
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <table className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
-                    <tbody>
-                      {careplan.map((item, index) => (
-                        <tr key={index} className="flex gap-5 justify-between mt-6 w-full">
-                          <td className="flex gap-2 my-auto font-semibold text-black">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src={item.src}
-                              className="aspect-square fill-black w-[15px]"
-                            />
-                            <div className="flex-auto text-xs my-auto">{item.variable}</div>
-                          </td>
-                          <td>
-                            <textarea
-                              onChange={(e) => {
-                                // Handle textarea change
-                                const newValue = e.target.value;
-                                // You may want to update the state or perform any other actions here
-                              }}
-                              className={`grow justify-center items-start py-1.5 px-3.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5`}
-                              value={item.value}
-                              style={{
-                                height: ["Dietary Management", "Physical Actvities", "Self-Monitoring"].includes(item.variable) ? '3rem' : 'auto',
-                                whiteSpace: 'pre-wrap'
-                              }}
-                              wrap="soft"
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <div className="grow w-[50%]"></div>
                 </div>
               </div>
             </div>
