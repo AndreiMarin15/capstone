@@ -1,37 +1,43 @@
 "use client";
-import Image from "next/image";
-import * as React from "react";
-import UploadLab from "./components/uploadLab";
+import React, { useState } from 'react'; // <-- Import useState from React
+import Image from 'next/image';
+import UploadLab from './components/uploadLab';
 
 {
   /* TO DO: Turn into component */
 }
 
-export default function LaboratoryList({ currentPage, setCurrentPage }) {
-  const lab = [
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "Fasting Blood Sugar (FBS) Test",
-      reqdate: "2024/01/24",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "HbA1c Test",
-      reqdate: "2024/01/24",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "Total Cholesterol Test",
-      reqdate: "2024/01/24",
-    },
-  ];
-  const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(currentPage + 1);
-  };
+export default function LaboratoryList() {
+  const [labState, setLabState] = useState({
+    lab: [
+      {
+        srcmedicine:
+          "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+        labname: "Fasting Blood Sugar (FBS) Test",
+        reqdate: "2024/01/24",
+      },
+      {
+        srcmedicine:
+          "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+        labname: "HbA1c Test",
+        reqdate: "2024/01/24",
+      },
+      {
+        srcmedicine:
+          "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+        labname: "Total Cholesterol Test",
+        reqdate: "2024/01/24",
+      },
+    ],
+  });
+
+  // const handleVisitClick = () => {
+  // Increment the currentPage when the user clicks the div
+  // setCurrentPage(currentPage + 1);
+  //};
+
+  //const [currentPage, setCurrentPage] = useState(currentPage + 1);
+
   return (
     <div className="border h-full w-full bg-white flex flex-col items-center px-20 py-12 border-solid border-stone-300 max-md:px-5">
       <div className="flex w-full items-stretch justify-between gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
@@ -73,12 +79,13 @@ export default function LaboratoryList({ currentPage, setCurrentPage }) {
 
       <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
         <div className="w-full max-md:max-w-full h-full">
-          {lab.map((lab, index) => (
+          {labState.lab.map((lab, index) => (
             <button
               key={index}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
               onClick={() => {
-                <UploadLab />;
+                // Pass the lab state to the UploadLab component
+                <UploadLab lab={lab} setLabState={setLabState} />;
               }}
             >
               <div className="flex gap-3.5 font-semibold whitespace-nowrap">

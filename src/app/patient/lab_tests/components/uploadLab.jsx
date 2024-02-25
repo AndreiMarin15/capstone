@@ -1,7 +1,7 @@
+import React from "react";
 import Image from "next/image";
-import * as React from "react";
 
-export default function uploadLab() {
+export default function UploadLab({ lab, setLabState }) {
   const labtest = [
     {
       imgsrc:
