@@ -180,15 +180,17 @@ export default function FollowUpVisit() {
         ""
       )}
 
-      {/* BACK & SAVE BUTTON */}
-      <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
- 
+      {/*SAVE BUTTON */}
+      {/* <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
         <button
+          onClick={() => {
+            // Your save logic here
+          }}
           className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
         >
           SAVE
         </button>
-      </div>
+      </div> */}
     </>
   );
 }
