@@ -67,7 +67,7 @@ export default function AboutPatient() {
 					  onClick={() => {
 						if (currentPage === 10) {
 						  setCurrentPage(0);
-						} else if (currentPage) {
+						} else if (currentPage === 1) {
 						  setCurrentPage(0);
 						} else {
 						  router.push("/health_records"); // Navigate back to the default route
