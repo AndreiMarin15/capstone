@@ -147,7 +147,7 @@ export default function FollowUpVisit() {
                               onChange={(e) => {
                                 // Handle textarea change
                               }}
-                              className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5`}
+                              className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
                               style={{
                                 height: ["Procedure/s", "Complaint/s"].includes(item.variable) ? '3rem' : 'auto',
                                 whiteSpace: 'pre-wrap'
@@ -186,7 +186,7 @@ export default function FollowUpVisit() {
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
+                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 w-[180px]" />{" "}
                         {item.variable === "Heart Rate" ? "" : item.value}
                       </td>
                     </tr>
