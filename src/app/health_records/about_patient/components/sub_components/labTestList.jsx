@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
-import AddLabTest from "./addLabTest";
+import AddLabTest from "./recordLabTest";
 
 export default function LabTestList() {
   const router = useRouter();

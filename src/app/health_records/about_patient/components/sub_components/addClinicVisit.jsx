@@ -3,7 +3,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddMedications from "./addMedication"
-import AddLabTest from "./addLabTest";
+import RecordLabTest from "./recordLabTest";
+import RequestLabTest from "./requestLabTest";
 
 export default function FollowUpVisit() {
   const followup = [
@@ -107,14 +108,37 @@ export default function FollowUpVisit() {
                       <td className="border-l-[5rem] border-transparent">
                         {typeof item.value === "string" ? (
                           ["Medications & Care Plan", "Tests"].includes(item.variable) ? (
-                            <button
-                              onClick={() => {
-                                setCurrentScreen(item.component);
-                              }}
-                              className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                            >
-                              Add
-                            </button>
+                            <div className="flex gap-1.5">
+                              {item.variable === "Medications & Care Plan" ? (
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(item.component);
+                                  }}
+                                  className="flex gap-1.5 justify-between px-5 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                >
+                                  Add
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(2); // Update to RecordLabTest component
+                                  }}
+                                  className="flex gap-1.5 justify-between px-5 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                >
+                                  Record
+                                </button>
+                              )}
+                              {item.variable === "Tests" && (
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(3); // Update to RequestLabTest component
+                                  }}
+                                  className="flex gap-1.5 justify-between px-5 py-1 rounded border border-green-800 text-green-800 border-solid font-semibold border-1.5"
+                                >
+                                  Request
+                                </button>
+                              )}
+                            </div>
                           ) : (
                             <textarea
                             
@@ -175,7 +199,9 @@ export default function FollowUpVisit() {
       ) : currentScreen === 1 ? (
         <AddMedications />
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <RecordLabTest />
+      ) : currentScreen === 3 ? (
+        <RequestLabTest />
       ) : (
         ""
       )}
