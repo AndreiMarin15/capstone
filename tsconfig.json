@@ -30,8 +30,8 @@
 		"lib/backend/public/initPublic.js",
 		"lib/backend/auth.js",
 		"lib/backend/public/db.js",
-		"lib/backend/doctor_signup.js",
-		"lib/backend/patient_signup.js",
+		"lib/backend/signup/doctor_signup.js",
+		"lib/backend/signup/patient_signup.js",
 		"src/app/dashboard/page.jsx",
 		"src/app/doctor_form/old.jsx",
 		"src/app/health_records/healthRecordsNav.jsx",
@@ -86,7 +86,8 @@
 		"src/app/store.js",
 		"src/app/topNav.jsx",
 		"global.d.js",
-		"globals.js"
-, "src/app/patient/careplan_list/labtest/page.jsx"	],
+		"globals.js",
+		"src/app/patient/careplan_list/labtest/page.jsx"
+	],
 	"exclude": ["node_modules"]
 }
