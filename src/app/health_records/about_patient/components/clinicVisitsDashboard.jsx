@@ -6,11 +6,12 @@ import { useState } from "react";
 import FollowUpVisit from "./sub_components/viewClinicVisit"
 import AddFollowUpVisit from "./sub_components/addClinicVisit"
 import * as React from "react";
+import BackButton from "./sub_components/BackButton";
 
-export default function MasterData({ currentPage, setCurrentPage }) {
+export default function MasterData() {
 	const router = useRouter();
 	
-
+	const [currentPage, setCurrentPage] = useState(0);
     const visits = [
     {
         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -96,7 +97,7 @@ export default function MasterData({ currentPage, setCurrentPage }) {
             </div>
         </button>
         ))}
-
+         <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </>
         ) : (
             ""
@@ -104,16 +105,18 @@ export default function MasterData({ currentPage, setCurrentPage }) {
 
         {currentPage === 1 ? (
         <>
-            <FollowUpVisit />
+            <FollowUpVisit currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+            
         </>
         ) : currentPage === 10 ? (
         <>
-            <AddFollowUpVisit />
+            <AddFollowUpVisit currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+            
         </>
         ) : (
         ""
         )}
-
+        
     </>
   );
 }

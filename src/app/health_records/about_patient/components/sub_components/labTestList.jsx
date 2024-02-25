@@ -1,20 +1,31 @@
 import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./addLabTest";
-
-export default function LabTestList() {
+import BackButton from "./BackButton";
+export default function LabTestList( {currentScreen, setCurrentScreen} ) {
   const router = useRouter();
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
+  
+  const handleSetCurrentScreen = (screen) => {
+    // Reset isTest to false when navigating back to screen 2
+    if (screen === 2) {
+      setTest(false);
+    }
+    setCurrentScreen(screen);
+  };
+
   const lTest = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       variable: "A1C Test (Glycated Hemoglobin)",
       date: "2023-07-21",
+    
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -29,12 +40,16 @@ export default function LabTestList() {
   ];
   return (
     <>
+    
+  
       {isTest ? (
-        <VisitLabtests />
+        <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
       ) : isAdd ? (
         <AddLabTest />
       ) : (
+        
         <>
+        
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
             <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
               LAB TESTS
@@ -56,6 +71,7 @@ export default function LabTestList() {
           {lTest.map((item) => (
             <button
               onClick={() => {
+               
                 setTest(true);
                 setAdd(false);
               }}
@@ -85,8 +101,10 @@ export default function LabTestList() {
               </span>
             </button>
           ))}
+            <BackButton currentScreen={currentScreen} setCurrentScreen={handleSetCurrentScreen} />
         </>
       )}
+
     </>
   );
 }

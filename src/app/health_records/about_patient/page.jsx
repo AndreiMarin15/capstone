@@ -16,7 +16,7 @@ import FamilyHistory from "./components/sub_components/viewfamilyHistory";
 import SocialHistory from "./components/socialHistory";
 import FamilySocialHistory from "./components/familysocialHistoryDashboard"
 import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
-
+import BackButton from "./components/sub_components/BackButton";
 
 export default function AboutPatient() {
 	const { selected } = useHRNav();
@@ -63,30 +63,6 @@ export default function AboutPatient() {
 				  {/* Buttons container */}
 				  <div className="flex items-start justify-between mt-5">
 					{/* BACK BUTTON */}
-					<button
-					  onClick={() => {
-						if (currentPage === 10) {
-						  setCurrentPage(0);
-						} else if (currentPage === 1) {
-						  setCurrentPage(0);
-						} else {
-						  router.push("/health_records"); // Navigate back to the default route
-						}
-					  }}
-					  className="flex items-center justify-center px-4 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
-					>
-					  <div className="flex gap-0.5 justify-between items-center">
-						<Image
-						  height={0}
-						  width={0}
-						  loading="lazy"
-						  src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-						  className="w-4 h-4 aspect-square"
-						  alt="Back Arrow"
-						/>
-						<div className="ml-1">BACK</div>
-					  </div>
-					</button>
 	
 					{/* SAVE BUTTON */}
 					{currentPage === 10 && (
