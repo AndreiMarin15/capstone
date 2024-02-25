@@ -96,7 +96,7 @@ export default function SendReferral() {
   };
 
   return (
-    <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[100vh]">
+    <div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[120vh]">
       <div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
       <ProgressBar currentStep={currentState} />
       <>
@@ -122,13 +122,26 @@ export default function SendReferral() {
                 setCurrentState((currentState - 1)  );
               }
             }}
-            className="mt-3 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-5"
+            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
           >
             BACK
           </button>
         ) : (
           <div></div>
         )}
+
+        {currentState === 1 && (
+          <button
+          onClick={() => {
+            router.push("/referral");
+          }}
+          className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
+          style={{ marginRight: 'auto' }}
+        >
+          BACK
+        </button>
+        )}  
+
         <button
           onClick={() => {
             if (currentState < 3) {
