@@ -46,19 +46,19 @@ export default function VisitMedications() {
     {
       srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "Dietary Management",
+      careplanname: "DIETARY MANAGEMENT",
       value: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
     },
     {
       srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "Physical Activities",
+      careplanname: "PHYSICAL ACTIVITIES",
       value: "Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
     },
     {
       srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "Self-Monitoring",
+      careplanname: "SELF-MONITORING",
       value: "Pay attention to your feet and check for any cuts, sores, or redness",
     },
   ];
@@ -74,7 +74,7 @@ export default function VisitMedications() {
             VISITS - MEDICATIONS & CARE PLAN
           </div>
 
-          <div className="text-start text-xs mt-7 whitespace-nowrap font-semibold text-black">
+          <div className="text-start text-sm mt-7 whitespace-nowrap font-semibold text-black">
             Medications
           </div>
 
@@ -123,7 +123,7 @@ export default function VisitMedications() {
           ))}
 
           {/* CARE PLAN */}
-          <div className="text-start text-xs mt-10 whitespace-nowrap font-semibold text-black">
+          <div className="text-start text-sm mt-10 whitespace-nowrap font-semibold text-black">
             Care Plan
           </div>
 
@@ -150,25 +150,6 @@ export default function VisitMedications() {
               </div>
             </div>
           ))}
-
-
-        
-        {/* BACK BUTTON */}
-        <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
-          <button className="flex items-center justify-center px-10 py-1 w-full rounded border border-sky-900 border-solid font-semibold border-1.5">
-            <div className="flex gap-0.5 justify-between items-center">
-              <Image
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-                className="w-4 h-4 aspect-square"
-                alt="Back Arrow"
-              />
-              <div className="ml-1">BACK</div>
-            </div>
-          </button>
-        </div>
          
         </>
       ) : currentScreen === 1 ? (
