@@ -117,7 +117,7 @@ export default function AddMedications() {
                               </td>
                               <td>
                                 <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
                                   value={item.value}
                                 />
                               </td>
@@ -155,7 +155,7 @@ export default function AddMedications() {
                               </td>
                               <td>
                                 <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
                                   value={item.value}
                                 />
                               </td>
@@ -200,7 +200,7 @@ export default function AddMedications() {
                                     const newValue = e.target.value;
                                     // You may want to update the state or perform any other actions here
                                   }}
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 min-w-[207px]"
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
                                   value={item.value}
                                   style={{
                                     height: [
