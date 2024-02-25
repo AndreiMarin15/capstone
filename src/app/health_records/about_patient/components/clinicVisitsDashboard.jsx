@@ -1,14 +1,15 @@
 import Image from "next/image";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FollowUpVisit from "./sub_components/viewClinicVisit"
 import AddFollowUpVisit from "./sub_components/addClinicVisit"
 import * as React from "react";
 
-export default function MasterData() {
-    const router = useRouter();
-    const [currentPage, setCurrentPage] = useState(0);
+export default function MasterData({ currentPage, setCurrentPage }) {
+	const router = useRouter();
+	
 
     const visits = [
     {
@@ -58,6 +59,7 @@ export default function MasterData() {
     };
 
   return (
+	
     <>
     {currentPage === 0 ? (
     <>
