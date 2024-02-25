@@ -55,6 +55,24 @@ export default function AddMedications() {
     },
   ];
 
+  const careplan = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      variable: "Dietary Management",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      variable: "Physical Actvities",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+      variable: "Self-Monitoring",
+      value: "",
+    },
+  ];
+
   const [currentScreen, setCurrentScreen] = useState(0);
 
   return (
@@ -73,7 +91,7 @@ export default function AddMedications() {
                 </div>
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                   <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col w-[80%] text-xs max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
                       <div className="text-start text-xs whitespace-nowrap font-semibold text-black">
                         Dosage Instructions
                       </div>
@@ -106,7 +124,7 @@ export default function AddMedications() {
                   </div>
 
                   <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col w-[80%] text-xs max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
                       <div className="text-start text-xs whitespace-nowrap font-semibold text-black">
                         Prescription Duration
                       </div>
@@ -138,11 +156,47 @@ export default function AddMedications() {
                     </div>
                   </div>
                 </div>
-                <div className="text-start text-sm mt-10 mb-10 whitespace-nowrap font-semibold text-black">
-                  Care Plan
+                {/* CARE PLAN */}
+                <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
+                  <div className="text-start text-sm mt-10 mb-3 whitespace-nowrap font-semibold text-black">
+                    Care Plan
+                  </div>
+                  <table className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
+                    <tbody>
+                      {careplan.map((item, index) => (
+                        <tr key={index} className="flex gap-5 justify-between mt-6 w-full">
+                          <td className="flex gap-2 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src={item.src}
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="flex-auto text-xs my-auto">{item.variable}</div>
+                          </td>
+                          <td>
+                            <textarea
+                              onChange={(e) => {
+                                // Handle textarea change
+                                const newValue = e.target.value;
+                                // You may want to update the state or perform any other actions here
+                              }}
+                              className={`grow justify-center items-start py-1.5 px-3.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5`}
+                              value={item.value}
+                              style={{
+                                height: ["Dietary Management", "Physical Actvities", "Self-Monitoring"].includes(item.variable) ? '3rem' : 'auto',
+                                whiteSpace: 'pre-wrap'
+                              }}
+                              wrap="soft"
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-
-                
               </div>
             </div>
           </div>
