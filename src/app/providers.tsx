@@ -6,12 +6,12 @@ import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { authentication } from "../../lib/backend/auth";
 import { AuthError } from "@supabase/supabase-js";
+import { currentUser } from "./store";
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
-	// replace with your auth hook
 	const pathname = usePathname();
-	// TODO: REDIRECT TO DASHBOARD IF NAKA LOGIN
+	const current = currentUser()
 	useEffect(() => {
 		const getAuth = async () => {
 			const authData = await authentication.getSession();
@@ -22,6 +22,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			if (!authData?.session?.user.id) {
 				if (pathname !== "/" && pathname !== "/login" && pathname !== "/patient_form" && pathname !== "/doctor_form") {
 					router.push("/");
+				}
+			} else {
+				if (pathname === "/" || pathname === "/login" || pathname === "/patient_form" || pathname === "/doctor_form") {
+					if (current.user.type === "patient") {
+						router.push("/patient/dashboard");
+					} else if (current.user.type === "doctor") {
+						router.push("/dashboard");
+					}
 				}
 			}
 		};

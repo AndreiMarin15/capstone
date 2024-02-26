@@ -2,34 +2,36 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const useHRNav = create((set) => ({
+export const useHRNav = create((set) => ({
 	selected: "Master Data",
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const useAllergyNav = create((set) => ({
+export const useAllergyNav = create((set) => ({
 	selected: "Drug",
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const useCPNav = create((set) => ({
+export const useCPNav = create((set) => ({
 	selected: "Care Plans",
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const currentUser = create(
-	persist((set) => ({
-		info: {},
-		user: {},
-		setInfo: (item) => set(() => ({ info: item })),
-		setUser: (item) => set(() => ({ user: item })),
-	}),
-	{
-		name: "ENDO_TRACKER_CURRENT_USER"
-	})
+export const currentUser = create(
+	persist(
+		(set) => ({
+			info: {},
+			user: {},
+			setInfo: (item) => set(() => ({ info: item })),
+			setUser: (item) => set(() => ({ user: item })),
+		}),
+		{
+			name: "ENDO_TRACKER_CURRENT_USER",
+		}
+	)
 );
 
-const useUserInfo = create(
+export const useUserInfo = create(
 	persist(
 		(set) => ({
 			email: "",
@@ -43,7 +45,7 @@ const useUserInfo = create(
 	)
 );
 
-const useDoctorInfo = create(
+export const useDoctorInfo = create(
 	persist(
 		(set) => ({
 			doctor_license: {
@@ -76,7 +78,7 @@ const useDoctorInfo = create(
 	)
 );
 
-const usePatientInfo = create(
+export const usePatientInfo = create(
 	persist(
 		(set) => ({
 			personal_information: {
@@ -149,13 +151,3 @@ const usePatientInfo = create(
 		}
 	)
 );
-
-module.exports = {
-	useHRNav,
-	useAllergyNav,
-	useCPNav,
-	useUserInfo,
-	useDoctorInfo,
-	usePatientInfo,
-	currentUser,
-};
