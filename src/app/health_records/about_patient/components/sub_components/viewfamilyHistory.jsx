@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import BackButton from "./BackButton"
 export default function FamilyHistory({ currentPage, setCurrentPage }) {
 	const fHistory = [
@@ -67,4 +68,5 @@ export default function FamilyHistory({ currentPage, setCurrentPage }) {
 		  <BackButton currentPage={ currentPage } setCurrentPage={ setCurrentPage }/>
 		</>
 	  );
+
 }
