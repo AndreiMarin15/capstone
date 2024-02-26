@@ -3,8 +3,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import VisitMedications from "./visitMedications";
-
-export default function AddMedications() {
+import BackButton from "./BackButton"
+export default function AddMedications({ currentScreen, setCurrentScreen }) {
   const followup = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -79,10 +79,10 @@ export default function AddMedications() {
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
+  
   return (
     <>
-      {currentScreen === 0 ? (
+      {currentScreen === 1 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD MEDICATION & CARE PLAN
@@ -231,6 +231,7 @@ export default function AddMedications() {
       ) : (
         ""
       )}
+       <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
     </>
   );
 }

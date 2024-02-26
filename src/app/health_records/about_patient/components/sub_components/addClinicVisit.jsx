@@ -193,10 +193,10 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
         </>
 
       ) : currentScreen === 1 ? (
-        <AddMedications />
+        <AddMedications  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
         
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <AddLabTest  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
       ) : (
         ""
       )}
