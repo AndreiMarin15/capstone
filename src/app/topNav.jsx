@@ -94,7 +94,7 @@ export default function TopNav() {
 								onClick={async () => {
 									await authentication.signOut();
 									toggleDropdown();
-									router.push("/");
+									router.push("/login");
 								}}
 							>
 								Logout

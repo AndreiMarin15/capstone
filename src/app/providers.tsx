@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
 	// replace with your auth hook
 	const pathname = usePathname();
-
+	// TODO: REDIRECT TO DASHBOARD IF NAKA LOGIN
 	useEffect(() => {
 		const getAuth = async () => {
 			const authData = await authentication.getSession();
@@ -20,7 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				return;
 			}
 			if (!authData?.session?.user.id) {
-				if (pathname !== "/" && pathname !== "/login") {
+				if (pathname !== "/" && pathname !== "/login" && pathname !== "/patient_form" && pathname !== "/doctor_form") {
 					router.push("/");
 				}
 			}
