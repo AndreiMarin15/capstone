@@ -13,7 +13,10 @@ export default function Dashboard() {
             <div className="px-16 py-8 mt-6 bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:max-w-full">
               <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                 <div className="flex flex-col max-md:ml-0 max-md:w-full">
-                  <img
+                  <Image 
+                  alt="image"
+                  width={0}
+                  height={0}
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/2973ce194094175870e4010225d7995b70a4add3f96a4c16d2302409e5e7ccd8?"
                     className="w-14 aspect-square max-md:mt-10"
@@ -66,7 +69,10 @@ export default function Dashboard() {
                 Care Plan #2
               </div>
               <div className="flex gap-1 mt-3.5 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                width={0}
+                height={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d2d16adc26cdf297cc56f2b11bf7445f300308e55e3580060a017039d865f09?"
                   className="self-start w-3 aspect-square"
@@ -74,7 +80,10 @@ export default function Dashboard() {
                 <div className="grow">From Dr. John Doe - Endocrinologist</div>
               </div>
               <div className="flex gap-1 mt-1.5 whitespace-nowrap">
-                <img
+                <Image 
+                alt="image"
+                width={0}
+                height={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/c143ab5d1cdb22259fa52ecbdeff08a38239d2dc5c1367b795e50464ab9c2249?"
                   className="w-2.5 aspect-square"
@@ -109,7 +118,10 @@ export default function Dashboard() {
         <div className="flex flex-col ml-5 w-[40%] max-md:ml-0 max-md:w-full">
           <div className="flex flex-col self-stretch px-10 pt-7 pb-12 m-auto w-full text-xs text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:mt-10">
             <div className="flex gap-3 justify-between text-base font-semibold leading-6">
-              <img
+              <Image 
+              alt="image"
+              width={0}
+              height={0}
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
                 className="w-5 aspect-[1.18] fill-black"
@@ -118,7 +130,10 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col pt-2.5 pr-12 pb-4 pl-5 mt-8 w-full bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:pr-5">
               <div className="flex gap-2.5 justify-between font-medium whitespace-nowrap leading-[150%]">
-                <img
+                <Image 
+                alt="image"
+                width={0}
+                height={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/4e200b4f856742582f5e0e389be9f0e37a54ceeade0f863f225fac2f02a2371f?"
                   className="aspect-square w-[25px]"
@@ -131,7 +146,10 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col px-6 pt-2.5 pb-5 mt-8 w-full bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5">
               <div className="flex gap-4 justify-between font-medium whitespace-nowrap leading-[150%]">
-                <img
+                <Image 
+                alt="image"
+                width={0}
+                height={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/7cae08d706b3994d9e190dda132eef11708140f917bbbb70e4390ffc05da87c6?"
                   className="w-3.5 aspect-[0.78] fill-black"
@@ -145,7 +163,10 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col px-7 pt-3 pb-5 mt-8 w-full bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:pl-5">
               <div className="flex gap-3.5 justify-between font-medium leading-[150%]">
-                <img
+                <Image 
+                alt="image"
+                width={0}
+                height={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/76b559e40e7bcac85478bdfc49e4d7db625a2ba823252a5bd2d39be1a347e733?"
                   className="aspect-[0.93] fill-black w-[13px]"
