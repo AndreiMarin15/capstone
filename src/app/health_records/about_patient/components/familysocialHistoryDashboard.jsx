@@ -104,7 +104,7 @@ export default function SocialHistory() {
 
 		{currentPage === 1 ? (
 			<>
-				<FamilyHistory />
+				<FamilyHistory currentPage={ currentPage } setCurrentPage={ setCurrentPage }/>
 			</>
 		) : (
 			""
