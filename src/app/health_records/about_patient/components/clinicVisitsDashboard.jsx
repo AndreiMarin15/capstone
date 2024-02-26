@@ -34,12 +34,12 @@ export default function MasterData() {
 
 	const handleVisitClick = () => {
 		// Increment the currentPage when the user clicks the div
-		setCurrentPage(currentPage + 1);
+		setCurrentPage(10);
 	};
 
 	const addHandleVisitClick = () => {
 		// Increment the currentPage when the user clicks the div
-		setCurrentPage(currentPage + 2);
+		setCurrentPage(currentPage + 1);
 	};
 
 	return (

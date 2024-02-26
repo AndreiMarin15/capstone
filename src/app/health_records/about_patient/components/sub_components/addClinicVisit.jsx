@@ -7,6 +7,18 @@ import AddLabTest from "./addLabTest";
 import BackButton from "./BackButton";
 export default function AddFollowUpVisit({ currentPage, setCurrentPage }) {
 
+  const date = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Date",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+      variable: "Diagnosis",
+      value: "",
+    },
+  ];
   const followup = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",

@@ -4,7 +4,7 @@ import { useState } from "react";
 import VisitMedications from "./visitMedications";
 import BackButton from "./BackButton"
 export default function AddMedications({ currentScreen, setCurrentScreen }) {
-  const followup = [
+  const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
       variable: "Medicine Name",
@@ -73,7 +73,6 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
       value: "",
     },
   ];
-
   
   return (
     <>
