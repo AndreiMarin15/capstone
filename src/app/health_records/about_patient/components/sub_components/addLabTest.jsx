@@ -31,7 +31,7 @@ export default function AddLabTest({ currentScreen, setCurrentScreen }) {
 
   return (
     <>
-      {currentScreen === 2 ? (
+      {currentScreen === 2 || currentScreen === 4 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD LAB TEST
