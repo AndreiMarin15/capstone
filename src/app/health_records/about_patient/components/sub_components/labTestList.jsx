@@ -1,31 +1,20 @@
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./addLabTest";
-import BackButton from "./BackButton";
-export default function LabTestList( {currentScreen, setCurrentScreen} ) {
+
+export default function LabTestList() {
   const router = useRouter();
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
-  const handleSetCurrentScreen = (screen) => {
-    // Reset isTest to false when navigating back to screen 2
-    if (screen === 2) {
-      setTest(false);
-      setAdd(false);
-    }
-    setCurrentScreen(screen);
-  };
-
   const lTest = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       variable: "A1C Test (Glycated Hemoglobin)",
       date: "2023-07-21",
-    
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -40,16 +29,12 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
   ];
   return (
     <>
-    
-  
       {isTest ? (
-        <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
+        <VisitLabtests />
       ) : isAdd ? (
-        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen}/>
+        <AddLabTest />
       ) : (
-        
         <>
-        
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - LAB TESTS
@@ -71,7 +56,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
           {lTest.map((item) => (
             <button
               onClick={() => {
-               
                 setTest(true);
                 setAdd(false);
               }}
@@ -101,10 +85,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
               </span>
             </button>
           ))}
-            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       )}
-
     </>
   );
 }
