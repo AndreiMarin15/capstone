@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import * as React from "react";
-import CarePlanListNav from "./components/carePlanListNav";
+
 import { useCPNav } from "@/app/store";
-import CarePlans from "./components/carePlans";
+import CarePlans from "./components/medications";
 import LabTests from "./components/laboratoryTests";
 
 {
