@@ -6,8 +6,18 @@ import AddMedications from "./addMedication";
 import AddLabTest from "./addLabTest";
 import BackButton from "./BackButton";
 export default function FollowUpVisit({ currentPage, setCurrentPage }) {
-  
+
   const followup = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Date",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+      variable: "Diagnosis",
+      value: "",
+    },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Complaint/s",
@@ -188,32 +198,28 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
             </div>
           </div>
           
-          <div className="flex justify-between items-center mt-5">
-            <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div>
-              <button
-                onClick={() => {
-                  // Your save logic here
-                }}
-                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
-                
-              >
-                SAVE
-              </button>
-            </div>
-          </div>
+          <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </>
-
       ) : currentScreen === 1 ? (
-        <AddMedications  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
+        <AddMedications />
         
       ) : currentScreen === 2 ? (
-        <AddLabTest  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
+        <AddLabTest />
       ) : (
         ""
       )}
 
-     
+      {/*SAVE BUTTON */}
+      {/* <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
+        <button
+          onClick={() => {
+            // Your save logic here
+          }}
+          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
+        >
+          SAVE
+        </button>
+      </div> */}
     </>
   );
 }
