@@ -13,7 +13,7 @@ export default function Home() {
 	const userStore = useUserInfo();
 	const [signUpAs, setSignUp] = React.useState("Doctor");
 	const [passwordVerify, setPasswordVerify] = React.useState("");
-
+	
 	const passwordValid = () => {
 		if (userStore.password === passwordVerify) {
 			if (userStore.password.length >= 8) {

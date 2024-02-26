@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Referral() {
-	const router = useRouter();
+  const router = useRouter();
 
   const doctorInfo = {
     name: "Dr. Johnny Santos",
@@ -12,8 +12,14 @@ export default function Referral() {
     patient: "Juan Dela Cruz",
   };
 
+  const otherDoctorInfo = {
+    name: "Dr. Micha Lee",
+    specialty: "Gastroenterologist",
+    patient: "Juan Luna",
+  };
+
   return (
-    <div className="bg-white border border-solid border-stone-300">
+    <div className="bg-white border border-solid border-stone-300 h-screen flex">
       <div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
         <div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
           <div className="text-xl font-semibold text-black">
@@ -41,11 +47,39 @@ export default function Referral() {
             </button>
           </div>
         </div>
+        
+        <div className="flex">
+          {/* Left side tabs */}
+          <div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
+            <div className="flex gap-5">
+              {/* Left side tab with bg-blue-500 */}
+              <div className="flex gap-5">
+                <div className="w-2.5 bg-blue-500 h-[129px]" />
+                <img
+                  alt="picture"
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                  className="self-start mt-7 w-[43px]"
+                />
+                <div className="flex flex-col flex-1 my-auto">
+                  <div className="text-lg font-semibold whitespace-nowrap">
+                    {doctorInfo.name}
+                    <div className="text-m text-zinc-600">
+                      <span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
+                      <div className="mt-4 text-xs font-medium text-zinc-600">
+                        <span className="font-bold">PATIENT</span>: {doctorInfo.patient}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <div className="flex gap-5">
-          <div className="flex flex-col w-[36%]">
-            <div className="flex gap-5 px-5 mt-9">
-              <div className="w-2.5 bg-blue-500 h-[129px]" />
+            {/* Another left side tab with bg-orange-500 */}
+            <div className="flex gap-5 mt-5">
+              <div className="w-2.5 bg-orange-500 h-[129px]" />
               <img
                 alt="picture"
                 height={0}
@@ -56,18 +90,20 @@ export default function Referral() {
               />
               <div className="flex flex-col flex-1 my-auto">
                 <div className="text-lg font-semibold whitespace-nowrap">
-                  {doctorInfo.name}
+                  {otherDoctorInfo.name}
                   <div className="text-m text-zinc-600">
-                    <span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
+                    <span className="text-zinc-300 font-medium">{otherDoctorInfo.specialty}</span>
                     <div className="mt-4 text-xs font-medium text-zinc-600">
-                      <span className="font-bold">PATIENT</span>: {doctorInfo.patient}
+                      <span className="font-bold">PATIENT</span>: {otherDoctorInfo.patient}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col ml-5 w-[64%] max-md:ml-0 max-md:w-full">
+
+          {/* Right side tabs */}
+          <div className="flex flex-col w-1/2 max-w-[50%] md:order-last px-5">
             <div className="flex flex-col grow max-md:mt-10 max-md:max-w-full">
               <div className="pt-12 pr-20 pb-5 pl-6 bg-white shadow-sm max-md:px-5 max-md:max-w-full">
                 <div className="flex max-md">
@@ -134,16 +170,24 @@ export default function Referral() {
                   <input
                     type="text"
                     placeholder="Message..."
-                    style={{ width: "100%", height: "300%"}}
+                    style={{ width: "100%", height: "300%" }}
                   />
                 </div>
-                <div className=" self-end  py-2 mt-8 text-zinc-500 text-xs font-medium text-white bg-sky-900 rounded">
-                  <button  
-                    onClick={() => {
-                      // Add functionality here
-                    }}
-                    className="text-white text-xs font-semibold bg-sky-900 px-8 rounded"
-                  >
+                <div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
+                  <span className="flex items-stretch gap-2 my-auto">
+                    <Image
+                      alt="picture"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
+                      className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
+                    />
+                    <button className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto">
+                      Pull Records
+                    </button>
+                  </span>
+                  <button className="text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 text-white self-stretch px-7 py-2 rounded max-md:px-5">
                     SEND
                   </button>
                 </div>
