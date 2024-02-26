@@ -40,6 +40,7 @@ const navigation = [
 ];
 
 const patientNavigation = [
+<<<<<<< Updated upstream
 	{
 		name: "Dashboard",
 		href: "/patient/dashboard",
@@ -80,6 +81,48 @@ const patientNavigation = [
 		href: "/patient/account",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
 	},
+=======
+  {
+    name: "Dashboard",
+    href: "/patient/dashboard",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b8c918617a9191e94be3756699add9828c7972f6092c7a5aad4ba4bc3881ef28?",
+  },
+  {
+    name: "My Personal Details",
+    href: "/patient/personal_details",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
+  },
+  {
+    name: "Medications & Care Plans",
+    href: "/patient/medications_and_careplan",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
+  },
+  {
+    name: "Lab Tests",
+    href: "/patient/lab_tests",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d9227b6298b463189efefc5f7ac4076d3f31e5c8cf805f3377eeac6b717d533b?",
+  },
+  {
+    name: "Sharing Request",
+    href: "/patient/sharing_request",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/83dda067dae7a93c2533039e7b5c4922a5216df1fd9d3775dd133dc76cdf3f39?",
+  },
+  {
+    name: "Attending Doctors",
+    href: "/patient/attending_doctors",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9bfe239de7436e1a5ccdf8e9101e8309504ed5be4cee54e8d40c9c559ab454fc?apiKey=66e07193974a40e683930e95115a1cfd&",
+  },
+  {
+    name: "Messages",
+    href: "/patient/messages",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/063c268a9f424e0e0c97823839d31d7e6e4a6fe89c695fae78cd54a65904d508?apiKey=66e07193974a40e683930e95115a1cfd&",
+  },
+  {
+    name: "Account",
+    href: "/patient/account",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
+  },
+>>>>>>> Stashed changes
 
 	{
 		name: "Legal Notices",

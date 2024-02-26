@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
 	"compilerOptions": {
 		"target": "es5",
 		"lib": ["dom", "dom.iterable", "esnext"],
@@ -89,4 +90,97 @@
 		"globals.js"
 , "src/app/patient/careplan_list/labtest/page.jsx"	],
 	"exclude": ["node_modules"]
+=======
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "lib/backend/public/initPublic.js",
+    "lib/backend/auth.js",
+    "lib/backend/public/db.js",
+    "lib/backend/signup/doctor_signup.js",
+    "lib/backend/signup/patient_signup.js",
+    "src/app/dashboard/page.jsx",
+    "src/app/doctor_form/old.jsx",
+    "src/app/health_records/healthRecordsNav.jsx",
+    "src/app/health_records/page.jsx",
+    "src/app/health_records/patientProfile.jsx",
+    "src/app/health_records/about_patient/page.jsx",
+    "src/app/health_records/about_patient/components/vitalsDashboard.jsx",
+    "src/app/health_records/about_patient/components/status.jsx",
+    "src/app/health_records/about_patient/components/socialHistory.jsx",
+    "src/app/health_records/about_patient/components/predictiveAnalyticsDashboard.jsx",
+    "src/app/health_records/about_patient/components/medicalHistory.jsx",
+    "src/app/health_records/about_patient/components/masterDataDashboard.jsx",
+    "src/app/health_records/about_patient/components/sub_components/viewfamilyHistory.jsx",
+    "src/app/health_records/about_patient/components/sub_components/addCarePlan.jsx",
+    "src/app/health_records/about_patient/components/sub_components/addProcedure.jsx",
+    "src/app/health_records/about_patient/components/sub_components/attendingDoctor.jsx",
+    "src/app/health_records/about_patient/components/sub_components/carePlanList.jsx",
+    "src/app/health_records/about_patient/components/sub_components/labTestList.jsx",
+    "src/app/health_records/about_patient/components/sub_components/procedureList.jsx",
+    "src/app/health_records/about_patient/components/sub_components/viewCarePlan.jsx",
+    "src/app/health_records/about_patient/components/sub_components/viewProcedure.jsx",
+    "src/app/health_records/about_patient/components/labtest_components/addLabTest.jsx",
+    "src/app/health_records/about_patient/components/labtest_components/labTest.jsx",
+    "src/app/messages/page.jsx",
+    "src/app/patient/attending_doctors/page.jsx",
+    "src/app/patient/medications_and_careplan/careplan/page.jsx",
+    "src/app/patient/medications_and_careplan/components/carePlanListNav.jsx",
+    "src/app/patient/medications_and_careplan/components/medications.jsx",
+    "src/app/patient/medications_and_careplan/components/laboratoryTests.jsx",
+    "src/app/patient/medications_and_careplan/page.jsx",
+    "src/app/patient/dashboard/page.jsx",
+    "src/app/patient/messages/page.jsx",
+    "src/app/patient_form/page.jsx",
+    "src/app/patient_form/components/socialHistory.jsx",
+    "src/app/patient_form/components/progressBar.jsx",
+    "src/app/patient_form/components/personalInformation.jsx",
+    "src/app/patient_form/components/medicalHistory.jsx",
+    "src/app/patient_form/components/familyHistory.jsx",
+    "src/app/referral/components/notesAndReview.jsx",
+    "src/app/referral/components/progressBar.jsx",
+    "src/app/referral/components/receiveReferral.jsx",
+    "src/app/referral/components/referralDoctor.jsx",
+    "src/app/referral/components/referralPatients.jsx",
+    "src/app/referral/receive_referral/page.jsx",
+    "src/app/referral/send_referral/page.jsx",
+    "src/app/referral/page.jsx",
+    "src/app/test/page.jsx",
+    "src/app/viewing/upload-labtest/page.jsx",
+    "src/app/layout.tsx",
+    "src/app/navbar.jsx",
+    "src/app/page.jsx",
+    "src/app/store.js",
+    "src/app/topNav.jsx",
+    "global.d.js",
+    "globals.js",
+    "src/app/patient/medications_and_careplan/labtest/page.jsx"
+  ],
+  "exclude": ["node_modules"]
+>>>>>>> Stashed changes
 }
