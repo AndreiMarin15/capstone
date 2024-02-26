@@ -35,6 +35,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
 		};
 
 		getAuth();
-	}, [router, pathname]);
+	}, [router, pathname, current.user]);
 	return <NextUIProvider>{children}</NextUIProvider>;
 }
