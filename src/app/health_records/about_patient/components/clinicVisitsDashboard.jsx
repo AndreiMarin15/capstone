@@ -1,5 +1,12 @@
 import Image from "next/image";
-import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,6 +14,7 @@ import FollowUpVisit from "./sub_components/viewClinicVisit";
 import AddFollowUpVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
+
 
 export default function MasterData() {
 	const router = useRouter();
