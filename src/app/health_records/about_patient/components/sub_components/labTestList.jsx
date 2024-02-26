@@ -11,11 +11,11 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
-  
   const handleSetCurrentScreen = (screen) => {
     // Reset isTest to false when navigating back to screen 2
     if (screen === 2) {
       setTest(false);
+      setAdd(false);
     }
     setCurrentScreen(screen);
   };
@@ -45,7 +45,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
       {isTest ? (
         <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
       ) : isAdd ? (
-        <AddLabTest />
+        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen}/>
       ) : (
         
         <>
@@ -101,7 +101,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
               </span>
             </button>
           ))}
-            <BackButton currentScreen={currentScreen} setCurrentScreen={handleSetCurrentScreen} />
+            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       )}
 

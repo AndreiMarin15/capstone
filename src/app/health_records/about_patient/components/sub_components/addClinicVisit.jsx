@@ -188,28 +188,32 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
             </div>
           </div>
           
-          <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          <div className="flex justify-between items-center mt-5">
+            <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div>
+              <button
+                onClick={() => {
+                  // Your save logic here
+                }}
+                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+                
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
         </>
+
       ) : currentScreen === 1 ? (
-        <AddMedications />
+        <AddMedications  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
         
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <AddLabTest  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
       ) : (
         ""
       )}
 
-      {/*SAVE BUTTON */}
-      {/* <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
-        <button
-          onClick={() => {
-            // Your save logic here
-          }}
-          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
-        >
-          SAVE
-        </button>
-      </div> */}
+     
     </>
   );
 }
