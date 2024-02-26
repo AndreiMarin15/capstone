@@ -6,7 +6,7 @@ import Image from "next/image";
 import PatientHealthRecordNav from "./patientHealthRecordsNav";
 import MasterData from "./components/masterDataDashboard";
 import FamilySocial from "./components/family&socialHistoryDashboard";
-import { usePatientHRNav } from "@/app/store";
+import { usePatientHRNav } from "../../store";
 
 export default function PatientData() {
   const { selected } = usePatientHRNav();

@@ -7,7 +7,7 @@ export const useHRNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const usePatientHRNav = create((set) => ({
+export const usePatientHRNav = create((set) => ({
   selected: "Master Data",
   setSelected: (item) => set(() => ({ selected: item })),
 }));
