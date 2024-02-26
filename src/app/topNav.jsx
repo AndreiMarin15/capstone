@@ -2,9 +2,27 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { pathIncluded } from "../../globals";
+import { useEffect, useState } from "react";
+import { currentUser } from "./store";
+import { authentication } from "../../lib/backend/auth";
+import { useRouter } from "next/navigation";
 
 export default function TopNav() {
 	const path = usePathname();
+	const user = currentUser();
+	const router = useRouter();
+	const [dropdownVisible, setDropdownVisible] = useState(false);
+
+	const [current, setCurrent] = useState({});
+
+	useEffect(() => {
+		setCurrent(user.user);
+	}, [user]);
+
+	const toggleDropdown = () => {
+		setDropdownVisible(!dropdownVisible);
+	};
+
 	return (
 		<div className="flex flex-col justify-center items-stretch">
 			<div className="shadow-sm bg-white flex w-full items-stretch justify-between gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
@@ -41,16 +59,48 @@ export default function TopNav() {
 							src="https://cdn.builder.io/api/v1/image/assets/TEMP/bdb718aff695bf5b5acafd7d7d097231aa261109f542eef272693d4f0668c75b?"
 							className="aspect-square object-contain object-center w-[21px] overflow-hidden shrink-0 max-w-full"
 						/>
-						<div className="text-black text-xs font-semibold leading-5 self-center my-auto">John Doe</div>
-						<Image
-							alt="pic"
-							height={0}
-							width={0}
-							loading="lazy"
-							src="https://cdn.builder.io/api/v1/image/assets/TEMP/850e1212f2e2a2e181cf24b4224a15b094709337f2b2ee8e5e7fd5e7556566dc?"
-							className="aspect-[2] object-contain object-center w-2.5 overflow-hidden self-center shrink-0 max-w-full my-auto"
-						/>
+						<div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+							{current.fullName ? current.fullName : ""}
+						</div>
+						<button className="text-[12px]" onClick={toggleDropdown}>
+							v
+						</button>
 					</span>
+				)}
+				{dropdownVisible && (
+					<div
+						style={{
+							position: "absolute",
+							top: "5%",
+							right: "2%",
+							backgroundColor: "white",
+							border: "1px solid black",
+							zIndex: 1, // This ensures the dropdown appears in front of other elements
+						}}
+					>
+						<div className="hover:bg-blue-500">
+							<button className="p-[10px]" onClick={toggleDropdown}>
+								Profile
+							</button>
+						</div>
+						<div className="hover:bg-blue-500">
+							<button className="p-[10px]" onClick={toggleDropdown}>
+								Settings
+							</button>
+						</div>
+						<div className="hover:bg-blue-500">
+							<button
+								className="p-[10px]"
+								onClick={async () => {
+									await authentication.signOut();
+									toggleDropdown();
+									router.push("/login");
+								}}
+							>
+								Logout
+							</button>
+						</div>
+					</div>
 				)}
 			</div>
 		</div>

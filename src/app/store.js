@@ -17,10 +17,17 @@ const useCPNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const currentUser = create((set) => ({
-	info: {},
-	setInfo: (item) => set(() => ({ info: item })),
-}));
+const currentUser = create(
+	persist((set) => ({
+		info: {},
+		user: {},
+		setInfo: (item) => set(() => ({ info: item })),
+		setUser: (item) => set(() => ({ user: item })),
+	}),
+	{
+		name: "ENDO_TRACKER_CURRENT_USER"
+	})
+);
 
 const useUserInfo = create(
 	persist(
@@ -150,5 +157,5 @@ module.exports = {
 	useUserInfo,
 	useDoctorInfo,
 	usePatientInfo,
-	currentUser
+	currentUser,
 };

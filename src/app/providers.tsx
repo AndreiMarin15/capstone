@@ -1,12 +1,32 @@
 // app/providers.tsx
-'use client'
+"use client";
 
-import {NextUIProvider} from '@nextui-org/react'
+import { NextUIProvider } from "@nextui-org/react";
+import { useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { authentication } from "../../lib/backend/auth";
+import { AuthError } from "@supabase/supabase-js";
 
-export function Providers({children}: { children: React.ReactNode }) {
-  return (
-    <NextUIProvider>
-      {children}
-    </NextUIProvider>
-  )
+export function Providers({ children }: { children: React.ReactNode }) {
+	const router = useRouter();
+	// replace with your auth hook
+	const pathname = usePathname();
+	// TODO: REDIRECT TO DASHBOARD IF NAKA LOGIN
+	useEffect(() => {
+		const getAuth = async () => {
+			const authData = await authentication.getSession();
+			if (authData instanceof AuthError) {
+				console.error(authData.message);
+				return;
+			}
+			if (!authData?.session?.user.id) {
+				if (pathname !== "/" && pathname !== "/login" && pathname !== "/patient_form" && pathname !== "/doctor_form") {
+					router.push("/");
+				}
+			}
+		};
+
+		getAuth();
+	}, [router, pathname]);
+	return <NextUIProvider>{children}</NextUIProvider>;
 }
