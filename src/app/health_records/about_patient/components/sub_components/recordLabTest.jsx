@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import VisitLabtests from "./visitLabTests";
-import BackButton from "./BackButton";
+
 export default function RecordLabTest({ currentScreen, setCurrentScreen }) {
   const clinicVitals = [
     {
@@ -28,7 +28,6 @@ export default function RecordLabTest({ currentScreen, setCurrentScreen }) {
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
   return (
     <>
       {currentScreen === 0 ? (
@@ -173,10 +172,6 @@ export default function RecordLabTest({ currentScreen, setCurrentScreen }) {
       ) : (
         ""
       )}
-      <BackButton
-        currentScreen={currentScreen}
-        setCurrentScreen={setCurrentScreen}
-      />
     </>
   );
 }

@@ -5,7 +5,6 @@ import { useState } from "react";
 import AddMedications from "./addMedication";
 import RecordLabTest from "./recordLabTest";
 import RequestLabTest from "./requestLabTest";
-import BackButton from "./BackButton";
 
 export default function FollowUpVisit() {
   const date = [
@@ -253,10 +252,6 @@ export default function FollowUpVisit() {
           </div>
 
           <div className="flex justify-between items-center mt-5">
-            <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
             <div>
               <button
                 onClick={() => {

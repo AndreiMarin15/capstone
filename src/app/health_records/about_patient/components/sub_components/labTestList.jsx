@@ -4,7 +4,7 @@ import { useState } from "react";
 import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./recordLabTest";
-import BackButton from "./BackButton";
+
 export default function LabTestList({ currentScreen, setCurrentScreen }) {
   const router = useRouter();
   const [testName, setTestName] = useState("");
@@ -91,10 +91,6 @@ export default function LabTestList({ currentScreen, setCurrentScreen }) {
               </span>
             </button>
           ))}
-          <BackButton
-            currentScreen={currentScreen}
-            setCurrentScreen={setCurrentScreen}
-          />
         </>
       )}
     </>

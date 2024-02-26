@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import AddLabTest from "./recordLabTest";
 import LabSample from "../../../../assets/lab-test-sample.png";
-import BackButton from "./BackButton";
+
 export default function VisitLabtests({ currentScreen, setCurrentScreen }) {
   const medication = [
     {
@@ -14,8 +14,6 @@ export default function VisitLabtests({ currentScreen, setCurrentScreen }) {
       startdate: "2024-01-24",
     },
   ];
-
-  const [currentScreen, setCurrentScreen] = useState(0);
 
   return (
     <>
@@ -68,10 +66,6 @@ export default function VisitLabtests({ currentScreen, setCurrentScreen }) {
               </div>
             </div>
           ))}
-          <BackButton
-            currentScreen={currentScreen}
-            setCurrentScreen={setCurrentScreen}
-          />
         </>
       ) : currentScreen === 1 ? (
         <AddLabTest />

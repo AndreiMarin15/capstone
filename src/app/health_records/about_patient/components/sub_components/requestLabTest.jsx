@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddMedications from "./addMedication";
 import RecordLabTest from "./recordLabTest";
-import BackButton from "./BackButton";
+
 export default function AddFollowUpVisit({ currentPage, setCurrentPage }) {
   const labtest = [
     {
@@ -57,10 +57,6 @@ export default function AddFollowUpVisit({ currentPage, setCurrentPage }) {
           </div>
 
           <div className="flex justify-between items-center mt-5">
-            <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
             <div>
               <button
                 onClick={() => {
