@@ -154,10 +154,19 @@ export default function AddMedications() {
                                 </div>
                               </td>
                               <td>
-                                <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                  value={item.value}
-                                />
+                                {item.variable === "Start Date" ||
+                                item.variable === "End Date" ? (
+                                  <input
+                                    type="date"
+                                    className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
+                                    value={item.value}
+                                  />
+                                ) : (
+                                  <input
+                                    className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
+                                    value={item.value}
+                                  />
+                                )}
                               </td>
                             </tr>
                           ))}

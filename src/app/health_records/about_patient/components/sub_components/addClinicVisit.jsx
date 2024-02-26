@@ -108,14 +108,31 @@ export default function FollowUpVisit() {
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
-                        {item.variable === "" ? "" : item.value}
+                        {item.variable === "Date" ? (
+                          <input
+                            type="date"
+                            className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-full"
+                          />
+                        ) : (
+                          <>
+                            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                            {item.variable === "" ? "" : item.value}
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}
 
                   {followup.map((item, index) => (
-                    <tr key={index} className={`h-${item.variable === "Procedure/s" || item.variable === "Complaint/s" ? '14' : '8'}`}>
+                    <tr
+                      key={index}
+                      className={`h-${
+                        item.variable === "Procedure/s" ||
+                        item.variable === "Complaint/s"
+                          ? "14"
+                          : "8"
+                      }`}
+                    >
                       <td className="w-5">
                         <Image
                           alt="image"
@@ -133,7 +150,9 @@ export default function FollowUpVisit() {
                       </td>
                       <td className="border-l-[5rem] border-transparent">
                         {typeof item.value === "string" ? (
-                          ["Medications & Care Plan", "Tests"].includes(item.variable) ? (
+                          ["Medications & Care Plan", "Tests"].includes(
+                            item.variable
+                          ) ? (
                             <button
                               onClick={() => {
                                 setCurrentScreen(item.component);
@@ -149,8 +168,12 @@ export default function FollowUpVisit() {
                               }}
                               className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
                               style={{
-                                height: ["Procedure/s", "Complaint/s"].includes(item.variable) ? '3rem' : 'auto',
-                                whiteSpace: 'pre-wrap'
+                                height: ["Procedure/s", "Complaint/s"].includes(
+                                  item.variable
+                                )
+                                  ? "3rem"
+                                  : "auto",
+                                whiteSpace: "pre-wrap",
                               }}
                               wrap="soft" // "soft" allows wrapping
                             />
@@ -206,9 +229,7 @@ export default function FollowUpVisit() {
 
       {/* BACK & SAVE BUTTON */}
       <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
-        <button
-          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
-        >
+        <button className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white">
           SAVE
         </button>
       </div>
