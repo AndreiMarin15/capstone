@@ -9,7 +9,6 @@ import FoodAllergies from "./components/viewFoodAllergies";
 import EnvAllergies from "./components/viewEnvAllergies";
 import AddAllergy from "./components/addAllergies";
 
-
 export default function PatientAllergies() {
 
   const { selected } = useAllergyNav();
@@ -42,7 +41,6 @@ export default function PatientAllergies() {
           </div>
         </div>
       </div>
-      
     </>
   );
 }

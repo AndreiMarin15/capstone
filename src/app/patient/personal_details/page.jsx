@@ -26,7 +26,7 @@ export default function PatientData() {
               <span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
                 <span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
                   <div className="text-black text-xl font-semibold leading-8">
-                    My Health Record
+                    My Personal Details
                   </div>
                 </span>
                 <PatientHealthRecordNav />
