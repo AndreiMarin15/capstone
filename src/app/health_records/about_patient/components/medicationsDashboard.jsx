@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BackButton from "./sub_components/BackButton";
+
 export default function Medications() {
   const medications = [
     {
@@ -88,7 +88,6 @@ export default function Medications() {
           </div>
         </div>
       ))}
-         <BackButton  />
     </>
   );
 }

@@ -9,9 +9,7 @@ import {
 } from "@nextui-org/react";
 
 import * as React from "react";
-
-import BackButton from "./sub_components/BackButton";
-
+  
 export default function Diagnoses() {
     const variables = ["Diagnoses", "Date", "Status", "Doctor", "Hospital"];
 
@@ -61,7 +59,7 @@ export default function Diagnoses() {
                 ))}
                 </tbody>
             </table>
-            <BackButton  />
+
           
         </>
       );
