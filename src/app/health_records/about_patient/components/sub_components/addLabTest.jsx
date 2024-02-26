@@ -3,8 +3,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import VisitLabtests from "./visitLabTests";
-
-export default function AddLabTest() {
+import BackButton from "./BackButton"
+export default function AddLabTest({ currentScreen, setCurrentScreen }) {
   const clinicVitals = [
     {
       value: "",
@@ -28,10 +28,10 @@ export default function AddLabTest() {
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
+
   return (
     <>
-      {currentScreen === 0 ? (
+      {currentScreen === 2 || currentScreen === 4 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD LAB TEST
@@ -173,6 +173,7 @@ export default function AddLabTest() {
       ) : (
         ""
       )}
+       <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
     </>
   );
 }

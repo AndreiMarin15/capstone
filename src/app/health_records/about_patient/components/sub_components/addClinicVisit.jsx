@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddMedications from "./addMedication";
 import AddLabTest from "./addLabTest";
+import BackButton from "./BackButton";
+export default function AddFollowUpVisit({ currentPage, setCurrentPage }) {
 
-export default function FollowUpVisit() {
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -78,8 +79,11 @@ export default function FollowUpVisit() {
 
   const [currentScreen, setCurrentScreen] = useState(0);
 
+
+
   return (
     <>
+    
       {currentScreen === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
@@ -218,21 +222,31 @@ export default function FollowUpVisit() {
               </table>
             </div>
           </div>
+          
+          <div className="flex justify-between items-center mt-5">
+            <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <div>
+              <button
+                onClick={() => {
+                  // Your save logic here
+                }}
+                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+                
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
         </>
+
       ) : currentScreen === 1 ? (
-        <AddMedications />
+        <AddMedications  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
+        
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <AddLabTest  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
       ) : (
         ""
       )}
-
-      {/* BACK & SAVE BUTTON */}
-      <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
-        <button className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white">
-          SAVE
-        </button>
-      </div>
     </>
   );
 }
