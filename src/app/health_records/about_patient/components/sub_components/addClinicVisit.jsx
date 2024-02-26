@@ -3,7 +3,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddMedications from "./addMedication";
-import AddLabTest from "./addLabTest";
+import RequestLabTest from "./requestLabTest";
+import RecordLabTest from "./recordLabTest";
 
 export default function FollowUpVisit() {
   const date = [
@@ -40,6 +41,7 @@ export default function FollowUpVisit() {
       variable: "Tests",
       value: "",
       component: 2,
+      requestcomponent: 3,
     },
   ];
 
@@ -111,7 +113,7 @@ export default function FollowUpVisit() {
                         {item.variable === "Date" ? (
                           <input
                             type="date"
-                            className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-full"
+                            className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[78%]"
                           />
                         ) : (
                           <>
@@ -153,14 +155,26 @@ export default function FollowUpVisit() {
                           ["Medications & Care Plan", "Tests"].includes(
                             item.variable
                           ) ? (
-                            <button
-                              onClick={() => {
-                                setCurrentScreen(item.component);
-                              }}
-                              className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                            >
-                              Add
-                            </button>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => {
+                                  setCurrentScreen(item.component);
+                                }}
+                                className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                              >
+                                {item.variable === "Tests" ? "Record" : "Add"}
+                              </button>
+                              {item.variable === "Tests" && (
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(item.requestcomponent);
+                                  }}
+                                  className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                >
+                                  Request
+                                </button>
+                              )}
+                            </div>
                           ) : (
                             <textarea
                               onChange={(e) => {
@@ -222,7 +236,9 @@ export default function FollowUpVisit() {
       ) : currentScreen === 1 ? (
         <AddMedications />
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <RecordLabTest />
+      ) : currentScreen === 3 ? (
+        <RequestLabTest />
       ) : (
         ""
       )}
