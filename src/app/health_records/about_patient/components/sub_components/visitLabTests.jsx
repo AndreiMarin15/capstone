@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import AddLabTest from "./addLabTest";
+import AddLabTest from "./recordLabTest";
 import LabSample from "../../../../assets/lab-test-sample.png";
 
 export default function VisitLabtests() {

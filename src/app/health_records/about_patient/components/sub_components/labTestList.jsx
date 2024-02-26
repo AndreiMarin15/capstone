@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
-import AddLabTest from "./addLabTest";
+import AddLabTest from "./recordLabTest";
 
 export default function LabTestList() {
   const router = useRouter();
@@ -36,9 +36,9 @@ export default function LabTestList() {
       ) : (
         <>
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            VISITS - LAB TESTS
-          </div>
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+              VISITS - LAB TESTS
+            </div>
             <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
               <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
                 <button
