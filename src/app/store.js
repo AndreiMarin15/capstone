@@ -7,6 +7,11 @@ export const useHRNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
+const usePatientHRNav = create((set) => ({
+  selected: "Master Data",
+  setSelected: (item) => set(() => ({ selected: item })),
+}));
+
 export const useAllergyNav = create((set) => ({
 	selected: "Drug",
 	setSelected: (item) => set(() => ({ selected: item })),
@@ -58,24 +63,24 @@ export const useDoctorInfo = create(
 			birthdate: "",
 			years_of_practice: 1,
 
-			setDoctor_license: (item) => set(() => ({ doctor_license: item })),
+      setDoctor_license: (item) => set(() => ({ doctor_license: item })),
 
-			setLast_name: (item) => set(() => ({ last_name: item })),
+      setLast_name: (item) => set(() => ({ last_name: item })),
 
-			setFirst_name: (item) => set(() => ({ first_name: item })),
+      setFirst_name: (item) => set(() => ({ first_name: item })),
 
-			setSpecialization_id: (item) => set(() => ({ specialization_id: item })),
+      setSpecialization_id: (item) => set(() => ({ specialization_id: item })),
 
-			setBirthdate: (item) => set(() => ({ birthdate: item })),
+      setBirthdate: (item) => set(() => ({ birthdate: item })),
 
-			setGender: (item) => set(() => ({ gender: item })),
+      setGender: (item) => set(() => ({ gender: item })),
 
-			setYearsOfPractice: (item) => set(() => ({ years_of_practice: item })),
-		}),
-		{
-			name: "ENDO_TRACKER_DOCTOR_INFO",
-		}
-	)
+      setYearsOfPractice: (item) => set(() => ({ years_of_practice: item })),
+    }),
+    {
+      name: "ENDO_TRACKER_DOCTOR_INFO",
+    }
+  )
 );
 
 export const usePatientInfo = create(
@@ -113,41 +118,90 @@ export const usePatientInfo = create(
 			setPersonalInformation: (item) =>
 				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
 
-			setAllergies: (item) => set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
-			addAllergy: (newAllergy) => set((state) => ({ allergies: [...state.allergies, newAllergy] })),
+      setAllergies: (item) =>
+        set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
+      addAllergy: (newAllergy) =>
+        set((state) => ({ allergies: [...state.allergies, newAllergy] })),
 
-			setFamilyHistory: (item) => set((state) => ({ family_history: [{ ...state.family_history[0], ...item }] })),
-			addFamily: (newFamily) => set((state) => ({ family_history: [...state.family_history, newFamily] })),
+      setFamilyHistory: (item) =>
+        set((state) => ({
+          family_history: [{ ...state.family_history[0], ...item }],
+        })),
+      addFamily: (newFamily) =>
+        set((state) => ({
+          family_history: [...state.family_history, newFamily],
+        })),
 
-			setSmokerStatus: (item) => set((state) => ({ social_history: { ...state.social_history, smoker_status: item } })),
-			setCigarettesPerDay: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, cigarettes_per_day: item } })),
-			setAlcoholConsumption: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, alcohol_consumption: item } })),
-			setPhysicalActivities: (item) =>
-				set((state) => ({ social_history: { ...state.social_history, physical_activities: item } })),
+      setSmokerStatus: (item) =>
+        set((state) => ({
+          social_history: { ...state.social_history, smoker_status: item },
+        })),
+      setCigarettesPerDay: (item) =>
+        set((state) => ({
+          social_history: { ...state.social_history, cigarettes_per_day: item },
+        })),
+      setAlcoholConsumption: (item) =>
+        set((state) => ({
+          social_history: {
+            ...state.social_history,
+            alcohol_consumption: item,
+          },
+        })),
+      setPhysicalActivities: (item) =>
+        set((state) => ({
+          social_history: {
+            ...state.social_history,
+            physical_activities: item,
+          },
+        })),
 
-			setHypertension: (item) =>
-				set((state) => ({ medical_history: { ...state.medical_history, hypertensions: item } })),
-			setBloodPressureMedication: (item) =>
-				set((state) => ({ medical_history: { ...state.medical_history, blood_pressure_medications: item } })),
-			setStroke: (item) => set((state) => ({ medical_history: { ...state.medical_history, stroke: item } })),
+      setHypertension: (item) =>
+        set((state) => ({
+          medical_history: { ...state.medical_history, hypertensions: item },
+        })),
+      setBloodPressureMedication: (item) =>
+        set((state) => ({
+          medical_history: {
+            ...state.medical_history,
+            blood_pressure_medications: item,
+          },
+        })),
+      setStroke: (item) =>
+        set((state) => ({
+          medical_history: { ...state.medical_history, stroke: item },
+        })),
 
-			setMedications: (item) => set((state) => ({ medical_history: { ...state.medical_history, medications: item } })),
+      setMedications: (item) =>
+        set((state) => ({
+          medical_history: { ...state.medical_history, medications: item },
+        })),
 
-			addMedication: (item) =>
-				set((state) => ({
-					medical_history: { ...state.medical_history, medications: [...state.medications, item] },
-				})),
+      addMedication: (item) =>
+        set((state) => ({
+          medical_history: {
+            ...state.medical_history,
+            medications: [...state.medications, item],
+          },
+        })),
 
-			setPastMedicalProcedures: (item) =>
-				set((state) => ({ medical_history: { ...state.medical_history, past_medical_procedures: item } })),
+      setPastMedicalProcedures: (item) =>
+        set((state) => ({
+          medical_history: {
+            ...state.medical_history,
+            past_medical_procedures: item,
+          },
+        })),
 
-			setDateOfProcedures: (item) =>
-				set((state) => ({ medical_history: { ...state.medical_history, date_of_procedures: item } })),
-		}),
-		{
-			name: "ENDO_TRACKER_PATIENT_INFO",
-		}
-	)
+      setDateOfProcedures: (item) =>
+        set((state) => ({
+          medical_history: {
+            ...state.medical_history,
+            date_of_procedures: item,
+          },
+        })),
+    }),
+    {
+      name: "ENDO_TRACKER_PATIENT_INFO",
+    }
+  )
 );
