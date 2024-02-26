@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function UploadLab({ lab, setLabState }) {
+const UploadLab = () => {
   const labtest = [
     {
       imgsrc:
@@ -53,7 +53,7 @@ export default function UploadLab({ lab, setLabState }) {
   ];
 
   return (
-    <span className="border bg-white flex flex-col px-20 py-12 border-solid border-stone-300 max-md:px-5">
+    <span className="bg-white flex flex-col px-20 py-12 h-auto max-md:px-5">
       <div className="text-black text-xl font-semibold leading-8 mt-12 self-start max-md:max-w-full max-md:mt-10">
         2D ECHO
       </div>
@@ -113,3 +113,4 @@ export default function UploadLab({ lab, setLabState }) {
     </span>
   );
 }
+export default UploadLab;
