@@ -11,7 +11,7 @@ import { currentUser } from "./store";
 export function Providers({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const current = currentUser()
+	const current = currentUser();
 	useEffect(() => {
 		const getAuth = async () => {
 			const authData = await authentication.getSession();

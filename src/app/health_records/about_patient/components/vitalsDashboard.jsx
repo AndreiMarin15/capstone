@@ -1,5 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
+import BackButton from "./sub_components/BackButton";
+
 export default function Vitals() {
 	const vitals = [
 		
@@ -102,6 +104,7 @@ export default function Vitals() {
 					))}
 				</table>
 			</div>
+			<BackButton />
 		</>
 	);
 }

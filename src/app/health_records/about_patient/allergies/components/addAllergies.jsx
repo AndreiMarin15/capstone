@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 
 export default function AddAllergy() {
+const router = useRouter();
+
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
@@ -120,24 +122,37 @@ export default function AddAllergy() {
 
       {/* BACK BUTTON */}
       <div className="w-full flex justify-between max-md:max-w-full mt-10 max-md:px-5">
-        {" "}
-        <button className="border border-solid border-black text-black text-xs font-semibold whitespace-nowrap justify-center items-stretch self-stretch mr-2 px-6 py-2 rounded max-md:px-5">
-          {" "}
+     
+        <button
+          onClick={() => {
+            router.push("/health_records/about_patient");
+          }}
+          className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
+        >
           <div className="flex gap-0.5 justify-between items-center">
             <Image
               height={0}
               width={0}
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-              className="w-4 h-4 aspect-square"
+              className="w-3 h-3 aspect-square"
               alt="Back Arrow"
             />
-            <div className="ml-1">BACK</div>
+            <div className="text-xs">BACK</div>
           </div>
         </button>
-        <button className=" text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-950 self-stretch mr-2  px-6 py-2 rounded max-md:px-5">
-          SAVE{" "}
-        </button>
+        <div>
+              <button
+                onClick={() => {
+                  // Your save logic here
+                 
+                }}
+                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+                
+              >
+                SAVE
+              </button>
+            </div>
       </div>
     </>
   );

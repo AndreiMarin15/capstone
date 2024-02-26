@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import AddLabTest from "./addLabTest";
 import LabSample from "../../../../assets/lab-test-sample.png";
-
-export default function VisitLabtests() {
+import BackButton from "./BackButton";
+export default function VisitLabtests({ currentScreen, setCurrentScreen}) {
   const medication = [
     {
       srcmedicine:
@@ -15,11 +15,11 @@ export default function VisitLabtests() {
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
-
+  const [currentScreen3, setCurrentScreen3] = useState(0);
+  console.log("currentScreen:", currentScreen);
   return (
     <>
-      {currentScreen === 0 ? (
+      {currentScreen3 === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - TESTS
@@ -68,8 +68,9 @@ export default function VisitLabtests() {
               </div>
             </div>
           ))}
+          <BackButton currentScreen={(currentScreen)} setCurrentScreen={setCurrentScreen} />
         </>
-      ) : currentScreen === 1 ? (
+      ) : currentScreen3 === 1 ? (
         <AddLabTest />
       ) : (
         ""
