@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import FamilyHistory from "./sub_components/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
-
+import BackButton from "./sub_components/BackButton";
 export default function SocialHistory() {
     const [currentPage, setCurrentPage] = useState(0);
 	const fHistory = [
@@ -96,7 +96,7 @@ export default function SocialHistory() {
 					</tr>
 				))}
 			</table>
-
+					<BackButton />
 		</>
         ) : (
 			""
