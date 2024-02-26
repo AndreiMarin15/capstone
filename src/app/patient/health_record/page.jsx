@@ -8,7 +8,7 @@ import MasterData from "./components/masterDataDashboard";
 import FamilySocial from "./components/family&socialHistoryDashboard";
 import { usePatientHRNav } from "@/app/store";
 
-export default function patientData() {
+export default function PatientData() {
   const { selected } = usePatientHRNav();
   const router = useRouter();
   const [currentPage, setCurrentPage] = React.useState(0);
