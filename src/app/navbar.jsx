@@ -52,7 +52,7 @@ const patientNavigation = [
 	},
 	{
 		name: "Medications & Care Plans",
-		href: "/patient/medications_and_careplans",
+		href: "/patient/careplan_list",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
 	},
 	{

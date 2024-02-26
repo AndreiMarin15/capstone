@@ -11,11 +11,11 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
+  
   const handleSetCurrentScreen = (screen) => {
     // Reset isTest to false when navigating back to screen 2
     if (screen === 2) {
       setTest(false);
-      setAdd(false);
     }
     setCurrentScreen(screen);
   };
@@ -45,15 +45,15 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
       {isTest ? (
         <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
       ) : isAdd ? (
-        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen}/>
+        <AddLabTest />
       ) : (
         
         <>
         
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-            <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap mt-8 self-start">
-              LAB TESTS
-            </div>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            VISITS - LAB TESTS
+          </div>
             <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
               <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
                 <button
@@ -101,7 +101,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen} ) {
               </span>
             </button>
           ))}
-            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+            <BackButton currentScreen={currentScreen} setCurrentScreen={handleSetCurrentScreen} />
         </>
       )}
 

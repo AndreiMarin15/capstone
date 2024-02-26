@@ -2,10 +2,11 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AddMedications from "./addMedication"
+import AddMedications from "./addMedication";
 import AddLabTest from "./addLabTest";
 import BackButton from "./BackButton";
 export default function FollowUpVisit({ currentPage, setCurrentPage }) {
+
   const followup = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -91,8 +92,32 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
             <div className="flex gap-[4rem] align-baseline">
               <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className="text-xs leading-5 text-black">
+                  {date.map((item, index) => (
+                    <tr key={index} className="h-8">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[16px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[5rem] border-transparent">
+                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
+                        {item.variable === "" ? "" : item.value}
+                      </td>
+                    </tr>
+                  ))}
+
                   {followup.map((item, index) => (
-                    <tr key={index} className={`h-${item.variable === "Procedures" || item.variable === "Complaint" ? '14' : '8'}`}>
+                    <tr key={index} className={`h-${item.variable === "Procedure/s" || item.variable === "Complaint/s" ? '14' : '8'}`}>
                       <td className="w-5">
                         <Image
                           alt="image"
@@ -121,23 +146,20 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
                             </button>
                           ) : (
                             <textarea
-                            
-                            onChange={(e) => {
-                              // Calculate the number of rows based on the length of the input value
-                              const inputRows = Math.max(Math.ceil(e.target.value.length / 40), 1);
-                              
-                            }}
-                            className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5`}
-                            style={{
-                              height: item.variable === "Procedure/s" || item.variable === "Complaint/s" ? '3rem' : 'auto',
-                              whiteSpace: 'pre-wrap'
-                            }}
-                            wrap="soft" // "soft" allows wrapping
-                          />
+                              onChange={(e) => {
+                                // Handle textarea change
+                              }}
+                              className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                              style={{
+                                height: ["Procedure/s", "Complaint/s"].includes(item.variable) ? '3rem' : 'auto',
+                                whiteSpace: 'pre-wrap'
+                              }}
+                              wrap="soft" // "soft" allows wrapping
+                            />
                           )
                         ) : (
                           <div className="ml-auto">
-                            
+                            {/* Handle other cases if needed */}
                           </div>
                         )}
                       </td>
@@ -145,16 +167,16 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
                   ))}
                 </tbody>
               </table>
-              {/*  VITALS AND BIOMETRICS */}
+              {/* VITALS AND BIOMETRICS */}
               <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className=" text-xs leading-5 text-black">
                   {clinicVitals.map((item, index) => (
                     <tr key={index} className="h-8">
                       <td className="w-5">
                         <Image
-                        alt="image"
-                        height={0}
-                        width={0}
+                          alt="image"
+                          height={0}
+                          width={0}
                           loading="lazy"
                           src={item.src}
                           className="self-start aspect-square fill-black w-[15px]"
@@ -166,7 +188,7 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
+                        <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 w-[180px]" />{" "}
                         {item.variable === "Heart Rate" ? "" : item.value}
                       </td>
                     </tr>
@@ -176,32 +198,28 @@ export default function FollowUpVisit({ currentPage, setCurrentPage }) {
             </div>
           </div>
           
-          <div className="flex justify-between items-center mt-5">
-            <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <div>
-              <button
-                onClick={() => {
-                  // Your save logic here
-                }}
-                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
-                
-              >
-                SAVE
-              </button>
-            </div>
-          </div>
+          <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </>
-
       ) : currentScreen === 1 ? (
-        <AddMedications  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
+        <AddMedications />
         
       ) : currentScreen === 2 ? (
-        <AddLabTest  currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
+        <AddLabTest />
       ) : (
         ""
       )}
 
-     
+      {/*SAVE BUTTON */}
+      {/* <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
+        <button
+          onClick={() => {
+            // Your save logic here
+          }}
+          className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white"
+        >
+          SAVE
+        </button>
+      </div> */}
     </>
   );
 }

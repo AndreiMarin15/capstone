@@ -57,7 +57,7 @@ export default function CarePlans() {
       <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
         <div className="w-full max-md:max-w-full h-full">
           {medications.map((medication, index) => (
-            <div
+            <button
               key={index}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
             >
@@ -108,7 +108,7 @@ export default function CarePlans() {
                   <span className="font-medium">{medication.until}</span>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
