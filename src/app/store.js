@@ -2,66 +2,66 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const useHRNav = create((set) => ({
+export const useHRNav = create((set) => ({
+	selected: "Master Data",
+	setSelected: (item) => set(() => ({ selected: item })),
+}));
+
+export const usePatientHRNav = create((set) => ({
   selected: "Master Data",
   setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const usePatientHRNav = create((set) => ({
-  selected: "Master Data",
-  setSelected: (item) => set(() => ({ selected: item })),
+export const useAllergyNav = create((set) => ({
+	selected: "Drug",
+	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const useAllergyNav = create((set) => ({
-  selected: "Drug",
-  setSelected: (item) => set(() => ({ selected: item })),
+export const useCPNav = create((set) => ({
+	selected: "Care Plans",
+	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-const useCPNav = create((set) => ({
-  selected: "Care Plans",
-  setSelected: (item) => set(() => ({ selected: item })),
-}));
-
-const currentUser = create(
-  persist(
-    (set) => ({
-      info: {},
-      user: {},
-      setInfo: (item) => set(() => ({ info: item })),
-      setUser: (item) => set(() => ({ user: item })),
-    }),
-    {
-      name: "ENDO_TRACKER_CURRENT_USER",
-    }
-  )
+export const currentUser = create(
+	persist(
+		(set) => ({
+			info: {},
+			user: {},
+			setInfo: (item) => set(() => ({ info: item })),
+			setUser: (item) => set(() => ({ user: item })),
+		}),
+		{
+			name: "ENDO_TRACKER_CURRENT_USER",
+		}
+	)
 );
 
-const useUserInfo = create(
-  persist(
-    (set) => ({
-      email: "",
-      setEmail: (item) => set(() => ({ email: item })),
-      password: "",
-      setPassword: (item) => set(() => ({ password: item })),
-    }),
-    {
-      name: "ENDO_TRACKER_USER_INFO",
-    }
-  )
+export const useUserInfo = create(
+	persist(
+		(set) => ({
+			email: "",
+			setEmail: (item) => set(() => ({ email: item })),
+			password: "",
+			setPassword: (item) => set(() => ({ password: item })),
+		}),
+		{
+			name: "ENDO_TRACKER_USER_INFO",
+		}
+	)
 );
 
-const useDoctorInfo = create(
-  persist(
-    (set) => ({
-      doctor_license: {
-        license_number: "0",
-      },
-      last_name: "",
-      first_name: "",
-      specialization_id: 1,
-      gender: "",
-      birthdate: "",
-      years_of_practice: 1,
+export const useDoctorInfo = create(
+	persist(
+		(set) => ({
+			doctor_license: {
+				license_number: "0",
+			},
+			last_name: "",
+			first_name: "",
+			specialization_id: 1,
+			gender: "",
+			birthdate: "",
+			years_of_practice: 1,
 
       setDoctor_license: (item) => set(() => ({ doctor_license: item })),
 
@@ -83,42 +83,40 @@ const useDoctorInfo = create(
   )
 );
 
-const usePatientInfo = create(
-  persist(
-    (set) => ({
-      personal_information: {
-        philhealth_id: "",
-        last_name: "",
-        first_name: "",
-        contact_number: "",
-        gender: "",
-        birthdate: "",
-        street_address: "",
-        city: "",
-        state: "",
-        postal_code: "",
-        photo: "",
-      },
-      allergies: [],
-      family_history: [],
-      social_history: {
-        smoker_status: "Smoker",
-        cigarettes_per_day: 1,
-        alcohol_consumption: "Non-Drinker",
-        physical_activities: "Sedentary",
-      },
-      medical_history: {
-        hypertensions: false,
-        blood_pressure_medications: false,
-        stroke: false,
-        medications: [""],
-        past_medical_procedures: [""],
-        date_of_procedures: "",
-      },
-      setPersonalInformation: (item) =>
-        set((state) => ({
-          personal_information: { ...state.personal_information, ...item },
-        })),
+export const usePatientInfo = create(
+	persist(
+		(set) => ({
+			personal_information: {
+				philhealth_id: "",
+				last_name: "",
+				first_name: "",
+				contact_number: "",
+				gender: "",
+				birthdate: "",
+				street_address: "",
+				city: "",
+				state: "",
+				postal_code: "",
+				photo: "",
+			},
+			allergies: [],
+			family_history: [],
+			social_history: {
+				smoker_status: "Smoker",
+				cigarettes_per_day: 1,
+				alcohol_consumption: "Non-Drinker",
+				physical_activities: "Sedentary",
+			},
+			medical_history: {
+				hypertensions: false,
+				blood_pressure_medications: false,
+				stroke: false,
+				medications: [""],
+				past_medical_procedures: [""],
+				date_of_procedures: "",
+			},
+			setPersonalInformation: (item) =>
+				set((state) => ({ personal_information: { ...state.personal_information, ...item } })),
 
       setAllergies: (item) =>
         set((state) => ({ allergies: [{ ...state.allergies[0], ...item }] })),
@@ -207,14 +205,3 @@ const usePatientInfo = create(
     }
   )
 );
-
-module.exports = {
-  useHRNav,
-  usePatientHRNav,
-  useAllergyNav,
-  useCPNav,
-  useUserInfo,
-  useDoctorInfo,
-  usePatientInfo,
-  currentUser,
-};
