@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import AddLabTest from "./addLabTest";
+import AddLabTest from "./recordLabTest";
 import LabSample from "../../../../assets/lab-test-sample.png";
-
-export default function VisitLabtests() {
+import BackButton from "./BackButton";
+export default function VisitLabtests({ currentScreen, setCurrentScreen }) {
   const medication = [
     {
       srcmedicine:
@@ -68,6 +68,10 @@ export default function VisitLabtests() {
               </div>
             </div>
           ))}
+          <BackButton
+            currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
+          />
         </>
       ) : currentScreen === 1 ? (
         <AddLabTest />

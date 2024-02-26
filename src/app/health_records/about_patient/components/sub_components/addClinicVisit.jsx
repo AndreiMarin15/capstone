@@ -3,7 +3,9 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddMedications from "./addMedication";
-import AddLabTest from "./addLabTest";
+import RecordLabTest from "./recordLabTest";
+import RequestLabTest from "./requestLabTest";
+import BackButton from "./BackButton";
 
 export default function FollowUpVisit() {
   const date = [
@@ -33,13 +35,14 @@ export default function FollowUpVisit() {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Medications & Care Plan",
       value: "",
-      component: 1,
+      recordcomponent: 1,
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Tests",
       value: "",
-      component: 2,
+      recordcomponent: 2,
+      requestcomponent: 3,
     },
   ];
 
@@ -133,57 +136,87 @@ export default function FollowUpVisit() {
                           : "8"
                       }`}
                     >
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[5rem] border-transparent">
-                        {typeof item.value === "string" ? (
-                          ["Medications & Care Plan", "Tests"].includes(
-                            item.variable
-                          ) ? (
-                            <button
-                              onClick={() => {
-                                setCurrentScreen(item.component);
-                              }}
-                              className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                            >
-                              Add
-                            </button>
-                          ) : (
-                            <textarea
-                              onChange={(e) => {
-                                // Handle textarea change
-                              }}
-                              className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                              style={{
-                                height: ["Procedure/s", "Complaint/s"].includes(
-                                  item.variable
-                                )
-                                  ? "3rem"
-                                  : "auto",
-                                whiteSpace: "pre-wrap",
-                              }}
-                              wrap="soft" // "soft" allows wrapping
-                            />
-                          )
-                        ) : (
-                          <div className="ml-auto">
-                            {/* Handle other cases if needed */}
+                      <tr
+                        key={index}
+                        className={`h-${
+                          item.variable === "Procedure/s" ||
+                          item.variable === "Complaint/s"
+                            ? "14"
+                            : "8"
+                        }`}
+                      >
+                        <td className="w-5">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={item.src}
+                            className="self-start aspect-square fill-black w-[15px]"
+                          />
+                        </td>
+                        <td className="border-l-[16px] border-transparent">
+                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            {item.variable}
                           </div>
-                        )}
-                      </td>
+                        </td>
+                        <td className="border-l-[5rem] border-transparent">
+                          {typeof item.value === "string" ? (
+                            ["Medications & Care Plan", "Tests"].includes(
+                              item.variable
+                            ) ? (
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => {
+                                    setCurrentScreen(item.recordcomponent);
+                                  }}
+                                  className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                >
+                                  {item.variable === "Tests" ? "Record" : "Add"}
+                                </button>
+                                {item.variable === "Tests" && (
+                                  <button
+                                    onClick={() => {
+                                      setCurrentScreen(item.requestcomponent);
+                                    }}
+                                    className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+                                  >
+                                    Request
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <textarea
+                                onChange={(e) => {
+                                  // Handle textarea change
+                                }}
+                                className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                                style={{
+                                  height: [
+                                    "Procedure/s",
+                                    "Complaint/s",
+                                  ].includes(item.variable)
+                                    ? "3rem"
+                                    : "auto",
+                                  whiteSpace: "pre-wrap",
+                                  height: [
+                                    "Procedure/s",
+                                    "Complaint/s",
+                                  ].includes(item.variable)
+                                    ? "3rem"
+                                    : "auto",
+                                  whiteSpace: "pre-wrap",
+                                }}
+                                wrap="soft" // "soft" allows wrapping
+                              />
+                            )
+                          ) : (
+                            <div className="ml-auto">
+                              {/* Handle other cases if needed */}
+                            </div>
+                          )}
+                        </td>
+                      </tr>
                     </tr>
                   ))}
                 </tbody>
@@ -218,21 +251,42 @@ export default function FollowUpVisit() {
               </table>
             </div>
           </div>
+
+          <div className="flex justify-between items-center mt-5">
+            <BackButton
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+            <div>
+              <button
+                onClick={() => {
+                  // Your save logic here
+                }}
+                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
         </>
       ) : currentScreen === 1 ? (
-        <AddMedications />
+        <AddMedications
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+        />
       ) : currentScreen === 2 ? (
-        <AddLabTest />
+        <RecordLabTest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+        />
+      ) : currentScreen === 3 ? (
+        <RequestLabTest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+        />
       ) : (
         ""
       )}
-
-      {/* BACK & SAVE BUTTON */}
-      <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
-        <button className="flex items-center justify-center px-10 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white">
-          SAVE
-        </button>
-      </div>
     </>
   );
 }
