@@ -57,15 +57,12 @@ export default function Messaging() {
               className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
             />
             <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud{" "}
+              Hi doc, can I ask about my medicine.{" "}
             </span>
           </div>
           <div className="justify-end items-stretch flex gap-4 mt-12 self-end max-md:max-w-full max-md:flex-wrap max-md:mt-10">
             <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore.
+              Yes sure what is it?
             </span>
             <Image
               alt="picture"
@@ -87,9 +84,7 @@ export default function Messaging() {
             className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
           />
           <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud{" "}
+            How long should I take metformin again?{" "}
           </span>
         </div>
       </div>

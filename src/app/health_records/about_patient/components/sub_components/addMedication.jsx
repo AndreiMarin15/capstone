@@ -43,16 +43,6 @@ export default function AddMedications() {
       variable: "End Date",
       value: "",
     },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Duration",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Duration Unit",
-      value: "",
-    },
   ];
 
   const careplan = [
