@@ -71,11 +71,13 @@ export default function Home() {
                     }
                   })
                   .catch((e) => {
-                    toast.error("User not found. Kindly retry or register.", {
-                      position: "top-left",
-                      theme: "colored",
-                      autoClose: 2000,
-                    });
+                    if (e) {
+                      toast.error("User not found. Kindly retry or register.", {
+                        position: "top-left",
+                        theme: "colored",
+                        autoClose: 2000,
+                      });
+                    }
                   });
               }}
               className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
