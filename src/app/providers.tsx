@@ -19,11 +19,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				console.error(authData.message);
 				return;
 			}
-			if (!authData?.session?.user.id) {
-				if (pathname !== "/" && pathname !== "/login" && pathname !== "/patient_form" && pathname !== "/doctor_form") {
-					router.push("/");
-				}
-			} else {
+			// if (!authData?.session?.user.id) {
+			// 	if (pathname !== "/" && pathname !== "/login" && pathname !== "/patient_form" && pathname !== "/doctor_form") {
+			// 		router.push("/");
+			// 	}
+			// } 
+			else {
 				if (pathname === "/" || pathname === "/login" || pathname === "/patient_form" || pathname === "/doctor_form") {
 					if (current.user.type === "patient") {
 						router.push("/patient/dashboard");
