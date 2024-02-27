@@ -6,9 +6,9 @@ import VisitMedications from "./visitMedications";
 import VisitLabtests from "./visitLabTests";
 import CarePlanList from "./carePlanList";
 import LabTestList from "./labTestList";
-
-export default function FollowUpVisit() {
-	const [currentPage, setCurrentPage] = useState(0);
+import BackButton from "./BackButton";
+export default function ClinicVisit({ currentPage, setCurrentPage }) {
+	const [currentScreen, setCurrentScreen] = useState(0);
 	const followup = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -36,7 +36,7 @@ export default function FollowUpVisit() {
 			value: {
 				label: "View",
 				onClick: () => {
-					setCurrentPage(currentPage + 1);
+					setCurrentScreen(currentScreen + 1);
 				},
 			},
 		},
@@ -46,7 +46,7 @@ export default function FollowUpVisit() {
 			value: {
 				label: "View",
 				onClick: () => {
-					setCurrentPage(currentPage + 2);
+					setCurrentScreen(currentScreen + 2);
 				},
 			},
 		},
@@ -84,14 +84,11 @@ export default function FollowUpVisit() {
 			value: "50",
 		},
 	];
-	const handleVisitClick = () => {
-		// Increment the currentPage when the user clicks the div
-		setCurrentPage(currentPage + 1);
-	};
+	
 
 	return (
 		<>
-			{currentPage === 0 ? (
+			{currentScreen === 0 ? (
 				<>
 					<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
 						CLINIC VISIT #1
@@ -167,20 +164,21 @@ export default function FollowUpVisit() {
 							</table>
 						</div>
 					</div>
+					<BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
 				</>
 			) : (
 				""
 			)}
 
-			{currentPage === 1 && (
+			{currentScreen === 1 && (
 				<>
-					<VisitMedications />
+					<VisitMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
 				</>
 			)}
 
-			{currentPage === 2 && (
+			{currentScreen === 2 && (
 				<>
-					<LabTestList />
+					<LabTestList currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
 				</>
 			)}
 		</>
