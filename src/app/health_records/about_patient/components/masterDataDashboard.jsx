@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import BackButton from "./sub_components/BackButton";
 export default function MasterData() {
   const router = useRouter(); 
-
+  const [currentPage, setCurrentPage] = useState(0);
   const mData = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
@@ -91,6 +91,7 @@ export default function MasterData() {
       </table>
       <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10">
       </div>
+      <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </>
   );
 }

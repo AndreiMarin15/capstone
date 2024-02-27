@@ -5,8 +5,9 @@ import { useState } from "react";
 import AddMedications from "./addMedication";
 import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
+import BackButton from "./BackButton";
 
-export default function FollowUpVisit() {
+export default function AddClinicVisit({ currentPage, setCurrentPage }) {
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -232,23 +233,33 @@ export default function FollowUpVisit() {
               </table>
             </div>
           </div>
+            {/* BACK & SAVE BUTTON */}
+            <div className="flex justify-between items-center mt-5">
+                  <BackButton currentPage={ currentPage } setCurrentPage={ setCurrentPage } />
+                  <div>
+                    <button
+                      onClick={() => {
+                        // Your save logic here
+                      }}
+                      className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+                      
+                    >
+                      SAVE
+                    </button>
+                  </div>
+                </div>
         </>
       ) : currentScreen === 1 ? (
-        <AddMedications />
+        <AddMedications currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen }/>
       ) : currentScreen === 2 ? (
-        <RecordLabTest />
+        <RecordLabTest currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
       ) : currentScreen === 3 ? (
-        <RequestLabTest />
+        <RequestLabTest currentScreen={ currentScreen } setCurrentScreen={ setCurrentScreen } />
       ) : (
         ""
       )}
 
-      {/* BACK & SAVE BUTTON */}
-      <div className="flex items-start justify-between text-xs font-semibold text-black whitespace-nowrap mt-10">
-        <button className="flex items-center justify-center px-10 py-1 rounded border-sky-900 border-solid font-semibold border-1.5 bg-sky-900 text-white">
-          SAVE
-        </button>
-      </div>
-    </>
+    
+        </>
   );
 }

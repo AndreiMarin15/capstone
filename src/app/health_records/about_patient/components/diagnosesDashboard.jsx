@@ -7,7 +7,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-
+import BackButton from "./sub_components/BackButton";
 import * as React from "react";
   
 export default function Diagnoses() {
@@ -60,7 +60,7 @@ export default function Diagnoses() {
                 </tbody>
             </table>
 
-          
+            <BackButton/>
         </>
       );
 }
