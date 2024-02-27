@@ -1,7 +1,9 @@
 import Image from "next/image";
 import * as React from "react";
-
+import Link from "next/link";
 export default function ViewDoctors() {
+	const defaultIconSrc = "https://cdn.builder.io/api/v1/image/assets/TEMP/a8dedf603ab1b2738fdec0d172ab06fda7dd43e50364fe6839a4b4b5bacc7b06?apiKey=7e8c8e70f3bd479289a042d9c544736c&";
+
 	const doctors = [
 		{
 			name: "Dr. Johnny Santos",
@@ -83,6 +85,9 @@ export default function ViewDoctors() {
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
 											Years of Experience
 										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+                                          
+                                        </th>
 									</tr>
 								</thead>
 								<tbody className="bg-white divide-y divide-gray-200">
@@ -92,6 +97,17 @@ export default function ViewDoctors() {
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.hospital}</td>
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.specialization}</td>
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
+											<td className="px-6 py-4 whitespace-nowrap">
+                                                <Link href="/patient/messages">
+                                                    
+                                                        <img
+                                                            src={doctor.iconSrc || defaultIconSrc}
+                                                            alt="Icon"
+                                                            className="h-8 w-8 cursor-pointer"
+                                                        />
+                                                    
+                                                </Link>
+                                            </td>
 										</tr>
 									))}
 								</tbody>
