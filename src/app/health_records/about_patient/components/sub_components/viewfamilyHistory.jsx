@@ -1,5 +1,6 @@
 import Image from "next/image";
-export default function FamilyHistory() {
+import BackButton from "./BackButton";
+export default function FamilyHistory({ currentPage, setCurrentPage }) {
   const fHistory = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
@@ -74,6 +75,7 @@ export default function FamilyHistory() {
           </tr>
         ))}
       </table>
+      <BackButton currentPage={ currentPage } setCurrentPage={ setCurrentPage }/>
     </>
   );
 }

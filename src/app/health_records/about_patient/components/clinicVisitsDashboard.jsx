@@ -13,10 +13,11 @@ import { useState } from "react";
 import ClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
+import BackButton from "./sub_components/BackButton";
 
-export default function ClinicVisits({ currentPage, setCurrentPage }) {
+export default function ClinicVisits() {
   const router = useRouter();
-
+  const [currentPage, setCurrentPage] = useState(0);
   const visits = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -36,14 +37,15 @@ export default function ClinicVisits({ currentPage, setCurrentPage }) {
   ];
 
   const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(currentPage + 1);
-  };
+	// Increment the currentPage when the user clicks the div
+	setCurrentPage(10);
+};
 
-  const addHandleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(currentPage + 2);
-  };
+const addHandleVisitClick = () => {
+	// Increment the currentPage when the user clicks the div
+	setCurrentPage(currentPage + 1);
+};
+
 
   return (
     <>
@@ -85,22 +87,24 @@ export default function ClinicVisits({ currentPage, setCurrentPage }) {
               </div>
             </button>
           ))}
+		  <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage}/>
         </>
       ) : (
         ""
       )}
 
-      {currentPage === 1 ? (
-        <>
-          <AddClinicVisit />
-        </>
-      ) : currentPage === 2 ? (
-        <>
-          <ClinicVisit />
-        </>
-      ) : (
-        ""
-      )}
+				{currentPage === 1 ? (
+				<>
+					<ClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+				</>
+			) : currentPage === 10 ? (
+				<>
+					<AddClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+				</>
+			) : (
+				""
+			)}
+	  
     </>
   );
 }

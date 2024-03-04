@@ -1,21 +1,19 @@
 import Image from "next/image";
 import * as React from "react";
-import Link from "next/link";
-export default function ViewDoctors() {
-	const defaultIconSrc = "https://cdn.builder.io/api/v1/image/assets/TEMP/a8dedf603ab1b2738fdec0d172ab06fda7dd43e50364fe6839a4b4b5bacc7b06?apiKey=7e8c8e70f3bd479289a042d9c544736c&";
 
-	const doctors = [
+export default function ViewSharing() {
+	const sharing = [
 		{
 			name: "Dr. Johnny Santos",
-			hospital: "Philippine General Hospital",
-			specialization: "Endocrinology",
-			yearsOfExperience: 8,
+			specialization: "Cardiology",
+			document: ["2D Echo Lab Test"],
+			
 		},
 		{
-			name: "Dr. John Doe",
-			hospital: "Philippine General Hospital",
-			specialization: "Internal Medicine",
-			yearsOfExperience: 5,
+			name: "Dr. Marie Eve",
+			specialization: "Gastroenterology",
+			document: ["Medicine List", "FBS Test"], 
+		
 		},
 	];
 	return (
@@ -73,44 +71,46 @@ export default function ViewDoctors() {
 							<table className="min-w-full divide-y divide-gray-200 mt-10">
 							<thead className="bg-gray-50 border border-gray-200 drop-shadow-xl rounded-md">
 									<tr>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider ">
-											Name
-										</th>
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											Hospital
+											Name
 										</th>
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
 											Specialization
 										</th>
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											Years of Experience
+											Requested Document
 										</th>
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-                                          
-                                        </th>
+											Approve Request
+										</th>
 									</tr>
 								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{doctors.map((doctor, index) => (
-										<tr key={index}>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.name}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.hospital}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.specialization}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-                                                <Link href="/patient/messages">
-                                                    
-                                                        <img
-                                                            src={doctor.iconSrc || defaultIconSrc}
-                                                            alt="Icon"
-                                                            className="h-8 w-8 cursor-pointer"
-                                                        />
-                                                    
-                                                </Link>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {sharing.map((sharing, index) => (
+                                        <tr key={index}>
+                                            <td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                {sharing.document.map((document, i) => (
+                                                    <div key={i}>
+                                                        {document}
+                                                        {i !== sharing.document.length - 1 && <br />}
+                                                    </div>
+                                                ))}
                                             </td>
-										</tr>
-									))}
-								</tbody>
+                                            <td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
+                                                {[...Array(sharing.document.length)].map((_, i) => (
+                                                    <div key={i} className="flex items-center">
+                                                        <input type="checkbox" id={`approveYes${index}_${i}`} name={`approveYes${index}_${i}`} style={{ marginRight: '8px' }} />
+                                                        <label htmlFor={`approveYes${index}_${i}`} className="mr-10">Yes</label>
+                                                        <input type="checkbox" id={`approveNo${index}_${i}`} name={`approveNo${index}_${i}`} style={{ marginRight: '8px' }} />
+                                                        <label htmlFor={`approveNo${index}_${i}`}>No</label>
+                                                    </div>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
 							</table>
 						</div>
 					</div>
