@@ -3,7 +3,7 @@ import * as React from "react";
 
 export default function Dashboard() {
   return (
-    <div className="px-5 w-full max-md:max-w-full h-screen bg-white">
+    <div className="px-5 w-full max-md:max-w-full h-auto bg-white">
       <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
         <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
           <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full">
