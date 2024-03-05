@@ -33,6 +33,18 @@ export default function Home() {
 						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
 							Login
 						</div>
+
+						<div className="text-left text-zinc-950 text-base leading-6 self-stretch mt-6">
+							Want to create an account?{" "}
+							<span
+								className="underline text-blue-500 hover:cursor-pointer"
+								onClick={() => {
+									router.push("/");
+								}}
+							>
+								Sign up
+							</span>
+						</div>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
 						<input
 							type="text"

@@ -50,6 +50,18 @@ export const useUserInfo = create(
 	)
 );
 
+const initialDoctorInfo = {
+	doctor_license: {
+		license_number: "0",
+	},
+	last_name: "",
+	first_name: "",
+	specialization_id: 1,
+	gender: "",
+	birthdate: "",
+	years_of_practice: 1,
+};
+
 export const useDoctorInfo = create(
 	persist(
 		(set) => ({
@@ -76,6 +88,8 @@ export const useDoctorInfo = create(
 			setGender: (item) => set(() => ({ gender: item })),
 
 			setYearsOfPractice: (item) => set(() => ({ years_of_practice: item })),
+
+			reset: () => set(initialDoctorInfo),
 		}),
 		{
 			name: "ENDO_TRACKER_DOCTOR_INFO",
@@ -83,6 +97,37 @@ export const useDoctorInfo = create(
 	)
 );
 
+const initialPatientInfo = {
+	personal_information: {
+		philhealth_id: "",
+		last_name: "",
+		first_name: "",
+		contact_number: "",
+		gender: "",
+		birthdate: "",
+		street_address: "",
+		city: "",
+		state: "",
+		postal_code: "",
+		photo: "",
+	},
+	allergies: [],
+	family_history: [],
+	social_history: {
+		smoker_status: "Smoker",
+		cigarettes_per_day: 1,
+		alcohol_consumption: "Non-Drinker",
+		physical_activities: "Sedentary",
+	},
+	medical_history: {
+		hypertensions: false,
+		blood_pressure_medications: false,
+		stroke: false,
+		medications: [""],
+		past_medical_procedures: [""],
+		date_of_procedures: "",
+	},
+};
 export const usePatientInfo = create(
 	persist(
 		(set) => ({
@@ -197,6 +242,8 @@ export const usePatientInfo = create(
 						date_of_procedures: item,
 					},
 				})),
+
+			reset: () => set(initialPatientInfo),
 		}),
 		{
 			name: "ENDO_TRACKER_PATIENT_INFO",

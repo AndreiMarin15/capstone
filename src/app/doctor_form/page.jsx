@@ -34,7 +34,7 @@ export default function DoctorInformation() {
 						<div className="text-gray-400 text-xs font-medium leading-5 grow whitespace-nowrap my-auto">
 							Already have an account?
 						</div>
-						<button className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch grow px-6 py-2 rounded max-md:px-5">
+						<button onClick={() => {window.location.href = '/login'}} className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch grow px-6 py-2 rounded max-md:px-5">
 							SIGN IN
 						</button>
 					</span>

@@ -203,8 +203,8 @@ export default function AllergyForm() {
 																	reactions: [
 																		...allergy.reactions,
 																		{
-																			id: aller.id,
-																			disease: aller.disease,
+																			substance: aller.id,
+																			description: aller.disease,
 																		},
 																	],
 																};
@@ -229,9 +229,9 @@ export default function AllergyForm() {
 							<div>
 								<ul className="m-[10px] absolute">
 									{allergy.reactions.map((item, index) => (
-										<li className="m-[5px]" key={item.id}>
+										<li className="m-[5px]" key={item.substance}>
 											{" "}
-											{index + 1}. {item.id} - {item.disease}
+											{index + 1}. {item.substance} - {item.description}
 										</li>
 									))}
 								</ul>
