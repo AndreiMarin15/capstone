@@ -203,7 +203,7 @@ export default function FamilyMemberForm() {
 							medical_condition: "",
 							medical_condition_date: "",
 							medical_condition_outcome: "",
-							medical_procedures: [""],
+							medical_procedures: [],
 						});
 
 						setTimeout(() => {

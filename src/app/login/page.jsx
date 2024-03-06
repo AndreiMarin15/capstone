@@ -33,6 +33,18 @@ export default function Home() {
 						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
 							Login
 						</div>
+
+						<div className="text-left text-zinc-950 text-base leading-6 self-stretch mt-6">
+							Want to create an account?{" "}
+							<span
+								className="underline text-blue-500 hover:cursor-pointer"
+								onClick={() => {
+									router.push("/");
+								}}
+							>
+								Sign up
+							</span>
+						</div>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
 						<input
 							type="text"
@@ -58,18 +70,24 @@ export default function Home() {
 								const user = await login.loginUser();
 
 								const type = await login.getUserType(user);
-
-								if (type === "patient") {
-									router.push("/patient/dashboard");
-								} else if (type === "doctor") {
-									router.push("/dashboard");
-								} else {
-									toast.error("User not found. Kindly retry or register.", {
-										position: "top-left",
-										theme: "colored",
-										autoClose: 2000,
-									});
-								}
+								toast.success("Verifying Information. Please wait.", {
+									position: "top-left",
+									theme: "colored",
+									autoClose: 500,
+								});
+								setTimeout(() => {
+									if (type === "patient") {
+										router.push("/patient/dashboard");
+									} else if (type === "doctor") {
+										router.push("/dashboard");
+									} else {
+										toast.error("User not found. Kindly retry or register.", {
+											position: "top-left",
+											theme: "colored",
+											autoClose: 2000,
+										});
+									}
+								}, 500);
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 						>
