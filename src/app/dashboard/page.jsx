@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import * as React from "react";
+import dashboard from "../../../lib/backend/doctor/doctor_dashboard/dashboard";
 
 export default function Dashboard() {
-	const doctorInfo = {
+	const [doctorInfo, setDoctor] = React.useState({
 		photoSrc:
 			"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
 		name: "John Doe",
@@ -10,9 +13,9 @@ export default function Dashboard() {
 		yearsOfExperience: 8,
 		about:
 			"I am an Endocrinologist practicing for 5 years. You can reach me through Cardinal Santos clinic’s telephone number +888888.",
-	};
+	});
 
-	const managedPatients = [
+	const [managedPatients, setPatients] = React.useState([
 		{
 			name: "Dela Cruz, Juan",
 			handledBy: [
@@ -22,49 +25,9 @@ export default function Dashboard() {
 				},
 			],
 		},
-		{
-			name: "Bonifacio, Andres",
-			handledBy: [
-				{
-					name: "Dr. Johnny Santos",
-					specialty: "Cardiologist",
-				},
-			],
-		},
-		{
-			name: "Mabini, Apolinario",
-			handledBy: [
-				{
-					name: "Dr. Aimee Ramirez",
-					specialty: "Nephrologist",
-				},
-			],
-		},
-		{
-			name: "Aquino, Melchora",
-			handledBy: [
-				{
-					name: "Dr. Jose Andilo",
-					specialty: "Opthalmologist",
-				},
-			],
-		},
-		{
-			name: "Silang, Gabriela",
-			handledBy: [
-				{
-					name: "Dr. Aimee Ramirez",
-					specialty: "Nephrologist",
-				},
-				{
-					name: "Dr. Sun Abalos",
-					specialty: "Gastroenterologist",
-				},
-			],
-		},
-	];
+	]);
 
-	const notifications = [
+	const [notifications, setNotifications] = React.useState([
 		{
 			imageSrc:
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/4e200b4f856742582f5e0e389be9f0e37a54ceeade0f863f225fac2f02a2371f?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -83,9 +46,46 @@ export default function Dashboard() {
 			title: "Referral",
 			content: "You have an unread message from Dr. Aimee Ramirez",
 		},
-	];
+	]);
+
+	React.useEffect(() => {
+		const retrieveData = async () => {
+			const doctor = await dashboard.getDoctorData();
+			setDoctor({
+				photoSrc:
+					"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
+				name: doctor.name,
+				specialization: doctor.specialization,
+				yearsOfExperience: doctor.yearsOfExperience,
+				about:
+					"I am an Endocrinologist practicing for 5 years. You can reach me through Cardinal Santos clinic’s telephone number +888888.",
+			});
+		};
+
+		retrieveData();
+	}, []);
+
+	React.useEffect(() => {
+		const getPatients = async () => {
+			const patients = await dashboard.getPatients();
+
+			setPatients(
+				patients.map((patient) => ({
+					name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
+					handledBy: [
+						{
+							name: doctorInfo.name,
+							specialty: doctorInfo.specialization,
+						},
+					],
+				}))
+			);
+		};
+
+		getPatients();
+	}, [doctorInfo]);
 	return (
-		<div className=" bg-white flex flex-col items-stretch h-auto">
+		<div className={" bg-white flex flex-col items-stretch" + managedPatients.length > 3 ? 'h-auto' : 'h-[100vh]'}>
 			<div className="w-full px-5 max-md:max-w-full">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 					<div className="flex flex-col items-stretch w-[49%] ml-5 max-md:w-full max-md:ml-0">
@@ -137,7 +137,7 @@ export default function Dashboard() {
 										Multidisciplinary Managed Patients
 									</div>
 								</span>
-								<div className="flex gap-4 mt-8 items-start w-full">
+								<div className="flex gap-4 mt-8 items-start w-full overflow-auto" style={{ maxHeight: "300px" }}>
 									<span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
 										{managedPatients.map((patient) => (
 											<>
@@ -147,7 +147,7 @@ export default function Dashboard() {
 														<>
 															{" "}
 															<div className="text-black text-xs leading-5 mt-2">
-																Handled by {doctor.name} - {doctor.specialty}
+																Handled by Dr. {doctor.name} - {doctor.specialty}
 															</div>
 														</>
 													))}

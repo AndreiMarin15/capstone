@@ -13,6 +13,7 @@ export default function Home() {
 	const userStore = useUserInfo();
 	const [signUpAs, setSignUp] = React.useState("Doctor");
 	const [passwordVerify, setPasswordVerify] = React.useState("");
+	const [agreed, setAgreed] = React.useState(false);
 
 	const passwordValid = () => {
 		if (userStore.password === passwordVerify) {
@@ -63,11 +64,11 @@ export default function Home() {
 						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
 							Get started
 						</div>
-						<div
-							className="text-left text-zinc-950 text-base leading-6 self-stretch mt-6"
-							
-						>
-							Already have an account? <span className="underline text-blue-500 hover:cursor-pointer" onClick={handleLoginClick}>Sign in</span>
+						<div className="text-left text-zinc-950 text-base leading-6 self-stretch mt-6">
+							Already have an account?{" "}
+							<span className="underline text-blue-500 hover:cursor-pointer" onClick={handleLoginClick}>
+								Sign in
+							</span>
 						</div>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
 						<input
@@ -117,6 +118,10 @@ export default function Home() {
 							<input
 								type="checkbox"
 								className="border-gray-400 bg-white flex w-3 shrink-0 h-3 flex-col my-auto rounded-sm border-[0.4px] border-solid"
+								checked={agreed}
+								onChange={(e) => {
+									setAgreed(e.target.checked);
+								}}
 							/>
 							<div className="text-black-500 text-sm leading-5 self-stretch grow whitespace-nowrap">
 								I agree to the{" "}
@@ -142,22 +147,31 @@ export default function Home() {
 						<button
 							onClick={() => {
 								const result = passwordValid();
-								if (result.status === true) {
-									toast.success(result.message, {
-										position: "top-left",
-										theme: "colored",
-										autoClose: 2000,
-									});
 
-									setTimeout(() => {
-										if (signUpAs === "Doctor") {
-											router.push("/doctor_form");
-										} else {
-											router.push("/patient_form");
-										}
-									}, 2300);
+								if (agreed === true) {
+									if (result.status === true) {
+										toast.success(result.message, {
+											position: "top-left",
+											theme: "colored",
+											autoClose: 2000,
+										});
+
+										setTimeout(() => {
+											if (signUpAs === "Doctor") {
+												router.push("/doctor_form");
+											} else {
+												router.push("/patient_form");
+											}
+										}, 2300);
+									} else {
+										toast.error(result.message, {
+											position: "top-left",
+											theme: "colored",
+											autoClose: 2000,
+										});
+									}
 								} else {
-									toast.error(result.message, {
+									toast.error("Kindly Read and Agree to both the Terms of Service and Privacy Policy.", {
 										position: "top-left",
 										theme: "colored",
 										autoClose: 2000,
