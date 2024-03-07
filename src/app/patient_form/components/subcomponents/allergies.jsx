@@ -1,12 +1,87 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePatientInfo } from "@/app/store";
+import { PatientSignUp as signUp } from "../../../../../lib/backend/signup/patient_signup";
 export default function AllergyForm() {
+	const reactionCodes = [
+		"J301",
+		"J302",
+		"J303",
+		"J304",
+		"J305",
+		"L239",
+		"L238",
+		"L249",
+		"H101",
+		"H102",
+		"T780",
+		"T781",
+		"T782",
+		"T783",
+		"T784",
+		"T886",
+		"T887",
+	];
+
 	const patient = usePatientInfo();
+	const [reactions, setReactions] = useState([]);
+	const [reactionNames, setNames] = useState([]);
+	const [filteredNames, setFilteredNames] = useState([]);
+
+	const allergens = [
+		{
+			name: "Food",
+			content: [
+				"Milk",
+				"Eggs",
+				"Fish (e.g., bass, flounder, cod)",
+				"Crustacean shellfish (e.g., crab, lobster, shrimp)",
+				"Tree nuts (e.g., almonds, walnuts, pecans)",
+				"Peanuts",
+				"Wheat",
+				"Soybeans",
+				"Sesame",
+				"Other",
+			],
+		},
+		{
+			name: "Medication",
+			content: [
+				"Penicillin and related antibiotics",
+				"Nonsteroidal anti-inflammatory drugs",
+				"Antibiotics containing sulfonamides",
+				"Chemotherapy drugs",
+				"Monoclonal antibody therapy",
+				"HIV drugs",
+				"Antiseizure drugs",
+				"Muscle relaxers given by IV",
+			],
+		},
+		{
+			name: "Environment",
+			content: ["Pollen", "Mold", "Pet dander and saliva", "Dust mites", "Cockroaches", "Smoke", "Dust"],
+		},
+		{
+			name: "Biologic",
+			content: [
+				"Pollen",
+				"Fungal Spores",
+				"House-Dust Mites",
+				"Animal Epithelial Materials",
+				"Drugs",
+				"Biologic Products",
+				"Insect Venoms",
+			],
+		},
+	];
+
+	const [allergenList, setAllergenList] = useState([]);
+
 	const [saved, setSaved] = useState(false);
 	const [allergy, setAllergy] = useState({
-		category_of_allergen: "",
-		allergen: "",
+		category_of_allergen: "Food",
+		allergen: "Milk",
 		reactions: [],
 		severity_of_allergy: "",
 		date_of_onset: "",
@@ -29,9 +104,10 @@ export default function AllergyForm() {
 					value={allergy.category_of_allergen}
 					className="rounded shadow-sm h-10 mt-2 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="">Select Category</option>
-					<option value="1">Category 1</option>
-					<option value="2">Category 2</option>
+					<option value="Food">Food</option>
+					<option value="Medication">Medication</option>
+					<option value="Environment">Environment</option>
+					<option value="Biologic">Biologic</option>
 					{/* Add more options here */}
 				</select>
 			),
@@ -52,32 +128,119 @@ export default function AllergyForm() {
 					value={allergy.allergen}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="0">Select Allergen</option>
-					<option value="1">Allergen 1</option>
-					<option value="2">Allergen 2</option>
+					{allergenList.map((item) => (
+						<option key={item} value={item}>
+							{item}
+						</option>
+					))}
+
 					{/* Add more options here */}
 				</select>
 			),
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8d83467a6242c7712b40f0ed0318ecf32eb3765ea8bbaaa517562b75d192879b?",
 		},
 		{
-			label: "Select Reactions",
+			label: "Add Reactions",
 			field: (
-				<select
-					onChange={(e) => {
-						setAllergy((prev) => {
-							return {
-								...prev,
-								reactions: [...prev.reactions, e.target.value],
-							};
-						});
-					}}
-					value={allergy.reactions[0]}
-					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
-				>
-					<option value="0">Select Reactions</option>
-					{/* Add more options here */}
-				</select>
+				<>
+					{reactions.length > 0 ? (
+						<div className="flex">
+							<div className="inline-block relative">
+								<input
+									autoComplete="off"
+									type="text"
+									className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
+									placeholder="Allergy"
+									id="allergyInput"
+									onChange={(e) => {
+										let filteredDiseases = [];
+										reactions.forEach((reaction) => {
+											if (e.target.value.length > 0) {
+												if (reaction.disease.toLowerCase().includes(e.target.value.toLowerCase())) {
+													filteredDiseases.push(reaction);
+												}
+											} else {
+												filteredDiseases = [];
+											}
+										});
+
+										setFilteredNames(filteredDiseases);
+									}}
+								/>
+								{filteredNames.length > 0 ? (
+									<>
+										<ul
+											style={{
+												listStyle: "none",
+												padding: "unset",
+												margin: "unset",
+												position: "absolute",
+												width: "100%",
+											}}
+										>
+											{filteredNames.map((aller) => (
+												<li
+													key={aller.id}
+													style={{
+														border: "1px solid #e9e9e9",
+														borderTop: "unset",
+													}}
+													className="bg-gray-200 hover:bg-blue-300"
+												>
+													<button
+														style={{
+															border: "unset",
+															cursor: "pointer",
+															display: "block",
+															width: "100%",
+															textAlign: "left",
+															padding: "0.5em",
+														}}
+														onClick={() => {
+															setAllergy((prev) => {
+																return {
+																	...prev,
+																	reactions: [
+																		...allergy.reactions,
+																		{
+																			substance: aller.id,
+																			description: aller.disease,
+																		},
+																	],
+																};
+															});
+
+															document.getElementById("allergyInput").value = "";
+															setFilteredNames([]);
+
+															console.log(allergy);
+														}}
+													>
+														{aller.disease}
+													</button>
+												</li>
+											))}
+										</ul>
+									</>
+								) : (
+									""
+								)}
+							</div>
+							<div>
+								<ul className="m-[10px] absolute">
+									{allergy.reactions.map((item, index) => (
+										<li className="m-[5px]" key={item.substance}>
+											{" "}
+											{index + 1}. {item.substance} - {item.description}
+										</li>
+									))}
+								</ul>
+							</div>{" "}
+						</div>
+					) : (
+						"loading..."
+					)}
+				</>
 			),
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0f79f841ae91f66e8662f831b661819a926269652b904eff7314e2b43bb39640?apiKey=66e07193974a40e683930e95115a1cfd&width=100",
 		},
@@ -96,7 +259,9 @@ export default function AllergyForm() {
 					value={allergy.severity_of_allergy}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					<option value="0">Select Severity of Allergy</option>
+					<option value="Mild">Mild</option>
+					<option value="Moderate">Moderate</option>
+					<option value="Severe">Severe</option>
 					{/* Add more options here */}
 				</select>
 			),
@@ -142,7 +307,62 @@ export default function AllergyForm() {
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/35d66426cc909742122370c08977979ec58e47bea43f66c6158506c2d6dea5ca?",
 		},
 	];
+	useEffect(() => {
+		if (allergy.category_of_allergen === "Food") {
+			setAllergenList(allergens[0].content);
 
+			setAllergy((prev) => {
+				return {
+					...prev,
+					allergen: allergens[0].content[0],
+				};
+			});
+		} else if (allergy.category_of_allergen === "Medication") {
+			setAllergenList(allergens[1].content);
+
+			setAllergy((prev) => {
+				return {
+					...prev,
+					allergen: allergens[1].content[0],
+				};
+			});
+		} else if (allergy.category_of_allergen === "Environment") {
+			setAllergenList(allergens[2].content);
+
+			setAllergy((prev) => {
+				return {
+					...prev,
+					allergen: allergens[2].content[0],
+				};
+			});
+		} else if (allergy.category_of_allergen === "Biologic") {
+			setAllergenList(allergens[3].content);
+
+			setAllergy((prev) => {
+				return {
+					...prev,
+					allergen: allergens[3].content[0],
+				};
+			});
+		}
+	}, [allergy.category_of_allergen, setAllergenList]);
+
+	useEffect(() => {
+		setAllergenList(allergens[0].content);
+
+		const getReactions = async () => {
+			const query = await signUp.retrieveReactions(reactionCodes);
+			setReactions(query);
+
+			const names = query.map((react) => {
+				react.disease;
+			});
+
+			setNames(names);
+		};
+
+		getReactions();
+	}, []);
 	return (
 		<div>
 			<table className="max-w-fit border-spacing-y-7 border-separate">
@@ -174,10 +394,10 @@ export default function AllergyForm() {
 						setSaved(true);
 
 						setAllergy({
-							category_of_allergen: "0",
-							allergen: "0",
-							reactions: ["0"],
-							severity_of_allergy: "0",
+							category_of_allergen: "Food",
+							allergen: "Milk",
+							reactions: [],
+							severity_of_allergy: "Mild",
 							date_of_onset: "",
 							comments: "",
 						});
