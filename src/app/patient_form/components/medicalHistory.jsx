@@ -1,8 +1,19 @@
 import { usePatientInfo } from "@/app/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { PatientSignUp as signUp } from "../../../../lib/backend/signup/patient_signup";
 export default function SignUpMedicalHistory() {
 	const patientStore = usePatientInfo();
+	const [medications, setMedications] = useState([])
+	useEffect(() => {
+		const getMedications = async () => {
+			const drugs = await signUp.retrieveMedications();
 
+			console.log(drugs);
+			setMedications(drugs)
+		};
+
+		getMedications();
+	}, []);
 	return (
 		<div className="container mx-auto mt-16 flex h-auto pb-10">
 			{/* Left Column */}
@@ -68,10 +79,6 @@ export default function SignUpMedicalHistory() {
 							className="mr-2"
 						/>
 						Yes
-					</label>
-					<label htmlFor="bloodPressureNo" className="flex items-center">
-						<input type="checkbox" id="bloodPressureNo" name="bloodPressure" className="mr-2" />
-						No
 					</label>
 				</div>
 

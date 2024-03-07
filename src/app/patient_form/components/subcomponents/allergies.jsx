@@ -179,23 +179,9 @@ export default function AllergyForm() {
 											}}
 										>
 											{filteredNames.map((aller) => (
-												<li
-													key={aller.id}
-													style={{
-														border: "1px solid #e9e9e9",
-														borderTop: "unset",
-													}}
-													className="bg-gray-200 hover:bg-blue-300"
-												>
+												<li key={aller.id} className="border border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300">
 													<button
-														style={{
-															border: "unset",
-															cursor: "pointer",
-															display: "block",
-															width: "100%",
-															textAlign: "left",
-															padding: "0.5em",
-														}}
+														className="border-none cursor-pointer block w-full text-left py-2 px-4"
 														onClick={() => {
 															setAllergy((prev) => {
 																return {
