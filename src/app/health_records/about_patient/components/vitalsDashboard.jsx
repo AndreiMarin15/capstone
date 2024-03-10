@@ -1,8 +1,75 @@
 import Image from "next/image";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
-
+import { useState } from "react";
+import ViewSystolic from "./sub_components/viewSystolic";
 export default function Vitals() {
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const handleVisitClick = () => {
+        setCurrentPage(currentPage + 1);
+    };
+    // const vitals = [
+    //     {
+    //       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&", 
+    //       systolic: "110",
+    //       diastolic: "90",
+    //       heartrate: "60",
+    //       height: "180",
+    //       weight:"70",
+    //       bmi: "50"
+
+    //     },
+    //     {
+    //         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
+    //         systolic: "120",
+    //         diastolic: "90",
+    //         heartrate: "60",
+    //         height: "180",
+    //         weight:"70",
+    //         bmi: "50"
+		
+    //     },
+    //     {
+    //         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
+    //         systolic: "110",
+    //         diastolic: "90",
+    //         heartrate: "60",
+    //         height: "180",
+    //         weight:"70",
+    //         bmi: "50"
+			
+    //     },
+    //     {
+    //         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
+    //         systolic: "120",
+    //         diastolic: "90",
+    //         heartrate: "60",
+    //         height: "180",
+    //         weight:"70",
+    //         bmi: "50"
+			
+    //     },
+    //     {
+    //         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
+    //         systolic: "110",
+    //         diastolic: "90",
+    //         heartrate: "60",
+    //         height: "180",
+    //         weight:"70",
+    //         bmi: "50"
+		
+    //     },
+    //     {
+    //         src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
+    //         systolic: "110",
+    //         diastolic: "90",
+    //         heartrate: "60",
+    //         height: "180",
+    //         weight:"70",
+    //         bmi: "50"
+    //     },
+    // ];
     const vitals = [
         {
             src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -59,7 +126,11 @@ export default function Vitals() {
         },
     ];
 
+
+    
 	return (
+        <>
+        {currentPage === 0 ? (
         <>
             <div className="max-w-fit text-black">
 				<div className="flex justify-between">
@@ -128,7 +199,11 @@ export default function Vitals() {
 									<td className="border-l-[5rem] border-transparent text-center">
 										<div className="flex items-center">
 											<img src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&" alt="icon" className="w-5 mr-2" />
-											<button className="text-blue-500 text-xs underline" onClick={() => console.log(`View chart for ${item.variable}`)}>View Chart</button>
+											<button className="text-blue-500 text-xs underline" onClick={() => { 
+                                                setCurrentPage(currentPage + 1);
+                                                console.log('%d', currentPage);
+                                                console.log(`View chart for ${item.variable}`);
+                                            }}>View Chart</button>
 										</div>
 									</td>
                                 </tr>
@@ -166,7 +241,22 @@ export default function Vitals() {
                 </table>
                
             </div>
+            
             <BackButton />
+            </>
+            ):(
+                ""
+            )}
+
+			{currentPage >= 1? (
+				<>
+					< ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} />
+				</>
+			) : (
+				""
+			)}
+            
+	  
         </>
     );
 }
