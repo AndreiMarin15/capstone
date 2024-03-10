@@ -200,10 +200,27 @@ export default function Vitals() {
 										<div className="flex items-center">
 											<img src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&" alt="icon" className="w-5 mr-2" />
 											<button className="text-blue-500 text-xs underline" onClick={() => { 
-                                                setCurrentPage(currentPage + 1);
+                                                let increment = 1; // Default increment
+
+                                                // Adjust increment based on item.variable
+                                                switch (item.variable) {
+                                                    case "Systolic Blood Pressure":
+                                                        increment = 2;
+                                                        break;
+                                                    case "Diastolic Blood Pressure":
+                                                        increment = 3;
+                                                        break;
+                                                    // Add more cases as needed
+                                                    default:
+                                                        increment = 1; // Default increment
+                                                        break;
+                                                }
+
+                                                setCurrentPage(currentPage + increment);
                                                 console.log('%d', currentPage);
                                                 console.log(`View chart for ${item.variable}`);
                                             }}>View Chart</button>
+
 										</div>
 									</td>
                                 </tr>
@@ -248,7 +265,7 @@ export default function Vitals() {
                 ""
             )}
 
-			{currentPage >= 1? (
+			{currentPage === 2? (
 				<>
 					< ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} />
 				</>
