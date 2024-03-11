@@ -18,9 +18,8 @@ export default function SignUpMedicalHistory() {
 	}, []);
 
 	useEffect(() => {
-		patientStore.setMedications(medicationList)
-		console.log(patientStore.medical_history)
-	}, [medicationList]);
+		patientStore.setMedications(medicationList);
+	}, [medicationList, patientStore]);
 	return (
 		<div className="container mx-auto mt-16 flex h-auto pb-10">
 			{/* Left Column */}
