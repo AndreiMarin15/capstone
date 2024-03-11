@@ -31,14 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					router.push("/require_auth");
 				}
 			} else {
-				if (
-					pathname === "/" ||
-					pathname === "/login" ||
-					pathname === "/patient_form" ||
-					pathname === "/doctor_form" ||
-					pathname.includes("/legal") ||
-					pathname !== "/require_auth"
-				) {
+				if (pathname === "/" || pathname === "/login" || pathname === "/patient_form" || pathname === "/doctor_form") {
 					if (current.user.type === "patient") {
 						router.push("/patient/dashboard");
 					} else if (current.user.type === "doctor") {
