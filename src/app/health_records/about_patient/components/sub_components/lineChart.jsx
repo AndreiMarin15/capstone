@@ -48,7 +48,7 @@ const LineChart = ({ data, tooltipContent }) => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Blood Pressure',
+         
         },
       },
     },

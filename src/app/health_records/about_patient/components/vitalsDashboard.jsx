@@ -4,9 +4,10 @@ import BackButton from "./sub_components/BackButton";
 import { useState } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
+import ViewBiometrics from "./sub_components/viewBiometrics";
 export default function Vitals() {
     const [currentPage, setCurrentPage] = useState(0);
-
+    const [selectedMetric, setSelectedMetric] = useState('');
     const handleVisitClick = () => {
         setCurrentPage(currentPage + 1);
     };
@@ -242,20 +243,23 @@ export default function Vitals() {
                                         <div className="flex items-center">
                                             <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&" alt="icon" className="w-5 mr-2" />
                                             <button className="text-blue-500 text-xs underline" onClick={() => { 
-                                                let increment = 1; 
-                                                switch (variableNames[index]) {
-                                                    case "Height":
-                                                    case "Weight":
-                                                    case "BMI":
-                                                        increment = 3;
+                                                let defaultMetric;
+                                                switch (variableNames[index + 3]) {
+                                                    case "Height (cm)":
+                                                        defaultMetric = 'height';
+                                                        break;
+                                                    case "Weight (cm)":
+                                                        defaultMetric = 'weight';
+                                                        break;
+                                                    case "Body Mass Index":
+                                                        defaultMetric = 'bmi';
                                                         break;
                                                     default:
-                                                        increment = 1; 
+                                                        defaultMetric = 'height'; // Set a default metric here if necessary
                                                         break;
                                                 }
-                                                setCurrentPage(currentPage + increment);
-                                                console.log('%d', currentPage);
-                                                console.log(`View chart for ${variableNames[index]}`);
+                                                setSelectedMetric(defaultMetric); // Set the selected metric
+                                                setCurrentPage(4); // Navigate to page 4 (ViewBiometrics)
                                             }}>View Chart</button>
                                         </div>
                                     </td>
@@ -274,6 +278,14 @@ export default function Vitals() {
 
             {currentPage === 3 && (
                 <ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            )}
+
+            {currentPage === 4 && selectedMetric && (
+                <ViewBiometrics
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    defaultMetric={selectedMetric} // Pass selected metric as prop
+                />
             )}
         </>
     );    
