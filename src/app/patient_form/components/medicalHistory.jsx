@@ -3,17 +3,24 @@ import { useEffect, useState } from "react";
 import { PatientSignUp as signUp } from "../../../../lib/backend/signup/patient_signup";
 export default function SignUpMedicalHistory() {
 	const patientStore = usePatientInfo();
-	const [medications, setMedications] = useState([])
+	const [medications, setMedications] = useState([]);
+	const [filteredMedications, setFilteredMedications] = useState([]);
+	const [medicationList, setMedicationList] = useState([]);
 	useEffect(() => {
 		const getMedications = async () => {
 			const drugs = await signUp.retrieveMedications();
 
 			console.log(drugs);
-			setMedications(drugs)
+			setMedications(drugs);
 		};
 
 		getMedications();
 	}, []);
+
+	useEffect(() => {
+		patientStore.setMedications(medicationList)
+		console.log(patientStore.medical_history)
+	}, [medicationList]);
 	return (
 		<div className="container mx-auto mt-16 flex h-auto pb-10">
 			{/* Left Column */}
@@ -86,14 +93,73 @@ export default function SignUpMedicalHistory() {
 					<div className="text-black text-sm font-semibold leading-5">Enter Medications </div>
 
 					<div className="flex gap-2.5 justify-between mt-2 text-lg text-white whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
-						<input
-							onChange={(e) => {
-								patientStore.setMedications(e.target.value);
-							}}
-							value={patientStore.medical_history.medications}
-							type="text"
-							className="text-black rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
-						/>
+						{medications.length > 0 ? (
+							<div className="flex">
+								<div className="inline-block relative">
+									<input
+										onChange={(e) => {
+											let filteredMedicines = [];
+											console.log(e.target.value.length);
+											medications.forEach((medication) => {
+												if (e.target.value.length > 0) {
+													if (
+														medication["Generic Name"]?.toLowerCase().includes(e.target.value.toLowerCase()) ||
+														medication["Brand Name"]?.toLowerCase().includes(e.target.value.toLowerCase())
+													) {
+														filteredMedicines.push(medication);
+													}
+												} else {
+													filteredMedicines = [];
+												}
+
+												setFilteredMedications(filteredMedicines);
+											});
+										}}
+										id="medInput"
+										type="text"
+										className="text-black rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+									/>
+									{filteredMedications.length > 0 ? (
+										<>
+											<ul
+												style={{
+													listStyle: "none",
+													padding: "unset",
+													margin: "unset",
+													position: "absolute",
+													width: "100%",
+												}}
+											>
+												{filteredMedications.map((med) => (
+													<li
+														key={med["Registration Number"]}
+														className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+													>
+														<button
+															className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+															onClick={() => {
+																setMedicationList((prev) => {
+																	return [...prev, med];
+																});
+
+																document.getElementById("medInput").value = "";
+																setFilteredMedications([]);
+															}}
+														>
+															{`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`}
+														</button>
+													</li>
+												))}
+											</ul>
+										</>
+									) : (
+										""
+									)}
+								</div>
+							</div>
+						) : (
+							<p>Loading...</p>
+						)}
 
 						<button className="justify-center items-center px-2 my-auto bg-gray-400 rounded-full aspect-square h-[25px]">
 							+
