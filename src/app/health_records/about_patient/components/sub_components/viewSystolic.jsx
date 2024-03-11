@@ -34,6 +34,18 @@ export default function ViewSystolic({ currentPage, setCurrentPage }) {
     { date: '2024-03-30', systolic: 120, diastolic: 70 },
     // Add more sample data as needed
   ];
+  
+  const systolicTooltipContent = (tooltip) => (
+    <div className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold" style={{ position: 'absolute', top: tooltip.y, left: tooltip.x, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+      {tooltip.dataPoints.map((point, index) => (
+        <div key={index}>
+          <p>Type: {point.type}</p>
+          <p>Date: {format(point.x, 'yyyy-MMM-dd')}</p>
+          <p>{point.y} mm(Hg)</p>
+        </div>
+      ))}
+    </div>
+  );
 
   const labels = [];
   const systolicPressureData = [];
@@ -88,7 +100,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage }) {
         </a>
 
         <div className="flex items-center mr-40 mt-5">
-          <LineChart data={data} labels={labels} />
+          <LineChart data={data} labels={labels} tooltipContent={systolicTooltipContent} />
         </div>
       </div>
       <div className="max-w mt-8" style={{ width: '1000px', maxHeight: '200px', overflowY: 'auto' }}>
