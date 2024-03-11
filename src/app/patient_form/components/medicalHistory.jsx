@@ -19,7 +19,8 @@ export default function SignUpMedicalHistory() {
 
 	useEffect(() => {
 		patientStore.setMedications(medicationList);
-	}, [medicationList, patientStore]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [medicationList]);
 	return (
 		<div className="container mx-auto mt-16 flex h-auto pb-10">
 			{/* Left Column */}
