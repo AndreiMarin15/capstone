@@ -7,16 +7,11 @@ export default function Referral() {
 	const router = useRouter();
 
 	const doctorInfo = {
-		name: "Dr. Johnny Santos",
-		specialty: "Cardiologist",
+		name: "Dr. John Doe",
+		specialty: "Endocrinologist",
 		patient: "Juan Dela Cruz",
 	};
 
-	const otherDoctorInfo = {
-		name: "Dr. Micha Lee",
-		specialty: "Gastroenterologist",
-		patient: "Juan Luna",
-	};
 
 	return (
 		<div className="bg-white border border-solid border-stone-300 h-screen flex">
@@ -37,7 +32,7 @@ export default function Referral() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("/referral/send_referral");
+								router.push("/other_doctor/referrals/send_referral");
 							}}
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
@@ -70,38 +65,6 @@ export default function Referral() {
 												<span className="font-bold">PATIENT</span>: {doctorInfo.patient}
 											</div>
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						{/* Another left side tab with bg-orange-500 */}
-						<div className="flex gap-5 mt-5">
-							<div className="w-2.5 bg-orange-500 h-[129px]" />
-							<Image
-								alt="image"
-								height={0}
-								width={0}
-								loading="lazy"
-								src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-								className="self-start mt-7 w-[43px]"
-							/>
-							<div className="flex flex-col flex-1 my-auto">
-								<div className="text-lg font-semibold whitespace-nowrap">
-									{otherDoctorInfo.name}
-									<div className="text-m text-zinc-600">
-										<span className="text-zinc-300 font-medium">{otherDoctorInfo.specialty}</span>
-										<div className="mt-4 text-xs font-medium text-zinc-600">
-											<span className="font-bold">PATIENT</span>: {otherDoctorInfo.patient}
-										</div>
-										<button className="flex gap-3 mt-6 whitespace-nowrap">
-											<div className="px-2 py-2 text-white text-xs bg-sky-900 rounded max-md:px-2">
-												Accept
-											</div>
-											<div className="px-2 py-2 text-sky-900  text-xs rounded border border-sky-900 border-solid max-md:px-5">
-												Decline
-											</div>
-										</button>
 									</div>
 								</div>
 							</div>
@@ -148,12 +111,12 @@ export default function Referral() {
 											className="self-start w-7 aspect-square ml-2"
 										/>
 										<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-											Hello, let's collaborate with this patient{" "}
+											Let's talk about the management for this patient.{" "}
 										</div>
 									</div>
 									<div className="flex gap-4 self-end mt-6 text-white">
 										<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
-											Sure, I'd like to view the patient's records. I'll pull in a while. 
+											Sure, you can just pull my records.
 										</div>
 										<Image
 											alt="image"
@@ -175,7 +138,7 @@ export default function Referral() {
 										className="self-start w-7 aspect-square ml-8"
 									/>
 									<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-										Great. Update me after and let's talk about how to manage this patient again.{" "}
+										I got it. I'll just review the medications you gave then I'll get back to you.{" "}
 									</div>
 								</div>
 							</div>
