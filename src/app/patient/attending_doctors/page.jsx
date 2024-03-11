@@ -98,15 +98,7 @@ export default function ViewDoctors() {
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.specialization}</td>
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
 											<td className="px-6 py-4 whitespace-nowrap">
-                                                <Link href="/patient/messages">
-                                                    
-                                                        <img
-                                                            src={doctor.iconSrc || defaultIconSrc}
-                                                            alt="Icon"
-                                                            className="h-8 w-8 cursor-pointer"
-                                                        />
-                                                    
-                                                </Link>
+                                                
                                             </td>
 										</tr>
 									))}
