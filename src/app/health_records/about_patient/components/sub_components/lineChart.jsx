@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 const LineChart = ({ data }) => {
   const formatDateLabels = (labels, datasets) => {
-    const dataPoints = datasets[0].data.map(dataPoint => dataPoint.x.toISOString().split('T')[0]);
+    const dataPoints = datasets.flatMap(dataset => dataset.data.map(dataPoint => dataPoint.x.toISOString().split('T')[0]));
     return labels.filter(dateString => dataPoints.includes(dateString));
   };
 
@@ -17,9 +17,10 @@ const LineChart = ({ data }) => {
       const index = firstPoint.index;
       const dataset = data.datasets[datasetIndex];
       const dataPoint = dataset.data[index];
+      const bpType = dataset.label; // Get the label of the dataset (systolic or diastolic)
       setTooltip({
         opacity: 1,
-        dataPoints: [{ x: dataPoint.x, y: dataPoint.y }],
+        dataPoints: [{ x: dataPoint.x, y: dataPoint.y, type: bpType }],
         x: event.native.clientX,
         y: event.native.clientY 
       });
@@ -40,15 +41,14 @@ const LineChart = ({ data }) => {
           tooltipFormat: 'yyyy-MM-dd',
         },
         ticks: {
-          autoSkip: true,
-          maxTicksLimit: 5,
+          maxTicksLimit: 10,
         },
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Systolic Blood Pressure',
+          text: 'Blood Pressure',
         },
       },
     },
@@ -83,12 +83,16 @@ const LineChart = ({ data }) => {
         height={400}
       />
       {tooltip && tooltip.opacity && 
-        <div className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold" style={{ position: 'absolute', top: tooltip.y, left: tooltip.x }}>
-          <p>Date: {format(tooltip.dataPoints[0].x, 'yyyy-MMM-dd')}</p>
-          <p>BPM: {tooltip.dataPoints[0].y}</p>
+        <div className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold" style={{ position: 'absolute', top: tooltip.y, left: tooltip.x, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+          {tooltip.dataPoints.map((point, index) => (
+            <div key={index}>
+              <p>Type: {point.type}</p>
+              <p>Date: {format(point.x, 'yyyy-MMM-dd')}</p>
+              <p>{point.y} mm(Hg)</p>
+            </div>
+          ))}
         </div>
       }
-     
     </div>
   );
 };
