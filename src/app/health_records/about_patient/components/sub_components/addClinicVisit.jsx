@@ -120,11 +120,11 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
                                             {item.variable === "Date" ? (
                                                 <input
                                                     type="date"
-                                                    className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[78%]"
+                                                    className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5 w-[78%]"
                                                 />
                                             ) : (
                                                 <>
-                                                    <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                                                    <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5" />
                                                     {item.variable === "" ? "" : item.value}
                                                 </>
                                             )}
@@ -184,15 +184,21 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
                                               ) : item.variable === "Suggested Next Clinic Visit" ? (
                                                   <input
                                                       type="date"
-                                                       value="2024-03-12"
-                                                      className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[78%]"
+                                                      value="2024-03-12"
+                                                      className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5 w-[78%]"
                                                   />
                                               ) : (
                                                   <textarea
+                                                      placeholder={
+                                                          item.variable === "Signs and Symptoms" ? "Add signs and symptoms" :
+                                                          item.variable === "Review of Systems" ? "Add Review" :
+                                                          item.variable === "Other Concerns" ? "Add Concern/s" :
+                                                          ""
+                                                      }
                                                       onChange={(e) => {
                                                           // Handle textarea change
                                                       }}
-                                                      className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                                                      className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
                                                       style={{
                                                           height: ["Review of Systems", "Signs and Symptoms"].includes(item.variable)
                                                               ? "3rem"
