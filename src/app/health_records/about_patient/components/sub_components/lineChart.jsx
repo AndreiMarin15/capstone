@@ -82,7 +82,7 @@ const LineChart = ({ data }) => {
         width={1600}
         height={400}
       />
-      {tooltip && tooltip.opacity && 
+      {/* {tooltip && tooltip.opacity && 
         <div className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold" style={{ position: 'absolute', top: tooltip.y, left: tooltip.x, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
           {tooltip.dataPoints.map((point, index) => (
             <div key={index}>
@@ -92,7 +92,7 @@ const LineChart = ({ data }) => {
             </div>
           ))}
         </div>
-      }
+      } */}
     </div>
   );
 };
