@@ -57,12 +57,12 @@ export default function Messaging() {
               className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
             />
             <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-            Couldn't sleep a lot lately. {" "}
+            {"Couldn't sleep a lot lately."}
             </span>
           </div>
           <div className="justify-end items-stretch flex gap-4 mt-12 self-end max-md:max-w-full max-md:flex-wrap max-md:mt-10">
             <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
-            Okay, I can adjust the careplan for you so that you can sleep better. 
+            {"Okay, I can adjust the careplan for you so that you can sleep better."} 
             </span>
             <Image
               alt="picture"
@@ -84,7 +84,7 @@ export default function Messaging() {
             className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
           />
           <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-            Thanks. I appreciate it so much. It is of great help.{" "}
+            {"Thanks. I appreciate it so much. It is of great help :)"}
           </span>
         </div>
       </div>
