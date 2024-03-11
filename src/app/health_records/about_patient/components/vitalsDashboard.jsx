@@ -150,13 +150,13 @@ export default function Vitals() {
                                                 src={images[index]} 
                                                 className="w-5 mr-4" 
                                             />
-                                            <div className="text-black text-m font-semibold leading-5 self-center my-auto mr-5">{variableNames[index]}</div>
+                                            <div className="text-black text-small font-semibold leading-5 self-center my-auto mr-5">{variableNames[index]}</div>
                                         </div>
                                     </td>
                                     {vitals.map((item, idx) => (
                                         <td key={idx} className="text-center">
                                             {item[property] && (
-                                                <div className="text-black text-m leading-5">{item[property]}</div>
+                                                <div className="text-black text-small leading-5">{item[property]}</div>
                                             )}
                                         </td>
                                     ))}
@@ -222,13 +222,13 @@ export default function Vitals() {
                                                 src={images[index + 3]} 
                                                 className="w-5 mr-4" 
                                             />
-                                            <div className="text-black text-m font-semibold leading-5 self-center my-auto mr-20 ">{variableNames[index + 3]}</div>
+                                            <div className="text-black text-small font-semibold leading-5 self-center my-auto mr-20 ">{variableNames[index + 3]}</div>
                                         </div>
                                     </td>
                                     {vitals.map((item, idx) => (
                                         <td key={idx} className="text-center">
                                             {item[property] && (
-                                                <div className="text-black text-m leading-5">{item[property]}</div>
+                                                <div className="text-black text-small leading-5">{item[property]}</div>
                                             )}
                                         </td>
                                     ))}
@@ -240,6 +240,7 @@ export default function Vitals() {
                                                 switch (variableNames[index]) {
                                                     case "Height":
                                                     case "Weight":
+                                                    case "BMI":
                                                         increment = 3;
                                                         break;
                                                     default:
