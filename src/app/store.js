@@ -156,8 +156,8 @@ export const usePatientInfo = create(
 				hypertensions: false,
 				blood_pressure_medications: false,
 				stroke: false,
-				medications: [""],
-				past_medical_procedures: [""],
+				medications: [],
+				past_medical_procedures: [],
 				date_of_procedures: "",
 			},
 			setPersonalInformation: (item) =>
@@ -232,6 +232,14 @@ export const usePatientInfo = create(
 					medical_history: {
 						...state.medical_history,
 						past_medical_procedures: item,
+					},
+				})),
+
+			addMedicalProcedures: (item) =>
+				set((state) => ({
+					medical_history: {
+						...state.medical_history,
+						past_medical_procedures: [...state.past_medical_procedures, item],
 					},
 				})),
 
