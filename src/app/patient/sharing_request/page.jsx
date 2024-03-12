@@ -6,18 +6,7 @@ import { currentUser, useUserInfo } from "@/app/store";
 import referral from "../../../../lib/backend/referral/getRequests";
 
 export default function ViewSharing() {
-	const [sharing, setSharing] = React.useState([
-		{
-			name: "Dr. Johnny Santos",
-			specialization: "Cardiology",
-			document: ["Lab Tests"],
-		},
-		{
-			name: "Dr. Marie Eve",
-			specialization: "Gastroenterology",
-			document: ["Medicines", "Diagnosis"],
-		},
-	]);
+	const [sharing, setSharing] = React.useState([]);
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -45,6 +34,7 @@ export default function ViewSharing() {
 				const specialization = await referral.getDoctorSpecialization(doctor.specialization_id);
 
 				const toReturn = {
+					id: item.id,
 					name: `${doctor.first_name} ${doctor.last_name}`,
 					specialization: specialization,
 					document: [item.content.data_requested],
@@ -129,44 +119,55 @@ export default function ViewSharing() {
 										</th>
 									</tr>
 								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{sharing.map((sharing, index) => (
-										<tr key={index}>
-											<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-												{sharing.document.map((document, i) => (
-													<div key={i}>
-														{document}
-														{i !== sharing.document.length - 1 && <br />}
-													</div>
-												))}
-											</td>
-											<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
-												{[...Array(sharing.document.length)].map((_, i) => (
-													<div key={i} className="flex items-center">
-														<input
-															type="checkbox"
-															id={`approveYes${index}_${i}`}
-															name={`approveYes${index}_${i}`}
-															style={{ marginRight: "8px" }}
-														/>
-														<label htmlFor={`approveYes${index}_${i}`} className="mr-10">
-															Yes
-														</label>
-														<input
-															type="checkbox"
-															id={`approveNo${index}_${i}`}
-															name={`approveNo${index}_${i}`}
-															style={{ marginRight: "8px" }}
-														/>
-														<label htmlFor={`approveNo${index}_${i}`}>No</label>
-													</div>
-												))}
-											</td>
+
+								{sharing.length > 0 ? (
+									<>
+										<tbody className="bg-white divide-y divide-gray-200">
+											{sharing.map((sharing, index) => (
+												<tr key={index}>
+													<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
+													<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
+													<td className="px-6 py-4 whitespace-nowrap">
+														{sharing.document.map((document, i) => (
+															<div key={i}>
+																{document}
+																{i !== sharing.document.length - 1 && <br />}
+															</div>
+														))}
+													</td>
+													<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
+														{[...Array(sharing.document.length)].map((_, i) => (
+															<div key={i} className="flex items-center">
+																<input
+																	type="checkbox"
+																	id={`approveYes${index}_${i}`}
+																	name={`approveYes${index}_${i}`}
+																	style={{ marginRight: "8px" }}
+																/>
+																<label htmlFor={`approveYes${index}_${i}`} className="mr-10">
+																	Yes
+																</label>
+																<input
+																	type="checkbox"
+																	id={`approveNo${index}_${i}`}
+																	name={`approveNo${index}_${i}`}
+																	style={{ marginRight: "8px" }}
+																/>
+																<label htmlFor={`approveNo${index}_${i}`}>No</label>
+															</div>
+														))}
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</>
+								) : (
+									<tbody className="bg-white divide-y divide-gray-200">
+										<tr>
+											<td className="px-6 py-4 whitespace-nowrap">Loading...</td>
 										</tr>
-									))}
-								</tbody>
+									</tbody>
+								)}
 							</table>
 						</div>
 					</div>
