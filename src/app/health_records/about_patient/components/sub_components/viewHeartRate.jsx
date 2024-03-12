@@ -1,5 +1,5 @@
 import React from 'react';
-import LineChart from './linechart';
+import LineChart from './lineChart';
 import BackButton from "./BackButton";
 import {
   Chart as ChartJS,
