@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { format } from 'date-fns';
 
-const LineChart = ({ data }) => {
+const LineChart = ({ data, tooltipContent }) => {
   const formatDateLabels = (labels, datasets) => {
     const dataPoints = datasets.flatMap(dataset => dataset.data.map(dataPoint => dataPoint.x.toISOString().split('T')[0]));
     return labels.filter(dateString => dataPoints.includes(dateString));
@@ -48,7 +48,7 @@ const LineChart = ({ data }) => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Blood Pressure',
+         
         },
       },
     },
@@ -82,17 +82,7 @@ const LineChart = ({ data }) => {
         width={1600}
         height={400}
       />
-      {tooltip && tooltip.opacity && 
-        <div className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold" style={{ position: 'absolute', top: tooltip.y, left: tooltip.x, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
-          {tooltip.dataPoints.map((point, index) => (
-            <div key={index}>
-              <p>Type: {point.type}</p>
-              <p>Date: {format(point.x, 'yyyy-MMM-dd')}</p>
-              <p>{point.y} mm(Hg)</p>
-            </div>
-          ))}
-        </div>
-      }
+      {tooltip && tooltip.opacity && tooltipContent(tooltip)}
     </div>
   );
 };
