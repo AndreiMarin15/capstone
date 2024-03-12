@@ -17,29 +17,20 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-			variable: "Diagnosis",
-			value: "Type 2 Diabetes Mellitus",
-		},
-		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-			variable: "Complaint",
+			variable: "Signs and Symptoms",
 			value: "Frequent urination and increased thirst",
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-			variable: "Procedures",
-			value: "Initial consultation for diabetes management",
+			variable: "Review of Systems",
+			value: "Eyes: No changes in vision, Gastrointestinal: Loose bowel movement",
 		},
 		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-			variable: "Medications & Care Plans",
-			value: {
-				label: "View",
-				onClick: () => {
-					setCurrentScreen(currentScreen + 1);
-				},
-			},
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+			variable: "Other Concerns",
+			value: "Possibility of allergy due to recent skin rash",
 		},
+		
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Tests",
@@ -50,6 +41,12 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 				},
 			},
 		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+			variable: "Suggested Next Clinic Visit",
+			value: "2020-02-02",
+		},
+		
 	];
 
 	const clinicVitals = [
@@ -65,9 +62,11 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
-			variable: "Heart Rate",
+			variable: "Heart Rate (beats/min)",
 			value: "60",
 		},
+	];
+	const clinicBiometrics = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
 			variable: "Height (cm) ",
@@ -81,10 +80,9 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
 			variable: "Body Mass Index",
-			value: "50",
+			value: "20",
 		},
 	];
-	
 
 	return (
 		<>
@@ -136,6 +134,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 							{/*  VITALS AND BIOMETRICS */}
 							<table className="max-w-fit border-spacing-y-7 border-separate">
 								<tbody className=" text-xs leading-5 text-black">
+								<div className="text-large leading-5 text-black font-bold"> Vitals
 									{clinicVitals.map((item, index) => (
 										<tr key={index} className="h-8">
 											<td className="w-5">
@@ -154,12 +153,40 @@ export default function ClinicVisit({ currentPage, setCurrentPage }) {
 												</div>
 											</td>
 											<td className="border-l-[5rem] border-transparent">
-												<div className="text-black text-xs leading-5 ml-auto">
+												<div className="text-black text-xs font-normal leading-5 ml-auto">
 													{item.variable === "Heart Rate" ? 70 : item.value}
 												</div>
 											</td>
 										</tr>
 									))}
+									</div>
+
+									<div className="text-large leading-5 text-black font-bold"> Biometrics
+									{clinicBiometrics.map((item, index) => (
+										<tr key={index} className="h-8">
+											<td className="w-5">
+												<Image
+													alt="image"
+													height={0}
+													width={0}
+													loading="lazy"
+													src={item.src}
+													className="self-start aspect-square fill-black w-[15px]"
+												/>
+											</td>
+											<td className="border-l-[16px] border-transparent">
+												<div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+													{item.variable}
+												</div>
+											</td>
+											<td className="border-l-[5rem] border-transparent">
+												<div className="text-black text-xs font-normal leading-5 ml-10">
+													{item.variable === "Heart Rate" ? 70 : item.value}
+												</div>
+											</td>
+										</tr>
+									))}
+									</div>
 								</tbody>
 							</table>
 						</div>

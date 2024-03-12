@@ -85,7 +85,7 @@ export default function Dashboard() {
 		getPatients();
 	}, [doctorInfo]);
 	return (
-		<div className={" bg-white flex flex-col items-stretch" + managedPatients.length > 3 ? 'h-auto' : 'h-[100vh]'}>
+		<div className={" bg-white flex flex-col items-stretch " + (managedPatients.length > 3 ? 'h-auto' : 'h-[100vh]')}>
 			<div className="w-full px-5 max-md:max-w-full">
 				<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 					<div className="flex flex-col items-stretch w-[49%] ml-5 max-md:w-full max-md:ml-0">
