@@ -55,12 +55,12 @@ export default function Messaging() {
               className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
             />
             <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-              Hi, how are you dealing with the care plan? Do you have any concerns?{" "}
+            {"Hi, how are you dealing with the care plan? Do you have any concerns?"}
             </span>
           </div>
           <div className="justify-end items-stretch flex gap-4 mt-12 self-end max-md:max-w-full max-md:flex-wrap max-md:mt-10">
             <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
-              Yes, regarding my diet. I think our weight goal is too challenging for me. It makes me dizzy.
+              {"Yes, regarding my diet. I think our weight goal is too challenging for me. It makes me dizzy."}
             </span>
             <Image
               alt="picture"
@@ -82,7 +82,7 @@ export default function Messaging() {
             className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
           />
           <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
-            Okay. I'll adjust them as necessary. Kindly view your adjusted care plan in a few minutes.{" "}
+          {"Okay. I'll adjust them as necessary. Kindly view your adjusted care plan in a few minutes."}
           </span>
         </div>
       </div>

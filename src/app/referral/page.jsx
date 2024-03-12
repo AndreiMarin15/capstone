@@ -148,12 +148,12 @@ export default function Referral() {
 											className="self-start w-7 aspect-square ml-2"
 										/>
 										<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-											Hello, let's collaborate with this patient{" "}
+										{"Hello, let's collaborate with this patient"}
 										</div>
 									</div>
 									<div className="flex gap-4 self-end mt-6 text-white">
 										<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
-											Sure, I'd like to view the patient's records. I'll pull in a while. 
+											{"Sure, I'd like to view the patient's records. I'll pull in a while."}
 										</div>
 										<Image
 											alt="image"
@@ -175,7 +175,7 @@ export default function Referral() {
 										className="self-start w-7 aspect-square ml-8"
 									/>
 									<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-										Great. Update me after and let's talk about how to manage this patient again.{" "}
+									{"Great. Update me after and let's talk about how to manage this patient again."}
 									</div>
 								</div>
 							</div>
