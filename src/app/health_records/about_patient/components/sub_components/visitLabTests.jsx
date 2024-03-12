@@ -19,7 +19,7 @@ export default function VisitLabtests({ currentScreen, setCurrentScreen}) {
   
   return (
     <>
-      {currentScreen3 === 0 ? (
+      {(currentScreen3 === 0 || currentScreen === 1) ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - TESTS
