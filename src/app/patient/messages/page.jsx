@@ -5,23 +5,9 @@ export default function Messaging() {
     <div className="bg-white flex flex-col items-end max-md:pl-5 h-[100vh]">
       <div className=" shadow-sm flex gap-5 justify-between px-14 py-9 mt-1.5 w-full whitespace-nowrap bg-white max-md:flex-wrap max-md:px-5 max-md:max-w-full">
         <div className="mt-2.5 text-xl font-semibold text-black">
-          All Messages (2)
+          Messages
         </div>
         <div className="flex gap-3.5 justify-between text-xs">
-          <div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
-            <Image
-              alt="image"
-              height={0}
-              width={0}
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-              className="aspect-square fill-stone-300 w-[13px] ml-4"
-            />
-            <input type="text" placeholder="Search..." />
-          </div>
-          <button className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2">
-            New Message
-          </button>
         </div>
       </div>
       <div className="shadow-sm bg-white mt-0 w-full max-w-full pl-5 pr-20 pt-8 pb-4 max-md:px-5">
