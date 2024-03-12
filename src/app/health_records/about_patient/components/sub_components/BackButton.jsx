@@ -7,7 +7,7 @@ const BackButton = ({ currentPage, setCurrentPage, currentScreen, setCurrentScre
   const router = useRouter();
 
   const handleBack = () => {
-    if (currentPage === 10 || currentPage === 1) {
+    if (currentPage === 10 || currentPage === 1 || currentPage === 2 || currentPage === 3 || currentPage === 4) {
       setCurrentPage(0);
     } 
 
