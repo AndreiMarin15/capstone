@@ -75,24 +75,25 @@ export default function Vitals() {
         <>
     {currentPage === 0 && (
     <div className="max-w-fit text-black">
-    <div className="flex justify-between">
-        <div className="text-black text-base font-bold leading-5 mt-8 mb-2 max-md:ml-1 max-md:mt-10">
-            PATIENT VITALS
-            <div className="flex items-center justify-between">
+        <div className="flex justify-between">
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-2 max-md:ml-1 max-md:mt-10">
+                PATIENT VITALS
+                <div className="flex items-center justify-between">
                 <span className="text-black text-base leading-5">
                     Rendering Options:
                 </span>
-                <input 
-                    type="number" 
-                    className="ml-2 w-8 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal" 
-                    placeholder="0"
-                    style={{ textAlign: 'end' }}
-                />
+                <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                </select>
                 <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
                     Appointments
                 </span>
             </div>
         </div>
+
         <div className="flex items-center">
             <span className="flex items-center gap-1 px-1 py-1 mt-10 rounded-md border-[0.5px] border-solid border-black font-normal mr-2">
                 <Image
