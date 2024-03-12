@@ -2,6 +2,7 @@
 import React, { useState } from "react"; // <-- Import useState from React
 import Image from "next/image";
 import ErrorPic from "../assets/nothing-found.png";
+
 import { useRouter } from "next/navigation";
 
 export default function AuthError() {
@@ -14,6 +15,7 @@ export default function AuthError() {
           alt="image"
           height={0}
           width={0}
+
           src={ErrorPic}
           className="max-w-full aspect-square w-[135px]"
         />
@@ -23,6 +25,7 @@ export default function AuthError() {
           Please sign up or log in to proceed.
         </div>
         <div className="flex gap-5 justify-between mt-12 max-w-full text-lg text-white whitespace-nowrap w-[323px] max-md:mt-10">
+
           <button
           onClick={() => {
             router.push("/")
@@ -35,6 +38,7 @@ export default function AuthError() {
             router.push("/login")
           }}
           className="grow justify-center px-10 py-3 bg-sky-900 rounded max-md:px-5">
+
             Log In
           </button>
         </div>
