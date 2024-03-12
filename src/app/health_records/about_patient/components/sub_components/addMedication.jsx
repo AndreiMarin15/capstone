@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import BackButton from "./BackButton";
-export default function AddMedications({currentScreen, setCurrentScreen}) {
+export default function AddMedications({ currentScreen, setCurrentScreen }) {
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -30,6 +30,11 @@ export default function AddMedications({currentScreen, setCurrentScreen}) {
       value: "",
       component: 2,
     },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Patient Instructions",
+      value: "",
+    },
   ];
 
   const prescription = [
@@ -43,52 +48,19 @@ export default function AddMedications({currentScreen, setCurrentScreen}) {
       variable: "End Date",
       value: "",
     },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Duration",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Duration Unit",
-      value: "",
-    },
   ];
-
-  const careplan = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      variable: "Dietary Management",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      variable: "Physical Actvities",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      variable: "Self-Monitoring",
-      value: "",
-    },
-  ];
-
-
 
   return (
     <>
       {currentScreen === 1 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            ADD MEDICATION & CARE PLAN
+            ADD MEDICATION
           </div>
 
           <div>
             <div className="flex flex-col max-w-[914px]">
               <div className="w-full max-md:max-w-full">
-                <div className="text-start text-sm mb-10 whitespace-nowrap font-semibold text-black">
-                  Medications
-                </div>
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                   <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
                     <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
@@ -175,67 +147,25 @@ export default function AddMedications({currentScreen, setCurrentScreen}) {
                     </div>
                   </div>
                 </div>
-                {/* CARE PLAN */}
-                <div className="flex gap-5">
-                  <div className="w-[50%]">
-                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
-                      <div className="text-start text-sm mt-10 mb-3 whitespace-nowrap font-semibold text-black">
-                        Care Plan
-                      </div>
-                      <table className="flex flex-col max-md:ml-0 max-md:w-full">
-                        <tbody>
-                          {careplan.map((item, index) => (
-                            <tr
-                              key={index}
-                              className="flex gap-5 justify-between mt-6 w-full"
-                            >
-                              <td className="flex gap-2 my-auto font-semibold text-black">
-                                <Image
-                                  alt="image"
-                                  height={0}
-                                  width={0}
-                                  loading="lazy"
-                                  src={item.src}
-                                  className="aspect-square fill-black w-[15px]"
-                                />
-                                <div className="flex-auto text-xs my-auto">
-                                  {item.variable}
-                                </div>
-                              </td>
-                              <td>
-                                <textarea
-                                  onChange={(e) => {
-                                    // Handle textarea change
-                                    const newValue = e.target.value;
-                                    // You may want to update the state or perform any other actions here
-                                  }}
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                  value={item.value}
-                                  style={{
-                                    height: [
-                                      "Dietary Management",
-                                      "Physical Actvities",
-                                      "Self-Monitoring",
-                                    ].includes(item.variable)
-                                      ? "3rem"
-                                      : "auto",
-                                    whiteSpace: "pre-wrap",
-                                  }}
-                                  wrap="soft"
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div className="grow w-[50%]"></div>
-                </div>
               </div>
             </div>
           </div>
-          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+          <div className="flex justify-between items-center mt-5">
+            <BackButton
+              currentPage={currentScreen}
+              setCurrentPage={setCurrentScreen}
+            />
+            <div>
+              <button
+                onClick={() => {
+                  // Your save logic here
+                }}
+                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
         </>
       ) : (
         ""
