@@ -104,7 +104,7 @@ const UploadLab = () => {
           <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
             <div className="flex grow flex-col max-md:max-w-full max-md:mt-7">
               <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
-                Save
+                SAVE
               </button>
             </div>
           </div>
@@ -112,5 +112,5 @@ const UploadLab = () => {
       </div>
     </span>
   );
-}
+};
 export default UploadLab;

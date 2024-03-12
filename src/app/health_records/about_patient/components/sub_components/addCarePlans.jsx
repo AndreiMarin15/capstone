@@ -2,42 +2,27 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import BackButton from "./BackButton";
-export default function AddMedication() {
-  const dosage = [
+
+export default function AddCarePlan() {
+  const careplan = [
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Medicine Name",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-      variable: "Dose",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Unit",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Form",
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Dietary Management",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Frequency",
+      variable: "Physical Activities",
       value: "",
-      component: 2,
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Patient Instructions",
+      variable: "Self Monitoring",
       value: "",
     },
   ];
 
-  const prescription = [
+  const dates = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Start Date",
@@ -50,24 +35,11 @@ export default function AddMedication() {
     },
   ];
 
-  const others = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Possible Side Effects",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Other Remarks",
-      value: "",
-    },
-  ];
-
   return (
     <>
       <>
         <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-          ADD MEDICATION
+          ADD CARE PLAN
         </div>
 
         <div>
@@ -76,12 +48,9 @@ export default function AddMedication() {
               <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                 <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
-                    <div className="text-start text-xs whitespace-nowrap font-semibold text-black">
-                      Dosage Instructions
-                    </div>
                     <table className="w-full">
                       <tbody>
-                        {dosage.map((item, index) => (
+                        {careplan.map((item, index) => (
                           <tr
                             key={index}
                             className="flex gap-5 justify-between mt-6 w-full"
@@ -100,8 +69,17 @@ export default function AddMedication() {
                               </div>
                             </td>
                             <td>
-                              <input
-                                className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
+                              <textarea
+                                className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                                style={{
+                                  height: [
+                                    "Review of Systems",
+                                    "Signs and Symptoms",
+                                  ].includes(item.variable)
+                                    ? "3rem"
+                                    : "auto",
+                                  whiteSpace: "pre-wrap",
+                                }}
                                 value={item.value}
                               />
                             </td>
@@ -114,12 +92,9 @@ export default function AddMedication() {
 
                 <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
-                    <div className="text-start text-xs whitespace-nowrap font-semibold text-black">
-                      Prescription Duration
-                    </div>
                     <table className="w-full">
                       <tbody>
-                        {prescription.map((item, index) => (
+                        {dates.map((item, index) => (
                           <tr
                             key={index}
                             className="flex gap-5 justify-between mt-6 w-full"
@@ -151,42 +126,6 @@ export default function AddMedication() {
                                   value={item.value}
                                 />
                               )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
-                    <div className="text-start text-xs  mt-10 whitespace-nowrap font-semibold text-black">
-                      Others
-                    </div>
-                    <table className="w-full">
-                      <tbody>
-                        {others.map((item, index) => (
-                          <tr
-                            key={index}
-                            className="flex gap-5 justify-between mt-6 w-full"
-                          >
-                            <td className="flex gap-2 my-auto font-semibold text-black">
-                              <Image
-                                alt="image"
-                                height={0}
-                                width={0}
-                                loading="lazy"
-                                src={item.src}
-                                className="aspect-square fill-black w-[15px]"
-                              />
-                              <div className="flex-auto my-auto">
-                                {item.variable}
-                              </div>
-                            </td>
-                            <td>
-                              <input
-                                className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                value={item.value}
-                              />
                             </td>
                           </tr>
                         ))}
