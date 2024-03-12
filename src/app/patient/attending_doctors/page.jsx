@@ -9,13 +9,13 @@ export default function ViewDoctors() {
 		{
 			name: "Dr. Johnny Santos",
 			hospital: "Philippine General Hospital",
-			specialization: "Endocrinology",
+			specialization: "Cardiology",
 			yearsOfExperience: 8,
 		},
 		{
 			name: "Dr. John Doe",
 			hospital: "Philippine General Hospital",
-			specialization: "Internal Medicine",
+			specialization: "Endocrinology",
 			yearsOfExperience: 5,
 		},
 	];
@@ -96,17 +96,7 @@ export default function ViewDoctors() {
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.hospital}</td>
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.specialization}</td>
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-												<Link href="/patient/messages">
-													<Image
-														height={0}
-														width={0}
-														src={doctor.iconSrc || defaultIconSrc}
-														alt="Icon"
-														className="h-8 w-8 cursor-pointer"
-													/>
-												</Link>
-											</td>
+											<td className="px-6 py-4 whitespace-nowrap"></td>
 										</tr>
 									))}
 								</tbody>

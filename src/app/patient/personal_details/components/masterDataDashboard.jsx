@@ -42,7 +42,7 @@ export default function MasterData() {
       value: (
         <button
           onClick={() => {
-            router.push("/patient/health_record/allergies");
+            router.push("/patient/personal_details/allergies");
           }}
           className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[5] font-semibold text-xs border-1.5 bg-sky-900 text-white"
         >
