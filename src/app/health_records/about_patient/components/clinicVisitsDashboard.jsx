@@ -24,6 +24,7 @@ export default function ClinicVisits() {
       id: 1,
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       visitname: "Clinic Visit #1",
+      doctor: "Dr. Maria Santos",
       visitdate: "Date: 2023-10-30",
       lastOpened: null,
     },
@@ -31,6 +32,7 @@ export default function ClinicVisits() {
       id: 2,
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       visitname: "Clinic Visit #2",
+      doctor: "Dr. John Doe",
       visitdate: "Date: 2023-11-26",
       lastOpened: null,
     },
@@ -38,6 +40,7 @@ export default function ClinicVisits() {
       id: 3,
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       visitname: "Clinic Visit #3",
+      doctor: "Dr. Juan Gomez",
       visitdate: "Date: 2024-02-14",
       lastOpened: null,
     },
@@ -80,16 +83,16 @@ const handleVisitClick = () => {
             </button>
           </div>
           <div className="flex justify-between">
-          <div className="flex items-center">
+            <div className="flex items-center">
                 <span className="text-black text-base font-bold leading-5">
                     Rendering Options:
                 </span>
-                <input 
-                    type="number" 
-                    className="ml-2 w-8 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal" 
-                    placeholder="0"
-                    style={{ textAlign: 'end' }}
-                />
+                <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                </select>
                 <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
                     Appointments
                 </span>
@@ -143,7 +146,20 @@ const handleVisitClick = () => {
                 <div className="font-semibold whitespace-nowrap">
                   {item.visitname}
                 </div>
-                <div>{item.visitdate}</div>
+                <div className="flex justify-between w-fit">
+                <Image
+                        alt="picture"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                        className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
+                    />
+                  <div className="ml-2 mr-10">
+                      {item.doctor}
+                  </div>
+                  <div>{item.visitdate}</div>
+                </div>
               </div>
               <span className="text-xs text-gray-500">Last Opened: {item.lastOpened}</span>
             </div>
