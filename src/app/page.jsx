@@ -77,7 +77,7 @@ export default function Home() {
 							onChange={(e) => {
 								userStore.setEmail(e.target.value);
 							}}
-							value={userStore.email}
+							value={userStore.email ?? ""}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
@@ -87,7 +87,7 @@ export default function Home() {
 							onChange={(e) => {
 								userStore.setPassword(e.target.value);
 							}}
-							value={userStore.password}
+							value={userStore.password ?? ""}
 							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
 						/>
 						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
