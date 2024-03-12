@@ -108,7 +108,7 @@ export default function Medications() {
             </div>
             <div className="flex gap-1 my-auto text-black whitespace-nowrap leading-[150%]">
               <button className="flex gap-1 px-5 py-2 rounded-md border border-black border-solid">
-                <img
+                <Image
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
                   className="shrink-0 w-3 aspect-[0.85]"
