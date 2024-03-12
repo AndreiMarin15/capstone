@@ -182,7 +182,7 @@ export default function Dashboard() {
 								/>
 								<div className="flex-auto my-auto">Lab Tests</div>
 							</div>
-							<div className="mt-1.5 leading-5">Dr. John Doe has requested a Fasting Blood Sugar (FBS) Test.</div>
+							<div className="mt-1.5 leading-5">Dr. John Doe has requested a Fasting Blood Sugar (FBS) Test for your next clinic visit.</div>
 						</div>
 					</div>
 				</div>

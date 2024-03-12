@@ -52,7 +52,7 @@ const patientNavigation = [
   },
   {
     name: "Medications & Care Plans",
-    href: "/patient/careplan_list",
+    href: "/patient/medications_and_careplan",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
   },
   {
@@ -88,6 +88,19 @@ const patientNavigation = [
   },
 ];
 
+const otherDoctorNavigation = [
+  {
+    name: "Referral",
+    href: "/referral",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a5e4e41b96b3a1133c733ca6c34896fe7a85b581c2bce0b6d63f16bd85dd4deb?",
+  },
+  {
+    name: "Account",
+    href: "/patient/account",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
+  },
+];
+
 export default function Navbar() {
   const router = useRouter();
   const path = usePathname();
@@ -102,7 +115,7 @@ export default function Navbar() {
               "linear-gradient(180deg, #00296C 0%, rgba(0, 82, 216, 0.51) 99.99%, rgba(0, 97, 255, 0.57) 100%)",
           }}
         >
-          {!path.includes("/patient")
+          {!path.includes("/patient") && !path.includes("/other_doctor")
             ? navigation.map((item) => (
                 <span
                   onClick={() => router.push(item.href)}
@@ -126,7 +139,31 @@ export default function Navbar() {
                   </div>
                 </span>
               ))
-            : patientNavigation.map((item) => (
+            : path.includes("/patient") && !path.includes("/other_doctor")
+            ? patientNavigation.map((item) => (
+                <span
+                  onClick={() => router.push(item.href)}
+                  className={
+                    path.includes(item.href)
+                      ? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
+                      : "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
+                  }
+                  key={item.name}
+                >
+                  <Image
+                    loading="lazy"
+                    src={item.src}
+                    height={0}
+                    width={0}
+                    alt={item.name}
+                    className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
+                  />
+                  <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                    {item.name}
+                  </div>
+                </span>
+              ))
+            : otherDoctorNavigation.map((item) => (
                 <span
                   onClick={() => router.push(item.href)}
                   className={
