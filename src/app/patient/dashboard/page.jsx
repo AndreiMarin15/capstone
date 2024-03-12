@@ -167,7 +167,7 @@ export default function Dashboard() {
 								<div className="flex-auto self-start mt-1.5">Requests</div>
 							</div>
 							<div className="mt-1 leading-5">
-								Dr. Johnny Santos has requested to have access to your HbA1c lab test.
+								Dr. Johnny Santos has requested to have access to your lab Tests.
 							</div>
 						</div>
 						<div className="flex flex-col px-7 pt-3 pb-5 mt-8 w-full bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:pl-5">
