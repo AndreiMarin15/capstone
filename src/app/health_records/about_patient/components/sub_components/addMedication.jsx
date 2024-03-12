@@ -50,6 +50,20 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
     },
   ];
 
+  const others = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Possible Side Effects",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Other Remarks",
+      value: "",
+    },
+  ];
+
+
   return (
     <>
       {currentScreen === 1 ? (
@@ -139,6 +153,42 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
                                     value={item.value}
                                   />
                                 )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
+                      <div className="text-start text-xs  mt-10 whitespace-nowrap font-semibold text-black">
+                        Others
+                      </div>
+                      <table className="w-full">
+                        <tbody>
+                          {others.map((item, index) => (
+                            <tr
+                              key={index}
+                              className="flex gap-5 justify-between mt-6 w-full"
+                            >
+                              <td className="flex gap-2 my-auto font-semibold text-black">
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src={item.src}
+                                  className="aspect-square fill-black w-[15px]"
+                                />
+                                <div className="flex-auto my-auto">
+                                  {item.variable}
+                                </div>
+                              </td>
+                              <td>
+                                <input
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
+                                  value={item.value}
+                                />
                               </td>
                             </tr>
                           ))}
