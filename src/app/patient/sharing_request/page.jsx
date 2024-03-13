@@ -1,122 +1,197 @@
+"use client";
+
 import Image from "next/image";
 import * as React from "react";
+import { currentUser, useUserInfo } from "@/app/store";
+import referral from "../../../../lib/backend/referral/getRequests";
 
 export default function ViewSharing() {
-    const sharing = [
-        {
-            name: "Dr. Johnny Santos",
-            specialization: "Cardiology",
-            document: ["Lab Tests"],
-            
-        },
-        {
-            name: "Dr. Marie Eve",
-            specialization: "Gastroenterology",
-            document: ["Medicines", "Diagnosis"], 
-        
-        },
-    ];
-    return (
-        <>
-            <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh] pt-10">
-                <div className="w-full max-md:max-w-full">
-                    <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-                        <div className="flex flex-col items-stretch w-[82%] ml-5 max-md:w-full max-md:ml-0">
-                            <span className="flex flex-col my-auto px-5 max-md:max-w-full max-md:mt-10">
-                                <div className="text-black text-xl font-semibold leading-8 self-stretch max-md:max-w-full">
-                                    Sharing Request
-                                </div>
-                                <div className="flex items-stretch gap-2.5 mt-3.5 pr-7 self-end max-md:pr-5">
-                                    <span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
-                                        <Image
-                                            alt="picture"
-                                            height={0}
-                                            width={0}
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=66e07193974a40e683930e95115a1cfd&"
-                                            className="aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full ml-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            className="text-stone-300 text-xs leading-5 my-auto"
-                                            placeholder="SEARCH"
-                                        ></input>
-                                    </span>
-                                    <span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
-                                        <Image
-                                            alt="picture"
-                                            height={0}
-                                            width={0}
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/872489d37c6f07090c71fb194a8c077334f5ee8d7e865b4e470f49f5a27b95ba?apiKey=66e07193974a40e683930e95115a1cfd&"
-                                            className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
-                                        />
-                                        <div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">
-                                            FILTER
-                                        </div>
-                                    </span>
-                                    <span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
-                                        <Image
-                                            alt="picture"
-                                            height={0}
-                                            width={0}
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
-                                            className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
-                                        />
-                                        <div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">SORT</div>
-                                    </span>
-                                </div>
-                            </span>
-                            <table className="min-w-full divide-y divide-gray-200 mt-10">
-                            <thead className="bg-gray-50 border border-gray-200 drop-shadow-xl rounded-md">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-                                            Name
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-                                            Specialization
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-                                            Requested Document
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-                                            Approve Request
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {sharing.map((sharing, index) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {sharing.document.map((document, i) => (
-                                                    <div key={i}>
-                                                        {document}
-                                                        {i !== sharing.document.length - 1 && <br />}
-                                                    </div>
-                                                ))}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
-                                                {[...Array(sharing.document.length)].map((_, i) => (
-                                                    <div key={i} className="flex items-center">
-                                                        <input type="checkbox" id={`approveYes${index}_${i}`} name={`approveYes${index}_${i}`} style={{ marginRight: '8px' }} />
-                                                        <label htmlFor={`approveYes${index}_${i}`} className="mr-10">Yes</label>
-                                                        <input type="checkbox" id={`approveNo${index}_${i}`} name={`approveNo${index}_${i}`} style={{ marginRight: '8px' }} />
-                                                        <label htmlFor={`approveNo${index}_${i}`}>No</label>
-                                                    </div>
-                                                ))}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-}
+	const [sharing, setSharing] = React.useState([]);
+	const handleApproval = async (e, id) => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: "",
+				status: e.target.value,
+			}),
+		});
+	};
 
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const response = await fetch("https://cap-middleware-1.vercel.app/user/getRequests", {
+				method: "POST", // or 'PUT'
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+					requested_from: "testpatient@gmail.com",
+				}), // replace this with your actual data
+			});
+
+			if (!response.ok) {
+				const message = `An error has occurred: ${response.status}`;
+				throw new Error(message);
+			}
+
+			const data = await response.json();
+			console.log(data);
+
+			const clean = data.map(async (item) => {
+				const doctor = await referral.getDoctorData(item.requested_by);
+				const specialization = await referral.getDoctorSpecialization(doctor.specialization_id);
+
+				const toReturn = {
+					id: item.id,
+					name: `${doctor.first_name} ${doctor.last_name}`,
+					specialization: specialization,
+					document: [item.content.data_requested],
+				};
+				return toReturn;
+			});
+
+			const toShare = await Promise.all(clean);
+			console.log(toShare);
+
+			setSharing(toShare);
+		};
+
+		fetchData().catch((error) => console.error(error.toString()));
+	}, []);
+	return (
+		<>
+			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh] pt-10">
+				<div className="w-full max-md:max-w-full">
+					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+						<div className="flex flex-col items-stretch w-[82%] ml-5 max-md:w-full max-md:ml-0">
+							<span className="flex flex-col my-auto px-5 max-md:max-w-full max-md:mt-10">
+								<div className="text-black text-xl font-semibold leading-8 self-stretch max-md:max-w-full">
+									Sharing Request
+								</div>
+								<div className="flex items-stretch gap-2.5 mt-3.5 pr-7 self-end max-md:pr-5">
+									<span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
+										<Image
+											alt="picture"
+											height={0}
+											width={0}
+											loading="lazy"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=66e07193974a40e683930e95115a1cfd&"
+											className="aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full ml-1"
+										/>
+										<input
+											type="text"
+											className="text-stone-300 text-xs leading-5 my-auto"
+											placeholder="SEARCH"
+										></input>
+									</span>
+									<span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
+										<Image
+											alt="picture"
+											height={0}
+											width={0}
+											loading="lazy"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/872489d37c6f07090c71fb194a8c077334f5ee8d7e865b4e470f49f5a27b95ba?apiKey=66e07193974a40e683930e95115a1cfd&"
+											className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
+										/>
+										<div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">
+											FILTER
+										</div>
+									</span>
+									<span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
+										<Image
+											alt="picture"
+											height={0}
+											width={0}
+											loading="lazy"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
+											className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
+										/>
+										<div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">SORT</div>
+									</span>
+								</div>
+							</span>
+							<table className="min-w-full divide-y divide-gray-200 mt-10">
+								<thead className="bg-gray-50 border border-gray-200 drop-shadow-xl rounded-md">
+									<tr>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											Name
+										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											Specialization
+										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											Requested Document
+										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											Approve Request
+										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											
+										</th>
+									</tr>
+								</thead>
+
+								{sharing.length > 0 ? (
+									<>
+										<tbody className="bg-white divide-y divide-gray-200">
+											{sharing.map((sharing, index) => (
+												<tr key={sharing.id}>
+													<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
+													<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
+													<td className="px-6 py-4 whitespace-nowrap">
+														{sharing.document.map((document, i) => (
+															<div key={i}>
+																{document}
+																{i !== sharing.document.length - 1 && <br />}
+															</div>
+														))}
+													</td>
+													<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
+														{[...Array(sharing.document.length)].map((_, i) => (
+															<div key={i} className="flex items-center">
+																<input
+																	type="radio"
+																	id={`approveYes${index}_${i}`}
+																	name={`approveYes${index}_${i}`}
+																	style={{ marginRight: "8px" }}
+																	
+																/>
+																<label htmlFor={`approveYes${index}_${i}`} className="mr-10">
+																	Yes
+																</label>
+																<input
+																	type="radio"
+																	id={`approveNo${index}_${i}`}
+																	name={`approveNo${index}_${i}`}
+																	style={{ marginRight: "8px" }}
+																/>
+																<label htmlFor={`approveNo${index}_${i}`}>No</label>
+															</div>
+														))}
+													</td>
+													<td>
+														<button className="bg-blue-500 rounded-lg p-2 text-white">Confirm</button>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</>
+								) : (
+									<tbody className="bg-white divide-y divide-gray-200">
+										<tr>
+											<td className="px-6 py-4 whitespace-nowrap">Loading...</td>
+										</tr>
+									</tbody>
+								)}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+}
