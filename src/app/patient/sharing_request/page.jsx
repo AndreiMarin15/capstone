@@ -7,9 +7,18 @@ import referral from "../../../../lib/backend/referral/getRequests";
 
 export default function ViewSharing() {
 	const [sharing, setSharing] = React.useState([]);
-	const handleApproval = async (e) => {
-		
-	}
+	const handleApproval = async (e, id) => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: "",
+				status: e.target.value,
+			}),
+		});
+	};
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -127,7 +136,7 @@ export default function ViewSharing() {
 									<>
 										<tbody className="bg-white divide-y divide-gray-200">
 											{sharing.map((sharing, index) => (
-												<tr key={index}>
+												<tr key={sharing.id}>
 													<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
 													<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
 													<td className="px-6 py-4 whitespace-nowrap">
