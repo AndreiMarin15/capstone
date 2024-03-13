@@ -15,20 +15,11 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
       startdate: "2020-01-10",
       enddate: "2020-01-15",
     },
+
     {
       srcmedicine:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
       medicinename: "CARE PLAN #2",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. John Doe",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "CARE PLAN #3",
       srddoctor:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
       doctor: "Collaborated with Dr. Johnny Santos",
@@ -120,7 +111,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                 <div className="my-auto">{medication.medicinename}</div>
               </div>
 
-              <div className="flex gap-5 justify-between self-stretch ml-7 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
+              <div className="flex gap-5 justify-between self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
                 <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                   <Image
                     alt="image"
@@ -144,7 +135,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                 <div className="pr-8">
                   <div className="flex-auto my-auto">
                     {" "}
-                    <button className="text-xs leading-5 hover:text-blue-500 hover:underline">
+                    <button className="underline text-xs leading-5 hover:text-blue-500 hover:underline">
                       View Feedback
                     </button>
                   </div>

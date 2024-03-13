@@ -47,7 +47,7 @@ export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
                           </div>
                         </td>
                         <td>
-                          <input className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                          <textarea className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
                         </td>
                       </tr>
                       <tr className="flex gap-5 justify-between mb-3 w-full">
@@ -65,7 +65,7 @@ export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
                           </div>
                         </td>
                         <td>
-                          <input className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                          <textarea className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />{" "}
                         </td>
                       </tr>
                       <tr className="flex gap-5 justify-between mb-3 w-full">
@@ -85,7 +85,7 @@ export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
                           </div>
                         </td>
                         <td>
-                          <input className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                          <textarea className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
                         </td>
                       </tr>
                     </tbody>

@@ -3,6 +3,8 @@ import Image from "next/image";
 import AddLabTest from "./recordLabTest";
 import LabSample from "../../../../assets/lab-test-sample.png";
 import BackButton from "./BackButton";
+import Happy from "../../../../assets/happy.png";
+
 export default function ViewCarePlan({ currentScreen, setCurrentScreen }) {
   const medication = [
     {
@@ -88,26 +90,18 @@ export default function ViewCarePlan({ currentScreen, setCurrentScreen }) {
             </div>
             <div className="flex gap-5 justify-between self-start mt-3 whitespace-nowrap">
               <div className="flex gap-1.5 items-center text-red-600">
-                <img
+                <Image
+                  height={0}
+                  width={0}
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/564c0694374335ea604dd3ae008baa76d5c473b8a86183f17457effdda856bdb?"
                   className="shrink-0 self-stretch my-auto w-2.5 aspect-square"
                 />
                 <div className="self-stretch my-auto">YES</div>
-                <img
-                  loading="lazy"
-                  srcSet="..."
-                  className="shrink-0 self-stretch aspect-square w-[13px]"
-                />
               </div>
               <div className="flex gap-1.5 items-center text-black">
                 <div className="shrink-0 self-stretch my-auto w-2.5 h-2.5 rounded-full shadow-sm bg-zinc-300" />
                 <div className="self-stretch my-auto">NO</div>
-                <img
-                  loading="lazy"
-                  srcSet="..."
-                  className="shrink-0 self-stretch aspect-square w-[13px]"
-                />
               </div>
             </div>
             <div className="mt-3.5 w-full text-black max-md:max-w-full">

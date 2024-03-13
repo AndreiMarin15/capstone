@@ -60,11 +60,6 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
       variable: "Possible Side Effects",
       value: "Rashes",
     },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Other Remarks",
-      value: "N/A",
-    },
   ];
 
   const [currentScreen3, setCurrentScreen3] = useState(0);
@@ -82,7 +77,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
               <tbody className=" text-xs leading-5 text-black">
                 <div className="text-xs leading-5 text-black ">
                   {" "}
-                  <span className="font-bold"> Prescription Duration</span>
+                  <span className="font-bold"> Dosage Instructions</span>
                   {dosage.map((item, index) => (
                     <tr key={index} className="h-8">
                       <td className="w-5">
@@ -174,7 +169,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
                       </td>
                       <td className="border-l-[5rem] border-transparent">
                         <div className="text-black text-xs font-normal leading-5 ml-10">
-                          {item.variable === "Heart Rate" ? 70 : item.value}
+                          {item.value}
                         </div>
                       </td>
                     </tr>
