@@ -3,7 +3,7 @@ import { useHRNav } from "../store";
 
 export default function HealthRecordsNav() {
   const { selected, setSelected } = useHRNav();
-  const { selected, setSelected } = useHRNav();
+  
 
   const items = [
     "Master Data",
