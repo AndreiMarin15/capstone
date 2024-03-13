@@ -129,6 +129,9 @@ export default function ViewSharing() {
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
 											Approve Request
 										</th>
+										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
+											
+										</th>
 									</tr>
 								</thead>
 
@@ -151,16 +154,17 @@ export default function ViewSharing() {
 														{[...Array(sharing.document.length)].map((_, i) => (
 															<div key={i} className="flex items-center">
 																<input
-																	type="checkbox"
+																	type="radio"
 																	id={`approveYes${index}_${i}`}
 																	name={`approveYes${index}_${i}`}
 																	style={{ marginRight: "8px" }}
+																	
 																/>
 																<label htmlFor={`approveYes${index}_${i}`} className="mr-10">
 																	Yes
 																</label>
 																<input
-																	type="checkbox"
+																	type="radio"
 																	id={`approveNo${index}_${i}`}
 																	name={`approveNo${index}_${i}`}
 																	style={{ marginRight: "8px" }}
@@ -168,6 +172,9 @@ export default function ViewSharing() {
 																<label htmlFor={`approveNo${index}_${i}`}>No</label>
 															</div>
 														))}
+													</td>
+													<td>
+														<button className="bg-blue-500 rounded-lg p-2 text-white">Confirm</button>
 													</td>
 												</tr>
 											))}
