@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import VisitMedications from "./visitMedications";
 import VisitLabtests from "./visitLabTests";
-import CarePlanList from "./carePlanList";
+
 import LabTestList from "./labTestList";
 import BackButton from "./BackButton";
 export default function ViewMedications({ currentScreen, setCurrentScreen }) {
