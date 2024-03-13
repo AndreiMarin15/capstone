@@ -5,7 +5,7 @@ import { useState } from "react";
 import VisitLabtests from "./visitLabTests";
 import BackButton from "./BackButton";
 export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
-  const prescription = [
+  const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Start Date",
@@ -94,7 +94,7 @@ export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
                   <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
                     <table className="w-full  text-xs">
                       <tbody>
-                        {prescription.map((item, index) => (
+                        {date.map((item, index) => (
                           <tr
                             key={index}
                             className="flex gap-5 justify-between mb-3 w-full"

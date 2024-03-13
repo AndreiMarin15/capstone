@@ -10,7 +10,7 @@ import Diagnoses from "./components/diagnosesDashboard";
 import MasterData from "./components/masterDataDashboard";
 import Vitals from "./components/vitalsDashboard";
 import Medications from "./components/medicationsDashboard";
-import CarePlans from "./components/carePlansDashboard";
+import CarePlans from "./components/carePlanDashboard";
 import LabTests from "./components/labTestsDashboard";
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/sub_components/viewfamilyHistory";
