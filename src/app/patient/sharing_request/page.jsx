@@ -14,10 +14,12 @@ export default function ViewSharing() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				id: "",
+				id: id,
 				status: e.target.value,
 			}),
 		});
+
+		console.log(response);
 	};
 
 	React.useEffect(() => {
@@ -50,7 +52,9 @@ export default function ViewSharing() {
 					name: `${doctor.first_name} ${doctor.last_name}`,
 					specialization: specialization,
 					document: [item.content.data_requested],
+					status: item.status,
 				};
+
 				return toReturn;
 			});
 
@@ -58,6 +62,7 @@ export default function ViewSharing() {
 			console.log(toShare);
 
 			setSharing(toShare);
+			console.log(sharing);
 		};
 
 		fetchData().catch((error) => console.error(error.toString()));
@@ -129,9 +134,6 @@ export default function ViewSharing() {
 										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
 											Approve Request
 										</th>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											
-										</th>
 									</tr>
 								</thead>
 
@@ -139,44 +141,57 @@ export default function ViewSharing() {
 									<>
 										<tbody className="bg-white divide-y divide-gray-200">
 											{sharing.map((sharing, index) => (
-												<tr key={sharing.id}>
-													<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
-													<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
-													<td className="px-6 py-4 whitespace-nowrap">
-														{sharing.document.map((document, i) => (
-															<div key={i}>
-																{document}
-																{i !== sharing.document.length - 1 && <br />}
+												<>
+												{
+													sharing.status === null ? (
+														<tr key={sharing.id}>
+														<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
+														<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
+														<td className="px-6 py-4 whitespace-nowrap">
+															{sharing.document.map((document, i) => (
+																<div key={i}>
+																	{document}
+																	{i !== sharing.document.length - 1 && <br />}
+																</div>
+															))}
+														</td>
+														<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
+															<div className="flex items-center">
+																<div>
+																	<input
+																		type="radio"
+																		id={`approveYes${index}`}
+																		name={`approveGroup${index}`}
+																		style={{ marginRight: "8px" }}
+																		value={true}
+																		onClick={(e) => {
+																			handleApproval(e, sharing.id);
+																		}}
+																	/>
+																	<label htmlFor={`approveYes${index}`} className="mr-10">
+																		Yes
+																	</label>
+																</div>
+																<div>
+																	<input
+																		type="radio"
+																		id={`approveNo${index}`}
+																		name={`approveGroup${index}`}
+																		style={{ marginRight: "8px" }}
+																		value={false}
+																		onClick={(e) => {
+																			handleApproval(e, sharing.id);
+																		}}
+																	/>
+																	<label htmlFor={`approveNo${index}`}>No</label>
+																</div>
 															</div>
-														))}
-													</td>
-													<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
-														{[...Array(sharing.document.length)].map((_, i) => (
-															<div key={i} className="flex items-center">
-																<input
-																	type="radio"
-																	id={`approveYes${index}_${i}`}
-																	name={`approveYes${index}_${i}`}
-																	style={{ marginRight: "8px" }}
-																	
-																/>
-																<label htmlFor={`approveYes${index}_${i}`} className="mr-10">
-																	Yes
-																</label>
-																<input
-																	type="radio"
-																	id={`approveNo${index}_${i}`}
-																	name={`approveNo${index}_${i}`}
-																	style={{ marginRight: "8px" }}
-																/>
-																<label htmlFor={`approveNo${index}_${i}`}>No</label>
-															</div>
-														))}
-													</td>
-													<td>
-														<button className="bg-blue-500 rounded-lg p-2 text-white">Confirm</button>
-													</td>
-												</tr>
+														</td>
+													</tr>
+													) : ""
+												}
+													
+												</>
 											))}
 										</tbody>
 									</>
