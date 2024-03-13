@@ -16,7 +16,7 @@ import FamilyHistory from "./components/sub_components/viewfamilyHistory";
 import SocialHistory from "./components/socialHistory";
 import FamilySocialHistory from "./components/familysocialHistoryDashboard"
 import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
-
+import CarePlan from "./components/carePlanDashboard";
 
 export default function AboutPatient() {
 	const { selected } = useHRNav();
@@ -56,7 +56,9 @@ export default function AboutPatient() {
 										<FamilySocialHistory />
 										
 									</>
-								) : (
+								) : selected === "Care Plan" ? (
+									<CarePlan />
+									):(
 									""						
 								)}			
 							</span>
