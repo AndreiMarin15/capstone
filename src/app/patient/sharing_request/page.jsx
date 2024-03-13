@@ -7,6 +7,9 @@ import referral from "../../../../lib/backend/referral/getRequests";
 
 export default function ViewSharing() {
 	const [sharing, setSharing] = React.useState([]);
+	const handleApproval = async (e) => {
+		
+	}
 
 	React.useEffect(() => {
 		const fetchData = async () => {
