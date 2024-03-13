@@ -4,12 +4,12 @@ import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
 export default function CarePlan({ currentScreen, setCurrentScreen }) {
-  const medications = [
+  const careplan = [
     {
-      srcmedicine:
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "CARE PLAN #1",
-      srddoctor:
+      careplanname: "CARE PLAN #1",
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
       doctor: "Collaborated with Dr. Maria Santos",
       startdate: "2020-01-10",
@@ -17,14 +17,14 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
     },
 
     {
-      srcmedicine:
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "CARE PLAN #2",
-      srddoctor:
+      careplanname: "CARE PLAN #2",
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
       doctor: "Collaborated with Dr. Johnny Santos",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
+      startdate: "2020-01-10",
+      enddate: "2020-01-15",
     },
   ];
 
@@ -90,7 +90,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
               </button>
             </div>
           </div>
-          {medications.map((medication, index) => (
+          {careplan.map((careplan, index) => (
             <button
               key={index}
               className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
@@ -105,10 +105,10 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                   height={0}
                   width={0}
                   loading="lazy"
-                  src={medication.srcmedicine}
+                  src={careplan.srccareplan}
                   className="aspect-square fill-black w-[15px]"
                 />
-                <div className="my-auto">{medication.medicinename}</div>
+                <div className="my-auto">{careplan.careplanname}</div>
               </div>
 
               <div className="flex gap-5 justify-between self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
@@ -118,13 +118,13 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                     height={0}
                     width={0}
                     loading="lazy"
-                    src={medication.srddoctor}
+                    src={careplan.srccareplan}
                     className="w-4 aspect-square"
                   />
-                  <div className="grow my-auto">{medication.doctor}</div>
+                  <div className="grow my-auto">{careplan.doctor}</div>
                 </div>
                 <div className="pr-8">
-                  <div className="flex-auto my-auto">{`${medication.startdate} - ${medication.enddate}`}</div>
+                  <div className="flex-auto my-auto">{`${careplan.startdate} - ${careplan.enddate}`}</div>
                 </div>
                 <div className="pr-8">
                   <div className="flex gap-2 px-5 text-xs leading-5 text-black whitespace-nowrap">
