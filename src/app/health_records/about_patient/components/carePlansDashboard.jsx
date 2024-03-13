@@ -1,41 +1,31 @@
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
-import AddMedications from "./sub_components/addMedication";
 import { useState } from "react";
+import AddCarePlans from "./sub_components/addCarePlans";
 
-export default function Medications() {
+export default function CarePlans() {
   const [currentPage, setCurrentPage] = useState(0);
 
-  const medications = [
+  const careplan = [
     {
-      srcmedicine:
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "IBUPROFEN",
-      srddoctor:
+      careplanname: "CARE PLAN #1",
+      srcdoctor:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Maria Santos",
+      doctor: "Collaborated with Dr. Maria Santos",
       startdate: "2020-01-10",
       enddate: "2020-01-15",
     },
     {
-      srcmedicine:
+      srccareplan:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "INSULIN DETEMIR",
-      srddoctor:
+      careplanname: "CARE PLAN #2",
+      srcdoctor:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. John Doe",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "ASPIRIN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Johnny Santos",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
+      doctor: "Collaborated with Dr. Johnny Santos",
+      startdate: "2020-01-10",
+      enddate: "2020-01-15",
     },
   ];
 
@@ -51,7 +41,7 @@ export default function Medications() {
       {currentPage === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            MEDICATIONS
+            CARE PLANS
             <button
               className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
               onClick={handleVisitClick}
@@ -85,8 +75,8 @@ export default function Medications() {
               </button>
             </div>
           </div>
-          {medications.map((medication, index) => (
-            <button key={medication.medicinename}>
+          {careplan.map((careplan, index) => (
+            <button key={careplan.careplanname}>
               <div
                 key={index}
                 className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
@@ -97,10 +87,10 @@ export default function Medications() {
                     height={0}
                     width={0}
                     loading="lazy"
-                    src={medication.srcmedicine}
+                    src={careplan.srccareplan}
                     className="aspect-square fill-black w-[15px]"
                   />
-                  <div className="my-auto">{medication.medicinename}</div>
+                  <div className="my-auto">{careplan.careplanname}</div>
                 </div>
                 <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
                   <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
@@ -109,14 +99,14 @@ export default function Medications() {
                       height={0}
                       width={0}
                       loading="lazy"
-                      src={medication.srddoctor}
+                      src={careplan.srcdoctor}
                       className="w-4 aspect-square"
                     />
-                    <div className="grow my-auto">{medication.doctor}</div>
-                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.startdate} - ${medication.enddate}`}</div>
+                    <div className="grow my-auto">{careplan.doctor}</div>
+                    <div className=" ml-16 justify-between flex-auto my-auto">{`${careplan.startdate} - ${careplan.enddate}`}</div>
                   </div>
 
-                  {medication.doctor === "Dr. John Doe" && (
+                  {/* {careplan.doctor === "Dr. John Doe" && (
                     <div className="flex-auto ml-96">
                       <span className="">
                         <button className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
@@ -129,7 +119,7 @@ export default function Medications() {
                         </button>
                       </span>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </button>
@@ -140,7 +130,7 @@ export default function Medications() {
       )}
       {currentPage === 1 ? (
         <>
-          <AddMedications />
+          <AddCarePlans />
         </>
       ) : (
         ""
