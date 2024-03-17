@@ -144,13 +144,6 @@ export default function MedicationsDashboard() {
       ) : (
         ""
       )}
-      {currentPage === 1 ? (
-        <>
-          <AddMedications />
-        </>
-      ) : (
-        ""
-      )}
     </>
   );
 }

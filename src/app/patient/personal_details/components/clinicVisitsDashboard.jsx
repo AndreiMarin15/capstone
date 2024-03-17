@@ -170,13 +170,6 @@ export default function ClinicVisits() {
             setCurrentPage={setCurrentPage}
           />
         </>
-      ) : currentPage === 10 ? (
-        <>
-          <AddClinicVisit
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </>
       ) : (
         ""
       )}

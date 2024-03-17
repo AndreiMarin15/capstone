@@ -151,13 +151,6 @@ export default function CarePlanDashboard() {
       ) : (
         ""
       )}
-      {currentPage === 1 ? (
-        <>
-          <AddCarePlans />
-        </>
-      ) : (
-        ""
-      )}
     </>
   );
 }
