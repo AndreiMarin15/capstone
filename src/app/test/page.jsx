@@ -54,7 +54,8 @@ export default function Notes() {
 	}, []);
 
 	useEffect(() => {
-		if (enteredOtp === otp) {
+		
+		if (parseInt(enteredOtp) === otp) {
 			console.log(true);
 		} else {
 			console.log(false);
