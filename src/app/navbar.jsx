@@ -51,8 +51,13 @@ const patientNavigation = [
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
   },
   {
-    name: "Medications & Care Plans",
-    href: "/patient/medications_and_careplan",
+    name: "Medications",
+    href: "/patient/medications",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
+  },
+  {
+    name: "Care Plans",
+    href: "/patient/careplan",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
   },
   {
@@ -140,52 +145,52 @@ export default function Navbar() {
                 </span>
               ))
             : path.includes("/patient") && !path.includes("/other_doctor")
-            ? patientNavigation.map((item) => (
-                <span
-                  onClick={() => router.push(item.href)}
-                  className={
-                    path.includes(item.href)
-                      ? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
-                      : "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
-                  }
-                  key={item.name}
-                >
-                  <Image
-                    loading="lazy"
-                    src={item.src}
-                    height={0}
-                    width={0}
-                    alt={item.name}
-                    className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                  />
-                  <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
-                    {item.name}
-                  </div>
-                </span>
-              ))
-            : otherDoctorNavigation.map((item) => (
-                <span
-                  onClick={() => router.push(item.href)}
-                  className={
-                    path.includes(item.href)
-                      ? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
-                      : "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
-                  }
-                  key={item.name}
-                >
-                  <Image
-                    loading="lazy"
-                    src={item.src}
-                    height={0}
-                    width={0}
-                    alt={item.name}
-                    className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
-                  />
-                  <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
-                    {item.name}
-                  </div>
-                </span>
-              ))}
+              ? patientNavigation.map((item) => (
+                  <span
+                    onClick={() => router.push(item.href)}
+                    className={
+                      path.includes(item.href)
+                        ? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
+                        : "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
+                    }
+                    key={item.name}
+                  >
+                    <Image
+                      loading="lazy"
+                      src={item.src}
+                      height={0}
+                      width={0}
+                      alt={item.name}
+                      className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
+                    />
+                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                      {item.name}
+                    </div>
+                  </span>
+                ))
+              : otherDoctorNavigation.map((item) => (
+                  <span
+                    onClick={() => router.push(item.href)}
+                    className={
+                      path.includes(item.href)
+                        ? "items-start rounded shadow-sm  flex justify-start gap-2.5 p-2.5 max-md:pr-5 bg-[#3B82F6] my-1"
+                        : "items-start rounded shadow-sm bg-white bg-opacity-0 flex justify-start gap-2.5 p-2.5 max-md:pr-5 hover:bg-[#3B82F6] my-1"
+                    }
+                    key={item.name}
+                  >
+                    <Image
+                      loading="lazy"
+                      src={item.src}
+                      height={0}
+                      width={0}
+                      alt={item.name}
+                      className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
+                    />
+                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                      {item.name}
+                    </div>
+                  </span>
+                ))}
         </div>
       )}
     </>
