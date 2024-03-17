@@ -24,7 +24,7 @@ const UploadLab = () => {
         <input
           type="text"
           className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
-          placeholder="Hb1AC Test"
+          placeholder="2D Echo"
         />
       ),
     },
@@ -48,6 +48,18 @@ const UploadLab = () => {
             Upload
           </button>
         </span>
+      ),
+    },
+    {
+      imgsrc:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/fa7bbcb39aa8476a8ef65b6cebfbb0385029750dafba0401c696d3d62d2caed6?",
+      variable: "Values with Unit",
+      value: (
+        <input
+          type="text"
+          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          placeholder="120"
+        />
       ),
     },
   ];
