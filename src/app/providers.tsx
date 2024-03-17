@@ -23,6 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				if (
 					pathname !== "/" &&
 					pathname !== "/login" &&
+					pathname !== "/test" &&
 					pathname !== "/patient_form" &&
 					pathname !== "/doctor_form" &&
 					pathname !== "/require_auth" &&
@@ -31,7 +32,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					router.push("/require_auth");
 				}
 			} else {
-				if (pathname === "/" || pathname === "/login" || pathname === "/patient_form" || pathname === "/doctor_form") {
+				if (pathname === "/" || pathname === "/login" || pathname === "/test" || pathname === "/patient_form" || pathname === "/doctor_form") {
 					if (current.user.type === "patient") {
 						router.push("/patient/dashboard");
 					} else if (current.user.type === "doctor") {
