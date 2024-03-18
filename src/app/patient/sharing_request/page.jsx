@@ -4,10 +4,11 @@ import Image from "next/image";
 import * as React from "react";
 import { currentUser, useUserInfo } from "@/app/store";
 import referral from "../../../../lib/backend/referral/getRequests";
+import Request from "./components/request";
 
 export default function ViewSharing() {
 	const [sharing, setSharing] = React.useState([]);
-	const handleApproval = async (e, id) => {
+	const handleApproval = async (value, id) => {
 		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
 			method: "POST",
 			headers: {
@@ -15,7 +16,7 @@ export default function ViewSharing() {
 			},
 			body: JSON.stringify({
 				id: id,
-				status: e.target.value,
+				status: value,
 			}),
 		});
 
@@ -142,55 +143,9 @@ export default function ViewSharing() {
 										<tbody className="bg-white divide-y divide-gray-200">
 											{sharing.map((sharing, index) => (
 												<>
-												{
-													sharing.status === null ? (
-														<tr key={sharing.id}>
-														<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
-														<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
-														<td className="px-6 py-4 whitespace-nowrap">
-															{sharing.document.map((document, i) => (
-																<div key={i}>
-																	{document}
-																	{i !== sharing.document.length - 1 && <br />}
-																</div>
-															))}
-														</td>
-														<td className="px-6 py-4 whitespace-nowrap" rowSpan={sharing.document.length}>
-															<div className="flex items-center">
-																<div>
-																	<input
-																		type="radio"
-																		id={`approveYes${index}`}
-																		name={`approveGroup${index}`}
-																		style={{ marginRight: "8px" }}
-																		value={true}
-																		onClick={(e) => {
-																			handleApproval(e, sharing.id);
-																		}}
-																	/>
-																	<label htmlFor={`approveYes${index}`} className="mr-10">
-																		Yes
-																	</label>
-																</div>
-																<div>
-																	<input
-																		type="radio"
-																		id={`approveNo${index}`}
-																		name={`approveGroup${index}`}
-																		style={{ marginRight: "8px" }}
-																		value={false}
-																		onClick={(e) => {
-																			handleApproval(e, sharing.id);
-																		}}
-																	/>
-																	<label htmlFor={`approveNo${index}`}>No</label>
-																</div>
-															</div>
-														</td>
-													</tr>
-													) : ""
-												}
-													
+													{sharing.status === null && (
+														<Request sharing={sharing} index={index} handleApproval={handleApproval} />
+													)}
 												</>
 											))}
 										</tbody>

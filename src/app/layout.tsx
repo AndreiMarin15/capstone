@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import TopNav from "./topNav";
 import Navbar from "./navbar";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -5,22 +5,20 @@ import { PUBLIC } from "../../../lib/backend/public/db";
 import { useEffect, useState } from "react";
 export default function Notes() {
 	const [otp, setOtp] = useState(null);
-	const [enteredOtp, setEntered] = useState(null);
-
-	const generateOTP = () => {
-		return Math.floor(1000 + Math.random() * 9000);
-	};
+	
+	const [userNumber, setNumber] = useState(null);
+	
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
 		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
-
+		console.log(userNumber);
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: "639999951973" }],
+					destinations: [{ to: userNumber }],
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
@@ -49,25 +47,24 @@ export default function Notes() {
 			.catch((error) => console.error(error));
 	};
 
-	useEffect(() => {
-		setOtp(generateOTP());
-	}, []);
+	
 
-	useEffect(() => {
-		
-		if (parseInt(enteredOtp) === otp) {
-			console.log(true);
-		} else {
-			console.log(false);
-		}
-	}, [enteredOtp]);
+	
 
 	return (
 		<>
 			<input
+				className="border-2 border-black"
 				type="text"
 				onChange={(e) => {
 					setEntered(e.target.value);
+				}}
+			/>
+			<input
+				className="border-2 border-black"
+				type="text"
+				onChange={(e) => {
+					setNumber(e.target.value);
 				}}
 			/>
 
