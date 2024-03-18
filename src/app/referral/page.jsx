@@ -135,7 +135,7 @@ export default function Referral() {
 							</div>
 							<div
 								className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full"
-								style={{ width: "780px" }}
+								
 							>
 								<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
 									<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
@@ -179,7 +179,7 @@ export default function Referral() {
 									</div>
 								</div>
 							</div>
-							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-" style={{ width: "800px" }}>
+							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-">
 								<div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
 									<input type="text" placeholder="Message..." style={{ width: "100%", height: "300%" }} />
 								</div>
