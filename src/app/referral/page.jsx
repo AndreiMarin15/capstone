@@ -2,10 +2,11 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
+import { currentUser } from "@/app/store";
 export default function Referral() {
 	const router = useRouter();
-
+	const [otp, setOtp] = React.useState(null);
+	const [enteredOtp, setEntered] = React.useState(null);
 	const doctorInfo = {
 		name: "Dr. Johnny Santos",
 		specialty: "Cardiologist",
@@ -16,6 +17,75 @@ export default function Referral() {
 		name: "Dr. Micha Lee",
 		specialty: "Gastroenterologist",
 		patient: "Juan Luna",
+	};
+
+	const handleApproval = async (value, id) => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+				status: value,
+			}),
+		});
+
+		console.log(response);
+	};
+
+	const generateOTP = () => {
+		return Math.floor(1000 + Math.random() * 9000);
+	};
+
+	const user = currentUser.getState().user;
+
+	React.useEffect(() => {
+		setOtp(generateOTP());
+	}, []);
+
+	const sendOTP = () => {
+		const myHeaders = new Headers();
+		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
+		myHeaders.append("Content-Type", "application/json");
+		myHeaders.append("Accept", "application/json");
+
+		const raw = JSON.stringify({
+			messages: [
+				{
+					destinations: [{ to: `639999951973` }], // replace with patient data
+					from: "ServiceSMS",
+					text: `Hello! Your OTP is  ${otp}
+					
+					By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
+
+					- SAMPLE DATA PULL 1
+					- SAMPLE DATA PULL 2
+					
+					EndoTracker respects the privacy of personal data, and are committed to handling your personal data with care. It is your right to be informed of how EndoTracker collects your data, including the purposes of how we collect, use, and disclose. 
+					
+					For more information on how EndoTracker handles and makes use of your data, please refer to the Privacy Policy full text which can be found in the system https://capstone-cap2224.vercel.app/legal/privacy_policy.`,
+				},
+			],
+		});
+
+		const requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow",
+		};
+
+		fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
+			.then((response) => response.text())
+			.then((result) => console.log(result))
+			.then(() => {
+				toast.success(
+					`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
+					{ position: "top-left", theme: "colored", autoClose: 2000 }
+				);
+			})
+			.catch((error) => console.error(error));
 	};
 
 	return (
@@ -95,9 +165,7 @@ export default function Referral() {
 											<span className="font-bold">PATIENT</span>: {otherDoctorInfo.patient}
 										</div>
 										<button className="flex gap-3 mt-6 whitespace-nowrap">
-											<div className="px-2 py-2 text-white text-xs bg-sky-900 rounded max-md:px-2">
-												Accept
-											</div>
+											<div className="px-2 py-2 text-white text-xs bg-sky-900 rounded max-md:px-2">Accept</div>
 											<div className="px-2 py-2 text-sky-900  text-xs rounded border border-sky-900 border-solid max-md:px-5">
 												Decline
 											</div>
@@ -133,10 +201,7 @@ export default function Referral() {
 									</div>
 								</div>
 							</div>
-							<div
-								className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full"
-								
-							>
+							<div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
 								<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
 									<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
 										<Image
@@ -148,7 +213,7 @@ export default function Referral() {
 											className="self-start w-7 aspect-square ml-2"
 										/>
 										<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-										{"Hello, let's collaborate with this patient"}
+											{"Hello, let's collaborate with this patient"}
 										</div>
 									</div>
 									<div className="flex gap-4 self-end mt-6 text-white">
@@ -175,7 +240,7 @@ export default function Referral() {
 										className="self-start w-7 aspect-square ml-8"
 									/>
 									<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-									{"Great. Update me after and let's talk about how to manage this patient again."}
+										{"Great. Update me after and let's talk about how to manage this patient again."}
 									</div>
 								</div>
 							</div>
@@ -193,7 +258,12 @@ export default function Referral() {
 											src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
 											className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
 										/>
-										<button className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto">
+										<button
+											className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+											onClick={() => {
+												sendOTP();
+											}}
+										>
 											Pull Records
 										</button>
 									</span>
