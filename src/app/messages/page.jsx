@@ -85,7 +85,7 @@ export default function Messaging() {
           {chats &&
             chats?.map((item, index) => {
               return (
-                <div className="w-full group" onClick={() => getUser(item.id)}>
+                <div key={index} className="w-full group" onClick={() => getUser(item.id)}>
                   <div className="flex gap-5 items-center group-hover:bg-neutral-200">
                     {/* IF SELECTED DISPLAY THE BLUE */}
                     <div
@@ -169,7 +169,7 @@ export default function Messaging() {
                 item.message_status === "read"
               ) {
                 return (
-                  <div className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]">
+                  <div key={index} className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]">
                     <Image
                       alt="picture"
                       height={0}
@@ -188,7 +188,7 @@ export default function Messaging() {
                 item.message_status === "seen"
               ) {
                 return (
-                  <div className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]">
+                  <div key={index} className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]">
                     <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
                       {item.message}
                     </span>
