@@ -36,7 +36,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
       setTest(false);
       setAdd(false);
     }
-    setCurrentScreen(screen);
+    
   };
 
   return (

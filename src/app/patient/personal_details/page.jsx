@@ -6,6 +6,7 @@ import Image from "next/image";
 import PatientHealthRecordNav from "./patientHealthRecordsNav";
 import MasterData from "./components/masterDataDashboard";
 import FamilySocial from "./components/family&socialHistoryDashboard";
+import ClinicVisits from "./components/clinicVisitsDashboard";
 import { usePatientHRNav } from "../../store";
 
 export default function PatientData() {
@@ -32,13 +33,16 @@ export default function PatientData() {
                   <>
                     <FamilySocial />
                   </>
+                ) : selected === "Clinic Visits" ? (
+                  <>
+                    <ClinicVisits />
+                  </>
                 ) : (
                   ""
                 )}
               </span>
 
-              <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-5">
-              </div>
+              <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-5"></div>
             </div>
           </div>
         </div>
