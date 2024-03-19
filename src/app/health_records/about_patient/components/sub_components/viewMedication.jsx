@@ -178,7 +178,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
             </table>
           </div>
 
-          <BackButton />
+          <BackButton  currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       ) : (
         ""

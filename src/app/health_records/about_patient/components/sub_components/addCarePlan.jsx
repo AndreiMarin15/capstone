@@ -138,8 +138,8 @@ export default function AddCarePlan({ currentScreen, setCurrentScreen }) {
           </div>
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentPage={currentScreen}
-              setCurrentPage={setCurrentScreen}
+              currentScreen={currentScreen}
+              setCurrentScreen={setCurrentScreen}
             />
             <div>
               <button
