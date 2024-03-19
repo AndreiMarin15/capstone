@@ -40,7 +40,8 @@ export const getMessages = {
       .eq("message_header_id", header)
       .eq("message_status", status);
   },
-  getMessage: async (patient) => {
+  getMessage: async (chatID) => {
+    console.log("the chat ID: ", chatID);
     const { data, error } = await supabase
       .from("messages_header")
       .select(
@@ -61,19 +62,17 @@ export const getMessages = {
         )
       `
       )
-      .eq("id", patient)
+      .eq("id", chatID)
       .order("created_at", { referencedTable: "messages", ascending: false });
-    console.log(data);
+      console.log(data);
     return data ? data[0] : [];
   },
   getChats: async () => {
-    console.log(currentUser.getState().info.id);
     const { data, error } = await supabase
       .from("chats")
       .select(`*`)
-      .eq("doctor", currentUser.getState().info.id)
+      .or(`doctor.eq.${currentUser.getState().info.id},patient.eq.${currentUser.getState().info.id}`)
       .order("created_at", { ascending: false });
-    console.log(data);
     return data ? data : [];
   },
   getNotifications: async () => {

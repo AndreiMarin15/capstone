@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Image from "next/image";
 import {
@@ -9,9 +10,13 @@ export default function Messaging() {
   const [message, setMessage] = React.useState("");
   const [chat, setChat] = React.useState("");
   const [chats, setChats] = React.useState([
-    { id: "", chat: "", full_name: "" },
+    { id: "", chat: "", doctor_full_name: "" },
   ]);
 
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+  
   const [messageInfo, setMessageInfo] = React.useState({
     messages: [
       {
@@ -25,20 +30,28 @@ export default function Messaging() {
         message_status: "sent",
       },
     ],
+    patient: "",
     patients: {
       last_name: "Undefined",
       first_name: "Undefined",
     },
+    doctor: "",
+    doctors: {
+      last_name: "Undefined",
+      first_name: "Undefined",
+    },
   });
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const message = formData.get("message");
     setMessage("");
-    if (patient) {
-      getMessages.insertMessage(patient, message, "sent");
+    if (chat) {
+      getMessages.insertMessage(chat, message, "received");
     }
   };
+  
   const handleInserts = (payload) => {
     setNewMessage(!newMessage);
   };
@@ -50,7 +63,7 @@ export default function Messaging() {
     const importMessage = async () => {
       const chatList = await getMessages.getChats();
       setChats(chatList);
-      setPatient(chatList[0]?.id || ""); // Set the initial patient ID
+      setChat(chatList[0]?.id || "");
     };
 
     importMessage();
@@ -61,12 +74,12 @@ export default function Messaging() {
     const importMessage = async () => {
       const messages = await getMessages.getMessage(chat);
       // update to read
-      await getMessages.updateRead(patient, "sent", "seen");
+      await getMessages.updateRead(chat, "sent", "seen");
       setMessageInfo(messages);
     };
 
     importMessage();
-  }, [changeUser, newMessage]);
+  }, [chat, newMessage]);
   return (
     <div className="bg-white flex flex-col items-end max-md:pl-5 h-[100vh]">
       <div className=" shadow-sm flex gap-5 justify-between px-14 py-9 mt-1.5 w-full whitespace-nowrap bg-white max-md:flex-wrap max-md:px-5 max-md:max-w-full">
@@ -87,12 +100,59 @@ export default function Messaging() {
           </div>
           <div className="flex flex-col items-stretch w-[74%] max-md:w-full max-md:ml-0">
             <span className="text-black text-lg font-semibold leading-7 whitespace-nowrap items-stretch grow mt-3 pr-3 pb-5 max-md:mt-10">
-              Dr. John Doe
+              {chats[0].doctor_full_name ?? "Dr. John Doe"}
             </span>
           </div>
         </div>
       </div>
-      <div className="bg-stone-50 self-center flex w-full max-w-full flex-col items-stretch pt-6 pb-12 max-md:max-w-full">
+              <div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-full h-full px-7 overflow-y-auto gap-3">
+      {/* Start Message */}
+      {messageInfo.messages &&
+            messageInfo.messages?.map((item, index) => {
+              if (
+                item.message_status === "sent" ||
+                item.message_status === "seen"
+              ) {
+                return (
+                  <div className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]">
+                    <Image
+                      alt="picture"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+                      className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+                    />
+                    <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+                      {item.message}
+                    </span>
+                  </div>
+                );
+              } else if (
+                item.message_status === "received" ||
+                item.message_status === "read"
+              ) {
+                return (
+                  <div className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]">
+                    <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+                      {item.message}
+                    </span>
+                    <Image
+                      alt="picture"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+                      className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+                    />
+                  </div>
+                );
+              }
+            })}
+
+
+            </div>
+      {/* <div className="bg-stone-50 self-center flex w-full max-w-full flex-col items-stretch pt-6 pb-12 max-md:max-w-full">
         <div className="flex flex-col px-7 items-start max-md:max-w-full max-md:px-5">
           <div className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap">
             <Image
@@ -140,7 +200,7 @@ export default function Messaging() {
             }
           </span>
         </div>
-      </div>
+      </div> */}
       <form
         onSubmit={handleSubmit}
         className="shadow-sm bg-white self-center flex w-full max-w-full flex-col items-stretch px-12 py-3.5 max-md:max-w-full max-md:px-5"

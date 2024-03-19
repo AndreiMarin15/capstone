@@ -11,7 +11,7 @@ export default function Messaging() {
   const [changeUser, setChangeUser] = React.useState(false);
   const [newMessage, setNewMessage] = React.useState(false);
   const [chats, setChats] = React.useState([
-    { id: "", patient: "", full_name: "" },
+    { id: "", patient: "", patient_full_name: "" },
   ]);
   const [messageInfo, setMessageInfo] = React.useState({
     messages: [
@@ -104,7 +104,7 @@ export default function Messaging() {
                     />
                     <div className="flex flex-col flex-1">
                       <div className="text-normal font-semibold whitespace-nowrap">
-                        {item.full_name}
+                        {item.patient_full_name}
                       </div>
                     </div>
                   </div>
@@ -113,7 +113,7 @@ export default function Messaging() {
             })}
         </div>
       </div>
-      <div className="flex flex-col items-end max-md:pl-5 h-[100vh] w-full">
+      <div className="flex flex-col items-end max-md:pl-5 h-[100vh] w-full z-0">
         <span className="shadow-sm bg-white z-[1] flex w-full max-w-full justify-between gap-5 pl-7 pr-10 py-9 self-start max-md:flex-wrap max-md:px-5">
           <div className="text-black text-xl font-semibold leading-8 mt-1.5">
             Messaging
