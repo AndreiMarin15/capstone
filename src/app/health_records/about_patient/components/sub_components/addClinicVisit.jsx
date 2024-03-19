@@ -9,12 +9,26 @@ import BackButton from "./BackButton";
 
 import uploadEncounter from "../../../../../../lib/backend/encounter/encounter";
 export default function AddClinicVisit({ currentPage, setCurrentPage }) {
+    const [clinicDate, setClinicDate] = useState("");
+    const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
+    const [height, setHeight] = useState(null); 
+    const [weight, setWeight] = useState(null); 
+    const [bmi, setBMI] = useState(null); 
+    const [systolic, setSystolic] = useState(null);
+    const [diastolic, setDiastolic] = useState(null); 
+    const [heartRate, setHeartRate] = useState(null);
+    const [reviewOfSystems, setReviewOfSystems] = useState("");
+    const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
+    const [diagnosis, setDiagnosis] = useState("");
+    const [otherConcerns, setOtherConcerns] = useState("");
+
 	const handleSave = async () => {
 		try {
 			const dataToSave = {
 				id: "example",
 				period: {
-					start: "2024-03-12T09:01:30Z",
+					start: clinicDate,
+                    suggested: suggestedClinicDate,
 				},
 				subject: {
 					reference: "Patient/example",
@@ -34,7 +48,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "cm",
-							value: 170,
+							value: height,
 						},
 					},
 					{
@@ -51,7 +65,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "mmHg",
-							value: 120,
+							value: systolic,
 						},
 					},
 					{
@@ -68,7 +82,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "mmHg",
-							value: 80,
+							value: diastolic,
 						},
 					},
 					{
@@ -82,7 +96,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 							],
 						},
 						subject: "sample_id",
-						valueString: "YOUR_REVIEW_OF_SYSTEMS_HERE",
+						valueString: reviewOfSystems,
 						resource_type: "Observation",
 					},
 					{
@@ -99,7 +113,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "kg",
-							value: 70,
+							value: weight,
 						},
 					},
 					{
@@ -113,7 +127,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 							],
 						},
 						subject: "sample_id",
-						valueString: "YOUR_SIGNS_AND_SYMPTOMS_HERE",
+						valueString: signsAndSymptoms,
 						resource_type: "Observation",
 					},
 					{
@@ -130,7 +144,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "kg/m2",
-							value: 24.2,
+							value: bmi,
 						},
 					},
 					{
@@ -147,8 +161,50 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "beats/minute",
-							value: 72,
+							value: heartRate,
 						},
+					},
+                    {
+						id: "diagnosis",
+						code: {
+							coding: [
+								{
+									code: "",
+									system: "",
+								},
+							],
+						},
+						subject: "sample_id",
+						valueString: diagnosis,
+						resource_type: "Observation",
+					},
+                    {
+						id: "otherConcerns",
+						code: {
+							coding: [
+								{
+									code: "",
+									system: "",
+								},
+							],
+						},
+						subject: "sample_id",
+						valueString: otherConcerns,
+						resource_type: "Observation",
+					},
+                    {
+						id: "suggestedNextVisit",
+						code: {
+							coding: [
+								{
+									code: "",
+									system: "",
+								},
+							],
+						},
+						subject: "sample_id",
+						valueString: suggestedClinicDate,
+						resource_type: "Observation",
 					},
 				],
 				resource_type: "Encounter",
@@ -277,12 +333,14 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 											<td className="border-l-[5rem] border-transparent">
 												{item.variable === "Date" ? (
 													<input
-														type="date"
-														className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5 w-[78%]"
-													/>
+                                                    type="date"
+                                                    value={clinicDate} // Bind value to clinicDate state
+                                                    onChange={(e) => setClinicDate(e.target.value)} // Update clinicDate state on change
+                                                    className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]"
+                                                    />
 												) : (
 													<>
-														<input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5" />
+														<input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
 														{item.variable === "" ? "" : item.value}
 													</>
 												)}
@@ -337,35 +395,45 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 														</div>
 													) : item.variable === "Suggested Next Clinic Visit" ? (
 														<input
-															type="date"
-															value="2024-03-12"
-															className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-400 max-md:pr-5 w-[78%]"
-														/>
+                                                            type="date"
+                                                            value={suggestedClinicDate || ""}
+                                                            onChange={(e) => setSuggestedClinicDate(e.target.value)}
+                                                            className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]"
+                                                        />
 													) : (
-														<textarea
-															placeholder={
-																item.variable === "Diagnosis"
-																	? "Add Diagnosis"
-																	: item.variable === "Signs and Symptoms"
-																		? "Add signs and symptoms"
-																		: item.variable === "Review of Systems"
-																			? "Add Review"
-																			: item.variable === "Other Concerns"
-																				? "Add Concern/s"
-																				: ""
-															}
-															onChange={(e) => {
-																// Handle textarea change
-															}}
-															className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-															style={{
-																height: ["Review of Systems", "Signs and Symptoms"].includes(item.variable)
-																	? "3rem"
-																	: "auto",
-																whiteSpace: "pre-wrap",
-															}}
-															wrap="soft" // "soft" allows wrapping
-														/>
+                                                        <textarea
+                                                        placeholder={
+                                                            item.variable === "Diagnosis"
+                                                                ? "Add Diagnosis"
+                                                                : item.variable === "Signs and Symptoms"
+                                                                ? "Add signs and symptoms"
+                                                                : item.variable === "Review of Systems"
+                                                                ? "Add Review"
+                                                                : item.variable === "Other Concerns"
+                                                                ? "Add Concern/s"
+                                                                : ""
+                                                        }
+                                                        onChange={(e) => {
+                                                            // Update the corresponding state variable based on the input field
+                                                            if (item.variable === "Diagnosis") {
+                                                                setDiagnosis(e.target.value);
+                                                            } else if (item.variable === "Signs and Symptoms") {
+                                                                setSignsAndSymptoms(e.target.value);
+                                                            } else if (item.variable === "Review of Systems") {
+                                                                setReviewOfSystems(e.target.value);
+                                                            } else if (item.variable === "Other Concerns") {
+                                                                setOtherConcerns(e.target.value);
+                                                            }
+                                                        }}
+                                                        className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                                                        style={{
+                                                            height: ["Review of Systems", "Signs and Symptoms"].includes(item.variable)
+                                                                ? "3rem"
+                                                                : "auto",
+                                                            whiteSpace: "pre-wrap",
+                                                        }}
+                                                        wrap="soft" // "soft" allows wrapping
+                                                    />
 													)
 												) : (
 													<div className="ml-auto">{/* Handle other cases if needed */}</div>
@@ -399,18 +467,35 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 													</div>
 												</td>
 												<td className="border-l-[5rem] border-transparent text-xs font-normal">
-													<input
-														placeholder={
-															item.variable === "Systolic Blood Pressure"
-																? "180"
-																: item.variable === "Diastolic Blood Pressure"
-																	? "130"
-																	: item.variable === "Heart Rate (beats/min)"
-																		? "65"
-																		: ""
-														}
-														className="grow justify-center items-start py-1.5  text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 w-[60px]"
-													/>
+                                                <input
+                                                    placeholder={
+                                                        item.variable === "Systolic Blood Pressure"
+                                                            ? "120"
+                                                            : item.variable === "Diastolic Blood Pressure"
+                                                            ? "80"
+                                                            : item.variable === "Heart Rate (beats/min)"
+                                                            ? "72"
+                                                            : ""
+                                                    }
+                                                    value={
+                                                        item.variable === "Systolic Blood Pressure"
+                                                            ? systolic || ""
+                                                            : item.variable === "Diastolic Blood Pressure"
+                                                            ? diastolic || ""
+                                                            : heartRate || ""
+                                                    }
+                                                    onChange={(e) => {
+                                                        // Update the corresponding state variable based on the input field
+                                                        if (item.variable === "Systolic Blood Pressure") {
+                                                            setSystolic(e.target.value);
+                                                        } else if (item.variable === "Diastolic Blood Pressure") {
+                                                            setDiastolic(e.target.value);
+                                                        } else if (item.variable === "Heart Rate (beats/min)") {
+                                                            setHeartRate(e.target.value);
+                                                        }
+                                                    }}
+                                                    className="grow justify-center items-start py-1.5  text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[60px]"
+                                                />
 													{item.variable === item.value}
 												</td>
 											</tr>
@@ -437,18 +522,29 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 													</div>
 												</td>
 												<td className="border-l-[5rem] border-transparent text-xs font-normal">
-													<input
-														placeholder={
-															item.variable === "Height (cm)"
-																? "180"
-																: item.variable === "Weight (kg)"
-																	? "65"
-																	: item.variable === "Body Mass Index"
-																		? "20"
-																		: ""
-														}
-														className="grow justify-center items-start py-1.5  ml-10 text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 w-[60px]"
-													/>
+                                                <input
+                                                    placeholder={
+                                                        item.variable === "Height (cm)"
+                                                            ? "180"
+                                                            : item.variable === "Weight (kg)"
+                                                            ? "65"
+                                                            : item.variable === "Body Mass Index"
+                                                            ? "20"
+                                                            : ""
+                                                    }
+                                                    value={item.variable === "Height (cm)" ? height : item.variable === "Weight (kg)" ? weight : bmi}
+                                                    onChange={(e) => {
+                                                        // Update the corresponding state variable based on the input field
+                                                        if (item.variable === "Height (cm)") {
+                                                            setHeight(e.target.value);
+                                                        } else if (item.variable === "Weight (kg)") {
+                                                            setWeight(e.target.value);
+                                                        } else if (item.variable === "Body Mass Index") {
+                                                            setBMI(e.target.value);
+                                                        }
+                                                    }}
+                                                    className="grow justify-center items-start py-1.5  ml-10 text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[60px]"
+                                                />
 													{item.variable === item.value}
 												</td>
 											</tr>
