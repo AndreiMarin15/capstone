@@ -7,7 +7,169 @@ import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 
+import uploadEncounter from "../../../../../../lib/backend/encounter/encounter";
 export default function AddClinicVisit({ currentPage, setCurrentPage }) {
+
+    const handleSave = async () => {
+        try {
+            const dataToSave = {
+                id: "example",
+                period: {
+                  start: "2024-03-12T09:01:30Z"
+                },
+                subject: {
+                  reference: "Patient/example"
+                },
+                contained: [
+                  {
+                    id: "height",
+                    code: {
+                      coding: [
+                        {
+                          code: "8302-2",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "cm",
+                      value: 170
+                    }
+                  },
+                  {
+                    id: "systolic",
+                    code: {
+                      coding: [
+                        {
+                          code: "8480-6",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "mmHg",
+                      value: 120
+                    }
+                  },
+                  {
+                    id: "diastolic",
+                    code: {
+                      coding: [
+                        {
+                          code: "8462-4",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "mmHg",
+                      value: 80
+                    }
+                  },
+                  {
+                    id: "reviewOfSystems",
+                    code: {
+                      coding: [
+                        {
+                          code: "8687-6",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    valueString: "YOUR_REVIEW_OF_SYSTEMS_HERE",
+                    resource_type: "Observation"
+                  },
+                  {
+                    id: "weight",
+                    code: {
+                      coding: [
+                        {
+                          code: "29463-7",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "kg",
+                      value: 70
+                    }
+                  },
+                  {
+                    id: "signsAndSymptoms",
+                    code: {
+                      coding: [
+                        {
+                          code: "33483-9",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    valueString: "YOUR_SIGNS_AND_SYMPTOMS_HERE",
+                    resource_type: "Observation"
+                  },
+                  {
+                    id: "bmi",
+                    code: {
+                      coding: [
+                        {
+                          code: "39156-5",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "kg/m2",
+                      value: 24.2
+                    }
+                  },
+                  {
+                    id: "heartRate",
+                    code: {
+                      coding: [
+                        {
+                          code: "8867-4",
+                          system: "http://loinc.org"
+                        }
+                      ]
+                    },
+                    subject: "sample_id",
+                    resource_type: "Observation",
+                    valueQuantity: {
+                      unit: "beats/minute",
+                      value: 72
+                    }
+                  }
+                ],
+                resource_type: "Encounter"
+              };
+            // Call the uploadEncounter function with the data to save
+            const savedData = await uploadEncounter(dataToSave);
+            
+            console.log("Data saved successfully:", savedData);
+            
+            // You can also update state or perform other actions after saving data
+        } catch (error) {
+            console.error("Error saving data:", error);
+            console.error("savedData", savedData);
+            // Handle error
+        }
+    };
+
+
+
+
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -306,9 +468,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
                     <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     <div>
                         <button
-                            onClick={() => {
-                                // Your save logic here
-                            }}
+                            onClick={handleSave} 
                             className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
                         >
                             SAVE
