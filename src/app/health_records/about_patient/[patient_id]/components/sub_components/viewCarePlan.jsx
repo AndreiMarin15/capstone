@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import AddLabTest from "./recordLabTest";
-import LabSample from "../../../../assets/lab-test-sample.png";
+import LabSample from "../../../../../assets/lab-test-sample.png";
 import BackButton from "./BackButton";
-import Happy from "../../../../assets/happy.png";
+import Happy from "../../../../../assets/happy.png";
 
 export default function ViewCarePlan({ currentScreen, setCurrentScreen }) {
   const medication = [
