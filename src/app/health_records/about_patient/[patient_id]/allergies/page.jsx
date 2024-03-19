@@ -2,7 +2,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { useAllergyNav } from "@/app/store";
-import PatientProfile from "../../patientProfile";
+import PatientProfile from "../../../patientProfile";
 import AllergiesNav from "./allergiesNav";
 import DrugAllergies from "./components/viewDrugAllergies";
 import FoodAllergies from "./components/viewFoodAllergies";

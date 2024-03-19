@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import AddLabTest from "./recordLabTest";
-import LabSample from "../../../../assets/lab-test-sample.png";
+import LabSample from "../../../../../assets/lab-test-sample.png";
 import BackButton from "./BackButton";
 export default function VisitLabtests({ currentScreen, setCurrentScreen}) {
   const medication = [
