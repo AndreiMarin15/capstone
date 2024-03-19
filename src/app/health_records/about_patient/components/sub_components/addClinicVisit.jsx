@@ -19,6 +19,13 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
   ];
   const followup = [
 
+
+    {
+        src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+        variable: "Diagnosis",
+        value: "",
+    },
+
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Signs and Symptoms",
@@ -190,6 +197,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
                                               ) : (
                                                   <textarea
                                                       placeholder={
+                                                          item.variable === "Diagnosis" ? "Add Diagnosis" :                                                        
                                                           item.variable === "Signs and Symptoms" ? "Add signs and symptoms" :
                                                           item.variable === "Review of Systems" ? "Add Review" :
                                                           item.variable === "Other Concerns" ? "Add Concern/s" :
