@@ -4,7 +4,7 @@ import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
 import { useState } from "react";
 
-export default function Medications({ currentScreen, setCurrentScreen }) {
+export default function Medications() {
   const medications = [
     {
       srcmedicine:
