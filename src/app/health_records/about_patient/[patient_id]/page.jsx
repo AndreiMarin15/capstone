@@ -78,6 +78,7 @@ export default function AboutPatient({ params }) {
 								<span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
 									<div className="text-black text-xl font-semibold leading-8">Health Records</div>
 									<PatientProfile
+											photo={patientFhirData?.resource?.photo}
 											name={patientFhirData?.resource?.name}
 											age={calculateAge(patientFhirData?.resource?.birthdate)}
 											gender={patientFhirData?.resource?.gender}

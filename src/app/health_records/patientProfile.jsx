@@ -1,5 +1,6 @@
 import Image from "next/image";
-export default function PatientProfile({ name,  age,  gender }) {
+export default function PatientProfile({ photo,name,  age,  gender }) {
+	const defaultImage = "https://cdn.builder.io/api/v1/image/assets/TEMP/f93d5b041a77641729755adbc288033a6c368ab9f2f47627fb102ac12928179c?";
 	return (
 		<div className="flex items-center gap-3.5 mt-10">
 			<Image 
@@ -7,7 +8,7 @@ export default function PatientProfile({ name,  age,  gender }) {
 				height={0}
 				width={0}
 				loading="lazy"
-				src="https://cdn.builder.io/api/v1/image/assets/TEMP/f93d5b041a77641729755adbc288033a6c368ab9f2f47627fb102ac12928179c?"
+				src={photo || defaultImage}
 				className="aspect-square object-contain object-center w-[59px] overflow-hidden shrink-0 max-w-full"
 			/>
 			<span className="flex-col items-stretch">
