@@ -6,8 +6,9 @@ import AddMedications from "./addMedication";
 import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
+import doctor from "../../../../../../../lib/backend/health_records/doctor";
+import uploadEncounter from "../../../../../../../lib/backend/health_records/encounter";
 
-import uploadEncounter from "../../../../../../../lib/backend/encounter/encounter";
 export default function AddClinicVisit({ currentPage, setCurrentPage }) {
     const [clinicDate, setClinicDate] = useState("");
     const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
@@ -21,14 +22,22 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
     const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
     const [otherConcerns, setOtherConcerns] = useState("");
+	
+	
 
 	const handleSave = async () => {
 		try {
+			const doctorInfo = await doctor.getDoctorByCurrentUser();
+			console.log(doctorInfo)
 			const dataToSave = {
 				id: "example",
 				period: {
 					start: clinicDate,
                     suggested: suggestedClinicDate,
+				},
+				participant:{
+					type: "Doctor",
+					actor: doctorInfo,
 				},
 				subject: {
 					reference: "Patient/example",
