@@ -3,10 +3,14 @@ import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
+import { toast } from "react-toastify";
 export default function Referral() {
 	const router = useRouter();
 	const [otp, setOtp] = React.useState(null);
-	const [enteredOtp, setEntered] = React.useState(null);
+	const [showOTP, setShowOTP] = React.useState(false);
+	const [otpInput, setOTPInput] = React.useState("");
+	const user = currentUser.getState().user;
+
 	const doctorInfo = {
 		name: "Dr. Johnny Santos",
 		specialty: "Cardiologist",
@@ -38,18 +42,35 @@ export default function Referral() {
 		return Math.floor(1000 + Math.random() * 9000);
 	};
 
-	const user = currentUser.getState().user;
+	const handlePullRecords = () => {
+		setShowOTP(true);
+	};
+
+	const handleOTPSubmit = (status) => {
+		if (parseInt(otpInput) === otp) {
+			toast.success("OTP Verified", { position: "top-left", theme: "colored", autoClose: 2000 });
+		} else {
+			toast.error("Invalid OTP. Please try again.", { position: "top-left", theme: "colored", autoClose: 2000 });
+			// prompt("Invalid OTP. Please try again.");
+		}
+		//  add logic to verify the OTP
+		// just closes the OTP pop-up for now
+		setShowOTP(false);
+	};
 
 	React.useEffect(() => {
 		setOtp(generateOTP());
 	}, []);
 
+	React.useEffect(() => {
+		console.log(otpInput);
+	}, [otpInput]);
 	const sendOTP = () => {
 		const myHeaders = new Headers();
 		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
-
+		console.log(otp);
 		const raw = JSON.stringify({
 			messages: [
 				{
@@ -262,6 +283,7 @@ export default function Referral() {
 											className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
 											onClick={() => {
 												sendOTP();
+												handlePullRecords();
 											}}
 										>
 											Pull Records
@@ -276,6 +298,59 @@ export default function Referral() {
 					</div>
 				</div>
 			</div>
+
+			{showOTP && (
+				<div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-60">
+					{" "}
+					<div className="bg-white p-8 rounded shadow-lg flex flex-col items-center max-w-full w-[600px]">
+						<div className="px-16 pb-2 text-3xl leading-10 text-black max-md:pr-7 max-md:pl-7 max-md:max-w-full">
+							OTP Authentication
+						</div>
+						<div className="text-xs text-zinc-400">
+							Enter the 4-digit OTP sent to your patient’s mobile device via SMS
+						</div>
+						<input
+							type="text"
+							value={otpInput}
+							onChange={(e) => {
+								setOTPInput(e.target.value);
+							}}
+							className="shrink-0 mt-9 w-96 px-3 py-2 max-w-full bg-white rounded-xl border border-solid shadow-sm border-black border-opacity-30 h-[66px]"
+							placeholder="Enter OTP..."
+						/>{" "}
+						<button
+							className="justify-center px-[6rem] py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-sky-900 rounded max-md:px-6"
+							onClick={() => {
+								handleOTPSubmit(true);
+							}}
+						>
+							Confirm
+						</button>
+						<button
+							className="justify-center px-2 py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-red-900 rounded max-md:px-6"
+							onClick={() => {
+								handleOTPSubmit(false);
+							}}
+						>
+							Patient Rejected the Request
+						</button>
+						<div className="shrink-0 self-stretch mt-8 h-px bg-gray-200 border border-gray-200 border-solid max-md:max-w-full" />
+						<div className="mt-6 text-sm leading-5 text-center text-zinc-400">
+							Patient did not receive the OTP?
+							<br />
+							<button
+								className="font-bold  text-blue-500"
+								style={{ textDecoration: "underline" }}
+								onClick={() => {
+									sendOTP();
+								}}
+							>
+								Resend
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
