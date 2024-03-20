@@ -37,7 +37,7 @@
 		"src/app/health_records/healthRecordsNav.jsx",
 		"src/app/health_records/page.jsx",
 		"src/app/health_records/patientProfile.jsx",
-		"src/app/health_records/about_patient/page.jsx",
+		"src/app/health_records/about_patient/[patient_id]/page.jsx",
 		"src/app/health_records/about_patient/components/vitalsDashboard.jsx",
 		"src/app/health_records/about_patient/components/status.jsx",
 		"src/app/health_records/about_patient/components/socialHistory.jsx",
