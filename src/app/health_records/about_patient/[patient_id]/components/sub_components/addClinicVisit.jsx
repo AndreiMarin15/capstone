@@ -7,7 +7,7 @@ import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 
-import uploadEncounter from "../../../../../../lib/backend/encounter/encounter";
+import uploadEncounter from "../../../../../../../lib/backend/encounter/encounter";
 export default function AddClinicVisit({ currentPage, setCurrentPage }) {
     const [clinicDate, setClinicDate] = useState("");
     const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
