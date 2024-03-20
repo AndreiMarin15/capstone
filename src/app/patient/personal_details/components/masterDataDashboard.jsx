@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getMasterData } from "../../../../../lib/backend/patient/personal_details/master_data";
 
 export default function MasterData() {
-  const router = useRouter();
-
-  const mData = [
+  const [mData, setmData] = useState([
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
       variable: "Name",
@@ -50,7 +49,49 @@ export default function MasterData() {
         </button>
       ),
     },
-  ];
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const masterData = await getMasterData();
+
+        // Create a new array with updated values
+        const updatedData = mData.map((item) => {
+          switch (item.variable) {
+            case "Name":
+              return { ...item, value: masterData["name"] };
+            case "Age":
+              return { ...item, value: masterData["age"] };
+            case "Birthday":
+              return { ...item, value: masterData["birthday"] };
+            case "Gender":
+              return { ...item, value: masterData["gender"] };
+            case "Address":
+              return { ...item, value: masterData["address"] };
+            case "Stroke in the past year":
+              return {
+                ...item,
+                value:
+                  masterData["stroke_in_the_past_year"] === "true"
+                    ? "Yes"
+                    : "No",
+              };
+            default:
+              return item;
+          }
+        });
+
+        // Set the state with the new array
+        setmData(updatedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const router = useRouter();
 
   return (
     <>
@@ -66,22 +107,22 @@ export default function MasterData() {
                 height={0}
                 width={0}
                 loading="lazy"
-                src={item.src}
+                src={item["src"]}
                 className="w-5"
               />
             </td>
             <td className="border-l-[16px] border-transparent">
               <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
+                {item["variable"]}
               </div>
             </td>
             <td className="border-l-[5rem] border-transparent">
               {typeof item.value === "string" ? (
                 <div className="text-black text-xs leading-5 ml-auto">
-                  {item.value}
+                  {item["value"]}
                 </div>
               ) : (
-                <div className="ml-auto">{item.value}</div>
+                <div className="ml-auto">{item["value"]}</div>
               )}
             </td>
           </tr>
