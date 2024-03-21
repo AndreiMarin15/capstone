@@ -32,22 +32,45 @@ export default function Referral() {
 			body: JSON.stringify({
 				id: id,
 				status: value,
+				patient_id: "f57361cf-df10-47b7-b91f-30e19185d4a4",
 			}),
 		});
 
 		console.log(response);
 	};
 
+	const generateRequest = async () => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/requestApproval", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+				requested_from: "testpatient@gmail.com",
+				patient_id: "f57361cf-df10-47b7-b91f-30e19185d4a4",
+			}),
+		});
+		const r = await response.json();
+		console.log(r);
+		return r[0].id;
+	};
+
 	const generateOTP = () => {
 		return Math.floor(1000 + Math.random() * 9000);
 	};
 
-	const handlePullRecords = () => {
+	const handlePullRecords = async () => {
 		setShowOTP(true);
 	};
 
-	const handleOTPSubmit = (status) => {
+	const handleOTPSubmit = async (status) => {
 		if (parseInt(otpInput) === otp) {
+			const requ = await generateRequest();
+			console.log("requ");
+			console.log(requ);
+
+			handleApproval(status, requ);
 			toast.success("OTP Verified", { position: "top-left", theme: "colored", autoClose: 2000 });
 		} else {
 			toast.error("Invalid OTP. Please try again.", { position: "top-left", theme: "colored", autoClose: 2000 });
@@ -62,6 +85,9 @@ export default function Referral() {
 		setOtp(generateOTP());
 	}, []);
 
+	React.useEffect(() => {
+		console.log(otp);
+	}, [otp]);
 	React.useEffect(() => {
 		console.log(otpInput);
 	}, [otpInput]);
