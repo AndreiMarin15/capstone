@@ -34,6 +34,23 @@ export default function AboutPatient({ params }) {
 		setCurrentPage(currentPage - 1); // Go back one page
 	};
 
+
+
+	const calculateAge = (birthdayString) => {
+		const birthday = new Date(birthdayString);
+		const today = new Date();
+
+		let age = today.getFullYear() - birthday.getFullYear();
+		const monthDifference = today.getMonth() - birthday.getMonth();
+
+		if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthday.getDate())) {
+			age--;
+		}
+
+		return age;
+	};
+
+
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const data1 = await healthRecords.getPatientData(patientId);
@@ -48,7 +65,7 @@ export default function AboutPatient({ params }) {
 
 	React.useEffect(() => {
 		console.log(patientData);
-		console.log(patientFhirData);
+		console.log("this is patient data" ,patientFhirData);
 	}, [patientData, patientFhirData]);
 
 	return (
@@ -60,7 +77,12 @@ export default function AboutPatient({ params }) {
 							<span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
 								<span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
 									<div className="text-black text-xl font-semibold leading-8">Health Records</div>
-									<PatientProfile />
+									<PatientProfile
+											photo={patientFhirData?.resource?.photo}
+											name={patientFhirData?.resource?.name}
+											age={calculateAge(patientFhirData?.resource?.birthdate)}
+											gender={patientFhirData?.resource?.gender}
+										/>
 								</span>
 								<HealthRecordsNav />
 								{selected === "Master Data" ? (

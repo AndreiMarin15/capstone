@@ -3,14 +3,13 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import { useCPNav } from "@/app/store";
-
+import BackButton  from "../../../health_records/about_patient/[patient_id]/components/sub_components/BackButton";
 {
   /* TO DO: Turn into component */
 }
 
-export default function ViewCarePlan() {
+export default function ViewCarePlan( {currentScreen, setCurrentScreen} ) {
   const { selected } = useCPNav();
-  const [currentPage, setCurrentPage] = useState(0);
   const careplan = [
     {
       srccareplan:
@@ -35,16 +34,12 @@ export default function ViewCarePlan() {
     },
   ];
 
-  const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(currentPage + 1);
-    // Log the currentPage value to the console after incrementing
-    console.log("Current Page:", currentPage + 1);
-  };
+  
+  const [currentScreen3, setCurrentScreen3] = useState(0);
 
   return (
     <>
-      {currentPage === 0 ? (
+    {currentScreen3 === 0 || currentScreen === 1 ? (
         <>
           <div className="border h-full w-full bg-white flex flex-col items-center px-20 py-12 border-solid border-stone-300 max-md:px-5">
             <div className="flex w-full items-stretch justify-between gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
@@ -122,8 +117,13 @@ export default function ViewCarePlan() {
                   </div>
                 </div>
               ))}
+                <BackButton 
+                currentScreen={currentScreen}
+                setCurrentScreen={setCurrentScreen} />
             </div>
+          
           </div>
+        
         </>
       ) : (
         ""
