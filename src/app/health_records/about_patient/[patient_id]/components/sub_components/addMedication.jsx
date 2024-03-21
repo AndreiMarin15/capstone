@@ -2,7 +2,122 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import BackButton from "./BackButton";
-export default function AddMedications({ currentScreen, setCurrentScreen }) {
+import uploadMedication from "../../../../../../../lib/backend/health_records/uploadMedication";
+import { formatDuration } from "date-fns/esm";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import doctor from "../../../../../../../lib/backend/health_records/doctor";
+
+export default function AddMedications({ currentScreen, setCurrentScreen, patientId }) {
+  const [regis, setRegis] = useState("");
+  const [medicationName, setMedicationName] = useState("");
+  const [patientInstructions, setPatientInstructions] = useState("");
+  const [doseUnit, setDoseUnit] = useState(null);
+ 
+  const [form, setForm] = useState("");
+  const [duration, setDuration] = useState("");
+  const [validityStart, setValidityStart] = useState("");
+  const [validityEnd, setValidityEnd] = useState("");
+  const [note, setNote] = useState("");
+
+
+
+  const handleSave = async () => {
+    try {
+      // Your existing code to fetch doctor info and patient data
+      const doctorInfo = await doctor.getDoctorByCurrentUser();
+      // const patientData = await healthRecords.getPatientData(patientId);
+
+      // Construct the data to save
+      const dataToSave = {
+        id: "example",
+
+        medicationCodeableConcept: [ {
+          coding: [ 
+              {
+                  system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                  code: regis, //registration number
+                  display: medicationName //generic name + brand name
+              }
+          ],
+          name: medicationName, //generic name + brand name
+         },
+        ],
+
+      dosageInstruction: [
+        {
+            sequence: 1,
+            text: patientInstructions,
+            doseAndRate: [
+                {
+                    doseQuantity: {
+                        doseUnit: doseUnit,
+                       
+                    }
+                }
+            ]
+        }
+    ],
+
+    form: {
+      coding: [
+          {
+              system: "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
+              code: regis,
+              display: medicationName
+          }
+      ],
+      text: form,
+  },
+
+    dispenseRequest: {
+      medicationCodeableConcept: {
+          coding: [
+              {
+                  system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                  code: regis,
+                  display: medicationName,
+              }
+          ],
+          text: medicationName,
+      },
+      dispenseInterval: duration,
+      validityPeriod: {
+          start: validityStart,
+          end: validityEnd,
+      },
+     
+  },
+
+    requester: {
+      agent: {
+        reference: doctorInfo
+      }
+    },
+
+    note: note,
+    
+    resource_type: "MedicationRequest",
+  };
+
+      // Call the uploadEncounter function with the data to save
+      const savedData = await uploadMedication(dataToSave);
+
+      console.log("Data saved successfully:", savedData);
+
+      // Display success message or perform other actions
+      toast.success("Medication Added", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000,
+      });
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
+
+
+  
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -11,14 +126,10 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-      variable: "Dose",
+      variable: "Dose and Unit",
       value: "",
     },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Unit",
-      value: "",
-    },
+
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Form",
@@ -96,10 +207,33 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
                                 </div>
                               </td>
                               <td>
-                                <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                  value={item.value}
-                                />
+                              <input
+                                type="text"
+                                className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                value={item.variable === "Medicine Name" ? medicationName : item.variable === "Dose and Unit" ? doseUnit : item.variable === "Form" ? form : item.variable === "Frequency" ? duration : patientInstructions}
+                                onChange={(e) => {
+                                  const { value } = e.target;
+                                  switch (item.variable) {
+                                    case "Medicine Name":
+                                      setMedicationName(value);
+                                      break;
+                                    case "Dose and Unit":
+                                      setDoseUnit(value);
+                                      break;
+                                    case "Form":
+                                      setForm(value);
+                                      break;
+                                    case "Frequency":
+                                      setDuration(value);
+                                      break;
+                                    case "Patient Instructions":
+                                      setPatientInstructions(value);
+                                      break;
+                                    default:
+                                      break;
+                                  }
+                                }}
+                              />
                               </td>
                             </tr>
                           ))}
@@ -137,10 +271,20 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
                                 {item.variable === "Start Date" ||
                                 item.variable === "End Date" ? (
                                   <input
-                                    type="date"
-                                    className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                    value={item.value}
-                                  />
+                                  type="date"
+                                  className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                  value={item.variable === 'Start Date' ? validityStart : validityEnd}
+                                  onChange={(e) => {
+                                      const { value } = e.target;
+                                      if (item.variable === "Start Date") {
+                                          console.log(value);
+                                          setValidityStart(value);
+                                      } else if (item.variable === "End Date") {
+                                          console.log(value);
+                                          setValidityEnd(value);
+                                      }
+                                  }}
+                              />
                                 ) : (
                                   <input
                                     className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
@@ -179,9 +323,13 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
                                 </div>
                               </td>
                               <td>
-                                <input
+                              <input
                                   className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
                                   value={item.value}
+                                  onChange={(e) => {
+                                    const { value } = e.target;
+                                    setNote(value);
+                                  }}
                                 />
                               </td>
                             </tr>
@@ -201,9 +349,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen }) {
             />
             <div>
               <button
-                onClick={() => {
-                  // Your save logic here
-                }}
+                onClick={handleSave} // Attach the handleSave function here
                 className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
               >
                 SAVE
