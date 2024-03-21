@@ -10,8 +10,8 @@ import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
 import uploadEncounter from "../../../../../../../lib/backend/health_records/uploadEncounter";
-
-export default function AddClinicVisit({ currentPage, setCurrentPage }) {
+import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records"; 
+export default function AddClinicVisit({ currentPage, setCurrentPage, patientId }) {
     const [clinicDate, setClinicDate] = useState("");
     const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
     const [height, setHeight] = useState(null); 
@@ -30,6 +30,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 	const handleSave = async () => {
 		try {
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
+			const patientData = await healthRecords.getPatientData(patientId);
+			console.log(patientData)
 			console.log(doctorInfo)
 			const dataToSave = {
 				id: "example",
@@ -42,7 +44,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 					actor: doctorInfo,
 				},
 				subject: {
-					reference: "Patient/example",
+					reference: `Patient/${patientData.id}`,
 				},
 				contained: [
 					{
@@ -354,8 +356,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 												{item.variable === "Date" ? (
 													<input
                                                     type="date"
-                                                    value={clinicDate} // Bind value to clinicDate state
-                                                    onChange={(e) => setClinicDate(e.target.value)} // Update clinicDate state on change
+                                                    value={clinicDate}
+                                                    onChange={(e) => setClinicDate(e.target.value)}
                                                     className="grow justify-center items-start py-1.5  pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]"
                                                     />
 												) : (

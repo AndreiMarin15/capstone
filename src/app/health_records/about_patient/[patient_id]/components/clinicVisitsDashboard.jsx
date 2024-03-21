@@ -16,24 +16,33 @@ import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 
 import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
-export default function ClinicVisits() {
+export default function ClinicVisits({patientId}) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
   const [encounters, setEncounters] = useState([]);
   const [renderingOptions, setRenderingOptions] = useState(5);
   
-  React.useEffect(() => {
+
+   React.useEffect(() => {
     async function fetchEncounters() {
       try {
         const encountersData = await getEncounters();
-        setEncounters(encountersData);
+        // Filter encounters by patientId
+        const filteredEncounters = encountersData.filter(
+          (encounter) =>
+            encounter.resource.subject.reference === `Patient/${patientId}`
+        );
+        setEncounters(filteredEncounters);
       } catch (error) {
         console.error("Error fetching encounters:", error);
       }
     }
     fetchEncounters();
-  }, []);
+  }, [patientId]);
+
+
+
 
 const handleVisitClick = () => {
 	// Increment the currentPage when the user clicks the div
@@ -180,7 +189,7 @@ const addHandleVisitClick = (id) => {
 				</>
 			) : currentPage === 10 ? (
 				<>
-					<AddClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+					<AddClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
 				</>
 			) : (
 				""
