@@ -13,7 +13,10 @@ export default function PatientAllergies() {
   const [medication, setMedication] = React.useState([]);
   const [food, setFood] = React.useState([]);
   const [env, setEnv] = React.useState([]);
-
+  const [refresher, setRefresher] = React.useState(false);
+  const handleAdd = () => {
+    setRefresher(!refresher);
+  };
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,14 +25,13 @@ export default function PatientAllergies() {
         setMedication(allergies["json_object_agg"]["Medication"]);
         setFood(allergies["json_object_agg"]["Food"]);
         setEnv(allergies["json_object_agg"]["Environment"]);
-        console.log(allergies);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [refresher]);
 
   return (
     <>
@@ -52,7 +54,7 @@ export default function PatientAllergies() {
                 ) : selected === "Environmental" ? (
                   <EnvAllergies allergy={env} />
                 ) : selected === "Add Allergy" ? (
-                  <AddAllergy />
+                  <AddAllergy onAdd={handleAdd} />
                 ) : (
                   ""
                 )}

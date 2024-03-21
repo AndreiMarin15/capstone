@@ -44,11 +44,6 @@ export default function EnvAllergies({ allergy }) {
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
         ENVIRONMENTAL ALLERGIES
-        <button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
-          <div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-            <div>Add Allergy</div>
-          </div>
-        </button>
       </div>
 
       <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
