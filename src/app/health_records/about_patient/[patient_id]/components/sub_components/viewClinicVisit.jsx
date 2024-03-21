@@ -8,7 +8,7 @@ import LabTestList from "./labTestList";
 import BackButton from "./BackButton";
 import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
-export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId, encounterId}) {
+export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId, encounterId, clinicVisitNumber }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [followupData, setFollowupData] = useState([]);
   const [encounterDate, setEncounterDate] = useState('');
@@ -109,7 +109,8 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
   
         // Find the encounter with the matching ID
         const selectedEncounter = encountersData.find(encounter => encounter.id === encounterId);
-  
+        console.log(selectedEncounter);
+        
         if (!selectedEncounter) {
           console.error("Encounter not found with ID:", encounterId);
           return;
@@ -219,7 +220,7 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
       {currentScreen === 0 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            CLINIC VISIT #1
+            CLINIC VISIT {clinicVisitNumber}
           </div>
 
           <div>

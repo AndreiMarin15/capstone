@@ -23,6 +23,7 @@ export default function ClinicVisits({patientId}) {
   const [encounters, setEncounters] = useState([]);
   const [renderingOptions, setRenderingOptions] = useState(5);
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
+  const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
 
    React.useEffect(() => {
     async function fetchEncounters() {
@@ -53,7 +54,7 @@ const handleVisitClick = () => {
 	setCurrentPage(10);
 };
 
-const addHandleVisitClick = (id) => {
+const addHandleVisitClick = (id, clinicVisitNumber) => {
   // Update lastOpened for the clicked encounter
   const updatedEncounters = encounters.map((encounter) =>
     encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
@@ -65,10 +66,11 @@ const addHandleVisitClick = (id) => {
   // Set lastClicked
   setLastClicked(new Date().toLocaleString());
 
-  // Pass the encounter ID to another component or perform any other action
-  console.log(id);
+  setClinicVisitNumber(clinicVisitNumber);
+
+  // Pass the encounter ID and clinic visit number to another component or perform any other action
+  console.log(id, clinicVisitNumber);
   handleEncounterClick(id);
- 
 };
 
   return (
@@ -143,7 +145,7 @@ const addHandleVisitClick = (id) => {
           <button
             key={encounter.id}
             className="flex mt-4 mb-4 text-xs text-black"
-            onClick={() => addHandleVisitClick(encounter.id)}
+            onClick={() => addHandleVisitClick(encounter.id, encounters.length - index)}
           >
             <div className="flex justify-between w-full">
             <Image
@@ -187,7 +189,13 @@ const addHandleVisitClick = (id) => {
 
 				{currentPage === 1 ? (
 				<>
-					<ViewClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} encounterId={selectedEncounterId}/>
+					<ViewClinicVisit
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            patientId={patientId}
+            encounterId={selectedEncounterId}
+            clinicVisitNumber={clinicVisitNumber} // Pass clinic visit number here
+          />
 				</>
 			) : currentPage === 10 ? (
 				<>
