@@ -87,7 +87,7 @@ export default function DoctorInformation() {
 
 								setTimeout(() => {
 									router.push("/dashboard");
-								}, 2500);
+								}, 2000);
 							}
 						}}
 						className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
