@@ -7,9 +7,29 @@ import DrugAllergies from "./components/viewDrugAllergies";
 import FoodAllergies from "./components/viewFoodAllergies";
 import EnvAllergies from "./components/viewEnvAllergies";
 import AddAllergy from "./components/addAllergies";
-
+import { getAllergies } from "../../../../../lib/backend/patient/personal_details/master_data";
 export default function PatientAllergies() {
   const { selected } = useAllergyNav();
+  const [medication, setMedication] = React.useState([]);
+  const [food, setFood] = React.useState([]);
+  const [env, setEnv] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allergies = await getAllergies();
+
+        setMedication(allergies["json_object_agg"]["Medication"]);
+        setFood(allergies["json_object_agg"]["Food"]);
+        setEnv(allergies["json_object_agg"]["Environment"]);
+        console.log(allergies);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -24,11 +44,13 @@ export default function PatientAllergies() {
                 <AllergiesNav />
 
                 {selected === "Drug" ? (
-                  <DrugAllergies />
+                  <>
+                    <DrugAllergies allergy={medication} />
+                  </>
                 ) : selected === "Food" ? (
-                  <FoodAllergies />
+                  <FoodAllergies allergy={food} />
                 ) : selected === "Environmental" ? (
-                  <EnvAllergies />
+                  <EnvAllergies allergy={env} />
                 ) : selected === "Add Allergy" ? (
                   <AddAllergy />
                 ) : (
