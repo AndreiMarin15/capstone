@@ -57,8 +57,6 @@ const addHandleVisitClick = (id) => {
   );
 
   // Update state with the modified encounters array
-  setEncounters(updatedEncounters);
-
   // Increment currentPage
   setCurrentPage(currentPage + 1);
 
