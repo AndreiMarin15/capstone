@@ -1,56 +1,71 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FamilyHistory from "./sub_component/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
-
+import { getFamilyAndSocialHistory } from "../../../../../lib/backend/patient/personal_details/master_data";
 export default function SocialHistory() {
   const [currentPage, setCurrentPage] = useState(0);
-  const fHistory = [
-    {
-      name: "DELA CRUZ, JUANA",
-      relationship: "MOTHER",
-      value: (
-        <button
-          onClick={() => {
-            setCurrentPage(currentPage + 1);
-          }}
-        ></button>
-      ),
-    },
-    {
-      name: "DELA CRUZ, JARED",
-      relationship: "FATHER",
-      value: (
-        <button
-          onClick={() => {
-            setCurrentPage(currentPage + 2);
-          }}
-        ></button>
-      ),
-    },
-  ];
-  const sHistory = [
+  const [familyHistory, setFamilyHistory] = useState([]);
+  const [socialHistory, setSocialHistory] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const familyAndSocialHistory = await getFamilyAndSocialHistory();
+        console.log(familyAndSocialHistory);
+        setFamilyHistory(familyAndSocialHistory.familyHistory);
+        setSocialHistory(familyAndSocialHistory.socialHistory);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const tempSHistory = sHistory;
+    tempSHistory[0].value = socialHistory["smoker_status"];
+    tempSHistory[1].value = socialHistory["cigarettes_per_day"];
+    tempSHistory[2].value = socialHistory["alcohol_consumption"];
+    tempSHistory[3].value = socialHistory["physical_activities"];
+    setSHistory(tempSHistory);
+  }, [socialHistory]);
+
+  useEffect(() => {
+    const tempValue = [];
+    familyHistory.forEach((val) => {
+      tempValue.push({
+        name: `${val["last_name"]}, ${val["first_name"]}`,
+        relationship: val["relationship"],
+      });
+    });
+
+    setFHistory(tempValue);
+  }, [familyHistory]);
+
+  const [fHistory, setFHistory] = useState([]);
+  const [sHistory, setSHistory] = useState([
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/7a91cfdd5846dc05e44380ed44e3b06466dab42e135dd9885eea2acdccfe9fee?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Smoking Status",
-      value: "Active Smoker",
+      value: "-",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/65c9a72e3a94e2c92d81578df365997bc45a028f61ee1fba03762a4052e6f394?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Cigarettes Per Day",
-      value: "8",
+      value: "-",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b841c62f42d2c5d465163f55b524edf4dd643301dbe4fa2bcc0572263ffee5e1?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Alcohol",
-      value: "Moderate Drinker",
+      value: "-",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/272bfa12e1a92d2fff81cf645845a86243b21061b37393b3575f26e5a12a9821?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Physical Activities",
-      value: "Sedentary",
+      value: "-",
     },
-  ];
+  ]);
 
   const handleVisitClick = () => {
     // Increment the currentPage when the user clicks the div
