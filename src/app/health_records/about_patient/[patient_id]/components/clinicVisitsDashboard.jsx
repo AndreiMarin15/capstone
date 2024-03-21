@@ -14,12 +14,14 @@ import ClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
+
 import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
 export default function ClinicVisits() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
   const [encounters, setEncounters] = useState([]);
+  const [renderingOptions, setRenderingOptions] = useState(5);
 
   // const [visits, setVisits] = useState([
   //   {
@@ -105,11 +107,19 @@ const addHandleVisitClick = (id) => {
                 <span className="text-black text-base font-bold leading-5">
                     Rendering Options:
                 </span>
-                <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
-                    <option value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="7">7</option>
-                    <option value="10">10</option>
+                
+                <select
+                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal"
+                  onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+                  defaultValue="5"
+                >
+                  <option value="5" disabled hidden>
+                    5
+                  </option>
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                  <option value="10">10</option>
                 </select>
                 <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
                     Appointments
@@ -145,7 +155,7 @@ const addHandleVisitClick = (id) => {
             
         </div>
    
-        {encounters.slice().reverse().map((encounter, index) => (
+        {encounters.slice().reverse().slice(0, renderingOptions).map((encounter, index) => (
           <button
             key={encounter.id}
             className="flex mt-4 mb-4 text-xs text-black"
