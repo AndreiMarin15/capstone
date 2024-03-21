@@ -3,7 +3,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import { useCPNav } from "@/app/store";
-
+import ViewCarePlan from "../careplan/components/viewCarePlan";
 {
   /* TO DO: Turn into component */
 }
@@ -35,16 +35,24 @@ export default function CarePlanDashboard() {
     },
   ];
 
-  const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(currentPage + 1);
-    // Log the currentPage value to the console after incrementing
-    console.log("Current Page:", currentPage + 1);
+  const [isTest, setTest] = useState(false);
+  const handleSetCurrentScreen = (screen) => {
+    // Reset isTest to false when navigating back to screen 2
+    if (screen === 2) {
+      setTest(false);
+      
+    }
+    
   };
 
   return (
     <>
-      {currentPage === 0 ? (
+     {isTest ? (
+        <ViewCarePlan
+          currentScreen={3}
+          setCurrentScreen={handleSetCurrentScreen}
+        />
+      ) : (
         <>
           <div className="border h-full w-full bg-white flex flex-col items-center px-20 py-12 border-solid border-stone-300 max-md:px-5">
             <div className="flex w-full items-stretch justify-between gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
@@ -97,7 +105,13 @@ export default function CarePlanDashboard() {
                 </div>
               </div>
               {careplan.map((careplan, index) => (
-                <button key={careplan.careplanname}>
+                <button
+                key={index}
+                className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
+                onClick={() => {
+                  setTest(true);
+                }}
+              >
                   <div
                     key={index}
                     className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
@@ -147,9 +161,9 @@ export default function CarePlanDashboard() {
               ))}
             </div>
           </div>
+          
         </>
-      ) : (
-        ""
+   
       )}
     </>
   );
