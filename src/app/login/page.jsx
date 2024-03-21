@@ -69,25 +69,27 @@ export default function Home() {
 							onClick={async () => {
 								const user = await login.loginUser();
 
-								const type = await login.getUserType(user);
-								toast.success("Verifying Information. Please wait.", {
-									position: "top-left",
-									theme: "colored",
-									autoClose: 500,
-								});
-								setTimeout(() => {
+								await login.getUserType(user).then((type) => {
+									toast.success("Verifying Information. Please wait.", {
+										position: "top-left",
+										theme: "colored",
+										autoClose: 500,
+									});
+
+									console.log(type);
+
 									if (type === "patient") {
 										router.push("/patient/dashboard");
 									} else if (type === "doctor") {
 										router.push("/dashboard");
 									} else {
-										toast.error("User not found. Kindly retry or register.", {
+										toast.error("Failed logging in. Kindly double check your information", {
 											position: "top-left",
 											theme: "colored",
 											autoClose: 2000,
 										});
 									}
-								}, 500);
+								});
 							}}
 							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 						>
