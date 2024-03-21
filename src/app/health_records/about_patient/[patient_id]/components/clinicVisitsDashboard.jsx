@@ -10,7 +10,7 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ClinicVisit from "./sub_components/viewClinicVisit";
+import ViewClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
@@ -22,7 +22,7 @@ export default function ClinicVisits({patientId}) {
   const [lastClicked, setLastClicked] = useState(null);
   const [encounters, setEncounters] = useState([]);
   const [renderingOptions, setRenderingOptions] = useState(5);
-  
+  const [selectedEncounterId, setSelectedEncounterId] = useState("");
 
    React.useEffect(() => {
     async function fetchEncounters() {
@@ -42,7 +42,11 @@ export default function ClinicVisits({patientId}) {
   }, [patientId]);
 
 
-
+  const handleEncounterClick = (id) => {
+    setSelectedEncounterId(id); // Set the selected encounter ID
+    console.log(selectedEncounterId);
+    setCurrentPage(1);
+  };
 
 const handleVisitClick = () => {
 	// Increment the currentPage when the user clicks the div
@@ -50,21 +54,21 @@ const handleVisitClick = () => {
 };
 
 const addHandleVisitClick = (id) => {
-  setCurrentPage(currentPage + 1);
   // Update lastOpened for the clicked encounter
   const updatedEncounters = encounters.map((encounter) =>
     encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
   );
 
   // Update state with the modified encounters array
-  // Increment currentPage
-  setCurrentPage(currentPage + 1);
-
-
-
+  setEncounters(updatedEncounters);
 
   // Set lastClicked
   setLastClicked(new Date().toLocaleString());
+
+  // Pass the encounter ID to another component or perform any other action
+  console.log(id);
+  handleEncounterClick(id);
+ 
 };
 
   return (
@@ -183,7 +187,7 @@ const addHandleVisitClick = (id) => {
 
 				{currentPage === 1 ? (
 				<>
-					<ClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+					<ViewClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} encounterId={selectedEncounterId}/>
 				</>
 			) : currentPage === 10 ? (
 				<>
