@@ -22,34 +22,7 @@ export default function ClinicVisits() {
   const [lastClicked, setLastClicked] = useState(null);
   const [encounters, setEncounters] = useState([]);
   const [renderingOptions, setRenderingOptions] = useState(5);
-
-  // const [visits, setVisits] = useState([
-  //   {
-  //     id: 1,
-  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-  //     visitname: "Clinic Visit #1",
-  //     doctor: "Dr. Maria Santos",
-  //     visitdate: "Date: 2023-10-30",
-  //     lastOpened: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-  //     visitname: "Clinic Visit #2",
-  //     doctor: "Dr. John Doe",
-  //     visitdate: "Date: 2023-11-26",
-  //     lastOpened: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-  //     visitname: "Clinic Visit #3",
-  //     doctor: "Dr. Juan Gomez",
-  //     visitdate: "Date: 2024-02-14",
-  //     lastOpened: null,
-  //   },
-  // ]);
-
+  
   React.useEffect(() => {
     async function fetchEncounters() {
       try {
