@@ -7,7 +7,7 @@ export default function SocialHistory() {
   const [currentPage, setCurrentPage] = useState(0);
   const [familyHistory, setFamilyHistory] = useState([]);
   const [socialHistory, setSocialHistory] = useState({});
-
+  const [currentFamily, setCurrentFamily] = useState({});
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,7 +67,8 @@ export default function SocialHistory() {
     },
   ]);
 
-  const handleVisitClick = () => {
+  const handleVisitClick = (i) => {
+    console.log(familyHistory[i]);
     // Increment the currentPage when the user clicks the div
     setCurrentPage(currentPage + 1);
   };
@@ -84,7 +85,10 @@ export default function SocialHistory() {
             <button
               key={index}
               className="flex gap-2.5 mt-3 mb-3 text-xs text-black"
-              onClick={handleVisitClick}
+              onClick={() => {
+                setCurrentFamily(familyHistory[index]);
+                handleVisitClick(index);
+              }}
             >
               <div className="flex flex-col flex-1 text-left">
                 <div className="font-semibold whitespace-nowrap">
@@ -133,7 +137,7 @@ export default function SocialHistory() {
 
       {currentPage === 1 ? (
         <>
-          <FamilyHistory />
+          <FamilyHistory data={currentFamily} />
         </>
       ) : (
         ""

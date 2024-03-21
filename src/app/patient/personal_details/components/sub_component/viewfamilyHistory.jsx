@@ -1,6 +1,18 @@
 import Image from "next/image";
-export default function FamilyHistory() {
-  const fHistory = [
+import { useState, useEffect } from "react";
+export default function FamilyHistory({ data }) {
+  useEffect(() => {
+    const tempHistory = fHistory;
+    tempHistory[0].value = data["first_name"];
+    tempHistory[1].value = data["last_name"];
+    tempHistory[2].value = data["relationship"];
+    // tempHistory[3].value = data["doctor"];
+    tempHistory[4].value = data["medical_condition"];
+    tempHistory[5].value = data["medical_condition_date"];
+    tempHistory[6].value = data["medical_condition_outcome"];
+    // tempHistory[7].value = data["medical_condition_procedures"];
+  }, []);
+  const [fHistory, setFHistory] = useState([
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
       variable: "First Name",
@@ -41,7 +53,7 @@ export default function FamilyHistory() {
       variable: "Procedure/s",
       value: "None",
     },
-  ];
+  ]);
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
