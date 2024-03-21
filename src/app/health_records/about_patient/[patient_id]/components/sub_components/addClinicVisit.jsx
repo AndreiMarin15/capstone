@@ -2,6 +2,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AddMedications from "./addMedication";
 import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
@@ -223,10 +225,19 @@ export default function AddClinicVisit({ currentPage, setCurrentPage }) {
 
 			console.log("Data saved successfully:", savedData);
 
+			  toast.success("Clinic Visit Added", {
+				position: "top-left",
+				theme: "colored",
+				autoClose: 2000,
+			});
+
+			
+
 			// You can also update state or perform other actions after saving data
 		} catch (error) {
 			console.error("Error saving data:", error);
 		}
+		
 	};
 
 	const date = [
