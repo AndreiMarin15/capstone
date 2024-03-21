@@ -14,58 +14,76 @@ import ClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
-
+import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
 export default function ClinicVisits() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
-  const [visits, setVisits] = useState([
-    {
-      id: 1,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #1",
-      doctor: "Dr. Maria Santos",
-      visitdate: "Date: 2023-10-30",
-      lastOpened: null,
-    },
-    {
-      id: 2,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #2",
-      doctor: "Dr. John Doe",
-      visitdate: "Date: 2023-11-26",
-      lastOpened: null,
-    },
-    {
-      id: 3,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #3",
-      doctor: "Dr. Juan Gomez",
-      visitdate: "Date: 2024-02-14",
-      lastOpened: null,
-    },
-  ]);
+  const [encounters, setEncounters] = useState([]);
+
+  // const [visits, setVisits] = useState([
+  //   {
+  //     id: 1,
+  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+  //     visitname: "Clinic Visit #1",
+  //     doctor: "Dr. Maria Santos",
+  //     visitdate: "Date: 2023-10-30",
+  //     lastOpened: null,
+  //   },
+  //   {
+  //     id: 2,
+  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+  //     visitname: "Clinic Visit #2",
+  //     doctor: "Dr. John Doe",
+  //     visitdate: "Date: 2023-11-26",
+  //     lastOpened: null,
+  //   },
+  //   {
+  //     id: 3,
+  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+  //     visitname: "Clinic Visit #3",
+  //     doctor: "Dr. Juan Gomez",
+  //     visitdate: "Date: 2024-02-14",
+  //     lastOpened: null,
+  //   },
+  // ]);
+
+  React.useEffect(() => {
+    async function fetchEncounters() {
+      try {
+        const encountersData = await getEncounters();
+        setEncounters(encountersData);
+      } catch (error) {
+        console.error("Error fetching encounters:", error);
+      }
+    }
+    fetchEncounters();
+  }, []);
 
 const handleVisitClick = () => {
 	// Increment the currentPage when the user clicks the div
 	setCurrentPage(10);
 };
 
-  const addHandleVisitClick = (id) => {
-    setCurrentPage(currentPage + 1);
-    const updatedVisits = visits.map((visit) =>
-      visit.id === id ? { ...visit, lastOpened: new Date().toLocaleString() } : visit
-    );
-  
-    // Update state with the modified visits array
-    setVisits(updatedVisits);
-  
-    // Increment currentPage
-    setCurrentPage(currentPage + 1);
-  
-    // Set lastClicked
-    setLastClicked(new Date().toLocaleString());
-  };
+const addHandleVisitClick = (id) => {
+  setCurrentPage(currentPage + 1);
+  // Update lastOpened for the clicked encounter
+  const updatedEncounters = encounters.map((encounter) =>
+    encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
+  );
+
+  // Update state with the modified encounters array
+  setEncounters(updatedEncounters);
+
+  // Increment currentPage
+  setCurrentPage(currentPage + 1);
+
+
+
+
+  // Set lastClicked
+  setLastClicked(new Date().toLocaleString());
+};
 
   return (
     <>
@@ -127,25 +145,26 @@ const handleVisitClick = () => {
             
         </div>
    
-        {visits.map((item, index) => (
+        {encounters.slice().reverse().map((encounter, index) => (
           <button
-            key={index}
+            key={encounter.id}
             className="flex mt-4 mb-4 text-xs text-black"
-            onClick={() => addHandleVisitClick(item.id)}
+            onClick={() => addHandleVisitClick(encounter.id)}
           >
             <div className="flex justify-between w-full">
-              <Image
+            <Image
                 alt="image"
                 height={0}
                 width={0}
                 loading="lazy"
-                src={item.src}
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
                 className="self-start aspect-square fill-black w-[15px]"
               />
+              {/* Display encounter data */}
               <div className="flex flex-col flex-1 px-3.5 text-left">
-                <div className="font-semibold whitespace-nowrap">
-                  {item.visitname}
-                </div>
+              <div className="font-semibold whitespace-nowrap">
+                    Clinic Visit {encounters.length - index}
+                  </div>
                 <div className="flex justify-between w-fit">
                 <Image
                         alt="picture"
@@ -156,12 +175,12 @@ const handleVisitClick = () => {
                         className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                     />
                   <div className="ml-2 mr-10">
-                      {item.doctor}
+                      {encounter.resource.participant.actor}
                   </div>
-                  <div>{item.visitdate}</div>
+                  <div>{encounter.resource.period.start}</div>
+                  </div>
                 </div>
-              </div>
-              <span className="text-xs text-gray-500">Last Opened: {item.lastOpened}</span>
+              <span className="text-xs text-gray-500">Last Opened: {encounter.lastOpened}</span>
             </div>
           </button>
         ))}

@@ -9,7 +9,7 @@ import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
-import uploadEncounter from "../../../../../../../lib/backend/health_records/encounter";
+import uploadEncounter from "../../../../../../../lib/backend/health_records/uploadEncounter";
 
 export default function AddClinicVisit({ currentPage, setCurrentPage }) {
     const [clinicDate, setClinicDate] = useState("");
