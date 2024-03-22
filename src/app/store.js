@@ -141,6 +141,7 @@ export const usePatientInfo = create(
         street_address: "",
         city: "",
         state: "",
+        attendingDoctor: "",
         postal_code: "",
         photo: "",
       },

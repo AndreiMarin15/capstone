@@ -2,18 +2,17 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePatientInfo } from "@/app/store";
 import AllergyForm from "./subcomponents/allergies";
-
+import { PatientSignUp } from "../../../../lib/backend/signup/patient_signup";
 export default function SignUpPersonalInformation() {
   const patientStore = usePatientInfo();
   const [showAllergy, setshowAllergy] = useState(false);
+  const [doctors, setDoctors] = useState([]);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
 
     patientStore.setPersonalInformation({ photo: base64.toString() });
-
-    console.log(patientStore);
   };
 
   const convertToBase64 = (file) => {
@@ -31,7 +30,12 @@ export default function SignUpPersonalInformation() {
   };
 
   useEffect(() => {
-    console.log(patientStore);
+    const fetchData = async () => {
+      const doctorList = await PatientSignUp.getDoctors();
+      setDoctors(doctorList);
+    };
+
+    fetchData();
   }, [patientStore]);
 
   return (
@@ -71,16 +75,25 @@ export default function SignUpPersonalInformation() {
             </div>
             <select
               onChange={(e) => {
-                patientStore.setPersonalInformation({ gender: e.target.value });
-                console.log(patientStore.personal_information.gender);
+                patientStore.setPersonalInformation({
+                  attendingDoctor: e.target.value,
+                });
               }}
               className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
-              value={patientStore.personal_information.gender}
+              value={patientStore.personal_information.attendingDoctor}
             >
-              <option value="">Select</option>
-              <option value="doc1">John Doe</option>
-              <option value="doc2">John Doe</option>
-              <option value="doc3">John Doe</option>
+              <option value="" disabled="true">
+                Select
+              </option>
+              {doctors.map((doctor) => (
+                <>
+                  <option
+                    value={doctor["id"]}
+                  >{`${doctor["first_name"]} ${doctor["last_name"]}`}</option>
+                </>
+              ))}
+              <option value="Jane Doe">John Doe</option>
+              <option value="Grappler">John Doe</option>
             </select>
           </span>
         </div>
@@ -147,7 +160,6 @@ export default function SignUpPersonalInformation() {
             <select
               onChange={(e) => {
                 patientStore.setPersonalInformation({ gender: e.target.value });
-                console.log(patientStore.personal_information.gender);
               }}
               className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
               value={patientStore.personal_information.gender}
