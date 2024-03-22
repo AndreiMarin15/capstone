@@ -80,35 +80,7 @@ export default function ViewCarePlan({ currentScreen, setCurrentScreen }) {
               </div>
             </div>
           ))}
-          <div className="flex flex-col px-5 mt-8 text-xs max-w-[701px]">
-            <div className="w-full font-semibold text-black leading-[150%] max-md:max-w-full">
-              PATIENT FEEDBACK SURVEY
-            </div>
-            <div className="mt-5 w-full text-black max-md:max-w-full">
-              While adhering to this specific care plan, did you encounter any
-              problems or challenges?
-            </div>
-            <div className="flex gap-5 justify-between self-start mt-3 whitespace-nowrap">
-              <div className="flex gap-1.5 items-center text-red-600">
-                <Image
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/564c0694374335ea604dd3ae008baa76d5c473b8a86183f17457effdda856bdb?"
-                  className="shrink-0 self-stretch my-auto w-2.5 aspect-square"
-                />
-                <div className="self-stretch my-auto">YES</div>
-              </div>
-              <div className="flex gap-1.5 items-center text-black">
-                <div className="shrink-0 self-stretch my-auto w-2.5 h-2.5 rounded-full shadow-sm bg-zinc-300" />
-                <div className="self-stretch my-auto">NO</div>
-              </div>
-            </div>
-            <div className="mt-3.5 w-full text-black max-md:max-w-full">
-              This patient encountered problems/challenges in adhering to their
-              care plan.
-            </div>
-          </div>
+
           <BackButton
             currentScreen={currentScreen}
             setCurrentScreen={setCurrentScreen}
