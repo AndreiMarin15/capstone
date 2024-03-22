@@ -167,6 +167,8 @@ export default function Home() {
                     setTimeout(() => {
                       if (signUpAs === "Doctor") {
                         router.push("/doctor_form");
+                      } else if (signUpAs === "Other Doctor") {
+                        router.push("/other_doctor_form");
                       } else {
                         router.push("/patient_form");
                       }
