@@ -10,38 +10,51 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ClinicVisit from "./sub_components/viewClinicVisit";
+import ViewClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 
 import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
-export default function ClinicVisits() {
+export default function ClinicVisits({patientId}) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
   const [encounters, setEncounters] = useState([]);
   const [renderingOptions, setRenderingOptions] = useState(5);
-  
-  React.useEffect(() => {
+  const [selectedEncounterId, setSelectedEncounterId] = useState("");
+  const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
+
+   React.useEffect(() => {
     async function fetchEncounters() {
       try {
         const encountersData = await getEncounters();
-        setEncounters(encountersData);
+        // Filter encounters by patientId
+        const filteredEncounters = encountersData.filter(
+          (encounter) =>
+            encounter.resource.subject.reference === `Patient/${patientId}`
+        );
+        setEncounters(filteredEncounters);
       } catch (error) {
         console.error("Error fetching encounters:", error);
       }
     }
     fetchEncounters();
-  }, []);
+  }, [patientId]);
+
+
+  const handleEncounterClick = (id) => {
+    setSelectedEncounterId(id); // Set the selected encounter ID
+    console.log(selectedEncounterId);
+    setCurrentPage(1);
+  };
 
 const handleVisitClick = () => {
 	// Increment the currentPage when the user clicks the div
 	setCurrentPage(10);
 };
 
-const addHandleVisitClick = (id) => {
-  setCurrentPage(currentPage + 1);
+const addHandleVisitClick = (id, clinicVisitNumber) => {
   // Update lastOpened for the clicked encounter
   const updatedEncounters = encounters.map((encounter) =>
     encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
@@ -50,14 +63,14 @@ const addHandleVisitClick = (id) => {
   // Update state with the modified encounters array
   setEncounters(updatedEncounters);
 
-  // Increment currentPage
-  setCurrentPage(currentPage + 1);
-
-
-
-
   // Set lastClicked
   setLastClicked(new Date().toLocaleString());
+
+  setClinicVisitNumber(clinicVisitNumber);
+
+  // Pass the encounter ID and clinic visit number to another component or perform any other action
+  console.log(id, clinicVisitNumber);
+  handleEncounterClick(id);
 };
 
   return (
@@ -132,7 +145,7 @@ const addHandleVisitClick = (id) => {
           <button
             key={encounter.id}
             className="flex mt-4 mb-4 text-xs text-black"
-            onClick={() => addHandleVisitClick(encounter.id)}
+            onClick={() => addHandleVisitClick(encounter.id, encounters.length - index)}
           >
             <div className="flex justify-between w-full">
             <Image
@@ -176,11 +189,17 @@ const addHandleVisitClick = (id) => {
 
 				{currentPage === 1 ? (
 				<>
-					<ClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+					<ViewClinicVisit
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            patientId={patientId}
+            encounterId={selectedEncounterId}
+            clinicVisitNumber={clinicVisitNumber} // Pass clinic visit number here
+          />
 				</>
 			) : currentPage === 10 ? (
 				<>
-					<AddClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} />
+					<AddClinicVisit currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
 				</>
 			) : (
 				""

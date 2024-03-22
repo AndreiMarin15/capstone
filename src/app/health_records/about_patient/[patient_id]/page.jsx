@@ -88,11 +88,11 @@ export default function AboutPatient({ params }) {
 								{selected === "Master Data" ? (
 									<MasterData />
 								) : selected === "Clinic Visits" ? (
-									<ClinicVisits currentPage={currentPage} setCurrentPage={setCurrentPage} />
+									<ClinicVisits currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
 								) : selected === "Diagnoses" ? (
 									<Diagnoses />
 								) : selected === "Medications" ? (
-									<Medications />
+									<Medications  patientId={patientId}/>
 								) : selected === "Care Plans" ? (
 									<CarePlans />
 								) : selected === "Lab Tests" ? (

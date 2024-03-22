@@ -49,7 +49,7 @@ export default function CarePlanDashboard() {
     <>
      {isTest ? (
         <ViewCarePlan
-          currentScreen={3}
+          currentScreen={currentScreen}
           setCurrentScreen={handleSetCurrentScreen}
         />
       ) : (
