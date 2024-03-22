@@ -12,37 +12,37 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const current = currentUser();
-	useEffect(() => {
-		const getAuth = async () => {
-			const authData = await authentication.getSession();
-			if (authData instanceof AuthError) {
-				console.error(authData.message);
-				return;
-			}
-			if (!authData?.session?.user.id) {
-				if (
-					pathname !== "/" &&
-					pathname !== "/login" &&
-					pathname !== "/test" &&
-					pathname !== "/patient_form" &&
-					pathname !== "/doctor_form" &&
-					pathname !== "/require_auth" &&
-					!pathname.includes("/legal")
-				) {
-					router.push("/require_auth");
-				}
-			} else {
-				if (pathname === "/" || pathname === "/login" || pathname === "/test" || pathname === "/patient_form" || pathname === "/doctor_form") {
-					if (current.user.type === "patient") {
-						router.push("/patient/dashboard");
-					} else if (current.user.type === "doctor") {
-						router.push("/dashboard");
-					}
-				}
-			}
-		};
+	// useEffect(() => {
+	// 	const getAuth = async () => {
+	// 		const authData = await authentication.getSession();
+	// 		if (authData instanceof AuthError) {
+	// 			console.error(authData.message);
+	// 			return;
+	// 		}
+	// 		if (!authData?.session?.user.id) {
+	// 			if (
+	// 				pathname !== "/" &&
+	// 				pathname !== "/login" &&
+	// 				pathname !== "/test" &&
+	// 				pathname !== "/patient_form" &&
+	// 				pathname !== "/doctor_form" &&
+	// 				pathname !== "/require_auth" &&
+	// 				!pathname.includes("/legal")
+	// 			) {
+	// 				router.push("/require_auth");
+	// 			}
+	// 		} else {
+	// 			if (pathname === "/" || pathname === "/login" || pathname === "/test" || pathname === "/patient_form" || pathname === "/doctor_form") {
+	// 				if (current.user.type === "patient") {
+	// 					router.push("/patient/dashboard");
+	// 				} else if (current.user.type === "doctor") {
+	// 					router.push("/dashboard");
+	// 				}
+	// 			}
+	// 		}
+	// 	};
 
-		getAuth();
-	}, [router, pathname, current.user]);
+	// 	getAuth();
+	// }, [router, pathname, current.user]);
 	return <NextUIProvider>{children}</NextUIProvider>;
 }
