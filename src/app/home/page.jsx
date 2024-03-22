@@ -4,7 +4,7 @@ import Image from "next/image";
 import * as React from "react";
 import dashboard from "../../../lib/backend/doctor/doctor_dashboard/dashboard";
 
-export default function Dashboard() {
+export default function Home() {
   const [doctorInfo, setDoctor] = React.useState({
     photoSrc:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -96,7 +96,7 @@ export default function Dashboard() {
           <div className="flex flex-col items-stretch w-[49%] ml-5 max-md:w-full max-md:ml-0">
             <span className="flex flex-col items-stretch my-auto pt-10 max-md:max-w-full max-md:mt-10">
               <div className="text-black text-xl font-semibold leading-8 max-md:max-w-full">
-                Dashboard
+                Home
               </div>
               <div className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-5 mt-6 pl-14 pr-2.5 py-6 rounded border-solid items-start max-md:max-w-full max-md:flex-wrap max-md:pl-5">
                 <Image
@@ -151,7 +151,9 @@ export default function Dashboard() {
                   style={{ maxHeight: "300px" }}
                 >
                   <span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
-                    {managedPatients.map((patient) => (
+                    {managedPatients
+                    .filter((patient) => patient.handledBy.length = 1) // Filter patients with more than 1 doctor
+                    .map((patient) => (
                       <>
                         <div className="text-black text-xs font-semibold leading-5">
                           {patient.name}
