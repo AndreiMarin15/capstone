@@ -199,19 +199,6 @@ export default function SignUpPersonalInformation() {
         <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
             <div className="text-black text-sm font-semibold leading-5">
-              City
-            </div>
-            <input
-              type="text"
-              onChange={(e) => {
-                patientStore.setPersonalInformation({ city: e.target.value });
-              }}
-              value={patientStore.personal_information.city}
-              className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
-            />
-          </span>
-          <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
               State/Province
             </div>
             <input
@@ -220,6 +207,19 @@ export default function SignUpPersonalInformation() {
                 patientStore.setPersonalInformation({ state: e.target.value });
               }}
               value={patientStore.personal_information.state}
+              className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
+            />
+          </span>
+          <span className="items-stretch flex grow basis-[0%] flex-col self-start">
+            <div className="text-black text-sm font-semibold leading-5">
+              City
+            </div>
+            <input
+              type="text"
+              onChange={(e) => {
+                patientStore.setPersonalInformation({ city: e.target.value });
+              }}
+              value={patientStore.personal_information.city}
               className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
             />
           </span>
