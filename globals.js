@@ -6,16 +6,15 @@
 IF YOUR PAGE SHOULD NOT HAVE A NAV BAR, ADD THE ROOT PATH HERE ("/patient_form" will remove the navbar in /patient_form and its subpages)
 */
 export const noNavPaths = [
-	"/personal_information",
-	"/patient_form",
-	"/doctor_form",
-	"/login",
-	"/require_auth",
-	"/legal",
-	"/test"
+  "/personal_information",
+  "/patient_form",
+  "/doctor_form",
+  "/login",
+  "/require_auth",
+  "/test",
 ];
 
 // DO NOT USE => ONE TIME USE ONLY UNDER navbar.tsx
 export function pathIncluded(str) {
-	return noNavPaths.some((st) => str.includes(st));
+  return noNavPaths.some((st) => str.includes(st));
 }
