@@ -36,7 +36,6 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
       setTest(false);
       setAdd(false);
     }
-    
   };
 
   return (
@@ -132,14 +131,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                     <div>Active</div>
                   </div>{" "}
                 </div>
-                <div className="pr-8">
-                  <div className="flex-auto my-auto">
-                    {" "}
-                    <button className="underline text-xs leading-5 hover:text-blue-500 hover:underline">
-                      View Feedback
-                    </button>
-                  </div>
-                </div>
+                <div className="pr-8"></div>
               </div>
             </button>
           ))}
