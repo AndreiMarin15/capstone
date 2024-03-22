@@ -10,7 +10,7 @@ import ViewCarePlan from "../careplan/components/viewCarePlan";
 
 export default function CarePlanDashboard() {
   const { selected } = useCPNav();
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentScreen, setCurrentScreen] = useState(0);
 
   const careplan = [
     {
@@ -35,22 +35,16 @@ export default function CarePlanDashboard() {
     },
   ];
 
-  const [isTest, setTest] = useState(false);
-  const handleSetCurrentScreen = (screen) => {
-    // Reset isTest to false when navigating back to screen 2
-    if (screen === 2) {
-      setTest(false);
-      
-    }
-    
-  };
+
+  
 
   return (
     <>
-     {isTest ? (
+     {currentScreen === 1 ? (
+     
         <ViewCarePlan
           currentScreen={currentScreen}
-          setCurrentScreen={handleSetCurrentScreen}
+          setCurrentScreen={setCurrentScreen}
         />
       ) : (
         <>
@@ -109,7 +103,8 @@ export default function CarePlanDashboard() {
                 key={index}
                 className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
                 onClick={() => {
-                  setTest(true);
+                 
+                  setCurrentScreen(currentScreen + 1);
                 }}
               >
                   <div
