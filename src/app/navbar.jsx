@@ -8,8 +8,8 @@ import { useEffect } from "react";
 
 const navigation = [
   {
-    name: "Dashboard",
-    href: "/dashboard",
+    name: "Home",
+    href: "/home",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b8c918617a9191e94be3756699add9828c7972f6092c7a5aad4ba4bc3881ef28?",
   },
   {
@@ -41,8 +41,8 @@ const navigation = [
 
 const patientNavigation = [
   {
-    name: "Dashboard",
-    href: "/patient/dashboard",
+    name: "Home",
+    href: "/patient/home",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b8c918617a9191e94be3756699add9828c7972f6092c7a5aad4ba4bc3881ef28?",
   },
   {

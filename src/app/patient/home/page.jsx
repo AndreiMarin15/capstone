@@ -2,7 +2,7 @@
 import Image from "next/image";
 import * as React from "react";
 import dashboard from "../../../../lib/backend/patient/patient_dashboard/dashboard";
-export default function Dashboard() {
+export default function Home() {
   const [patientData, setPatient] = React.useState({
     name: "Juan Dela Cruz",
     age: 74,
@@ -32,7 +32,7 @@ export default function Dashboard() {
         <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
           <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full">
             <div className="text-xl font-semibold leading-8 mt-10 text-black max-md:max-w-full">
-              Dashboard
+              Home
             </div>
             <div className="px-16 py-8 mt-6 bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:max-w-full">
               <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
