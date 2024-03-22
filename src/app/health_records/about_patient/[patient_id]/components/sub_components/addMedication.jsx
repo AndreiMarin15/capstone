@@ -16,8 +16,8 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
  
   const [form, setForm] = useState("");
   const [duration, setDuration] = useState("");
-  const [validityStart, setValidityStart] = useState("");
-  const [validityEnd, setValidityEnd] = useState("");
+  const [validityStart, setValidityStart] = useState();
+  const [validityEnd, setValidityEnd] = useState();
   const [note, setNote] = useState("");
 
 
@@ -36,8 +36,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
           coding: [ 
               {
                   system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  code: regis, //registration number
-                  display: medicationName //generic name + brand name
+                  
               }
           ],
           name: medicationName, //generic name + brand name
@@ -46,7 +45,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
       dosageInstruction: [
         {
-            sequence: 1,
+            
             text: patientInstructions,
             doseAndRate: [
                 {
@@ -58,48 +57,40 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
             ]
         }
     ],
-
-    form: {
-      coding: [
-          {
-              system: "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
-              code: regis,
-              display: medicationName
-          }
-      ],
-      text: form,
-  },
-
     dispenseRequest: {
-      medicationCodeableConcept: {
-          coding: [
-              {
-                  system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  code: regis,
-                  display: medicationName,
-              }
-          ],
-          text: medicationName,
-      },
+      
       dispenseInterval: duration,
       validityPeriod: {
           start: validityStart,
           end: validityEnd,
+          
       },
      
   },
 
+  
+
+ 
     requester: {
       agent: {
         reference: doctorInfo
       }
     },
 
+    form: {
+      
+      text: form,
+  },
+
     note: note,
     
     resource_type: "MedicationRequest",
   };
 
+  console.log("validityStart:", validityStart);
+  console.log("validityEnd:", validityEnd);
+      console.log("Data to save:", dataToSave);
+      console.log("Validity Period:" , dataToSave.dispenseRequest.validityPeriod);
       // Call the uploadEncounter function with the data to save
       const savedData = await uploadMedication(dataToSave);
 
