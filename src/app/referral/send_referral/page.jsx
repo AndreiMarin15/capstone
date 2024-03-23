@@ -6,90 +6,12 @@ import { useRouter } from "next/navigation";
 import ReferralPatients from "../components/referralPatients";
 import ReferralDoctors from "../components/referralDoctor";
 import NotesAndReview from "../components/notesAndReview";
+import retrieveReferralData from "../../../../lib/backend/referral/retrieveReferralData";
 
 export default function SendReferral() {
-	const patients = [
-		{
-			name: "DELA CRUZ, Juan",
-			age: "70",
-			href: "",
-			src: "",
-			id: 1,
-		},
-		{
-			name: "RIZAL, Jose",
-			age: "43",
-			href: "",
-			src: "",
-			id: 2,
-		},
-		{
-			name: "BONIFACIO, Andres",
-			age: "39",
-			href: "",
-			src: "",
-			id: 3,
-		},
-		{
-			name: "QUEZON, Manuel",
-			age: "44",
-			href: "",
-			src: "",
-			id: 4,
-		},
-		{
-			name: "SORA, Tandang",
-			age: "61",
-			href: "",
-			src: "",
-			id: 5,
-		},
-		{
-			name: "LUNA, Juan",
-			age: "30",
-			href: "",
-			src: "",
-			id: 6,
-		},
-		{
-			name: "LUNA, Antonio",
-			age: "18",
-			href: "",
-			src: "",
-			id: 7,
-		},
-	];
+	const [patients, setPatients] = React.useState([]);
 
-	const doctors = [
-		{
-			name: "SKYWALKER, Anakin",
-			age: "71",
-			href: "",
-			src: "",
-			id: 1,
-		},
-		{
-			name: "SOLO, Han",
-			age: "43",
-			href: "",
-			src: "",
-			id: 2,
-		},
-		{
-			name: "KENOBI, Obi",
-			age: "39",
-			href: "",
-			src: "",
-			id: 3,
-		},
-		{
-			name: "REN, Kylo",
-			age: "44",
-			href: "",
-			src: "",
-			id: 4,
-		},
-	];
+	const [doctors, setDoctors] = React.useState([]);
 	const router = useRouter();
 	const [currentState, setCurrentState] = React.useState(1);
 	const [selectedPatientId, setSelectedPatientId] = React.useState(null);
@@ -111,39 +33,60 @@ export default function SendReferral() {
 		console.log(currentState);
 	}, [currentState]);
 
+	React.useEffect(() => {
+		console.log(patients, doctors);
+	}, [patients, doctors]);
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const patients = await retrieveReferralData.getPatients();
+			const doctors = await retrieveReferralData.getDoctors();
+
+			console.log(patients);
+
+			console.log(doctors);
+			setPatients(patients);
+			setDoctors(doctors);
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[120vh]">
 			<div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
 			<ProgressBar currentStep={currentState} />
 			<>
 				<div className={currentState === 3 ? "pb-20" : ""}>
-					{currentState === 1 ? (
-						patients.map((item) => (
-							<div key={item.id}>
-								<div
-									onClick={() => {
-										setSelectedPatientId(item.id);
-									}}
-								>
-									<ReferralPatients name={item.name} age={item.age} id={item.id} selectedId={selectedPatientId} />
-								</div>
-							</div>
-						))
-					) : currentState === 2 ? (
-						doctors.map((item) => (
-              <div key={item.id}>
-								<div
-									onClick={() => {
-										setSelectedDoctorId(item.id);
-									}}
-								>
-									<ReferralDoctors name={item.name} age={item.age} id={item.id} selectedId={selectedDoctorId} />
-								</div>
-							</div>
-							
-						))
-					) : (
-						<NotesAndReview />
+					{patients.length > 0 && doctors.length > 0 && (
+						<>
+							{currentState === 1 ? (
+								patients.map((item) => (
+									<div key={item.id}>
+										<div
+											onClick={() => {
+												setSelectedPatientId(item.id);
+											}}
+										>
+											<ReferralPatients name={item.name} age={item.age} id={item.id} selectedId={selectedPatientId} />
+										</div>
+									</div>
+								))
+							) : currentState === 2 ? (
+								doctors.map((item) => (
+									<div key={item.id}>
+										<div
+											onClick={() => {
+												setSelectedDoctorId(item.id);
+											}}
+										>
+											<ReferralDoctors name={item.name} age={item.age} id={item.id} selectedId={selectedDoctorId} />
+										</div>
+									</div>
+								))
+							) : (
+								<NotesAndReview />
+							)}
+						</>
 					)}
 				</div>
 			</>
