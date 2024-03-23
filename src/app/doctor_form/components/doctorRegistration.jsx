@@ -70,7 +70,13 @@ export default function DoctorRegistration() {
 				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
 					<span className="items-stretch flex grow basis-[0%] flex-col">
 						<div className="text-black text-sm font-semibold leading-5">Specialization</div>
-						<select className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black">
+						<select
+							onChange={(e) => {
+								doctorStore.setSpecialization_id(e.target.value);
+								console.log(doctorStore.specialization_id);
+							}}
+							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+						>
 							{Array.isArray(specializations) &&
 								specializations.map((item) => {
 									return (
