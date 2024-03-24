@@ -7,6 +7,7 @@ import PatientHealthRecordNav from "./patientHealthRecordsNav";
 import MasterData from "./components/masterDataDashboard";
 import FamilySocial from "./components/family&socialHistoryDashboard";
 import ClinicVisits from "./components/clinicVisitsDashboard";
+import VitalsBiometrics from "./components/vitalsDashboard";
 import { usePatientHRNav } from "../../store";
 
 export default function PatientData() {
@@ -32,6 +33,10 @@ export default function PatientData() {
                 ) : selected === "Family & Social History" ? (
                   <>
                     <FamilySocial />
+                  </>
+                ) : selected === "Vitals & Biometrics" ? (
+                  <>
+                    <VitalsBiometrics />
                   </>
                 ) : selected === "Clinic Visits" ? (
                   <>
