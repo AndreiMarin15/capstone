@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewCarePlan from "../careplan/components/viewCarePlan";
 import { careplanInfo } from "../../../../lib/backend/patient/careplan/careplan";
+import { currentUser } from "../../store";
 {
   /* TO DO: Turn into component */
 }
@@ -18,7 +19,7 @@ export default function CarePlanDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       const careplanInformation = await careplanInfo.getCareplanInformation(
-        "21c73d4b-e324-4844-81fd-fc5fac731600"
+        currentUser.getState().info.id
       );
       console.log(careplanInformation);
       setCareplanInfor(careplanInformation);
