@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
+import retrieveReferralData from "../../../lib/backend/referral/retrieveReferralData";
+import ReferralList from "./components/referralList";
 export default function Referral() {
 	const router = useRouter();
 	const [otp, setOtp] = React.useState(null);
@@ -11,6 +13,7 @@ export default function Referral() {
 	const [otpInput, setOTPInput] = React.useState("");
 	const user = currentUser.getState().user;
 
+	const [currentInfo, setCurrentInfo] = React.useState({});
 	const doctorInfo = {
 		name: "Dr. Johnny Santos",
 		specialty: "Cardiologist",
@@ -22,6 +25,8 @@ export default function Referral() {
 		specialty: "Gastroenterologist",
 		patient: "Juan Luna",
 	};
+
+	const [referralsList, setList] = React.useState([]);
 
 	const handleApproval = async (value, id) => {
 		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
@@ -48,7 +53,7 @@ export default function Referral() {
 			body: JSON.stringify({
 				api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
 				requested_from: "testpatient@gmail.com",
-				patient_id: "f57361cf-df10-47b7-b91f-30e19185d4a4",
+				patient_id: currentInfo.patient_id,
 			}),
 		});
 		const r = await response.json();
@@ -91,6 +96,21 @@ export default function Referral() {
 	React.useEffect(() => {
 		console.log(otpInput);
 	}, [otpInput]);
+
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const referrals = await retrieveReferralData.getReferrals();
+			console.log(referrals);
+			setList(referrals);
+			setCurrentInfo(referrals[0]);
+		};
+		fetchData();
+	}, []);
+
+	React.useEffect(() => {
+		console.log(referralsList);
+	}, [referralsList]);
+
 	const sendOTP = () => {
 		const myHeaders = new Headers();
 		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
@@ -166,61 +186,20 @@ export default function Referral() {
 				<div className="flex">
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
-						<div className="flex gap-5">
-							{/* Left side tab with bg-blue-500 */}
-							<div className="flex gap-5">
-								<div className="w-2.5 bg-blue-500 h-[129px]" />
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-									className="self-start mt-7 w-[43px]"
-								/>
-								<div className="flex flex-col flex-1 my-auto">
-									<div className="text-lg font-semibold whitespace-nowrap">
-										{doctorInfo.name}
-										<div className="text-m text-zinc-600">
-											<span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
-											<div className="mt-4 text-xs font-medium text-zinc-600">
-												<span className="font-bold">PATIENT</span>: {doctorInfo.patient}
-											</div>
-										</div>
-									</div>
+						{referralsList.map((referral) => {
+							
+							return (
+								<div key={referral.id}>
+									<ReferralList
+										setCurrentInfo={setCurrentInfo}
+										referral={referral}
+										retrieveReferralData={retrieveReferralData}
+									/>
 								</div>
-							</div>
-						</div>
+							);
+						})}
 
 						{/* Another left side tab with bg-orange-500 */}
-						<div className="flex gap-5 mt-5">
-							<div className="w-2.5 bg-orange-500 h-[129px]" />
-							<Image
-								alt="image"
-								height={0}
-								width={0}
-								loading="lazy"
-								src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-								className="self-start mt-7 w-[43px]"
-							/>
-							<div className="flex flex-col flex-1 my-auto">
-								<div className="text-lg font-semibold whitespace-nowrap">
-									{otherDoctorInfo.name}
-									<div className="text-m text-zinc-600">
-										<span className="text-zinc-300 font-medium">{otherDoctorInfo.specialty}</span>
-										<div className="mt-4 text-xs font-medium text-zinc-600">
-											<span className="font-bold">PATIENT</span>: {otherDoctorInfo.patient}
-										</div>
-										<button className="flex gap-3 mt-6 whitespace-nowrap">
-											<div className="px-2 py-2 text-white text-xs bg-sky-900 rounded max-md:px-2">Accept</div>
-											<div className="px-2 py-2 text-sky-900  text-xs rounded border border-sky-900 border-solid max-md:px-5">
-												Decline
-											</div>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 
 					{/* Right side tabs */}
@@ -240,9 +219,9 @@ export default function Referral() {
 									</div>
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
-											{doctorInfo.name}
+											{currentInfo.name}
 											<div className="text-m text-zinc-600">
-												<span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
+												<span className="text-zinc-300 font-medium">{currentInfo.specialty}</span>
 											</div>
 										</div>
 									</div>

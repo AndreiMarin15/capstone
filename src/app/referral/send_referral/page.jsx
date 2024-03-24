@@ -7,15 +7,23 @@ import ReferralPatients from "../components/referralPatients";
 import ReferralDoctors from "../components/referralDoctor";
 import NotesAndReview from "../components/notesAndReview";
 import retrieveReferralData from "../../../../lib/backend/referral/retrieveReferralData";
+import sendReferralData from "../../../../lib/backend/referral/sendReferralData";
 
 export default function SendReferral() {
+	const router = useRouter();
 	const [patients, setPatients] = React.useState([]);
 
 	const [doctors, setDoctors] = React.useState([]);
-	const router = useRouter();
+
 	const [currentState, setCurrentState] = React.useState(1);
 	const [selectedPatientId, setSelectedPatientId] = React.useState(null);
 	const [selectedDoctorId, setSelectedDoctorId] = React.useState(null);
+
+	const [selectedPatient, setSelectedPatient] = React.useState({});
+	const [selectedDoctor, setSelectedDoctor] = React.useState({});
+
+	const [notes, setNotes] = React.useState("");
+
 	const handleSelect = () => {
 		if (currentState < 3) {
 			setCurrentState(currentState + 1);
@@ -51,13 +59,15 @@ export default function SendReferral() {
 		fetchData();
 	}, []);
 
+	
+
 	return (
-		<div className="border bg-white flex flex-col items-stretch pb-8 border-solid border-stone-300 h-[120vh]">
+		<div className="bg-white flex flex-col items-stretch pb-8 h-[100vh]">
 			<div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
 			<ProgressBar currentStep={currentState} />
 			<>
-				<div className={currentState === 3 ? "pb-20" : ""}>
-					{patients.length > 0 && doctors.length > 0 && (
+				<div className={(currentState === 3 ? "pb-20" : "") + " overflow-auto"}>
+					{patients.length > 0 && doctors.length > 0 ? (
 						<>
 							{currentState === 1 ? (
 								patients.map((item) => (
@@ -65,6 +75,7 @@ export default function SendReferral() {
 										<div
 											onClick={() => {
 												setSelectedPatientId(item.id);
+												setSelectedPatient(item);
 											}}
 										>
 											<ReferralPatients name={item.name} age={item.age} id={item.id} selectedId={selectedPatientId} />
@@ -77,6 +88,7 @@ export default function SendReferral() {
 										<div
 											onClick={() => {
 												setSelectedDoctorId(item.id);
+												setSelectedDoctor(item);
 											}}
 										>
 											<ReferralDoctors name={item.name} age={item.age} id={item.id} selectedId={selectedDoctorId} />
@@ -84,9 +96,16 @@ export default function SendReferral() {
 									</div>
 								))
 							) : (
-								<NotesAndReview />
+								<NotesAndReview
+									selectedDoctor={selectedDoctor}
+									selectedPatient={selectedPatient}
+									notes={notes}
+									setNotes={setNotes}
+								/>
 							)}
 						</>
+					) : (
+						<>Loading Data...</>
 					)}
 				</div>
 			</>
@@ -122,6 +141,14 @@ export default function SendReferral() {
 					onClick={() => {
 						if (currentState < 3) {
 							setCurrentState(currentState + 1);
+						} else if (currentState === 3) {
+              const referralData = {
+                patient_id: selectedPatientId,
+                doctor_id: selectedDoctorId,
+                notes: notes,
+              };
+              sendReferralData.newReferralRequest(referralData);
+              router.push("/referral");
 						}
 					}}
 					className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
