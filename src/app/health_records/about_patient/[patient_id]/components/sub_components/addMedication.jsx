@@ -18,7 +18,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [duration, setDuration] = useState("");
   const [validityStart, setValidityStart] = useState();
   const [validityEnd, setValidityEnd] = useState();
-  const [note, setNote] = useState("");
+  const [adverseEvent, setAdverseEvent] = useState("");
 
 
 
@@ -82,15 +82,16 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
       text: form,
   },
 
-    note: note,
+    note: patientInstructions,
+
+    adverseEvent: {
+      adverseReaction: adverseEvent,
+   }, 
     
     resource_type: "MedicationRequest",
   };
 
-  console.log("validityStart:", validityStart);
-  console.log("validityEnd:", validityEnd);
       console.log("Data to save:", dataToSave);
-      console.log("Validity Period:" , dataToSave.dispenseRequest.validityPeriod);
       // Call the uploadEncounter function with the data to save
       const savedData = await uploadMedication(dataToSave);
 
@@ -268,10 +269,10 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                   onChange={(e) => {
                                       const { value } = e.target;
                                       if (item.variable === "Start Date") {
-                                          console.log(value);
+                                      
                                           setValidityStart(value);
                                       } else if (item.variable === "End Date") {
-                                          console.log(value);
+                                          
                                           setValidityEnd(value);
                                       }
                                   }}
@@ -314,14 +315,15 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                 </div>
                               </td>
                               <td>
-                              <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                  value={item.value}
+                              <textarea
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                  value={item.variable === "Possible Side Effects" ? adverseEvent : ''}
                                   onChange={(e) => {
-                                    const { value } = e.target;
-                                    setNote(value);
+                                      const { value } = e.target;
+                                      console.log(value);
+                                      setAdverseEvent(value);
                                   }}
-                                />
+                              />
                               </td>
                             </tr>
                           ))}
