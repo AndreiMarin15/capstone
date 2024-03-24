@@ -3,12 +3,16 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 import { useCPNav } from "@/app/store";
-import BackButton  from "../../../health_records/about_patient/[patient_id]/components/sub_components/BackButton";
+import BackButton from "../../../health_records/about_patient/[patient_id]/components/sub_components/BackButton";
 {
   /* TO DO: Turn into component */
 }
 
-export default function ViewCarePlan( {currentScreen, setCurrentScreen} ) {
+export default function ViewCarePlan({
+  currentScreen,
+  setCurrentScreen,
+  carePlan,
+}) {
   const { selected } = useCPNav();
   const careplan = [
     {
@@ -34,12 +38,11 @@ export default function ViewCarePlan( {currentScreen, setCurrentScreen} ) {
     },
   ];
 
-  
   const [currentScreen3, setCurrentScreen3] = useState(0);
 
   return (
     <>
-    {currentScreen3 === 0 || currentScreen === 1 ? (
+      {currentScreen3 === 0 || currentScreen === 1 ? (
         <>
           <div className="border h-full w-full bg-white flex flex-col items-center px-20 py-12 border-solid border-stone-300 max-md:px-5">
             <div className="flex w-full items-stretch justify-between gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
@@ -91,7 +94,7 @@ export default function ViewCarePlan( {currentScreen, setCurrentScreen} ) {
                   </button>
                 </div>
               </div>
-              {careplan.map((careplan, index) => (
+              {carePlan.map((careplan, index) => (
                 <div
                   key={index}
                   className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
@@ -102,28 +105,32 @@ export default function ViewCarePlan( {currentScreen, setCurrentScreen} ) {
                       height={0}
                       width={0}
                       loading="lazy"
-                      src={careplan.srccareplan}
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
                       className="aspect-square fill-black w-[15px]"
                     />
-                    <div className="my-auto">{careplan.careplanname}</div>
+
+                    <div className="my-auto">
+                      {careplan.detail.code.coding[0].display}
+                    </div>
                   </div>
 
                   <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
                     <div className="flex gap-5 text-left self-stretch w-full max-md:flex-wrap max-md:max-w-full">
                       <div className="pr-8">
-                        <span className="font-normal">{careplan.value}</span>
+                        <span className="font-normal">
+                          {careplan.detail.description}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-                <BackButton 
+              <BackButton
                 currentScreen={currentScreen}
-                setCurrentScreen={setCurrentScreen} />
+                setCurrentScreen={setCurrentScreen}
+              />
             </div>
-          
           </div>
-        
         </>
       ) : (
         ""
