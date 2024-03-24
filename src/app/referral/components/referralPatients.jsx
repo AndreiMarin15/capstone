@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ReferralPatients = ({ name, age, id, selectedId }) => {
 	const [selected, setSelected] = React.useState(false);
-
+	
 	React.useEffect(() => {
 		if (id === selectedId) {
 			setSelected(true);
@@ -20,7 +20,7 @@ const ReferralPatients = ({ name, age, id, selectedId }) => {
 	}, [selectedId]);
 
 	return (
-		<div className={"mx-5 flex flex-col w-auto max-md:w-[83%] max-md:ml-0)"}>
+		<div className={"mx-5 flex flex-col w-auto max-md:w-[83%] max-md:ml-0 "}>
 			<div
 				className={
 					selected ? "bg-blue-300 p-2 flex items-stretch gap-5" : "p-2 flex items-stretch gap-5 hover:bg-gray-50"
