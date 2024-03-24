@@ -1,55 +1,48 @@
 "use client";
 import Image from "next/image";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewCarePlan from "../careplan/components/viewCarePlan";
+import { careplanInfo } from "../../../../lib/backend/patient/careplan/careplan";
+import { currentUser } from "../../store";
 {
   /* TO DO: Turn into component */
 }
 
 export default function CarePlanDashboard() {
   const { selected } = useCPNav();
-  const [currentPage, setCurrentPage] = useState(0);
+  const [careplanInfor, setCareplanInfor] = useState([]);
+  const [currentScreen, setCurrentScreen] = useState(0);
+  const [carePlan, setCarePlan] = useState({});
 
-  const careplan = [
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "CARE PLAN #1",
-      srcdoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Collaborated with Dr. Maria Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "CARE PLAN #2",
-      srcdoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Collaborated with Dr. Johnny Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const careplanInformation = await careplanInfo.getCareplanInformation(
+        currentUser.getState().info.id
+      );
+      console.log(careplanInformation);
+      setCareplanInfor(careplanInformation);
+    };
+
+    fetchData();
+  }, []);
 
   const [isTest, setTest] = useState(false);
   const handleSetCurrentScreen = (screen) => {
     // Reset isTest to false when navigating back to screen 2
-    if (screen === 2) {
-      setTest(false);
-      
-    }
-    
+    setCurrentScreen(screen);
+    // if (screen === 2) {
+    //   setTest(false);
+    // }
   };
 
   return (
     <>
-     {isTest ? (
+      {currentScreen == 1 ? (
         <ViewCarePlan
           currentScreen={currentScreen}
+          carePlan={carePlan?.activity}
           setCurrentScreen={handleSetCurrentScreen}
         />
       ) : (
@@ -104,66 +97,57 @@ export default function CarePlanDashboard() {
                   </button>
                 </div>
               </div>
-              {careplan.map((careplan, index) => (
-                <button
-                key={index}
-                className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
-                onClick={() => {
-                  setTest(true);
-                }}
-              >
-                  <div
+              {careplanInfor &&
+                careplanInfor.map((value, index) => (
+                  <button
                     key={index}
-                    className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
+                    className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
+                    onClick={() => {
+                      setCarePlan(value.resource);
+                      setCurrentScreen(1);
+                    }}
                   >
-                    <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
-                      <Image
-                        alt="image"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src={careplan.srccareplan}
-                        className="aspect-square fill-black w-[15px]"
-                      />
-                      <div className="my-auto">{careplan.careplanname}</div>
-                    </div>
-                    <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
-                      <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                    <div className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]">
+                      <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                         <Image
                           alt="image"
                           height={0}
                           width={0}
                           loading="lazy"
-                          src={careplan.srcdoctor}
-                          className="w-4 aspect-square"
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                          className="aspect-square fill-black w-[15px]"
                         />
-                        <div className="grow my-auto">{careplan.doctor}</div>
-                        <div className=" ml-16 justify-between flex-auto my-auto">{`${careplan.startdate} - ${careplan.enddate}`}</div>
+                        <div className="my-auto">
+                          {value["resource"]?.["title"]}
+                        </div>
                       </div>
-
-                      {/* {careplan.doctor === "Dr. John Doe" && (
-                    <div className="flex-auto ml-96">
-                      <span className="">
-                        <button className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-                          Edit
-                        </button>
-                      </span>
-                      <span className="">
-                        <button className="ml-2 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-                          Discontinue
-                        </button>
-                      </span>
+                      <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
+                        <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                            className="w-4 aspect-square"
+                          />
+                          <div className="grow my-auto">
+                            {value["resource"]?.contributor.length === 1
+                              ? value["resource"]?.contributor[0].display
+                              : value["resource"]?.contributor[0].display +
+                                ` +${
+                                  value["resource"]?.contributor.length - 1
+                                } other/s`}
+                          </div>
+                          <div className=" ml-16 justify-between flex-auto my-auto">{`${value.resource?.period.start} - ${value.resource?.period.end}`}</div>
+                        </div>
+                      </div>
                     </div>
-                  )} */}
-                    </div>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                ))}
             </div>
           </div>
-          
         </>
-   
       )}
     </>
   );
