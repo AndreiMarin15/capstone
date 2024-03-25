@@ -30,7 +30,7 @@ export default function ReferralList({ setCurrentInfo, referral, retrieveReferra
 								<div className="mt-4 text-xs font-medium text-zinc-600">
 									<span className="font-bold">PATIENT</span>: {referral.patient}
 								</div>
-								{displayAccept && (
+								{true && (
 									<div className="flex gap-3 mt-6 whitespace-nowrap">
 										<button
 											onClick={async () => {
