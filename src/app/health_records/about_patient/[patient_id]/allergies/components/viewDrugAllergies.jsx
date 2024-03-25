@@ -10,79 +10,61 @@ import {
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-export default function DrugAllergies() {
+const rowdata = ({
+  allergen,
+  comments,
+  reactions,
+  date_of_onset,
+  severity_of_allergy,
+}) => {
+  return (
+    <tr>
+      <td>{allergen}</td>
+      <td>
+        <ol class="list-decimal list-inside">
+          {reactions.map((item, index) => (
+            <li key={index}>{item.description}</li>
+          ))}
+        </ol>
+      </td>
+      <td>{severity_of_allergy || "mild"}</td>
+      <td>{date_of_onset || "mm-dd-yyy"}</td>
+      <td>{comments || "N/A"}</td>
+    </tr>
+  );
+};
+export default function DrugAllergies({ allergy, patientId }) {
   const router = useRouter();
-  const mData = [
-    {
-      variable: "Drug",
-      value: "Morphine",
-    },
-    {
-      variable: "Reactions",
-      value: "Arrythmia",
-    },
-    {
-      variable: "Severity",
-      value: "Moderate",
-    },
-    {
-      variable: "Onset Date",
-      value: "2004-01-13",
-    },
-    {
-      variable: "Comments",
-      value: "N/A",
-    },
-  ];
+  const header = ["Drug", "Reactions", "Severity", "Onset Date", "Comments"];
+  if (!allergy) return <p>Still Loading</p>;
 
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
         DRUG ALLERGIES
-        <button className="flex gap-1.5 justify-end text-xs text-blue-800 whitespace-nowrap">
-          <div className="flex gap-1.5 justify-between px-8 py-1.5 rounded border border-blue-800 border-solid">
-            <div>Add Allergy</div>
-          </div>
-        </button>
       </div>
 
       <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
         <thead>
           <tr className="font-medium text-left">
-            {mData.map((item, index) => (
-              <th key={index}>{item.variable}</th>
+            {header.map((item, index) => (
+              <th key={index}>{item}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            {mData.map((item, index) => (
-              <td
-                key={index}
-                className={`${index === 0 ? "font-normal" : "mt-8"}`}
-              >
-                {typeof item.value === "object" ? (
-                  <button
-                    className="font-semibold text-sky-900 rounded px-5 py-1.5 border border-sky-900"
-                    onClick={item.value.onClick}
-                  >
-                    {item.value.label}
-                  </button>
-                ) : (
-                  item.value
-                )}
-              </td>
-            ))}
-          </tr>
+          {allergy &&
+            allergy.map((item) => {
+              return <>{rowdata({ ...item })}</>;
+            })}
         </tbody>
       </table>
 
-          {/* BACK BUTTON */}
-        <div className="w-full flex justify-between max-md:max-w-full mt-10 max-md:px-5">
-        
+      {/* BACK BUTTON */}
+      <div className="w-full flex justify-between max-md:max-w-full mt-10 max-md:px-5">
         <button
           onClick={() => {
-            router.push("/health_records/about_patient");
+            router.push(`/health_records/about_patient/${patientId}`);
           }}
           className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
         >
