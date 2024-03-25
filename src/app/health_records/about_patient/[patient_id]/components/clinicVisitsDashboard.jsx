@@ -34,9 +34,11 @@ export default function ClinicVisits({patientId}) {
         // Filter encounters by patientId
         const filteredEncounters = encountersData.filter(
           (encounter) =>
-            encounter.resource.subject.reference === `Patient/${patientId}`
+            encounter.resource.subject.reference === patientId
         );
+        console.log("Encounters Data:", encountersData);
         setEncounters(filteredEncounters);
+        console.log("Filtered Encounters:", filteredEncounters);
       } catch (error) {
         console.error("Error fetching encounters:", error);
       }
