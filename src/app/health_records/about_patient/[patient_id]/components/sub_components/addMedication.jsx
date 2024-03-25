@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BackButton from "./BackButton";
 import uploadMedication from "../../../../../../../lib/backend/health_records/uploadMedication";
 import { formatDuration } from "date-fns/esm";
@@ -8,9 +8,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
 
+
 export default function AddMedications({ currentScreen, setCurrentScreen, patientId }) {
   const [regis, setRegis] = useState("");
+
   const [medicationName, setMedicationName] = useState("");
+  const [medications, setMedications] = useState([]);
+  const [filteredMedications, setFilteredMedications] = useState([]);
+
+  
   const [patientInstructions, setPatientInstructions] = useState("");
   const [doseUnit, setDoseUnit] = useState(null);
  
@@ -19,6 +25,9 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [validityStart, setValidityStart] = useState();
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
+
+
+
 
 
 
@@ -207,7 +216,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                   const { value } = e.target;
                                   switch (item.variable) {
                                     case "Medicine Name":
-                                      setMedicationName(value);
+                                      setMedicationName(e.target.value)
                                       break;
                                     case "Dose and Unit":
                                       setDoseUnit(value);
@@ -228,6 +237,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                               />
                               </td>
                             </tr>
+                            
                           ))}
                         </tbody>
                       </table>
