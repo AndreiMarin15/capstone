@@ -12,6 +12,7 @@ export const noNavPaths = [
   "/login",
   "/require_auth",
   "/test",
+  "/legal",
 ];
 
 // DO NOT USE => ONE TIME USE ONLY UNDER navbar.tsx
