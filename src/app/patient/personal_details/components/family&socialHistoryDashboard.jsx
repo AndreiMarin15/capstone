@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import FamilyHistory from "./sub_component/viewfamilyHistory";
+import FamilyHistory from "./sub_components/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
 import { getFamilyAndSocialHistory } from "../../../../../lib/backend/patient/personal_details/master_data";
 export default function SocialHistory() {
