@@ -238,6 +238,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 		} catch (error) {
 			console.error("Error saving data:", error);
 		}
+
+		setCurrentPage(0);
 		
 	};
 
