@@ -38,7 +38,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 				period: {
 					start: clinicDate,
 				},
-				participant:{
+				participant: {
 					type: "Doctor",
 					actor: doctorInfo,
 				},
