@@ -104,7 +104,7 @@ export default function AboutPatient({ params }) {
                 ) : selected === "Medications" ? (
                   <Medications patientId={patientId} />
                 ) : selected === "Care Plans" ? (
-                  <CarePlans />
+                  <CarePlans patientId={patientId} />
                 ) : selected === "Lab Tests" ? (
                   <LabTests />
                 ) : selected === "Vitals & Biometrics" ? (
