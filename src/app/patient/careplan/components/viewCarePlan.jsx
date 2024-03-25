@@ -19,7 +19,7 @@ export default function ViewCarePlan({
 
   return (
     <>
-      {currentScreen3 === 0 || currentScreen === 1 ? (
+      {currentScreen === 1 ? (
         <>
           <div className="border h-full w-full bg-white flex flex-col items-center px-20 py-12 border-solid border-stone-300 max-md:px-5">
             <div className="flex w-full items-stretch justify-between gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">

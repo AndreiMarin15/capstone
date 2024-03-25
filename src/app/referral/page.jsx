@@ -37,7 +37,7 @@ export default function Referral() {
 			body: JSON.stringify({
 				id: id,
 				status: value,
-				patient_id: "f57361cf-df10-47b7-b91f-30e19185d4a4",
+				patient_id: currentInfo.patient_id,
 			}),
 		});
 
@@ -187,7 +187,6 @@ export default function Referral() {
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
 						{referralsList.map((referral) => {
-							
 							return (
 								<div key={referral.id}>
 									<ReferralList
