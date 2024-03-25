@@ -1,15 +1,24 @@
 import Image from "next/image";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
 import AddVitals from "./sub_components/addVitals";
-
+import { getVitalsAndBiometrics } from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
 export default function Vitals() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [vitalsAndBio, setVitalsAndBio] = useState(0);
   const [selectedMetric, setSelectedMetric] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getVitalsAndBiometrics();
+      setVitalsAndBio(data);
+      console.log(data);
+    };
+    fetchData();
+  }, []);
 
   const vitals = [
     {

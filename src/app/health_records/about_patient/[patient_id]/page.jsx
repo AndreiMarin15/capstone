@@ -111,7 +111,7 @@ export default function AboutPatient({ params }) {
                   <Vitals />
                 ) : selected === "Family & Social History" ? (
                   <>
-                    <FamilySocialHistory />
+                    <FamilySocialHistory patientId={patientId} />
                   </>
                 ) : (
                   ""
