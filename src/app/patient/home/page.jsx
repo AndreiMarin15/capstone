@@ -158,7 +158,7 @@ export default function Home() {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
                 className="w-5 aspect-[1.18] fill-black"
               />
-              <div className="flex-auto">Recent Activity</div>
+              <div className="flex-auto">Notifications</div>
             </div>
             <div className="flex flex-col pt-2.5 pr-12 pb-4 pl-5 mt-8 w-full bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:pr-5">
               <div className="flex gap-2.5 justify-between font-medium whitespace-nowrap leading-[150%]">

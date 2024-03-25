@@ -86,7 +86,7 @@ export default function DoctorInformation() {
 								});
 
 								setTimeout(() => {
-									router.push("/dashboard");
+									router.push("/home");
 								}, 2000);
 							}
 						}}

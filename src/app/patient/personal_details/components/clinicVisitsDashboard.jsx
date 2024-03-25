@@ -10,7 +10,7 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ClinicVisit from "./sub_component/viewClinicVisit";
+import ClinicVisit from "./sub_components/viewClinicVisit";
 import * as React from "react";
 
 export default function ClinicVisits() {

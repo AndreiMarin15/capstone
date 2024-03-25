@@ -94,7 +94,7 @@ export default function PatientInformation() {
 										const account = await patientSignUp.signUpAsPatient(user, patientInfo);
 
 										if (account.user) {
-											router.push("/patient/dashboard");
+											router.push("/patient/home");
 										} else {
 											toast.error(account.message, {
 												position: "top-left",
