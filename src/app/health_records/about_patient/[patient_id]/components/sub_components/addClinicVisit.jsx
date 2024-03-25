@@ -57,7 +57,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "cm",
@@ -74,7 +77,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "mmHg",
@@ -91,7 +97,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "mmHg",
@@ -108,7 +117,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						valueString: reviewOfSystems,
 						resource_type: "Observation",
 					},
@@ -122,7 +134,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "kg",
@@ -139,7 +154,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						valueString: signsAndSymptoms,
 						resource_type: "Observation",
 					},
@@ -153,7 +171,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "kg/m2",
@@ -170,7 +191,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						resource_type: "Observation",
 						valueQuantity: {
 							unit: "beats/minute",
@@ -187,7 +211,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						valueString: diagnosis,
 						resource_type: "Observation",
 					},
@@ -201,7 +228,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						valueString: otherConcerns,
 						resource_type: "Observation",
 					},
@@ -215,7 +245,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 								},
 							],
 						},
-						subject: "sample_id",
+						subject:{
+							type: "Patient",
+							reference: patientData.id
+						},
 						valueString: suggestedClinicDate,
 						resource_type: "Observation",
 					},
