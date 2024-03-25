@@ -410,10 +410,9 @@ export default function AddAllergy({ onAdd, patientId }) {
           ))}
         </table>
         <button
-          onClick={() => {
+          onClick={async () => {
             if (saved === false) {
-              updateAddAllergiesDoctor(patientId, allergy);
-              handleButtonClick();
+              await updateAddAllergiesDoctor(patientId, allergy);
               setSaved(true);
 
               setAllergy({
@@ -428,6 +427,7 @@ export default function AddAllergy({ onAdd, patientId }) {
               setTimeout(() => {
                 setSaved(false);
               }, 500);
+              handleButtonClick();
             }
           }}
           className={
