@@ -96,12 +96,12 @@ const patientNavigation = [
 const otherDoctorNavigation = [
   {
     name: "Referral",
-    href: "/referral",
+    href: "/other_doctor/referrals",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a5e4e41b96b3a1133c733ca6c34896fe7a85b581c2bce0b6d63f16bd85dd4deb?",
   },
   {
     name: "Account",
-    href: "/patient/account",
+    href: "/other_doctor/account",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
   },
 ];

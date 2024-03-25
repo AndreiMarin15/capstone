@@ -402,7 +402,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																onClick={() => {
 																	setCurrentScreen(item.component);
 																}}
-																className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+																className="flex gap-1.5 justify-between px-8 py-1 rounded  border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
 															>
 																{item.variable === "Tests" ? "Record" : "Add"}
 															</button>
@@ -411,7 +411,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																	onClick={() => {
 																		setCurrentScreen(item.requestcomponent);
 																	}}
-																	className="flex gap-1.5 justify-between px-8 py-1 rounded border border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+																	className="flex gap-1.5 justify-between px-8 py-1 rounded  border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
 																>
 																	Request
 																</button>
@@ -584,7 +584,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 						<div>
 							<button
 								onClick={handleSave}
-								className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+								className="flex items-center justify-center px-5 py-1 rounded  border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
 							>
 								SAVE
 							</button>

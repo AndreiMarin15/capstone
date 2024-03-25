@@ -408,10 +408,9 @@ export default function AddAllergy({ onAdd }) {
           ))}
         </table>
         <button
-          onClick={() => {
+          onClick={async () => {
             if (saved === false) {
-              updateAddAllergies(allergy);
-              handleButtonClick();
+              await updateAddAllergies(allergy);
               setSaved(true);
 
               setAllergy({
@@ -426,6 +425,7 @@ export default function AddAllergy({ onAdd }) {
               setTimeout(() => {
                 setSaved(false);
               }, 500);
+              handleButtonClick();
             }
           }}
           className={

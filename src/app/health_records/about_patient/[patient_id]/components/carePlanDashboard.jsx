@@ -1,55 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
-export default function CarePlan({ currentScreen, setCurrentScreen }) {
-  const careplan = [
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "CARE PLAN #1",
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Collaborated with Dr. Maria Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
+import { careplanInfo } from "../../../../../../lib/backend/patient/careplan/careplan";
+export default function CarePlan({ patientId }) {
+  const [careplanInfor, setCareplanInfor] = useState([]);
+  const [currentScreen, setCurrentScreen] = useState(0);
+  const [carePlan, setCarePlan] = useState({});
 
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "CARE PLAN #2",
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Collaborated with Dr. Johnny Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const careplanInformation =
+        await careplanInfo.getCareplanInformation(patientId);
+      console.log(careplanInformation);
+      setCareplanInfor(careplanInformation);
+    };
+
+    fetchData();
+  }, []);
 
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
-  const handleSetCurrentScreen = (screen) => {
-    // Reset isTest to false when navigating back to screen 2
-    if (screen === 2) {
-      setTest(false);
-      setAdd(false);
-    }
+  const handleSetCurrentScreen = () => {
+    setTest(false);
+    setAdd(false);
   };
 
   return (
     <>
       {isTest ? (
         <ViewCarePlan
-          currentScreen={3}
+          carePlan={carePlan?.activity}
           setCurrentScreen={handleSetCurrentScreen}
         />
       ) : isAdd ? (
-        <AddCarePlan
-          currentScreen={4}
-          setCurrentScreen={handleSetCurrentScreen}
-        />
+        <AddCarePlan setCurrentScreen={handleSetCurrentScreen} />
       ) : (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
@@ -57,7 +43,6 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
             <button
               className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
               onClick={() => {
-                setTest(false);
                 setAdd(true);
               }}
             >
@@ -81,6 +66,7 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
                   width="100"
                   height="100"
                   className="shrink-0 w-3 aspect-[0.85]"
+                  alt="image"
                 />
                 <div className="self-start">FILTER</div>
               </button>
@@ -89,52 +75,62 @@ export default function CarePlan({ currentScreen, setCurrentScreen }) {
               </button>
             </div>
           </div>
-          {careplan.map((careplan, index) => (
-            <button
-              key={index}
-              className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
-              onClick={() => {
-                setTest(true);
-                setAdd(false);
-              }}
-            >
-              <div className="flex gap-3.5 font-semibold whitespace-nowrap">
-                <Image
-                  alt="image"
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src={careplan.srccareplan}
-                  className="aspect-square fill-black w-[15px]"
-                />
-                <div className="my-auto">{careplan.careplanname}</div>
-              </div>
-
-              <div className="flex gap-5 justify-between self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
-                <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+          {careplanInfor &&
+            careplanInfor.map((careplan, index) => (
+              <button
+                key={index}
+                className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
+                onClick={() => {
+                  setCarePlan(careplan.resource);
+                  setTest(true);
+                }}
+              >
+                <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                   <Image
                     alt="image"
                     height={0}
                     width={0}
                     loading="lazy"
-                    src={careplan.srccareplan}
-                    className="w-4 aspect-square"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                    className="aspect-square fill-black w-[15px]"
                   />
-                  <div className="grow my-auto">{careplan.doctor}</div>
+                  <div className="my-auto">
+                    {careplan["resource"]?.["title"]}
+                  </div>
                 </div>
-                <div className="pr-8">
-                  <div className="flex-auto my-auto">{`${careplan.startdate} - ${careplan.enddate}`}</div>
+
+                <div className="flex gap-5 justify-between self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
+                  <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                    <Image
+                      alt="image"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                      className="w-4 aspect-square"
+                    />
+                    <div className="grow my-auto">
+                      {careplan["resource"]?.contributor.length === 1
+                        ? careplan["resource"]?.contributor[0].display
+                        : careplan["resource"]?.contributor[0].display +
+                          ` +${
+                            careplan["resource"]?.contributor.length - 1
+                          } other/s`}
+                    </div>
+                  </div>
+                  <div className="pr-8">
+                    <div className="flex-auto my-auto">{`${careplan.resource?.period.start} - ${careplan.resource?.period.end}`}</div>
+                  </div>
+                  <div className="pr-8">
+                    <div className="flex gap-2 px-5 text-xs leading-5 text-black whitespace-nowrap">
+                      <div className="shrink-0 self-start mt-2 w-2 h-2 bg-green-700 rounded-full" />
+                      <div>Active</div>
+                    </div>{" "}
+                  </div>
+                  <div className="pr-8"></div>
                 </div>
-                <div className="pr-8">
-                  <div className="flex gap-2 px-5 text-xs leading-5 text-black whitespace-nowrap">
-                    <div className="shrink-0 self-start mt-2 w-2 h-2 bg-green-700 rounded-full" />
-                    <div>Active</div>
-                  </div>{" "}
-                </div>
-                <div className="pr-8"></div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
 
           <BackButton />
         </>

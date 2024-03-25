@@ -6,6 +6,7 @@ import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import retrieveReferralData from "../../../lib/backend/referral/retrieveReferralData";
 import ReferralList from "./components/referralList";
+
 export default function Referral() {
 	const router = useRouter();
 	const [otp, setOtp] = React.useState(null);
@@ -174,7 +175,7 @@ export default function Referral() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("/referral/send_referral");
+								router.push("/other_doctor/referrals/send_referral");
 							}}
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
@@ -218,57 +219,61 @@ export default function Referral() {
 									</div>
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
-											{currentInfo.name}
+											{currentInfo?.name ? currentInfo.name : ""}
 											<div className="text-m text-zinc-600">
-												<span className="text-zinc-300 font-medium">{currentInfo.specialty}</span>
+												<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
-								<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
-									<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+							{currentInfo?.name && (
+								<div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
+									<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
+										<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+											<Image
+												alt="image"
+												height={0}
+												width={0}
+												loading="lazy"
+												src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+												className="self-start w-7 aspect-square ml-2"
+											/>
+
+											<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
+												{"Hello, let's collaborate with this patient"}
+											</div>
+										</div>
+										<div className="flex gap-4 self-end mt-6 text-white">
+											<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
+												{"Sure, I'd like to view the patient's records. I'll pull in a while."}
+											</div>
+											<Image
+												alt="image"
+												height={0}
+												width={0}
+												loading="lazy"
+												src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+												className="self-start w-7 aspect-square "
+											/>
+										</div>
+									</div>
+									<div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
 										<Image
 											alt="image"
 											height={0}
 											width={0}
 											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-											className="self-start w-7 aspect-square ml-2"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+											className="self-start w-7 aspect-square ml-8"
 										/>
-										<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-											{"Hello, let's collaborate with this patient"}
+										<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
+											{"Great. Update me after and let's talk about how to manage this patient again."}
 										</div>
 									</div>
-									<div className="flex gap-4 self-end mt-6 text-white">
-										<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
-											{"Sure, I'd like to view the patient's records. I'll pull in a while."}
-										</div>
-										<Image
-											alt="image"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-											className="self-start w-7 aspect-square "
-										/>
-									</div>
 								</div>
-								<div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-									<Image
-										alt="image"
-										height={0}
-										width={0}
-										loading="lazy"
-										src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-										className="self-start w-7 aspect-square ml-8"
-									/>
-									<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-										{"Great. Update me after and let's talk about how to manage this patient again."}
-									</div>
-								</div>
-							</div>
+							)}
+
 							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-">
 								<div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
 									<input type="text" placeholder="Message..." style={{ width: "100%", height: "300%" }} />

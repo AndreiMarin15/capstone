@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProgressBarReferral = ({ currentStep }) => {
-	const steps = ["Select Patient(s)", "Notes and Review"];
+	const steps = ["Select Patient(s)", "Select Doctor(s)", "Notes and Review"];
 
 	return (
 		<div className="flex items-center justify-center pt-10 pb-10 pl-10 pr-10">
@@ -18,7 +18,7 @@ const ProgressBarReferral = ({ currentStep }) => {
 						<div className="mt-2 text-sm">{step}</div>
 					</div>
 					{index < steps.length - 1 && (
-						// This is the line connecting the circles. 
+						// This is the line connecting the circles. You can edit its properties here.
 						<div
 							className={`h-[1px] mx-0 mb-6 ${currentStep > index + 1 ? "bg-blue-500" : "bg-gray-500"}`}
 							style={{ width: "300px" }}
