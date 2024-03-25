@@ -3,6 +3,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import BackButton from "./BackButton";
 import uploadMedication from "../../../../../../../lib/backend/health_records/uploadMedication";
+import { retrieveMedications } from "../../../../../../../lib/backend/health_records/getMedication";
 import { formatDuration } from "date-fns/esm";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +14,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [regis, setRegis] = useState("");
 
   const [medicationName, setMedicationName] = useState("");
+  const [name, setName] = useState("");
   const [medications, setMedications] = useState([]);
   const [filteredMedications, setFilteredMedications] = useState([]);
 
@@ -27,7 +29,19 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [adverseEvent, setAdverseEvent] = useState("");
 
 
+  useEffect(() => {
+    // Fetch medications when the component mounts
+    const fetchMedications = async () => {
+      try {
+        const meds = await retrieveMedications();
+        setMedications(meds);
+      } catch (error) {
+        console.error("Error fetching medications:", error);
+      }
+    };
 
+    fetchMedications();
+  }, []);
 
 
 
@@ -48,7 +62,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                   
               }
           ],
-          name: medicationName, //generic name + brand name
+          name: name,
          },
         ],
 
@@ -177,7 +191,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD MEDICATION
           </div>
-
+  
           <div>
             <div className="flex flex-col max-w-[914px]">
               <div className="w-full max-md:max-w-full">
@@ -190,54 +204,129 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                       <table className="w-full">
                         <tbody>
                           {dosage.map((item, index) => (
-                            <tr
-                              key={index}
-                              className="flex gap-5 justify-between mt-6 w-full"
-                            >
-                              <td className="flex gap-2 my-auto font-semibold text-black">
-                                <Image
-                                  alt="image"
-                                  height={0}
-                                  width={0}
-                                  loading="lazy"
-                                  src={item.src}
-                                  className="aspect-[1.14] fill-black w-[17px]"
-                                />
-                                <div className="flex-auto my-auto">
-                                  {item.variable}
-                                </div>
-                              </td>
-                              <td>
-                              <input
-                                type="text"
-                                className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
-                                value={item.variable === "Medicine Name" ? medicationName : item.variable === "Dose and Unit" ? doseUnit : item.variable === "Form" ? form : item.variable === "Frequency" ? duration : patientInstructions}
-                                onChange={(e) => {
-                                  const { value } = e.target;
-                                  switch (item.variable) {
-                                    case "Medicine Name":
-                                      setMedicationName(e.target.value)
-                                      break;
-                                    case "Dose and Unit":
-                                      setDoseUnit(value);
-                                      break;
-                                    case "Form":
-                                      setForm(value);
-                                      break;
-                                    case "Frequency":
-                                      setDuration(value);
-                                      break;
-                                    case "Patient Instructions":
-                                      setPatientInstructions(value);
-                                      break;
-                                    default:
-                                      break;
-                                  }
-                                }}
-                              />
-                              </td>
+                            <tr key={index} className="flex gap-5 justify-between mt-6 w-full">
+                              {item.variable !== "Medicine Name" ? (
+                                <>
+                                  <td className="flex gap-2 my-auto font-semibold text-black">
+                                    <Image
+                                      alt="image"
+                                      height={0}
+                                      width={0}
+                                      loading="lazy"
+                                      src={item.src}
+                                      className="aspect-[1.14] fill-black w-[17px]"
+                                    />
+                                    <div className="flex-auto my-auto">{item.variable}</div>
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                      value={
+                                        item.variable === "Dose and Unit"
+                                          ? doseUnit
+                                          : item.variable === "Form"
+                                          ? form
+                                          : item.variable === "Frequency"
+                                          ? duration
+                                          : patientInstructions
+                                      }
+                                      onChange={(e) => {
+                                        const { value } = e.target;
+                                        switch (item.variable) {
+                                          case "Dose and Unit":
+                                            setDoseUnit(value);
+                                            break;
+                                          case "Form":
+                                            setForm(value);
+                                            break;
+                                          case "Frequency":
+                                            setDuration(value);
+                                            break;
+                                          case "Patient Instructions":
+                                            setPatientInstructions(value);
+                                            break;
+                                          default:
+                                            break;
+                                        }
+                                      }}
+                                    />
+                                  </td>
+                                </>
+                              ) : (
+                                <>
+                                  <td className="flex gap-2 my-auto font-semibold text-black">
+                                    <Image
+                                      alt="image"
+                                      height={0}
+                                      width={0}
+                                      loading="lazy"
+                                      src={item.src}
+                                      className="aspect-[1.14] fill-black w-[17px]"
+                                    />
+                                    <div className="flex-auto my-auto">{item.variable}</div>
+                                  </td>
+                                  <td>
+                                  <div className="inline-block relative">
+                                    <textarea
+                                      value={medicationName}
+                                      onChange={(e) => {
+                                          const inputValue = e.target.value.toLowerCase();
+                                          const filteredMeds = medications.filter(medication => {
+                                              const genericName = medication["Generic Name"]?.toLowerCase() || "";
+                                              const brandName = medication["Brand Name"]?.toLowerCase() || "";
+                                              return genericName.includes(inputValue) || brandName.includes(inputValue);
+                                          });
+                                          setFilteredMedications(filteredMeds);
+                                          setMedicationName(e.target.value);
+                                        
+                                      }}
+                                      className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
+                                      style={{ height: 'auto' }}
+                                      placeholder="Search for medication..."
+                                  />
+                                    {filteredMedications.length > 0 && (
+                                      <ul
+                                        style={{
+                                          listStyle: "none",
+                                          padding: "unset",
+                                          margin: "unset",
+                                          position: "absolute",
+                                          width: "calc(100% - 4px)", // Subtract 4px for the border width
+                                          maxHeight: "200px", // Adjust the maximum height as needed
+                                          overflowY: "auto", // Enable vertical scrolling if needed
+                                          overflowX: "hidden",
+                                          
+                                        }}
+                                      >
+                                        {filteredMedications.map((med) => (
+                                          <li
+                                            key={med["Registration Number"]}
+                                            className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+                                          >
+                                            <button
+                                              className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                                              onClick={() => {
+                                                console.log(`Gen + Brand Name: ${med["Generic Name"]} - ${med["Brand Name"]}`);
+                                                setMedicationName(`${med["Generic Name"]} - ${med["Brand Name"]}`);
+                                                console.log(`Brand Name: ${med["Brand Name"]}`);
+                                                setName(`${med["Brand Name"]}`)
+                                                console.log(medicationName)
+                                              
+                                                setFilteredMedications([]);
+                                              }}
+                                            >
+                                              {`${med["Generic Name"]} - ${med["Brand Name"]}`}
+                                            </button>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    )}
+                                  </div>
+                                  </td>
+                                </>
+                              )}
                             </tr>
-                            
                           ))}
                         </tbody>
                       </table>
