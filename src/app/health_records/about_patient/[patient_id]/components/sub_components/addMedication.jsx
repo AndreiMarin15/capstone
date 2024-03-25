@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BackButton from "./BackButton";
 import uploadMedication from "../../../../../../../lib/backend/health_records/uploadMedication";
 import { formatDuration } from "date-fns/esm";
@@ -8,17 +8,26 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
 
+
 export default function AddMedications({ currentScreen, setCurrentScreen, patientId }) {
   const [regis, setRegis] = useState("");
+
   const [medicationName, setMedicationName] = useState("");
+  const [medications, setMedications] = useState([]);
+  const [filteredMedications, setFilteredMedications] = useState([]);
+
+  
   const [patientInstructions, setPatientInstructions] = useState("");
   const [doseUnit, setDoseUnit] = useState(null);
  
   const [form, setForm] = useState("");
   const [duration, setDuration] = useState("");
-  const [validityStart, setValidityStart] = useState("");
-  const [validityEnd, setValidityEnd] = useState("");
-  const [note, setNote] = useState("");
+  const [validityStart, setValidityStart] = useState();
+  const [validityEnd, setValidityEnd] = useState();
+  const [adverseEvent, setAdverseEvent] = useState("");
+
+
+
 
 
 
@@ -36,8 +45,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
           coding: [ 
               {
                   system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  code: regis, //registration number
-                  display: medicationName //generic name + brand name
+                  
               }
           ],
           name: medicationName, //generic name + brand name
@@ -46,7 +54,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
       dosageInstruction: [
         {
-            sequence: 1,
+            
             text: patientInstructions,
             doseAndRate: [
                 {
@@ -58,48 +66,41 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
             ]
         }
     ],
-
-    form: {
-      coding: [
-          {
-              system: "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
-              code: regis,
-              display: medicationName
-          }
-      ],
-      text: form,
-  },
-
     dispenseRequest: {
-      medicationCodeableConcept: {
-          coding: [
-              {
-                  system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  code: regis,
-                  display: medicationName,
-              }
-          ],
-          text: medicationName,
-      },
+      
       dispenseInterval: duration,
       validityPeriod: {
           start: validityStart,
           end: validityEnd,
+          
       },
      
   },
 
+  
+
+ 
     requester: {
       agent: {
         reference: doctorInfo
       }
     },
 
-    note: note,
+    form: {
+      
+      text: form,
+  },
+
+    note: patientInstructions,
+
+    adverseEvent: {
+      adverseReaction: adverseEvent,
+   }, 
     
     resource_type: "MedicationRequest",
   };
 
+      console.log("Data to save:", dataToSave);
       // Call the uploadEncounter function with the data to save
       const savedData = await uploadMedication(dataToSave);
 
@@ -215,7 +216,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                   const { value } = e.target;
                                   switch (item.variable) {
                                     case "Medicine Name":
-                                      setMedicationName(value);
+                                      setMedicationName(e.target.value)
                                       break;
                                     case "Dose and Unit":
                                       setDoseUnit(value);
@@ -236,6 +237,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                               />
                               </td>
                             </tr>
+                            
                           ))}
                         </tbody>
                       </table>
@@ -277,10 +279,10 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                   onChange={(e) => {
                                       const { value } = e.target;
                                       if (item.variable === "Start Date") {
-                                          console.log(value);
+                                      
                                           setValidityStart(value);
                                       } else if (item.variable === "End Date") {
-                                          console.log(value);
+                                          
                                           setValidityEnd(value);
                                       }
                                   }}
@@ -323,14 +325,15 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                 </div>
                               </td>
                               <td>
-                              <input
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5 w-[205px]"
-                                  value={item.value}
+                              <textarea
+                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                  value={item.variable === "Possible Side Effects" ? adverseEvent : ''}
                                   onChange={(e) => {
-                                    const { value } = e.target;
-                                    setNote(value);
+                                      const { value } = e.target;
+                                      console.log(value);
+                                      setAdverseEvent(value);
                                   }}
-                                />
+                              />
                               </td>
                             </tr>
                           ))}
