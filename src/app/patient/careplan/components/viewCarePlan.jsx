@@ -14,29 +14,6 @@ export default function ViewCarePlan({
   carePlan,
 }) {
   const { selected } = useCPNav();
-  const careplan = [
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "DIETARY MANAGEMENT",
-      value:
-        "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
-    },
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "PHYSICAL ACTIVITIES",
-      value:
-        "Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
-    },
-    {
-      srccareplan:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      careplanname: "SELF-MONITORING",
-      value:
-        "Pay attention to your feet and check for any cuts, sores, or redness",
-    },
-  ];
 
   const [currentScreen3, setCurrentScreen3] = useState(0);
 
