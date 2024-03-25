@@ -43,7 +43,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 					actor: doctorInfo,
 				},
 				subject: {
-					reference: `Patient/${patientData.id}`,
+					type: "Patient",
+					reference: patientData.id,
 				},
 				contained: [
 					{
