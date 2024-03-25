@@ -5,12 +5,12 @@ import { useState } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
+import AddVitals from "./sub_components/addVitals";
+
 export default function Vitals() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedMetric, setSelectedMetric] = useState("");
-  const handleVisitClick = () => {
-    setCurrentPage(currentPage + 1);
-  };
+
   const vitals = [
     {
       date: "2023-12-01",
@@ -80,7 +80,7 @@ export default function Vitals() {
             <div className="ml-auto">
               <button
                 className="flex-shrink-0 px-5 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
-                onClick={handleVisitClick}
+                onClick={() => setCurrentPage(1)}
               >
                 Add
               </button>
@@ -338,6 +338,9 @@ export default function Vitals() {
         </div>
       )}
 
+      {currentPage === 1 && (
+        <AddVitals currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      )}
       {currentPage === 2 && (
         <ViewSystolic
           currentPage={currentPage}

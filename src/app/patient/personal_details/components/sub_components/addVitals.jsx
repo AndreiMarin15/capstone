@@ -4,9 +4,30 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BackButton from "./BackButton";
 
 export default function AddVitals() {
-  const clinicVitals = [
+  const [height, setHeight] = useState(null);
+  const [weight, setWeight] = useState(null);
+  const [bmi, setBMI] = useState(null);
+  const [systolic, setSystolic] = useState(null);
+  const [diastolic, setDiastolic] = useState(null);
+  const [heartRate, setHeartRate] = useState(null);
+  const date = [
+    {
+      imgsrc:
+        "https://cdn.builder.io/api/v1/image/assets/TEMP/c15ef0ded6b69046a1b632a3bb59f27fc703e9179d2b27b4c4362b9fb05a4935?",
+      variable: "Date",
+      value: (
+        <input
+          type="date"
+          className="text-zinc-400 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          placeholder="YYYY-MM-DD"
+        />
+      ),
+    },
+  ];
+  const vitals = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Systolic Blood Pressure",
@@ -23,7 +44,7 @@ export default function AddVitals() {
       value: "",
     },
   ];
-  const clinicBiometrics = [
+  const biometrics = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
       variable: "Height (cm)",
@@ -40,5 +61,163 @@ export default function AddVitals() {
       value: "",
     },
   ];
-  return <></>;
+  return (
+    <>
+      <div className="text-large leading-5 text-black font-bold mt-5">Date</div>
+      <table className="max-w-fit border-separate">
+        {date.map((item) => (
+          <tr key={item.variable}>
+            <td className="w-5">
+              {item.imgsrc && (
+                <Image
+                  alt="picture"
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src={item.imgsrc}
+                  className="w-5"
+                />
+              )}
+            </td>
+            <td className="border-l-[16px] border-transparent">
+              <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                {item.variable}
+              </div>
+            </td>
+            <td className="border-l-[7.5rem] border-transparent">
+              <div className="text-black text-xs leading-5 ml-auto">
+                {item.value}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </table>
+      <table className="max-w-fit border-spacing-y-5 border-separate">
+        <tbody className="text-xs leading-5 text-black">
+          <div className="text-large leading-5 text-black font-bold">
+            {" "}
+            Vitals
+            {vitals.map((item, index) => (
+              <tr key={index} className="h-8">
+                <td className="w-5">
+                  <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={item.src}
+                    className="self-start aspect-square fill-black w-[15px]"
+                  />
+                </td>
+                <td className="border-l-[16px] border-transparent">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    {item.variable}
+                  </div>
+                </td>
+                <td className="border-l-[5rem] border-transparent text-xs font-normal">
+                  <input
+                    placeholder={
+                      item.variable === "Systolic Blood Pressure"
+                        ? "120"
+                        : item.variable === "Diastolic Blood Pressure"
+                          ? "80"
+                          : item.variable === "Heart Rate (beats/min)"
+                            ? "72"
+                            : ""
+                    }
+                    value={
+                      item.variable === "Systolic Blood Pressure"
+                        ? systolic || ""
+                        : item.variable === "Diastolic Blood Pressure"
+                          ? diastolic || ""
+                          : heartRate || ""
+                    }
+                    onChange={(e) => {
+                      // Update the corresponding state variable based on the input field
+                      if (item.variable === "Systolic Blood Pressure") {
+                        setSystolic(e.target.value);
+                      } else if (item.variable === "Diastolic Blood Pressure") {
+                        setDiastolic(e.target.value);
+                      } else if (item.variable === "Heart Rate (beats/min)") {
+                        setHeartRate(e.target.value);
+                      }
+                    }}
+                    className="grow justify-center items-start py-1.5  text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[60px]"
+                  />
+                  {item.variable === item.value}
+                </td>
+              </tr>
+            ))}
+          </div>
+          <div className="text-large leading-5 text-black font-bold items-center">
+            {" "}
+            Biometrics
+            {biometrics.map((item, index) => (
+              <tr key={index} className="h-8">
+                <td className="w-5">
+                  <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={item.src}
+                    className="self-start aspect-square fill-black w-[15px]"
+                  />
+                </td>
+                <td className="border-l-[16px] border-transparent">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    {item.variable}
+                  </div>
+                </td>
+                <td className="border-l-[5rem] border-transparent text-xs font-normal">
+                  <input
+                    placeholder={
+                      item.variable === "Height (cm)"
+                        ? "180"
+                        : item.variable === "Weight (kg)"
+                          ? "65"
+                          : item.variable === "Body Mass Index"
+                            ? "20"
+                            : ""
+                    }
+                    value={
+                      item.variable === "Height (cm)"
+                        ? height
+                        : item.variable === "Weight (kg)"
+                          ? weight
+                          : bmi
+                    }
+                    onChange={(e) => {
+                      // Update the corresponding state variable based on the input field
+                      if (item.variable === "Height (cm)") {
+                        setHeight(e.target.value);
+                      } else if (item.variable === "Weight (kg)") {
+                        setWeight(e.target.value);
+                      } else if (item.variable === "Body Mass Index") {
+                        setBMI(e.target.value);
+                      }
+                    }}
+                    className="grow justify-center items-start py-1.5  ml-10 text-center whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[60px]"
+                  />
+                  {item.variable === item.value}
+                </td>
+              </tr>
+            ))}
+          </div>
+        </tbody>
+      </table>
+      {/* BACK & SAVE BUTTON */}
+      <div className="flex justify-between items-center mt-5">
+        <BackButton />
+        <div>
+          <button
+            /*onClick={handleSave}*/
+            className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+          >
+            SAVE
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
