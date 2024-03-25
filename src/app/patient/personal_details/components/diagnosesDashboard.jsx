@@ -11,22 +11,15 @@ import BackButton from "./sub_components/BackButton";
 import * as React from "react";
 
 export default function Diagnoses() {
-  const variables = ["Diagnoses", "Date", "Status", "Doctor", "Hospital"];
+  const variables = ["Diagnoses", "Date", "Status", "Doctor", "Collaborated"];
 
   const diagnoses = [
     {
-      Diagnoses: "Type 2 Diabetes Mellitus",
+      Diagnoses: "Type 2 Diabetes Mellitus with Liver Cirrhocis",
       Date: "2020-01-10",
       Status: "Being Managed",
       Doctor: "Dr. John Doe",
-      Hospital: "PGH",
-    },
-    {
-      Diagnoses: "High Blood",
-      Date: "2019-09-09",
-      Status: "Being Managed",
-      Doctor: "Dr. Johnny Santos",
-      Hospital: "Batangas General Hospital",
+      Collaborated: "Dr. Johnny Santos - Gastroenterologist",
     },
   ];
   return (
@@ -49,7 +42,9 @@ export default function Diagnoses() {
               {variables.map((variable, variableIndex) => (
                 <td
                   key={variableIndex}
-                  className={`${variableIndex === 0 ? "font-normal" : "mt-8"}`}
+                  className={`${
+                    variableIndex === 0 ? "font-normal" : "mt-8 mr-8"
+                  }`}
                 >
                   {item[variable]}
                 </td>
