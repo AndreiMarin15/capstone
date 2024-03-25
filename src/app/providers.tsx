@@ -42,7 +42,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					if (current.user.type === "patient") {
 						router.push("/patient/home");
 					} else if (current.user.type === "doctor") {
-						router.push("/home");
+						if (current.user.specialization_id === 1) {
+							router.push("/home");
+						} else {
+							router.push("/other_doctor/referrals");
+						}
 					}
 				}
 			}

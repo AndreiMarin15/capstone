@@ -2,16 +2,159 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { currentUser } from "@/app/store";
+import { toast } from "react-toastify";
+import retrieveReferralData from "../../../../lib/backend/referral/retrieveReferralData";
+import ReferralList from "./components/referralList";
 
 export default function Referral() {
 	const router = useRouter();
+	const [otp, setOtp] = React.useState(null);
+	const [showOTP, setShowOTP] = React.useState(false);
+	const [otpInput, setOTPInput] = React.useState("");
+	const user = currentUser.getState().user;
 
+	const [currentInfo, setCurrentInfo] = React.useState({});
 	const doctorInfo = {
-		name: "Dr. John Doe",
-		specialty: "Endocrinologist",
+		name: "Dr. Johnny Santos",
+		specialty: "Cardiologist",
 		patient: "Juan Dela Cruz",
 	};
 
+	const otherDoctorInfo = {
+		name: "Dr. Micha Lee",
+		specialty: "Gastroenterologist",
+		patient: "Juan Luna",
+	};
+
+	const [referralsList, setList] = React.useState([]);
+
+	const handleApproval = async (value, id) => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: id,
+				status: value,
+				patient_id: currentInfo.patient_id,
+			}),
+		});
+
+		console.log(response);
+	};
+
+	const generateRequest = async () => {
+		const response = await fetch("https://cap-middleware-1.vercel.app/user/requestApproval", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+				requested_from: "testpatient@gmail.com",
+				patient_id: currentInfo.patient_id,
+			}),
+		});
+		const r = await response.json();
+		console.log(r);
+		return r[0].id;
+	};
+
+	const generateOTP = () => {
+		return Math.floor(1000 + Math.random() * 9000);
+	};
+
+	const handlePullRecords = async () => {
+		setShowOTP(true);
+	};
+
+	const handleOTPSubmit = async (status) => {
+		if (parseInt(otpInput) === otp) {
+			const requ = await generateRequest();
+			console.log("requ");
+			console.log(requ);
+
+			handleApproval(status, requ);
+			toast.success("OTP Verified", { position: "top-left", theme: "colored", autoClose: 2000 });
+		} else {
+			toast.error("Invalid OTP. Please try again.", { position: "top-left", theme: "colored", autoClose: 2000 });
+			// prompt("Invalid OTP. Please try again.");
+		}
+		//  add logic to verify the OTP
+		// just closes the OTP pop-up for now
+		setShowOTP(false);
+	};
+
+	React.useEffect(() => {
+		setOtp(generateOTP());
+	}, []);
+
+	React.useEffect(() => {
+		console.log(otp);
+	}, [otp]);
+	React.useEffect(() => {
+		console.log(otpInput);
+	}, [otpInput]);
+
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const referrals = await retrieveReferralData.getReferrals();
+			console.log(referrals);
+			setList(referrals);
+			setCurrentInfo(referrals[0]);
+		};
+		fetchData();
+	}, []);
+
+	React.useEffect(() => {
+		console.log(referralsList);
+	}, [referralsList]);
+
+	const sendOTP = () => {
+		const myHeaders = new Headers();
+		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
+		myHeaders.append("Content-Type", "application/json");
+		myHeaders.append("Accept", "application/json");
+		console.log(otp);
+		const raw = JSON.stringify({
+			messages: [
+				{
+					destinations: [{ to: `639999951973` }], // replace with patient data
+					from: "ServiceSMS",
+					text: `Hello! Your OTP is  ${otp}
+					
+					By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
+
+					- SAMPLE DATA PULL 1
+					- SAMPLE DATA PULL 2
+					
+					EndoTracker respects the privacy of personal data, and are committed to handling your personal data with care. It is your right to be informed of how EndoTracker collects your data, including the purposes of how we collect, use, and disclose. 
+					
+					For more information on how EndoTracker handles and makes use of your data, please refer to the Privacy Policy full text which can be found in the system https://capstone-cap2224.vercel.app/legal/privacy_policy.`,
+				},
+			],
+		});
+
+		const requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: raw,
+			redirect: "follow",
+		};
+
+		fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
+			.then((response) => response.text())
+			.then((result) => console.log(result))
+			.then(() => {
+				toast.success(
+					`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
+					{ position: "top-left", theme: "colored", autoClose: 2000 }
+				);
+			})
+			.catch((error) => console.error(error));
+	};
 
 	return (
 		<div className="bg-white border border-solid border-stone-300 h-screen flex">
@@ -44,31 +187,19 @@ export default function Referral() {
 				<div className="flex">
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
-						<div className="flex gap-5">
-							{/* Left side tab with bg-blue-500 */}
-							<div className="flex gap-5">
-								<div className="w-2.5 bg-blue-500 h-[129px]" />
-								<Image
-									alt="image"
-									height={0}
-									width={0}
-									loading="lazy"
-									src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-									className="self-start mt-7 w-[43px]"
-								/>
-								<div className="flex flex-col flex-1 my-auto">
-									<div className="text-lg font-semibold whitespace-nowrap">
-										{doctorInfo.name}
-										<div className="text-m text-zinc-600">
-											<span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
-											<div className="mt-4 text-xs font-medium text-zinc-600">
-												<span className="font-bold">PATIENT</span>: {doctorInfo.patient}
-											</div>
-										</div>
-									</div>
+						{referralsList.map((referral) => {
+							return (
+								<div key={referral.id}>
+									<ReferralList
+										setCurrentInfo={setCurrentInfo}
+										referral={referral}
+										retrieveReferralData={retrieveReferralData}
+									/>
 								</div>
-							</div>
-						</div>
+							);
+						})}
+
+						{/* Another left side tab with bg-orange-500 */}
 					</div>
 
 					{/* Right side tabs */}
@@ -88,61 +219,62 @@ export default function Referral() {
 									</div>
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
-											{doctorInfo.name}
+											{currentInfo?.name ? currentInfo.name : ""}
 											<div className="text-m text-zinc-600">
-												<span className="text-zinc-300 font-medium">{doctorInfo.specialty}</span>
+												<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div
-								className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full"
-								style={{ width: "780px" }}
-							>
-								<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
-									<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+							{currentInfo?.name && (
+								<div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
+									<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
+										<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
+											<Image
+												alt="image"
+												height={0}
+												width={0}
+												loading="lazy"
+												src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+												className="self-start w-7 aspect-square ml-2"
+											/>
+
+											<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
+												{"Hello, let's collaborate with this patient"}
+											</div>
+										</div>
+										<div className="flex gap-4 self-end mt-6 text-white">
+											<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
+												{"Sure, I'd like to view the patient's records. I'll pull in a while."}
+											</div>
+											<Image
+												alt="image"
+												height={0}
+												width={0}
+												loading="lazy"
+												src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+												className="self-start w-7 aspect-square "
+											/>
+										</div>
+									</div>
+									<div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
 										<Image
 											alt="image"
 											height={0}
 											width={0}
 											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-											className="self-start w-7 aspect-square ml-2"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+											className="self-start w-7 aspect-square ml-8"
 										/>
-										<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-										{"Let's talk about the management for this patient."}
+										<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
+											{"Great. Update me after and let's talk about how to manage this patient again."}
 										</div>
 									</div>
-									<div className="flex gap-4 self-end mt-6 text-white">
-										<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
-											{"Sure, you can just pull my records."}
-										</div>
-										<Image
-											alt="image"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-											className="self-start w-7 aspect-square "
-										/>
-									</div>
 								</div>
-								<div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-									<Image
-										alt="image"
-										height={0}
-										width={0}
-										loading="lazy"
-										src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-										className="self-start w-7 aspect-square ml-8"
-									/>
-									<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-									{"I got it. I'll just review the medications you gave then I'll get back to you."}
-									</div>
-								</div>
-							</div>
-							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-" style={{ width: "800px" }}>
+							)}
+
+							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-">
 								<div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
 									<input type="text" placeholder="Message..." style={{ width: "100%", height: "300%" }} />
 								</div>
@@ -156,7 +288,13 @@ export default function Referral() {
 											src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
 											className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
 										/>
-										<button className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto">
+										<button
+											className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+											onClick={() => {
+												sendOTP();
+												handlePullRecords();
+											}}
+										>
 											Pull Records
 										</button>
 									</span>
@@ -169,6 +307,59 @@ export default function Referral() {
 					</div>
 				</div>
 			</div>
+
+			{showOTP && (
+				<div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-60">
+					{" "}
+					<div className="bg-white p-8 rounded shadow-lg flex flex-col items-center max-w-full w-[600px]">
+						<div className="px-16 pb-2 text-3xl leading-10 text-black max-md:pr-7 max-md:pl-7 max-md:max-w-full">
+							OTP Authentication
+						</div>
+						<div className="text-xs text-zinc-400">
+							Enter the 4-digit OTP sent to your patient’s mobile device via SMS
+						</div>
+						<input
+							type="text"
+							value={otpInput}
+							onChange={(e) => {
+								setOTPInput(e.target.value);
+							}}
+							className="shrink-0 mt-9 w-96 px-3 py-2 max-w-full bg-white rounded-xl border border-solid shadow-sm border-black border-opacity-30 h-[66px]"
+							placeholder="Enter OTP..."
+						/>{" "}
+						<button
+							className="justify-center px-[6rem] py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-sky-900 rounded max-md:px-6"
+							onClick={() => {
+								handleOTPSubmit(true);
+							}}
+						>
+							Confirm
+						</button>
+						<button
+							className="justify-center px-2 py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-red-900 rounded max-md:px-6"
+							onClick={() => {
+								handleOTPSubmit(false);
+							}}
+						>
+							Patient Rejected the Request
+						</button>
+						<div className="shrink-0 self-stretch mt-8 h-px bg-gray-200 border border-gray-200 border-solid max-md:max-w-full" />
+						<div className="mt-6 text-sm leading-5 text-center text-zinc-400">
+							Patient did not receive the OTP?
+							<br />
+							<button
+								className="font-bold  text-blue-500"
+								style={{ textDecoration: "underline" }}
+								onClick={() => {
+									sendOTP();
+								}}
+							>
+								Resend
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
