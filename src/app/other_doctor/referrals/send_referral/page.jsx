@@ -91,7 +91,7 @@ export default function SendReferral() {
 												setSelectedDoctor(item);
 											}}
 										>
-											<ReferralDoctors name={item.name} age={item.age} id={item.id} selectedId={selectedDoctorId} />
+											<ReferralDoctors name={item.name} specialization={item.specialization} id={item.id} selectedId={selectedDoctorId} />
 										</div>
 									</div>
 								))
