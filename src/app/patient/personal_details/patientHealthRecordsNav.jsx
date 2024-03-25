@@ -7,6 +7,7 @@ export default function HealthRecordsNav() {
   const items = [
     "Master Data",
     "Clinic Visits",
+    "Diagnoses",
     "Vitals & Biometrics",
     "Family & Social History",
   ];
