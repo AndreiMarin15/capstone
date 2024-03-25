@@ -25,7 +25,9 @@ export default function ClinicVisits({patientId}) {
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
   const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
 
-   React.useEffect(() => {
+ 
+ 
+  React.useEffect(() => {
     async function fetchEncounters() {
       try {
         const encountersData = await getEncounters();
@@ -40,7 +42,8 @@ export default function ClinicVisits({patientId}) {
       }
     }
     fetchEncounters();
-  }, [patientId]);
+  }, [patientId, currentPage]);
+
 
 
   const handleEncounterClick = (id) => {
