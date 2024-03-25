@@ -86,7 +86,10 @@ export default function DoctorInformation() {
 								});
 
 								setTimeout(() => {
-									router.push("/home");
+									if(doctorStore.specialization_id === 1)
+									{router.push("/home");} else {
+										router.push("/other_doctor/referrals")
+									}
 								}, 2000);
 							}
 						}}
