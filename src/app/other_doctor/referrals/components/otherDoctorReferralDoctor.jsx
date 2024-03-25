@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const ReferralDoctors = ({ name, age, id, selectedId }) => {
+const ReferralDoctors = ({ name, specialization, id, selectedId }) => {
 	const [selected, setSelected] = React.useState(false);
 
 	React.useEffect(() => {
@@ -38,7 +38,7 @@ const ReferralDoctors = ({ name, age, id, selectedId }) => {
 					/>
 					<span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
 						<div className="text-black text-xs font-semibold leading-5 whitespace-nowrap">{name}</div>
-						<div className="text-black text-xs leading-5 mt-2">AGE: {age}</div>
+						<div className="text-black text-xs leading-5 mt-2">Specialization: {specialization}</div>
 					</span>
 				</div>
 				<div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto"></div>

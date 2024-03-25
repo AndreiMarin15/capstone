@@ -59,8 +59,6 @@ export default function SendReferral() {
 		fetchData();
 	}, []);
 
-	
-
 	return (
 		<div className="bg-white flex flex-col items-stretch pb-8 h-[100vh]">
 			<div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
@@ -91,7 +89,12 @@ export default function SendReferral() {
 												setSelectedDoctor(item);
 											}}
 										>
-											<ReferralDoctors name={item.name} age={item.age} id={item.id} selectedId={selectedDoctorId} />
+											<ReferralDoctors
+												name={item.name}
+												specialization={item.specialization}
+												id={item.id}
+												selectedId={selectedDoctorId}
+											/>
 										</div>
 									</div>
 								))
@@ -142,13 +145,13 @@ export default function SendReferral() {
 						if (currentState < 3) {
 							setCurrentState(currentState + 1);
 						} else if (currentState === 3) {
-              const referralData = {
-                patient_id: selectedPatientId,
-                doctor_id: selectedDoctorId,
-                notes: notes,
-              };
-              sendReferralData.newReferralRequest(referralData);
-              router.push("/referral");
+							const referralData = {
+								patient_id: selectedPatientId,
+								doctor_id: selectedDoctorId,
+								notes: notes,
+							};
+							sendReferralData.newReferralRequest(referralData);
+							router.push("/other_doctor/referrals");
 						}
 					}}
 					className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
