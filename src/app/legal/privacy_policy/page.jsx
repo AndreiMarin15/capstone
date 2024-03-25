@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
                     Introduction
                   </button>
                   <br />
-                  <button
+                  {/* <button
                     className="hover:underline"
                     onClick={() =>
                       definitionsRef.current.scrollIntoView({
@@ -111,7 +111,7 @@ export default function PrivacyPolicy() {
                   >
                     Definitions
                   </button>
-                  <br />
+                  <br /> */}
                   <button
                     className="hover:underline"
                     onClick={() =>
@@ -172,7 +172,7 @@ export default function PrivacyPolicy() {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           ref={definitionsRef}
           className="mt-9 text-xl font-semibold leading-8 text-black max-md:max-w-full"
         >
@@ -233,7 +233,7 @@ export default function PrivacyPolicy() {
           or using the Service, or the company, or other legal entity on behalf
           of which such individual is accessing or using the Service, as
           applicable.
-        </div>
+        </div> */}
         <div
           ref={infoRef}
           className="mt-9 text-xl font-semibold leading-8 text-black max-md:max-w-full"
@@ -337,7 +337,7 @@ export default function PrivacyPolicy() {
           personal data to help your doctors understand your current health
           status and to assist us in maintaining a record of the care and
           services that you have received in different hospitals. We maintain
-          your medical record for efficient coordination between the members of
+          your health record for efficient coordination between the members of
           the healthcare team in charge of your care. This will also allow for
           the continuity of care in case of follow-ups and other healthcare
           needs. For this purpose, the Republic Act 10173, the Data Privacy Act
@@ -356,7 +356,7 @@ export default function PrivacyPolicy() {
           <span className="font-semibold mb-2">Middleware Use</span> <br />
           Our secure middleware acts as a bridge between your EHR and other
           healthcare systems. It allows authorized providers to access specific
-          parts of your medical record, even if they use different EHR systems.
+          parts of your health record, even if they use different EHR systems.
           This eliminates the need for duplicate data entry and ensures everyone
           involved in your care has a complete picture. <br />
           <br /> We understand that your health information is sensitive. When
@@ -407,25 +407,25 @@ export default function PrivacyPolicy() {
         >
           For how long do we store your data?
         </div>
-        <div className="mt-6 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 mb-8 text-sm leading-5 text-black  max-md:max-w-full">
           {
             "We retain your health data for as long as required by law or as necessary to accomplish a legitimate purpose. Here's a breakdown of our data retention policy:"
           }
           <br />
           <br />
-          <span className="font-semibold mb-2">
-            Minimum Retention Period:
-          </span>{" "}
-          <br />
-          We adhere to the Department of Health (DOH) regulations, which mandate
-          a minimum retention period of 15 years for medical records. <br />
+          <span className="font-semibold mb-2">Retention Period:</span> <br />
+          We adhere to the Department of Heath’s Department Circular No. 70
+          series of 1996, which mandate a retention period of 15 years for
+          health records. <br />
           <br />
           <span className="font-semibold mb-2">
-            Beyond the Minimum Retention Period:{" "}
+            Beyond the Retention Period:{" "}
           </span>{" "}
           <br />
-          We may retain your data beyond the minimum period for legitimate
-          purposes, such as:
+          We may also retain your data beyond the minimum period for the stated
+          purposes below, and for as long as necessary in accordance with
+          Section 19 of the the Implementing Rules and Regulations (IRR) of the
+          Data Privacy Act of 2012 (DPA):
           <ul className="list-disc ml-5 mt-4">
             <li>
               Facilitating ongoing care: If you continue to receive treatment
@@ -436,11 +436,6 @@ export default function PrivacyPolicy() {
               Legal or regulatory requirements: We may need to retain your data
               for longer periods to comply with legal or regulatory
               requirements, such as medical malpractice lawsuits.
-            </li>
-            <li>
-              Research and development: We may use anonymized data for research
-              purposes to improve healthcare delivery, with appropriate
-              safeguards in place.
             </li>
           </ul>
         </div>
