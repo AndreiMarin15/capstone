@@ -1,16 +1,41 @@
 import Image from "next/image";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
 import AddVitals from "./sub_components/addVitals";
-
+import {
+  getVitalsAndBiometrics,
+  getBiometrics,
+} from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
 export default function Vitals() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [vitalsAndBio, setVitalsAndBio] = useState(0);
   const [selectedMetric, setSelectedMetric] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getVitalsAndBiometrics();
+      setVitalsAndBio(data);
+      console.log(data);
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const bio = await getBiometrics();
+      console.log(bio);
+      setSampleData(bio);
+    };
+    fetchData();
+  }, []);
 
+  const [sampleData, setSampleData] = useState({
+    height: [],
+    weight: [],
+    bmi: [],
+  });
   const vitals = [
     {
       date: "2023-12-01",
@@ -58,6 +83,16 @@ export default function Vitals() {
     "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
     "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
   ];
+  const vitalsImages = [
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
+  ];
+  const biometricsImages = [
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
+    "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
+  ];
 
   const variableNames = [
     "Systolic Blood Pressure",
@@ -68,6 +103,14 @@ export default function Vitals() {
     "Body Mass Index",
   ];
 
+  const vitalsName = [
+    "Systolic Blood Pressure",
+    "Diastolic Blood Pressure",
+    "Heart Rate",
+  ];
+
+  const biometricsName = ["Height (cm)", "Weight (cm)", "Body Mass Index"];
+
   const properties = Object.keys(vitals[0]).filter(
     (property) => property !== "date"
   );
@@ -75,7 +118,7 @@ export default function Vitals() {
   return (
     <>
       {currentPage === 0 && (
-        <div className="max-w-fit text-black">
+        <div className="w-full max-w-full text-black">
           <div className="flex justify-between">
             <div className="ml-auto">
               <button
@@ -151,89 +194,98 @@ export default function Vitals() {
             />
             <span>Full Vitals History (.pdf)</span>
           </a>
-
-          <table className="border-spacing-y-5 border-separate">
-            <thead>
-              <tr>
-                <th></th>
-                {vitals.map((item, index) => (
-                  <th
-                    key={index}
-                    className="border-transparent text-black text-xs leading-5 font-semibold py-2 px-4"
-                  >
-                    {item.date}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {properties.slice(0, 3).map((property, index) => (
-                <tr key={index}>
-                  <td className="pr-4">
-                    <div className="flex items-center">
-                      <Image
-                        alt="picture"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src={images[index]}
-                        className="w-5 mr-4"
-                      />
-                      <div className="text-black text-small font-semibold leading-5 self-center my-auto mr-5">
-                        {variableNames[index]}
-                      </div>
-                    </div>
-                  </td>
-                  {vitals.map((item, idx) => (
-                    <td key={idx} className="text-center">
-                      {item[property] && (
-                        <div className="text-black text-small leading-5">
-                          {item[property]}
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                  <td className="border-l-[5rem] border-transparent text-center">
-                    <div className="flex items-center">
-                      <Image
-                        height={0}
-                        width={0}
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-                        alt="icon"
-                        className="w-5 mr-2"
-                      />
-                      <button
-                        className="text-blue-500 text-xs underline"
-                        onClick={() => {
-                          let increment = 1;
-                          switch (variableNames[index]) {
-                            case "Systolic Blood Pressure":
-                            case "Diastolic Blood Pressure":
-                              increment = 2;
-                              break;
-
-                            case "Heart Rate":
-                              increment = 3;
-                              break;
-                            default:
-                              increment = 1;
-                              break;
-                          }
-                          setCurrentPage(currentPage + increment);
-                          console.log("%d", currentPage);
-                          console.log(`View chart for ${variableNames[index]}`);
-                        }}
-                      >
-                        View Chart
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+          {/* TABLE */}
+          <div className="flex max-w-full pt-4 pb-8">
+            <div
+              id="col"
+              className="w-[27%] max-w-[27%] min-w-[27%] flex flex-col gap-3 pr-4"
+            >
+              <div className="h-6 max-h-6"></div>
+              {vitalsName.map((item, index) => (
+                <div
+                  key={index}
+                  className="text-black text-small font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
+                >
+                  <Image
+                    alt="picture"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={vitalsImages[index]}
+                    className="w-5 mr-4"
+                  />
+                  {item}
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <div
+              id="col"
+              className="w-full flex flex-row gap-3 overflow-x-auto"
+            >
+              {Object.keys(vitalsAndBio).map((key, index) => (
+                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {key}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["systolic"].valueQuantity.value ?? "-"}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["diastolic"].valueQuantity.value ?? "-"}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["heartRate"].valueQuantity.value ?? "-"}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div
+              id="col"
+              className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end"
+            >
+              <div className="h-6 max-h-6"></div>
+              {vitalsName.map((item, index) => (
+                <div
+                  key={index}
+                  className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
+                >
+                  <Image
+                    height={0}
+                    width={0}
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    alt="icon"
+                    className="w-5 mr-2"
+                  />
+                  <button
+                    className="text-blue-500 text-xs underline"
+                    onClick={() => {
+                      let increment = 1;
+                      switch (vitalsName[index]) {
+                        case "Systolic Blood Pressure":
+                        case "Diastolic Blood Pressure":
+                          increment = 2;
+                          break;
 
-          <div className="max-w-fit text-black">
+                        case "Heart Rate":
+                          increment = 3;
+                          break;
+                        default:
+                          increment = 1;
+                          break;
+                      }
+                      setCurrentPage(currentPage + increment);
+                      console.log("%d", currentPage);
+                      console.log(`View chart for ${vitalsName[index]}`);
+                    }}
+                  >
+                    View Chart
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full max-w-full text-black">
             <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 ">
               BIOMETRICS
             </div>
@@ -252,87 +304,96 @@ export default function Vitals() {
               <span>Full Biometrics History (.pdf)</span>
             </a>
           </div>
-
-          <table className="border-spacing-y-5 border-separate">
-            <thead>
-              <tr>
-                <th></th>
-                {vitals.map((item, index) => (
-                  <th
-                    key={index}
-                    className="border-transparent text-black text-xs leading-5 font-semibold py-2 px-4"
-                  >
-                    {item.date}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {properties.slice(3).map((property, index) => (
-                <tr key={index}>
-                  <td className="pr-4">
-                    <div className="flex items-center">
-                      <Image
-                        alt="picture"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src={images[index + 3]}
-                        className="w-5 mr-4"
-                      />
-                      <div className="text-black text-small font-semibold leading-5 self-center my-auto mr-20 ">
-                        {variableNames[index + 3]}
-                      </div>
-                    </div>
-                  </td>
-                  {vitals.map((item, idx) => (
-                    <td key={idx} className="text-center">
-                      {item[property] && (
-                        <div className="text-black text-small leading-5">
-                          {item[property]}
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                  <td className="border-l-[5rem] border-transparent text-center">
-                    <div className="flex items-center">
-                      <Image
-                        height={0}
-                        width={0}
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-                        alt="icon"
-                        className="w-5 mr-2"
-                      />
-                      <button
-                        className="text-blue-500 text-xs underline"
-                        onClick={() => {
-                          let defaultMetric;
-                          switch (variableNames[index + 3]) {
-                            case "Height (cm)":
-                              defaultMetric = "height";
-                              break;
-                            case "Weight (cm)":
-                              defaultMetric = "weight";
-                              break;
-                            case "Body Mass Index":
-                              defaultMetric = "bmi";
-                              break;
-                            default:
-                              defaultMetric = "height"; // Set a default metric here if necessary
-                              break;
-                          }
-                          setSelectedMetric(defaultMetric); // Set the selected metric
-                          setCurrentPage(4); // Navigate to page 4 (ViewBiometrics)
-                        }}
-                      >
-                        View Chart
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+          {/* TABLE */}
+          <div className="flex max-w-full pt-4 pb-8">
+            <div
+              id="col"
+              className="w-[27%] max-w-[27%] min-w-[27%] flex flex-col gap-3 pr-4"
+            >
+              <div className="h-6 max-h-6"></div>
+              {biometricsName.map((item, index) => (
+                <div
+                  key={index}
+                  className="text-black text-small font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
+                >
+                  <Image
+                    alt="picture"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={biometricsImages[index]}
+                    className="w-5 mr-4"
+                  />
+                  {item}
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <div
+              id="col"
+              className="w-full flex flex-row gap-3 overflow-x-auto"
+            >
+              {Object.keys(vitalsAndBio).map((key, index) => (
+                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {key}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["height"].valueQuantity.value ?? "-"}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["weight"].valueQuantity.value ?? "-"}
+                  </div>
+                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                    {vitalsAndBio[key]["bmi"].valueQuantity.value ?? "-"}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div
+              id="col"
+              className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end"
+            >
+              <div className="h-6 max-h-6"></div>
+              {biometricsName.map((item, index) => (
+                <div
+                  key={index}
+                  className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
+                >
+                  <Image
+                    height={0}
+                    width={0}
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4cae5e15030443e8c364bdc417ce4c836ffe07d1728c5f93bea511f158e4afbf?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    alt="icon"
+                    className="w-5 mr-2"
+                  />
+                  <button
+                    className="text-blue-500 text-xs underline"
+                    onClick={() => {
+                      let defaultMetric;
+                      switch (biometricsName[index]) {
+                        case "Height (cm)":
+                          defaultMetric = "height";
+                          break;
+                        case "Weight (cm)":
+                          defaultMetric = "weight";
+                          break;
+                        case "Body Mass Index":
+                          defaultMetric = "bmi";
+                          break;
+                        default:
+                          defaultMetric = "height"; // Set a default metric here if necessary
+                          break;
+                      }
+                      setSelectedMetric(defaultMetric); // Set the selected metric
+                      setCurrentPage(4); // Navigate to page 4 (ViewBiometrics)
+                    }}
+                  >
+                    View Chart
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <BackButton />
         </div>
@@ -360,6 +421,7 @@ export default function Vitals() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           defaultMetric={selectedMetric} // Pass selected metric as prop
+          sampleData={sampleData}
         />
       )}
     </>

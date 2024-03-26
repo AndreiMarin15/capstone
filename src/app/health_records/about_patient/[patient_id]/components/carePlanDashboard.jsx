@@ -4,7 +4,7 @@ import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
 import { careplanInfo } from "../../../../../../lib/backend/patient/careplan/careplan";
-export default function CarePlan({ patientId }) {
+export default function CarePlan({ patientId, patientData }) {
   const [careplanInfor, setCareplanInfor] = useState([]);
   const [currentScreen, setCurrentScreen] = useState(0);
   const [carePlan, setCarePlan] = useState({});
@@ -35,7 +35,11 @@ export default function CarePlan({ patientId }) {
           setCurrentScreen={handleSetCurrentScreen}
         />
       ) : isAdd ? (
-        <AddCarePlan setCurrentScreen={handleSetCurrentScreen} />
+        <AddCarePlan
+          setCurrentScreen={handleSetCurrentScreen}
+          patientData={patientData}
+          patientId={patientId}
+        />
       ) : (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
