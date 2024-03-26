@@ -69,12 +69,12 @@ export default function Medications({patientId}) {
           </div>
           <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
             <div className="flex gap-1.5 p-2.5">
-            <div className="mt-3 grow font-semibold text-black">
-                Status:{" "}
+              <div className="mt-3 font-semibold text-black flex gap-1 items-center">
+                Status:
                 <button
                   className={`flex flex-col flex-1 justify-center font-bold ${
                     status === "ACTIVE" ? "text-green-600" : "text-red-600"
-                  } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`}
+                  } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
                   onClick={toggleStatus}
                 >
                   <div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
