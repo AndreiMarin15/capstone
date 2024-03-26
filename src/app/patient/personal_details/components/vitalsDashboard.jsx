@@ -6,8 +6,10 @@ import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
 import AddVitals from "./sub_components/addVitals";
-import { getVitalsAndBiometrics } from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
-import { getBiometrics } from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import {
+  getVitalsAndBiometrics,
+  getBiometrics,
+} from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
 export default function Vitals() {
   const [currentPage, setCurrentPage] = useState(0);
   const [vitalsAndBio, setVitalsAndBio] = useState(0);
