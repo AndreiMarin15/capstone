@@ -203,7 +203,7 @@ export default function Middleware() {
     },
   ];
 
-  const renderInputFields = () => {
+  const RenderInputFields = () => {
     const [hoveredImageId, setHoveredImageId] = React.useState(null); // Track the currently hovered image
 
     const onHover = (imageId) => {
@@ -522,7 +522,7 @@ export default function Middleware() {
       <div className="mt-12 max-w-full w-[447px] max-md:mt-10">
         <table className="ml-10 max-w-fit border-spacing-y-5 border-separate">
           <tbody className="text-xs leading-5 text-black">
-            {renderInputFields()}
+            {RenderInputFields()}
           </tbody>
         </table>
       </div>
