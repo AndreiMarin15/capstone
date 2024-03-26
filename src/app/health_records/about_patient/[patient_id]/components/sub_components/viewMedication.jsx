@@ -213,7 +213,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <div className="text-black text-xs font-normal leading-5 ml-10">
+                        <div className="text-black text-xs font-normal leading-5">
                           {item.value}
                         </div>
                       </td>
