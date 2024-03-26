@@ -246,7 +246,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                       value={
                                         item.variable === "Dose and Unit" && regis !== ""
                                           ? doseUnit
-                                          : item.variable === "Form" && regis !== "" // Check if regis is not empty
+                                          : item.variable === "Form" // Check if regis is not empty
                                           ? form // If regis is not empty, use the autofilled form
                                           : item.variable === "Frequency"
                                           ? duration

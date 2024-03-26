@@ -3,6 +3,7 @@ import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
 import EditMedications from "./sub_components/editMedication";
+import { doctor } from "../../../../../../lib/backend/health_records/doctor";
 import * as React from "react";
 import { useState } from "react";
 import {
@@ -17,10 +18,26 @@ export default function Medications({ patientId }) {
 	const [medications, setMedications] = useState([]);
 	const [regis, setRegis] = useState("");
 	const [status, setStatus] = useState("ACTIVE");
+	const [currentUser, setCurrentUser] = useState(null);
+
+	React.useEffect(() => {
+		const fetchCurrentUser = async () => {
+			try {
+				const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
+				setCurrentUser(currentUserData);
+			} catch (error) {
+				console.error('Error fetching current user:', error);
+			}
+		};
+	
+		fetchCurrentUser();
+	}, []);
+
 
 	React.useEffect(() => {
 		const fetchMedications = async () => {
 			try {
+				
 				const medicationRequestsData = await getMedicationRequests();
 				setMedications(medicationRequestsData);
 				console.log(medicationRequestsData);
@@ -203,7 +220,7 @@ export default function Medications({ patientId }) {
 											<div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
 										</div>
 
-										{medication.resource.requester.agent.reference === "Doctor Test" && medication.resource.status === "Active" && (
+										{medication.resource.requester.agent.reference === currentUser?.fullName && medication.resource.status === "Active" && (
 											<div className="flex-auto ml-96">
 												<span className="">
 												<button

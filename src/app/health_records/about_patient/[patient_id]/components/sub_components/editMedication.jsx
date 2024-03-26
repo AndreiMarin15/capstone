@@ -131,7 +131,7 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
         setMedication(med);
         const genericName = med.resource.medicationCodeableConcept[0]?.coding[0]?.display;
         console.log(med.resource.medicationCodeableConcept[0]?.coding[0]?.display)
-       
+        console.log(med.resource.form.text)
         const brandName = med.resource.medicationCodeableConcept[0].text;
         setName(`${brandName}`);
         setGenName(`${genericName}`);
