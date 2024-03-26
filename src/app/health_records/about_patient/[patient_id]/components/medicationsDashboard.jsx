@@ -2,41 +2,25 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
+import * as React from "react";
 import { useState } from "react";
+import { getMedicationRequests } from "../../../../../../lib/backend/health_records/getMedicationRequest";
+export default function Medications({patientId}) {
+  const [medications, setMedications] = useState([]);
 
-export default function Medications(patientId) {
-  const medications = [
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "IBUPROFEN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Maria Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "ASPIRIN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. John Doe",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "TEST",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Johnny Santos",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-  ];
+  React.useEffect(() => {
+    const fetchMedications = async () => {
+      try {
+        const medicationRequestsData = await getMedicationRequests(); 
+        setMedications(medicationRequestsData);
+        console.log(medicationRequestsData);
+      } catch (error) {
+        console.error("Error fetching medication requests:", error);
+      }
+    };
+
+    fetchMedications(); 
+  }, []);
 
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
@@ -82,41 +66,6 @@ export default function Medications(patientId) {
                 <div className="justify-center items-start py-2 pr-16 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
                   ACTIVE
                 </div>
-                {/* <svg
-              class="w-5 h-5 ml-2 -mr-1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 12a1 1 0 01-.707-.293l-4-4a1 1 0 111.414-1.414L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4A1 1 0 0110 12z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <div class="py-2 pr-5 pl-3 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg z-10">
-              <div class="py-1">
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Action 1
-                </a>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Action 2
-                </a>
-                <a
-                  href="#"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Action 3
-                </a>
-              </div>
-            </div> */}
               </button>
             </div>
             <div className="flex gap-1 my-auto text-black whitespace-nowrap leading-[150%]">
@@ -139,7 +88,7 @@ export default function Medications(patientId) {
 
           {medications.map((medication, index) => (
             <button
-              key={medication.medicinename}
+              key={medication.id}
               onClick={() => {
                 setTest(true);
                 setAdd(false);
@@ -155,10 +104,10 @@ export default function Medications(patientId) {
                     height={0}
                     width={0}
                     loading="lazy"
-                    src={medication.srcmedicine}
+                    src={"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
                     className="aspect-square fill-black w-[15px]"
                   />
-                  <div className="my-auto">{medication.medicinename}</div>
+                  <div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
                 </div>
                 <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
                   <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
@@ -167,11 +116,11 @@ export default function Medications(patientId) {
                       height={0}
                       width={0}
                       loading="lazy"
-                      src={medication.srddoctor}
+                      src={"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"}
                       className="w-4 aspect-square"
                     />
-                    <div className="grow my-auto">{medication.doctor}</div>
-                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.startdate} - ${medication.enddate}`}</div>
+                    <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
+                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} - ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
                   </div>
 
                   {medication.doctor === "Dr. John Doe" && (
