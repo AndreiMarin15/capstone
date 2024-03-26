@@ -28,7 +28,6 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
 
-
   useEffect(() => {
     // Fetch medications when the component mounts
     const fetchMedications = async () => {
@@ -43,6 +42,21 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
     fetchMedications();
   }, []);
 
+  useEffect(() => {
+    const findMedicationByRegis = () => {
+      const selectedMedication = medications.find(medication => medication["Registration Number"] === regis);
+      if (selectedMedication) {
+        const dosageStrength = selectedMedication["Dosage Strength"];
+        const dosageForm = selectedMedication["Dosage Form"];
+        setDoseUnit(dosageStrength);
+        setForm(dosageForm);
+      }
+    };
+    if (regis !== "") {
+      findMedicationByRegis();
+    }
+  }, [regis, medications]);
+
 
 
   const handleSave = async () => {
@@ -53,7 +67,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
       // Construct the data to save
       const dataToSave = {
-        id: "example",
+        id: regis,
 
         medicationCodeableConcept: [ {
           coding: [ 
@@ -219,14 +233,14 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                     <div className="flex-auto my-auto">{item.variable}</div>
                                   </td>
                                   <td>
-                                    <input
+                                  <input
                                       type="text"
                                       className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
                                       value={
-                                        item.variable === "Dose and Unit"
+                                        item.variable === "Dose and Unit" && regis !== ""
                                           ? doseUnit
-                                          : item.variable === "Form"
-                                          ? form
+                                          : item.variable === "Form" && regis !== "" // Check if regis is not empty
+                                          ? form // If regis is not empty, use the autofilled form
                                           : item.variable === "Frequency"
                                           ? duration
                                           : patientInstructions
@@ -302,21 +316,25 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                         {filteredMedications.map((med) => (
                                           <li
                                             key={med["Registration Number"]}
+                                            
                                             className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
                                           >
                                             <button
                                               className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
                                               onClick={() => {
-                                                console.log(`Gen + Brand Name: ${med["Generic Name"]} - ${med["Brand Name"]}`);
+                                                console.log(`Gen + Brand Name: ${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`);
                                                 setMedicationName(`${med["Generic Name"]} - ${med["Brand Name"]}`);
                                                 console.log(`Brand Name: ${med["Brand Name"]}`);
-                                                setName(`${med["Brand Name"]}`)
-                                                console.log(medicationName)
-                                              
-                                                setFilteredMedications([]);
+                                                setName(`${med["Brand Name"]}`);
+                                               
+                                                console.log(name);
+                                                setRegis(`${med["Registration Number"]}`);
+                                                console.log(`Regis number: ${med["Registration Number"]}`);
+                                                console.log("Registed id" , regis);
+                                                setFilteredMedications([])
                                               }}
                                             >
-                                              {`${med["Generic Name"]} - ${med["Brand Name"]}`}
+                                              {`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]} ${med["Dosage Form"]}`}
                                             </button>
                                           </li>
                                         ))}
