@@ -212,8 +212,8 @@ export default function Vitals({ patientId }) {
               id="col"
               className="w-full flex flex-row gap-3 overflow-x-auto"
             >
-              {Object.keys(vitalsAndBio).map((key) => (
-                <div className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
+              {Object.keys(vitalsAndBio).map((key, index) => (
+                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
                   <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                     {key}
                   </div>
@@ -322,8 +322,8 @@ export default function Vitals({ patientId }) {
               id="col"
               className="w-full flex flex-row gap-3 overflow-x-auto"
             >
-              {Object.keys(vitalsAndBio).map((key) => (
-                <div className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
+              {Object.keys(vitalsAndBio).map((key, index) => (
+                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
                   <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                     {key}
                   </div>
