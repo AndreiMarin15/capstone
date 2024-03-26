@@ -4,7 +4,8 @@ import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
 import * as React from "react";
 import { useState } from "react";
-import { getMedicationRequests } from "../../../../../../lib/backend/health_records/getMedicationRequest";
+import { getMedicationRequests, updateMedicationStatus } from "../../../../../../lib/backend/health_records/getMedicationRequest";
+import { PUBLIC } from "../../../../../../lib/backend/public/db";
 export default function Medications({patientId}) {
   const [medications, setMedications] = useState([]);
   const [regis, setRegis] = useState("");
@@ -37,8 +38,28 @@ export default function Medications({patientId}) {
   const toggleStatus = () => {
     setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
   };
+
   const today = new Date();
 
+  const handleDiscontinue = async (medicationId) => {
+    console.log("Medication ID before update:", medicationId);
+    try {
+        // Update the medication status directly using updateTable
+        await PUBLIC.updateTable("medicationrequest", {
+            "resource.status": "Inactive" // Update the nested 'status' field within the 'resource' JSON object
+        }, {
+            "resource.id": medicationId // Match against the 'id' within the 'resource' object
+        });
+
+        console.log("Medication ID after update:", medicationId);
+
+        // Refresh medication list after updating status
+        const updatedMedicationRequests = await getMedicationRequests();
+        setMedications(updatedMedicationRequests);
+    } catch (error) {
+        console.error("Error discontinuing medication:", error);
+    }
+};
    return (
     <>
       {isTest ? (
@@ -104,18 +125,16 @@ export default function Medications({patientId}) {
           {medications
             .filter((medication) => {
               const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
-              console.log("Validity Period End:", validityPeriodEnd);
-              console.log("Today:", today);
               if (status === "ACTIVE") {
                 return (
                   medication.resource.subject.reference === patientId &&
-                  validityPeriodEnd >= today
+                  validityPeriodEnd >= today &&
+                  medication.resource.status === "Active"
                 );
               } else {
-                
                 return (
                   medication.resource.subject.reference === patientId &&
-                  validityPeriodEnd < today
+                  (validityPeriodEnd < today || medication.resource.status === "Inactive")
                 );
               }
             })
@@ -168,9 +187,16 @@ export default function Medications({patientId}) {
                           </button>
                         </span>
                         <span className="">
-                          <button className="ml-2 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-                            Discontinue
-                          </button>
+                        <button
+                          className="ml-2 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent event bubbling
+                            console.log("Medication ID:", medication.resource.id);
+                            handleDiscontinue(medication.resource.id);
+                          }}
+                        >
+                          Discontinue
+                        </button>
                         </span>
                       </div>
                     )}

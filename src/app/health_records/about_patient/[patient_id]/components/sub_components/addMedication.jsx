@@ -67,6 +67,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   
 
       const dataToSave = {
+        status:"Active",
         id: regis,
 
         medicationCodeableConcept: [ {
