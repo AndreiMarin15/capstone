@@ -5,6 +5,7 @@ import BackButton from "./BackButton";
 import uploadMedication from "../../../../../../../lib/backend/health_records/uploadMedication";
 import { retrieveMedications } from "../../../../../../../lib/backend/health_records/getMedication";
 import { formatDuration } from "date-fns/esm";
+import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
@@ -61,11 +62,10 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
   const handleSave = async () => {
     try {
-      // Your existing code to fetch doctor info and patient data
+      const patientData = await healthRecords.getPatientData(patientId);
       const doctorInfo = await doctor.getDoctorByCurrentUser();
-      // const patientData = await healthRecords.getPatientData(patientId);
+  
 
-      // Construct the data to save
       const dataToSave = {
         id: regis,
 
@@ -79,6 +79,11 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
           name: name,
          },
         ],
+
+      subject:{
+        type: "Patient",
+        reference: patientData.id,
+      },
 
       dosageInstruction: [
         {

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { getMedicationRequests } from "../../../../../../lib/backend/health_records/getMedicationRequest";
 export default function Medications({patientId}) {
   const [medications, setMedications] = useState([]);
+  const [regis, setRegis] = useState("");
 
   React.useEffect(() => {
     const fetchMedications = async () => {
@@ -38,6 +39,8 @@ export default function Medications({patientId}) {
         <ViewMedications
           currentScreen={3}
           setCurrentScreen={handleSetCurrentScreen}
+          patientId={patientId}
+          medicationId={regis}
         />
       ) : isAdd ? (
         <AddMedications
@@ -86,10 +89,15 @@ export default function Medications({patientId}) {
             </div>
           </div>
 
-          {medications.map((medication, index) => (
+          {medications
+          .filter(medication => medication.resource.subject.reference === patientId) // Filter medications based on subject reference
+          .map((medication, index) => (
             <button
-              key={medication.id}
+              key={medication.resource.id}
+           
               onClick={() => {
+                console.log(medication.resource.id)
+                setRegis(medication.resource.id)
                 setTest(true);
                 setAdd(false);
               }}
@@ -120,7 +128,7 @@ export default function Medications({patientId}) {
                       className="w-4 aspect-square"
                     />
                     <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
-                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} - ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
+                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
                   </div>
 
                   {medication.doctor === "Dr. John Doe" && (
