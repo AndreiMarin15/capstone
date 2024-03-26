@@ -8,6 +8,7 @@ import { getMedicationRequests } from "../../../../../../lib/backend/health_reco
 export default function Medications({patientId}) {
   const [medications, setMedications] = useState([]);
   const [regis, setRegis] = useState("");
+  const [status, setStatus] = useState("ACTIVE");
 
   React.useEffect(() => {
     const fetchMedications = async () => {
@@ -33,6 +34,10 @@ export default function Medications({patientId}) {
     }
   };
 
+  const toggleStatus = () => {
+    setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+  };
+  
   return (
     <>
       {isTest ? (
@@ -64,12 +69,19 @@ export default function Medications({patientId}) {
           </div>
           <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
             <div className="flex gap-1.5 p-2.5">
-              <div className="mt-3 grow font-semibold text-black">Status: </div>
-              <button className="flex flex-col flex-1 justify-center font-bold text-green-600 whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                <div className="justify-center items-start py-2 pr-16 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
-                  ACTIVE
-                </div>
-              </button>
+            <div className="mt-3 grow font-semibold text-black">
+                Status:{" "}
+                <button
+                  className={`flex flex-col flex-1 justify-center font-bold ${
+                    status === "ACTIVE" ? "text-green-600" : "text-red-600"
+                  } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`}
+                  onClick={toggleStatus}
+                >
+                  <div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
+                    {status}
+                  </div>
+                </button>
+              </div>
             </div>
             <div className="flex gap-1 my-auto text-black whitespace-nowrap leading-[150%]">
               <button className="flex gap-1 px-5 py-2 rounded-md border border-black border-solid">
