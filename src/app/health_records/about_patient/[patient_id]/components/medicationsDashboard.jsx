@@ -37,8 +37,9 @@ export default function Medications({patientId}) {
   const toggleStatus = () => {
     setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
   };
-  
-  return (
+  const today = new Date();
+
+   return (
     <>
       {isTest ? (
         <ViewMedications
@@ -100,67 +101,83 @@ export default function Medications({patientId}) {
               </button>
             </div>
           </div>
-
           {medications
-          .filter(medication => medication.resource.subject.reference === patientId) // Filter medications based on subject reference
-          .map((medication, index) => (
-            <button
-              key={medication.resource.id}
-           
-              onClick={() => {
-                console.log(medication.resource.id)
-                setRegis(medication.resource.id)
-                setTest(true);
-                setAdd(false);
-              }}
-            >
-              <div
-                key={index}
-                className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
+            .filter((medication) => {
+              const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
+              console.log("Validity Period End:", validityPeriodEnd);
+              console.log("Today:", today);
+              if (status === "ACTIVE") {
+                return (
+                  medication.resource.subject.reference === patientId &&
+                  validityPeriodEnd >= today
+                );
+              } else {
+                
+                return (
+                  medication.resource.subject.reference === patientId &&
+                  validityPeriodEnd < today
+                );
+              }
+            })
+            .map((medication, index) => (
+
+              <button
+                key={medication.resource.id}
+                onClick={() => {
+                  console.log(medication.resource.id);
+                  setRegis(medication.resource.id);
+                  setTest(true);
+                  setAdd(false);
+                }}
               >
-                <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
-                  <Image
-                    alt="image"
-                    height={0}
-                    width={0}
-                    loading="lazy"
-                    src={"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
-                    className="aspect-square fill-black w-[15px]"
-                  />
-                  <div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
-                </div>
-                <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
-                  <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+           
+                <div
+                  key={index}
+                  className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
+                >
+                  <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                     <Image
                       alt="image"
                       height={0}
                       width={0}
                       loading="lazy"
-                      src={"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"}
-                      className="w-4 aspect-square"
+                      src={"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
+                      className="aspect-square fill-black w-[15px]"
                     />
-                    <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
-                    <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
+                    <div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
                   </div>
-
-                  {medication.doctor === "Dr. John Doe" && (
-                    <div className="flex-auto ml-96">
-                      <span className="">
-                        <button className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-                          Edit
-                        </button>
-                      </span>
-                      <span className="">
-                        <button className="ml-2 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-                          Discontinue
-                        </button>
-                      </span>
+                  <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
+                    <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                      <Image
+                        alt="image"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src={"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"}
+                        className="w-4 aspect-square"
+                      />
+                      <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
+                      <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
                     </div>
-                  )}
+
+                    {medication.resource.requester.agent.reference === "Doctor Test" && (
+                      <div className="flex-auto ml-96">
+                        <span className="">
+                          <button className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
+                            Edit
+                          </button>
+                        </span>
+                        <span className="">
+                          <button className="ml-2 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
+                            Discontinue
+                          </button>
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
           <BackButton />
         </>
       )}
