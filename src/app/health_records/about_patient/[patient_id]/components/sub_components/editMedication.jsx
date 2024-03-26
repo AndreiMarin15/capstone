@@ -587,8 +587,11 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
               setCurrentScreen={setCurrentScreen}
             />
             <div>
-              <button
-                onClick={handleSave} // Attach the handleSave function here
+            <button
+                onClick={() => {
+                  handleSave();
+                  setCurrentScreen(2);
+                }} // Attach the handleSave function here
                 className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
               >
                 SAVE
