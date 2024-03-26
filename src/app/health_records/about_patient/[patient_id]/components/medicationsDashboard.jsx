@@ -2,13 +2,14 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
+import EditMedications from "./sub_components/editMedication";
 import * as React from "react";
 import { useState } from "react";
 import {
 	getMedicationRequests,
 	updateMedicationStatus,
 } from "../../../../../../lib/backend/health_records/getMedicationRequest";
-import { PUBLIC } from "../../../../../../lib/backend/public/db";
+
 import { client } from "../../../../../../lib/backend/initSupabase";
 
 export default function Medications({ patientId }) {
@@ -33,11 +34,14 @@ export default function Medications({ patientId }) {
 
 	const [isTest, setTest] = useState(false);
 	const [isAdd, setAdd] = useState(false);
+	const [isEdit, setEdit] = useState(false);
+	
 	const handleSetCurrentScreen = (screen) => {
 		// Reset isTest to false when navigating back to screen 2
 		if (screen === 2) {
 			setTest(false);
 			setAdd(false);
+			setEdit(false);
 		}
 	};
 
@@ -79,8 +83,15 @@ export default function Medications({ patientId }) {
 		}
 	};
 	return (
-		<>
-			{isTest ? (
+		<> {isEdit ? (
+			<EditMedications
+				currentScreen={6}
+				setCurrentScreen={handleSetCurrentScreen}
+				patientId={patientId}
+				medicationId={regis}
+			/>
+		) :
+			isTest ? (
 				<ViewMedications
 					currentScreen={3}
 					setCurrentScreen={handleSetCurrentScreen}
@@ -177,7 +188,7 @@ export default function Medications({ patientId }) {
 											}
 											className="aspect-square fill-black w-[15px]"
 										/>
-										<div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
+										<div className="my-auto">{medication.resource.medicationCodeableConcept[0].text }</div>
 									</div>
 									<div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
 										<div className="flex gap-1 justify-between font-medium whitespace-nowrap">
@@ -195,12 +206,24 @@ export default function Medications({ patientId }) {
 											<div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
 										</div>
 
-										{medication.resource.requester.agent.reference === "Doctor Test" && (
+										{medication.resource.requester.agent.reference === "Doctor Test" && medication.resource.status === "Active" && (
 											<div className="flex-auto ml-96">
 												<span className="">
-													<button className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white">
-														Edit
-													</button>
+												<button
+													className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
+													onClick={(e) => {
+														e.stopPropagation(); 
+														console.log("edit Button is being pressed");
+														// Set the state to indicate editing mode
+														setEdit(true);
+														// Ensure the test mode is not active
+														setTest(false);
+														// Pass the necessary props to the EditMedications component
+														setRegis(medication.resource.id);
+													}}
+												>
+													Edit
+												</button>
 												</span>
 												<span className="">
 													<button
@@ -216,13 +239,13 @@ export default function Medications({ patientId }) {
 												</span>
 											</div>
 										)}
-									</div>
-								</div>
-							</button>
-						))}
-					<BackButton />
-				</>
-			)}
-		</>
-	);
-}
+														</div>
+													</div>
+												</button>
+											))}
+										<BackButton />
+									</>
+								)}
+							</>
+						);
+					}

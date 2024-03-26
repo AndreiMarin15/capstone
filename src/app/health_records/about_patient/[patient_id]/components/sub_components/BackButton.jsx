@@ -28,6 +28,8 @@ const BackButton = ({
       setCurrentScreen(2);
     } else if (currentScreen === 5) {
       setCurrentScreen(0);
+    } else if (currentScreen === 6) {
+        setCurrentScreen(2);
     } else {
       router.push("/health_records"); // Navigate back to the default route
     }
