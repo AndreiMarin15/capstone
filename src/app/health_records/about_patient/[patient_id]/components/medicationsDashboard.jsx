@@ -19,7 +19,7 @@ export default function Medications({ patientId }) {
 	const [regis, setRegis] = useState("");
 	const [status, setStatus] = useState("ACTIVE");
 	const [currentUser, setCurrentUser] = useState(null);
-
+	const [currentScreen, setCurrentScreen] = useState(0);
 	React.useEffect(() => {
 		const fetchCurrentUser = async () => {
 			try {
@@ -31,23 +31,27 @@ export default function Medications({ patientId }) {
 		};
 	
 		fetchCurrentUser();
+	
 	}, []);
 
 
 	React.useEffect(() => {
 		const fetchMedications = async () => {
 			try {
-				
-				const medicationRequestsData = await getMedicationRequests();
+				// Fetch medications based on current patient ID
+				const medicationRequestsData = await getMedicationRequests(patientId);
+				setCurrentScreen(2);
 				setMedications(medicationRequestsData);
 				console.log(medicationRequestsData);
 			} catch (error) {
 				console.error("Error fetching medication requests:", error);
 			}
 		};
-
+	
+		// Fetch medications whenever currentScreen changes
 		fetchMedications();
-	}, []);
+	}, [currentScreen]);
+	
 
 	const [isTest, setTest] = useState(false);
 	const [isAdd, setAdd] = useState(false);
@@ -59,6 +63,8 @@ export default function Medications({ patientId }) {
 			setTest(false);
 			setAdd(false);
 			setEdit(false);
+
+
 		}
 	};
 
@@ -97,7 +103,9 @@ export default function Medications({ patientId }) {
 		}
 	};
 	return (
-		<> {isEdit ? (
+		<> 
+		
+		{isEdit ? (
 			<EditMedications
 				currentScreen={6}
 				setCurrentScreen={handleSetCurrentScreen}
