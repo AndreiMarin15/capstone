@@ -71,9 +71,6 @@ export default function Medications({ patientId }) {
 					.update({ resource: { ...medicationRequestToUpdate.resource, status: "Inactive" } })
 					.eq("id", medicationRequestToUpdate.id);
 
-				console.log("Updated Data:", updateData);
-				console.log("Medication ID after update:", medicationId);
-
 				// Refresh medication list after updating status
 				const updatedMedicationRequests = await getMedicationRequests();
 				setMedications(updatedMedicationRequests);

@@ -81,15 +81,18 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
   
         // Find the medication with the specified medicationId
         const filteredMedication = medicationRequestsData.find(medication => medication.resource.id === medicationId);
-  
+        
         // Check if the filtered medication exists
         if (filteredMedication) {
           const medicationResource = filteredMedication.resource;
   
           // Extract relevant data from the medication resource
+          console.log(medicationResource.medicationCodeableConcept[0]?.text || '')
+          console.log(medicationResource.form?.text || '')
           setMedicineName(medicationResource.medicationCodeableConcept[0]?.text || '');
+          
           setDoseUnit(medicationResource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || '');
-          setForm(medicationResource.form?.text?.text || '');
+          setForm(medicationResource.form?.text || '');
           setFrequency(medicationResource.dispenseRequest?.dispenseInterval || '');
           setNote(medicationResource.note || '');
           setMedicationStart(medicationResource.dispenseRequest?.validityPeriod?.start || '');

@@ -16,6 +16,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
   const [medicationName, setMedicationName] = useState("");
   const [name, setName] = useState("");
+  const [genName, setGenName] = useState("");
   const [medications, setMedications] = useState([]);
   const [filteredMedications, setFilteredMedications] = useState([]);
 
@@ -74,10 +75,10 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
           coding: [ 
               {
                   system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  
+                  display: genName,
               }
           ],
-          name: name,
+          text: name,
          },
         ],
 
@@ -332,7 +333,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                                 setMedicationName(`${med["Generic Name"]} - ${med["Brand Name"]}`);
                                                 console.log(`Brand Name: ${med["Brand Name"]}`);
                                                 setName(`${med["Brand Name"]}`);
-                                               
+                                                setGenName(`${med["Generic Name"]}`)
                                                 console.log(name);
                                                 setRegis(`${med["Registration Number"]}`);
                                                 console.log(`Regis number: ${med["Registration Number"]}`);
