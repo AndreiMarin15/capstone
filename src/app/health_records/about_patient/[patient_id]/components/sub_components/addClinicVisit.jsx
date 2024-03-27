@@ -363,7 +363,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	const followup = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-			variable: "Diagnosis",
+			variable: "Initial Diagnosis",
 			value: "",
 		},
 		{
@@ -485,163 +485,162 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 											</td>
 										</tr>
 									))}
-
-{followup.map((item, index) => (
-    <tr key={index} className={`h-${item.variable === "Review of Systems" || item.variable === "Signs and Symptoms" ? "14" : "8"}`}>
-        <td className="w-5">
-            <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-start aspect-square fill-black w-[15px]"
-            />
-        </td>
-        <td className="border-l-[16px] border-transparent">
-            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-            </div>
-        </td>
-        <td className="border-l-[5rem] border-transparent">
-            {typeof item.value === "string" ? (
-                item.variable === "Diagnosis" || item.variable === "Final Diagnosis" ? (
-                    <div className="inline-block relative">
-                        <textarea
-                            value={item.variable === "Diagnosis" ? diagnosis : finalDiagnosis}
-                            onChange={(e) => {
-                                if (item.variable === "Diagnosis") {
-                                    handleDiagnosisChange(e);
-                                } else if (item.variable === "Final Diagnosis") {
-                                    handleFinalDiagnosisChange(e);
-                                }
-                            }}
-                            className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
-                            style={{ height: 'auto' }}
-                            placeholder="Search for diagnosis..."
-                        />
-                        {item.variable === "Diagnosis" && filteredDisease.length > 0 && (
-									<ul
-									style={{
-										listStyle: "none",
-										padding: "unset",
-										margin: "unset",
-										position: "absolute",
-										width: "300px", // Subtract 4px for the border width
-										maxHeight: "300px", // Adjust the maximum height as needed
-										overflowY: "auto", // Enable vertical scrolling if needed
-										overflowX: "hidden",
-										zIndex: 999, // Set a higher z-index value
-									}}
-								>
-                                {filteredDisease.map((disease) => (
-                                    <li
-                                        key={disease.id}
-                                        className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
-                                    >
-                                        <button
-                                            className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
-                                            onClick={() => {
-                                                console.log(`Selected Diagnosis: ${disease.disease}`);
-                                                setDiagnosis(disease.disease);
-                                                setFilteredDisease([]);
-                                            }}
-                                        >
-                                            {disease.disease}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        {item.variable === "Final Diagnosis" && filteredFinalDisease.length > 0 && (
-                            <ul
-                                style={{
-                                    listStyle: "none",
-                                    padding: "unset",
-                                    margin: "unset",
-                                    position: "absolute",
-                                    width: "300px", // Subtract 4px for the border width
-                                    maxHeight: "300px", // Adjust the maximum height as needed
-                                    overflowY: "auto", // Enable vertical scrolling if needed
-                                    overflowX: "hidden",
-                                }}
-                            >
-                                {filteredFinalDisease.map((disease) => (
-                                    <li
-                                        key={disease.id}
-                                        className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
-                                    >
-                                        <button
-                                            className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
-                                            onClick={() => {
-                                                console.log(`Selected Final Diagnosis: ${disease.disease}`);
-                                                setFinalDiagnosis(disease.disease);
-                                                setFilteredFinalDisease([]);
-                                            }}
-                                        >
-                                            {disease.disease}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                ) : (
-                    item.variable === "Tests" ? (
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => setCurrentScreen(item.component)}
-                                className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                            >
-                                {item.variable === "Tests" ? "Record" : "Add"}
-                            </button>
-                            {item.variable === "Tests" && (
-                                <button
-                                    onClick={() => setCurrentScreen(item.requestcomponent)}
-                                    className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
-                                >
-                                    Request
-                                </button>
-                            )}
-                        </div>
-                    ) : item.variable === "Suggested Next Clinic Visit" ? (
-                        <input
-                            type="date"
-                            value={suggestedClinicDate || ""}
-                            onChange={(e) => setSuggestedClinicDate(e.target.value)}
-                            className="grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]"
-                        />
-                    ) : (
-                        <textarea
-                            placeholder={
-                                item.variable === "Signs and Symptoms" ? "Add signs and symptoms" :
-                                item.variable === "Review of Systems" ? "Add Review" :
-                                item.variable === "Other Concerns" ? "Add Concern/s" : ""
-                            }
-                            onChange={(e) => {
-                                if (item.variable === "Signs and Symptoms") {
-                                    setSignsAndSymptoms(e.target.value);
-                                } else if (item.variable === "Review of Systems") {
-                                    setReviewOfSystems(e.target.value);
-                                } else if (item.variable === "Other Concerns") {
-                                    setOtherConcerns(e.target.value);
-                                }
-                            }}
-                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                            style={{
-                                height: ["Review of Systems", "Signs and Symptoms"].includes(item.variable) ? "3rem" : "auto",
-                                whiteSpace: "pre-wrap",
-                            }}
-                            wrap="soft"
-                        />
-                    )
-                )
-            ) : (
-                <div className="ml-auto">{/* Handle other cases if needed */}</div>
-            )}
-        </td>
-    </tr>
-))}
+										{followup.map((item, index) => (
+											<tr key={index} className={`h-${item.variable === "Review of Systems" || item.variable === "Signs and Symptoms" ? "14" : "8"}`}>
+												<td className="w-5">
+													<Image
+														alt="image"
+														height={0}
+														width={0}
+														loading="lazy"
+														src={item.src}
+														className="self-start aspect-square fill-black w-[15px]"
+													/>
+												</td>
+												<td className="border-l-[16px] border-transparent">
+													<div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+														{item.variable}
+													</div>
+												</td>
+												<td className="border-l-[5rem] border-transparent">
+													{typeof item.value === "string" ? (
+														item.variable === "Initial Diagnosis" || item.variable === "Final Diagnosis" ? (
+															<div className="inline-block relative">
+																<textarea
+																	value={item.variable === "Initial Diagnosis" ? diagnosis : finalDiagnosis}
+																	onChange={(e) => {
+																		if (item.variable === "Initial Diagnosis") {
+																			handleDiagnosisChange(e);
+																		} else if (item.variable === "Final Diagnosis") {
+																			handleFinalDiagnosisChange(e);
+																		}
+																	}}
+																	className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
+																	style={{ height: 'auto' }}
+																	placeholder="Search for diagnosis..."
+																/>
+																{item.variable === "Initial Diagnosis" && filteredDisease.length > 0 && (
+																			<ul
+																			style={{
+																				listStyle: "none",
+																				padding: "unset",
+																				margin: "unset",
+																				position: "absolute",
+																				width: "300px", // Subtract 4px for the border width
+																				maxHeight: "300px", // Adjust the maximum height as needed
+																				overflowY: "auto", // Enable vertical scrolling if needed
+																				overflowX: "hidden",
+																				zIndex: 999, // Set a higher z-index value
+																			}}
+																		>
+																		{filteredDisease.map((disease) => (
+																			<li
+																				key={disease.id}
+																				className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+																			>
+																				<button
+																					className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+																					onClick={() => {
+																						console.log(`Selected Diagnosis: ${disease.disease}`);
+																						setDiagnosis(disease.disease);
+																						setFilteredDisease([]);
+																					}}
+																				>
+																					{disease.disease}
+																				</button>
+																			</li>
+																		))}
+																	</ul>
+																)}
+																{item.variable === "Final Diagnosis" && filteredFinalDisease.length > 0 && (
+																	<ul
+																		style={{
+																			listStyle: "none",
+																			padding: "unset",
+																			margin: "unset",
+																			position: "absolute",
+																			width: "300px", // Subtract 4px for the border width
+																			maxHeight: "300px", // Adjust the maximum height as needed
+																			overflowY: "auto", // Enable vertical scrolling if needed
+																			overflowX: "hidden",
+																		}}
+																	>
+																		{filteredFinalDisease.map((disease) => (
+																			<li
+																				key={disease.id}
+																				className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+																			>
+																				<button
+																					className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+																					onClick={() => {
+																						console.log(`Selected Final Diagnosis: ${disease.disease}`);
+																						setFinalDiagnosis(disease.disease);
+																						setFilteredFinalDisease([]);
+																					}}
+																				>
+																					{disease.disease}
+																				</button>
+																			</li>
+																		))}
+																	</ul>
+																)}
+															</div>
+														) : (
+															item.variable === "Tests" ? (
+																<div className="flex gap-2">
+																	<button
+																		onClick={() => setCurrentScreen(item.component)}
+																		className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+																	>
+																		{item.variable === "Tests" ? "Record" : "Add"}
+																	</button>
+																	{item.variable === "Tests" && (
+																		<button
+																			onClick={() => setCurrentScreen(item.requestcomponent)}
+																			className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
+																		>
+																			Request
+																		</button>
+																	)}
+																</div>
+															) : item.variable === "Suggested Next Clinic Visit" ? (
+																<input
+																	type="date"
+																	value={suggestedClinicDate || ""}
+																	onChange={(e) => setSuggestedClinicDate(e.target.value)}
+																	className="grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]"
+																/>
+															) : (
+																<textarea
+																	placeholder={
+																		item.variable === "Signs and Symptoms" ? "Add signs and symptoms" :
+																		item.variable === "Review of Systems" ? "Add Review" :
+																		item.variable === "Other Concerns" ? "Add Concern/s" : ""
+																	}
+																	onChange={(e) => {
+																		if (item.variable === "Signs and Symptoms") {
+																			setSignsAndSymptoms(e.target.value);
+																		} else if (item.variable === "Review of Systems") {
+																			setReviewOfSystems(e.target.value);
+																		} else if (item.variable === "Other Concerns") {
+																			setOtherConcerns(e.target.value);
+																		}
+																	}}
+																	className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+																	style={{
+																		height: ["Review of Systems", "Signs and Symptoms"].includes(item.variable) ? "3rem" : "auto",
+																		whiteSpace: "pre-wrap",
+																	}}
+																	wrap="soft"
+																/>
+															)
+														)
+													) : (
+														<div className="ml-auto">{/* Handle other cases if needed */}</div>
+													)}
+												</td>
+											</tr>
+										))}
 								</tbody>
 							</table>
 							{/* VITALS AND BIOMETRICS */}
