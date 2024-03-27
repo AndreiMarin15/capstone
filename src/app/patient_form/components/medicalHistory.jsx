@@ -6,6 +6,9 @@ export default function SignUpMedicalHistory() {
   const [medications, setMedications] = useState([]);
   const [filteredMedications, setFilteredMedications] = useState([]);
   const [medicationList, setMedicationList] = useState([]);
+  const [selectedMedication, setSelectedMedication] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+
   useEffect(() => {
     const getMedications = async () => {
       const drugs = await signUp.retrieveMedications();
@@ -96,69 +99,75 @@ export default function SignUpMedicalHistory() {
             Enter Medications{" "}
           </div>
 
-          <div className="flex gap-2.5 justify-between mt-2 text-lg text-white whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
+          <div className="flex gap-2.5 justify-between mt-2 text-lg text-start text-white whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             {medications.length > 0 ? (
               <div className="flex">
                 <div className="inline-block relative">
-                  <input
-                    onChange={(e) => {
-                      let filteredMedicines = [];
-                      console.log(e.target.value.length);
-                      medications.forEach((medication) => {
-                        if (e.target.value.length > 0) {
-                          if (
-                            medication["Generic Name"]
-                              ?.toLowerCase()
-                              .includes(e.target.value.toLowerCase()) ||
-                            medication["Brand Name"]
-                              ?.toLowerCase()
-                              .includes(e.target.value.toLowerCase())
-                          ) {
-                            filteredMedicines.push(medication);
-                          }
-                        } else {
-                          filteredMedicines = [];
+                <input
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    let filteredMedicines = [];
+                    medications.forEach((medication) => {
+                      if (e.target.value.length > 0) {
+                        if (
+                          medication["Generic Name"]
+                            ?.toLowerCase()
+                            .includes(e.target.value.toLowerCase()) ||
+                          medication["Brand Name"]
+                            ?.toLowerCase()
+                            .includes(e.target.value.toLowerCase())
+                        ) {
+                          filteredMedicines.push(medication);
                         }
+                      } else {
+                        filteredMedicines = [];
+                      }
 
-                        setFilteredMedications(filteredMedicines);
-                      });
-                    }}
-                    id="medInput"
-                    type="text"
-                    className="text-black rounded shadow-sm h-[30px] flex-grow flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
-                  />
+                      setFilteredMedications(filteredMedicines);
+                    });
+                  }}
+                  id="medInput"
+                  type="text"
+                  value={inputValue}
+                  className="text-black rounded text-xs shadow-sm h-[30px]  flex-grow flex-col mt-2 border-[0.5px] px-auto py-4 border-solid border-black text-left"
+                  style={{ width: "700px", textIndent: "5px"}}
+                />
                   {filteredMedications.length > 0 ? (
                     <>
                       <ul
-                        style={{
-                          listStyle: "none",
-                          padding: "unset",
-                          margin: "unset",
-                          position: "absolute",
-                          width: "100%",
-                        }}
+                       style={{
+                        listStyle: "none",
+                        padding: "unset",
+                        margin: "unset",
+                        position: "absolute",
+                        width: "600px", // Subtract 4px for the border width
+                        maxHeight: "200px", // Adjust the maximum height as needed
+                        overflowY: "auto", // Enable vertical scrolling if needed
+                        overflowX: "hidden",
+                        
+                      }}
+                    >
+                      {filteredMedications.slice(0, 50).map((med) => (
+                      <li
+                        key={med["Registration Number"]}
+                        className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
                       >
-                        {filteredMedications.map((med) => (
-                          <li
-                            key={med["Registration Number"]}
-                            className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
-                          >
-                            <button
-                              className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
-                              onClick={() => {
-                                setMedicationList((prev) => {
-                                  return [...prev, med];
-                                });
-
-                                document.getElementById("medInput").value = "";
-                                setFilteredMedications([]);
-                              }}
-                            >
-                              {`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
+                        <button
+                          className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                          onClick={() => {
+                            setMedicationList((prev) => {
+                              return [...prev, med];
+                            });
+                            setSelectedMedication(`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`);
+                            setInputValue(`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`);
+                            setFilteredMedications([]);
+                          }}
+                        >
+                          {`${med["Generic Name"]} - ${med["Brand Name"]} ${med["Dosage Strength"]}`}
+                        </button>
+                      </li>
+                      ))}
+                    </ul>
                     </>
                   ) : (
                     ""
