@@ -414,16 +414,15 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
                                     <textarea
                                       value={medicationName}
                                       onChange={(e) => {
-                                          const inputValue = e.target.value.toLowerCase();
-                                          const filteredMeds = medications.filter(medication => {
-                                              const genericName = medication["Generic Name"]?.toLowerCase() || "";
-                                              const brandName = medication["Brand Name"]?.toLowerCase() || "";
-                                              return genericName.includes(inputValue) || brandName.includes(inputValue);
-                                          });
-                                          setFilteredMedications(filteredMeds);
-                                          setMedicationName(e.target.value);
-                                        
-                                      }}
+                                        const inputValue = e.target.value.toLowerCase();
+                                        const filteredMeds = medications.filter(medication => {
+                                            const genericName = medication["Generic Name"]?.toLowerCase() || "";
+                                            const brandName = medication["Brand Name"]?.toLowerCase() || "";
+                                            return genericName.includes(inputValue) || brandName.includes(inputValue);
+                                        }).slice(0, 50); // Limiting the filtered medications to 50
+                                        setFilteredMedications(filteredMeds);
+                                        setMedicationName(e.target.value);
+                                    }}
                                       className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
                                       style={{ height: 'auto' }}
                                       placeholder="Search for medication..."
