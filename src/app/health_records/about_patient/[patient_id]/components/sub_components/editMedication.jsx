@@ -434,7 +434,7 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
                                           padding: "unset",
                                           margin: "unset",
                                           position: "absolute",
-                                          width: "calc(100% - 4px)", // Subtract 4px for the border width
+                                          width: "600px", // Subtract 4px for the border width
                                           maxHeight: "200px", // Adjust the maximum height as needed
                                           overflowY: "auto", // Enable vertical scrolling if needed
                                           overflowX: "hidden",

@@ -526,7 +526,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																				padding: "unset",
 																				margin: "unset",
 																				position: "absolute",
-																				width: "300px", // Subtract 4px for the border width
+																				width: "400px", // Subtract 4px for the border width
 																				maxHeight: "300px", // Adjust the maximum height as needed
 																				overflowY: "auto", // Enable vertical scrolling if needed
 																				overflowX: "hidden",
@@ -559,7 +559,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																			padding: "unset",
 																			margin: "unset",
 																			position: "absolute",
-																			width: "300px", // Subtract 4px for the border width
+																			width: "400px", // Subtract 4px for the border width
 																			maxHeight: "300px", // Adjust the maximum height as needed
 																			overflowY: "auto", // Enable vertical scrolling if needed
 																			overflowX: "hidden",
