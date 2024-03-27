@@ -6,6 +6,7 @@ import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import retrieveReferralData from "../../../../lib/backend/referral/retrieveReferralData";
 import ReferralList from "./components/referralList";
+import { getMessages, getMessagesAndSubscribe } from "../../../../lib/backend/referral/referralMessages";
 
 export default function Referral() {
 	const router = useRouter();
@@ -14,20 +15,100 @@ export default function Referral() {
 	const [otpInput, setOTPInput] = React.useState("");
 	const user = currentUser.getState().user;
 
-	const [currentInfo, setCurrentInfo] = React.useState({});
-	const doctorInfo = {
-		name: "Dr. Johnny Santos",
-		specialty: "Cardiologist",
-		patient: "Juan Dela Cruz",
+	const [changeUser, setChangeUser] = React.useState(false);
+	const [newMessage, setNewMessage] = React.useState(false);
+	const [message, setMessage] = React.useState("");
+	const [chatId, setChatId] = React.useState("");
+	const [chats, setChats] = React.useState([{ id: "", doctor: "", doctor_full_name: "" }]);
+	const [messageInfo, setMessageInfo] = React.useState({
+		messages: [
+			{
+				message: "No Messages Yet",
+				created_at: "2024-03-17T09:20:29.080437+00:00",
+				message_status: "received",
+			},
+		],
+	});
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		const message = formData.get("message");
+		console.log(message);
+		setMessage("");
+		if (chatId) {
+			getMessages.insertMessage(chatId, message, "received");
+		}
 	};
 
-	const otherDoctorInfo = {
-		name: "Dr. Micha Lee",
-		specialty: "Gastroenterologist",
-		patient: "Juan Luna",
-	};
+	const [currentInfo, setCurrentInfo] = React.useState({});
 
 	const [referralsList, setList] = React.useState([]);
+
+	const handleMessageChange = (event) => {
+		setMessage(event.target.value);
+	};
+
+	const handleInserts = (payload) => {
+		setNewMessage(!newMessage);
+	};
+
+	getMessagesAndSubscribe(handleInserts);
+
+	React.useEffect(() => {
+		const importMessage = async () => {
+			const chatList = await getMessages.getChats();
+			console.log(chatList);
+			setChats(chatList);
+			setChatId(chatList[0]?.id || ""); // Set the initial patient ID
+		};
+
+		importMessage();
+	}, [newMessage]);
+
+	React.useEffect(() => {
+		const importMessage = async () => {
+			const chatList = await getMessages.getChats();
+			console.log(chatList);
+			setChats(chatList);
+			setChatId(chatList[0]?.id || "");
+
+			if (chatList[0]?.id) {
+				const messages = await getMessages.getMessage(chatList[0]?.id);
+				// update to read
+				await getMessages.updateRead(chatList[0]?.id, "received", "read");
+				console.log(messages);
+
+				console.log("set");
+				console.log(messageInfo);
+				setMessageInfo(messages);
+			} // Set the initial patient ID
+		};
+
+		importMessage();
+	}, []);
+
+
+	React.useEffect(() => {
+		console.log(chatId);
+		const importMessage = async () => {
+			const messages = await getMessages.getMessage(chatId);
+			// update to read
+			await getMessages.updateRead(chatId, "sent", "seen");
+			console.log(messages);
+
+			console.log("set");
+			console.log(messageInfo);
+			setMessageInfo(messages);
+		};
+
+		importMessage();
+	}, [changeUser, newMessage]);
+
+	function getUser(chatId) {
+		setChatId(chatId);
+		setChangeUser(!changeUser);
+	}
 
 	const handleApproval = async (value, id) => {
 		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
@@ -157,7 +238,9 @@ export default function Referral() {
 	};
 
 	return (
-		<div className="bg-white border border-solid border-stone-300 h-screen flex">
+
+		<div className="bg-white  h-screen flex">
+
 			<div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
 				<div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
 					<div className="text-xl font-semibold text-black">Referral</div>
@@ -175,7 +258,7 @@ export default function Referral() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("/other_doctor/referrals/send_referral");
+								router.push("other_doctor/referrals/send_referral");
 							}}
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
@@ -189,7 +272,13 @@ export default function Referral() {
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
 						{referralsList.map((referral) => {
 							return (
-								<div key={referral.id}>
+								<div
+									key={referral.id}
+									onClick={() => {
+										getUser(referral.chat_id);
+										console.log(referral);
+									}}
+								>
 									<ReferralList
 										setCurrentInfo={setCurrentInfo}
 										referral={referral}
@@ -220,89 +309,112 @@ export default function Referral() {
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
 											{currentInfo?.name ? currentInfo.name : ""}
-											<div className="text-m text-zinc-600">
-												<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
+											<div className="flex ">
+												<div className="mr-5 text-m text-zinc-600">
+													<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
+												</div>
+												<div className="text-m text-zinc-600">
+													<span className="text-black text-sm">About: {currentInfo?.patient ?? ""}</span>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							{currentInfo?.name && (
-								<div className="flex z-10 flex-col py-11 mt-0 text-xs font-medium leading-5 shadow-sm bg-stone-50 max-md:max-w-full">
-									<div className="flex flex-col px-6 max-md:px-5 max-md:max-w-full">
-										<div className="flex gap-4 justify-between text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-											<Image
-												alt="image"
-												height={0}
-												width={0}
-												loading="lazy"
-												src="https://cdn.builder.io/api/v1/image/assets/TEMP/857eb5dff49a7bc5e61fc67448243f1588de729714292a08312c0482f523f5b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-												className="self-start w-7 aspect-square ml-2"
-											/>
+								<>
+									<div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-80 h-80 px-7 overflow-y-auto gap-3">
+										{/* Start Message */}
+										{messageInfo.messages_referral &&
+											messageInfo.messages_referral?.map((item, index) => {
+												if (item.message_status === "sent" || item.message_status === "seen") {
+													return (
+														<div
+															key={index}
+															className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]"
+														>
+															<Image
+																alt="picture"
+																height={0}
+																width={0}
+																loading="lazy"
+																src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+																className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+															/>
+															<span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+																{item.message}
+															</span>
+														</div>
+													);
+												} else if (item.message_status === "received" || item.message_status === "read") {
+													return (
+														<div
+															key={index}
+															className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
+														>
+															<span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+																{item.message}
+															</span>
+															<Image
+																alt="picture"
+																height={0}
+																width={0}
+																loading="lazy"
+																src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+																className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+															/>
+														</div>
+													);
+												}
+											})}
+									</div>
 
-											<div className="grow justify-center px-2 py-5 bg-white rounded shadow-sm max-md:max-w-full">
-												{"Hello, let's collaborate with this patient"}
-											</div>
-										</div>
-										<div className="flex gap-4 self-end mt-6 text-white">
-											<div className="grow justify-center px-2 py-3.5 bg-blue-500 rounded shadow-sm">
-												{"Sure, I'd like to view the patient's records. I'll pull in a while."}
-											</div>
-											<Image
-												alt="image"
-												height={0}
-												width={0}
-												loading="lazy"
-												src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f2fa9bc22c05f41ee1e70771f3bc8bd9a8823ec27a71159ef7db0a5a1f043e5?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-												className="self-start w-7 aspect-square "
-											/>
-										</div>
-									</div>
-									<div className="flex gap-4 self-center mt-6 mb-7 text-zinc-600 max-md:flex-wrap max-md:max-w-full">
-										<Image
-											alt="image"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/0607a8e021fe8ea071dc1eb7a94f5054c94c2800903170fcca4a9dc807e040ae?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-											className="self-start w-7 aspect-square ml-8"
+									<form
+										className="shadow-sm bg-white self-center flex w-full max-w-full flex-col items-stretch px-12 py-3.5 max-md:max-w-full max-md:px-5"
+										onSubmit={handleSubmit}
+									>
+										<input
+											className="text-zinc-500 text-base leading-6 whitespace-nowrap bg-stone-50 pl-5 pr-16 pt-3.5 pb-14 rounded-lg items-start max-md:max-w-full max-md:pr-5"
+											placeholder=" Message..."
+											name="message"
+											onChange={handleMessageChange}
+											value={message}
+											required
 										/>
-										<div className="grow px-2 pt-5 pb-12 bg-white rounded shadow-sm max-md:max-w-full">
-											{"Great. Update me after and let's talk about how to manage this patient again."}
+										<div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
+											<span className="flex items-stretch gap-2 my-auto"></span>
+											<div>
+												<Image
+													alt="picture"
+													height={0}
+													width={0}
+													loading="lazy"
+													src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
+													className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
+												/>
+												<button
+													type="button"
+													className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+													onClick={() => {
+														sendOTP();
+														handlePullRecords();
+													}}
+												>
+													Pull Records
+												</button>
+											</div>
+											<button
+												type="submit"
+												className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
+											>
+												SEND
+											</button>
 										</div>
-									</div>
-								</div>
+									</form>
+								</>
 							)}
 
-							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-">
-								<div className="items-start pt-2 pr-2 pl-2 pb-14 rounded-lg bg-stone-50 text-zinc-500">
-									<input type="text" placeholder="Message..." style={{ width: "100%", height: "300%" }} />
-								</div>
-								<div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
-									<span className="flex items-stretch gap-2 my-auto">
-										<Image
-											alt="picture"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/8392d4615ad6aedcb4840fcdc0ef1e57e16e40d09018c4aa7cc6e8dce68babb9?"
-											className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
-										/>
-										<button
-											className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
-											onClick={() => {
-												sendOTP();
-												handlePullRecords();
-											}}
-										>
-											Pull Records
-										</button>
-									</span>
-									<button className="text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 text-white self-stretch px-7 py-2 rounded max-md:px-5">
-										SEND
-									</button>
-								</div>
-							</div>
+							<div className="flex flex-col px-7 mt-5 whitespace-nowrap grow justify-"></div>
 						</div>
 					</div>
 				</div>
