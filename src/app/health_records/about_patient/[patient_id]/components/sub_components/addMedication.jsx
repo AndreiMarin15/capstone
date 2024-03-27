@@ -272,16 +272,15 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                     <textarea
                                       value={medicationName}
                                       onChange={(e) => {
-                                          const inputValue = e.target.value.toLowerCase();
-                                          const filteredMeds = medications.filter(medication => {
-                                              const genericName = medication["Generic Name"]?.toLowerCase() || "";
-                                              const brandName = medication["Brand Name"]?.toLowerCase() || "";
-                                              return genericName.includes(inputValue) || brandName.includes(inputValue);
-                                          });
-                                          setFilteredMedications(filteredMeds);
-                                          setMedicationName(e.target.value);
-                                        
-                                      }}
+                                        const inputValue = e.target.value.toLowerCase();
+                                        const filteredMeds = medications.filter(medication => {
+                                            const genericName = medication["Generic Name"]?.toLowerCase() || "";
+                                            const brandName = medication["Brand Name"]?.toLowerCase() || "";
+                                            return genericName.includes(inputValue) || brandName.includes(inputValue);
+                                        }).slice(0, 50); // Limiting the filtered medications to 50
+                                        setFilteredMedications(filteredMeds);
+                                        setMedicationName(e.target.value);
+                                    }}
                                       className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
                                       style={{ height: 'auto' }}
                                       placeholder="Search for medication..."
@@ -293,7 +292,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
                                           padding: "unset",
                                           margin: "unset",
                                           position: "absolute",
-                                          width: "calc(100% - 4px)", // Subtract 4px for the border width
+                                          width: "600px", // Subtract 4px for the border width
                                           maxHeight: "200px", // Adjust the maximum height as needed
                                           overflowY: "auto", // Enable vertical scrolling if needed
                                           overflowX: "hidden",
