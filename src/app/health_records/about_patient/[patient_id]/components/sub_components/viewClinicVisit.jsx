@@ -34,7 +34,7 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-      variable: "Diagnosis",
+      variable: "Initial Diagnosis",
       value: diagnosis || '',
     },
 
