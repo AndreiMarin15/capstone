@@ -6,37 +6,47 @@ import VisitMedications from "./visitMedications";
 import VisitLabtests from "./visitLabTests";
 import LabTestList from "./labTestList";
 import BackButton from "./BackButton";
-export default function ViewMedications({ currentScreen, setCurrentScreen }) {
+import { getMedicationRequests } from "../../../../../../../lib/backend/health_records/getMedicationRequest";
+
+export default function ViewMedications({ currentScreen, setCurrentScreen, medicationId }) {
+  console.log('Current medicationId:', medicationId);
+  const [medications, setMedications] = useState([]);
+  const [medicineName, setMedicineName] = useState('');
+  const [doseUnit, setDoseUnit] = useState('');
+  const [form, setForm] = useState('');
+  const [frequency, setFrequency] = useState('');
+  const [note, setNote] = useState('');
+  const [medicationStart, setMedicationStart] = useState('');
+  const [medicationEnd, setMedicationEnd] = useState('');
+  const [sideEffect, setSideEffect] = useState('');
+
+
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
       variable: "Medicine Name",
-      value: "Ibuprofen",
+      value: medicineName || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-      variable: "Dose",
-      value: "500",
+      variable: "Dose/Unit",
+      value: doseUnit || '',
     },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Unit",
-      value: "Milligram",
-    },
+  
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Form",
-      value: "Tablet",
+      value: form || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Frequency",
-      value: "Once daily",
+      value: frequency || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Patient Instructions",
-      value: "Take after every meal",
+      value: note || '',
     },
   ];
 
@@ -44,12 +54,12 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Start Date",
-      value: "2024/01/24",
+      value: medicationStart || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "End Date",
-      value: "2024/01/30",
+      value: medicationEnd || '',
     },
   ];
 
@@ -57,9 +67,48 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Possible Side Effects",
-      value: "Rashes",
+      value: sideEffect || '',
     },
   ];
+
+ 
+  React.useEffect(() => {
+    const fetchMedications = async () => {
+      try {
+        const medicationRequestsData = await getMedicationRequests();
+        setMedications(medicationRequestsData);
+        console.log("Medication Requests Data:", medicationRequestsData);
+  
+        // Find the medication with the specified medicationId
+        const filteredMedication = medicationRequestsData.find(medication => medication.resource.id === medicationId);
+        
+        // Check if the filtered medication exists
+        if (filteredMedication) {
+          const medicationResource = filteredMedication.resource;
+  
+          // Extract relevant data from the medication resource
+          console.log(medicationResource.medicationCodeableConcept[0]?.text || '')
+          console.log(medicationResource.form?.text || '')
+          setMedicineName(medicationResource.medicationCodeableConcept[0]?.text || '');
+          
+          setDoseUnit(medicationResource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || '');
+          setForm(medicationResource.form?.text || '');
+          setFrequency(medicationResource.dispenseRequest?.dispenseInterval || '');
+          setNote(medicationResource.note || '');
+          setMedicationStart(medicationResource.dispenseRequest?.validityPeriod?.start || '');
+          setMedicationEnd(medicationResource.dispenseRequest?.validityPeriod?.end || '');
+          setSideEffect(medicationResource.adverseEvent?.adverseReaction || '');
+        } else {
+          // Handle case where no medication is found with the specified medicationId
+          console.log("No medication found with the specified medicationId:", medicationId);
+        }
+      } catch (error) {
+        console.error("Error fetching medication requests:", error);
+      }
+    };
+  
+    fetchMedications();
+  }, [medicationId]);
 
   const [currentScreen3, setCurrentScreen3] = useState(0);
 
@@ -167,7 +216,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen }) {
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <div className="text-black text-xs font-normal leading-5 ml-10">
+                        <div className="text-black text-xs font-normal leading-5">
                           {item.value}
                         </div>
                       </td>
