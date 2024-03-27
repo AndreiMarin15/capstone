@@ -35,10 +35,15 @@ export default function ClinicVisits({patientId}) {
         const filteredEncounters = encountersData.filter(
           (encounter) =>
             encounter.resource.subject.reference === patientId
+            
         );
+        
         console.log("Encounters Data:", encountersData);
+     
+       
         setEncounters(filteredEncounters);
         console.log("Filtered Encounters:", filteredEncounters);
+      
       } catch (error) {
         console.error("Error fetching encounters:", error);
       }
@@ -175,9 +180,9 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
                         className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                     />
-                  <div className="ml-2 mr-10">
-                      {encounter.resource.participant.actor}
-                  </div>
+                    <div className="ml-2 mr-10">
+                        {encounter.resource.participant && encounter.resource.participant.actor && encounter.resource.participant.actor}
+                    </div>
                   <div>{encounter.resource.period.start}</div>
                   </div>
                 </div>

@@ -13,6 +13,8 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
   const [followupData, setFollowupData] = useState([]);
   const [encounterDate, setEncounterDate] = useState('');
   const [signsAndSymptoms, setSignsAndSymptoms] = useState('');
+  const [diagnosis, setDiagnosis] = useState('');
+  const [finalDiagnosis, setFinalDiagnosis] = useState('');
   const [reviewOfSystems, setReviewOfSystems] = useState('');
   const [otherConcerns, setOtherConcerns] = useState('');
   const [suggestedNextVisit, setSuggestedNextVisit] = useState('');
@@ -29,6 +31,19 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
       variable: "Date",
        value: encounterDate || '',
     },
+
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+      variable: "Diagnosis",
+      value: diagnosis || '',
+    },
+
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+      variable: "Final Diagnosis",
+      value: finalDiagnosis || '',
+    },
+
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Signs and Symptoms",
@@ -148,6 +163,20 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
         const filteredObservationData = observationsData.filter(observation =>
           filteredObservationIds.includes(observation.id)
         ).map(observation => observation.resource);
+
+        const diagnosisObservation = filteredObservationData.find(observation => observation.id === "diagnosis");
+        
+        if (diagnosisObservation) {
+          setDiagnosis(diagnosisObservation.valueString);
+          console.log(diagnosisObservation.valueString);
+        }
+
+        const finalDiagnosisObservation = filteredObservationData.find(observation => observation.id === "finalDiagnosis");
+        
+        if (finalDiagnosisObservation) {
+          setFinalDiagnosis(finalDiagnosisObservation.valueString);
+          console.log(finalDiagnosisObservation.valueString);
+        }
 
         const signsAndSymptomsObservation = filteredObservationData.find(observation => observation.id === "signsAndSymptoms");
 
