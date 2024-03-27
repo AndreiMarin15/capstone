@@ -11,7 +11,7 @@ import {
 } from "../../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
 export default function Vitals({ patientId }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [vitalsAndBio, setVitalsAndBio] = useState(0);
+  const [vitalsAndBio, setVitalsAndBio] = useState({});
   const [selectedMetric, setSelectedMetric] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -212,22 +212,28 @@ export default function Vitals({ patientId }) {
               id="col"
               className="w-full flex flex-row gap-3 overflow-x-auto"
             >
-              {Object.keys(vitalsAndBio).map((key, index) => (
-                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {key}
+              {vitalsAndBio &&
+                Object.keys(vitalsAndBio).map((key, index) => (
+                  <div
+                    key={index}
+                    className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
+                  >
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {key}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["systolic"].valueQuantity.value ?? "-"}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["diastolic"].valueQuantity.value ??
+                        "-"}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["heartRate"].valueQuantity.value ??
+                        "-"}
+                    </div>
                   </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["systolic"].valueQuantity.value ?? "-"}
-                  </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["diastolic"].valueQuantity.value ?? "-"}
-                  </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["heartRate"].valueQuantity.value ?? "-"}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
             <div
               id="col"
@@ -322,22 +328,26 @@ export default function Vitals({ patientId }) {
               id="col"
               className="w-full flex flex-row gap-3 overflow-x-auto"
             >
-              {Object.keys(vitalsAndBio).map((key, index) => (
-                <div key={index} className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]">
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {key}
+              {vitalsAndBio &&
+                Object.keys(vitalsAndBio).map((key, index) => (
+                  <div
+                    key={index}
+                    className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
+                  >
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {key}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["height"].valueQuantity.value ?? "-"}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["weight"].valueQuantity.value ?? "-"}
+                    </div>
+                    <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      {vitalsAndBio[key]["bmi"].valueQuantity.value ?? "-"}
+                    </div>
                   </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["height"].valueQuantity.value ?? "-"}
-                  </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["weight"].valueQuantity.value ?? "-"}
-                  </div>
-                  <div className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                    {vitalsAndBio[key]["bmi"].valueQuantity.value ?? "-"}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
             <div
               id="col"
