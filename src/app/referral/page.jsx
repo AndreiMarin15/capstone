@@ -67,6 +67,28 @@ export default function Referral() {
 	}, [newMessage]);
 
 	React.useEffect(() => {
+		const importMessage = async () => {
+			const chatList = await getMessages.getChats();
+			console.log(chatList);
+			setChats(chatList);
+			setChatId(chatList[0]?.id || "");
+
+			if (chatList[0]?.id) {
+				const messages = await getMessages.getMessage(chatList[0]?.id);
+				// update to read
+				await getMessages.updateRead(chatList[0]?.id, "received", "read");
+				console.log(messages);
+
+				console.log("set");
+				console.log(messageInfo);
+				setMessageInfo(messages);
+			} // Set the initial patient ID
+		};
+
+		importMessage();
+	}, []);
+
+	React.useEffect(() => {
 		console.log(chatId);
 		const importMessage = async () => {
 			const messages = await getMessages.getMessage(chatId);
@@ -215,7 +237,7 @@ export default function Referral() {
 	};
 
 	return (
-		<div className="bg-white h-auto flex">
+		<div className="bg-white h-screen flex">
 			<div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
 				<div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
 					<div className="text-xl font-semibold text-black">Referral</div>
