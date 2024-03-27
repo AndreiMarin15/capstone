@@ -19,7 +19,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
   const [genName, setGenName] = useState("");
   const [medications, setMedications] = useState([]);
   const [filteredMedications, setFilteredMedications] = useState([]);
-
+  const [refresh, setRefresh] = useState(false);
   
   const [patientInstructions, setPatientInstructions] = useState("");
   const [doseUnit, setDoseUnit] = useState(null);
@@ -63,96 +63,74 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 
   const handleSave = async () => {
     try {
-      const patientData = await healthRecords.getPatientData(patientId);
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-  
-
-      const dataToSave = {
-        status:"Active",
-        id: regis,
-
-        medicationCodeableConcept: [ {
-          coding: [ 
-              {
-                  system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  display: genName,
-              }
-          ],
-          text: name,
-         },
-        ],
-
-      subject:{
-        type: "Patient",
-        reference: patientData.id,
-      },
-
-      dosageInstruction: [
-        {
-            
-            text: patientInstructions,
-            doseAndRate: [
-                {
+        const patientData = await healthRecords.getPatientData(patientId);
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
+    
+        const dataToSave = {
+            status: "Active",
+            id: regis,
+            medicationCodeableConcept: [{
+                coding: [{
+                    system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                    display: genName,
+                }],
+                text: name,
+            }],
+            subject: {
+                type: "Patient",
+                reference: patientData.id,
+            },
+            dosageInstruction: [{
+                text: patientInstructions,
+                doseAndRate: [{
                     doseQuantity: {
                         doseUnit: doseUnit,
-                       
                     }
+                }]
+            }],
+            dispenseRequest: {
+                dispenseInterval: duration,
+                validityPeriod: {
+                    start: validityStart,
+                    end: validityEnd,
+                },
+            },
+            requester: {
+                agent: {
+                    reference: doctorInfo
                 }
-            ]
-        }
-    ],
-    dispenseRequest: {
-      
-      dispenseInterval: duration,
-      validityPeriod: {
-          start: validityStart,
-          end: validityEnd,
-          
-      },
-     
-  },
+            },
+            form: {
+                text: form,
+            },
+            note: patientInstructions,
+            adverseEvent: {
+                adverseReaction: adverseEvent,
+            },
+            resource_type: "MedicationRequest",
+        };
 
-  
+        console.log("Data to save:", dataToSave);
+        // Call the uploadEncounter function with the data to save
+        const savedData = await uploadMedication(dataToSave);
 
- 
-    requester: {
-      agent: {
-        reference: doctorInfo
-      }
-    },
+        console.log("Data saved successfully:", savedData);
 
-    form: {
-      
-      text: form,
-  },
+        // Trigger refresh by toggling the refresh state
+        setRefresh(prevRefresh => !prevRefresh);
 
-    note: patientInstructions,
-
-    adverseEvent: {
-      adverseReaction: adverseEvent,
-   }, 
-    
-    resource_type: "MedicationRequest",
-  };
-
-      console.log("Data to save:", dataToSave);
-      // Call the uploadEncounter function with the data to save
-      const savedData = await uploadMedication(dataToSave);
-
-      console.log("Data saved successfully:", savedData);
-
-      // Display success message or perform other actions
-      toast.success("Medication Added", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
+        // Display success message or perform other actions
+        toast.success("Medication Added", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 2000,
+        });
     } catch (error) {
-      console.error("Error saving data:", error);
+        console.error("Error saving data:", error);
     }
 
-    setCurrentScreen(0);
-  };
+    setCurrentScreen(2);
+};
 
 
   
@@ -468,14 +446,15 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
             />
             <div>
             <button
-                onClick={() => {
-                  handleSave();
-                  setCurrentScreen(2);
-                }} // Attach the handleSave function here
-                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
-              >
-                SAVE
-              </button>
+              onClick={() => {
+                  handleSave(); // Save the medication
+                  setRefresh(prevRefresh => !prevRefresh); // Trigger refresh by toggling the refresh state
+                  setCurrentScreen(2); // Navigate back to the medication list screen
+              }}
+              className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+          >
+              SAVE
+          </button>
             </div>
           </div>
         </>

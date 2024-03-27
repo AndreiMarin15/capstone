@@ -20,6 +20,8 @@ export default function Medications({ patientId }) {
 	const [status, setStatus] = useState("ACTIVE");
 	const [currentUser, setCurrentUser] = useState(null);
 	const [currentScreen, setCurrentScreen] = useState(0);
+	const [refresh, setRefresh] = useState(false);
+
 	React.useEffect(() => {
 		const fetchCurrentUser = async () => {
 			try {
@@ -35,12 +37,13 @@ export default function Medications({ patientId }) {
 	}, []);
 
 
+
+
 	React.useEffect(() => {
 		const fetchMedications = async () => {
 			try {
 				// Fetch medications based on current patient ID
 				const medicationRequestsData = await getMedicationRequests(patientId);
-				setCurrentScreen(2);
 				setMedications(medicationRequestsData);
 				console.log(medicationRequestsData);
 			} catch (error) {
@@ -48,9 +51,22 @@ export default function Medications({ patientId }) {
 			}
 		};
 	
-		// Fetch medications whenever currentScreen changes
-		fetchMedications();
-	}, [currentScreen]);
+		// Fetch medications whenever refresh state changes or when currentScreen is 0 or 2
+		if (refresh || currentScreen === 0 || currentScreen === 2) {
+			fetchMedications();
+		}
+	}, [refresh, currentScreen]);
+
+	
+	React.useEffect(() => {
+		const interval = setInterval(() => {
+			setRefresh(prevRefresh => !prevRefresh);
+		}, 1000); // Adjust the interval time as needed
+	
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
 	
 
 	const [isTest, setTest] = useState(false);
@@ -59,7 +75,7 @@ export default function Medications({ patientId }) {
 	
 	const handleSetCurrentScreen = (screen) => {
 		// Reset isTest to false when navigating back to screen 2
-		if (screen === 2) {
+		if (screen === 2 || currentScreen === 2) {
 			setTest(false);
 			setAdd(false);
 			setEdit(false);
@@ -101,6 +117,10 @@ export default function Medications({ patientId }) {
 		} catch (error) {
 			console.error("Error discontinuing medication:", error);
 		}
+
+		
+
+
 	};
 	return (
 		<> 
@@ -124,6 +144,7 @@ export default function Medications({ patientId }) {
 				<AddMedications currentScreen={4} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} />
 			) : (
 				<>
+				<div className="flex flex-col">
 					<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
 						MEDICATIONS
 						<button
@@ -229,10 +250,10 @@ export default function Medications({ patientId }) {
 										</div>
 
 										{medication.resource.requester.agent.reference === currentUser?.fullName && medication.resource.status === "Active" && (
-											<div className="flex-auto ml-96">
+											<div className="flex ml-96 justify-end">
 												<span className="">
 												<button
-													className="ml-auto px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
+													className="ml-96 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
 													onClick={(e) => {
 														e.stopPropagation(); 
 														console.log("edit Button is being pressed");
@@ -259,15 +280,26 @@ export default function Medications({ patientId }) {
 														Discontinue
 													</button>
 												</span>
-											</div>
-										)}
-														</div>
+												
+												</div>		
+												)}
 													</div>
-												</button>
-											))}
-										<BackButton />
-									</>
-								)}
-							</>
-						);
-					}
+												
+														<div className="flex justify-between mt-2">
+															<div className="flex-grow ml-7 my-auto"> Form: {medication.resource.form.text}</div>
+															<div className="flex-grow ml-7 my-auto">Dosage: {medication.resource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || ''}</div>
+															<div className="flex-grow ml-7 my-auto">Frequency: {medication.resource.dispenseRequest && medication.resource.dispenseRequest.dispenseInterval || ''}</div>
+															<div className="flex-grow ml-7 my-auto">Until: {medication.resource.dispenseRequest && medication.resource.dispenseRequest.validityPeriod && medication.resource.dispenseRequest.validityPeriod.end || ''}</div>
+															<div className="flex-grow ml-7 my-auto">Possible Side Effect: {medication.resource.adverseEvent.adverseReaction}</div>
+															</div>
+														</div>
+														<div className="mt-2 border-b border-gray-300 w-full"></div>
+																</button>
+															))}
+														<BackButton />
+													</div>
+												</>
+											)}
+											</>
+										);
+									}
