@@ -1,7 +1,7 @@
 import React from "react";
 
-const ProgressBarReferral = ({ currentStep }) => {
-	const steps = ["Select Patient", "Select Doctor", "Notes and Review"];
+const ProgressBarWrite = ({ currentStep }) => {
+	const steps = ["Select Patient", "Write Letter"];
 
 	return (
 		<div className="flex items-center justify-center pt-10 pb-10 pl-10 pr-10">
@@ -30,4 +30,4 @@ const ProgressBarReferral = ({ currentStep }) => {
 	);
 };
 
-export default ProgressBarReferral;
+export default ProgressBarWrite;
