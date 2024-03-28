@@ -633,7 +633,7 @@ export default function Middleware() {
           <span className="font-semibold">How to Use:</span>
           <br />
           <br />
-          Use the input fields below to map the fields EndoTracker's databse to
+          {`Use the input fields below to map the fields EndoTracker's databse to
           your EMR (Electronic Medical Record) system.
           <br />
           <br />
@@ -643,7 +643,7 @@ export default function Middleware() {
           "user_photo" input field.
           <br />
           For easier reference, the 'i' icon contains information on what the
-          field is for.
+          field is for.`}
         </div>
       </div>
       <div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
