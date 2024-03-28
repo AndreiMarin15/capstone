@@ -29,6 +29,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
   const [values, setValues] = useState({
     custom: { value: "", unit: "" }
   });
+  const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -55,6 +56,8 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     });
   };
 
+  
+
   const handleFileUpload = async (files) => {
     const file = files[0];
     try {
@@ -73,6 +76,35 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     setIsModalOpen(false);
   };
 
+  const handleAddRow = () => {
+    setRows([...rows, { labValueName: "", value: "", unit: "" }]);
+  };
+
+  const handleRemoveRow = (index) => {
+    const updatedRows = [...rows];
+    updatedRows.splice(index, 1);
+    setRows(updatedRows);
+  };
+
+  const handleLabValueNameChange = (value, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].labValueName = value;
+    setRows(updatedRows);
+  };
+
+  const handleValueChange = (value, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].value = value;
+    setRows(updatedRows);
+  };
+
+
+  const handleUnitChange = (unit, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].unit = unit;
+    setRows(updatedRows);
+  };
+
   const handleAddLabTest = async () => {
     const patientData = await healthRecords.getPatientData(patientId);
 
@@ -82,15 +114,22 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
       base64Image = uploadedImageSrc.split(",")[1]; 
     }
 
-    const newLabTest = {
-      lab: labTestName,
-      value: values.custom.value,
-      unit: values.custom.unit
-    };
+    const valueQuantities = rows.map(row => ({
+      display: row.labValueName,
+      unit: row.unit,
+      value: row.value,
+  }));
+  
+
+  const newLabTest = {
+    lab: labTestName,
+    valueQuantities: valueQuantities, // Array of lab values
+};
+
     setLabTestResults([...labTestResults, newLabTest]);
     
     const newObservation = {
-      id: `labTest${labTestResults.length + 1}`,
+      id: `labTest`,
       code: {
         coding: [
           {
@@ -105,9 +144,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
       },
       resource_type: "Observation",
       valueQuantity: {
-        display: labValueName,
-        unit: values.custom.unit,
-        value: values.custom.value,
+       valueQuantities: valueQuantities,
       },
       effectiveDateTime: dateOfResult,
       codeText: labTestName,
@@ -141,7 +178,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
                     <tbody>
                       <tr>
                         <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
-                          <div className="flex gap-4 my-auto font-semibold text-black">
+                          <div className="flex gap-1 my-auto font-semibold text-black">
                             <Image
                               alt="image"
                               height={0}
@@ -150,7 +187,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Date of Result </div>
+                            <div className="my-auto">Date of Result</div>
                           </div>
                           <td>
                           <input
@@ -189,24 +226,26 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
                         </td>
                       </tr>
                       <tr>
-                        <td className="flex gap-10 mt-6 ml-44 w-full">
+                      <td className="flex gap-10 mt-6">
                           <div
-                            className="flex flex-col items-center px-20 py-2 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[400px]"
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
+                            }`}
                             onDrop={(e) => handleDrop(e)}
                             onDragOver={(e) => handleDragOver(e)}
                           >
                             {uploadedImageSrc ? (
                               <>
-                                <div 
-                                  className="w-full h-auto cursor-pointer"
-                                  onClick={handleOpenModal}
-                                >
-                                  <img
-                                    src={uploadedImageSrc}
-                                    alt="uploaded"
-                                    className="w-full h-auto"
-                                    style={{ maxHeight: "400px", maxWidth: "100%" }}
-                                  />
+                               <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
+                                  <div 
+                                    className="w-auto max-w-full h-[400px] cursor-pointer flex justify-center" // Adjusted classes
+                                    onClick={handleOpenModal}
+                                  >
+                                    <img
+                                      src={uploadedImageSrc}
+                                      alt="uploaded"
+                                      style={{ maxWidth: "100%" , maxHeight: "80%" }}
+                                    />
+                                  </div>
                                 </div>
                                 <button
                                   className="mt-2 text-sky-600 underline cursor-pointer"
@@ -262,61 +301,61 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
                     </table>
                     <table className="max-w-fit border-spacing-y-7 border-separate">
                       <tbody className="text-xs leading-5 text-black">
-                        <tr>
-                        <td className="border-l-[16px] border-transparent">
-                          <input
-                            className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
-                            type="text"
-                            placeholder="Enter lab value name"
-                            value={labValueName}
-                            onChange={(e) => setLabValueName(e.target.value)}
-                          />
-                        </td>
-                        <td className="border-l-[8px] border-transparent flex items-center">
-                          <span className="mt-2 flex items-center text-black font-medium">=</span>
-                        </td>
-                        <td className="border-l-[8px] border-transparent">
-                          <input
-                            className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
-                            type="text"
-                            placeholder="Enter value"
-                            value={values.custom.value}
-                            onChange={(e) =>
-                              setValues((prevValues) => ({
-                                ...prevValues,
-                                custom: { ...prevValues.custom, value: e.target.value }
-                              }))
-                            }
-                          />
-                        </td>
-                          <td className="border-l-[20px] border-transparent">
-                            <input
-                              className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
-                              type="text"
-                              placeholder="Unit"
-                              value={values.custom.unit}
-                              onChange={(e) =>
-                                setValues((prevValues) => ({
-                                  ...prevValues,
-                                  custom: { ...prevValues.custom, unit: e.target.value }
-                                }))
-                              }
-                            />
-                          </td>
-                        </tr>
+                      <tr>
+      </tr>
+        {/* Your existing row */}
+        {rows.map((row, index) => (
+  <tr key={index}>
+    <td className="border-l-[16px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        type="text"
+        placeholder="Enter lab value name"
+        value={row.labValueName}
+        onChange={(e) => handleLabValueNameChange(e.target.value, index)}
+      />
+    </td>
+    <td className="border-l-[8px] border-transparent flex items-center">
+      <span className="mt-2 flex items-center text-black font-medium">=</span>
+    </td>
+    <td className="border-l-[8px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        type="text"
+        placeholder="Enter value"
+        value={row.value}
+        onChange={(e) => handleValueChange(e.target.value, index)}
+      />
+    </td>
+    <td className="border-l-[20px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        type="text"
+        placeholder="Unit"
+        value={row.unit}
+        onChange={(e) => handleUnitChange(e.target.value, index)}
+      />
+    </td>
+  </tr>
+))}
+        {/* Add another row button */}
+        <tr>
+          <td colSpan="4" className="text-center">
+          <button
+              className="flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+              onClick={handleAddRow} // Assuming you have a function handleAddRow for adding rows
+            >
+              <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[20] w-[24]">
+                +
+              </div>
+              <div className=" my-auto text-xs text-gray-400">
+                Add another row
+              </div>
+            </button>
+          </td>
+        </tr>
                       </tbody>
                     </table>
-                    <button
-                      className="flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                      onClick
-                    >
-                      <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[20] w-[24]">
-                        +
-                      </div>
-                      <div className=" my-auto text-xs text-gray-400">
-                        Add another row
-                      </div>
-                    </button>
                   </div>
                 </div>
                
