@@ -4,6 +4,9 @@ import { useState, useRef } from "react";
 import BackButton from "./BackButton";
 import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
 import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const ImageModal = ({ src, onClose }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
@@ -153,14 +156,26 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
 
   
     try {
-      // Upload the new observation to the backend
-      console.log(newObservation);
+     
       const uploadedObservation = await uploadObservation(newObservation);
       console.log("Observation uploaded:", uploadedObservation);
-    } catch (error) {
+      
+ 
+      
+			  toast.success("Lab Test Recorded", {
+          position: "top-left",
+          theme: "colored",
+          autoClose: 2000,
+        });
+
+      setCurrentScreen(0);
+  } catch (error) {
       console.error("Error uploading observation:", error);
-    }
-  };
+      toast.error("Failed to upload lab test. Please try again later.", {
+        position: toast.POSITION.TOP_LEFT
+      });
+  }
+};
 
   return (
     <>
@@ -308,7 +323,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
   <tr key={index}>
     <td className="border-l-[16px] border-transparent">
       <input
-        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
         type="text"
         placeholder="Enter lab value name"
         value={row.labValueName}
@@ -320,7 +335,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     </td>
     <td className="border-l-[8px] border-transparent">
       <input
-        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
         type="text"
         placeholder="Enter value"
         value={row.value}
@@ -329,7 +344,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     </td>
     <td className="border-l-[20px] border-transparent">
       <input
-        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
         type="text"
         placeholder="Unit"
         value={row.unit}
