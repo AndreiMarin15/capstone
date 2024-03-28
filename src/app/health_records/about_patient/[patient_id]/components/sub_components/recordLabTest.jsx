@@ -21,7 +21,7 @@ const ImageModal = ({ src, onClose }) => {
 };
 
 
-export default function AddLabTest({currentScreen, setCurrentScreen, patientId}) {
+export default function AddLabTest({currentScreen, setCurrentScreen, patientId, handleSave}) {
 
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
@@ -33,6 +33,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     custom: { value: "", unit: "" }
   });
   const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
+  
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -109,7 +110,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
   };
 
   const handleAddLabTest = async () => {
-    const patientData = await healthRecords.getPatientData(patientId);
+
 
 
     let base64Image = null;
@@ -124,57 +125,34 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
   }));
   
 
-  const newLabTest = {
-    lab: labTestName,
-    valueQuantities: valueQuantities, // Array of lab values
-};
 
-    setLabTestResults([...labTestResults, newLabTest]);
-    
-    const newObservation = {
-      id: `labTest`,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE", // To be replaced with actual LOINC_CODE
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: patientData.id
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-       valueQuantities: valueQuantities,
-      },
-      effectiveDateTime: dateOfResult,
-      codeText: labTestName,
-      imageSrc: base64Image,
-    };
+  const labTestData = {
+    loincCode: "YOUR_LOINC_CODE",
+    valueQuantities: rows.map(row => ({
+        display: row.labValueName,
+        unit: row.unit,
+        value: row.value,
+    })),
+    dateOfResult: dateOfResult,
+    labTestName: labTestName,
+    base64Image: base64Image,
+};
+console.log([labTestData])
+handleSave([labTestData], false);
 
   
-    try {
-     
-      const uploadedObservation = await uploadObservation(newObservation);
-      console.log("Observation uploaded:", uploadedObservation);
-      
- 
-      
-			  toast.success("Lab Test Recorded", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 2000,
-        });
+  
 
-      setCurrentScreen(0);
-  } catch (error) {
-      console.error("Error uploading observation:", error);
-      toast.error("Failed to upload lab test. Please try again later.", {
-        position: toast.POSITION.TOP_LEFT
-      });
-  }
+  toast.success("Lab Test Recorded", {
+    position: "top-left",
+    theme: "colored",
+    autoClose: 2000,
+  });
+
+  setCurrentScreen(0);
+
+    
+    
 };
 
   return (

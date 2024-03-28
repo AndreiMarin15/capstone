@@ -89,8 +89,13 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	  
 			
 
-	const handleSave = async () => {
+	const handleSave = async (labTestDatas, saveClinicVisit = false) => {
+		console.log("Lab test data received:", labTestDatas);
 		try {
+			if (!Array.isArray(labTestDatas)) {
+				throw new Error("Lab test data is not an array.");
+			}
+			
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
 			const patientData = await healthRecords.getPatientData(patientId);
 			console.log(patientData)
@@ -107,7 +112,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 				subject: {
 					type: "Patient",
 					reference: patientData.id,
-				},
+				},	
 				contained: [
 					{
 						id: "height",
@@ -348,28 +353,54 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 						valueString: suggestedClinicDate,
 						resource_type: "Observation",
 					},
+					labTestDatas.map((labTestData, index) => ({
+						id: `labtest`,
+						code: {
+							coding: [
+								{
+									code: "YOUR_LOINC_CODE", // Replace with actual LOINC code for lab test
+									system: "http://loinc.org",
+								},
+							],
+						},
+						subject: {
+							type: "Patient",
+							reference: patientData.id,
+						},
+						resource_type: "Observation",
+						valueQuantity: {
+
+							valueQuantities: labTestData.valueQuantities,
+
+						}, // Assuming lab test data structure
+						effectiveDateTime: labTestData.dateOfResult, // Assuming date of result is included in lab test data
+						codeText: labTestData.labTestName, // Assuming lab test name is included in lab test data
+						imageSrc: labTestData.base64Image, // Assuming image source is included in lab test data
+					})),
 				],
 				resource_type: "Encounter",
 			};
-			// Call the uploadEncounter function with the data to save
-			const savedData = await uploadEncounter(dataToSave);
+			if (saveClinicVisit) {
 
-			console.log("Data saved successfully:", savedData);
-
-			  toast.success("Clinic Visit Added", {
-				position: "top-left",
-				theme: "colored",
-				autoClose: 2000,
-			});
-
-			
-
+				const savedData = await uploadEncounter(dataToSave);
+	
+				console.log("Data saved successfully:", savedData);
+	
+				toast.success("Clinic Visit Added", {
+					position: "top-left",
+					theme: "colored",
+					autoClose: 2000,
+				});
+				setCurrentPage(0);
+			} else {
+				console.log("Lab test data processed:", labTestDatas);
+			}
 			// You can also update state or perform other actions after saving data
 		} catch (error) {
 			console.error("Error saving data:", error);
 		}
 
-		setCurrentPage(0);
+		
 		
 	};
 
@@ -799,7 +830,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 			) : currentScreen === 1 ? (
 				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : currentScreen === 2 ? (
-				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}  patientId={patientId}/>
+				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}  patientId={patientId} handleSave={handleSave}/>
 			) : currentScreen === 3 ? (
 				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : (
