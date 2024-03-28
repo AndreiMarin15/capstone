@@ -11,6 +11,7 @@ import BackButton from "./BackButton";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
 import { retrieveDisease } from "../../../../../../../lib/backend/health_records/getDisease";
 import uploadEncounter from "../../../../../../../lib/backend/health_records/uploadEncounter";
+import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records"; 
 export default function AddClinicVisit({ currentPage, setCurrentPage, patientId }) {
     const [clinicDate, setClinicDate] = useState("");
@@ -29,6 +30,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	const [disease, setDisease] = useState([]);
 	const [filteredDisease, setFilteredDisease] = useState([]);
 	const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
+	const [encountersId, setEncountersId] = useState([]);
 
 
 	const handleDiagnosisChange = (e) => {
@@ -68,6 +70,24 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	  }, []);
 
 	
+	  async function retrieveEncounters() {
+		try {
+		  const encountersData = await getEncounters();
+		  // Do something with encountersData here
+		  console.log("Encounters Data:", encountersData);
+		  console.log("Encounters Data id:", encountersData[0]?.id);
+
+		  setEncountersId(encountersData[0]?.id);
+		} catch (error) {
+		  // Handle errors if any occurred during fetching encounters
+		  console.error("Error retrieving encounters:", error);
+		}
+	  }
+	  
+	  // Call the retrieveEncounters function
+	  retrieveEncounters();
+	  
+			
 
 	const handleSave = async () => {
 		try {
@@ -589,14 +609,23 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 															item.variable === "Tests" ? (
 																<div className="flex gap-2">
 																	<button
-																		onClick={() => setCurrentScreen(item.component)}
+																		onClick={() => {
+																			console.log("Item Component:", item.component); 
+																			setCurrentScreen(item.component)
+																		
+																		}}
+
 																		className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
 																	>
 																		{item.variable === "Tests" ? "Record" : "Add"}
 																	</button>
 																	{item.variable === "Tests" && (
 																		<button
-																			onClick={() => setCurrentScreen(item.requestcomponent)}
+																			onClick={() => {
+																				console.log("Item Request Component:", item.requestcomponent);
+																				setCurrentScreen(item.requestcomponent)}
+																			}
+
 																			className="flex gap-1.5 justify-between px-8 py-1 rounded border-blue-800 text-blue-800 border-solid font-semibold border-1.5"
 																		>
 																			Request
@@ -768,7 +797,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 					</div>
 				</>
 			) : currentScreen === 1 ? (
-				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : currentScreen === 2 ? (
 				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : currentScreen === 3 ? (
