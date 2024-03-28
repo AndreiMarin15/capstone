@@ -67,7 +67,6 @@ export default function Referral() {
 	}, [newMessage]);
 
 	React.useEffect(() => {
-
 		const importMessage = async () => {
 			const chatList = await getMessages.getChats();
 			console.log(chatList);
@@ -90,7 +89,6 @@ export default function Referral() {
 	}, []);
 
 	React.useEffect(() => {
-
 		console.log(chatId);
 		const importMessage = async () => {
 			const messages = await getMessages.getMessage(chatId);
@@ -239,9 +237,7 @@ export default function Referral() {
 	};
 
 	return (
-
 		<div className="bg-white h-screen flex">
-
 			<div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
 				<div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
 					<div className="text-xl font-semibold text-black">Referral</div>
@@ -264,6 +260,14 @@ export default function Referral() {
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
 							Refer a Patient
+						</button>
+						<button
+							onClick={() => {
+								router.push("referral/write_referral");
+							}}
+							className="text-black text-xs font-semibold bg-[#98c3ff] px-4 py-1.5 rounded mr-2"
+						>
+							Write a Referral
 						</button>
 					</div>
 				</div>
