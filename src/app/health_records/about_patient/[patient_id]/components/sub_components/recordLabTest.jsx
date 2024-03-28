@@ -1,11 +1,9 @@
 import Image from "next/image";
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
-import VisitLabtests from "./visitLabTests";
 import BackButton from "./BackButton";
 import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
-
+import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records";
 const ImageModal = ({ src, onClose }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
@@ -21,28 +19,32 @@ const ImageModal = ({ src, onClose }) => {
 
 
 export default function AddLabTest({currentScreen, setCurrentScreen, patientId}) {
+
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
+  const [labValueName, setLabValueName] = useState("");
   const [labTestName, setLabTestName] = useState("");
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [values, setValues] = useState({
+    custom: { value: "", unit: "" }
+  });
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
-
 
   const handleDrop = (e) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
     handleFileUpload(files);
   };
-  
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
+  
   const fileInputRef = useRef(null);
-
 
   const getImageBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -63,7 +65,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId})
     }
   };
   
-const handleOpenModal = () => {
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
@@ -72,50 +74,46 @@ const handleOpenModal = () => {
   };
 
   const handleAddLabTest = async () => {
-    // Add the captured lab test results to the labTestResults array
+    const patientData = await healthRecords.getPatientData(patientId);
 
 
     let base64Image = null;
-    
-  if (uploadedImageSrc) {
-    base64Image = uploadedImageSrc.split(",")[1]; 
-    // Remove the data URL prefix
-    console.log(base64Image);
-  }
-  
+    if (uploadedImageSrc) {
+      base64Image = uploadedImageSrc.split(",")[1]; 
+    }
+
     const newLabTest = {
-        lab: "Custom Lab Test", // Example lab test name, you can replace it with your input value
-        value: "Sample Value", // Example lab test result, you can replace it with your input value
-        unit: "mg/dL" // Example unit, you can replace it with your input value
+      lab: labTestName,
+      value: values.custom.value,
+      unit: values.custom.unit
     };
     setLabTestResults([...labTestResults, newLabTest]);
-
-    console.log("Lab Test Name:", labTestName);
-    console.log("date:", dateOfResult);
-    // Update the dataToSave array with the new lab test observation
+    
     const newObservation = {
       id: `labTest${labTestResults.length + 1}`,
       code: {
         coding: [
           {
-            code: "YOUR_LOINC_CODE", // Replace with the appropriate LOINC code for your lab test
+            code: "YOUR_LOINC_CODE", // To be replaced with actual LOINC_CODE
             system: "http://loinc.org",
           },
         ],
       },
-      subject:{
-          type:"Patient",
-          reference: patientId
+      subject: {
+        type: "Patient",
+        reference: patientData.id
       },
       resource_type: "Observation",
       valueQuantity: {
-        unit: "mg/dL", // Example unit, you can replace it with your input value
-        value: "Sample Value" // Example lab test result, you can replace it with your input value
+        display: labValueName,
+        unit: values.custom.unit,
+        value: values.custom.value,
       },
       effectiveDateTime: dateOfResult,
       codeText: labTestName,
       imageSrc: base64Image,
     };
+
   
     try {
       // Upload the new observation to the backend
@@ -125,33 +123,7 @@ const handleOpenModal = () => {
     } catch (error) {
       console.error("Error uploading observation:", error);
     }
-
   };
-
-
-     const clinicVitals = [
-    {
-      value: "",
-      lab: "LDL",
-      equal: "=",
-      unit: "",
-    },
-    {
-      value: "",
-      lab: "PDS",
-
-      equal: "=",
-      unit: "",
-    },
-    {
-      value: "",
-      lab: "FBS",
-
-      equal: "=",
-      unit: "",
-    },
-  ];
-
 
   return (
     <>
@@ -212,7 +184,6 @@ const handleOpenModal = () => {
                                 console.log("Lab Test Name Changed:", e.target.value);
                                 setLabTestName(e.target.value);
                               }}
-                        
                           />
                           </td>
                         </td>
@@ -290,36 +261,49 @@ const handleOpenModal = () => {
                       </tr>
                     </table>
                     <table className="max-w-fit border-spacing-y-7 border-separate">
-                      <tbody className=" text-xs leading-5 text-black">
-                        {clinicVitals.map((item, index) => (
-                          <tr key={index} className="h-8">
-                            <td className="border-l-[16px] border-transparent w-full">
-                              <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
-                                {item.lab}
-                              </div>
-                            </td>
-                            <td className="border-l-[8px] border-transparent">
-                              <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                                {item.equal}
-                              </div>
-                            </td>
-                            <td className="border-l-[8px] border-transparent">
-                              <div className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400">
-                                Enter Here
-                                {item.variable === "Heart Rate"
-                                  ? ""
-                                  : item.value}
-                              </div>
-                            </td>
-                            <td className="border-l-[20px] border-transparent">
-                              <input
-                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
-                                placeholder="mg/dL"
-                              />
-                              {item.variable === "Heart Rate" ? "" : item.unit}
-                            </td>
-                          </tr>
-                        ))}
+                      <tbody className="text-xs leading-5 text-black">
+                        <tr>
+                        <td className="border-l-[16px] border-transparent">
+                          <input
+                            className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+                            type="text"
+                            placeholder="Enter lab value name"
+                            value={labValueName}
+                            onChange={(e) => setLabValueName(e.target.value)}
+                          />
+                        </td>
+                        <td className="border-l-[8px] border-transparent flex items-center">
+                          <span className="mt-2 flex items-center text-black font-medium">=</span>
+                        </td>
+                        <td className="border-l-[8px] border-transparent">
+                          <input
+                            className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+                            type="text"
+                            placeholder="Enter value"
+                            value={values.custom.value}
+                            onChange={(e) =>
+                              setValues((prevValues) => ({
+                                ...prevValues,
+                                custom: { ...prevValues.custom, value: e.target.value }
+                              }))
+                            }
+                          />
+                        </td>
+                          <td className="border-l-[20px] border-transparent">
+                            <input
+                              className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-zinc-400"
+                              type="text"
+                              placeholder="Unit"
+                              value={values.custom.unit}
+                              onChange={(e) =>
+                                setValues((prevValues) => ({
+                                  ...prevValues,
+                                  custom: { ...prevValues.custom, unit: e.target.value }
+                                }))
+                              }
+                            />
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                     <button

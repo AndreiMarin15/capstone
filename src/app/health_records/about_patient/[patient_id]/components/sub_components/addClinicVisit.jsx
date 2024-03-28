@@ -799,7 +799,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 			) : currentScreen === 1 ? (
 				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : currentScreen === 2 ? (
-				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}  patientId={patientId}/>
 			) : currentScreen === 3 ? (
 				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : (
