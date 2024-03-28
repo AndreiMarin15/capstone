@@ -14,52 +14,81 @@ export default function Middleware() {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "name",
       value: "",
-      message: "This is where the name is inputted.",
+      message: "This is where the account owner's name is inputted.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "status",
       value: "",
-      message: "This is where the status is inputted.",
+      message:
+        "Account status means whether the account is active or inactive.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "identifier",
       value: "",
-      message: "This is where the identifier is inputted.",
+      message: "This is the unique ID of the account owner",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "description",
       value: "",
-      message: "This is where the description is inputted.",
+      message:
+        "This identifies whether the account is a patient or a practitioner.",
     },
   ];
   const personfields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "person",
+      variable: "name",
       value: "",
       message: "This is where the person is inputted.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "person2",
+      variable: "photo",
       value: "",
+      message: "This is where the account owner's photo is stored.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
+      variable: "gender",
       value: "",
+      message: "Gender of the account owner.",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "street_address",
       value: "",
+      message: "Street address of the account owner",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "email",
+      value: "",
+      message: "Email address of the account owner",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "deceased",
+      value: "",
+      message: "This is used to store whether the patient is deceased or not",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "birthdate",
+      value: "",
+      message: "Birthdate of the account owner",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "identifier",
+      value: "",
+      message: "This is the unique ID of the account owner",
     },
   ];
   const pracfields = [
@@ -67,81 +96,153 @@ export default function Middleware() {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "practitioner",
       value: "",
-      message: "This is where the practitioner is inputted.",
+      message: "This is where the name of the practitioner is stored.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "test",
+      variable: "active",
       value: "",
-      message: "This is where the practitioner is inputted.",
+      message: "This stores whether the doctor account is active or not.",
     },
 
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "gender",
+      value: "",
+      message: "Refers to the gender of practitioner.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "telecom",
+      value: "",
+      message: "Refers to the email address of the practitioner.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "birthdate",
+      value: "",
+      message: "This is where the practitioner's birthdate is stored.",
+    },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "identifier",
       value: "",
-      message: "This is where the practitioner is inputted.",
+      message: "This is the unique ID of the practitioner.",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "qualification",
       value: "",
-      message: "This is where the practitioner is inputted.",
+      message: "This is the unique ID of the practitioner's specialization.",
     },
   ];
   const patientfields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patient",
+      variable: "name",
       value: "",
-      message: "This is where the patient is inputted.",
+      message: "This is where the patient's name is stored.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patienttest",
+      variable: "photo",
       value: "",
-      message: "This is to test the patient",
+      message: "This is where the patient's photo is stored.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "active",
+      value: "",
+      message: "Used to store whether the patient's account is active or not.",
     },
 
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "gender",
+      value: "",
+      message: "Gender of the patient].",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "street_address",
+      value: "",
+      message: "Street address of the patient.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "email",
+      value: "",
+      message: "Email address of the patientr",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "deceased",
+      value: "",
+      message: "This is used to store whether the patient is deceased or not.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "birthdate",
+      value: "",
+      message: "Birthdate of the patient.",
+    },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "identifier",
       value: "",
-      message: "This is to test the patient",
+      message: "This is the unique ID of the patient.",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "philhealth_id",
       value: "",
-      message: "This is to test the patient",
+      message: "This stores the patien's PhilHealth ID number.",
     },
   ];
   const observefields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "observation",
+      variable: "id",
       value: "",
       message: "This is where the observation is inputted.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patienttest",
+      variable: "code",
       value: "",
       message: "This is to test the patient",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
+      variable: "system",
       value: "",
       message: "This is to test the patient",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "subject",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "resource_type",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "unit",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "value",
       value: "",
       message: "This is to test the patient",
     },
@@ -149,27 +250,45 @@ export default function Middleware() {
   const encounterfields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "encounter",
+      variable: "id",
       value: "",
       message: "This is where the encounter is inputted.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patienttest",
+      variable: "start",
       value: "",
       message: "This is to test the patient",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
+      variable: "type",
       value: "",
       message: "This is to test the patient",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "contained",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "type",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "actor",
+      value: "",
+      message: "This is to test the patient",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "resource_type",
       value: "",
       message: "This is to test the patient",
     },
@@ -177,29 +296,68 @@ export default function Middleware() {
   const famhistoryfields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "family",
+      variable: "age",
       value: "",
-      message: "This is where the family is inputted.",
+      message: "Refers to the age of the family member.",
     },
 
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patienttest",
+      variable: "sex",
       value: "",
-      message: "This is to test the patient",
+      message: "Refers to the sex of the family member.",
     },
 
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "name",
+      value: "",
+      message: "Refers to the sex of the family member.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "patient",
+      value: "",
+      message: "Refers to the unique ID of the patient.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "code",
+      value: "",
+      message: "Refers to the disease of the family member.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "onset",
+      value: "",
+      message: "Refers to the family member's disease onset date.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "outcome",
+      value: "",
+      message:
+        "Refers to the whether the family member's outcome was deceased, recovered, chronic, or improved.",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+      variable: "procedure",
+      value: "",
+      message:
+        "Refers to medical procedures done on the family member related to the condition, if any.",
+    },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
       variable: "identifier",
       value: "",
-      message: "This is to test the patient",
+      message: "Refers to the unique ID of the patient's family member.",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
+      variable: "relationship",
       value: "",
-      message: "This is to test the patient",
+      message:
+        "Refers to the relationship of the patient with the family member.",
     },
   ];
 
@@ -251,7 +409,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -281,7 +442,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -311,7 +475,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -341,7 +508,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -371,7 +541,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -401,7 +574,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -431,7 +607,10 @@ export default function Middleware() {
                 onMouseLeave={onHoverOver}
               />
               {hoveredImageId === index && (
-                <div className="text-xs absolute top-0 left-0 bg-gray-200 p-2 rounded shadow-md transform translate-y-[80%] translate-x-[-20%]">
+                <div
+                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
+                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
+                >
                   {`${item.message}`}
                 </div>
               )}
@@ -450,6 +629,22 @@ export default function Middleware() {
     <div className="flex flex-col  px-5 bg-white max-w-full">
       <div className="w-full text-xl ml-10 mt-10 font-semibold leading-8 text-black max-md:max-w-full">
         Middleware
+        <div className="text-small mt-5 mr-40 text-justify font-normal">
+          <span className="font-semibold">How to Use:</span>
+          <br />
+          <br />
+          {`Use the input fields below to map the fields EndoTracker's databse to
+          your EMR (Electronic Medical Record) system.
+          <br />
+          <br />
+          For example, in EndoTracker's database, the field name that stores a
+          user's photo is is "user_photo," but in your EMR system, the name of
+          the field is "photo." You should input "photo" in place of the empty
+          "user_photo" input field.
+          <br />
+          For easier reference, the 'i' icon contains information on what the
+          field is for.`}
+        </div>
       </div>
       <div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
         {[
