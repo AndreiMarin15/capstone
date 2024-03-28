@@ -9,62 +9,86 @@ import {
 } from "@nextui-org/react";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import ClinicVisit from "./sub_components/viewClinicVisit";
+import { useState, useEffect } from "react";
+import ViewClinicVisit from "./sub_components/viewClinicVisit";
 import * as React from "react";
+import { getEncounters } from "../../../../../lib/backend/health_records/getEncounter";
+import { getPatientRawData } from "../../../../../lib/backend/patient/personal_details/master_data";
 
 export default function ClinicVisits() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
-  const [visits, setVisits] = useState([
-    {
-      id: 1,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #1",
-      doctor: "Dr. Maria Santos",
-      visitdate: "Date: 2023-10-30",
-      lastOpened: null,
-    },
-    {
-      id: 2,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #2",
-      doctor: "Dr. John Doe",
-      visitdate: "Date: 2023-11-26",
-      lastOpened: null,
-    },
-    {
-      id: 3,
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      visitname: "Clinic Visit #3",
-      doctor: "Dr. Juan Gomez",
-      visitdate: "Date: 2024-02-14",
-      lastOpened: null,
-    },
-  ]);
+  const [encounters, setEncounters] = useState([]);
+  const [renderingOptions, setRenderingOptions] = useState(5);
+  const [selectedEncounterId, setSelectedEncounterId] = useState("");
+  const [clinicVisitNumber, setClinicVisitNumber] = useState(0)
+  const [patientId, setPatientId] = useState("");
 
-  const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(10);
+
+  useEffect(() => {
+    async function fetchPatientId() {
+      try {
+        const patientData = await getPatientRawData();
+        console.log(patientData)
+        setPatientId(patientData.id); // Assuming patientData contains the patient ID
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    }
+    fetchPatientId();
+  }, []);
+
+
+  React.useEffect(() => {
+    async function fetchEncounters() {
+      try {
+        const encountersData = await getEncounters();
+        // Filter encounters by patientId
+        const filteredEncounters = encountersData.filter(
+          (encounter) =>
+            encounter.resource.subject.reference === patientId
+            
+        );
+        
+        console.log("Encounters Data:", encountersData);
+     
+       
+        setEncounters(filteredEncounters);
+        console.log("Filtered Encounters:", filteredEncounters);
+      
+      } catch (error) {
+        console.error("Error fetching encounters:", error);
+      }
+    }
+    fetchEncounters();
+  }, [patientId, currentPage]);
+
+
+
+  const handleEncounterClick = (id) => {
+    setSelectedEncounterId(id); // Set the selected encounter ID
+    console.log(selectedEncounterId);
+    setCurrentPage(1);
   };
 
-  const addHandleVisitClick = (id) => {
-    setCurrentPage(currentPage + 1);
-    const updatedVisits = visits.map((visit) =>
-      visit.id === id
-        ? { ...visit, lastOpened: new Date().toLocaleString() }
-        : visit
+  const addHandleVisitClick = (id, clinicVisitNumber) => {
+    // Update lastOpened for the clicked encounter
+    const updatedEncounters = encounters.map((encounter) =>
+      encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
     );
-
-    // Update state with the modified visits array
-    setVisits(updatedVisits);
-
-    // Increment currentPage
-    setCurrentPage(currentPage + 1);
-
+  
+    // Update state with the modified encounters array
+    setEncounters(updatedEncounters);
+  
     // Set lastClicked
     setLastClicked(new Date().toLocaleString());
+  
+    setClinicVisitNumber(clinicVisitNumber);
+  
+    // Pass the encounter ID and clinic visit number to another component or perform any other action
+    console.log(id, clinicVisitNumber);
+    handleEncounterClick(id);
   };
 
   return (
@@ -79,12 +103,19 @@ export default function ClinicVisits() {
               <span className="text-black text-base font-bold leading-5">
                 Rendering Options:
               </span>
-              <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="7">7</option>
-                <option value="10">10</option>
-              </select>
+                <select
+                    className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal"
+                    onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+                    defaultValue="5"
+                  >
+                    <option value="5" disabled hidden>
+                      5
+                    </option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="7">7</option>
+                    <option value="10">10</option>
+                  </select>
               <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
                 Appointments
               </span>
@@ -120,44 +151,45 @@ export default function ClinicVisits() {
             </div>
           </div>
 
-          {visits.map((item, index) => (
-            <button
-              key={index}
-              className="flex mt-4 mb-4 text-xs text-black"
-              onClick={() => addHandleVisitClick(item.id)}
-            >
-              <div className="flex justify-between w-full">
-                <Image
-                  alt="image"
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src={item.src}
-                  className="self-start aspect-square fill-black w-[15px]"
-                />
-                <div className="flex flex-col flex-1 px-3.5 text-left">
-                  <div className="font-semibold whitespace-nowrap">
-                    {item.visitname}
+          {encounters.slice().reverse().slice(0, renderingOptions).map((encounter, index) => (
+          <button
+            key={encounter.id}
+            className="flex mt-4 mb-4 text-xs text-black"
+            onClick={() => addHandleVisitClick(encounter.id, encounters.length - index)}
+          >
+            <div className="flex justify-between w-full">
+            <Image
+                alt="image"
+                height={0}
+                width={0}
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                className="self-start aspect-square fill-black w-[15px]"
+              />
+              {/* Display encounter data */}
+              <div className="flex flex-col flex-1 px-3.5 text-left">
+              <div className="font-semibold whitespace-nowrap">
+                    Clinic Visit {encounters.length - index}
                   </div>
-                  <div className="flex justify-between w-fit">
-                    <Image
-                      alt="picture"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
-                      className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
+                <div className="flex justify-between w-fit">
+                <Image
+                        alt="picture"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                        className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                     />
-                    <div className="ml-2 mr-10">{item.doctor}</div>
-                    <div>{item.visitdate}</div>
+                    <div className="ml-2 mr-10">
+                        {encounter.resource.participant && encounter.resource.participant.actor && encounter.resource.participant.actor}
+                    </div>
+                  <div>{encounter.resource.period.start}</div>
                   </div>
                 </div>
-                <span className="text-xs text-gray-500">
-                  Last Opened: {item.lastOpened}
-                </span>
-              </div>
-            </button>
-          ))}
+              <span className="text-xs text-gray-500">Last Opened: {encounter.lastOpened}</span>
+            </div>
+          </button>
+        ))}
         </>
       ) : (
         ""
@@ -165,9 +197,12 @@ export default function ClinicVisits() {
 
       {currentPage === 1 ? (
         <>
-          <ClinicVisit
+          	<ViewClinicVisit
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            patientId={patientId}
+            encounterId={selectedEncounterId}
+            clinicVisitNumber={clinicVisitNumber}
           />
         </>
       ) : (
