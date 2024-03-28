@@ -189,17 +189,17 @@ export default function Medications({ patientId }) {
 					</div>
 					{medications
 						.filter((medication) => {
-							const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
+
 							if (status === "ACTIVE") {
 								return (
 									medication.resource.subject.reference === patientId &&
-									validityPeriodEnd >= today &&
+
 									medication.resource.status === "Active"
 								);
 							} else {
 								return (
 									medication.resource.subject.reference === patientId &&
-									(validityPeriodEnd < today || medication.resource.status === "Inactive")
+									(medication.resource.status === "Inactive")
 								);
 							}
 						})
@@ -247,7 +247,7 @@ export default function Medications({ patientId }) {
 										</div>
 
 										{medication.resource.requester.agent.reference === currentUser?.fullName && medication.resource.status === "Active" && (
-											<div className="flex ml-96 justify-end">
+											<div className="flex justify-end">
 												<span className="">
 												<button
 													className="ml-96 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
