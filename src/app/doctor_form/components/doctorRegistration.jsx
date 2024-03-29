@@ -123,18 +123,30 @@ export default function DoctorRegistration() {
 						</span>
 					</div>
 				</div>
+				<div className="flex">
+					<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+						Years of Practice
+					</div>
+					<input
+						onChange={(e) => {
+							doctorStore.setYearsOfPractice(parseInt(e.target.value));
+						}}
+						value={doctorStore.years_of_practice}
+						type="number"
+						className="w-16 rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-10 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
+					/>
 
-				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
-					Years of Practice
+					<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+						About yourself
+					</div>
+					<textarea
+						onChange={(e) => {
+							doctorStore.setAbout(e.target.value);
+						}}
+						value={doctorStore.about}
+						className="w-64  rounded shadow-sm items-stretch flex shrink-0 h-[60px] mt-10 flex-col p-2 border-[0.5px] border-solid border-black max-md:mr-2.5"
+					/>
 				</div>
-				<input
-					onChange={(e) => {
-						doctorStore.setYearsOfPractice(parseInt(e.target.value));
-					}}
-					value={doctorStore.years_of_practice}
-					type="number"
-					className="w-16 rounded shadow-sm items-stretch flex shrink-0 h-[30px] mr-9 mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
-				/>
 			</div>
 		</div>
 	);
