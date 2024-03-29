@@ -88,7 +88,6 @@ export default function Referral() {
 		importMessage();
 	}, []);
 
-
 	React.useEffect(() => {
 		console.log(chatId);
 		const importMessage = async () => {
@@ -111,33 +110,40 @@ export default function Referral() {
 	}
 
 	const handleApproval = async (value, id) => {
-		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				id: id,
-				status: value,
-				patient_id: currentInfo.patient_id,
-			}),
-		});
+		const response = await fetch(
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ??
+				"https://cap-middleware-1.vercel.app/user") + "/updateRequestStatus",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					id: id,
+					status: value,
+					patient_id: currentInfo.patient_id,
+				}),
+			}
+		);
 
 		console.log(response);
 	};
 
 	const generateRequest = async () => {
-		const response = await fetch("https://cap-middleware-1.vercel.app/user/requestApproval", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
-				requested_from: "testpatient@gmail.com",
-				patient_id: currentInfo.patient_id,
-			}),
-		});
+		const response = await fetch(
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware-1.vercel.app/user") + "/requestApproval",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+					requested_from: "testpatient@gmail.com",
+					patient_id: currentInfo.patient_id,
+				}),
+			}
+		);
 		const r = await response.json();
 		console.log(r);
 		return r[0].id;
@@ -238,9 +244,7 @@ export default function Referral() {
 	};
 
 	return (
-
 		<div className="bg-white  h-screen flex">
-
 			<div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
 				<div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
 					<div className="text-xl font-semibold text-black">Referral</div>
