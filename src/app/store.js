@@ -74,6 +74,9 @@ export const useDoctorInfo = create(
 			gender: "",
 			birthdate: "",
 			years_of_practice: 1,
+			about: "",
+
+			setAbout: (item) => set(() => ({ about: item })),
 
 			setDoctor_license: (item) => set(() => ({ doctor_license: item })),
 
