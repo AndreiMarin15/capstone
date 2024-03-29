@@ -126,6 +126,9 @@ export default function Home() {
 										width={0}
 										loading="lazy"
 										src="https://cdn.builder.io/api/v1/image/assets/TEMP/730d2ab85133d5682bb6f3ed87608a6813275f4528df2353bda8d0db54e60882?apiKey=66e07193974a40e683930e95115a1cfd&"
+										onClick={() => {
+											setEditState(!editState);
+										}}
 										className="aspect-square object-contain object-center w-5 overflow-hidden max-w-full self-end"
 									/>
 									<div className="text-black text-xs font-semibold leading-5 self-stretch max-md:max-w-full">
@@ -135,11 +138,43 @@ export default function Home() {
 										<span className="font-medium">Specialization</span>: {doctorInfo.specialization}
 									</div>
 									<div className="text-black text-xs leading-5 self-stretch mt-2 max-md:max-w-full">
-										<span className="font-medium">Years of Experience</span>: {doctorInfo.yearsOfExperience}
+										<span className="font-medium">Years of Experience</span>:{" "}
+										{!editState ? (
+											doctorInfo.yearsOfExperience
+										) : (
+											<input
+												type="number"
+												className="border border-black rounded-md shadow-sm bg-white border-solid p-2"
+												value={doctorInfo.yearsOfExperience}
+												onChange={(e) => setDoctor({ ...doctorInfo, yearsOfExperience: e.target.value })}
+											/>
+										)}
 									</div>
 									<div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
-										{doctorInfo.about}
+										About Doctor: <br />
+										{!editState ? (
+											doctorInfo.about
+										) : (
+											<textarea
+												className="border border-black rounded-md shadow-sm bg-white border-solid p-2 h-36 w-full"
+												value={doctorInfo.about}
+												onChange={(e) => {
+													setDoctor({ ...doctorInfo, about: e.target.value });
+												}}
+											/>
+										)}
 									</div>
+									{editState && (
+										<button
+											onClick={() => {
+												dashboard.updateDoctorInfo(doctorInfo.about, doctorInfo.yearsOfExperience);
+												setEditState(false);
+											}}
+											className="bg-blue-500 p-2 rounded-md text-white"
+										>
+											Save
+										</button>
+									)}
 								</span>
 							</div>
 							<div className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex flex-col my-6 pl-8 pr-20 py-10 border-solid items-start max-md:max-w-full max-md:px-5">
