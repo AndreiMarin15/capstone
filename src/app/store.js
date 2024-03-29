@@ -50,6 +50,18 @@ export const useUserInfo = create(
 	)
 );
 
+export const middlewareUser = create(
+	persist(
+		(set) => ({
+			info: {},
+			setInfo: (item) => set({ info: item }),
+		}),
+		{
+			name: "ENDO_TRACKER_MIDDLEWARE_USER",
+		}
+	)
+);
+
 const initialDoctorInfo = {
 	doctor_license: {
 		license_number: "0",
@@ -131,6 +143,7 @@ const initialPatientInfo = {
 		date_of_hypertension: "",
 	},
 };
+
 export const usePatientInfo = create(
 	persist(
 		(set) => ({
