@@ -22,11 +22,11 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
     const [systolic, setSystolic] = useState(null);
     const [diastolic, setDiastolic] = useState(null); 
     const [heartRate, setHeartRate] = useState(null);
-    const [reviewOfSystems, setReviewOfSystems] = useState(null);
-    const [signsAndSymptoms, setSignsAndSymptoms] = useState(null);
+    const [reviewOfSystems, setReviewOfSystems] = useState("");
+    const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
 	const [finalDiagnosis, setFinalDiagnosis] = useState ("");
-    const [otherConcerns, setOtherConcerns] = useState(null);
+    const [otherConcerns, setOtherConcerns] = useState("");
 	const [disease, setDisease] = useState([]);
 	const [filteredDisease, setFilteredDisease] = useState([]);
 	const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
@@ -701,7 +701,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 																		item.variable === "Review of Systems" ? reviewOfSystems :
 																		item.variable === "Other Concerns" ? otherConcerns : ""
 																	}
-																	
+
 																	onChange={(e) => {
 																		if (item.variable === "Signs and Symptoms") {
 																			setSignsAndSymptoms(e.target.value);
