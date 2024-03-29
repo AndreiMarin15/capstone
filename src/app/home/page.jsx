@@ -69,21 +69,40 @@ export default function Home() {
 		const getPatients = async () => {
 			const patients = await dashboard.getPatients();
 
-			setPatients(
-				patients.map((patient) => ({
-					name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
-					handledBy: [
-						{
-							name: doctorInfo.name,
-							specialty: doctorInfo.specialization,
-						},
-					],
-				}))
-			);
+			console.log(patients);
+
+			const formattedPatientsPromises = patients.map(async (patient) => {
+				const doctors = await dashboard.getHandledBy(patient.handled_by.referred_practitioners ?? []);
+
+				console.log(doctors);
+				return {
+					name: `${patient?.personal_information?.first_name ?? ""} ${patient?.personal_information?.last_name ?? ""}`,
+					handledBy:
+						doctors.data.length > 0
+							? doctors.data.map((doctor) => ({
+									name: `${doctor.first_name} ${doctor.last_name}`,
+									specialty: "Cardiologist",
+								}))
+							: [
+									{
+										name: doctorInfo.name,
+										specialty: doctorInfo.specialization,
+									},
+								],
+				};
+			});
+
+			const formattedPatients = await Promise.all(formattedPatientsPromises);
+			console.log(formattedPatients);
+			setPatients(formattedPatients);
 		};
 
 		getPatients();
-	}, [doctorInfo]);
+	}, []);
+
+	React.useEffect(() => {
+		console.log(managedPatients);
+	}, [managedPatients]);
 	return (
 		<div className={" bg-white flex flex-col items-stretch " + (managedPatients.length > 3 ? "h-auto" : "h-[100vh]")}>
 			<div className="w-full px-5 max-md:max-w-full h-[100vh]">
@@ -175,19 +194,22 @@ export default function Home() {
 								<div className="flex gap-4 mt-8 items-start w-full overflow-auto" style={{ maxHeight: "300px" }}>
 									<span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
 										{managedPatients
-											.filter((patient) => (patient.handledBy.length = 1)) // Filter patients with more than 1 doctor
+											.filter((patient) => (patient.handledBy.length > 0)) // Filter patients with more than 1 doctor
 											.map((patient) => (
 												<>
 													<div className="text-black text-xs font-semibold leading-5">{patient.name}</div>
 													<span className="flex flex-col items-stretch  mb-2">
-														{patient.handledBy.map((doctor) => (
-															<>
-																{" "}
-																<div className="text-black text-xs leading-5 mt-2">
-																	Handled by Dr. {doctor.name} - {doctor.specialty}
-																</div>
-															</>
-														))}
+														{patient.handledBy.map((doctor) => {
+															console.log(patient);
+															return (
+																<>
+																	{" "}
+																	<div className="text-black text-xs leading-5 mt-2">
+																		Handled by Dr. {doctor.name} - {doctor.specialty}
+																	</div>
+																</>
+															);
+														})}
 													</span>
 													<div className="border-b border-gray-300 w-full mb-4"></div>
 												</>
