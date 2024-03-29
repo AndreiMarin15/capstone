@@ -855,8 +855,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			) : currentScreen === 2 ? (
 				<RecordLabTest 
 					currentScreen={currentScreen} 
-					setCurrentScreen={setCurrentScreen}  
-					patientId={patientId}  
+					setCurrentScreen={setCurrentScreen}   
 					handleSave={(data) => {
 						addLabTestData(data);
 						handleSave(false);

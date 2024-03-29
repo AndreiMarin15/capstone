@@ -40,7 +40,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
         const selectedEncounter = encountersData.find(encounter => encounter.id === encounterId);
         console.log(selectedEncounter);
         
-        if (!selectedEncounter) {
+        if (!encountersData.length === 0) {
           console.error("Encounter not found with ID:", encounterId);
           return;
         }
@@ -87,7 +87,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
         .map(observation => ({
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", // Assuming your backend response contains a 'src' field
           variable: observation.codeText,
-          date: observation.effectiveDateTime
+          date: observation.effectiveDateTime,
+          status: observation.status
         }));
       
       console.log(labTestObservations);
@@ -141,7 +142,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           {labTests.map((item) => (
             <button
               onClick={() => {
-               
                 setTest(true);
                 setAdd(false);
               }}
@@ -168,6 +168,23 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
                 <div className="text-black text-xs font-medium leading-5">
                   {item.date} <br />
                 </div>
+                
+                {item.status === "requested" && (
+                  <div className="text-black text-xs font-medium leading-5 flex items-center">
+                    <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Requested
+                  </div>
+                )}
+                {item.status === "final" && (
+                  <div className="text-black text-xs font-medium leading-5 flex items-center">
+                    <svg className="h-3 w-3 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Uploaded
+                  </div>
+                )}
               </span>
             </button>
           ))}

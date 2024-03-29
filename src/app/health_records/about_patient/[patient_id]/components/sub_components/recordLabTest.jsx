@@ -21,7 +21,7 @@ const ImageModal = ({ src, onClose }) => {
 };
 
 
-export default function AddLabTest({currentScreen, setCurrentScreen, patientId, handleSave}) {
+export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}) {
 
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
