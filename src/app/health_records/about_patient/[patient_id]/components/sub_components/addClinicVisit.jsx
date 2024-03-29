@@ -381,7 +381,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 	};
 
 
-	const addLabTestData = (labTestData, patientId) => {
+	const addLabTestData = (labTestData) => {
 		
 		// Check if labTestData is not already an array
 		if (!Array.isArray(labTestData)) {

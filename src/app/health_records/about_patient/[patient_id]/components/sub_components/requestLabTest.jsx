@@ -55,37 +55,37 @@ export default function RequestLabTest({currentScreen, setCurrentScreen,handleSa
               <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className="text-xs leading-5 text-black">
                 {labtest.map((item, index) => (
-  <tr key={index} className="h-8">
-    <td className="w-5">
-      <Image
-        alt="image"
-        height={0}
-        width={0}
-        loading="lazy"
-        src={item.src}
-        className="self-start aspect-square fill-black w-[15px]"
-      />
-    </td>
-    <td className="border-l-[16px] border-transparent">
-      <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-        {item.variable}
-      </div>
-    </td>
-    <td className="border-l-[5rem] border-transparent">
-      {item.variable === "Lab Test Name" ? (
-        <input
-          className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
-          value={labTestName}
-          onChange={(e) => setLabTestName(e.target.value)}
-        />
-      ) : (
-        <input
-          className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
-        />
-      )}
-    </td>
-  </tr>
-))}
+                    <tr key={index} className="h-8">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[16px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[5rem] border-transparent">
+                        {item.variable === "Lab Test Name" ? (
+                          <input
+                            className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
+                            value={labTestName}
+                            onChange={(e) => setLabTestName(e.target.value)}
+                          />
+                        ) : (
+                          <input
+                            className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

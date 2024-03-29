@@ -6,8 +6,12 @@ import LabTest from "../labtest_components/labTest";
 import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
+import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
+
 export default function LabTestList( {currentScreen, setCurrentScreen, patientId, encounterId, clinicVisitNumber} ) {
   const router = useRouter();
   const [testName, setTestName] = useState("");
@@ -100,6 +104,9 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
 
 
+
+      
+
         console.log(labTests);
       } catch (error) {
         console.error("Error fetching encounters and observations:", error);
@@ -109,6 +116,68 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
     fetchEncountersAndObservations();
   }, [patientId, encounterId]);
 
+  	
+
+
+  
+  // const [observations, setObservations] = useState([]);
+
+  const handleSave = async (observation) => {
+    try {
+        if (observation !== undefined && observation !== null) {
+            const savedData = await uploadObservation(observation);
+            console.log("Data saved successfully:", savedData);
+
+            setCurrentScreen(currentScreen);
+        } else {
+            console.error("No observation data available to save");
+        }
+    } catch (error) {
+        console.error("Error saving data:", error);
+    }
+};
+
+const addLabTestData = (data) => {
+    try {
+
+
+
+        const newObservation = {
+            id: `labtest`,
+            status: data.status,
+            code: {
+                coding: [
+                    {
+                        code: "YOUR_LOINC_CODE",
+                        system: "http://loinc.org",
+                    }
+                ]
+            },
+            subject: {
+                type: "Patient",
+                reference: patientId,
+            },
+            resource_type: "Observation",
+            valueQuantity: {
+                valueQuantities: data.valueQuantities.map((val) => ({
+                    display: val.display,
+                    unit: val.unit,
+                    value: val.value,
+                })),
+            },
+            effectiveDateTime: data.dateOfResult,
+            codeText: data.labTestName,
+            imageSrc: data.base64Image,
+        };
+
+        console.log(newObservation);
+        handleSave(newObservation);
+    } catch (error) {
+        console.error("Error adding lab test data:", error);
+    }
+};
+
+
   return (
     <>
     
@@ -116,7 +185,10 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
       {isTest ? (
         <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
       ) : isAdd ? (
-        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen}/>
+        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
+          addLabTestData(data);
+          handleSave();
+        }}/>
       ) : (
         
         <>
