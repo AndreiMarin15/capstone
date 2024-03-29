@@ -137,8 +137,8 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
     labTestName: labTestName,
     base64Image: base64Image,
 };
-console.log([labTestData])
-handleSave([labTestData], false);
+console.log(labTestData)
+handleSave(labTestData, false);
 
   
   
