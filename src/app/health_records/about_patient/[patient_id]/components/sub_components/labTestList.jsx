@@ -108,12 +108,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
     fetchEncountersAndObservations();
   }, [patientId, encounterId]);
 
-
-
-
-
-
-
   return (
     <>
     
