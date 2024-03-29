@@ -74,13 +74,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 	  async function retrieveEncounters() {
 		try {
 		  const encountersData = await getEncounters();
-		  // Do something with encountersData here
-		//   console.log("Encounters Data:", encountersData);
-		//   console.log("Encounters Data id:", encountersData[0]?.id);
 
 		  setEncountersId(encountersData[0]?.id);
 		} catch (error) {
-		  // Handle errors if any occurred during fetching encounters
+
 		  console.error("Error retrieving encounters:", error);
 		}
 	  }
@@ -398,6 +395,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 		// Map over labTestData to create new observations
 		const newObservations = labTestData.map((data, index) => ({
 			id: `labtest`,
+			status: data.status,
 			code: {
 				coding: [{
 					code: "YOUR_LOINC_CODE",
@@ -865,7 +863,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					}}
 				/>
 			) : currentScreen === 3 ? (
-				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} handleSave={(data) => {
+					addLabTestData(data);
+					handleSave(false);
+				}}/>
 			) : (
 				""
 			)}

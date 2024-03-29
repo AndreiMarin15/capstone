@@ -128,6 +128,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
 
   const labTestData = {
     loincCode: "YOUR_LOINC_CODE",
+    status: "final",
     valueQuantities: rows.map(row => ({
         display: row.labValueName,
         unit: row.unit,
@@ -140,7 +141,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
 console.log(labTestData)
 handleSave(labTestData, false);
 
-  
+
   
 
   toast.success("Lab Test Recorded", {
