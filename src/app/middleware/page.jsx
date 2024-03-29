@@ -1,726 +1,185 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
+import * as React from "react";
+import sideImg from "../assets/doctor-looking-information-database.jpeg";
+import { useRouter } from "next/navigation";
+import { useUserInfo } from "../store";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import middleware from "./backend/middleware";
 
-export default function Middleware() {
-  const [selectedEntity, setSelectedEntity] = React.useState("");
+export default function Home() {
+	const router = useRouter();
+	const userStore = useUserInfo();
 
-  const handleButtonClick = (entity) => {
-    setSelectedEntity(entity);
-  };
-  const accfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "name",
-      value: "",
-      message: "This is where the account owner's name is inputted.",
-    },
+	const [passwordVerify, setPasswordVerify] = React.useState("");
+	const [agreed, setAgreed] = React.useState(false);
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "status",
-      value: "",
-      message:
-        "Account status means whether the account is active or inactive.",
-    },
+	const passwordValid = () => {
+		if (userStore.password === passwordVerify) {
+			if (userStore.password.length >= 8) {
+				return {
+					status: true,
+					message: `Registration for ${userStore.email} is now ongoing. Please answer the forms in the next page.`,
+				};
+			}
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
-      value: "",
-      message: "This is the unique ID of the account owner",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "description",
-      value: "",
-      message:
-        "This identifies whether the account is a patient or a practitioner.",
-    },
-  ];
-  const personfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "name",
-      value: "",
-      message: "This is where the person is inputted.",
-    },
+			return {
+				status: false,
+				message: "Password length too short. Please input atleast 8 characters",
+			};
+		}
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "photo",
-      value: "",
-      message: "This is where the account owner's photo is stored.",
-    },
+		return {
+			status: false,
+			message: "Passwords do not match. Please try again.",
+		};
+	};
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "gender",
-      value: "",
-      message: "Gender of the account owner.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "street_address",
-      value: "",
-      message: "Street address of the account owner",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "email",
-      value: "",
-      message: "Email address of the account owner",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "deceased",
-      value: "",
-      message: "This is used to store whether the patient is deceased or not",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "birthdate",
-      value: "",
-      message: "Birthdate of the account owner",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
-      value: "",
-      message: "This is the unique ID of the account owner",
-    },
-  ];
-  const pracfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "practitioner",
-      value: "",
-      message: "This is where the name of the practitioner is stored.",
-    },
+	const handleLoginClick = () => {
+		router.push("/middleware/login");
+	};
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "active",
-      value: "",
-      message: "This stores whether the doctor account is active or not.",
-    },
+	return (
+		<div className="border bg-white pl-20 border-solid border-stone-300 max-md:pl-5">
+			<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+				<div className="flex flex-col items-stretch w-[60%] max-md:w-full max-md:ml-0">
+					<div className="flex flex-col my-auto max-md:mt-10">
+						<div className="items-center self-stretch flex justify-between gap-3">
+							<Image
+								src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c5568ce87fad250d8960d04c2e97ceaf002e72729e6cdcc5eda1af6f229ff5?"
+								className="aspect-square object-contain object-center w-9 overflow-hidden shrink-0 max-w-full my-auto"
+								width={0}
+								height={0}
+								alt="mImg"
+							/>
+							<div className="text-blue-500 text-3xl font-bold leading-10 self-stretch grow shrink basis-auto">
+								EndoTracker - Middleware
+							</div>
+						</div>
+						<div className="text-black text-5xl font-bold leading-[72px] self-stretch mt-16 max-md:text-4xl max-md:mt-10">
+							Get started
+						</div>
+						<div className="text-left text-zinc-950 text-base leading-6 self-stretch mt-6">
+							Already have an account?{" "}
+							<span className="underline text-blue-500 hover:cursor-pointer" onClick={handleLoginClick}>
+								Sign in
+							</span>
+						</div>
+						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
+						<input
+							type="text"
+							id="email"
+							onChange={(e) => {
+								userStore.setEmail(e.target.value);
+							}}
+							value={userStore.email ?? ""}
+							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+						/>
+						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
+						<input
+							type="password"
+							id="password"
+							onChange={(e) => {
+								userStore.setPassword(e.target.value);
+							}}
+							value={userStore.password ?? ""}
+							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+						/>
+						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
+							Re-type Password
+						</div>
+						<input
+							type="password"
+							id="password"
+							onChange={(e) => {
+								setPasswordVerify(e.target.value);
+							}}
+							value={passwordVerify}
+							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+						/>
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "gender",
-      value: "",
-      message: "Refers to the gender of practitioner.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "telecom",
-      value: "",
-      message: "Refers to the email address of the practitioner.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "birthdate",
-      value: "",
-      message: "This is where the practitioner's birthdate is stored.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
-      value: "",
-      message: "This is the unique ID of the practitioner.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "qualification",
-      value: "",
-      message: "This is the unique ID of the practitioner's specialization.",
-    },
-  ];
-  const patientfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "name",
-      value: "",
-      message: "This is where the patient's name is stored.",
-    },
+						<div className="items-center self-stretch flex justify-between gap-1.5 mt-6">
+							<input
+								type="checkbox"
+								className="border-gray-400 bg-white flex w-3 shrink-0 h-3 flex-col my-auto rounded-sm border-[0.4px] border-solid"
+								checked={agreed}
+								onChange={(e) => {
+									setAgreed(e.target.checked);
+								}}
+							/>
+							<div className="text-black-500 text-sm leading-5 self-stretch grow whitespace-nowrap">
+								I agree to the{" "}
+								<span
+									className="underline text-blue-500 hover:cursor-pointer"
+									onClick={() => {
+										router.push("/legal/terms_of_service");
+									}}
+								>
+									terms of service
+								</span>{" "}
+								and{" "}
+								<span
+									className="underline text-blue-500 hover:cursor-pointer"
+									onClick={() => {
+										router.push("/legal/privacy_policy");
+									}}
+								>
+									privacy policy
+								</span>
+							</div>
+						</div>
+						<button
+							onClick={() => {
+								const result = passwordValid();
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "photo",
-      value: "",
-      message: "This is where the patient's photo is stored.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "active",
-      value: "",
-      message: "Used to store whether the patient's account is active or not.",
-    },
+								if (agreed === true) {
+									if (result.status === true) {
+										toast.success(result.message, {
+											position: "top-left",
+											theme: "colored",
+											autoClose: 2000,
+										});
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "gender",
-      value: "",
-      message: "Gender of the patient].",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "street_address",
-      value: "",
-      message: "Street address of the patient.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "email",
-      value: "",
-      message: "Email address of the patientr",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "deceased",
-      value: "",
-      message: "This is used to store whether the patient is deceased or not.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "birthdate",
-      value: "",
-      message: "Birthdate of the patient.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
-      value: "",
-      message: "This is the unique ID of the patient.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "philhealth_id",
-      value: "",
-      message: "This stores the patien's PhilHealth ID number.",
-    },
-  ];
-  const observefields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "id",
-      value: "",
-      message: "This is where the observation is inputted.",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "code",
-      value: "",
-      message: "This is to test the patient",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "system",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "subject",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "resource_type",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "unit",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "value",
-      value: "",
-      message: "This is to test the patient",
-    },
-  ];
-  const encounterfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "id",
-      value: "",
-      message: "This is where the encounter is inputted.",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "start",
-      value: "",
-      message: "This is to test the patient",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "type",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "contained",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "type",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "actor",
-      value: "",
-      message: "This is to test the patient",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "resource_type",
-      value: "",
-      message: "This is to test the patient",
-    },
-  ];
-  const famhistoryfields = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "age",
-      value: "",
-      message: "Refers to the age of the family member.",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "sex",
-      value: "",
-      message: "Refers to the sex of the family member.",
-    },
-
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "name",
-      value: "",
-      message: "Refers to the sex of the family member.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "patient",
-      value: "",
-      message: "Refers to the unique ID of the patient.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "code",
-      value: "",
-      message: "Refers to the disease of the family member.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "onset",
-      value: "",
-      message: "Refers to the family member's disease onset date.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "outcome",
-      value: "",
-      message:
-        "Refers to the whether the family member's outcome was deceased, recovered, chronic, or improved.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "procedure",
-      value: "",
-      message:
-        "Refers to medical procedures done on the family member related to the condition, if any.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "identifier",
-      value: "",
-      message: "Refers to the unique ID of the patient's family member.",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
-      variable: "relationship",
-      value: "",
-      message:
-        "Refers to the relationship of the patient with the family member.",
-    },
-  ];
-
-  const RenderInputFields = () => {
-    const [hoveredImageId, setHoveredImageId] = React.useState(null); // Track the currently hovered image
-
-    const onHover = (imageId) => {
-      setHoveredImageId(imageId); // Set the hovered image ID when mouse enters
-    };
-
-    const onHoverOver = () => {
-      setHoveredImageId(null); // Reset the hovered image ID when mouse leaves
-    };
-
-    const fields =
-      selectedEntity === "Account"
-        ? accfields
-        : selectedEntity === "Person"
-          ? personfields
-          : selectedEntity === "Practitioner"
-            ? pracfields
-            : selectedEntity === "Patient"
-              ? patientfields
-              : selectedEntity === "Observations"
-                ? observefields
-                : selectedEntity === "Encounter"
-                  ? encounterfields
-                  : selectedEntity === "Patient Family History"
-                    ? famhistoryfields
-                    : [];
-
-    if (selectedEntity === "Account") {
-      // Assuming you have a similar structure for account fields
-      return accfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Person") {
-      return personfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Practitioner") {
-      return pracfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Patient") {
-      return patientfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Observation") {
-      return observefields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Encounter") {
-      return encounterfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    } else if (selectedEntity === "Patient Family History") {
-      return famhistoryfields.map((item, index) => (
-        <tr key={index} className="h-8 relative">
-          <td className="border-l-[16px] border-transparent">
-            <div className="flex gap-1 items-center">
-              <div className="gap-1 text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item.variable}
-              </div>
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item.src}
-                className="self-center aspect-square fill-black w-[15px]"
-                onMouseEnter={() => onHover(index)} // Pass the index as the image ID
-                onMouseLeave={onHoverOver}
-              />
-              {hoveredImageId === index && (
-                <div
-                  className="text-xs absolute top-[calc(100% + 5px)] left-1/2 bg-gray-200 p-2 rounded shadow-md transform -translate-x-1/2 flex justify-center items-center z-10" // Adjusted z-index to bring it to the front
-                  style={{ maxWidth: "200px", wordWrap: "break-word" }}
-                >
-                  {`${item.message}`}
-                </div>
-              )}
-            </div>
-          </td>
-          <td className="border-l-[5rem] border-transparent">
-            <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
-          </td>
-        </tr>
-      ));
-    }
-    // Add conditions for other entities
-  };
-
-  return (
-    <div className="flex flex-col  px-5 bg-white max-w-full">
-      <div className="w-full text-xl ml-10 mt-10 font-semibold leading-8 text-black max-md:max-w-full">
-        Middleware
-        <div className="text-small mt-5 mr-40 text-justify font-normal">
-          <span className="font-semibold">How to Use:</span>
-          <br />
-          <br />
-          {`Use the input fields below to map the fields EndoTracker's databse to
-          your EMR (Electronic Medical Record) system.
-          <br />
-          <br />
-          For example, in EndoTracker's database, the field name that stores a
-          user's photo is is "user_photo," but in your EMR system, the name of
-          the field is "photo." You should input "photo" in place of the empty
-          "user_photo" input field.
-          <br />
-          For easier reference, the 'i' icon contains information on what the
-          field is for.`}
-        </div>
-      </div>
-      <div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
-        {[
-          "Account",
-          "Person",
-          "Practitioner",
-          "Patient",
-          "Observation",
-          "Encounter",
-          "Patient Family History",
-        ].map((entity) => (
-          <button
-            key={entity}
-            onClick={() => handleButtonClick(entity)}
-            className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 ${
-              selectedEntity === entity
-                ? "bg-sky-900 text-white"
-                : "hover:bg-sky-900 hover:text-white"
-            }`}
-          >
-            {entity}
-          </button>
-        ))}
-      </div>
-      {/* <div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
-        <button
-          onClick={() => handleButtonClick("Account")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          {" "}
-          Account
-        </button>
-        <button
-          onClick={() => handleButtonClick("Person")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Person
-        </button>
-        <button
-          onClick={() => handleButtonClick("Practitioner")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Practicioner
-        </button>
-        <button
-          onClick={() => handleButtonClick("Patient")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Patient
-        </button>
-        <button
-          onClick={() => handleButtonClick("Observation")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Observation
-        </button>
-        <button
-          onClick={() => handleButtonClick("Encounter")}
-          className="justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Encounter
-        </button>
-        <button
-          onClick={() => handleButtonClick("Patient Family History")}
-          className="justify-center px-6 py-1 rounded border border-black border-solid max-md:px-5 hover:bg-sky-900 hover:text-white"
-        >
-          Patient Family History
-        </button>
-      </div> */}
-      <div className="mt-12 max-w-full w-[447px] max-md:mt-10">
-        <table className="ml-10 max-w-fit border-spacing-y-5 border-separate">
-          <tbody className="text-xs leading-5 text-black">
-            {RenderInputFields()}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+										middleware.signUp().then((data) => {
+											if (data.status === 200) {
+												setTimeout(() => {
+													router.push("/middleware/api_keys");
+												}, 2300);
+											}
+										});
+									} else {
+										toast.error(result.message, {
+											position: "top-left",
+											theme: "colored",
+											autoClose: 2000,
+										});
+									}
+								} else {
+									toast.error("Kindly Read and Agree to both the Terms of Service and Privacy Policy.", {
+										position: "top-left",
+										theme: "colored",
+										autoClose: 2000,
+									});
+								}
+							}}
+							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
+						>
+							Sign Up
+						</button>
+					</div>
+				</div>
+				<div className="flex flex-col items-stretch justify-end h-[100vh] ml-5 w-full">
+					<Image
+						src={sideImg}
+						width={0}
+						height={0}
+						className="w-full object-cover aspect-[0.63] object-center overflow-hidden grow max-md:max-w-full max-md:mt-10"
+						alt="side"
+					/>
+				</div>
+			</div>
+		</div>
+	);
 }
