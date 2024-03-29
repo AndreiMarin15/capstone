@@ -13,7 +13,7 @@ import { retrieveDisease } from "../../../../../../../lib/backend/health_records
 import uploadEncounter from "../../../../../../../lib/backend/health_records/uploadEncounter";
 import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records"; 
-export default function AddClinicVisit({ currentPage, setCurrentPage, patientId }) {
+export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}) {
     const [clinicDate, setClinicDate] = useState("");
     const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
     const [height, setHeight] = useState(null); 
@@ -31,8 +31,9 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	const [filteredDisease, setFilteredDisease] = useState([]);
 	const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
 	const [encountersId, setEncountersId] = useState([]);
-
-
+	const [labTestData, setLabTestData] = useState([]);
+	const [observations, setObservations] = useState([]);
+	const [labTestDataArray, setLabTestDataArray] = useState([]);
 	const handleDiagnosisChange = (e) => {
 		const inputValue = e.target.value.toLowerCase();
 		const filteredDisease = disease.filter((disease) => {
@@ -73,13 +74,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	  async function retrieveEncounters() {
 		try {
 		  const encountersData = await getEncounters();
-		  // Do something with encountersData here
-		  console.log("Encounters Data:", encountersData);
-		  console.log("Encounters Data id:", encountersData[0]?.id);
 
 		  setEncountersId(encountersData[0]?.id);
 		} catch (error) {
-		  // Handle errors if any occurred during fetching encounters
+
 		  console.error("Error retrieving encounters:", error);
 		}
 	  }
@@ -87,12 +85,262 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 	  // Call the retrieveEncounters function
 	  retrieveEncounters();
 	  
-			
+	 
+	
+	let patientDataId;
 
-	const handleSave = async () => {
+
+	  const handleSave = async (saveClinicVisit = false) => {
+		
 		try {
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
 			const patientData = await healthRecords.getPatientData(patientId);
+			patientDataId = patientData.id; 
+			
+
+			  const contained = [
+				...observations,
+				{
+					id: "height",
+					code: {
+						coding: [
+							{
+								code: "8302-2",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "cm",
+						value: height,
+					},
+				},
+				{
+					id: "systolic",
+					code: {
+						coding: [
+							{
+								code: "8480-6",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "mmHg",
+						value: systolic,
+					},
+				},
+				{
+					id: "diastolic",
+					code: {
+						coding: [
+							{
+								code: "8462-4",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "mmHg",
+						value: diastolic,
+					},
+				},
+				{
+					id: "reviewOfSystems",
+					code: {
+						coding: [
+							{
+								code: "8687-6",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: reviewOfSystems,
+					resource_type: "Observation",
+				},
+				{
+					id: "weight",
+					code: {
+						coding: [
+							{
+								code: "29463-7",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "kg",
+						value: weight,
+					},
+				},
+				{
+					id: "signsAndSymptoms",
+					code: {
+						coding: [
+							{
+								code: "33483-9",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: signsAndSymptoms,
+					resource_type: "Observation",
+				},
+				{
+					id: "diagnosis",
+					code: {
+						coding: [
+							{
+								code: "33483-9",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: diagnosis,
+					resource_type: "Observation",
+				},
+				{
+					id: "finalDiagnosis",
+					code: {
+						coding: [
+							{
+								code: "33483-9",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: finalDiagnosis,
+					resource_type: "Observation",
+				},
+				{
+					id: "bmi",
+					code: {
+						coding: [
+							{
+								code: "39156-5",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "kg/m2",
+						value: bmi,
+					},
+				},
+				{
+					id: "heartRate",
+					code: {
+						coding: [
+							{
+								code: "8867-4",
+								system: "http://loinc.org",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					resource_type: "Observation",
+					valueQuantity: {
+						unit: "beats/minute",
+						value: heartRate,
+					},
+				},
+				{
+					id: "diagnosis",
+					code: {
+						coding: [
+							{
+								code: "",
+								system: "",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: diagnosis,
+					resource_type: "Observation",
+				},
+				{
+					id: "otherConcerns",
+					code: {
+						coding: [
+							{
+								code: "",
+								system: "",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: otherConcerns,
+					resource_type: "Observation",
+				},
+				{
+					id: "suggestedNextVisit",
+					code: {
+						coding: [
+							{
+								code: "",
+								system: "",
+							},
+						],
+					},
+					subject:{
+						type: "Patient",
+						reference: patientData.id
+					},
+					valueString: suggestedClinicDate,
+					resource_type: "Observation",
+				},
+			];
+			console.log(contained)
 			console.log(patientData)
 			console.log(doctorInfo)
 			const dataToSave = {
@@ -108,271 +356,70 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 					type: "Patient",
 					reference: patientData.id,
 				},
-				contained: [
-					{
-						id: "height",
-						code: {
-							coding: [
-								{
-									code: "8302-2",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "cm",
-							value: height,
-						},
-					},
-					{
-						id: "systolic",
-						code: {
-							coding: [
-								{
-									code: "8480-6",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "mmHg",
-							value: systolic,
-						},
-					},
-					{
-						id: "diastolic",
-						code: {
-							coding: [
-								{
-									code: "8462-4",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "mmHg",
-							value: diastolic,
-						},
-					},
-					{
-						id: "reviewOfSystems",
-						code: {
-							coding: [
-								{
-									code: "8687-6",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: reviewOfSystems,
-						resource_type: "Observation",
-					},
-					{
-						id: "weight",
-						code: {
-							coding: [
-								{
-									code: "29463-7",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "kg",
-							value: weight,
-						},
-					},
-					{
-						id: "signsAndSymptoms",
-						code: {
-							coding: [
-								{
-									code: "33483-9",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: signsAndSymptoms,
-						resource_type: "Observation",
-					},
-					{
-						id: "diagnosis",
-						code: {
-							coding: [
-								{
-									code: "33483-9",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: diagnosis,
-						resource_type: "Observation",
-					},
-					{
-						id: "finalDiagnosis",
-						code: {
-							coding: [
-								{
-									code: "33483-9",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: finalDiagnosis,
-						resource_type: "Observation",
-					},
-					{
-						id: "bmi",
-						code: {
-							coding: [
-								{
-									code: "39156-5",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "kg/m2",
-							value: bmi,
-						},
-					},
-					{
-						id: "heartRate",
-						code: {
-							coding: [
-								{
-									code: "8867-4",
-									system: "http://loinc.org",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						resource_type: "Observation",
-						valueQuantity: {
-							unit: "beats/minute",
-							value: heartRate,
-						},
-					},
-                    {
-						id: "diagnosis",
-						code: {
-							coding: [
-								{
-									code: "",
-									system: "",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: diagnosis,
-						resource_type: "Observation",
-					},
-                    {
-						id: "otherConcerns",
-						code: {
-							coding: [
-								{
-									code: "",
-									system: "",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: otherConcerns,
-						resource_type: "Observation",
-					},
-                    {
-						id: "suggestedNextVisit",
-						code: {
-							coding: [
-								{
-									code: "",
-									system: "",
-								},
-							],
-						},
-						subject:{
-							type: "Patient",
-							reference: patientData.id
-						},
-						valueString: suggestedClinicDate,
-						resource_type: "Observation",
-					},
-				],
+
+
+				contained: contained,
 				resource_type: "Encounter",
 			};
-			// Call the uploadEncounter function with the data to save
-			const savedData = await uploadEncounter(dataToSave);
+			if (saveClinicVisit) {
 
-			console.log("Data saved successfully:", savedData);
-
-			  toast.success("Clinic Visit Added", {
-				position: "top-left",
-				theme: "colored",
-				autoClose: 2000,
-			});
-
-			
-
+				const savedData = await uploadEncounter(dataToSave);
+	
+				console.log("Data saved successfully:", savedData);
+	
+				toast.success("Clinic Visit Added", {
+					position: "top-left",
+					theme: "colored",
+					autoClose: 2000,
+				});
+				setCurrentPage(0);
+			} 
 			// You can also update state or perform other actions after saving data
 		} catch (error) {
 			console.error("Error saving data:", error);
 		}
-
-		setCurrentPage(0);
-		
 	};
 
+
+	const addLabTestData = (labTestData) => {
+		
+		// Check if labTestData is not already an array
+		if (!Array.isArray(labTestData)) {
+			// If labTestData is not an array, convert it into an array
+			labTestData = [labTestData];
+		}
+	
+		// Add labTestData to the existing labTestDataArray
+		setLabTestData([...labTestDataArray, ...labTestData]);
+	
+		// Map over labTestData to create new observations
+		const newObservations = labTestData.map((data, index) => ({
+			id: `labtest`,
+			status: data.status,
+			code: {
+				coding: [{
+					code: "YOUR_LOINC_CODE",
+					system: "http://loinc.org",
+				}],
+			},
+			subject: {
+				type: "Patient",
+				reference: patientDataId,
+			},
+			resource_type: "Observation",
+			valueQuantity: {
+				valueQuantities: data.valueQuantities,
+			}, 
+			effectiveDateTime: data.dateOfResult,
+			codeText: data.labTestName,
+			imageSrc: data.base64Image,
+		}));
+	
+		// Update observations with new observations
+		setObservations([...observations, ...newObservations]);
+
+		console.log(observations)
+	};
 	const date = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -646,6 +693,13 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																		item.variable === "Review of Systems" ? "Add Review" :
 																		item.variable === "Other Concerns" ? "Add Concern/s" : ""
 																	}
+
+																	value={
+																		item.variable === "Signs and Symptoms" ? signsAndSymptoms :
+																		item.variable === "Review of Systems" ? reviewOfSystems :
+																		item.variable === "Other Concerns" ? otherConcerns : ""
+																	}
+
 																	onChange={(e) => {
 																		if (item.variable === "Signs and Symptoms") {
 																			setSignsAndSymptoms(e.target.value);
@@ -787,21 +841,31 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 					<div className="flex justify-between items-center mt-5">
 						<BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
 						<div>
-							<button
-								onClick={handleSave}
-								className="flex items-center justify-center px-5 py-1 rounded  border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
-							>
-								SAVE
-							</button>
-						</div>
+								<button
+									onClick={() => handleSave(labTestData, true)} // Pass labTestData and true to indicate saving clinic visit
+									className="flex items-center justify-center px-5 py-1 rounded border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
+								>
+									SAVE
+								</button>
+							</div>
 					</div>
 				</>
 			) : currentScreen === 1 ? (
 				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : currentScreen === 2 ? (
-				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<RecordLabTest 
+					currentScreen={currentScreen} 
+					setCurrentScreen={setCurrentScreen}   
+					handleSave={(data) => {
+						addLabTestData(data);
+						handleSave(false);
+					}}
+				/>
 			) : currentScreen === 3 ? (
-				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} handleSave={(data) => {
+					addLabTestData(data);
+					handleSave(false);
+				}}/>
 			) : (
 				""
 			)}
