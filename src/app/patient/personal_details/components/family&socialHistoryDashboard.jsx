@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import FamilyHistory from "./sub_components/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
 import { getFamilyAndSocialHistory } from "../../../../../lib/backend/patient/personal_details/master_data";
+import EditFamilyHistory  from "./sub_components/editFamilyHistory";
+import EditSocialHistory  from "./sub_components/editSocialHistory";
+
+
 export default function SocialHistory() {
   const [currentPage, setCurrentPage] = useState(0);
   const [familyHistory, setFamilyHistory] = useState([]);
@@ -77,8 +81,14 @@ export default function SocialHistory() {
     <>
       {currentPage === 0 ? (
         <>
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-4 max-md:ml-1 max-md:mt-10">
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             FAMILY HISTORY
+            <button
+              className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
+              onClick={() => setCurrentPage(2)}
+            >
+              Edit Family History
+            </button>
           </div>
 
           {fHistory.map((item, index) => (
@@ -100,8 +110,14 @@ export default function SocialHistory() {
             </button>
           ))}
 
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             SOCIAL HISTORY
+            <button
+              className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
+              onClick={() => setCurrentPage(3)}
+            >
+              Edit Social History
+            </button>
           </div>
 
           <table className="max-w-fit border-spacing-y-7 border-separate">
@@ -138,6 +154,20 @@ export default function SocialHistory() {
       {currentPage === 1 ? (
         <>
           <FamilyHistory data={currentFamily} />
+        </>
+      ) : (
+        ""
+      )}
+       {currentPage === 2 ? (
+        <>
+          <EditFamilyHistory />
+        </>
+      ) : (
+        ""
+      )}
+       {currentPage === 3 ? (
+        <>
+          <EditSocialHistory />
         </>
       ) : (
         ""
