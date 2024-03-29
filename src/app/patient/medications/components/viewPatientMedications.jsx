@@ -8,42 +8,43 @@ import BackButton from "../../personal_details/components/sub_components/BackBut
 
 export default function ViewMedications({ currentScreen, setCurrentScreen, medicationId  }) {
  
-  const [medications, setMedications] = useState([]);
-  const [medicineName, setMedicineName] = useState('');
-  const [doseUnit, setDoseUnit] = useState('');
-  const [form, setForm] = useState('');
-  const [frequency, setFrequency] = useState('');
-  const [note, setNote] = useState('');
-  const [medicationStart, setMedicationStart] = useState('');
-  const [medicationEnd, setMedicationEnd] = useState('');
-  const [sideEffect, setSideEffect] = useState('');
+  const [medicineData, setMedicineData] = useState({
+    medicineName: '',
+    doseUnit: '',
+    form: '',
+    frequency: '',
+    note: '',
+    medicationStart: '',
+    medicationEnd: '',
+    sideEffect: ''
+  });
 
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
       variable: "Medicine Name",
-      value: medicineName || '',
+      value: medicineData.medicineName || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Dose/Unit",
-      value: doseUnit || '',
+      value: medicineData.doseUnit || '',
     },
   
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Form",
-      value: form || '',
+      value: medicineData.form || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Frequency",
-      value: frequency || '',
+      value: medicineData.frequency || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Patient Instructions",
-      value: note || '',
+      value: medicineData.note || '',
     },
   ];
 
@@ -51,12 +52,12 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "Start Date",
-      value: medicationStart || '',
+      value: medicineData.medicationStart || '',
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
       variable: "End Date",
-      value: medicationEnd || '',
+      value: medicineData.medicationEnd || '',
     },
   ];
 
@@ -64,7 +65,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Possible Side Effects",
-      value: sideEffect || '',
+      value: medicineData.sideEffect || '',
     },
   ];
 
@@ -72,28 +73,26 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
     const fetchMedications = async () => {
       try {
         const medicationRequestsData = await getMedicationRequests();
-        setMedications(medicationRequestsData);
         console.log("Medication Requests Data:", medicationRequestsData);
-  
+
         // Find the medication with the specified medicationId
         const filteredMedication = medicationRequestsData.find(medication => medication.resource.id === medicationId);
-        
+
         // Check if the filtered medication exists
         if (filteredMedication) {
           const medicationResource = filteredMedication.resource;
-  
+
           // Extract relevant data from the medication resource
-          console.log(medicationResource.medicationCodeableConcept[0]?.text || '')
-          console.log(medicationResource.form?.text || '')
-          setMedicineName(medicationResource.medicationCodeableConcept[0]?.text || '');
-          
-          setDoseUnit(medicationResource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || '');
-          setForm(medicationResource.form?.text || '');
-          setFrequency(medicationResource.dispenseRequest?.dispenseInterval || '');
-          setNote(medicationResource.note || '');
-          setMedicationStart(medicationResource.dispenseRequest?.validityPeriod?.start || '');
-          setMedicationEnd(medicationResource.dispenseRequest?.validityPeriod?.end || '');
-          setSideEffect(medicationResource.adverseEvent?.adverseReaction || '');
+          setMedicineData({
+            medicineName: medicationResource.medicationCodeableConcept[0]?.text || '',
+            doseUnit: medicationResource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || '',
+            form: medicationResource.form?.text || '',
+            frequency: medicationResource.dispenseRequest?.dispenseInterval || '',
+            note: medicationResource.note || '',
+            medicationStart: medicationResource.dispenseRequest?.validityPeriod?.start || '',
+            medicationEnd: medicationResource.dispenseRequest?.validityPeriod?.end || '',
+            sideEffect: medicationResource.adverseEvent?.adverseReaction || ''
+          });
         } else {
           // Handle case where no medication is found with the specified medicationId
           console.log("No medication found with the specified medicationId:", medicationId);
@@ -102,7 +101,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
         console.error("Error fetching medication requests:", error);
       }
     };
-  
+
     fetchMedications();
   }, [medicationId]);
 
@@ -190,8 +189,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
                             <div className="text-black text-xs font-normal leading-5 ml-auto">
                               {item.variable === "Heart Rate" ? 70 : item.value}
                             </div>
-                          </td>
-                        </tr>
+                          </td>                        </tr>
                       ))}
                     </div>
   
