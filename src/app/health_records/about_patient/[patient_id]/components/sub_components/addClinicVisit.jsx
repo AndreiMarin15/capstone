@@ -31,8 +31,9 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 	const [filteredDisease, setFilteredDisease] = useState([]);
 	const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
 	const [encountersId, setEncountersId] = useState([]);
-	const [labTestData, setLabTestData] = useState(null);
-
+	const [labTestData, setLabTestData] = useState([]);
+	const [observations, setObservations] = useState([]);
+	const [labTestDataArray, setLabTestDataArray] = useState([]);
 	const handleDiagnosisChange = (e) => {
 		const inputValue = e.target.value.toLowerCase();
 		const filteredDisease = disease.filter((disease) => {
@@ -87,41 +88,21 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 	  // Call the retrieveEncounters function
 	  retrieveEncounters();
 	  
+	 
 	
+	let patientDataId;
 
 
-	const handleSave = async (data, saveClinicVisit = false) => {
-		console.log("Lab test data received:", labTestData);
+	  const handleSave = async (saveClinicVisit = false) => {
+		
 		try {
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
 			const patientData = await healthRecords.getPatientData(patientId);
+			patientDataId = patientData.id; 
+			
 
-
-			const observation = {
-				id: `labtest`,
-				code: {
-					coding: [{
-						code: "YOUR_LOINC_CODE", // Replace with actual LOINC code for lab test
-						system: "http://loinc.org",
-					}],
-				},
-				subject: {
-					type: "Patient",
-					reference: patientData.id,
-				},
-				resource_type: "Observation",
-				valueQuantity: {
-					valueQuantities: labTestData.valueQuantities,
-				}, 
-				effectiveDateTime: labTestData.dateOfResult, // Assuming date of result is included in lab test data
-				codeText: labTestData.labTestName, // Assuming lab test name is included in lab test data
-				imageSrc: labTestData.base64Image, // Assuming image source is included in lab test data
-			};
-		
 			  const contained = [
-				observation,
-				
-				
+				...observations,
 				{
 					id: "height",
 					code: {
@@ -362,7 +343,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					resource_type: "Observation",
 				},
 			];
-
+			console.log(contained)
 			console.log(patientData)
 			console.log(doctorInfo)
 			const dataToSave = {
@@ -400,10 +381,47 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 		} catch (error) {
 			console.error("Error saving data:", error);
 		}
-		
-		
 	};
 
+
+	const addLabTestData = (labTestData, patientId) => {
+		
+		// Check if labTestData is not already an array
+		if (!Array.isArray(labTestData)) {
+			// If labTestData is not an array, convert it into an array
+			labTestData = [labTestData];
+		}
+	
+		// Add labTestData to the existing labTestDataArray
+		setLabTestData([...labTestDataArray, ...labTestData]);
+	
+		// Map over labTestData to create new observations
+		const newObservations = labTestData.map((data, index) => ({
+			id: `labtest`,
+			code: {
+				coding: [{
+					code: "YOUR_LOINC_CODE",
+					system: "http://loinc.org",
+				}],
+			},
+			subject: {
+				type: "Patient",
+				reference: patientDataId,
+			},
+			resource_type: "Observation",
+			valueQuantity: {
+				valueQuantities: data.valueQuantities,
+			}, 
+			effectiveDateTime: data.dateOfResult,
+			codeText: data.labTestName,
+			imageSrc: data.base64Image,
+		}));
+	
+		// Update observations with new observations
+		setObservations([...observations, ...newObservations]);
+
+		console.log(observations)
+	};
 	const date = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -830,7 +848,15 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			) : currentScreen === 1 ? (
 				<AddMedications currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : currentScreen === 2 ? (
-				<RecordLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}  patientId={patientId}  handleSave={(data) => setLabTestData(data)}/>
+				<RecordLabTest 
+					currentScreen={currentScreen} 
+					setCurrentScreen={setCurrentScreen}  
+					patientId={patientId}  
+					handleSave={(data) => {
+						addLabTestData(data);
+						handleSave(false);
+					}}
+				/>
 			) : currentScreen === 3 ? (
 				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : (
