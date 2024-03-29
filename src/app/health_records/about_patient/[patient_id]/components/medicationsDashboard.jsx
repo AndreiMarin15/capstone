@@ -6,10 +6,7 @@ import EditMedications from "./sub_components/editMedication";
 import { doctor } from "../../../../../../lib/backend/health_records/doctor";
 import * as React from "react";
 import { useState } from "react";
-import {
-	getMedicationRequests,
-	updateMedicationStatus,
-} from "../../../../../../lib/backend/health_records/getMedicationRequest";
+import { getMedicationRequests } from "../../../../../../lib/backend/health_records/getMedicationRequest";
 
 import { client } from "../../../../../../lib/backend/initSupabase";
 
@@ -192,17 +189,17 @@ export default function Medications({ patientId }) {
 					</div>
 					{medications
 						.filter((medication) => {
-							const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
+
 							if (status === "ACTIVE") {
 								return (
 									medication.resource.subject.reference === patientId &&
-									validityPeriodEnd >= today &&
+
 									medication.resource.status === "Active"
 								);
 							} else {
 								return (
 									medication.resource.subject.reference === patientId &&
-									(validityPeriodEnd < today || medication.resource.status === "Inactive")
+									(medication.resource.status === "Inactive")
 								);
 							}
 						})
@@ -250,7 +247,7 @@ export default function Medications({ patientId }) {
 										</div>
 
 										{medication.resource.requester.agent.reference === currentUser?.fullName && medication.resource.status === "Active" && (
-											<div className="flex ml-96 justify-end">
+											<div className="flex justify-end">
 												<span className="">
 												<button
 													className="ml-96 px-4 pt-1.5 pb-2 text-xs font-semibold leading-3 text-blue-800 whitespace-nowrap rounded border border-blue-800 border-solid hover:bg-red-500 hover:text-white"
@@ -286,7 +283,7 @@ export default function Medications({ patientId }) {
 													</div>
 												
 														<div className="flex justify-between mt-2">
-															<div className="flex-grow ml-7 my-auto"> Form: {medication.resource.form.text}</div>
+															<div className="flex-grow ml-7 my-auto">Form: {medication.resource.form.text}</div>
 															<div className="flex-grow ml-7 my-auto">Dosage: {medication.resource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit || ''}</div>
 															<div className="flex-grow ml-7 my-auto">Frequency: {medication.resource.dispenseRequest && medication.resource.dispenseRequest.dispenseInterval || ''}</div>
 															<div className="flex-grow ml-7 my-auto">Until: {medication.resource.dispenseRequest && medication.resource.dispenseRequest.validityPeriod && medication.resource.dispenseRequest.validityPeriod.end || ''}</div>

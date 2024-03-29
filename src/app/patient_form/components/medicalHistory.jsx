@@ -140,9 +140,9 @@ export default function SignUpMedicalHistory() {
                         padding: "unset",
                         margin: "unset",
                         position: "absolute",
-                        width: "600px", // Subtract 4px for the border width
-                        maxHeight: "200px", // Adjust the maximum height as needed
-                        overflowY: "auto", // Enable vertical scrolling if needed
+                        width: "600px",
+                        maxHeight: "200px",
+                        overflowY: "auto",
                         overflowX: "hidden",
                         
                       }}

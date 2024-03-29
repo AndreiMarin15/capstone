@@ -4,63 +4,125 @@ import * as React from "react";
 import { useState } from "react";
 import { useCPNav } from "@/app/store";
 import ViewMedications from "../medications/components/viewPatientMedications";
+import { doctor } from "../../../../lib/backend/health_records/doctor";
+import { getMedicationRequests } from "../../../../lib/backend/health_records/getMedicationRequest";
+import { getPatientRawData } from "../../../../lib/backend/patient/personal_details/master_data";
+import { client } from "../../../../lib/backend/initSupabase";
 
-{
-  /* TO DO: Turn into component */
-}
 
 export default function MedicationsDashboard() {
   const { selected } = useCPNav();
   const [currentPage, setCurrentPage] = useState(0);
-  const medications = [
+  const supabase = client("public");
+	const [medications, setMedications] = useState([]);
+	const [regis, setRegis] = useState("");
+	const [status, setStatus] = useState("ACTIVE");
+	const [currentUser, setCurrentUser] = useState(null);
+	const [currentScreen, setCurrentScreen] = useState(0);
+	const [refresh, setRefresh] = useState(false);
+  const [patientId, setPatientId] = useState("");
+  
+  const medicationsIcons = 
     {
       srcmedicine:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "IBUPROFEN",
+  
       srddoctor:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Maria Santos",
-      startdate: "2020-01-10",
-      enddate: "2020-01-15",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "INSULIN DETEMIR",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. John Doe",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      medicinename: "ASPIRIN",
-      srddoctor:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-      doctor: "Dr. Johnny Santos",
-      startdate: "2020-10-10",
-      enddate: "2020-10-12",
-    },
-  ];
+  
+    };
+  
+  
 
+
+  React.useEffect(() => {
+    async function fetchPatientId() {
+      try {
+        const patientData = await getPatientRawData();
+        console.log(patientData)
+        setPatientId(patientData.id); // Assuming patientData contains the patient ID
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    }
+    fetchPatientId();
+  }, []);
+
+
+  React.useEffect(() => {
+		const fetchCurrentUser = async () => {
+			try {
+				const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
+				setCurrentUser(currentUserData);
+			} catch (error) {
+				console.error('Error fetching current user:', error);
+			}
+		};
+	
+		fetchCurrentUser();
+	
+	}, []);
+  
+  React.useEffect(() => {
+		const fetchMedications = async () => {
+			try {
+				// Fetch medications based on current patient ID
+				const medicationRequestsData = await getMedicationRequests(patientId);
+				setMedications(medicationRequestsData);
+				console.log(medicationRequestsData);
+			} catch (error) {
+				console.error("Error fetching medication requests:", error);
+			}
+		};
+	
+		// Fetch medications whenever refresh state changes or when currentScreen is 0 or 2
+		if (refresh || currentScreen === 0 || currentScreen === 2) {
+			fetchMedications();
+		}
+	}, [refresh, currentScreen]);
+
+	React.useEffect(() => {
+		const interval = setInterval(() => {
+			setRefresh(prevRefresh => !prevRefresh);
+		}, 1000); // Adjust the interval time as needed
+	
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
+
+  
+  
   const [isTest, setTest] = useState(false);
+	const [isAdd, setAdd] = useState(false);
+	const [isEdit, setEdit] = useState(false);
 
   const handleSetCurrentScreen = (screen) => {
-    // Reset isTest to false when navigating back to screen 2
-    if (screen === 2) {
-      setTest(false);
-    }
-  };
+		// Reset isTest to false when navigating back to screen 2
+		if (screen === 2 || currentScreen === 2) {
+			setTest(false);
+			setAdd(false);
+			setEdit(false);
+
+
+		}
+	};
+
+  const toggleStatus = () => {
+		setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+	};
+
+  const today = new Date();
 
 
   return (
     <>
        {isTest ? (
-        <ViewMedications
+          <ViewMedications
           currentScreen={3}
           setCurrentScreen={handleSetCurrentScreen}
+          patientId={patientId}
+          medicationId={regis}
         />
       ) : (
         <>
@@ -71,6 +133,7 @@ export default function MedicationsDashboard() {
                   Medications
                 </div>
               </span>
+              
               <div className="flex items-stretch gap-2.5 mt-8 self-end">
                 <span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
                   <Image
@@ -104,23 +167,47 @@ export default function MedicationsDashboard() {
             <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
               <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
                 <div className="flex gap-1.5 p-2.5">
-                  <div className="mt-3 grow font-semibold text-black">
-                    Status:{" "}
+                <div className="mt-3 font-semibold text-black flex gap-1 items-center">
+                    Status:
+                    <button
+                      className={`flex flex-col flex-1 justify-center font-bold ${
+                        status === "ACTIVE" ? "text-green-600" : "text-red-600"
+                      } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
+                      onClick={toggleStatus}
+                    >
+                      <div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
+                        {status}
+                      </div>
+                    </button>
                   </div>
-                  <button className="flex flex-col flex-1 justify-center font-bold text-green-600 whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                    <div className="justify-center items-start py-2 pr-16 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
-                      ACTIVE
-                    </div>
-                  </button>
                 </div>
               </div>
-              {medications.map((medication, index) => (
-                <button
-                key={medication.medicinename}
-                onClick={() => {
-                  setTest(true);
-                }}
-              >
+              {medications
+						.filter((medication) => {
+							const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
+							if (status === "ACTIVE") {
+								return (
+									medication.resource.subject.reference === patientId &&
+									validityPeriodEnd >= today &&
+									medication.resource.status === "Active"
+								);
+							} else {
+								return (
+									medication.resource.subject.reference === patientId &&
+									(validityPeriodEnd < today || medication.resource.status === "Inactive")
+								);
+							}
+						})
+						.map((medication, index) => (
+							<button
+								key={medication.resource.id}
+								onClick={() => {
+									console.log(medication.resource.id);
+									setRegis(medication.resource.id);
+									setTest(true);
+									setAdd(false);
+								}}
+							>
                   <div
                     key={index}
                     className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
@@ -131,10 +218,10 @@ export default function MedicationsDashboard() {
                         height={0}
                         width={0}
                         loading="lazy"
-                        src={medication.srcmedicine}
+                        src={medicationsIcons.srcmedicine}
                         className="aspect-square fill-black w-[15px]"
                       />
-                      <div className="my-auto">{medication.medicinename}</div>
+                      <div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
                     </div>
                     <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
                       <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
@@ -143,11 +230,11 @@ export default function MedicationsDashboard() {
                           height={0}
                           width={0}
                           loading="lazy"
-                          src={medication.srddoctor}
+                          src={medicationsIcons.srddoctor}
                           className="w-4 aspect-square"
                         />
-                        <div className="grow my-auto">{medication.doctor}</div>
-                        <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.startdate} - ${medication.enddate}`}</div>
+                        <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
+                        <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
                       </div>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import * as React from "react";
 import dashboard from "../../../lib/backend/doctor/doctor_dashboard/dashboard";
 
 export default function Home() {
+	const [editState, setEditState] = React.useState(false);
 	const [doctorInfo, setDoctor] = React.useState({
 		photoSrc:
 			"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -57,8 +58,7 @@ export default function Home() {
 				name: doctor.name,
 				specialization: doctor.specialization,
 				yearsOfExperience: doctor.yearsOfExperience,
-				about:
-					"I am an Endocrinologist practicing for 5 years. You can reach me through Cardinal Santos clinic’s telephone number +888888.",
+				about: doctor.about ?? "No Information Provided",
 			});
 		};
 
