@@ -29,7 +29,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   
   const [containedIDs, setContainedIDs] = useState([]);
-
+  const [dateOfRequest, setDateOfRequest] = useState(""); 
   const [labTests, setLabTests] = useState([]); 
 
   useEffect(() => {
@@ -142,7 +142,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           
               // Update the encounter's contained array with the observation ID
               console.log(encounterToUpdate.resource.contained)
-              // setDateOfRequest(encounterToUpdate.resource.Val)
+              setDateOfRequest(encounterToUpdate.resource.period.start);
+              console.log(dateOfRequest);
               encounterToUpdate.resource.contained.push(observationId);
               await updateEncounterContained(encounterToUpdate.resource.contained, encounterToUpdate);
               console.log("updated" , encounterToUpdate.resource.contained)
@@ -190,7 +191,7 @@ const addLabTestData = (data) => {
                 })),
             },
             effectiveDateTime: data.dateOfResult,
-            requestedDateTime: data.dateofRequest,
+            requestedDateTime: dateOfRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };
@@ -238,53 +239,53 @@ const addLabTestData = (data) => {
           </span>
           {labTests.map((item) => (
             <button
-              onClick={() => {
-                setTest(true);
-                setAdd(false);
-              }}
-              className="flex flex-col mt-8"
-              key={item.variable}
-            >
-              <span className="flex items-stretch justify-between gap-4">
-                <Image
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src={item.src}
-                  className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
-                  alt="picture"
-                />
-                <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap self-start">
-                  {item.variable}
-                </div>
-              </span>
-              <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
-                <div className="text-black text-xs font-medium leading-5">
-                  Date: <br />
-                </div>
-                <div className="text-black text-xs font-medium leading-5">
-                  {item.date} <br />
-                </div>
-                
-                {item.status === "requested" && (
-                  <div className="text-black text-xs font-medium leading-5 flex items-center">
-                    <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="10" cy="10" r="5" />
-                    </svg>
-                    Requested
+                onClick={() => {
+                  setTest(true);
+                  setAdd(false);
+                }}
+                className="flex flex-col mt-8"
+                key={item.variable}
+              >
+                <span className="flex items-stretch justify-between gap-4">
+                  <Image
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={item.src}
+                    className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
+                    alt="picture"
+                  />
+                  <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap self-start">
+                    {item.variable}
                   </div>
-                )}
-                {item.status === "final" && (
-                  <div className="text-black text-xs font-medium leading-5 flex items-center">
-                    <svg className="h-3 w-3 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="10" cy="10" r="5" />
-                    </svg>
-                    Uploaded
+                </span>
+                <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
+                  <div className="text-black text-xs font-medium leading-5">
+                    {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
                   </div>
-                )}
-              </span>
-            </button>
-          ))}
+                  <div className="text-black text-xs font-medium leading-5">
+                    {item.status === "final" ? item.date : item.reqdate} <br />
+                  </div>
+                  
+                  {item.status === "requested" && (
+                    <div className="text-black text-xs font-medium leading-5 flex items-center">
+                      <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10" cy="10" r="5" />
+                      </svg>
+                      Requested
+                    </div>
+                  )}
+                  {item.status === "final" && (
+                    <div className="text-black text-xs font-medium leading-5 flex items-center">
+                      <svg className="h-3 w-3 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10" cy="10" r="5" />
+                      </svg>
+                      Uploaded
+                    </div>
+                  )}
+                </span>
+              </button>
+            ))}
             <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       )}

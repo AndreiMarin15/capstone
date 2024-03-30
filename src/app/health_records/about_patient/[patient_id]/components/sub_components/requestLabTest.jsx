@@ -75,7 +75,7 @@ export default function RequestLabTest({currentScreen, setCurrentScreen,handleSa
                       <td className="border-l-[5rem] border-transparent">
                         {item.variable === "Lab Test Name" ? (
                           <input
-                            className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5"
+                            className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
                             value={labTestName}
                             onChange={(e) => setLabTestName(e.target.value)}
                           />
