@@ -207,30 +207,28 @@ const addLabTestData = (data) => {
     }
 };
 
-
   return (
     <>
-    
-  
+
       {isTest ? (
-            <VisitLabtests
-            currentScreen={3}
-            setCurrentScreen={handleSetCurrentScreen}
-            observationId={selectedObservationId}
-          />
+        <VisitLabtests
+          currentScreen={3}
+          setCurrentScreen={handleSetCurrentScreen}
+          observationId={selectedObservationId}
+        />
       ) : isAdd ? (
         <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
           addLabTestData(data);
           handleSave();
-        }}/>
+        }} />
       ) : (
-        
+
         <>
-        
+
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            VISIT - LAB TESTS
-          </div>
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+              VISIT - LAB TESTS
+            </div>
             <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
               <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
                 <button
@@ -247,58 +245,62 @@ const addLabTestData = (data) => {
           </span>
           {labTests.map((item) => (
             <button
-                onClick={() => {
+              onClick={() => {
+                if (item.status !== "requested") { // Check if the status is not "requested"
                   setTest(true);
                   setAdd(false);
-                   setSelectedObservationId(item.id);
-                }}
-                className="flex flex-col mt-8"
-                key={item.variable}
-              >
-                <span className="flex items-stretch justify-between gap-4">
-                  <Image
-                    height={0}
-                    width={0}
-                    loading="lazy"
-                    src={item.src}
-                    className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
-                    alt="picture"
-                  />
-                  <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap self-start">
-                    {item.variable}
+                  setSelectedObservationId(item.id);
+                }
+              }}
+              className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`} // Disable pointer events for requested items
+              key={item.variable}
+              disabled={item.status === "requested"} // Disable the button for requested items
+              style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }} // Override pointer events in case of disabled attribute
+            >
+              <span className="flex items-stretch justify-between gap-4">
+                <Image
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src={item.src}
+                  className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
+                  alt="picture"
+                />
+                <div className="text-black text-xs font-semibold leading-5 grow whitespace-nowrap self-start">
+                  {item.variable}
+                </div>
+              </span>
+              <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
+                <div className="text-black text-xs font-medium leading-5">
+                  {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
+                </div>
+                <div className="text-black text-xs font-medium leading-5">
+                  {item.status === "final" ? item.date : item.reqdate} <br />
+                </div>
+
+                {item.status === "requested" && (
+                  <div className="text-black text-xs font-medium leading-5 flex items-center">
+                    <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Requested
                   </div>
-                </span>
-                <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
-                  <div className="text-black text-xs font-medium leading-5">
-                    {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
+                )}
+                {item.status === "final" && (
+                  <div className="text-black text-xs font-medium leading-5 flex items-center">
+                    <svg className="h-3 w-3 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Uploaded
                   </div>
-                  <div className="text-black text-xs font-medium leading-5">
-                    {item.status === "final" ? item.date : item.reqdate} <br />
-                  </div>
-                  
-                  {item.status === "requested" && (
-                    <div className="text-black text-xs font-medium leading-5 flex items-center">
-                      <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="10" cy="10" r="5" />
-                      </svg>
-                      Requested
-                    </div>
-                  )}
-                  {item.status === "final" && (
-                    <div className="text-black text-xs font-medium leading-5 flex items-center">
-                      <svg className="h-3 w-3 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="10" cy="10" r="5" />
-                      </svg>
-                      Uploaded
-                    </div>
-                  )}
-                </span>
-              </button>
-            ))}
-            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+                )}
+              </span>
+            </button>
+          ))}
+          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       )}
 
     </>
   );
-}
+};
