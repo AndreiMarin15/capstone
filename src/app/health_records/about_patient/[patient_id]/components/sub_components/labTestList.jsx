@@ -31,6 +31,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
   const [containedIDs, setContainedIDs] = useState([]);
   const [dateOfRequest, setDateOfRequest] = useState(""); 
   const [labTests, setLabTests] = useState([]); 
+  const [selectedObservationId, setSelectedObservationId] = useState(null);
+
 
   useEffect(() => {
   
@@ -85,15 +87,16 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
    
         console.log(filteredObservationData);
 
-        const labTestObservations = filteredObservationData
-        .filter(observation => observation.id === "labtest")
+        const labTestObservations = observationsData
+        .filter(observation => newContainedIDs.includes(observation.id) && observation.resource.id === "labtest")
         .map(observation => ({
+          id: observation.id,
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
-          variable: observation.codeText,
-          date: observation.effectiveDateTime,
-          reqdate: observation.requestedDateTime,
-          status: observation.status
-        }));
+          variable: observation.resource.codeText,
+          date: observation.resource.effectiveDateTime,
+          reqdate: observation.resource.requestedDateTime,
+          status: observation.resource.status
+      }));
       
       console.log(labTestObservations);
 
@@ -105,7 +108,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
 
 
-      
 
         console.log(labTests);
       } catch (error) {
@@ -118,7 +120,9 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   	
 
-
+  useEffect(() => {
+    console.log(labTests);
+  }, [labTests]);
   
   // const [observations, setObservations] = useState([]);
 
@@ -209,7 +213,11 @@ const addLabTestData = (data) => {
     
   
       {isTest ? (
-        <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
+            <VisitLabtests
+            currentScreen={3}
+            setCurrentScreen={handleSetCurrentScreen}
+            observationId={selectedObservationId}
+          />
       ) : isAdd ? (
         <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
           addLabTestData(data);
@@ -242,6 +250,7 @@ const addLabTestData = (data) => {
                 onClick={() => {
                   setTest(true);
                   setAdd(false);
+                   setSelectedObservationId(item.id);
                 }}
                 className="flex flex-col mt-8"
                 key={item.variable}
