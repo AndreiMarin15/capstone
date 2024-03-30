@@ -2,8 +2,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getMasterData } from "../../../../../lib/backend/patient/personal_details/master_data";
+import  EditMasterData from "./sub_components/editMasterData";
 
 export default function MasterData() {
+  const [currentPage, setCurrentPage] = useState(0);
+
   const [mData, setmData] = useState([
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
@@ -95,41 +98,61 @@ export default function MasterData() {
 
   return (
     <>
-      <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
-        MASTER DATA
-      </div>
-      <table className="max-w-fit border-spacing-y-7 border-separate">
-        {mData.map((item) => (
-          <tr key={item.variable} suppressHydrationWarning>
-            <td className="w-5">
-              <Image
-                alt="picture"
-                height={0}
-                width={0}
-                loading="lazy"
-                src={item["src"]}
-                className="w-5"
-              />
-            </td>
-            <td className="border-l-[16px] border-transparent">
-              <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                {item["variable"]}
-              </div>
-            </td>
-            <td className="border-l-[5rem] border-transparent">
-              {typeof item.value === "string" ||
-              typeof item.value === "number" ? (
-                <div className="text-black text-xs leading-5 ml-auto">
-                  {item["value"]}
-                </div>
-              ) : (
-                <div className="ml-auto">{item["value"]}</div>
-              )}
-            </td>
-          </tr>
-        ))}
-      </table>
-      <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10"></div>
+      {currentPage === 0 ? (
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            MASTER DATA
+            <button
+              className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
+              onClick={() => setCurrentPage(1)}
+            >
+              Edit Master Data
+            </button>
+          </div>
+          <table className="max-w-fit border-spacing-y-7 border-separate">
+            {mData.map((item) => (
+              <tr key={item.variable} suppressHydrationWarning>
+                <td className="w-5">
+                  <Image
+                    alt="picture"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={item["src"]}
+                    className="w-5"
+                  />
+                </td>
+                <td className="border-l-[16px] border-transparent">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    {item["variable"]}
+                  </div>
+                </td>
+                <td className="border-l-[5rem] border-transparent">
+                  {typeof item.value === "string" ||
+                  typeof item.value === "number" ? (
+                    <div className="text-black text-xs leading-5 ml-auto">
+                      {item["value"]}
+                    </div>
+                  ) : (
+                    <div className="ml-auto">{item["value"]}</div>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </table>
+          <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-10"></div>
+        </>
+      ) : (
+        ""
+      )}
+
+      {currentPage === 1 ? (
+        <>
+          <EditMasterData />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }
