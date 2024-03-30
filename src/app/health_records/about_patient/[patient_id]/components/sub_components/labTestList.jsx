@@ -8,7 +8,7 @@ import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
+import { getEncounters, getEncounterById, updateEncounterContained } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
 import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
 
@@ -49,7 +49,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           return;
         }
        
-        
 
         // Extract contained IDs from the selected encounter
         const encounterContained = selectedEncounter.resource.contained;
@@ -89,7 +88,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
         const labTestObservations = filteredObservationData
         .filter(observation => observation.id === "labtest")
         .map(observation => ({
-          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", // Assuming your backend response contains a 'src' field
+          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
           variable: observation.codeText,
           date: observation.effectiveDateTime,
           status: observation.status
@@ -125,13 +124,34 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
   const handleSave = async (observation) => {
     try {
         if (observation !== undefined && observation !== null) {
-            const savedData = await uploadObservation(observation);
+            
+          const savedData= await uploadObservation(observation);
             console.log("Data saved successfully:", savedData);
+            if (Array.isArray(savedData) && savedData.length > 0) {
+              const observationId = savedData[0].id; // Accessing the id property of the first observation
+              console.log("Observation ID:", observationId);
 
-            setCurrentScreen(currentScreen);
-        } else {
-            console.error("No observation data available to save");
+              // Now proceed with updating the encounter or any other necessary action
+          
+            console.log(encounterId);
+            const encounterToUpdate = await getEncounterById(encounterId);
+            console.log(encounterToUpdate);
+            if (encounterToUpdate) {
+              // Update the encounter's contained array with the observation ID
+              console.log(encounterToUpdate.resource.contained)
+              encounterToUpdate.resource.contained.push(observationId);
+              await updateEncounterContained(encounterToUpdate);
+              console.log("updated" , encounterToUpdate.resource.contained)
+             
+
+          } else {
+              console.error("Encounter not found with ID:", encounterId);
+          }
         }
+        }
+          
+          setCurrentScreen(currentScreen);
+        
     } catch (error) {
         console.error("Error saving data:", error);
     }
