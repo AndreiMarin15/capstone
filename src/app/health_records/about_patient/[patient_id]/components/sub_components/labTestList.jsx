@@ -8,7 +8,7 @@ import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getEncounters } from "../../../../../../../lib/backend/health_records/getEncounter";
+import { getEncounters, getEncounterById, updateEncounterContained } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
 import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
 
@@ -29,8 +29,10 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   
   const [containedIDs, setContainedIDs] = useState([]);
-
+  const [dateOfRequest, setDateOfRequest] = useState(""); 
   const [labTests, setLabTests] = useState([]); 
+  const [selectedObservationId, setSelectedObservationId] = useState(null);
+
 
   useEffect(() => {
   
@@ -49,7 +51,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           return;
         }
        
-        
 
         // Extract contained IDs from the selected encounter
         const encounterContained = selectedEncounter.resource.contained;
@@ -86,14 +87,16 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
    
         console.log(filteredObservationData);
 
-        const labTestObservations = filteredObservationData
-        .filter(observation => observation.id === "labtest")
+        const labTestObservations = observationsData
+        .filter(observation => newContainedIDs.includes(observation.id) && observation.resource.id === "labtest")
         .map(observation => ({
-          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", // Assuming your backend response contains a 'src' field
-          variable: observation.codeText,
-          date: observation.effectiveDateTime,
-          status: observation.status
-        }));
+          id: observation.id,
+          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
+          variable: observation.resource.codeText,
+          date: observation.resource.effectiveDateTime,
+          reqdate: observation.resource.requestedDateTime,
+          status: observation.resource.status
+      }));
       
       console.log(labTestObservations);
 
@@ -105,7 +108,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
 
 
-      
 
         console.log(labTests);
       } catch (error) {
@@ -118,20 +120,47 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   	
 
-
+  useEffect(() => {
+    console.log(labTests);
+  }, [labTests]);
   
   // const [observations, setObservations] = useState([]);
 
   const handleSave = async (observation) => {
     try {
         if (observation !== undefined && observation !== null) {
-            const savedData = await uploadObservation(observation);
+            
+          const savedData= await uploadObservation(observation);
             console.log("Data saved successfully:", savedData);
+            if (Array.isArray(savedData) && savedData.length > 0) {
+              const observationId = savedData[0].id; // Accessing the id property of the first observation
+              console.log("Observation ID:", observationId);
 
-            setCurrentScreen(currentScreen);
-        } else {
-            console.error("No observation data available to save");
+              // Now proceed with updating the encounter or any other necessary action
+          
+            console.log(encounterId);
+            const encounterToUpdate = await getEncounterById(encounterId);
+            console.log(encounterToUpdate);
+            if (encounterToUpdate) {
+
+          
+              // Update the encounter's contained array with the observation ID
+              console.log(encounterToUpdate.resource.contained)
+              setDateOfRequest(encounterToUpdate.resource.period.start);
+              console.log(dateOfRequest);
+              encounterToUpdate.resource.contained.push(observationId);
+              await updateEncounterContained(encounterToUpdate.resource.contained, encounterToUpdate);
+              console.log("updated" , encounterToUpdate.resource.contained)
+              setCurrentScreen(currentScreen);
+
+          } else {
+              console.error("Encounter not found with ID:", encounterId);
+          }
         }
+        }
+          
+         
+        
     } catch (error) {
         console.error("Error saving data:", error);
     }
@@ -166,6 +195,7 @@ const addLabTestData = (data) => {
                 })),
             },
             effectiveDateTime: data.dateOfResult,
+            requestedDateTime: dateOfRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };
@@ -177,26 +207,28 @@ const addLabTestData = (data) => {
     }
 };
 
-
   return (
     <>
-    
-  
+
       {isTest ? (
-        <VisitLabtests currentScreen={3} setCurrentScreen={handleSetCurrentScreen}/>
+        <VisitLabtests
+          currentScreen={3}
+          setCurrentScreen={handleSetCurrentScreen}
+          observationId={selectedObservationId}
+        />
       ) : isAdd ? (
         <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
           addLabTestData(data);
           handleSave();
-        }}/>
+        }} />
       ) : (
-        
+
         <>
-        
+
           <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            VISIT - LAB TESTS
-          </div>
+            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+              VISIT - LAB TESTS
+            </div>
             <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
               <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
                 <button
@@ -214,11 +246,16 @@ const addLabTestData = (data) => {
           {labTests.map((item) => (
             <button
               onClick={() => {
-                setTest(true);
-                setAdd(false);
+                if (item.status !== "requested") { // Check if the status is not "requested"
+                  setTest(true);
+                  setAdd(false);
+                  setSelectedObservationId(item.id);
+                }
               }}
-              className="flex flex-col mt-8"
+              className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`} // Disable pointer events for requested items
               key={item.variable}
+              disabled={item.status === "requested"} // Disable the button for requested items
+              style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }} // Override pointer events in case of disabled attribute
             >
               <span className="flex items-stretch justify-between gap-4">
                 <Image
@@ -235,12 +272,12 @@ const addLabTestData = (data) => {
               </span>
               <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
                 <div className="text-black text-xs font-medium leading-5">
-                  Date: <br />
+                  {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
                 </div>
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.date} <br />
+                  {item.status === "final" ? item.date : item.reqdate} <br />
                 </div>
-                
+
                 {item.status === "requested" && (
                   <div className="text-black text-xs font-medium leading-5 flex items-center">
                     <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -260,10 +297,10 @@ const addLabTestData = (data) => {
               </span>
             </button>
           ))}
-            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
         </>
       )}
 
     </>
   );
-}
+};

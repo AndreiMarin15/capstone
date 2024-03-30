@@ -411,6 +411,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 				valueQuantities: data.valueQuantities,
 			}, 
 			effectiveDateTime: data.dateOfResult,
+			requestedDateTime: clinicDate,
 			codeText: data.labTestName,
 			imageSrc: data.base64Image,
 		}));
