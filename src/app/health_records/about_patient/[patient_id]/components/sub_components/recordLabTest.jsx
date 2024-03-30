@@ -25,6 +25,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}
 
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
+  const [dateOfRequest, setdateOfRequest] = useState("");
   const [labValueName, setLabValueName] = useState("");
   const [labTestName, setLabTestName] = useState("");
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
@@ -134,6 +135,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}
         unit: row.unit,
         value: row.value,
     })),
+    dateOfRequest: dateOfRequest,
     dateOfResult: dateOfResult,
     labTestName: labTestName,
     base64Image: base64Image,
