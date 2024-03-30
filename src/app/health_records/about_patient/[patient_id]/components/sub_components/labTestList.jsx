@@ -91,6 +91,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
           variable: observation.codeText,
           date: observation.effectiveDateTime,
+          reqdate: observation.requestedDateTime,
           status: observation.status
         }));
       
@@ -137,12 +138,15 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
             const encounterToUpdate = await getEncounterById(encounterId);
             console.log(encounterToUpdate);
             if (encounterToUpdate) {
+
+          
               // Update the encounter's contained array with the observation ID
               console.log(encounterToUpdate.resource.contained)
+              // setDateOfRequest(encounterToUpdate.resource.Val)
               encounterToUpdate.resource.contained.push(observationId);
-              await updateEncounterContained(encounterToUpdate);
+              await updateEncounterContained(encounterToUpdate.resource.contained, encounterToUpdate);
               console.log("updated" , encounterToUpdate.resource.contained)
-             
+              setCurrentScreen(currentScreen);
 
           } else {
               console.error("Encounter not found with ID:", encounterId);
@@ -150,7 +154,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
         }
         }
           
-          setCurrentScreen(currentScreen);
+         
         
     } catch (error) {
         console.error("Error saving data:", error);
@@ -186,6 +190,7 @@ const addLabTestData = (data) => {
                 })),
             },
             effectiveDateTime: data.dateOfResult,
+            requestedDateTime: data.dateofRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };

@@ -14,6 +14,7 @@ export default function RequestLabTest({currentScreen, setCurrentScreen,handleSa
       loincCode: "YOUR_LOINC_CODE", // Empty or null
       status: "requested", // Empty or null
       valueQuantities: [], // Empty array
+      dateOfRequest: null,
       dateOfResult: null, // Null
       labTestName: labTestName, // Lab test name from the state
       base64Image: null, // Null
