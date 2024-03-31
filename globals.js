@@ -24,7 +24,7 @@ export function pathIncluded(str) {
 export const fetchFrom = async (route, body) => {
 	console.log(route, body);
 	const data = await fetch(
-		(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware-1.vercel.app") + route,
+		(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + route,
 		{
 			method: "POST",
 			headers: {
