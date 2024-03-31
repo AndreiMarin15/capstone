@@ -145,7 +145,7 @@ export default function Home() {
 										middleware.signUp().then((data) => {
 											if (data.status === 200) {
 												setTimeout(() => {
-													router.push("/middleware/api_keys");
+													router.push("/middleware/login");
 												}, 2300);
 											}
 										});
