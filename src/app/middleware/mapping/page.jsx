@@ -357,6 +357,62 @@ export default function Middleware() {
 			message: "Refers to the relationship of the patient with the family member.",
 		},
 	];
+	const medicationfields = [
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "id",
+			value: "",
+			message: "Refers to the unique id of the medication.",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "form",
+			value: "",
+			message: "Refers to the form of the medication. \n contains: {text: description}}",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "note",
+			value: "",
+			message: "Notes about the medication.",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "status",
+			value: "",
+			message: "The medication status. (Active or Inactive)",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "subject",
+			value: "",
+			message: "The patient who is taking the medication. Contains: {reference: Patient}",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "requester",
+			value: "",
+			message: "The practitioner who requested the medication. Contains: {reference: Practitioner}",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "adverseEvent",
+			value: "",
+			message: "Describes if there is a reaction to the medication. Contains: {adverseReaction: data}",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "dispenseRequest",
+			value: "",
+			message: "Contains the start and end date of the medication",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d19836557e1663895fdf541cf9cb7830a89d1289dd6769b52c91d8a61b9f5e13?",
+			variable: "dosageInstruction",
+			value: "",
+			message: "Contains the dosage instructions of the medication. Contains: {doseAndRate: [{doseQuantity: dosage}]}",
+		},
+	];
 
 	const fields = {
 		account: accfields,
@@ -366,6 +422,7 @@ export default function Middleware() {
 		observation: observefields,
 		encounter: encounterfields,
 		familymemberhistory: famhistoryfields,
+		medicationrequest: medicationfields,
 	};
 
 	const RenderInputFields = () => {
@@ -445,7 +502,7 @@ export default function Middleware() {
 			</div>
 
 			<div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
-				{["Account", "Person", "Practitioner", "Patient", "Observation", "Encounter", "Family Member History"].map(
+				{["Account", "Person", "Practitioner", "Patient", "Observation", "Encounter", "Family Member History", "Medication Request"].map(
 					(entity) => {
 						let modifiedEntity = entity.toLowerCase().replace(/ /g, "");
 
