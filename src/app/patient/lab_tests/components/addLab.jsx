@@ -1,171 +1,415 @@
-import React from "react";
 import Image from "next/image";
+import * as React from "react";
+import { useState, useRef, useEffect } from "react";
+import BackButton from "../../personal_details/components/sub_components/BackButton";
+import { getEncounterByPatientId } from "../../../../../lib/backend/health_records/getEncounter";
+import { uploadObservation } from "../../../../../lib/backend/health_records/uploadObservation";
+import { healthRecords } from "../../../../../lib/backend/health_records/health_records";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const AddLab = () => {
-  const labtest = [
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/c15ef0ded6b69046a1b632a3bb59f27fc703e9179d2b27b4c4362b9fb05a4935?",
-      variable: "Date Taken",
-      value: (
-        <input
-          type="date"
-          className="text-zinc-400 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
-          placeholder="YYYY-MM-DD"
-        />
-      ),
-    },
-
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/629161d56926e554813699b5b55238dbaa9e1f8d86dd945077ab737732efda15?",
-      variable: "Name of Machine Used",
-      value: (
-        <input
-          type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
-          placeholder="ABC Machine"
-        />
-      ),
-    },
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/fa7bbcb39aa8476a8ef65b6cebfbb0385029750dafba0401c696d3d62d2caed6?",
-      variable: "Value",
-      value: (
-        <input
-          type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
-          placeholder="120"
-        />
-      ),
-    },
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/c89dc9b514825602c60719ec8014192881b974324619a7a625dcbbe9b49e9f56?",
-      variable: "Unit",
-      value: (
-        <input
-          type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
-          placeholder="g/moL"
-        />
-      ),
-    },
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?",
-      variable: "Ranges",
-      value: (
-        <div className="flex flex-col">
-          <input
-            type="text"
-            className="text-xs font-semibold leading-5 text-black"
-            placeholder="Low"
-          />
-          <div className="flex gap-4 px-px mt-1.5">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-          <input
-            type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
-            placeholder="Normal"
-          />
-          <div className="flex gap-4 px-px mt-1.5">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-          <input
-            type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
-            placeholder="High"
-          />
-          <div className="flex gap-4 px-px">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
-
+const ImageModal = ({ src, onClose }) => {
   return (
-    <span className="bg-white flex flex-col px-20 py-12 h-auto max-md:px-5">
-      <div className="text-black text-xl font-semibold leading-8 mt-12 self-start max-md:max-w-full max-md:mt-10">
-        Self Pricking
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
+      <div className="max-w-screen-lg">
+        <img src={src} alt="full" className="max-w-full max-h-full" />
+        <button className="absolute top-4 right-4 text-white" onClick={onClose}>
+          Close
+        </button>
       </div>
-
-      <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-        <div className="self-start w-full max-w-[925px] mt-12 mb-56 max-md:max-w-full max-md:my-10">
-          <table className="max-w-fit  border-separate">
-            {labtest.map((item) => (
-              <tr key={item.variable}>
-                <td className="w-5">
-                  {item.imgsrc && (
-                    <Image
-                      alt="picture"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={item.imgsrc}
-                      className="w-5"
-                    />
-                  )}
-                </td>
-                <td className="border-l-[16px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                    {item.variable}
-                  </div>
-                </td>
-                <td className="border-l-[5rem] border-transparent">
-                  <div className="text-black text-xs leading-5 ml-auto">
-                    {item.value}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </table>
-          <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
-            <div className="flex grow flex-col max-md:max-w-full max-md:mt-7">
-              <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
-                SAVE
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </span>
+    </div>
   );
 };
-export default AddLab;
+
+
+export default function AddLabTest({currentPage, setCurrentPage, patientId, setCurrentScreen, handleSave}) {
+
+  const [actor, setActor] = useState("");
+ 
+  useEffect(() => {
+    async function fetchEncounters() {
+      console.log(patientId);
+      try {
+        const encountersData = await getEncounterByPatientId(patientId);
+        console.log(encountersData);
+        const actors = encountersData.map(encounter => encounter.resource.participant.actor);
+        console.log(actors);
+        setActor(actors);
+      } catch (error) {
+        console.error("Error fetching encounters:", error);
+      }
+    }
+  
+    fetchEncounters();
+  }, [patientId]);
+ 
+  
+  console.log("actor:", actor);
+  const [labTestResults, setLabTestResults] = useState([]);
+  const [dateOfResult, setDateOfResult] = useState("");
+  const [dateOfRequest, setdateOfRequest] = useState("");
+  const [labValueName, setLabValueName] = useState("");
+  const [labTestName, setLabTestName] = useState("");
+  const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [values, setValues] = useState({
+    custom: { value: "", unit: "" }
+  });
+  const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
+  
+  
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    handleFileUpload(files);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+  
+  const fileInputRef = useRef(null);
+
+  const getImageBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  
+
+  const handleFileUpload = async (files) => {
+    const file = files[0];
+    try {
+      const base64Image = await getImageBase64(file);
+      setUploadedImageSrc(base64Image);
+    } catch (error) {
+      console.error("Error converting image to Base64:", error);
+    }
+  };
+  
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleAddRow = () => {
+    setRows([...rows, { labValueName: "", value: "", unit: "" }]);
+  };
+
+  const handleLabValueNameChange = (value, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].labValueName = value;
+    setRows(updatedRows);
+  };
+
+  const handleValueChange = (value, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].value = value;
+    setRows(updatedRows);
+  };
+
+
+  const handleUnitChange = (unit, index) => {
+    const updatedRows = [...rows];
+    updatedRows[index].unit = unit;
+    setRows(updatedRows);
+  };
+
+
+
+
+
+
+  const handleAddLabTest = async () => {
+
+
+
+    let base64Image = null;
+    if (uploadedImageSrc) {
+      base64Image = uploadedImageSrc.split(",")[1]; 
+    }
+
+    const valueQuantities = rows.map(row => ({
+      display: row.labValueName,
+      unit: row.unit,
+      value: row.value,
+  }));
+  
+
+  const labTestData = {
+    
+    loincCode: "YOUR_LOINC_CODE",
+    status: "final",
+    valueQuantities: rows.map(row => ({
+        display: row.labValueName,
+        unit: row.unit,
+        value: row.value,
+    })),
+
+    subject: {
+      type: "Patient",
+      reference: patientId
+    },
+    participant: {
+      type: "Doctor",
+      actor: actor[0],
+    },
+
+    dateOfRequest: dateOfRequest,
+    dateOfResult: dateOfResult,
+    labTestName: labTestName,
+    base64Image: base64Image,
+};
+console.log(labTestData)
+handleSave(labTestData, false);
+
+
+  
+
+  toast.success("Lab Test Recorded", {
+    position: "top-left",
+    theme: "colored",
+    autoClose: 2000,
+  });
+
+  setCurrentPage(0);
+  setCurrentScreen(-1);
+    
+    
+};
+
+
+  return (
+    <>
+      {currentPage === 3 ? (
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+            RECORD LAB TEST
+          </div>
+
+          <div>
+            <div className="flex flex-col max-w-full">
+              <div className="w-full max-md:max-w-full">
+                <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
+                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
+                    <tbody>
+                      <tr>
+                        <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
+                          <div className="flex gap-1 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="my-auto">Date of Result</div>
+                          </div>
+                          <td>
+                          <input
+                                className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                                type="date"
+                                onChange={(e) => {
+                                  console.log("date of result:", e.target.value);
+                                  setDateOfResult(e.target.value);
+                                }}
+                            />
+                          </td>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="flex gap-12 pr-14 mt-6 w-full whitespace-nowrap max-md:pr-5">
+                          <div className="flex gap-4 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/05dd7068174eb76cbab2ba8d9608b143eabae9c2e3d1be451a944916466c9ae8?"
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="my-auto">Name of Lab Test</div>
+                          </div>
+                          <td>
+                          <input
+                              className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                              onChange={(e) => {
+                                console.log("Lab Test Name Changed:", e.target.value);
+                                setLabTestName(e.target.value);
+                              }}
+                          />
+                          </td>
+                        </td>
+                      </tr>
+                      <tr>
+                      <td className="flex gap-10 mt-6">
+                          <div
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
+                            }`}
+                            onDrop={(e) => handleDrop(e)}
+                            onDragOver={(e) => handleDragOver(e)}
+                          >
+                            {uploadedImageSrc ? (
+                              <>
+                               <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
+                                  <div 
+                                    className="w-auto max-w-full h-[400px] cursor-pointer flex justify-center" // Adjusted classes
+                                    onClick={handleOpenModal}
+                                  >
+                                    <img
+                                      src={uploadedImageSrc}
+                                      alt="uploaded"
+                                      style={{ maxWidth: "100%" , maxHeight: "80%" }}
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  className="mt-2 text-sky-600 underline cursor-pointer"
+                                  onClick={() => setUploadedImageSrc(null)}
+                                >
+                                  Cancel
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
+                                  className="aspect-[1.03] w-[38px]"
+                                />
+                                <div className="self-stretch mt-1.5 text-black">Drag or drop here.</div>
+                                <div className="mt-3.5 font-light text-sky-600 underline" onClick={handleUploadClick}>Upload</div>
+                                <input
+                                  type="file"
+                                  className="hidden"
+                                  onChange={(e) => handleFileUpload(e.target.files)}
+                                  ref={fileInputRef}
+                                />
+                              </>
+                            )}
+                          </div>
+                        </td>
+                        </tr>
+
+                    </tbody>
+                  </table>
+
+                  <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
+                    <table className="max-w-fit border-separate">
+                      <tr>
+                        <td>
+                          <div className="flex gap-4 my-auto font-semibold text-black">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
+                              className="aspect-square fill-black w-[15px]"
+                            />
+                            <div className="my-auto text-xs">Lab Values</div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table className="max-w-fit border-spacing-y-7 border-separate">
+                      <tbody className="text-xs leading-5 text-black">
+                      <tr>
+      </tr>
+        {/* Your existing row */}
+        {rows.map((row, index) => (
+  <tr key={index}>
+    <td className="border-l-[16px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+        type="text"
+        placeholder="Enter lab value name"
+        value={row.labValueName}
+        onChange={(e) => handleLabValueNameChange(e.target.value, index)}
+      />
+    </td>
+    <td className="border-l-[8px] border-transparent flex items-center">
+      <span className="mt-2 flex items-center text-black font-medium">=</span>
+    </td>
+    <td className="border-l-[8px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+        type="text"
+        placeholder="Enter value"
+        value={row.value}
+        onChange={(e) => handleValueChange(e.target.value, index)}
+      />
+    </td>
+    <td className="border-l-[20px] border-transparent">
+      <input
+        className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+        type="text"
+        placeholder="Unit"
+        value={row.unit}
+        onChange={(e) => handleUnitChange(e.target.value, index)}
+      />
+    </td>
+  </tr>
+))}
+        {/* Add another row button */}
+        <tr>
+          <td colSpan="4" className="text-center">
+          <button
+              className="flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+              onClick={handleAddRow} // Assuming you have a function handleAddRow for adding rows
+            >
+              <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[20] w-[24]">
+                +
+              </div>
+              <div className=" my-auto text-xs text-gray-400">
+                Add another row
+              </div>
+            </button>
+          </td>
+        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+               
+              </div>
+            
+            </div>
+          
+          </div>
+          <div className="flex justify-between items-center">
+            <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+              
+              <button
+                className="flex items-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+                onClick={handleAddLabTest}
+              >
+                  Save
+              </button>
+          </div>
+          {isModalOpen && (
+              <ImageModal src={uploadedImageSrc} onClose={handleCloseModal} />
+            )}
+        </>
+      ) : (
+        ""
+      )}
+    </>
+  );
+}
