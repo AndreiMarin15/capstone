@@ -119,9 +119,12 @@ export default function LabTests({ patientId }) {
                         key={index} 
                         className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]" 
                         onClick={() => {
-                            handleMedicationClick(labTest);
-                            setSelectedObservationId(labTest.id);
+                            if (labTest.status !== "requested") {
+                                handleMedicationClick(labTest);
+                                setSelectedObservationId(labTest.id);
+                            }
                         }}
+                        disabled={labTest.status === "requested"}
                         >
                         <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                             <Image
