@@ -10,6 +10,7 @@ const middleware = {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
+					
 					email: useUserInfo.getState().email,
 					password: useUserInfo.getState().password,
 				}),

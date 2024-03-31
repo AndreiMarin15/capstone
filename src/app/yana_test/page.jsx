@@ -7,7 +7,7 @@ export default function Referral() {
 	const router = useRouter();
 	const [showOTP, setShowOTP] = React.useState(false);
 	const [otpInput, setOTPInput] = React.useState("");
-	const [step, setStep] = React.useState(0); // State to manage the steps of the pop-up
+	const [step, setStep] = React.useState(1); // State to manage the steps of the pop-up
 
 	const doctorInfo = {
 		name: "Dr. Johnny Santos",
@@ -351,7 +351,7 @@ export default function Referral() {
 								className="justify-center px-7 py-2.5 text-white bg-sky-900 rounded max-md:px-5"
 								onClick={handleClose}
 							>
-								Confirm Consent
+								I understand and agree
 							</button>
 						</div>
 					</div>

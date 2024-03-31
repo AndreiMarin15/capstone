@@ -202,7 +202,7 @@ export default function Referral() {
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
-		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
+		myHeaders.append("Authorization", "App 1c555aeb51d4f3953c1d244e01d6c279-2d95a385-8a6c-46b5-825a-c69929c14808");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
 		console.log(otp);
@@ -232,16 +232,16 @@ export default function Referral() {
 			redirect: "follow",
 		};
 
-		fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
-			.then((response) => response.text())
-			.then((result) => console.log(result))
-			.then(() => {
-				toast.success(
-					`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
-					{ position: "top-left", theme: "colored", autoClose: 2000 }
-				);
-			})
-			.catch((error) => console.error(error));
+		// fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
+		// 	.then((response) => response.text())
+		// 	.then((result) => console.log(result))
+		// 	.then(() => {
+		toast.success(
+			`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
+			{ position: "top-left", theme: "colored", autoClose: 2000 }
+		);
+		// })
+		// .catch((error) => console.error(error));
 	};
 
 	return (
