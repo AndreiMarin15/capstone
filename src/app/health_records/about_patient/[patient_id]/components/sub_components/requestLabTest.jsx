@@ -15,6 +15,7 @@ export default function RequestLabTest({currentScreen, setCurrentScreen, patient
     const labTestData = {
       loincCode: "YOUR_LOINC_CODE", // Empty or null
       status: "requested", // Empty or null
+
       valueQuantities: [],
       subject: {
         type: "Patient",
@@ -24,6 +25,7 @@ export default function RequestLabTest({currentScreen, setCurrentScreen, patient
         type: "Doctor",
         actor: doctorId,
       },
+
       dateOfRequest: null,
       dateOfResult: null, // Null
       labTestName: labTestName, // Lab test name from the state

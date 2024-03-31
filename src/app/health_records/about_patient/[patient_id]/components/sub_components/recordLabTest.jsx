@@ -159,6 +159,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
         unit: row.unit,
         value: row.value,
     })),
+
     subject: {
       type: "Patient",
       reference: patientId
@@ -167,6 +168,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
       type: "Doctor",
       actor: doctorId,
     },
+
     dateOfRequest: dateOfRequest,
     dateOfResult: dateOfResult,
     labTestName: labTestName,
