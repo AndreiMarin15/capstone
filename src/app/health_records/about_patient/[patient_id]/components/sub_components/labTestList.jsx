@@ -7,6 +7,7 @@ import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import { toast } from 'react-toastify';
+import doctor from "../../../../../../../lib/backend/health_records/doctor";
 import 'react-toastify/dist/ReactToastify.css';
 import { getEncounters, getEncounterById, updateEncounterContained } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
@@ -41,7 +42,6 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
       try {
         // Fetch encounters
         const encountersData = await getEncounters();
-  
         // Find the encounter with the matching ID
         const selectedEncounter = encountersData.find(encounter => encounter.id === encounterId);
         console.log(selectedEncounter);
@@ -128,6 +128,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   const handleSave = async (observation) => {
     try {
+      	
+     
         if (observation !== undefined && observation !== null) {
             
           const savedData= await uploadObservation(observation);
@@ -166,7 +168,12 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
     }
 };
 
-const addLabTestData = (data) => {
+
+const addLabTestData = async (data) => {
+  const doctorInfo = await doctor.getDoctorByCurrentUser();
+  console.log(doctorInfo);
+  console.log(doctorInfo.fullName);
+ 
     try {
 
 
@@ -185,6 +192,10 @@ const addLabTestData = (data) => {
             subject: {
                 type: "Patient",
                 reference: patientId,
+            },
+            participant: {
+              type: "Doctor",
+              actor: doctorInfo.fullName,
             },
             resource_type: "Observation",
             valueQuantity: {
@@ -246,16 +257,20 @@ const addLabTestData = (data) => {
           {labTests.map((item) => (
             <button
               onClick={() => {
+
                 if (item.status !== "requested") { // Check if the status is not "requested"
+
                   setTest(true);
                   setAdd(false);
                   setSelectedObservationId(item.id);
                 }
               }}
-              className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`} // Disable pointer events for requested items
+
+              className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`}
               key={item.variable}
-              disabled={item.status === "requested"} // Disable the button for requested items
-              style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }} // Override pointer events in case of disabled attribute
+              disabled={item.status === "requested"}
+              style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }}
+
             >
               <span className="flex items-stretch justify-between gap-4">
                 <Image

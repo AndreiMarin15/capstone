@@ -5,15 +5,27 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BackButton from "./BackButton";
-export default function RequestLabTest({currentScreen, setCurrentScreen,handleSave}) {
+export default function RequestLabTest({currentScreen, setCurrentScreen, patientId, doctorId, handleSave}) {
   const [labTestName, setLabTestName] = useState("");
 
-  const handleSaveLabTestRequest = () => {
+  const handleSaveLabTestRequest = async () => {
     // Construct the lab test data object
+
+
     const labTestData = {
       loincCode: "YOUR_LOINC_CODE", // Empty or null
       status: "requested", // Empty or null
-      valueQuantities: [], // Empty array
+
+      valueQuantities: [],
+      subject: {
+        type: "Patient",
+        reference: patientId
+      },
+      participant: {
+        type: "Doctor",
+        actor: doctorId,
+      },
+
       dateOfRequest: null,
       dateOfResult: null, // Null
       labTestName: labTestName, // Lab test name from the state
