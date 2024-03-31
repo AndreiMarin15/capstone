@@ -141,11 +141,8 @@ export default function LaboratoryList( {currentScreen, setCurrentScreen, patien
 
 const addLabTestData = async (data) => {
  
- 
+ console.log(data)
     try {
-
-
-
         const newObservation = {
             id: `labtest`,
             status: data.status,
@@ -174,7 +171,7 @@ const addLabTestData = async (data) => {
                 })),
             },
             effectiveDateTime: data.dateOfResult,
-            requestedDateTime: dateOfRequest,
+            requestedDateTime: data.dateOfRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };
@@ -306,6 +303,7 @@ const addLabTestData = async (data) => {
         currentPage={currentPage} 
         setCurrentPage={setCurrentPage} 
         patientId={patientId} 
+        encounterId={encounterId}
         setCurrentScreen={setCurrentScreen}  // Pass setCurrentScreen as prop
         handleSave={(data) => {
           addLabTestData(data);

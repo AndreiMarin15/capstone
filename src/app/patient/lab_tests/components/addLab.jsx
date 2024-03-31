@@ -2,7 +2,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
-import { getEncounterByPatientId } from "../../../../../lib/backend/health_records/getEncounter";
+import { getEncounterById } from "../../../../../lib/backend/health_records/getEncounter";
+import { getObservationsByPatientId } from "../../../../../lib/backend/health_records/getObservation";
 import { uploadObservation } from "../../../../../lib/backend/health_records/uploadObservation";
 import { healthRecords } from "../../../../../lib/backend/health_records/health_records";
 import { toast } from 'react-toastify';
@@ -22,29 +23,62 @@ const ImageModal = ({ src, onClose }) => {
 };
 
 
-export default function AddLabTest({currentPage, setCurrentPage, patientId, setCurrentScreen, handleSave}) {
+export default function AddLabTest({currentPage, setCurrentPage, patientId, encounterId, setCurrentScreen, handleSave}) {
 
   const [actor, setActor] = useState("");
- 
+  const [labTests, setLabTests] = useState([]);
+
   useEffect(() => {
-    async function fetchEncounters() {
-      console.log(patientId);
+    async function fetchData() {
       try {
-        const encountersData = await getEncounterByPatientId(patientId);
-        console.log(encountersData);
-        const actors = encountersData.map(encounter => encounter.resource.participant.actor);
-        console.log(actors);
-        setActor(actors);
+        // Fetch encounters data
+        const encountersData = await getEncounterById(encounterId);
+        console.log(encountersData)
+
+        // Fetch observations data
+        const observationsData = await getObservationsByPatientId(patientId);
+      
+        console.log(observationsData)
+        // Link encounters and observations
+        // encountersData.forEach(encounter => {
+        //     const encounterContained = encounter.resource.contained;
+        //     console.log(encounterContained);
+        //   });
+
+          const labTestObservations = observationsData
+          .filter(observation => observation.resource.id === "labtest")
+          .map(observation => ({
+            id: observation.id,
+            doctor: encountersData.resource.participant.actor,
+            srcdoctor: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
+            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+            variable: observation.resource.codeText,
+            date: observation.resource.effectiveDateTime,
+            reqdate: encountersData.resource.period.start,
+            status: observation.resource.status
+          }));
+
+   
+        setLabTests(labTestObservations);
+
       } catch (error) {
-        console.error("Error fetching encounters:", error);
+        console.error("Error fetching encounters and observations:", error);
       }
     }
   
-    fetchEncounters();
+    fetchData();
   }, [patientId]);
+
+
+
+  useEffect(() => {
+    console.log(labTests);
+  }, [labTests]);
+
+
  
   
-  console.log("actor:", actor);
+
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
   const [dateOfRequest, setdateOfRequest] = useState("");
@@ -133,61 +167,53 @@ export default function AddLabTest({currentPage, setCurrentPage, patientId, setC
 
 
   const handleAddLabTest = async () => {
-
-
+    // Find the relevant lab test based on your logic
+    const relevantLabTest = labTests.find(test => test.status === 'requested');
+    if (!relevantLabTest) {
+        console.error('No relevant lab test found.');
+        return;
+    }
 
     let base64Image = null;
     if (uploadedImageSrc) {
-      base64Image = uploadedImageSrc.split(",")[1]; 
+        base64Image = uploadedImageSrc.split(",")[1]; 
     }
 
     const valueQuantities = rows.map(row => ({
-      display: row.labValueName,
-      unit: row.unit,
-      value: row.value,
-  }));
-  
-
-  const labTestData = {
-    
-    loincCode: "YOUR_LOINC_CODE",
-    status: "final",
-    valueQuantities: rows.map(row => ({
         display: row.labValueName,
         unit: row.unit,
         value: row.value,
-    })),
-
-    subject: {
-      type: "Patient",
-      reference: patientId
-    },
-    participant: {
-      type: "Doctor",
-      actor: actor[0],
-    },
-
-    dateOfRequest: dateOfRequest,
-    dateOfResult: dateOfResult,
-    labTestName: labTestName,
-    base64Image: base64Image,
-};
-console.log(labTestData)
-handleSave(labTestData, false);
-
-
+    }));
   
+    const labTestData = {
+        loincCode: "YOUR_LOINC_CODE",
+        status: "final",
+        valueQuantities: valueQuantities,
+        subject: {
+            type: "Patient",
+            reference: patientId
+        },
+        participant: {
+            type: "Doctor",
+            actor: relevantLabTest.doctor,
+        },
+        dateOfRequest: relevantLabTest.reqdate,
+        dateOfResult: dateOfResult,
+        labTestName: labTestName,
+        base64Image: base64Image,
+    };
 
-  toast.success("Lab Test Recorded", {
-    position: "top-left",
-    theme: "colored",
-    autoClose: 2000,
-  });
+    console.log(labTestData);
+    handleSave(labTestData, false);
 
-  setCurrentPage(0);
-  setCurrentScreen(-1);
-    
-    
+    toast.success("Lab Test Recorded", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000,
+    });
+
+    setCurrentPage(0);
+    setCurrentScreen(-1);
 };
 
 

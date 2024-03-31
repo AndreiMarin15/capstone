@@ -15,6 +15,7 @@ import { uploadObservation } from "../../../../../../../lib/backend/health_recor
 
 export default function LabTestList( {currentScreen, setCurrentScreen, patientId, encounterId, clinicVisitNumber} ) {
   const router = useRouter();
+ 
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
@@ -173,7 +174,7 @@ const addLabTestData = async (data) => {
   const doctorInfo = await doctor.getDoctorByCurrentUser();
   console.log(doctorInfo);
   console.log(doctorInfo.fullName);
- 
+  console.log(data)
     try {
 
 
@@ -206,7 +207,7 @@ const addLabTestData = async (data) => {
                 })),
             },
             effectiveDateTime: data.dateOfResult,
-            requestedDateTime: dateOfRequest,
+            requestedDateTime: data.dateOfRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };
@@ -227,7 +228,7 @@ return (
         observationId={selectedObservationId}
       />
     ) : isAdd ? (
-      <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
+      <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} encounterId={encounterId} handleSave={(data) => {
         addLabTestData(data);
         handleSave();
       }} />
@@ -285,10 +286,10 @@ return (
               </span>
               <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
+                  {item.status === "requested" ? "Date requested:" : "Date requested:"} <br />
                 </div>
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "final" ? item.date : item.reqdate} <br />
+                  {item.status === "final" ? item.reqdate : item.reqdate} <br />
                 </div>
                 {item.status === "requested" && (
                   <div className="text-black text-xs font-medium leading-5 flex items-center">

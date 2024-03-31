@@ -3,7 +3,8 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import BackButton from "./BackButton";
 import doctor from "../../../../../../../lib/backend/health_records/doctor";
-import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
+import { getEncounterById } from "../../../../../../../lib/backend/health_records/getEncounter";
+import { getObservationsByPatientId } from "../../../../../../../lib/backend/health_records/getObservation";
 import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,8 +23,10 @@ const ImageModal = ({ src, onClose }) => {
 };
 
 
-export default function AddLabTest({currentScreen, setCurrentScreen, patientId, handleSave}) {
+export default function AddLabTest({currentScreen, setCurrentScreen, patientId, encounterId, handleSave}) {
   const [doctorId, setDoctorId] = useState('');
+  const [labTests, setLabTests] = useState([]);
+console.log(patientId)
   useEffect(() => {
 		// Fetch medications when the component mounts
 		const fetchDoctor = async () => {
@@ -41,8 +44,44 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
 		fetchDoctor();
 	  }, []);
   
+    useEffect(() => {
+      // Fetch encounter by ID when encounterId changes
+      const fetchEncounter = async () => {
+        try {
+          const encounter = await getEncounterById(encounterId);
+          console.log(encounter)
+
+          const observationsData = await getObservationsByPatientId(patientId);
+          console.log(observationsData)
+
+          const labTestObservations = observationsData
+          .filter(observation => observation.resource.id === "labtest")
+          .map(observation => ({
+            id: observation.id,
+            doctor: encounter.resource.participant.actor,
+            srcdoctor: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
+            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+            variable: observation.resource.codeText,
+            date: observation.resource.effectiveDateTime,
+            reqdate: encounter.resource.period.start,
+            status: observation.resource.status
+          }));
+          console.log('labTestObservations:', labTestObservations);
+          setLabTests(labTestObservations);
+
+          // Do something with the encounter data, e.g., set state
+        } catch (error) {
+          console.error("Error fetching encounter:", error);
+        }
+      };
   
- 
+      if (encounterId) {
+        fetchEncounter();
+      }
+    }, [encounterId]);
+
+  
+       
   
   console.log("Doctor ID:", doctorId);
   const [labTestResults, setLabTestResults] = useState([]);
@@ -148,7 +187,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
       value: row.value,
   }));
   
-
+  const reqdate = labTests.length > 0 ? labTests[0].reqdate : null;
 
   const labTestData = {
     
@@ -169,7 +208,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
       actor: doctorId,
     },
 
-    dateOfRequest: dateOfRequest,
+    dateOfRequest: reqdate,
     dateOfResult: dateOfResult,
     labTestName: labTestName,
     base64Image: base64Image,
