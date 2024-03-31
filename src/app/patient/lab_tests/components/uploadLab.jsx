@@ -1,7 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import BackButton from "../../personal_details/components/sub_components/BackButton";
 
-const UploadLab = () => {
+
+
+export default function UploadLab({currentPage, setCurrentPage}) {
   const labtest = [
     {
       imgsrc:
@@ -15,7 +18,6 @@ const UploadLab = () => {
         />
       ),
     },
-
     {
       imgsrc:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/c30a6e4fc539ac988d28f6ab6785ceeca11c1aaa77f6d0272dd9cc6a0a0d3820?",
@@ -113,16 +115,20 @@ const UploadLab = () => {
               </tr>
             ))}
           </table>
-          <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
-            <div className="flex grow flex-col max-md:max-w-full max-md:mt-7">
+          <div className="flex justify-between items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
+            <div className="flex flex-col mt-8 max-md:max-w-full max-md:mt-7">
+              <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            </div>
+            <div className="flex flex-col max-md:max-w-full max-md:mt-7">
               <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
                 SAVE
               </button>
             </div>
           </div>
         </div>
+        
       </div>
+      
     </span>
   );
-};
-export default UploadLab;
+}

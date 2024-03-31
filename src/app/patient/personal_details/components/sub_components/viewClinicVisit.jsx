@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../lib/backend/health_records/getObservation";
+import LabTestList from "../../../lab_tests/page";
 import BackButton from "./BackButton";
 
 export default function ClinicVisit({ currentPage, setCurrentPage, patientId, encounterId, clinicVisitNumber }) {
@@ -364,6 +365,19 @@ React.useEffect(() => {
       ) : (
         ""
       )}
+
+      {currentScreen === 2 && (
+        <>
+          <LabTestList
+            currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
+            patientId={patientId} 
+            encounterId={encounterId}
+          />
+        </>
+      )}
+
+
     </>
   );
 }

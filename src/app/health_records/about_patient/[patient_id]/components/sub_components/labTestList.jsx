@@ -218,59 +218,57 @@ const addLabTestData = async (data) => {
     }
 };
 
-  return (
-    <>
-
-      {isTest ? (
-        <VisitLabtests
-          currentScreen={3}
-          setCurrentScreen={handleSetCurrentScreen}
-          observationId={selectedObservationId}
-        />
-      ) : isAdd ? (
-        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
-          addLabTestData(data);
-          handleSave();
-        }} />
-      ) : (
-
-        <>
-
-          <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-              VISIT - LAB TESTS
-            </div>
-            <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
-              <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
-                <button
-                  onClick={() => {
-                    setTest(false);
-                    setAdd(true);
-                  }}
-                  className="text-xs font-semibold leading-5"
-                >
-                  Add
-                </button>
-              </span>
-            </div>
-          </span>
-          {labTests.map((item) => (
+return (
+  <>
+    {isTest ? (
+      <VisitLabtests
+        currentScreen={3}
+        setCurrentScreen={handleSetCurrentScreen}
+        observationId={selectedObservationId}
+      />
+    ) : isAdd ? (
+      <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
+        addLabTestData(data);
+        handleSave();
+      }} />
+    ) : (
+      <>
+        <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            VISIT - LAB TESTS
+          </div>
+          <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
+            <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
+              <button
+                onClick={() => {
+                  setTest(false);
+                  setAdd(true);
+                }}
+                className="text-xs font-semibold leading-5"
+              >
+                Add
+              </button>
+            </span>
+          </div>
+        </span>
+        {labTests.length === 0 ? ( // Check if labTests array is empty
+          <div className="text-black text-sm font-medium mt-4">
+            No lab tests available.
+          </div>
+        ) : (
+          labTests.map((item) => (
             <button
               onClick={() => {
-
                 if (item.status !== "requested") { // Check if the status is not "requested"
-
                   setTest(true);
                   setAdd(false);
                   setSelectedObservationId(item.id);
                 }
               }}
-
               className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`}
               key={item.variable}
               disabled={item.status === "requested"}
               style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }}
-
             >
               <span className="flex items-stretch justify-between gap-4">
                 <Image
@@ -292,7 +290,6 @@ const addLabTestData = async (data) => {
                 <div className="text-black text-xs font-medium leading-5">
                   {item.status === "final" ? item.date : item.reqdate} <br />
                 </div>
-
                 {item.status === "requested" && (
                   <div className="text-black text-xs font-medium leading-5 flex items-center">
                     <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -311,11 +308,11 @@ const addLabTestData = async (data) => {
                 )}
               </span>
             </button>
-          ))}
-          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
-        </>
-      )}
-
-    </>
-  );
-};
+          ))
+        )}
+        <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+      </>
+    )}
+  </>
+);
+                };
