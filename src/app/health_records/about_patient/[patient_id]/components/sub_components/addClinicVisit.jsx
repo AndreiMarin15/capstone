@@ -404,7 +404,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			},
 			subject: {
 				type: "Patient",
-				reference: patientDataId,
+				reference: data.subject.reference,
 			},
 			resource_type: "Observation",
 			valueQuantity: {
@@ -856,14 +856,15 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			) : currentScreen === 2 ? (
 				<RecordLabTest 
 					currentScreen={currentScreen} 
-					setCurrentScreen={setCurrentScreen}   
+					setCurrentScreen={setCurrentScreen}  
+					patientId={patientId} 
 					handleSave={(data) => {
 						addLabTestData(data);
 						handleSave(false);
 					}}
 				/>
 			) : currentScreen === 3 ? (
-				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} handleSave={(data) => {
+				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId}  handleSave={(data) => {
 					addLabTestData(data);
 					handleSave(false);
 				}}/>

@@ -21,8 +21,8 @@ const ImageModal = ({ src, onClose }) => {
 };
 
 
-export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}) {
-
+export default function AddLabTest({currentScreen, setCurrentScreen, patientId, handleSave}) {
+  console.log("Patient ID:", patientId);
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
   const [dateOfRequest, setdateOfRequest] = useState("");
@@ -34,6 +34,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}
     custom: { value: "", unit: "" }
   });
   const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
+  
   
 
   const handleUploadClick = () => {
@@ -135,6 +136,10 @@ export default function AddLabTest({currentScreen, setCurrentScreen, handleSave}
         unit: row.unit,
         value: row.value,
     })),
+    subject: {
+      type: "Patient",
+      reference: patientId
+    },
     dateOfRequest: dateOfRequest,
     dateOfResult: dateOfResult,
     labTestName: labTestName,
