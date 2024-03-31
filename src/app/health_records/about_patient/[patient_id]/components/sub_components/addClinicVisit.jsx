@@ -34,6 +34,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 	const [labTestData, setLabTestData] = useState([]);
 	const [observations, setObservations] = useState([]);
 	const [labTestDataArray, setLabTestDataArray] = useState([]);
+	const [doctorId, setDoctorId] = useState("");
 	const handleDiagnosisChange = (e) => {
 		const inputValue = e.target.value.toLowerCase();
 		const filteredDisease = disease.filter((disease) => {
@@ -94,6 +95,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 		
 		try {
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
+			setDoctorId(doctorInfo.fullName)
+			console.log(doctorId)
 			const patientData = await healthRecords.getPatientData(patientId);
 			patientDataId = patientData.id; 
 			
@@ -113,6 +116,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -134,6 +141,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					resource_type: "Observation",
 					valueQuantity: {
 						unit: "mmHg",
@@ -153,6 +164,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -174,6 +189,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					valueString: reviewOfSystems,
 					resource_type: "Observation",
 				},
@@ -190,6 +209,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -211,6 +234,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					valueString: signsAndSymptoms,
 					resource_type: "Observation",
 				},
@@ -227,6 +254,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					valueString: diagnosis,
 					resource_type: "Observation",
@@ -245,6 +276,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					valueString: finalDiagnosis,
 					resource_type: "Observation",
 				},
@@ -261,6 +296,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -282,6 +321,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					resource_type: "Observation",
 					valueQuantity: {
 						unit: "beats/minute",
@@ -302,6 +345,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					valueString: diagnosis,
 					resource_type: "Observation",
 				},
@@ -318,6 +365,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					subject:{
 						type: "Patient",
 						reference: patientData.id
+					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
 					},
 					valueString: otherConcerns,
 					resource_type: "Observation",
@@ -336,6 +387,10 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 						type: "Patient",
 						reference: patientData.id
 					},
+					participant: {
+						type: "Doctor",
+						actor: doctorId,
+					},
 					valueString: suggestedClinicDate,
 					resource_type: "Observation",
 				},
@@ -350,7 +405,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 				},
 				participant: {
 					type: "Doctor",
-					actor: doctorInfo,
+					actor: doctorId,
 				},
 				subject: {
 					type: "Patient",
@@ -404,7 +459,11 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			},
 			subject: {
 				type: "Patient",
-				reference: patientDataId,
+				reference: data.subject.reference,
+			},
+			participant: {
+				type: "Doctor",
+				actor: data.participant.actor,
 			},
 			resource_type: "Observation",
 			valueQuantity: {
@@ -856,14 +915,15 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			) : currentScreen === 2 ? (
 				<RecordLabTest 
 					currentScreen={currentScreen} 
-					setCurrentScreen={setCurrentScreen}   
+					setCurrentScreen={setCurrentScreen}  
+					patientId={patientId}
 					handleSave={(data) => {
 						addLabTestData(data);
 						handleSave(false);
 					}}
 				/>
 			) : currentScreen === 3 ? (
-				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} handleSave={(data) => {
+				<RequestLabTest currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} doctorId={doctorId} handleSave={(data) => {
 					addLabTestData(data);
 					handleSave(false);
 				}}/>
