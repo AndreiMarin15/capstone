@@ -53,6 +53,7 @@ export default function AddLabTest({currentPage, setCurrentPage, patientId, enco
             srcdoctor: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
             src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
             variable: observation.resource.codeText,
+            update: observation.resource.uploadedDateTime,
             date: observation.resource.effectiveDateTime,
             reqdate: encountersData.resource.period.start,
             status: observation.resource.status
@@ -167,7 +168,15 @@ export default function AddLabTest({currentPage, setCurrentPage, patientId, enco
 
 
   const handleAddLabTest = async () => {
-    // Find the relevant lab test based on your logic
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    
+    const newDateFieldValue = `${year}-${month}-${day}`;
+    console.log(newDateFieldValue);
+  
     const relevantLabTest = labTests.find(test => test.status === 'requested');
     if (!relevantLabTest) {
         console.error('No relevant lab test found.');
@@ -197,6 +206,7 @@ export default function AddLabTest({currentPage, setCurrentPage, patientId, enco
             type: "Doctor",
             actor: relevantLabTest.doctor,
         },
+        dateOfUpdate: newDateFieldValue,
         dateOfRequest: relevantLabTest.reqdate,
         dateOfResult: dateOfResult,
         labTestName: labTestName,

@@ -81,6 +81,7 @@ export default function LaboratoryList( {currentScreen, setCurrentScreen, patien
           doctor: observation.participant.actor,
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
           variable: observation.codeText,
+          update: observation.uploadedDateTime,
           date: observation.effectiveDateTime,
           reqdate: observation.requestedDateTime,
           status: observation.status
@@ -170,6 +171,7 @@ const addLabTestData = async (data) => {
                     value: val.value,
                 })),
             },
+            uploadedDateTime: data.dateOfUpdate,
             effectiveDateTime: data.dateOfResult,
             requestedDateTime: data.dateOfRequest,
             codeText: data.labTestName,
@@ -260,7 +262,7 @@ const addLabTestData = async (data) => {
                 {item.status !== "requested" && (
                   <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                     Uploaded on:
-                    <div className="grow my-auto ">"date of upload"</div>
+                    <div className="grow my-auto ">{item.update}</div>
                   </div>
                 )}
                 {item.status === "requested" && (
