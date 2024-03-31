@@ -96,7 +96,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 		try {
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
 			setDoctorId(doctorInfo.fullName)
-			console.log(doctorId)
+			console.log(doctorInfo.fullName)
 			const patientData = await healthRecords.getPatientData(patientId);
 			patientDataId = patientData.id; 
 			
@@ -119,7 +119,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -143,7 +143,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -167,7 +167,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -191,7 +191,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: reviewOfSystems,
 					resource_type: "Observation",
@@ -212,7 +212,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -236,7 +236,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: signsAndSymptoms,
 					resource_type: "Observation",
@@ -257,7 +257,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: diagnosis,
 					resource_type: "Observation",
@@ -278,7 +278,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: finalDiagnosis,
 					resource_type: "Observation",
@@ -299,7 +299,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -323,7 +323,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					resource_type: "Observation",
 					valueQuantity: {
@@ -347,7 +347,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: diagnosis,
 					resource_type: "Observation",
@@ -368,7 +368,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: otherConcerns,
 					resource_type: "Observation",
@@ -389,7 +389,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					},
 					participant: {
 						type: "Doctor",
-						actor: doctorId,
+						actor: doctorInfo.fullName,
 					},
 					valueString: suggestedClinicDate,
 					resource_type: "Observation",
@@ -405,7 +405,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 				},
 				participant: {
 					type: "Doctor",
-					actor: doctorId,
+					actor: doctorInfo.fullName,
 				},
 				subject: {
 					type: "Patient",
