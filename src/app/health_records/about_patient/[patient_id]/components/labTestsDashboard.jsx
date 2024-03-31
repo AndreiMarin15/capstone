@@ -48,6 +48,8 @@ export default function LabTests({ patientId }) {
             
             const labTestObservations = observationsData.filter(observation => observation.resource.id === "labtest").map(observation => ({
               id: observation.id,
+              doctor: observation.resource.participant.actor,
+              srcdoctor:"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
               src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
               variable: observation.resource.codeText,
               date: observation.resource.effectiveDateTime,
@@ -128,7 +130,14 @@ export default function LabTests({ patientId }) {
                         </div>
                         <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
                             <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
-                               
+                            <Image
+                                alt="image"
+                                height={0}
+                                width={0}
+                                loading="lazy"
+                                src={labTest.srcdoctor}
+                                className="aspect-square fill-black w-[15px]"
+                            />
                                 <div className="grow my-auto">{labTest.doctor}</div>
                             </div>
                             <div className="flex-auto my-auto" style={{ display: 'flex', justifyContent: 'space-between' }}>
