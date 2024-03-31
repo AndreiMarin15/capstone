@@ -95,24 +95,24 @@ export default function Diagnoses({ patientId }) {
                         <td colSpan={variables.length} className="h-8"></td>
                     </tr>
                     {finalDiagnoses.map((diagnosis, index) => (
-                        <React.Fragment key={index}>
-                            {variables.map((variable, variableIndex) => (
-                                <td key={variableIndex} className={`${variableIndex === 0 ? 'font-normal' : 'mt-4 mb-4'}`}>
-                                    <span className="text-sm">
-                                        {variable === "Diagnoses" ? diagnosis.resource.valueString :
-                                            (variable === "Date of Diagnosis" ? encounters[index]?.resource.period.start :
-                                                (variable === "Status" ? "Being Managed" :
-                                                    (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable])))}
-                                    </span>
-                                </td>
-                            ))}
-                            {index < finalDiagnoses.length - 1 && (
-                                <tr key={`gap-${index}`}>
-                                    <td colSpan={variables.length} className="border-t border-transparent h-4" />
-                                </tr>
-                            )}
-                        </React.Fragment>
-                    ))}
+                      <React.Fragment key={index}>
+                          {variables.map((variable, variableIndex) => (
+                              <td key={variableIndex} className={`${variableIndex === 0 ? 'font-normal' : 'mt-4 mb-4'}`}>
+                                  <span className={`text-sm ${variable === "Diagnoses" ? 'font-bold' : ''}`}>
+                                      {variable === "Diagnoses" ? diagnosis.resource.valueString :
+                                          (variable === "Date of Diagnosis" ? encounters[index]?.resource.period.start :
+                                              (variable === "Status" ? "Being Managed" :
+                                                  (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable])))}
+                                  </span>
+                              </td>
+                          ))}
+                          {index < finalDiagnoses.length - 1 && (
+                              <tr key={`gap-${index}`}>
+                                  <td colSpan={variables.length} className="border-t border-transparent h-4" />
+                              </tr>
+                          )}
+                      </React.Fragment>
+                  ))}
                 </tbody>
             </table>
     
