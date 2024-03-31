@@ -1,8 +1,12 @@
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import VisitLabTests from "./sub_components/visitLabTests";
-import { useState } from "react";
-export default function LabTests() {
+import { useState, useEffect } from "react";
+import { getEncounters, getEncounterByPatientId } from "../../../../../../lib/backend/health_records/getEncounter";
+import { getObservationsByPatientId} from "../../../../../../lib/backend/health_records/getObservation";
+
+
+export default function LabTests({ patientId }) {
     const tests = [
         {
             srctest: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -22,6 +26,12 @@ export default function LabTests() {
         },
         
     ];
+
+    const [containedIDs, setContainedIDs] = useState([]);
+    const [dateOfRequest, setDateOfRequest] = useState(""); 
+    const [labTests, setLabTests] = useState([]); 
+    const [selectedObservationId, setSelectedObservationId] = useState(null);
+
     const [currentScreen, setCurrentScreen] = useState(0);
     const handleMedicationClick = (medication) => {
        
@@ -29,6 +39,65 @@ export default function LabTests() {
         setCurrentScreen(1) // Assuming the desired value for the second screen is 1
         console.log("current Screen:", currentScreen);
     };
+
+
+    useEffect(() => {
+  
+        async function fetchEncounters() {
+            console.log(patientId);
+
+            try {
+            // Fetch encounters
+            const encountersData = await getEncounterByPatientId(patientId);
+           
+            console.log(encountersData);
+           
+            encountersData.forEach(encounter => {
+                const encounterContained = encounter.resource.contained;
+                // Now you can work with encounterContained array
+                console.log(encounterContained);
+              });
+
+            const observationsData = await getObservationsByPatientId(patientId);
+            console.log(observationsData);
+            
+            const labTestObservations = observationsData.filter(observation => observation.resource.id === "labtest").map(observation => ({
+              id: observation.id,
+              src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
+              variable: observation.resource.codeText,
+              date: observation.resource.effectiveDateTime,
+              reqdate: observation.resource.requestedDateTime,
+              status: observation.resource.status
+          }));
+          
+          console.log(labTestObservations);
+    
+    
+    
+          // Set lab test observations state
+          setLabTests(labTestObservations);
+        
+    
+    
+          
+    
+    
+        //     console.log(labTests);
+          } catch (error) {
+            console.error("Error fetching encounters and observations:", error);
+          }
+        }
+      
+        fetchEncounters();
+      }, [patientId]);
+    
+
+      useEffect(() => {
+        console.log(labTests);
+      }, [labTests]);
+
+
+
 
 
     return (
