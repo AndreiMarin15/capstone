@@ -1,7 +1,8 @@
 import Image from "next/image";
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import BackButton from "./BackButton";
+import doctor from "../../../../../../../lib/backend/health_records/doctor";
 import { uploadObservation } from "../../../../../../../lib/backend/health_records/uploadObservation";
 import { healthRecords } from "../../../../../../../lib/backend/health_records/health_records";
 import { toast } from 'react-toastify';
@@ -22,7 +23,28 @@ const ImageModal = ({ src, onClose }) => {
 
 
 export default function AddLabTest({currentScreen, setCurrentScreen, patientId, handleSave}) {
-  console.log("Patient ID:", patientId);
+  const [doctorId, setDoctorId] = useState('');
+  useEffect(() => {
+		// Fetch medications when the component mounts
+		const fetchDoctor = async () => {
+		  try {
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
+			
+			setDoctorId(doctorInfo.fullName);
+      console.log(doctorInfo.fullName)
+			console.log(doctorId);
+		  } catch (error) {
+			console.error("Error fetching medications:", error);
+		  }
+		};
+	
+		fetchDoctor();
+	  }, []);
+  
+  
+ 
+  
+  console.log("Doctor ID:", doctorId);
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
   const [dateOfRequest, setdateOfRequest] = useState("");
@@ -129,6 +151,7 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
 
 
   const labTestData = {
+    
     loincCode: "YOUR_LOINC_CODE",
     status: "final",
     valueQuantities: rows.map(row => ({
@@ -139,6 +162,10 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
     subject: {
       type: "Patient",
       reference: patientId
+    },
+    participant: {
+      type: "Doctor",
+      actor: doctorId,
     },
     dateOfRequest: dateOfRequest,
     dateOfResult: dateOfResult,

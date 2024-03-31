@@ -7,6 +7,7 @@ import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import { toast } from 'react-toastify';
+import doctor from "../../../../../../../lib/backend/health_records/doctor";
 import 'react-toastify/dist/ReactToastify.css';
 import { getEncounters, getEncounterById, updateEncounterContained } from "../../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../../lib/backend/health_records/getObservation";
@@ -127,6 +128,8 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
 
   const handleSave = async (observation) => {
     try {
+      	
+     
         if (observation !== undefined && observation !== null) {
             
           const savedData= await uploadObservation(observation);
@@ -165,7 +168,12 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
     }
 };
 
-const addLabTestData = (data) => {
+
+const addLabTestData = async (data) => {
+  const doctorInfo = await doctor.getDoctorByCurrentUser();
+  console.log(doctorInfo);
+  console.log(doctorInfo.fullName);
+ 
     try {
 
 
@@ -184,6 +192,10 @@ const addLabTestData = (data) => {
             subject: {
                 type: "Patient",
                 reference: patientId,
+            },
+            participant: {
+              type: "Doctor",
+              actor: doctorInfo.fullName,
             },
             resource_type: "Observation",
             valueQuantity: {
