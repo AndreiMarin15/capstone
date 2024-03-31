@@ -139,7 +139,7 @@ export default function Referral() {
 				},
 				body: JSON.stringify({
 					api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
-					requested_from: "testpatient@gmail.com",
+					requested_from: `${currentInfo.email}`,
 					patient_id: currentInfo.patient_id,
 				}),
 			}

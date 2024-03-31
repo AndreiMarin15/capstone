@@ -38,7 +38,7 @@ export default function ViewSharing() {
 					},
 					body: JSON.stringify({
 						api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
-						requested_from: "testpatient@gmail.com",
+						requested_from: `${currentUser.getState().user.email ?? "testpatient@gmail.com"}`,
 					}), // replace this with your actual data
 				}
 			);
