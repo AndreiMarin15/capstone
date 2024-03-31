@@ -22,7 +22,7 @@ export default function LabTests({ patientId }) {
     const [selectedObservationId, setSelectedObservationId] = useState(null);
 
     const [currentScreen, setCurrentScreen] = useState(0);
-    const handleMedicationClick = (medication) => {
+    const handleMedicationClick = (labTest) => {
        
         // Set currentScreen to the desired value when a medication item is clicked
         setCurrentScreen(1) // Assuming the desired value for the second screen is 1
@@ -115,8 +115,14 @@ export default function LabTests({ patientId }) {
                         </div>
                     </div>
                     {labTests.map((labTest, index) => (
-                    <button key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]" onClick={() => handleMedicationClick(labTest)}>
-                        {/* Render lab test information */}
+                        <button 
+                        key={index} 
+                        className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]" 
+                        onClick={() => {
+                            handleMedicationClick(labTest);
+                            setSelectedObservationId(labTest.id);
+                        }}
+                        >
                         <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                             <Image
                                 alt="image"
@@ -175,7 +181,7 @@ export default function LabTests({ patientId }) {
                 </div>
             )}
             {currentScreen === 1 && (
-                <VisitLabTests currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+                <VisitLabTests currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} observationId={selectedObservationId}/>
             )}
         </>
     );
