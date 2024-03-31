@@ -288,18 +288,18 @@ return (
               </span>
               <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
                 <div className="text-black text-xs font-medium leading-5">
-                  Date requested: <br />
+                  <span style={{ fontWeight: 'bold' }}>Date requested:</span> <br />
                 </div>
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.reqdate} <br />
+                  <span>{item.reqdate}</span> <br />
                 </div>
                 {item.status === "final" && (
                   <>
                     <div className="text-black text-xs font-medium leading-5">
-                      Date uploaded: <br />
+                      <span style={{ fontWeight: 'bold' }}>Date uploaded:</span> <br />
                     </div>
                     <div className="text-black text-xs font-medium leading-5">
-                      {item.update} <br />
+                      <span>{item.update}</span> <br />
                     </div>
                   </>
                 )}
