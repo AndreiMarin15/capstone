@@ -468,7 +468,8 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 			resource_type: "Observation",
 			valueQuantity: {
 				valueQuantities: data.valueQuantities,
-			}, 
+			},
+			uploadedDateTime: data.dateOfUpdate,
 			effectiveDateTime: data.dateOfResult,
 			requestedDateTime: clinicDate,
 			codeText: data.labTestName,
@@ -917,6 +918,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId}
 					currentScreen={currentScreen} 
 					setCurrentScreen={setCurrentScreen}  
 					patientId={patientId}
+					
 					handleSave={(data) => {
 						addLabTestData(data);
 						handleSave(false);

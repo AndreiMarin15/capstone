@@ -26,7 +26,9 @@ const ImageModal = ({ src, onClose }) => {
 export default function AddLabTest({currentScreen, setCurrentScreen, patientId, encounterId, handleSave}) {
   const [doctorId, setDoctorId] = useState('');
   const [labTests, setLabTests] = useState([]);
-console.log(patientId)
+  const [newDateField, setNewDateField] = useState("");
+  
+
   useEffect(() => {
 		// Fetch medications when the component mounts
 		const fetchDoctor = async () => {
@@ -62,6 +64,7 @@ console.log(patientId)
             srcdoctor: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
             src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
             variable: observation.resource.codeText,
+            update: observation.resource.uploadedDateTime,
             date: observation.resource.effectiveDateTime,
             reqdate: encounter.resource.period.start,
             status: observation.resource.status
@@ -97,6 +100,7 @@ console.log(patientId)
   const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
   
   
+ 
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -174,7 +178,15 @@ console.log(patientId)
 
   const handleAddLabTest = async () => {
 
-
+   
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    
+    const newDateFieldValue = `${year}-${month}-${day}`;
+    setNewDateField(newDateFieldValue);
+    console.log(newDateFieldValue);
 
     let base64Image = null;
     if (uploadedImageSrc) {
@@ -208,6 +220,7 @@ console.log(patientId)
       actor: doctorId,
     },
 
+    dateOfUpdate: newDateFieldValue,
     dateOfRequest: reqdate,
     dateOfResult: dateOfResult,
     labTestName: labTestName,

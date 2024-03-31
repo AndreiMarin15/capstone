@@ -94,6 +94,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           id: observation.id,
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
           variable: observation.resource.codeText,
+          update: observation.resource.uploadedDateTime,
           date: observation.resource.effectiveDateTime,
           reqdate: observation.resource.requestedDateTime,
           status: observation.resource.status
@@ -130,7 +131,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
   const handleSave = async (observation) => {
     try {
       	
-     
+    
         if (observation !== undefined && observation !== null) {
             
           const savedData= await uploadObservation(observation);
@@ -206,6 +207,7 @@ const addLabTestData = async (data) => {
                     value: val.value,
                 })),
             },
+            uploadedDateTime: data.dateOfUpdate,
             effectiveDateTime: data.dateOfResult,
             requestedDateTime: data.dateOfRequest,
             codeText: data.labTestName,
@@ -286,11 +288,21 @@ return (
               </span>
               <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "requested" ? "Date requested:" : "Date requested:"} <br />
+                  Date requested: <br />
                 </div>
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "final" ? item.reqdate : item.reqdate} <br />
+                  {item.reqdate} <br />
                 </div>
+                {item.status === "final" && (
+                  <>
+                    <div className="text-black text-xs font-medium leading-5">
+                      Date uploaded: <br />
+                    </div>
+                    <div className="text-black text-xs font-medium leading-5">
+                      {item.update} <br />
+                    </div>
+                  </>
+                )}
                 {item.status === "requested" && (
                   <div className="text-black text-xs font-medium leading-5 flex items-center">
                     <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
