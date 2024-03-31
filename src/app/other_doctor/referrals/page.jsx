@@ -111,8 +111,8 @@ export default function Referral() {
 
 	const handleApproval = async (value, id) => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ??
-				"https://cap-middleware-1.vercel.app/user") + "/updateRequestStatus",
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+				"/updateRequestStatus",
 			{
 				method: "POST",
 				headers: {
@@ -131,7 +131,8 @@ export default function Referral() {
 
 	const generateRequest = async () => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware-1.vercel.app/user") + "/requestApproval",
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+				"/requestApproval",
 			{
 				method: "POST",
 				headers: {

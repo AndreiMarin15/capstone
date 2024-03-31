@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { middlewareUser } from "../../store";
 import { fetchFrom } from "../../../../globals";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function MyTable() {
-    const router = useRouter();
+	const router = useRouter();
 	const mUser = middlewareUser.getState();
 	const [data, setData] = useState([
 		{ created_at: "2022-01-01", key: "1234567890" },
@@ -40,7 +40,7 @@ export default function MyTable() {
 		console.log(mUser);
 		const fetchKeys = async () => {
 			const response = await fetch(
-				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware-1.vercel.app/user") + "/getKeys",
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") + "/getKeys",
 				{
 					method: "POST",
 					headers: {
