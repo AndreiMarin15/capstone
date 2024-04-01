@@ -28,7 +28,7 @@ export default function LaboratoryList( {currentScreen, setCurrentScreen, patien
   useEffect(() => {
     // Fetch encounters and observations
     fetchEncountersAndObservations();
-}, [currentScreen, encounterId]);
+}, [currentScreen, currentPage, encounterId]);
   
   useEffect(() => {
     // Log labTests whenever it changes

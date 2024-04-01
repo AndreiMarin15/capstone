@@ -84,8 +84,8 @@ const currentDate = new Date();
         theme: "colored",
         autoClose: 2000,
     });
-
-    setCurrentScreen(0);
+    
+    setCurrentPage(0);
 
     } catch (error) {
       console.error("Error updating observation:", error);
@@ -170,12 +170,12 @@ const currentDate = new Date();
   return (
     <span className="bg-white flex flex-col px-20 py-12 h-auto max-md:px-5" onDrop={(e) => handleDrop(e)} onDragOver={(e) => handleDragOver(e)}>
       <div className="text-black text-xl font-semibold leading-8 mt-12 self-start max-md:max-w-full max-md:mt-10">
-        2D ECHO
+      {observations.resource && observations.resource.codeText}
       </div>
       <span className="flex items-stretch gap-1 self-start max-md:ml-2.5">
         <Image alt="picture" height={0} width={0} loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/ffed27d8f8f3d85f5105fad0503fc6ac77abb4c40a584f2c8be2dd0494e2e313?" className="aspect-[1.06] object-contain object-center w-[19px] overflow-hidden shrink-0 max-w-full" />
         <div className="text-black text-sm font-semibold leading-5 self-center grow whitespace-nowrap my-auto">
-          REQUESTED ON: <span className="">2023-01-07</span>
+          REQUESTED ON: <span className=""> {observations.resource && observations.resource.requestedDateTime}</span>
         </div>
       </span>
       <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
