@@ -97,6 +97,33 @@ export default function MasterData() {
     setmData(newMaster);
   };
 
+  const handleSaveChanges = async () => {
+    const updatedInfo = mData.reduce((acc, item) => {
+      acc[item.variable] = item.value;
+      return acc;
+    }, {});
+
+    try {
+      const response = await fetch("/api/updateMasterData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedInfo),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save changes");
+      }
+
+      const data = await response.json();
+      console.log("Master data updated successfully:", data);
+      setIsEditingMaster(false); // Exit edit mode after saving
+    } catch (error) {
+      console.error("Error saving changes:", error);
+    }
+  };
+
   return (
     <>
       {currentPage === 0 ? (
@@ -313,10 +340,11 @@ export default function MasterData() {
           </table>
           {isEditingMaster && (
             <button
-              className="self-end gap-1.5 justify-between px-10 py-1 rounded border-sky-900  bg-sky-900 text-white border-solid text-xs font-semibold border-1.5"
+              className="self-end gap-1.5 justify-between px-10 py-1 rounded border-sky-900 bg-sky-900 text-white border-solid text-xs font-semibold border-1.5"
               onClick={() => {
-                // Logic for saving changes
-                setIsEditingMaster(false);
+                // Call the handleSaveChanges function here
+                handleSaveChanges();
+                setIsEditingMaster(false); // Optionally, perform additional logic after calling the function
               }}
             >
               Save
