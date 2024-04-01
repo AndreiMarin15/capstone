@@ -114,44 +114,46 @@ export default function Referral() {
     setChangeUser(!changeUser);
   }
 
-  const handleApproval = async (value, id) => {
-    const response = await fetch(
-      "https://cap-middleware-1.vercel.app/user/updateRequestStatus",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: id,
-          status: value,
-          patient_id: currentInfo.patient_id,
-        }),
-      }
-    );
+	const handleApproval = async (value, id) => {
+		const response = await fetch(
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
+				"/updateRequestStatus",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					id: id,
+					status: value,
+					patient_id: currentInfo.patient_id,
+				}),
+			}
+		);
 
     console.log(response);
   };
 
-  const generateRequest = async () => {
-    const response = await fetch(
-      "https://cap-middleware-1.vercel.app/user/requestApproval",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
-          requested_from: "testpatient@gmail.com",
-          patient_id: currentInfo.patient_id,
-        }),
-      }
-    );
-    const r = await response.json();
-    console.log(r);
-    return r[0].id;
-  };
+	const generateRequest = async () => {
+		const response = await fetch(
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
+				"/requestApproval",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+					requested_from: `${currentInfo.email}`,
+					patient_id: currentInfo.patient_id,
+				}),
+			}
+		);
+		const r = await response.json();
+		console.log(r);
+		return r[0].id;
+	};
 
   const generateOTP = () => {
     return Math.floor(1000 + Math.random() * 9000);
@@ -211,21 +213,18 @@ export default function Referral() {
     console.log(referralsList);
   }, [referralsList]);
 
-  const sendOTP = () => {
-    const myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a"
-    );
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Accept", "application/json");
-    console.log(otp);
-    const raw = JSON.stringify({
-      messages: [
-        {
-          destinations: [{ to: `639999951973` }], // replace with patient data
-          from: "ServiceSMS",
-          text: `Hello! Your OTP is  ${otp}
+	const sendOTP = () => {
+		const myHeaders = new Headers();
+		myHeaders.append("Authorization", "App 1c555aeb51d4f3953c1d244e01d6c279-2d95a385-8a6c-46b5-825a-c69929c14808");
+		myHeaders.append("Content-Type", "application/json");
+		myHeaders.append("Accept", "application/json");
+		console.log(otp);
+		const raw = JSON.stringify({
+			messages: [
+				{
+					destinations: [{ to: `639999951973` }], // replace with patient data
+					from: "ServiceSMS",
+					text: `Hello! Your OTP is  ${otp}
 					
 					By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
 
@@ -258,33 +257,33 @@ export default function Referral() {
       .catch((error) => console.error(error));
   };
 
-  return (
-    <div className="bg-white  h-screen flex">
-      <div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
-        <div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
-          <div className="text-xl font-semibold text-black">Referral</div>
-          <div className="flex gap-3.5 justify-between text-xs">
-            <div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-                className="aspect-square fill-stone-300 w-[13px] ml-4"
-              />
-              <input type="text" placeholder="Search..." />
-            </div>
-            <button
-              onClick={() => {
-                router.push("other_doctor/referrals/send_referral");
-              }}
-              className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
-            >
-              Refer a Patient
-            </button>
-          </div>
-        </div>
+	return (
+		<div className="bg-white  h-screen flex">
+			<div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
+				<div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
+					<div className="text-xl font-semibold text-black">Referral</div>
+					<div className="flex gap-3.5 justify-between text-xs">
+						<div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
+							<Image
+								alt="image"
+								height={0}
+								width={0}
+								loading="lazy"
+								src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+								className="aspect-square fill-stone-300 w-[13px] ml-4"
+							/>
+							<input type="text" placeholder="Search..." />
+						</div>
+						<button
+							onClick={() => {
+								router.push("other_doctor/referrals/send_referral");
+							}}
+							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
+						>
+							Refer a Patient
+						</button>
+					</div>
+				</div>
 
         <div className="flex">
           {/* Left side tabs */}

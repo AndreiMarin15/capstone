@@ -9,32 +9,40 @@ import Request from "./components/request";
 export default function ViewSharing() {
 	const [sharing, setSharing] = React.useState([]);
 	const handleApproval = async (value, id) => {
-		const response = await fetch("https://cap-middleware-1.vercel.app/user/updateRequestStatus", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				id: id,
-				status: value,
-			}),
-		});
+		const response = await fetch(
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
+				"/updateRequestStatus",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					id: id,
+					status: value,
+				}),
+			}
+		);
 
 		console.log(response);
 	};
 
 	React.useEffect(() => {
 		const fetchData = async () => {
-			const response = await fetch("https://cap-middleware-1.vercel.app/user/getRequests", {
-				method: "POST", // or 'PUT'
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
-					requested_from: "testpatient@gmail.com",
-				}), // replace this with your actual data
-			});
+			const response = await fetch(
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
+					"/getRequests",
+				{
+					method: "POST", // or 'PUT'
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						api_key: "6d5d2d80-b0c7-4e3a-8622-65813c693d96",
+						requested_from: `${currentUser.getState().user.email ?? "testpatient@gmail.com"}`,
+					}), // replace this with your actual data
+				}
+			);
 
 			if (!response.ok) {
 				const message = `An error has occurred: ${response.status}`;

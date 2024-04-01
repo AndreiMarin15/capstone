@@ -1,6 +1,8 @@
 import Image from "next/image";
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import VisitLabtests from "./visitLabTests";
 import BackButton from "./BackButton";
@@ -103,10 +105,29 @@ export default function AddCarePlan({
     },
   ];
   useEffect(() => {
-    const insertCarePlan = async () => {
-      await importCarePlan(compactActivity);
-    };
-    insertCarePlan();
+    if (Object.keys(compactActivity).length > 0) {
+      // Check if compactActivity is not empty
+      const insertCarePlan = async () => {
+        try {
+          await importCarePlan(compactActivity);
+          // successful save
+          toast.success("Care Plan Added", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 2000,
+          });
+        } catch (error) {
+          // errors
+          console.error("Failed to care plan:", error);
+          toast.error("Failed to add care plan.", {
+            position: "top-left",
+            autoClose: 2000,
+          });
+        }
+        setCurrentScreen(0);
+      };
+      insertCarePlan();
+    }
   }, [compactActivity]);
   return (
     <>
