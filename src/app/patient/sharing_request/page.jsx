@@ -10,7 +10,7 @@ export default function ViewSharing() {
 	const [sharing, setSharing] = React.useState([]);
 	const handleApproval = async (value, id) => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
 				"/updateRequestStatus",
 			{
 				method: "POST",
@@ -30,7 +30,7 @@ export default function ViewSharing() {
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const response = await fetch(
-				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
 					"/getRequests",
 				{
 					method: "POST", // or 'PUT'

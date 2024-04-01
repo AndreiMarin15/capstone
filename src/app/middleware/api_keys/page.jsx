@@ -28,9 +28,9 @@ export default function MyTable() {
 	}
 	useEffect(() => {
 		console.log(data);
-		if (data != null && data.length > 0) {
+		if (data.data != null && data.data.length > 0) {
 			setCensoredData(
-				data.map((item) => ({
+				data.data.map((item) => ({
 					...item,
 					key: censorKey(item.key),
 				}))
@@ -42,7 +42,7 @@ export default function MyTable() {
 		console.log(mUser);
 		const fetchKeys = async () => {
 			const response = await fetch(
-				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") + "/getKeys",
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/getKeys",
 				{
 					method: "POST",
 					headers: {
@@ -82,7 +82,11 @@ export default function MyTable() {
 		console.log(newKey);
 		setNewApiKey(newKey[0].key);
 		setModalIsOpen(true);
-		setData([{ created_at: new Date().toISOString(), key: newKey[0].key }, ...data]);
+		if (data.length > 0) {
+			setData([{ created_at: new Date().toISOString(), key: newKey[0].key }, ...data]);
+		} else {
+			setData([{ created_at: new Date().toISOString(), key: newKey[0].key }]);
+		}
 	};
 
 	// Use censoredData instead of data in your render method
