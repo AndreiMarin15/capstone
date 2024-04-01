@@ -15,10 +15,7 @@ import { uploadObservation } from "../../../../lib/backend/health_records/upload
 export default function LaboratoryList( {currentScreen, setCurrentScreen, patientId, encounterId}) {
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
-  const [testName, setTestName] = useState("");
-  const [isTest, setTest] = useState(false);
-  const [isAdd, setAdd] = useState(false);
-  const handleSaveRef = useRef();
+
 
   const [containedIDs, setContainedIDs] = useState([]);
   const [dateOfRequest, setDateOfRequest] = useState(""); 

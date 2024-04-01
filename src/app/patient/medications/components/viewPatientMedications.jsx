@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import LabTestList from "../../lab_tests/page";
+import LabTestList from "../../lab_tests/LaboratoryList";
 import { getMedicationRequests } from "../../../../../lib/backend/health_records/getMedicationRequest";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
 
