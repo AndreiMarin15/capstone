@@ -1,12 +1,14 @@
+"use client";
+
 import { usePatientInfo } from "@/app/store";
 import { useEffect } from "react";
 export default function SignUpSocialHistory() {
   const patientStore = usePatientInfo();
 
   const disabledInputStyle = {
-    backgroundColor: "#ccc", 
-    color: "#666", 
-    cursor: "not-allowed", 
+    backgroundColor: "#ccc",
+    color: "#666",
+    cursor: "not-allowed",
   };
 
   return (

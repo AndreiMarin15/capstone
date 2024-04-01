@@ -1,3 +1,5 @@
+"use client"; 
+
 import { usePatientInfo } from "@/app/store";
 import { useEffect, useState } from "react";
 import { PatientSignUp as signUp } from "../../../../lib/backend/signup/patient_signup";

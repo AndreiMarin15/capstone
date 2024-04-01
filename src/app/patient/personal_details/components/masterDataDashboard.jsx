@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router"; // Corrected import statement
 import { useState, useEffect } from "react";
 import { getMasterData } from "../../../../../lib/backend/patient/personal_details/master_data";
 import EditMasterData from "./sub_components/editMasterData";
