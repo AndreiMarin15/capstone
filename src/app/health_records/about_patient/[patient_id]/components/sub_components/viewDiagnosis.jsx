@@ -14,7 +14,7 @@ export default function ViewDiagnosis() {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
-      variable: "Doctor Who Diagnosed",
+      variable: "Doctor Who Diagnose",
       value: "Dr. John Doe",
     },
     {
