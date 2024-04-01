@@ -329,13 +329,17 @@ export default function Referral() {
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
 											{currentInfo?.name ? currentInfo.name : ""}
-											<div className="flex ">
-												<div className="mr-5 text-m text-zinc-600">
-													<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
-												</div>
-												<div className="text-m text-zinc-600">
-													<span className="text-black text-sm">About: {currentInfo?.patient ?? ""}</span>
-												</div>
+
+											<div className="mr-5 text-m text-zinc-600">
+												<span className="text-black font-medium">{currentInfo?.specialty ?? ""}</span>
+											</div>
+											<div className="text-m text-zinc-600">
+												<span className="text-black text-sm">PATIENT: {currentInfo?.patient ?? ""}</span>
+											</div>
+											<div className="text-xs text-zinc-600">
+												<span className="text-black text-sm">
+													Referral Note: <span className="font-normal">{currentInfo?.notes ?? ""}</span>
+												</span>
 											</div>
 										</div>
 									</div>
