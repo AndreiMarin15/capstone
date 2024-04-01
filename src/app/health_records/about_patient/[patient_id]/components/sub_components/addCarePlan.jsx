@@ -141,7 +141,7 @@ export default function AddCarePlan({
             <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
               <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
                 <tbody>
-                  <tr className="flex gap-5 justify-between mb-3 w-full">
+                  <tr className="flex gap-3 justify-between mb-3 w-full">
                     <td className="flex gap-2 my-auto font-semibold text-black">
                       <div className="flex gap-4 my-auto font-semibold text-black">
                         <Image
@@ -161,11 +161,11 @@ export default function AddCarePlan({
                           setTitle(e.target.value);
                         }}
                         type="text"
-                        className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                        className="justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
                       />
                     </td>
                   </tr>
-                  <tr className="flex gap-5 justify-between mb-3 w-full">
+                  <tr className="flex gap-3 justify-between mb-3 w-full">
                     <td className="flex gap-2 my-auto font-semibold text-black">
                       <div className="flex gap-4 my-auto font-semibold text-black">
                         <Image
@@ -185,7 +185,8 @@ export default function AddCarePlan({
                           setDietaryManagement(e.target.value);
                         }}
                         value={dietaryManagement}
-                        className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        style={{ overflow: "hidden" }}
+                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />{" "}
                     </td>
                   </tr>
@@ -209,7 +210,8 @@ export default function AddCarePlan({
                           setPhysicalActivities(e.target.value);
                         }}
                         value={physicalActivities}
-                        className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        style={{ overflow: "hidden" }}
+                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />{" "}
                     </td>
                   </tr>
@@ -233,7 +235,8 @@ export default function AddCarePlan({
                           setSelfMonitoring(e.target.value);
                         }}
                         value={selfMonitoring}
-                        className="justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        style={{ overflow: "hidden" }}
+                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />
                     </td>
                   </tr>

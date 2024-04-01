@@ -131,8 +131,7 @@ export default function Referral() {
 
 	const generateRequest = async () => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
-				"/requestApproval",
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/requestApproval",
 			{
 				method: "POST",
 				headers: {
@@ -165,9 +164,17 @@ export default function Referral() {
 			console.log(requ);
 
 			handleApproval(status, requ);
-			toast.success("OTP Verified", { position: "top-left", theme: "colored", autoClose: 2000 });
+			toast.success("OTP Verified", {
+				position: "top-left",
+				theme: "colored",
+				autoClose: 2000,
+			});
 		} else {
-			toast.error("Invalid OTP. Please try again.", { position: "top-left", theme: "colored", autoClose: 2000 });
+			toast.error("Invalid OTP. Please try again.", {
+				position: "top-left",
+				theme: "colored",
+				autoClose: 2000,
+			});
 			// prompt("Invalid OTP. Please try again.");
 		}
 		//  add logic to verify the OTP
@@ -386,17 +393,19 @@ export default function Referral() {
 										className="shadow-sm bg-white self-center flex w-full max-w-full flex-col items-stretch px-12 py-3.5 max-md:max-w-full max-md:px-5"
 										onSubmit={handleSubmit}
 									>
-										<input
-											className="text-zinc-500 text-base leading-6 whitespace-nowrap bg-stone-50 pl-5 pr-16 pt-3.5 pb-14 rounded-lg items-start max-md:max-w-full max-md:pr-5"
+										<textarea
+											className="text-zinc-500 text-base leading-6 bg-stone-50 pl-5 pr-5 pt-3.5 pb-14 rounded-lg items-start max-w-full max-w-180px max-md:pr-5"
 											placeholder=" Message..."
 											name="message"
 											onChange={handleMessageChange}
 											value={message}
 											required
+											style={{ overflow: "hidden", resize: "none" }}
 										/>
 										<div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
-											<span className="flex items-stretch gap-2 my-auto"></span>
-											<div>
+											{/* <span className="flex items-stretch gap-2 my-auto"></span> */}
+											<div className="flex gap-2">
+												{" "}
 												<Image
 													alt="picture"
 													height={0}
