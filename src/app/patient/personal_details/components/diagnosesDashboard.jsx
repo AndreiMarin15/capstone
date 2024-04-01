@@ -14,7 +14,7 @@ import { getFinalDiagnosisObservations } from "../../../../../lib/backend/health
 import { getEncounterByPatientId } from "../../../../../lib/backend/health_records/getEncounter";
 import { getPatientRawData } from "../../../../../lib/backend/patient/personal_details/master_data";
 export default function Diagnoses() {
-  const variables = ["Diagnoses", "Date of Diagnosis", "Status", "Doctor", "Hospital"];
+  const variables = ["Diagnoses", "Date of Diagnosis", "Doctor", "Hospital"];
   const [patientData, setPatientData] = React.useState(null);
   const [finalDiagnoses, setFinalDiagnoses] = React.useState([]);
   const [encounters, setEncounters] = React.useState([]);
@@ -123,8 +123,7 @@ React.useEffect(() => {
                                   <span className={`text-sm ${variable === "Diagnoses" ? 'font-bold' : ''}`}>
                                       {variable === "Diagnoses" ? diagnosis.resource.valueString :
                                           (variable === "Date of Diagnosis" ? encounters[index]?.resource.period.start :
-                                              (variable === "Status" ? "Being Managed" :
-                                                  (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable])))}
+                                                  (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable]))}
                                   </span>
                               </td>
                           ))}

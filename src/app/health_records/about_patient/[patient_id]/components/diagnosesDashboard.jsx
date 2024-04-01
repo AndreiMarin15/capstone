@@ -13,7 +13,7 @@ import { getFinalDiagnosisObservations } from "../../../../../../lib/backend/hea
 import { getEncounterByPatientId } from "../../../../../../lib/backend/health_records/getEncounter";
 
 export default function Diagnoses({ patientId }) {
-    const variables = ["Diagnoses", "Date of Diagnosis", "Status", "Doctor", "Hospital"];
+    const variables = ["Diagnoses", "Date of Diagnosis","Doctor", "Hospital"];
     const [finalDiagnoses, setFinalDiagnoses] = React.useState([]);
     const [encounters, setEncounters] = React.useState([]);
 
@@ -101,8 +101,8 @@ export default function Diagnoses({ patientId }) {
                                   <span className={`text-sm ${variable === "Diagnoses" ? 'font-bold' : ''}`}>
                                       {variable === "Diagnoses" ? diagnosis.resource.valueString :
                                           (variable === "Date of Diagnosis" ? encounters[index]?.resource.period.start :
-                                              (variable === "Status" ? "Being Managed" :
-                                                  (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable])))}
+                                             
+                                                  (variable === "Doctor" ? diagnosis.resource.participant.actor : diagnosis.resource[variable]))}
                                   </span>
                               </td>
                           ))}
