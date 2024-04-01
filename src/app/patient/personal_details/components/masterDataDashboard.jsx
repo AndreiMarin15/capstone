@@ -7,7 +7,7 @@ import { currentUser } from "../../../store";
 import { PatientEditInfo as editInfo } from "../../../../../lib/backend/patient/edit/edit_info";
 export default function MasterData() {
 	const [currentPage, setCurrentPage] = useState(0);
-
+	const [isEditingMaster, setIsEditingMaster] = useState(false);
 	const [mData, setmData] = useState([
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/86bc0813aecf897cafa42df901705c229a0a744cbf822394277aece4f7f5aa61?",
