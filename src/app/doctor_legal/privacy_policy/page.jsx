@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
           <div className="flex flex-col w-4/12 max-md:ml-0 max-md:w-full">
             <button
               onClick={() => {
-                router.push("/patient/legal/terms_of_service");
+                router.push("/doctor_legal/terms_of_service");
               }}
               className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-sky-900 bg-white rounded border border-sky-900 hover:bg-blue-500 hover:text-white border-solid max-md:px-5 max-md:mt-10"
             >
@@ -100,8 +100,8 @@ export default function PrivacyPolicy() {
                   >
                     Introduction
                   </button>
-                  {/* <br />
-                  <button
+                  <br />
+                  {/* <button
                     className="hover:underline"
                     onClick={() =>
                       definitionsRef.current.scrollIntoView({
@@ -110,8 +110,8 @@ export default function PrivacyPolicy() {
                     }
                   >
                     Definitions
-                  </button> */}
-                  <br />
+                  </button>
+                  <br /> */}
                   <button
                     className="hover:underline"
                     onClick={() =>
@@ -407,7 +407,7 @@ export default function PrivacyPolicy() {
         >
           For how long do we store your data?
         </div>
-        <div className="mt-6 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 mb-8 text-sm leading-5 text-black  max-md:max-w-full">
           {
             "We retain your health data for as long as required by law or as necessary to accomplish a legitimate purpose. Here's a breakdown of our data retention policy:"
           }

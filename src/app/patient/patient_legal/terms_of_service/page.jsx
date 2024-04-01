@@ -20,7 +20,7 @@ const TermsOfService = () => {
           </div>
           <div className="flex flex-col w-4/12 max-md:ml-0 max-md:w-full">
             <button onClick={() => {
-                router.push("/patient/legal/privacy_policy");
+                router.push("/patient/patient_legal/privacy_policy");
               }}
               className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-sky-900 bg-white rounded border border-sky-900 hover:bg-blue-500 hover:text-white border-solid max-md:px-5 max-md:mt-10">
               Privacy Policy
@@ -29,7 +29,7 @@ const TermsOfService = () => {
           <div className="flex flex-col w-4/12 max-md:ml-0 max-md:w-full">
             <button
               onClick={() => {
-                router.push("/patient/legal/terms_of_service");
+                router.push("/patient/patient_legal/terms_of_service");
               }}
               className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-white bg-blue-500 rounded border border-white border-solid max-md:px-5 max-md:mt-10">
               

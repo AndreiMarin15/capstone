@@ -34,7 +34,7 @@ const navigation = [
 	},
 	{
 		name: "Legal Notices",
-		href: "/legal",
+		href: "/doctor_legal",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/5b215db570dce3331c1d756a9bd33ac4707518a8b2db9764d3818bef87b91718?apiKey=7e8c8e70f3bd479289a042d9c544736c&",
 	},
 ];
@@ -93,7 +93,7 @@ const patientNavigation = [
 
 	{
 		name: "Legal Notices",
-		href: "/patient/legal",
+		href: "/patient/patient_legal",
 		src: "https://cdn.builder.io/api/v1/image/assets/TEMP/5b215db570dce3331c1d756a9bd33ac4707518a8b2db9764d3818bef87b91718?apiKey=7e8c8e70f3bd479289a042d9c544736c&",
 	},
 ];
