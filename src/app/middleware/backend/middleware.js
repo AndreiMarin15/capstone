@@ -3,7 +3,7 @@ import { useUserInfo } from "../../store";
 const middleware = {
 	signUp: async () => {
 		const data = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") + "/newUser",
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/newUser",
 			{
 				method: "POST",
 				headers: {
@@ -24,7 +24,7 @@ const middleware = {
 
 	logIn: async () => {
 		const data = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") + "/login",
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/login",
 			{
 				method: "POST",
 				headers: {
@@ -37,7 +37,7 @@ const middleware = {
 			}
 		);
 
-		console.log(data);
+		console.log("data", data);
 
 		return data.json();
 	},

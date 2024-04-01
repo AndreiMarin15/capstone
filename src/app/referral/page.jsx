@@ -111,7 +111,7 @@ export default function Referral() {
 
 	const handleApproval = async (value, id) => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
 				"/updateRequestStatus",
 			{
 				method: "POST",
@@ -131,7 +131,7 @@ export default function Referral() {
 
 	const generateRequest = async () => {
 		const response = await fetch(
-			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") +
+			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
 				"/requestApproval",
 			{
 				method: "POST",

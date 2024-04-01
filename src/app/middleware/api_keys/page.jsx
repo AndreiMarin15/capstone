@@ -28,19 +28,21 @@ export default function MyTable() {
 	}
 	useEffect(() => {
 		console.log(data);
-		setCensoredData(
-			data.map((item) => ({
-				...item,
-				key: censorKey(item.key),
-			}))
-		);
+		if (data.data != null && data.data.length > 0) {
+			setCensoredData(
+				data.data.map((item) => ({
+					...item,
+					key: censorKey(item.key),
+				}))
+			);
+		}
 	}, [data]);
 
 	useEffect(() => {
 		console.log(mUser);
 		const fetchKeys = async () => {
 			const response = await fetch(
-				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user/user") + "/getKeys",
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/getKeys",
 				{
 					method: "POST",
 					headers: {
@@ -80,7 +82,11 @@ export default function MyTable() {
 		console.log(newKey);
 		setNewApiKey(newKey[0].key);
 		setModalIsOpen(true);
-		setData([{ created_at: new Date().toISOString(), key: newKey[0].key }, ...data]);
+		if (data.length > 0) {
+			setData([{ created_at: new Date().toISOString(), key: newKey[0].key }, ...data]);
+		} else {
+			setData([{ created_at: new Date().toISOString(), key: newKey[0].key }]);
+		}
 	};
 
 	// Use censoredData instead of data in your render method
@@ -122,12 +128,13 @@ export default function MyTable() {
 					</thead>
 
 					<tbody style={{ maxHeight: "500px", overflow: "auto" }}>
-						{censoredData.map((item, index) => (
-							<tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
-								<td className="border px-4 py-2 text-center">{formatDateTime(item.created_at)}</td>
-								<td className="border px-4 py-2 text-center">{censorKey(item.key)}</td>
-							</tr>
-						))}
+						{censoredData.length > 0 &&
+							censoredData.map((item, index) => (
+								<tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
+									<td className="border px-4 py-2 text-center">{formatDateTime(item.created_at)}</td>
+									<td className="border px-4 py-2 text-center">{censorKey(item.key)}</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>
