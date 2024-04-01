@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import BackButton from "./BackButton";
-
-export default function FamilyHistory({ currentPage, setCurrentPage, data }) {
+export default function FamilyHistory({ data }) {
   useEffect(() => {
     const tempHistory = fHistory;
     tempHistory[0].value = data["first_name"];
@@ -82,10 +80,6 @@ export default function FamilyHistory({ currentPage, setCurrentPage, data }) {
           </tr>
         ))}
       </table>
-
-      <div className="flex justify-between items-center mt-5">
-        <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      </div>
     </>
   );
 }
