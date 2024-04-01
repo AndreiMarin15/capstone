@@ -3,11 +3,32 @@ import Image from "next/image";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
 import { useState, useRef } from "react";
 
+const ImageModal = ({ src, onClose }) => {
+  return (
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-75">
+      <div className="max-w-screen-lg">
+        <img src={src} alt="full" className="max-w-full max-h-full" />
+        <button className="absolute top-4 right-4 text-white" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default function UploadLab({currentPage, setCurrentPage}) {
-  const [uploadedFile, setUploadedFile] = useState(null);
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]); // Define the rows state variable
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   const fileInputRef = useRef(null);
   const handleUploadClick = () => {
@@ -51,12 +72,13 @@ export default function UploadLab({currentPage, setCurrentPage}) {
     const file = files[0];
     try {
       const base64Image = await getImageBase64(file);
-      setUploadedFile(base64Image); // Set the uploaded file state
+  // Set the uploaded file state
+      setUploadedImageSrc(base64Image); // Set the uploaded image source state
     } catch (error) {
-      console.error("Error converting image to Base64:", error);
+      console.error("Error uploading file:", error);
     }
   };
-
+  
   const getImageBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -101,24 +123,31 @@ export default function UploadLab({currentPage, setCurrentPage}) {
                 <div className="flex items-center"> {/* Flex container */}
                   <div className="text-black text-xs font-semibold leading-5 self-center my-auto  ml-10">Upload Image</div> {/* Text */}
                   <span
-                    className="bg-white flex w-[275px] max-w-full flex-col items-center mt-6 px-20 py-10 border-[0.5px] ml-6 border-solid border-black self-start max-md:px-5"
+                    className="bg-white flex  max-w-full flex-col items-center mt-6 px-20 py-20 border-[0.5px] ml-6 border-solid border-black self-start max-md:px-5"
                     onDrop={(e) => handleDrop(e)}
                     onDragOver={(e) => handleDragOver(e)}
                   >
-                    {uploadedFile ? (
-                      <>
-                        <img
-                          src={URL.createObjectURL(uploadedFile)}
-                          alt="uploaded"
-                          className="w-full max-w-full h-auto"
-                        />
-                        <button
-                          className="text-sky-600 text-xs font-light leading-5 underline whitespace-nowrap mt-3.5"
-                          onClick={() => handleCancelUpload()}
-                        >
-                          Cancel
-                        </button>
-                      </>
+                   {uploadedImageSrc ? (
+                        <>
+                          <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
+                            <div 
+                              className="w-auto max-w-full cursor-pointer flex justify-center"
+                              onClick={handleOpenModal}
+                            >
+                              <img
+                                src={uploadedImageSrc}
+                                alt="uploaded"
+                                style={{ maxWidth: "400px", maxHeight: "600px" }} // Set a specific maxHeight
+                              />
+                            </div>
+                          </div>
+                          <button
+                            className="mt-2 text-sky-600 underline cursor-pointer text-sm"
+                            onClick={() => setUploadedImageSrc(null)}
+                          >
+                            Cancel
+                          </button>
+                        </>
                     ) : (
                       <>
                         <Image
@@ -218,9 +247,15 @@ export default function UploadLab({currentPage, setCurrentPage}) {
               <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </div>
             <div className="flex flex-col max-md:max-w-full max-md:mt-7">
-              <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">SAVE</button>
+              <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
+                SAVE
+                </button>
             </div>
+            
           </div>
+          {isModalOpen && (
+              <ImageModal src={uploadedImageSrc} onClose={handleCloseModal} />
+            )}
         </div>
       </div>
     </span>
