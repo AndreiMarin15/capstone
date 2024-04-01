@@ -27,7 +27,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					pathname !== "/patient_form" &&
 					pathname !== "/doctor_form" &&
 					pathname !== "/require_auth" &&
-					!pathname.includes("/legal")
+					!pathname.includes("/legal")&&
+					!pathname.includes("/middleware")
 				) {
 					router.push("/require_auth");
 				}

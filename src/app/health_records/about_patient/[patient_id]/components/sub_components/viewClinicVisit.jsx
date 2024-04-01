@@ -380,6 +380,9 @@ export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId
           <LabTestList
             currentScreen={currentScreen}
             setCurrentScreen={setCurrentScreen}
+            patientId={patientId} 
+            encounterId={encounterId}
+            clinicVisitNumber={clinicVisitNumber}
           />
         </>
       )}
