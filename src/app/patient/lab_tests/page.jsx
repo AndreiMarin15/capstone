@@ -324,7 +324,7 @@ const addLabTestData = async (data) => {
       </div>
     ) : currentPage === 2 ? (
       <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
-        <UploadLab currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+        <UploadLab currentPage={currentPage} setCurrentPage={setCurrentPage} observationId={ selectedObservationId }  setCurrentScreen={setCurrentScreen}/>
       </div>
     ) :  currentPage === 4 ? (
       <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">

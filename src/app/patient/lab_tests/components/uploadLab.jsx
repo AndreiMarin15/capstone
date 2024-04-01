@@ -1,7 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { getObservationById, updateObservation } from "../../../../../lib/backend/health_records/getObservation";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ImageModal = ({ src, onClose }) => {
   return (
@@ -16,10 +19,79 @@ const ImageModal = ({ src, onClose }) => {
   );
 };
 
-export default function UploadLab({currentPage, setCurrentPage}) {
+export default function UploadLab({currentPage, setCurrentPage, observationId, setCurrentScreen}) {
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
-  const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]); // Define the rows state variable
+
+  const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [observations, setObservations] = useState([]);
+  const [dateTaken, setDateTaken] = useState("");
+
+  useEffect(() => {
+    async function fetchObservations() {
+      console.log(observationId);
+      try {
+        const observationsData = await getObservationById(observationId);
+        console.log(observationsData);
+        setObservations(observationsData);
+      } catch (error) {
+        console.error("Error fetching observations:", error);
+      }
+    }
+
+    fetchObservations();
+  }, []);
+
+
+  const handleSave = async () => {
+const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    
+    const newDateFieldValue = `${year}-${month}-${day}`;
+    console.log(newDateFieldValue);
+
+
+    try {
+      // Construct payload with updated data
+      const updatedObservationData = {
+        resource: {
+          ...observations.resource, // Keep existing resource data
+          status: 'final',
+          imageSrc: uploadedImageSrc, // Update imageSrc with uploadedImageSrc
+          uploadedDateTime: newDateFieldValue,
+          effectiveDateTime: dateTaken,
+          valueQuantity: {
+            valueQuantities: rows.map(row => ({ 
+              display: row.labValueName,
+              value: row.value, 
+              unit: row.unit 
+            }))
+          }
+        }
+     
+      };
+  
+      // Send updated data to backend to update observation
+      const response = await updateObservation(observationId, updatedObservationData);
+  
+      // Handle success response from backend
+      console.log("Observation updated successfully:", response);
+    
+      toast.success("Lab Test Recorded", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000,
+    });
+
+    setCurrentScreen(0);
+
+    } catch (error) {
+      console.error("Error updating observation:", error);
+    }
+ 
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -33,6 +105,10 @@ export default function UploadLab({currentPage, setCurrentPage}) {
   const fileInputRef = useRef(null);
   const handleUploadClick = () => {
     fileInputRef.current.click();
+  };
+
+  const handleDateTakenChange = (event) => {
+    setDateTaken(event.target.value); // Update the dateTaken state
   };
 
   const handleLabValueNameChange = (value, index) => {
@@ -72,8 +148,10 @@ export default function UploadLab({currentPage, setCurrentPage}) {
     const file = files[0];
     try {
       const base64Image = await getImageBase64(file);
-  // Set the uploaded file state
-      setUploadedImageSrc(base64Image); // Set the uploaded image source state
+      // Extract only the base64 string without the data URL prefix
+      const base64String = base64Image.split(",")[1];
+      // Set the uploaded file state with the extracted base64 string
+      setUploadedImageSrc(base64String);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -114,6 +192,8 @@ export default function UploadLab({currentPage, setCurrentPage}) {
                   type="date"
                   className="text-black text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
                   placeholder="YYYY-MM-DD"
+                  value={dateTaken} // Bind value to dateTaken state
+                  onChange={handleDateTakenChange} // Call handleDateTakenChange on change
                 />
               </td>
             </tr>
@@ -135,7 +215,7 @@ export default function UploadLab({currentPage, setCurrentPage}) {
                               onClick={handleOpenModal}
                             >
                               <img
-                                src={uploadedImageSrc}
+                               src={`data:image/png;base64,${uploadedImageSrc}`} 
                                 alt="uploaded"
                                 style={{ maxWidth: "400px", maxHeight: "600px" }} // Set a specific maxHeight
                               />
@@ -247,9 +327,12 @@ export default function UploadLab({currentPage, setCurrentPage}) {
               <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </div>
             <div className="flex flex-col max-md:max-w-full max-md:mt-7">
-              <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
-                SAVE
-                </button>
+            <button
+              className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5"
+              onClick={handleSave}
+            >
+              SAVE
+            </button>
             </div>
             
           </div>
@@ -260,4 +343,4 @@ export default function UploadLab({currentPage, setCurrentPage}) {
       </div>
     </span>
   );
-            }
+}
