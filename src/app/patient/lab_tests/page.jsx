@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react"; // <-- Import useSta
 import Image from "next/image";
 import UploadLab from "./components/uploadLab";
 import AddLab from "./components/addLab";
+import ViewLab from "./components/viewLab";
 import doctor from "../../../../lib/backend/health_records/doctor";
 import 'react-toastify/dist/ReactToastify.css';
 import BackButton from "../personal_details/components/sub_components/BackButton";
@@ -63,30 +64,34 @@ export default function LaboratoryList( {currentScreen, setCurrentScreen, patien
   
       // Fetch observations
       const observationsData = await getObservation();
-  
-      // Filter observationIds by newContainedIDs
-      const filteredObservationIds = observationsData
-        .filter(observation => newContainedIDs.includes(observation.id))
-        .map(observation => observation.id);
+      console.log(observationsData);
+
+      const observationIds = observationsData.map(observation => observation.id);
+
+      const filteredObservationIds = observationIds.filter(id => newContainedIDs.includes(id));
+
+      console.log(filteredObservationIds);
   
       // Extract data within observation.resource based on filteredObservationIds
       const filteredObservationData = observationsData
         .filter(observation => filteredObservationIds.includes(observation.id))
         .map(observation => observation.resource);
   
-      const labTestObservations = filteredObservationData
-        .filter(observation => observation.id === "labtest")
+        console.log(filteredObservationData);
+
+        const labTestObservations = observationsData
+        .filter(observation => newContainedIDs.includes(observation.id) && observation.resource.id === "labtest")
         .map(observation => ({
           id: observation.id,
-          doctor: observation.participant.actor,
-          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-          variable: observation.codeText,
-          update: observation.uploadedDateTime,
-          date: observation.effectiveDateTime,
-          reqdate: observation.requestedDateTime,
-          status: observation.status
-        }));
-  
+          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
+          variable: observation.resource.codeText,
+          update: observation.resource.uploadedDateTime,
+          date: observation.resource.effectiveDateTime,
+          reqdate: observation.resource.requestedDateTime,
+          status: observation.resource.status
+      }));
+      
+      console.log(labTestObservations);
       // Set lab test observations state
       setLabTests(labTestObservations);
       setCurrentScreen(currentScreen);
@@ -231,9 +236,13 @@ const addLabTestData = async (data) => {
           {labTests.map((item) => (
             <button
               onClick={() => {
-                // Check if the status is not "requested"
-                setCurrentPage(2);
+                if (item.status === "requested") {
+                  setCurrentPage(2);
+                } else if (item.status === "final") {
+                  setCurrentPage(4);
+                }
                 setSelectedObservationId(item.id);
+                console.log(selectedObservationId);
               }}
               className={`flex flex-col mt-8`}
               key={item.variable}
@@ -317,6 +326,12 @@ const addLabTestData = async (data) => {
       <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
         <UploadLab currentPage={currentPage} setCurrentPage={setCurrentPage}/>
       </div>
+    ) :  currentPage === 4 ? (
+      <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
+        <ViewLab currentPage={currentPage} setCurrentPage={setCurrentPage} observationId={ selectedObservationId }/>
+      </div>
+
+
     ) : (
       <></>
     ),
