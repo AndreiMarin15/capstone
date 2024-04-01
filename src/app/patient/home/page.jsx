@@ -22,10 +22,80 @@ export default function Home() {
 			const patient = await dashboard.getPatientData();
 			const careplan = await dashboard.getLatestCarePlan();
 			console.log(patient);
-			console.log(careplan);
-
+			console.log(careplan.resource);
+			setCareplan(careplan.resource);
 			setPatient(patient);
 		};
+
+		// {
+		//   id: 41,
+		//   ts: '2024-04-01T07:51:28.69378+00:00',
+		//   resource_type: 'CarePlan',
+		//   status: 'created',
+		//   resource: {
+		//     title: 'Care Plan No. 1',
+		//     period: { end: '2024-04-05', start: '2024-04-01' },
+		//     created: '2024-04-01',
+		//     subject: {
+		//       display: 'Juana Dela Cruz',
+		//       reference: 'a1e1a24a-631e-456c-b77e-cdc4be694d85'
+		//     },
+		//     activity: [
+		//       {
+		//         detail: {
+		//           code: {
+		//             text: 'Dietary counseling',
+		//             coding: [
+		//               {
+		//                 code: '18771-9',
+		//                 system: 'http://loinc.org',
+		//                 display: 'Dietary counseling'
+		//               }
+		//             ]
+		//           },
+		//           description: 'Emphasize consuming small, frequent meals'
+		//         }
+		//       },
+		//       {
+		//         detail: {
+		//           code: {
+		//             text: 'Strength training exercise',
+		//             coding: [
+		//               {
+		//                 code: '72333-2',
+		//                 system: 'http://loinc.org',
+		//                 display: 'Strength training exercise'
+		//               }
+		//             ]
+		//           },
+		//           description: 'Aim for a combination of aerobic exercises'
+		//         }
+		//       },
+		//       {
+		//         detail: {
+		//           code: {
+		//             text: 'Lifestyle counseling',
+		//             coding: [
+		//               {
+		//                 code: '61150-9',
+		//                 system: 'http://loinc.org',
+		//                 display: 'Lifestyle counseling'
+		//               }
+		//             ]
+		//           },
+		//           description: 'Monitor blood glucose levels regularly'
+		//         }
+		//       }
+		//     ],
+		//     contributor: [
+		//       {
+		//         display: 'Harold Chiu',
+		//         reference: 'a56352b7-f66b-4014-9610-8d7101d29723'
+		//       }
+		//     ],
+		//     description: 'Careplan for Juana Dela Cruz'
+		//   }
+		// }
 
 		getData();
 	}, []);
@@ -87,7 +157,7 @@ export default function Home() {
 						</div>
 						<div className="flex flex-col items-start py-6 pr-20 pl-8 mt-6 text-xs leading-5 text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:max-w-full">
 							<div className="text-base font-semibold">Latest Care Plan(s)</div>
-							<div className="mt-4 font-semibold text-blue-500">Care Plan #2</div>
+							<div className="mt-4 font-semibold text-blue-500">{careplanData.title ?? "No Careplans Yet"}</div>
 							<div className="flex gap-1 mt-3.5 whitespace-nowrap">
 								<Image
 									alt="image"
@@ -97,7 +167,7 @@ export default function Home() {
 									src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d2d16adc26cdf297cc56f2b11bf7445f300308e55e3580060a017039d865f09?"
 									className="self-start w-3 aspect-square"
 								/>
-								<div className="grow">From Dr. John Doe - Endocrinologist</div>
+								<div className="grow">From Dr. {careplanData.title ? careplanData.contributor[0].display : ""}</div>
 							</div>
 							<div className="flex gap-1 mt-1.5 whitespace-nowrap">
 								<Image
@@ -108,23 +178,19 @@ export default function Home() {
 									src="https://cdn.builder.io/api/v1/image/assets/TEMP/c143ab5d1cdb22259fa52ecbdeff08a38239d2dc5c1367b795e50464ab9c2249?"
 									className="w-2.5 aspect-square"
 								/>
-								<div className="flex-auto">2023-08-05</div>
+								<div className="flex-auto">{careplanData.title ? careplanData.created : ""}</div>
 							</div>
-							<div className="mt-3.5 font-semibold text-blue-500">Prescribed Medication(s)</div>
+							<div className="mt-3.5 font-semibold text-blue-500">Details</div>
 							<div className="flex gap-5 justify-between pr-8 mt-1.5 max-w-full whitespace-nowrap w-[229px] max-md:pr-5">
 								<div className="flex flex-col font-semibold">
-									<div>Brand Name</div>
-									<div className="mt-1.5">Generic Name</div>
-									<div className="mt-1.5">Dose</div>
-									<div className="mt-1.5">Form</div>
-									<div className="mt-1.5">Quantity</div>
-								</div>
-								<div className="flex flex-col">
-									<div>Metformin</div>
-									<div className="mt-1.5">Metformin</div>
-									<div className="mt-1.5">50 mg</div>
-									<div className="mt-1.5">Tablet</div>
-									<div className="mt-1.5">30</div>
+									{careplanData.title &&
+										careplanData.activity.map((activity) => {
+											return (
+												<div key={activity.detail.code.text} className="mt-1.5">
+													{activity.detail.code.text}
+												</div>
+											);
+										})}
 								</div>
 							</div>
 							<div className="mt-11 text-xs font-medium text-blue-500 underline max-md:mt-10">
