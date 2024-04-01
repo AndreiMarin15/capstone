@@ -11,12 +11,15 @@ import VitalsBiometrics from "./components/vitalsDashboard";
 import Diagnoses from "./components/diagnosesDashboard";
 import { usePatientHRNav } from "../../store";
 import { healthRecords } from "../../../../lib/backend/health_records/health_records";
-
 export default function PatientData() {
   const { selected } = usePatientHRNav();
   const router = useRouter();
   const [currentPage, setCurrentPage] = React.useState(0);
 
+
+
+
+  
   return (
     <>
       <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
@@ -46,7 +49,8 @@ export default function PatientData() {
                   </>
                 ) : selected === "Clinic Visits" ? (
                   <>
-                    <ClinicVisits />
+                     <ClinicVisits
+                  />
                   </>
                 ) : (
                   ""

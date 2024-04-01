@@ -405,7 +405,7 @@ export default function Vitals() {
             </div>
           </div>
 
-          <BackButton />
+         
         </div>
       )}
 

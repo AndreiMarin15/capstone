@@ -12,27 +12,22 @@ const BackButton = ({
   const router = useRouter();
 
   const handleBack = () => {
-    if (
-      currentPage === 10 ||
-      currentPage === 1 ||
-      currentPage === 2 ||
-      currentPage === 3 ||
-      currentPage === 4
-    ) {
+    if (currentPage === 10 || currentPage === 1 || currentPage === 3 || currentPage === 4) {
       setCurrentPage(0);
-    } else if (currentScreen === 1 || currentScreen === 2) {
-      setCurrentScreen(0);
-    } else if (currentScreen === 3) {
-      setCurrentScreen(2);
-    } else if (currentScreen === 4) {
+    } else if (currentPage === 2) {
+      setCurrentPage(0); // Set currentPage to 0 if currentPage is 2
+    } else if (currentScreen === 1) {
+      setCurrentScreen(0); // Set currentScreen to 0 if currentScreen is 1
+    } else if (currentScreen === 2) {
+      setCurrentScreen(0); // Set currentScreen to 1 if currentScreen is 2
+    } else if (currentScreen === 3 || currentScreen === 4) {
       setCurrentScreen(2);
     } else if (currentScreen === 5) {
       setCurrentScreen(0);
     } else {
-      router.push("/health_records"); // Navigate back to the default route
+      router.push("/patient/personal_details");
     }
   };
-
   return (
     <div className="flex items-start justify-between mt-5">
       <button

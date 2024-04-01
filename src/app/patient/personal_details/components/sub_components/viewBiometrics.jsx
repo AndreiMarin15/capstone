@@ -188,7 +188,7 @@ export default function ViewBiometrics({
         </div>
       </div>
 
-      <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      
     </>
   );
 }

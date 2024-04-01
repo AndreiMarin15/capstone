@@ -189,33 +189,30 @@ export default function MedicationsDashboard() {
 
           </div>
           {medications
-            .filter((medication) => {
-              const validityPeriodEnd = new Date(
-                medication.resource.dispenseRequest.validityPeriod.end
-              );
-              if (status === "ACTIVE") {
-                return (
-                  medication.resource.subject.reference === patientId &&
-                  validityPeriodEnd >= today &&
-                  medication.resource.status === "Active"
-                );
-              } else {
-                return (
-                  medication.resource.subject.reference === patientId &&
-                  (validityPeriodEnd < today ||
-                    medication.resource.status === "Inactive")
-                );
-              }
-            })
-            .map((medication, index) => (
-              <button
-                key={medication.resource.id}
-                onClick={() => {
-                  console.log(medication.resource.id);
-                  setRegis(medication.resource.id);
-                  setTest(true);
-                  setAdd(false);
-                }}
+						.filter((medication) => {
+
+							if (status === "ACTIVE") {
+								return (
+									medication.resource.subject.reference === patientId &&
+
+									medication.resource.status === "Active"
+								);
+							} else {
+								return (
+									medication.resource.subject.reference === patientId &&
+									(medication.resource.status === "Inactive")
+								);
+							}
+						})
+						.map((medication, index) => (
+							<button
+								key={medication.resource.id}
+								onClick={() => {
+									console.log(medication.resource.id);
+									setRegis(medication.resource.id);
+									setTest(true);
+									setAdd(false);
+								}}
               >
                 <div
                   key={index}

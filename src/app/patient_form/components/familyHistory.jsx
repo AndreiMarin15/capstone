@@ -1,4 +1,3 @@
-"use client"; 
 import { usePatientInfo } from "@/app/store";
 import { useEffect, useState } from "react";
 import FamilyMembersForm from "./subcomponents/familyMembers";

@@ -15,6 +15,7 @@ import { uploadObservation } from "../../../../../../../lib/backend/health_recor
 
 export default function LabTestList( {currentScreen, setCurrentScreen, patientId, encounterId, clinicVisitNumber} ) {
   const router = useRouter();
+ 
   const [testName, setTestName] = useState("");
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
@@ -93,6 +94,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
           id: observation.id,
           src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
           variable: observation.resource.codeText,
+          update: observation.resource.uploadedDateTime,
           date: observation.resource.effectiveDateTime,
           reqdate: observation.resource.requestedDateTime,
           status: observation.resource.status
@@ -129,7 +131,7 @@ export default function LabTestList( {currentScreen, setCurrentScreen, patientId
   const handleSave = async (observation) => {
     try {
       	
-     
+    
         if (observation !== undefined && observation !== null) {
             
           const savedData= await uploadObservation(observation);
@@ -173,7 +175,7 @@ const addLabTestData = async (data) => {
   const doctorInfo = await doctor.getDoctorByCurrentUser();
   console.log(doctorInfo);
   console.log(doctorInfo.fullName);
- 
+  console.log(data)
     try {
 
 
@@ -205,8 +207,9 @@ const addLabTestData = async (data) => {
                     value: val.value,
                 })),
             },
+            uploadedDateTime: data.dateOfUpdate,
             effectiveDateTime: data.dateOfResult,
-            requestedDateTime: dateOfRequest,
+            requestedDateTime: data.dateOfRequest,
             codeText: data.labTestName,
             imageSrc: data.base64Image,
         };
@@ -218,46 +221,48 @@ const addLabTestData = async (data) => {
     }
 };
 
-  return (
-    <>
-
-      {isTest ? (
-        <VisitLabtests
-          currentScreen={3}
-          setCurrentScreen={handleSetCurrentScreen}
-          observationId={selectedObservationId}
-        />
-      ) : isAdd ? (
-        <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} handleSave={(data) => {
-          addLabTestData(data);
-          handleSave();
-        }} />
-      ) : (
-
-        <>
-
-          <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
-            <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-              VISIT - LAB TESTS
-            </div>
-            <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
-              <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
-                <button
-                  onClick={() => {
-                    setTest(false);
-                    setAdd(true);
-                  }}
-                  className="text-xs font-semibold leading-5"
-                >
-                  Add
-                </button>
-              </span>
-            </div>
-          </span>
-          {labTests.map((item) => (
+return (
+  <>
+    {isTest ? (
+      <VisitLabtests
+        currentScreen={3}
+        setCurrentScreen={handleSetCurrentScreen}
+        observationId={selectedObservationId}
+      />
+    ) : isAdd ? (
+      <AddLabTest currentScreen={4} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} encounterId={encounterId} handleSave={(data) => {
+        addLabTestData(data);
+        handleSave();
+      }} />
+    ) : (
+      <>
+        <span className="flex max-w-full justify-between gap-5 items-start max-md:flex-wrap">
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            VISIT - LAB TESTS
+          </div>
+          <div className="flex aspect-[3.3333333333333335] flex-col justify-center items-stretch mt-1.5">
+            <span className="flex gap-1.5 justify-between px-10 py-1 rounded border border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5">
+              <button
+                onClick={() => {
+                  setTest(false);
+                  setAdd(true);
+                }}
+                className="text-xs font-semibold leading-5"
+              >
+                Add
+              </button>
+            </span>
+          </div>
+        </span>
+        {labTests.length === 0 ? ( // Check if labTests array is empty
+          <div className="text-black text-sm font-medium mt-4">
+            No lab tests available.
+          </div>
+        ) : (
+          labTests.map((item) => (
             <button
               onClick={() => {
-                if (item.status !== "requested") {
+                if (item.status !== "requested") { // Check if the status is not "requested"
                   setTest(true);
                   setAdd(false);
                   setSelectedObservationId(item.id);
@@ -283,12 +288,21 @@ const addLabTestData = async (data) => {
               </span>
               <span className="flex items-center gap-3 ml-8 mt-1 self-start w-full">
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "requested" ? "Date requested:" : "Date recorded:"} <br />
+                  <span style={{ fontWeight: 'bold' }}>Date requested:</span> <br />
                 </div>
                 <div className="text-black text-xs font-medium leading-5">
-                  {item.status === "final" ? item.date : item.reqdate} <br />
+                  <span>{item.reqdate}</span> <br />
                 </div>
-
+                {item.status === "final" && (
+                  <>
+                    <div className="text-black text-xs font-medium leading-5">
+                      <span style={{ fontWeight: 'bold' }}>Date uploaded:</span> <br />
+                    </div>
+                    <div className="text-black text-xs font-medium leading-5">
+                      <span>{item.update}</span> <br />
+                    </div>
+                  </>
+                )}
                 {item.status === "requested" && (
                   <div className="text-black text-xs font-medium leading-5 flex items-center">
                     <svg className="h-3 w-3 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -307,11 +321,11 @@ const addLabTestData = async (data) => {
                 )}
               </span>
             </button>
-          ))}
-          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
-        </>
-      )}
-
-    </>
-  );
-};
+          ))
+        )}
+        <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+      </>
+    )}
+  </>
+);
+                };
