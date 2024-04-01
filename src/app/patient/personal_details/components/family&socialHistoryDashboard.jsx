@@ -5,6 +5,7 @@ import { FaM } from "react-icons/fa6";
 import { getFamilyAndSocialHistory } from "../../../../../lib/backend/patient/personal_details/master_data";
 import EditFamilyHistory from "./sub_components/editFamilyHistory";
 
+
 export default function SocialHistory() {
   const [isEditingSocialHistory, setIsEditingSocialHistory] = useState(false);
   const [originalSocialHistory, setOriginalSocialHistory] = useState({}); // Store original data
@@ -54,6 +55,28 @@ export default function SocialHistory() {
     setFHistory(tempValue);
   }, [familyHistory]);
 
+  // SocialHistory.js
+  const [patientId, setPatientId] = useState(""); // This should be set based on your application's logic
+  const handleSave = async () => {
+    // Assuming you have the patient's ID and the updated details
+    const updatedDetails = {
+      smoking_status: smokingStatus,
+      cigarettes_per_day: cigarettesPerDay,
+      alcohol_consumption: alcoholConsumption,
+      physical_activities: physicalActivities,
+    };
+
+    const response = await PatientSignUp.updatePatientDetails(
+      patientId,
+      updatedDetails
+    );
+    if (response.success) {
+      // Handle success, e.g., show a success message
+    } else {
+      // Handle error, e.g., show an error message
+    }
+  };
+
   const [fHistory, setFHistory] = useState([]);
   const [sHistory, setSHistory] = useState([
     {
@@ -99,7 +122,7 @@ export default function SocialHistory() {
               className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
               onClick={() => setCurrentPage(2)}
             >
-              Edit Family History
+              Add Family History
             </button>
           </div>
 
@@ -241,6 +264,9 @@ export default function SocialHistory() {
               onClick={() => {
                 // Logic for saving changes
                 setIsEditingSocialHistory(false);
+                {
+                  handleSave;
+                }
               }}
             >
               Save
@@ -249,9 +275,20 @@ export default function SocialHistory() {
         </>
       )}
 
-      {currentPage === 1 && <FamilyHistory data={currentFamily} />}
+      {currentPage === 1 && (
+        <FamilyHistory
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          data={currentFamily}
+        />
+      )}
 
-      {currentPage === 2 && <EditFamilyHistory />}
+      {currentPage === 2 && (
+        <EditFamilyHistory
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </>
   );
 }
