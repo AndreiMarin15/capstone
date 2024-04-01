@@ -40,17 +40,17 @@ export default function AddClinicVisit({
   const [labTestDataArray, setLabTestDataArray] = useState([]);
   const [doctorId, setDoctorId] = useState("");
 
-  const [errorStyles, setErrorStyles] = useState({
-    clinicDate: false,
-    height: false,
-    weight: false,
-    bmi: false,
-    systolic: false,
-    diastolic: false,
-    heartRate: false,
-    reviewOfSystems: false,
-    signsAndSymptoms: false,
-  });
+	const [errorStyles, setErrorStyles] = useState({
+		clinicDate: false,
+		height: false,
+		weight: false,
+		bmi: false,
+		systolic: false,
+		diastolic: false,
+		heartRate: false,
+		reviewOfSystems: false,
+		signsAndSymptoms: false,
+	});
 
   const validateFields = () => {
     // Check if all required fields are filled
@@ -66,9 +66,9 @@ export default function AddClinicVisit({
       signsAndSymptoms: !signsAndSymptoms,
     };
 
-    setErrorStyles(errors);
-    return !Object.values(errors).some((error) => error);
-  };
+		setErrorStyles(errors);
+		return !Object.values(errors).some((error) => error);
+	};
 
   const reqField = {
     borderColor: "red",
@@ -100,21 +100,21 @@ export default function AddClinicVisit({
     setFinalDiagnosis(inputValue);
   };
 
-  useEffect(() => {
-    // Fetch medications when the component mounts
-    const fetchDisease = async () => {
-      try {
-        const disease = await retrieveDisease();
+	useEffect(() => {
+		// Fetch medications when the component mounts
+		const fetchDisease = async () => {
+			try {
+				const disease = await retrieveDisease();
 
-        setDisease(disease);
-        console.log(disease);
-      } catch (error) {
-        console.error("Error fetching medications:", error);
-      }
-    };
+				setDisease(disease);
+				console.log(disease);
+			} catch (error) {
+				console.error("Error fetching medications:", error);
+			}
+		};
 
-    fetchDisease();
-  }, []);
+		fetchDisease();
+	}, []);
 
   async function retrieveEncounters() {
     try {
@@ -126,8 +126,8 @@ export default function AddClinicVisit({
     }
   }
 
-  // Call the retrieveEncounters function
-  retrieveEncounters();
+	// Call the retrieveEncounters function
+	retrieveEncounters();
 
   let patientDataId;
 
@@ -545,36 +545,36 @@ export default function AddClinicVisit({
       value: "",
     },
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
-      variable: "Signs and Symptoms",
-      value: "",
-    },
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+			variable: "Signs and Symptoms",
+			value: "",
+		},
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Review of Systems",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Other Concerns",
-      value: "",
-    },
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+			variable: "Review of Systems",
+			value: "",
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+			variable: "Other Concerns",
+			value: "",
+		},
 
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Tests",
-      value: "",
-      component: 2,
-      requestcomponent: 3,
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Suggested Next Clinic Visit",
-      value: "",
-    },
-  ];
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+			variable: "Tests",
+			value: "",
+			component: 2,
+			requestcomponent: 3,
+		},
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+			variable: "Suggested Next Clinic Visit",
+			value: "",
+		},
+	];
 
   const clinicVitals = [
     {
@@ -612,42 +612,42 @@ export default function AddClinicVisit({
   ];
   const [currentScreen, setCurrentScreen] = useState(0);
 
-  return (
-    <>
-      {currentScreen === 0 ? (
-        <>
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            ADD CLINIC VISIT
-          </div>
+	return (
+		<>
+			{currentScreen === 0 ? (
+				<>
+					<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+						ADD CLINIC VISIT
+					</div>
 
-          <div>
-            <div className="flex gap-[4rem] align-baseline">
-              <table className="max-w-fit border-spacing-y-5 border-separate">
-                <tbody className="text-xs leading-5 text-black">
-                  {date.map((item, index) => (
-                    <tr key={index} className="h-8">
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[5rem] border-transparent">
-                        {item.variable === "Date" ? (
-                          <input
-                            type="date"
-                            value={clinicDate}
-                            onChange={(e) => setClinicDate(e.target.value)}
-                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]'}
+					<div>
+						<div className="flex gap-[4rem] align-baseline">
+							<table className="max-w-fit border-spacing-y-5 border-separate">
+								<tbody className="text-xs leading-5 text-black">
+									{date.map((item, index) => (
+										<tr key={index} className="h-8">
+											<td className="w-5">
+												<Image
+													alt="image"
+													height={0}
+													width={0}
+													loading="lazy"
+													src={item.src}
+													className="self-start aspect-square fill-black w-[15px]"
+												/>
+											</td>
+											<td className="border-l-[16px] border-transparent">
+												<div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+													{item.variable}
+												</div>
+											</td>
+											<td className="border-l-[5rem] border-transparent">
+												{item.variable === "Date" ? (
+													<input
+														type="date"
+														value={clinicDate}
+														onChange={(e) => setClinicDate(e.target.value)}
+														className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]'}
 							
                             }`}
                             style={
