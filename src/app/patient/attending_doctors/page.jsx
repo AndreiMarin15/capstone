@@ -110,6 +110,8 @@ export default function ViewDoctors() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Link href="/patient/messages">
                           <Image
+                            height={0}
+                            width={0}
                             src={doctor.iconSrc || defaultIconSrc}
                             alt="Icon"
                             className="h-8 w-8 cursor-pointer"
