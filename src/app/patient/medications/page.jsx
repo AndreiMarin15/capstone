@@ -201,13 +201,13 @@ export default function MedicationsDashboard() {
 							if (status === "ACTIVE") {
 								return (
 									medication.resource.subject.reference === patientId &&
-									validityPeriodEnd >= today &&
+							
 									medication.resource.status === "Active"
 								);
 							} else {
 								return (
 									medication.resource.subject.reference === patientId &&
-									(validityPeriodEnd < today || medication.resource.status === "Inactive")
+									(medication.resource.status === "Inactive")
 								);
 							}
 						})
