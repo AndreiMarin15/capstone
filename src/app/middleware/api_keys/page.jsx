@@ -28,12 +28,14 @@ export default function MyTable() {
 	}
 	useEffect(() => {
 		console.log(data);
-		setCensoredData(
-			data.map((item) => ({
-				...item,
-				key: censorKey(item.key),
-			}))
-		);
+		if (data != null && data.length > 0) {
+			setCensoredData(
+				data.map((item) => ({
+					...item,
+					key: censorKey(item.key),
+				}))
+			);
+		}
 	}, [data]);
 
 	useEffect(() => {
@@ -122,12 +124,13 @@ export default function MyTable() {
 					</thead>
 
 					<tbody style={{ maxHeight: "500px", overflow: "auto" }}>
-						{censoredData.map((item, index) => (
-							<tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
-								<td className="border px-4 py-2 text-center">{formatDateTime(item.created_at)}</td>
-								<td className="border px-4 py-2 text-center">{censorKey(item.key)}</td>
-							</tr>
-						))}
+						{censoredData.length > 0 &&
+							censoredData.map((item, index) => (
+								<tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
+									<td className="border px-4 py-2 text-center">{formatDateTime(item.created_at)}</td>
+									<td className="border px-4 py-2 text-center">{censorKey(item.key)}</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>
