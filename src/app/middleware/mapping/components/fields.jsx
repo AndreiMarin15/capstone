@@ -20,8 +20,10 @@ export default function Fields({ fields, onHoverOver, onHover, hoveredImageId, t
 		const mapping_data = {
 			api_key: apiKey,
 			owner_email: middlewareUser.getState().info.email,
-			table_mapping: { table_name: table, [table]: clientTable },
+			// table_mapping: { table_name: table, [table]: clientTable },
 			column_mapping: toSave,
+			client_table: clientTable,
+			fhir_table: table,
 		};
 
 		const data = await fetchFrom("/mapForClient", mapping_data);
