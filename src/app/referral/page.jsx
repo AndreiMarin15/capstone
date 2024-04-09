@@ -239,16 +239,16 @@ export default function Referral() {
 			redirect: "follow",
 		};
 
-		// fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
-		// 	.then((response) => response.text())
-		// 	.then((result) => console.log(result))
-		// 	.then(() => {
-		toast.success(
-			`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
-			{ position: "top-left", theme: "colored", autoClose: 2000 }
-		);
-		// })
-		// .catch((error) => console.error(error));
+		fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
+			.then((response) => response.text())
+			.then((result) => console.log(result))
+			.then(() => {
+				toast.success(
+					`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
+					{ position: "top-left", theme: "colored", autoClose: 2000 }
+				);
+			})
+			.catch((error) => console.error(error));
 	};
 
 	return (
