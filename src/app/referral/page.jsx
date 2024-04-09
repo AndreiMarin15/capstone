@@ -220,10 +220,13 @@ export default function Referral() {
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
-					By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
+					By providing this pin to your healthcare provider, you are authorizing EndoTracker and your Practitioner, to access your health information, such the following sample data:
 
-					- SAMPLE DATA PULL 1
-					- SAMPLE DATA PULL 2
+					- Medication: Insulin
+					- Systolic: 120 mmHg
+					- Diastolic: 80 mmHg
+
+					*For provacy and security purposes, the Information above are mere sample data and does not represent your true results*
 					
 					EndoTracker respects the privacy of personal data, and are committed to handling your personal data with care. It is your right to be informed of how EndoTracker collects your data, including the purposes of how we collect, use, and disclose. 
 					
