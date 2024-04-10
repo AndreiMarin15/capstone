@@ -491,34 +491,48 @@ export default function Middleware() {
 						}}
 						className=" justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
 					/>
-
-					<button
-						onClick={() => router.push("/middleware/api_keys")}
-						className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 bg-sky-800 text-white`}
-					>
-						View API Keys
-					</button>
 				</div>
 			</div>
 
 			<div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
-				{["Account", "Person", "Practitioner", "Patient", "Observation", "Encounter", "Family Member History", "Medication Request"].map(
-					(entity) => {
-						let modifiedEntity = entity.toLowerCase().replace(/ /g, "");
+				<button
+					onClick={() => router.push("/middleware/view_mapping")}
+					className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 bg-sky-800 text-white`}
+				>
+					View Mappings
+				</button>
+				<button
+					onClick={() => router.push("/middleware/api_keys")}
+					className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 bg-sky-800 text-white`}
+				>
+					View API Keys
+				</button>
+			</div>
+			<div className="flex ml-10 gap-2.5 px-0.5 mt-9 text-xs font-semibold leading-5 text-black max-md:flex-wrap">
+				{[
+					"Account",
+					"Person",
+					"Practitioner",
+					"Patient",
+					"Observation",
+					"Encounter",
+					"Family Member History",
+					"Medication Request",
+				].map((entity) => {
+					let modifiedEntity = entity.toLowerCase().replace(/ /g, "");
 
-						return (
-							<button
-								key={modifiedEntity}
-								onClick={() => handleButtonClick(modifiedEntity)}
-								className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 ${
-									selectedEntity === modifiedEntity ? "bg-sky-900 text-white" : "hover:bg-sky-900 hover:text-white"
-								}`}
-							>
-								{entity}
-							</button>
-						);
-					}
-				)}
+					return (
+						<button
+							key={modifiedEntity}
+							onClick={() => handleButtonClick(modifiedEntity)}
+							className={`justify-center px-6 py-1 whitespace-nowrap rounded border border-black border-solid max-md:px-5 ${
+								selectedEntity === modifiedEntity ? "bg-sky-900 text-white" : "hover:bg-sky-900 hover:text-white"
+							}`}
+						>
+							{entity}
+						</button>
+					);
+				})}
 			</div>
 
 			<div className="mt-12 max-w-full w-[447px] max-md:mt-10">

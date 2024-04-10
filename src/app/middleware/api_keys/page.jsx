@@ -116,6 +116,15 @@ export default function MyTable() {
 						>
 							Map Your Data
 						</button>
+
+						<button
+							onClick={() => {
+								router.push("/middleware/view_mapping");
+							}}
+							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-5"
+						>
+							View Mapping
+						</button>
 					</div>
 				</div>
 
