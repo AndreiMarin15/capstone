@@ -94,6 +94,9 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
   const [labTestName, setLabTestName] = useState("");
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newDateField, setNewDateField] = useState("");
+
+
   const [values, setValues] = useState({
     custom: { value: "", unit: "" }
   });
