@@ -144,6 +144,7 @@ export default function Referral() {
 				}),
 			}
 		);
+		// console.log(response.json())
 		const r = await response.json();
 		console.log(r);
 		return r[0].id;
@@ -158,7 +159,11 @@ export default function Referral() {
 	};
 
 	const handleOTPSubmit = async (status) => {
+		console.log("clicked");
+		console.log(otpInput);
+		console.log(otp);
 		if (parseInt(otpInput) === otp) {
+			console.log("equal");
 			const requ = await generateRequest();
 			console.log("requ");
 			console.log(requ);

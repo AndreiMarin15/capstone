@@ -9,6 +9,7 @@ const ViewMapping = () => {
 	const [selectedEntity, setSelectedEntity] = React.useState("account");
 	const handleButtonClick = (entity) => {
 		setSelectedEntity(entity);
+		
 	};
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -55,7 +56,7 @@ const ViewMapping = () => {
 				>
 					View API Keys
 				</button>
-			</div>
+			</div> 
 			<div>
 				{[
 					"Account",
