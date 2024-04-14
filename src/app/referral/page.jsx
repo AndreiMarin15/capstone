@@ -214,14 +214,14 @@ export default function Referral() {
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
-		myHeaders.append("Authorization", "App 1c555aeb51d4f3953c1d244e01d6c279-2d95a385-8a6c-46b5-825a-c69929c14808");
+		myHeaders.append("Authorization", "App 7d2e0e242c3f8670153f59be6678b030-7f61fffc-c227-4d3b-a67a-5921d22ce02b");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
 		console.log(otp);
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: `639999951973` }], // replace with patient data
+					destinations: [{ to: `639178060641` }], // replace with patient data
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
@@ -252,7 +252,7 @@ export default function Referral() {
 			.then((result) => console.log(result))
 			.then(() => {
 				toast.success(
-					`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
+					`OTP Requested. Kindly Wait for the message on the patient's number, +639178060641`, // replace wth patient data
 					{ position: "top-left", theme: "colored", autoClose: 2000 }
 				);
 			})
