@@ -262,16 +262,20 @@ return (
           labTests.map((item) => (
             <button
               onClick={() => {
+
                 if (item.status !== "requested") { // Check if the status is not "requested"
+
                   setTest(true);
                   setAdd(false);
                   setSelectedObservationId(item.id);
                 }
               }}
+
               className={`flex flex-col mt-8 ${item.status === "requested" ? "cursor-not-allowed" : ""}`}
               key={item.variable}
               disabled={item.status === "requested"}
               style={{ pointerEvents: item.status === "requested" ? "none" : "auto" }}
+
             >
               <span className="flex items-stretch justify-between gap-4">
                 <Image

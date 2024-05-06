@@ -223,8 +223,10 @@ export default function AddLabTest({currentScreen, setCurrentScreen, patientId, 
       actor: doctorId,
     },
 
+
     dateOfUpdate: newDateFieldValue,
     dateOfRequest: reqdate,
+
     dateOfResult: dateOfResult,
     labTestName: labTestName,
     base64Image: base64Image,
