@@ -52,6 +52,7 @@ export default function LabTests({ patientId }) {
               srcdoctor:"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
               src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
               variable: observation.resource.codeText,
+              update: observation.resource.uploadedDateTime,
               date: observation.resource.effectiveDateTime,
               reqdate: observation.resource.requestedDateTime,
               status: observation.resource.status
@@ -150,16 +151,15 @@ export default function LabTests({ patientId }) {
                                 <div className="grow my-auto">{labTest.doctor}</div>
                             </div>
                             <div className="flex-auto my-auto" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                {labTest.status !== "final" && labTest.reqdate && (
-                                    <div>
-                                        <span style={{ fontWeight: 'bold' }}>Date Requested:</span> {labTest.reqdate}
-                                    </div>
-                                )}
-                                {labTest.date && (
-                                    <div>
-                                        <span style={{ marginLeft: '9px', fontWeight: 'bold' }}>Date of Result:</span> {labTest.date}
-                                    </div>
-                                )}
+                            <div>
+                                <span style={{ fontWeight: 'bold' }}>Date Requested:</span> {labTest.reqdate}
+                            </div>
+                            {labTest.status === "final" && (
+                                <div style={{ marginLeft: '8px' }}>
+                                    <span style={{ fontWeight: 'bold' }}>Date Uploaded:</span> {labTest.update}
+                                </div>
+                            )}
+                                 
                             </div>
                             {labTest.status === "requested" && (
                                 <div className="text-black text-xs font-medium leading-5 flex items-center">

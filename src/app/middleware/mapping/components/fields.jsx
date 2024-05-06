@@ -22,6 +22,8 @@ export default function Fields({ fields, onHoverOver, onHover, hoveredImageId, t
 			owner_email: middlewareUser.getState().info.email,
 			table_mapping: { table_name: table, [table]: clientTable },
 			column_mapping: toSave,
+			client_table: clientTable,
+			fhir_table: table,
 		};
 
 		const data = await fetchFrom("/mapForClient", mapping_data);

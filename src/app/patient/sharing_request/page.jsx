@@ -7,7 +7,7 @@ import referral from "../../../../lib/backend/referral/getRequests";
 import Request from "./components/request";
 
 export default function ViewSharing() {
-	const [sharing, setSharing] = React.useState([]);
+	const [sharing, setSharing] = React.useState(null);
 	const handleApproval = async (value, id) => {
 		const response = await fetch(
 			(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
@@ -30,8 +30,7 @@ export default function ViewSharing() {
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const response = await fetch(
-				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") +
-					"/getRequests",
+				(process.env.NEXT_PUBLIC_MIDDLEWARE_API_CALLS ?? "https://cap-middleware.onrender.com/user") + "/getRequests",
 				{
 					method: "POST", // or 'PUT'
 					headers: {
@@ -146,7 +145,7 @@ export default function ViewSharing() {
 									</tr>
 								</thead>
 
-								{sharing.length > 0 ? (
+								{sharing != null && sharing.length > 0 ? (
 									<>
 										<tbody className="bg-white divide-y divide-gray-200">
 											{sharing.map((sharing, index) => (
@@ -158,6 +157,12 @@ export default function ViewSharing() {
 											))}
 										</tbody>
 									</>
+								) : Array.isArray(sharing) && sharing.length === 0 ? (
+									<tbody className="bg-white divide-y divide-gray-200">
+										<tr>
+											<td className="px-6 py-4 whitespace-nowrap">No Data Found</td>
+										</tr>
+									</tbody>
 								) : (
 									<tbody className="bg-white divide-y divide-gray-200">
 										<tr>

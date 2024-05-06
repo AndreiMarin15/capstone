@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewMedications from "../medications/components/viewPatientMedications";
 import { doctor } from "../../../../lib/backend/health_records/doctor";
@@ -201,13 +201,13 @@ export default function MedicationsDashboard() {
 							if (status === "ACTIVE") {
 								return (
 									medication.resource.subject.reference === patientId &&
-									validityPeriodEnd >= today &&
+							
 									medication.resource.status === "Active"
 								);
 							} else {
 								return (
 									medication.resource.subject.reference === patientId &&
-									(validityPeriodEnd < today || medication.resource.status === "Inactive")
+									(medication.resource.status === "Inactive")
 								);
 							}
 						})

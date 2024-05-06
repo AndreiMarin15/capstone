@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
 import { getObservation } from "../../../../../../lib/backend/health_records/getObservation";
+import LaboratoryList from "../../../lab_tests/LaboratoryList";
 import BackButton from "./BackButton";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -383,6 +384,19 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 			) : (
 				""
 			)}
+
+      {currentScreen === 2 && (
+        <>
+         <LaboratoryList
+              currentScreen={currentScreen}
+              setCurrentScreen={setCurrentScreen}
+              patientId={patientId} 
+              encounterId={encounterId}
+            />
+        </>
+      )}
+
+
 		</>
 	);
 }

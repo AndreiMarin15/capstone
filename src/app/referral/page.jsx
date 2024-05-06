@@ -144,6 +144,7 @@ export default function Referral() {
 				}),
 			}
 		);
+		// console.log(response.json())
 		const r = await response.json();
 		console.log(r);
 		return r[0].id;
@@ -158,7 +159,11 @@ export default function Referral() {
 	};
 
 	const handleOTPSubmit = async (status) => {
+		console.log("clicked");
+		console.log(otpInput);
+		console.log(otp);
 		if (parseInt(otpInput) === otp) {
+			console.log("equal");
 			const requ = await generateRequest();
 			console.log("requ");
 			console.log(requ);
@@ -209,21 +214,24 @@ export default function Referral() {
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
-		myHeaders.append("Authorization", "App 1c555aeb51d4f3953c1d244e01d6c279-2d95a385-8a6c-46b5-825a-c69929c14808");
+		myHeaders.append("Authorization", "App 7d2e0e242c3f8670153f59be6678b030-7f61fffc-c227-4d3b-a67a-5921d22ce02b");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
 		console.log(otp);
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: `639999951973` }], // replace with patient data
+					destinations: [{ to: `639178060641` }], // replace with patient data
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
-					By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
+					By providing this pin to your healthcare provider, you are authorizing EndoTracker and your Practitioner, to access your health information, such the following sample data:
 
-					- SAMPLE DATA PULL 1
-					- SAMPLE DATA PULL 2
+					- Medication: Insulin
+					- Systolic: 120 mmHg
+					- Diastolic: 80 mmHg
+
+					*For provacy and security purposes, the Information above are mere sample data and does not represent your true results*
 					
 					EndoTracker respects the privacy of personal data, and are committed to handling your personal data with care. It is your right to be informed of how EndoTracker collects your data, including the purposes of how we collect, use, and disclose. 
 					
@@ -239,16 +247,16 @@ export default function Referral() {
 			redirect: "follow",
 		};
 
-		// fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
-		// 	.then((response) => response.text())
-		// 	.then((result) => console.log(result))
-		// 	.then(() => {
-		toast.success(
-			`OTP Requested. Kindly Wait for the message on the patient's number, +639999951973`, // replace wth patient data
-			{ position: "top-left", theme: "colored", autoClose: 2000 }
-		);
-		// })
-		// .catch((error) => console.error(error));
+		fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
+			.then((response) => response.text())
+			.then((result) => console.log(result))
+			.then(() => {
+				toast.success(
+					`OTP Requested. Kindly Wait for the message on the patient's number, +639178060641`, // replace wth patient data
+					{ position: "top-left", theme: "colored", autoClose: 2000 }
+				);
+			})
+			.catch((error) => console.error(error));
 	};
 
 	return (
@@ -329,13 +337,17 @@ export default function Referral() {
 									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
 										<div className="mt-2 text-lg font-semibold text-black">
 											{currentInfo?.name ? currentInfo.name : ""}
-											<div className="flex ">
-												<div className="mr-5 text-m text-zinc-600">
-													<span className="text-zinc-300 font-medium">{currentInfo?.specialty ?? ""}</span>
-												</div>
-												<div className="text-m text-zinc-600">
-													<span className="text-black text-sm">About: {currentInfo?.patient ?? ""}</span>
-												</div>
+
+											<div className="mr-5 text-m text-zinc-600">
+												<span className="text-black font-medium">{currentInfo?.specialty ?? ""}</span>
+											</div>
+											<div className="text-m text-zinc-600">
+												<span className="text-black text-sm">PATIENT: {currentInfo?.patient ?? ""}</span>
+											</div>
+											<div className="text-xs text-zinc-600">
+												<span className="text-black text-sm">
+													Referral Note: <span className="font-normal">{currentInfo?.notes ?? ""}</span>
+												</span>
 											</div>
 										</div>
 									</div>

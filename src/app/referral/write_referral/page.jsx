@@ -26,7 +26,7 @@ export default function SendReferral() {
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const patients = await retrieveReferralData.getFilteredPatients();
-
+			console.log(patients);
 			setPatients(patients);
 		};
 

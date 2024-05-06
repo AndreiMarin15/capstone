@@ -1,77 +1,88 @@
-"use client";
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 
-import { PROJECT } from "../../../lib/backend/project/db";
-import { PUBLIC } from "../../../lib/backend/public/db";
-import { useEffect, useState } from "react";
+const invoices = [
+	{
+		invoice: "INV001",
+		paymentStatus: "Paid",
+		totalAmount: "$250.00",
+		paymentMethod: "Credit Card",
+	},
+	{
+		invoice: "INV002",
+		paymentStatus: "Pending",
+		totalAmount: "$150.00",
+		paymentMethod: "PayPal",
+	},
+	{
+		invoice: "INV003",
+		paymentStatus: "Unpaid",
+		totalAmount: "$350.00",
+		paymentMethod: "Bank Transfer",
+	},
+	{
+		invoice: "INV004",
+		paymentStatus: "Paid",
+		totalAmount: "$450.00",
+		paymentMethod: "Credit Card",
+	},
+	{
+		invoice: "INV005",
+		paymentStatus: "Paid",
+		totalAmount: "$550.00",
+		paymentMethod: "PayPal",
+	},
+	{
+		invoice: "INV006",
+		paymentStatus: "Pending",
+		totalAmount: "$200.00",
+		paymentMethod: "Bank Transfer",
+	},
+	{
+		invoice: "INV007",
+		paymentStatus: "Unpaid",
+		totalAmount: "$300.00",
+		paymentMethod: "Credit Card",
+	},
+];
 export default function Notes() {
-	// const [otp, setOtp] = useState(null);
-
-	// const [userNumber, setNumber] = useState(null);
-
-	// const sendOTP = () => {
-	// 	const myHeaders = new Headers();
-	// 	myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
-	// 	myHeaders.append("Content-Type", "application/json");
-	// 	myHeaders.append("Accept", "application/json");
-	// 	console.log(userNumber);
-	// 	const raw = JSON.stringify({
-	// 		messages: [
-	// 			{
-	// 				destinations: [{ to: userNumber }],
-	// 				from: "ServiceSMS",
-	// 				text: `Hello! Your OTP is  ${otp}
-
-	// 				By providing this pin to your healthcare provider, you are authorizing EndoTracker and [NAME OF DOCTOR], to access your health information, particularly the following:
-
-	// 				- SAMPLE DATA PULL 1
-	// 				- SAMPLE DATA PULL 2
-
-	// 				EndoTracker respects the privacy of personal data, and are committed to handling your personal data with care. It is your right to be informed of how EndoTracker collects your data, including the purposes of how we collect, use, and disclose.
-
-	// 				For more information on how EndoTracker handles and makes use of your data, please refer to the Privacy Policy full text which can be found in the system https://capstone-cap2224.vercel.app/legal/privacy_policy.`,
-	// 			},
-	// 		],
-	// 	});
-
-	// 	const requestOptions = {
-	// 		method: "POST",
-	// 		headers: myHeaders,
-	// 		body: raw,
-	// 		redirect: "follow",
-	// 	};
-
-	// 	fetch("https://y36nrg.api.infobip.com/sms/2/text/advanced", requestOptions)
-	// 		.then((response) => response.text())
-	// 		.then((result) => console.log(result))
-	// 		.catch((error) => console.error(error));
-	// };
-
 	return (
 		<>
-			{/* <input
-				className="border-2 border-black"
-				type="text"
-				onChange={(e) => {
-					setEntered(e.target.value);
-				}}
-			/>
-			<input
-				className="border-2 border-black"
-				type="text"
-				onChange={(e) => {
-					setNumber(e.target.value);
-				}}
-			/>
-
-			<button
-				onClick={() => {
-					sendOTP();
-				}}
-			>
-				OTP
-			</button>
-
-			{enteredOtp === otp ?? <p>OTP CORRECT</p>} */}
+			<Table>
+				<TableCaption>A list of your recent invoices.</TableCaption>
+				<TableHeader>
+					<TableRow>
+						<TableHead className="w-[100px]">Invoice</TableHead>
+						<TableHead>Status</TableHead>
+						<TableHead>Method</TableHead>
+						<TableHead className="text-right">Amount</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{invoices.map((invoice) => (
+						<TableRow key={invoice.invoice}>
+							<TableCell className="font-medium">{invoice.invoice}</TableCell>
+							<TableCell>{invoice.paymentStatus}</TableCell>
+							<TableCell>{invoice.paymentMethod}</TableCell>
+							<TableCell className="text-right">{invoice.totalAmount}</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+				<TableFooter>
+					<TableRow>
+						<TableCell colSpan={3}>Total</TableCell>
+						<TableCell className="text-right">$2,500.00</TableCell>
+					</TableRow>
+				</TableFooter>
+			</Table>
 		</>
 	);
 }

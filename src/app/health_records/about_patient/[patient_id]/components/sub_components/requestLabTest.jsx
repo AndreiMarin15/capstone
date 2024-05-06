@@ -26,6 +26,8 @@ export default function RequestLabTest({currentScreen, setCurrentScreen, patient
         actor: doctorId,
       },
 
+      dateOfUpdate: null,
+
       dateOfRequest: null,
       dateOfResult: null, // Null
       labTestName: labTestName, // Lab test name from the state

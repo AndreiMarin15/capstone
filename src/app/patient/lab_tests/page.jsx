@@ -1,43 +1,96 @@
 "use client";
-import React, { useState } from "react"; // <-- Import useState from React
+import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react"; // <-- Import useState from React
 import Image from "next/image";
 import UploadLab from "./components/uploadLab";
-import AddLab from "./components/addLab";
+import ViewLab from "./components/viewLab";
+import doctor from "../../../../lib/backend/health_records/doctor";
+import 'react-toastify/dist/ReactToastify.css';
+import BackButton from "../personal_details/components/sub_components/BackButton";
+import { getEncounters, getEncounterById, updateEncounterContained, getEncounterByPatientId} from "../../../../lib/backend/health_records/getEncounter";
+import { getObservation, getObservationsByPatientId} from "../../../../lib/backend/health_records/getObservation";
+import { uploadObservation } from "../../../../lib/backend/health_records/uploadObservation";
+import { getPatientRawData } from "../../../../lib/backend/patient/personal_details/master_data";
 
-{
-  /* TO DO: Turn into component */
-}
-
-export default function LaboratoryList() {
+export default function LaboratoryDashboard() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [currentScreen, setCurrentScreen] = useState(2);
+  const [encounterId, setEncounterId] = useState(0);
+  const [encounters, setEncounters] = useState(0);
+  const [patientIds, setPatientIds] = useState(0);
+  const router = useRouter();
 
-  const lab = [
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "Fasting Blood Sugar (FBS) Test",
-      reqdate: "2024/01/24",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "HbA1c Test",
-      reqdate: "2024/01/24",
-    },
-    {
-      srcmedicine:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      labname: "Total Cholesterol Test",
-      reqdate: "2024/01/24",
-    },
-  ];
 
-  // const handleVisitClick = () => {
-  // Increment the currentPage when the user clicks the div
-  // setCurrentPage(currentPage + 1);
-  //};
+  useEffect(() => {
+    // Fetch patient ID when component mounts
+    fetchPatientId();
+  }, [patientIds, currentPage, currentScreen]);
 
-  //const [currentPage, setCurrentPage] = useState(currentPage + 1);
+  const fetchPatientId = async () => {
+    try {
+      // Fetch patient data
+      const patientData = await getPatientRawData();
+      // Extract patient ID
+      const patientId = patientData.id;
+      console.log(patientId)
+      setPatientIds(patientId);
+
+    } 
+    catch (error) {
+      console.error("Error fetching encounters:", error);
+    }
+    
+};
+
+    
+  const [containedIDs, setContainedIDs] = useState([]);
+  const [dateOfRequest, setDateOfRequest] = useState(""); 
+  const [labTests, setLabTests] = useState([]); 
+  const [selectedObservationId, setSelectedObservationId] = useState(null);
+
+  useEffect(() => {
+  
+    async function fetchEncounters() {
+        console.log(patientIds);
+        try {
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
+        const encountersData = await getEncounterByPatientId(patientIds);
+        console.log(encountersData);
+        encountersData.forEach(encounter => {
+            const encounterContained = encounter.resource.contained;
+            console.log(encounterContained);
+          });
+
+        const observationsData = await getObservationsByPatientId(patientIds);
+        console.log(observationsData);
+        
+        const labTestObservations = observationsData.filter(observation => observation.resource.id === "labtest").map(observation => ({
+          id: observation.id,
+          doctor: observation.resource.participant.actor,
+          srcdoctor:"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
+          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?", 
+          variable: observation.resource.codeText,
+          update: observation.resource.uploadedDateTime,
+          date: observation.resource.effectiveDateTime,
+          reqdate: observation.resource.requestedDateTime,
+          status: observation.resource.status
+      }));
+      
+      console.log(labTestObservations);
+      setLabTests(labTestObservations);
+
+      } catch (error) {
+        console.error("Error fetching encounters and observations:", error);
+      }
+    }
+  
+    fetchEncounters();
+  }, [patientIds, currentPage, currentScreen]);
+
+
+  useEffect(() => {
+    console.log(labTests);
+  }, [labTests]);
 
   return [
     currentPage === 0 ? (
@@ -65,58 +118,96 @@ export default function LaboratoryList() {
           </span>
         </span>
 
-        <button
-          className="flex gap-1.5 justify-center self-end px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
-          onClick={() => {
-            // // Pass the lab state to the UploadLab component
-            // <UploadLab lab={lab} setLabState={setLabState} />;
-            setCurrentPage(currentPage + 1);
-          }}
-        >
-          Add
-        </button>
         <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
           <div className="w-full max-md:max-w-full h-full">
-            {lab.map((lab, index) => (
-              <button
-                key={index}
-                className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
-                onClick={() => {
-                  // // Pass the lab state to the UploadLab component
-                  // <UploadLab lab={lab} setLabState={setLabState} />;
-                  setCurrentPage(currentPage + 2);
-                }}
-              >
-                <div className="flex gap-3.5 font-semibold whitespace-nowrap">
-                  <Image
-                    alt="image"
-                    height={0}
-                    width={0}
-                    loading="lazy"
-                    src={lab.srcmedicine}
-                    className="aspect-square fill-black w-[15px]"
-                  />
-                  <div className="my-auto">{lab.labname}</div>
+          {labTests.map((item) => (
+            <button
+              onClick={() => {
+                if (item.status === "requested") {
+                  setCurrentPage(2);
+                } else if (item.status === "final") {
+                  setCurrentPage(4);
+                }
+                setSelectedObservationId(item.id);
+                console.log(selectedObservationId);
+              }}
+              className={`flex flex-col mt-8`}
+              key={item.variable}
+            >
+              <div className="flex gap-3.5 font-semibold whitespace-nowrap">
+                <Image
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src={item.src}
+                  className="aspect-square object-contain object-center w-[15px] fill-black overflow-hidden shrink-0 max-w-full"
+                  alt="picture"
+                />
+                <div className="my-auto text-sm">{item.variable}</div>
+              </div>
+              <div className="flex gap-5 justify-between ml-7 text-sm max-md:ml-2.5">
+                
+                
+              
+
+                <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                  Requested on:
+                  <div className="grow my-auto text-sm">{item.reqdate}</div>
                 </div>
-                <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5">
+               
+                {item.status !== "requested" && (
                   <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
-                    Requested on:
-                    <div className="grow my-auto">{lab.reqdate}</div>
+                    Uploaded on:
+                    <div className="grow my-auto ">{item.update}</div>
                   </div>
-                </div>
-              </button>
-            ))}
+                )}
+                {item.status === "requested" && (
+                  <div className="text-black font-medium text-sm leading-5 flex items-center">
+                    <svg
+                      className="h-3 w-3 ml-1 text-red-500 "
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Requested
+                  </div>
+                )}
+                {item.status === "final" && (
+                  <div className="text-black text-m font-medium leading-5 text-sm flex items-center">
+                    <svg
+                      className="h-3 w-3 ml-1 text-green-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="10" cy="10" r="5" />
+                    </svg>
+                    Uploaded
+                  </div>
+                )}
+              </div>
+            </button>
+          
+          ))}
           </div>
         </div>
       </div>
-    ) : currentPage === 1 ? (
+    ) : currentPage === 3 ? (
       <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
-        <AddLab />
+         
       </div>
     ) : currentPage === 2 ? (
       <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
-        <UploadLab />
+        <UploadLab currentPage={currentPage} setCurrentPage={setCurrentPage} observationId={ selectedObservationId }  setCurrentScreen={setCurrentScreen}/>
       </div>
+    ) :  currentPage === 4 ? (
+      <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
+        <ViewLab currentPage={currentPage} setCurrentPage={setCurrentPage} observationId={ selectedObservationId }/>
+      </div>
+
+
     ) : (
       <></>
     ),
