@@ -73,10 +73,10 @@ export default function AboutPatient({ params }) {
       <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
         <div className="w-full max-md:max-w-full">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-            <div className="flex flex-col items-stretch w-[83%] ml-5 max-md:w-full max-md:ml-0">
+            <div className="flex flex-col items-stretch w-[70%] ml-5 max-md:w-full max-md:ml-0">
               <span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
-                <span className="flex w-[221px] max-w-full flex-col items-stretch self-start">
-                  <div className="text-black text-xl font-semibold leading-8">
+                <span className="flex w-[100%] max-w-full flex-col items-stretch self-start">
+                  <div className="text-black text-xl font-semibold leading-8 mb-10">
                     Health Records
                   </div>
                   <PatientProfile
@@ -100,13 +100,13 @@ export default function AboutPatient({ params }) {
                     patientId={patientId}
                   />
                 ) : selected === "Diagnoses" ? (
-                  <Diagnoses patientId={patientId}/>
+                  <Diagnoses patientId={patientId} />
                 ) : selected === "Medications" ? (
                   <Medications patientId={patientId} />
                 ) : selected === "Care Plans" ? (
                   <CarePlans patientId={patientId} patientData={patientData} />
                 ) : selected === "Lab Tests" ? (
-                  <LabTests  patientId={patientId}/>
+                  <LabTests patientId={patientId} />
                 ) : selected === "Vitals & Biometrics" ? (
                   <Vitals patientId={patientId} />
                 ) : selected === "Family & Social History" ? (
