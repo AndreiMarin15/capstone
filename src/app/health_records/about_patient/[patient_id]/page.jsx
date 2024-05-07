@@ -12,6 +12,7 @@ import Vitals from "./components/vitalsDashboard";
 import Medications from "./components/medicationsDashboard";
 import CarePlans from "./components/carePlanDashboard";
 import LabTests from "./components/labTestsDashboard";
+import GenerateRecords from "./components/generateReportDashboard";
 import { useHRNav } from "@/app/store";
 import FamilyHistory from "./components/sub_components/viewfamilyHistory";
 import SocialHistory from "./components/socialHistory";
@@ -112,6 +113,10 @@ export default function AboutPatient({ params }) {
                 ) : selected === "Family & Social History" ? (
                   <>
                     <FamilySocialHistory patientId={patientId} />
+                  </>
+                ) : selected === "Generate Records" ? (
+                  <>
+                    <GenerateRecords patientId={patientId} />
                   </>
                 ) : (
                   ""

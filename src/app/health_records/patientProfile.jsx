@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useHRNav } from "../store";
 
 export default function PatientProfile({ photo, name, age, gender }) {
+  const { selected, setSelected } = useHRNav();
   const defaultImage =
     "https://cdn.builder.io/api/v1/image/assets/TEMP/f93d5b041a77641729755adbc288033a6c368ab9f2f47627fb102ac12928179c?";
   return (
@@ -38,7 +40,13 @@ export default function PatientProfile({ photo, name, age, gender }) {
           {" "}
           {/* Wrap buttons in a div with flex and space-x-4 for spacing */}
           <Button variant="outline">Refer Patient</Button>
-          <Button>Generate Records</Button>
+          <Button
+            onClick={() => {
+              setSelected("Generate Records");
+            }}
+          >
+            Generate Records
+          </Button>
         </div>
       </div>
     </div>
