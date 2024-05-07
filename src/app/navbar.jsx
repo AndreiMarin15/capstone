@@ -23,6 +23,11 @@ const navigation = [
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a5e4e41b96b3a1133c733ca6c34896fe7a85b581c2bce0b6d63f16bd85dd4deb?",
   },
   {
+    name: "Reports",
+    href: "/reports",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/574a698f1468d5545e4eedb8fccf1abaa56da5e6ee9316255231d565d91ad572?",
+  },
+  {
     name: "Messages",
     href: "/messages",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/1f97c38d1861c9f15e7785d2fb60aa2e67056d9cbf10b632c0a227519b230848?",
