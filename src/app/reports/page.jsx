@@ -2,10 +2,14 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 
 export default function Reports() {
+  const router = useRouter(); // Initialize useRouter
+  const [selectedOptions, setSelectedOptions] = React.useState({});
+
   const genReport = [
     {
       variable: "Patient List",
@@ -27,6 +31,25 @@ export default function Reports() {
       value: "",
     },
   ];
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setSelectedOptions({
+      ...selectedOptions,
+      [name]: checked,
+    });
+  };
+
+  const handleGenerateClick = () => {
+    const patientListSelected = selectedOptions["Patient List"];
+    const referredSelected = selectedOptions["Referred Patients List"];
+
+    if (patientListSelected) {
+      router.push("reports/patient_list"); // Navigate to new page
+    } else if (referredSelected) {
+      router.push("reports/referred_patients"); // Navigate to new page
+    }
+  };
 
   return (
     <div className="bg-white h-screen flex">
@@ -51,7 +74,11 @@ export default function Reports() {
                         </div>
                       </td>
                       <td className="border-l-[16px] border-transparent">
-                        <input type="checkbox" />
+                        <input
+                          type="checkbox"
+                          name={item.variable} // Set name attribute
+                          onChange={handleCheckboxChange} // Add onChange handler
+                        />
                       </td>
                     </tr>
                   ))}
@@ -95,7 +122,10 @@ export default function Reports() {
           </div>
         </div>
         <div className="text-base text-xs text-sky-900 mt-8">
-          <button className="justify-center px-10 py-1.5 rounded border border-sky-900 border-solid max-md:px-5">
+          <button
+            onClick={handleGenerateClick}
+            className="justify-center px-10 py-1.5 rounded border border-sky-900 border-solid max-md:px-5"
+          >
             Generate
           </button>
         </div>
