@@ -1,15 +1,16 @@
 import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableFooter,
-	TableHead,
-	TableHeader,
-	TableRow,
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 
 const invoices = [
+
 	{
 		invoice: "INV001",
 		paymentStatus: "Paid",
@@ -49,4 +50,5 @@ export default function Notes() {
 			</Table>
 		</>
 	);
+
 }
