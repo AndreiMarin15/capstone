@@ -4,9 +4,22 @@ import Navbar from "../navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { healthRecords } from "../../../lib/backend/health_records/health_records";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 export default function MyComponent() {
   const [navigation, setNavigation] = React.useState([]);
+  const [sortOptionName, setSortOptionName] = React.useState("asc");
+  const [sortOptionAge, setSortOptionAge] = React.useState("youngest");
+
   function computeAge(birthdate) {
     const dob = new Date(birthdate);
     const today = new Date();
@@ -21,6 +34,30 @@ export default function MyComponent() {
   React.useEffect(() => {
     const fetchData = async () => {
       const patients = await healthRecords.getPatients();
+
+      const nameSortFunction = (a, b) => {
+        const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
+        const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
+        
+        if (sortOptionName === "asc") {
+          return nameA.localeCompare(nameB);
+        } else if (sortOptionName === "desc") {
+          return nameB.localeCompare(nameA);
+        }
+      };
+
+      patients.sort(nameSortFunction);
+
+      const ageSortFunction = (a, b) => {
+        if (sortOptionAge === "youngest") {
+          return computeAge(a.personal_information.birthdate) - computeAge(b.personal_information.birthdate);
+        } else if (sortOptionAge === "oldest") {
+          return computeAge(b.personal_information.birthdate) - computeAge(a.personal_information.birthdate);
+        }
+      };
+
+      patients.sort(ageSortFunction);
+
       setNavigation(
         patients.map((patient) => ({
           name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
@@ -32,13 +69,30 @@ export default function MyComponent() {
     };
 
     fetchData();
-  }, []);
+  }, [sortOptionName, sortOptionAge]);
 
   React.useEffect(() => {
     console.log(navigation);
   }, [navigation]);
 
   const router = useRouter();
+  
+  const handleNameSort = (option) => {
+    setSortOptionName(option);
+    if (option === "asc" || option === "desc") {
+      setSortOptionAge(null);
+    }
+  };
+
+  const handleAgeSort = (option) => {
+    setSortOptionAge(option);
+    if (option === "youngest" || option === "oldest") {
+      setSortOptionName(null);
+    }
+  };
+
+
+
   return (
     <div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
       <div className="w-full max-md:max-w-full h-full">
@@ -80,12 +134,48 @@ export default function MyComponent() {
                     />
                     <div className="self-start">FILTER</div>
                   </button>
-                  <button className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid">
-                    SORT
-                  </button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid"
+                      >
+                        SORT
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>Sort By Name</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={sortOptionName}
+                        onValueChange={handleNameSort}
+                      >
+                        <DropdownMenuRadioItem value="asc">
+                          A-Z
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="desc">
+                          Z-A
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                      <DropdownMenuLabel>Sort By Age</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={sortOptionAge}
+                        onValueChange={handleAgeSort}
+                      >
+                        <DropdownMenuRadioItem value="youngest">
+                          Youngest
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="oldest">
+                          Oldest
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </span>
             </span>
+
 
             {navigation.map((item) => (
               <div key={item.name} className="ml-5 flex w-full flex-col">
