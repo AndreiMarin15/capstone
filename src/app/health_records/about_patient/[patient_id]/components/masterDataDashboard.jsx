@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import BackButton from "./sub_components/BackButton";
 import { getMasterDataDoctor } from "../../../../../../lib/backend/patient/personal_details/master_data";
 import ViewAttendingDoctors from "./sub_components/viewAttendingDoctors";
+import AddAttendingDoctors from "./sub_components/addAttendingDoctors";
 export default function MasterData({ patientId }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [mData, setmData] = useState([
@@ -58,7 +59,7 @@ export default function MasterData({ patientId }) {
         <div className="flex items-center justify-between mr-20 gap-3">
           <button
           onClick={() => {
-            router.push(`/health_records/about_patient/${patientId}/allergies`);
+            setCurrentScreen(1);
           }}
           className="flex px-4 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
           
@@ -172,13 +173,7 @@ export default function MasterData({ patientId }) {
       ) : null}
         {currentScreen === 1 ? (
           <>
-            {/* <ViewClinicVisit
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              patientId={patientId}
-              encounterId={selectedEncounterId}
-              clinicVisitNumber={clinicVisitNumber} // Pass clinic visit number here
-            /> */}
+           <AddAttendingDoctors currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
           </>
         ) : currentScreen === 2 ? (
           <>
