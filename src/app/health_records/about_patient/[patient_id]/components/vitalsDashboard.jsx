@@ -139,35 +139,6 @@ export default function Vitals({ patientId }) {
                 </span>
               </div>
             </div>
-
-            <div className="flex items-center">
-              <span className="flex items-center gap-1 px-1 py-1 mt-10 rounded-md border-[0.5px] border-solid border-black font-normal mr-2">
-                <Image
-                  alt="picture"
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/872489d37c6f07090c71fb194a8c077334f5ee8d7e865b4e470f49f5a27b95ba?apiKey=66e07193974a40e683930e95115a1cfd&"
-                  className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
-                />
-                <div className="text-black text-xs leading-5 self-center whitespace-nowrap">
-                  FILTER
-                </div>
-              </span>
-              <span className="flex items-center gap-1 px-1 py-1 mt-10 rounded-md border-[0.5px] border-solid border-black font-normal">
-                <Image
-                  alt="picture"
-                  height={0}
-                  width={0}
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
-                  className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
-                />
-                <div className="text-black text-xs leading-5 self-center">
-                  SORT
-                </div>
-              </span>
-            </div>
           </div>
 
           <a
