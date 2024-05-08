@@ -15,37 +15,39 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-export default function ReferredPatientList() {
+import { useReportsNav } from "../../store";
+import ReportsNav from "./reportsNav";
+import TotalVisits from "./components/totalvisits";
+import NewAndReturning from "./components/newandreturning";
+
+export default function ClinicVisitsVolume() {
+  const { selected } = useReportsNav();
   const router = useRouter(); // Initialize useRouter
 
   const patientInfo = [
     {
       name: "Marvin Raymundo",
-      doctor: "Dr. Johnny Santos",
-      specialization: "Cardiologist",
+      age: "25",
+      diagnosis: "Type 2 Diabetes with Ketoacidosis",
       date: "April 20, 2024",
-      status: "Accepted",
     },
     {
       name: "Ahmed Ali",
-      doctor: "Dr. Johnny Santos",
-      specialization: "Cardiologist",
+      age: "25",
+      diagnosis: "Type 1 Diabetes Mellitus with Hypoglycemia",
       date: "April 19, 2024",
-      status: "Accepted",
     },
     {
       name: "Elena Rodriguez",
-      doctor: "Dr. Johnny Santos",
-      specialization: "Cardiologist",
+      age: "24",
+      diagnosis: "Type 2 Diabetes Mellitus with Neuropathy",
       date: "April 10, 2024",
-      status: "Accepted",
     },
     {
       name: "Amir Khan",
-      doctor: "Dr. Johnny Santos",
-      specialization: "Cardiologist",
+      age: "45",
+      diagnosis: "Type 1 Diabetes Mellitus with Retinopathy",
       date: "January 28, 2024",
-      status: "Accepted",
     },
   ];
 
@@ -58,7 +60,7 @@ export default function ReferredPatientList() {
         <div className="shrink-0 mt-5 h-px bg-black border border-black border-solid max-md:max-w-full" />
         <div className="flex justify-between gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
           <div className="mt-8 text-base font-semibold text-black max-md:max-w-full">
-            REFERRED PATIENTS LIST
+            CLINIC VISITS VOLUME
           </div>
 
           <div className="mt-8 text-xs text-blue-500 max-md:max-w-full">
@@ -83,47 +85,17 @@ export default function ReferredPatientList() {
             <div>FILTER</div>
           </button>
         </div>
-
-        <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
-          <Table>
-            {/* To change to button */}
-            <TableCaption>Page 1 of 2</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[20%]">Patient Name</TableHead>
-                <TableHead>Doctor</TableHead>
-                <TableHead>Specialization</TableHead>
-                <TableHead className="text-left">Date Referred</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {patientInfo.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.doctor}</TableCell>
-                  <TableCell>{item.specialization}</TableCell>
-                  <TableCell className="text-left">{item.date}</TableCell>
-                  <TableCell>{item.status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-        <div className="text-base text-xs text-sky-900 mt-8">
-          <button className="flex items-center justify-center px-6 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5">
-            <div className="flex gap-0.5 justify-between items-center">
-              <Image
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-                className="w-3 h-3 aspect-square"
-                alt="Back Arrow"
-              />
-              <div className="text-xs">BACK</div>
-            </div>
-          </button>
+        <div className="mt-5 ml-8 mr-8">
+          <ReportsNav />
+          {selected === "Total Visits Over Time" ? (
+            <TotalVisits />
+          ) : selected === "New vs. Returning Patients" ? (
+            <>
+              <NewAndReturning />
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
