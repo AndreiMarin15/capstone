@@ -2,6 +2,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import PieChart from "./pieChart";
 import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
@@ -21,27 +22,27 @@ export default function PatientListClinicVisit() {
   const patientInfoClinicVisit = [
     {
       name: "Juana Dela Cruz",
-      age: "25",
-      diagnosis: "Type 2 Diabetes with Ketoacidosis",
-      date: "April 20, 2024",
+      type: "New",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Maria Santos",
-      age: "25",
-      diagnosis: "Type 1 Diabetes Mellitus with Hypoglycemia",
-      date: "April 19, 2024",
+      name: "Juana Dela Cruz",
+      type: "Returning",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Pedro Martinez",
-      age: "24",
-      diagnosis: "Type 2 Diabetes Mellitus with Neuropathy",
-      date: "April 10, 2024",
+      name: "Juana Dela Cruz",
+      type: "Returning",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Sophia Nguyen",
-      age: "45",
-      diagnosis: "Type 1 Diabetes Mellitus with Retinopathy",
-      date: "January 28, 2024",
+      name: "Juana Dela Cruz",
+      type: "New",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
   ];
 
@@ -79,27 +80,25 @@ export default function PatientListClinicVisit() {
             <div>FILTER</div>
           </button>
         </div>
-
+        <PieChart></PieChart>
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead className="w-[40%]">Diagnosis</TableHead>
-                <TableHead className="text-left">
-                  Date of Clinic Visit
-                </TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead className="w-[40%]">Referred?</TableHead>
+                <TableHead className="text-left">Referred By</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {patientInfoClinicVisit.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.age}</TableCell>
-                  <TableCell>{item.diagnosis}</TableCell>
-                  <TableCell className="text-left">{item.date}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.referred}</TableCell>
+                  <TableCell className="text-left">{item.referredby}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

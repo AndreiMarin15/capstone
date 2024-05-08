@@ -80,11 +80,12 @@ export default function PatientList() {
             <div>FILTER</div>
           </button>
         </div>
-        <BarChart></BarChart>
+        <div className="w-full">
+          <BarChart></BarChart>
+        </div>
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
-            <TableCaption>Page 1 of 2</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>

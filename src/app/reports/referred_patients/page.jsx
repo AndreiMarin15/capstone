@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import PieChart from "./pieChart";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Link } from "next/link"; // Import Link component
@@ -21,27 +22,31 @@ export default function ReferredPatientList() {
   const patientInfo = [
     {
       name: "Marvin Raymundo",
-      age: "25",
-      diagnosis: "Type 2 Diabetes with Ketoacidosis",
-      date: "April 20, 2024",
+      doctor: "Dr. Johnny Santos",
+      specialization: "Cardiologist",
+      datereferred: "April 20, 2024",
+      status: "Accepted",
     },
     {
-      name: "Ahmed Ali",
-      age: "25",
-      diagnosis: "Type 1 Diabetes Mellitus with Hypoglycemia",
-      date: "April 19, 2024",
+      name: "Marvin Raymundo",
+      doctor: "Dr. Johnny Santos",
+      specialization: "Cardiologist",
+      datereferred: "April 20, 2024",
+      status: "Accepted",
     },
     {
-      name: "Elena Rodriguez",
-      age: "24",
-      diagnosis: "Type 2 Diabetes Mellitus with Neuropathy",
-      date: "April 10, 2024",
+      name: "Marvin Raymundo",
+      doctor: "Dr. Johnny Santos",
+      specialization: "Cardiologist",
+      datereferred: "April 20, 2024",
+      status: "Accepted",
     },
     {
-      name: "Amir Khan",
-      age: "45",
-      diagnosis: "Type 1 Diabetes Mellitus with Retinopathy",
-      date: "January 28, 2024",
+      name: "Marvin Raymundo",
+      doctor: "Dr. Johnny Santos",
+      specialization: "Cardiologist",
+      datereferred: "April 20, 2024",
+      status: "Accepted",
     },
   ];
 
@@ -80,24 +85,30 @@ export default function ReferredPatientList() {
           </button>
         </div>
 
+        <PieChart></PieChart>
+
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead className="w-[40%]">Diagnosis</TableHead>
-                <TableHead className="text-left">Date Registered</TableHead>
+                <TableHead>Doctor</TableHead>
+                <TableHead className="text-left">Specialization</TableHead>
+                <TableHead className="text-left">Date Referred</TableHead>
+                <TableHead className="text-left">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {patientInfo.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.age}</TableCell>
-                  <TableCell>{item.diagnosis}</TableCell>
-                  <TableCell className="text-left">{item.date}</TableCell>
+                  <TableCell>{item.doctor}</TableCell>
+                  <TableCell>{item.specialization}</TableCell>
+                  <TableCell className="text-left">
+                    {item.datereferred}
+                  </TableCell>
+                  <TableCell className="text-left">{item.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
