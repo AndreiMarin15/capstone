@@ -65,7 +65,8 @@ export function MasterDataPDF() {
 	return (
 		<div className="flex items-center justify-center text-center m-2">
 			<Button onClick={downloadPDF}>Download Master Data</Button>
-			<div ref={pdfRef} className="hidden">
+			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
+				{" "}
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
 					JUAN DELA CRUZ
 				</div>

@@ -105,7 +105,7 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
                 </span>
                 
                 <select
-                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal"
+                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
                   onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
                   defaultValue="5"
                 >
@@ -117,7 +117,7 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
                   <option value="7">7</option>
                   <option value="10">10</option>
                 </select>
-                <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
+                <span className="ml-2 text-black text-base leading-5 font-normal">
                     Appointments
                 </span>
             </div>
