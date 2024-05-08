@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import BarChart from "./barChart";
 import { useRouter } from "next/navigation";
+import PieChart from "./pieChart";
 import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
@@ -16,33 +16,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-export default function PatientList() {
+export default function PatientListClinicVisit() {
   const router = useRouter(); // Initialize useRouter
 
-  const patientInfo = [
+  const patientInfoClinicVisit = [
     {
       name: "Juana Dela Cruz",
-      age: "25",
-      diagnosis: "Type 2 Diabetes with Ketoacidosis",
-      date: "April 20, 2024",
+      type: "New",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Maria Santos",
-      age: "25",
-      diagnosis: "Type 1 Diabetes Mellitus with Hypoglycemia",
-      date: "April 19, 2024",
+      name: "Juana Dela Cruz",
+      type: "Returning",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Pedro Martinez",
-      age: "24",
-      diagnosis: "Type 2 Diabetes Mellitus with Neuropathy",
-      date: "April 10, 2024",
+      name: "Juana Dela Cruz",
+      type: "Returning",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
     {
-      name: "Sophia Nguyen",
-      age: "45",
-      diagnosis: "Type 1 Diabetes Mellitus with Retinopathy",
-      date: "January 28, 2024",
+      name: "Juana Dela Cruz",
+      type: "New",
+      referred: "Yes",
+      referredby: "Dr. John Doe",
     },
   ];
 
@@ -55,7 +55,7 @@ export default function PatientList() {
         <div className="shrink-0 mt-5 h-px bg-black border border-black border-solid max-md:max-w-full" />
         <div className="flex justify-between gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
           <div className="mt-8 text-base font-semibold text-black max-md:max-w-full">
-            PATIENT LIST
+            CLINIC VISITS VOLUME
           </div>
 
           <div className="mt-8 text-xs text-blue-500 max-md:max-w-full">
@@ -80,27 +80,25 @@ export default function PatientList() {
             <div>FILTER</div>
           </button>
         </div>
-        <div className="w-full">
-          <BarChart></BarChart>
-        </div>
+        <PieChart></PieChart>
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead className="w-[40%]">Diagnosis</TableHead>
-                <TableHead className="text-left">Date Registered</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead className="w-[40%]">Referred?</TableHead>
+                <TableHead className="text-left">Referred By</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {patientInfo.map((item, index) => (
+              {patientInfoClinicVisit.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.age}</TableCell>
-                  <TableCell>{item.diagnosis}</TableCell>
-                  <TableCell className="text-left">{item.date}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.referred}</TableCell>
+                  <TableCell className="text-left">{item.referredby}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

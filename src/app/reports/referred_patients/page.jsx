@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import PieChart from "./pieChart";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Link } from "next/link"; // Import Link component
@@ -23,28 +24,30 @@ export default function ReferredPatientList() {
       name: "Marvin Raymundo",
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
-      date: "April 20, 2024",
+
+      datereferred: "April 20, 2024",
       status: "Accepted",
     },
     {
-      name: "Ahmed Ali",
+      name: "Marvin Raymundo",
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
-      date: "April 19, 2024",
+      datereferred: "April 20, 2024",
       status: "Accepted",
     },
     {
-      name: "Elena Rodriguez",
+      name: "Marvin Raymundo",
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
-      date: "April 10, 2024",
+      datereferred: "April 20, 2024",
       status: "Accepted",
     },
     {
-      name: "Amir Khan",
+      name: "Marvin Raymundo",
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
-      date: "January 28, 2024",
+      datereferred: "April 20, 2024",
+
       status: "Accepted",
     },
   ];
@@ -84,17 +87,21 @@ export default function ReferredPatientList() {
           </button>
         </div>
 
+        <PieChart></PieChart>
+
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
-            <TableCaption>Page 1 of 2</TableCaption>
+
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>
                 <TableHead>Doctor</TableHead>
-                <TableHead>Specialization</TableHead>
+
+                <TableHead className="text-left">Specialization</TableHead>
                 <TableHead className="text-left">Date Referred</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-left">Status</TableHead>
+
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -103,8 +110,12 @@ export default function ReferredPatientList() {
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.doctor}</TableCell>
                   <TableCell>{item.specialization}</TableCell>
-                  <TableCell className="text-left">{item.date}</TableCell>
-                  <TableCell>{item.status}</TableCell>
+
+                  <TableCell className="text-left">
+                    {item.datereferred}
+                  </TableCell>
+                  <TableCell className="text-left">{item.status}</TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
