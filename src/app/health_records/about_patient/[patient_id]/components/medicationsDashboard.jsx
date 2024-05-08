@@ -9,6 +9,7 @@ import { useState } from "react";
 import { getMedicationRequests } from "../../../../../../lib/backend/health_records/getMedicationRequest";
 
 import { client } from "../../../../../../lib/backend/initSupabase";
+import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
 
 export default function Medications({ patientId }) {
 	const supabase = client("public");
@@ -153,6 +154,8 @@ export default function Medications({ patientId }) {
 						>
 							Add
 						</button>
+						<MedicationHistoryPDF />
+
 					</div>
 					<div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
 						<div className="flex gap-1.5 p-2.5">
