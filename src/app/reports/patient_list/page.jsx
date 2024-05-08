@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
+import BarChart from "./barChart";
 import { useRouter } from "next/navigation";
 import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
@@ -79,7 +80,7 @@ export default function PatientList() {
             <div>FILTER</div>
           </button>
         </div>
-
+        <BarChart></BarChart>
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}

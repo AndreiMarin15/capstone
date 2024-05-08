@@ -43,11 +43,14 @@ export default function Reports() {
   const handleGenerateClick = () => {
     const patientListSelected = selectedOptions["Patient List"];
     const referredSelected = selectedOptions["Referred Patients List"];
+    const clinicVisitsVolume = selectedOptions["Clinic Visits Volume"];
 
     if (patientListSelected) {
       router.push("reports/patient_list"); // Navigate to new page
     } else if (referredSelected) {
       router.push("reports/referred_patients"); // Navigate to new page
+    } else if (clinicVisitsVolume) {
+      router.push("reports/clinic_visits_volume");
     }
   };
 

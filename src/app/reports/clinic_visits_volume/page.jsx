@@ -15,30 +15,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-export default function ReferredPatientList() {
+export default function PatientListClinicVisit() {
   const router = useRouter(); // Initialize useRouter
 
-  const patientInfo = [
+  const patientInfoClinicVisit = [
     {
-      name: "Marvin Raymundo",
+      name: "Juana Dela Cruz",
       age: "25",
       diagnosis: "Type 2 Diabetes with Ketoacidosis",
       date: "April 20, 2024",
     },
     {
-      name: "Ahmed Ali",
+      name: "Maria Santos",
       age: "25",
       diagnosis: "Type 1 Diabetes Mellitus with Hypoglycemia",
       date: "April 19, 2024",
     },
     {
-      name: "Elena Rodriguez",
+      name: "Pedro Martinez",
       age: "24",
       diagnosis: "Type 2 Diabetes Mellitus with Neuropathy",
       date: "April 10, 2024",
     },
     {
-      name: "Amir Khan",
+      name: "Sophia Nguyen",
       age: "45",
       diagnosis: "Type 1 Diabetes Mellitus with Retinopathy",
       date: "January 28, 2024",
@@ -54,7 +54,7 @@ export default function ReferredPatientList() {
         <div className="shrink-0 mt-5 h-px bg-black border border-black border-solid max-md:max-w-full" />
         <div className="flex justify-between gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
           <div className="mt-8 text-base font-semibold text-black max-md:max-w-full">
-            REFERRED PATIENTS LIST
+            CLINIC VISITS VOLUME
           </div>
 
           <div className="mt-8 text-xs text-blue-500 max-md:max-w-full">
@@ -88,11 +88,13 @@ export default function ReferredPatientList() {
                 <TableHead className="w-[20%]">Patient Name</TableHead>
                 <TableHead>Age</TableHead>
                 <TableHead className="w-[40%]">Diagnosis</TableHead>
-                <TableHead className="text-left">Date Registered</TableHead>
+                <TableHead className="text-left">
+                  Date of Clinic Visit
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {patientInfo.map((item, index) => (
+              {patientInfoClinicVisit.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.age}</TableCell>
