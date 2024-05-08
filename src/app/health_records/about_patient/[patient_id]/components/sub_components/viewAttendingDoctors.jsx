@@ -61,7 +61,7 @@ export default function AttendingDoctors({currentScreen, setCurrentScreen}) {
                         <button
                             className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
                             onClick={() => {
-                             
+                             setCurrentScreen(1);
                             }}
                         >
                             Add
