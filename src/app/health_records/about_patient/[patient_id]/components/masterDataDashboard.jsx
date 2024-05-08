@@ -43,12 +43,43 @@ export default function MasterData({ patientId }) {
           onClick={() => {
             router.push(`/health_records/about_patient/${patientId}/allergies`);
           }}
-          className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[5] font-semibold text-xs border-1.5 bg-sky-900 text-white"
+          className="flex items-center justify-center px-3 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
         >
-          VIEW
+          View
         </button>
       ),
     },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
+      variable: "Attending Doctors",
+      value: (
+        <div className="flex items-center justify-between mr-5">
+          <button
+          onClick={() => {
+            router.push(`/health_records/about_patient/${patientId}/allergies`);
+          }}
+          className="flex px-4 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
+          
+        >
+          Add
+        </button>
+        <button
+          onClick={() => {
+            router.push(`/health_records/about_patient/${patientId}/allergies`);
+          }}
+          className="flex px-4 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
+        >
+          View
+        </button>
+
+
+        </div>
+        
+      ),
+      
+    },
+
+
   ]);
   useEffect(() => {
     const fetchData = async () => {
