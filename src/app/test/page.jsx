@@ -1,54 +1,23 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+"use client";
 
-const invoices = [
-
-	{
-		invoice: "INV001",
-		paymentStatus: "Paid",
-		totalAmount: "$250.00",
-		paymentMethod: "Credit Card",
-	},
-	
-];
-export default function Notes() {
+import { CarePlansPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/careplanlist";
+import { FamilySocialHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/familysocialhistoryPDF";
+import { LabTestHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/labtesthistoryPDF";
+import { MasterDataPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/masterdatapdf";
+import { MedicalHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/medicalhistoryPDF";
+import { MedicationHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/medicationhistory";
+import { ReferralHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/referralhistoryPDF";
+export default function Test() {
 	return (
-		<>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead className="w-[100px]">Invoice</TableHead>
-						<TableHead>Status</TableHead>
-						<TableHead>Method</TableHead>
-						<TableHead className="text-right">Amount</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{invoices.map((invoice) => (
-						<TableRow key={invoice.invoice}>
-							<TableCell className="font-medium">{invoice.invoice}</TableCell>
-							<TableCell>{invoice.paymentStatus}</TableCell>
-							<TableCell>{invoice.paymentMethod}</TableCell>
-							<TableCell className="text-right">{invoice.totalAmount}</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TableCell colSpan={3}>Total</TableCell>
-						<TableCell className="text-right">$2,500.00</TableCell>
-					</TableRow>
-				</TableFooter>
-			</Table>
-		</>
+		<div>
+			<CarePlansPDF />
+			<FamilySocialHistoryPDF />
+			<LabTestHistoryPDF />
+			<MasterDataPDF />
+			<MedicalHistoryPDF />
+			<MedicationHistoryPDF />
+			<ReferralHistoryPDF />
+			
+		</div>
 	);
-
 }
