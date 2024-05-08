@@ -12,6 +12,11 @@ export const usePatientHRNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
+export const useReportsNav = create((set) => ({
+	selected: "Total Visits Over Time",
+	setSelected: (item) => set(() => ({ selected: item })),
+}));
+
 export const useAllergyNav = create((set) => ({
 	selected: "Drug",
 	setSelected: (item) => set(() => ({ selected: item })),

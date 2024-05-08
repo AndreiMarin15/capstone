@@ -32,6 +32,13 @@ export default function Reports() {
     },
   ];
 
+  const report = [
+    {
+      variable: "Report:",
+      value: "",
+    },
+  ];
+
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setSelectedOptions({
@@ -43,14 +50,21 @@ export default function Reports() {
   const handleGenerateClick = () => {
     const patientListSelected = selectedOptions["Patient List"];
     const referredSelected = selectedOptions["Referred Patients List"];
+
     const clinicVisitsVolume = selectedOptions["Clinic Visits Volume"];
+
 
     if (patientListSelected) {
       router.push("reports/patient_list"); // Navigate to new page
     } else if (referredSelected) {
       router.push("reports/referred_patients"); // Navigate to new page
+
     } else if (clinicVisitsVolume) {
       router.push("reports/clinic_visits_volume");
+
+    } else {
+      router.push("reports/clinic_visits"); // Navigate to new page
+
     }
   };
 
@@ -87,20 +101,43 @@ export default function Reports() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-          <div className="flex flex-col grow shrink-0 basis-0 w-fit max-md:max-w-full">
-            <div className="flex w-full max-md:flex-wrap max-md:pr-5 max-md:max-w-full">
-              <table className="max-w-fit border-spacing border-separate">
+              <table className="mt-10 max-w-fit border-spacing border-separate">
                 <tbody className="text-xs leading-5 text-black">
-                  {date.map((item, index) => (
+                  {report.map((item, index) => (
                     <tr key={index} className="h-8">
                       <td className="border-l-[12px] border-transparent">
-                        <div className="text-black text-xs leading-5 self-center my-auto">
+                        <div className="text-black font-semibold text-xs leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[16px] border-transparent">
+                        <select
+                          className="grow justify-center items-start px-2 py-1.5 pl-2 pr-1 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[calc(78% - 10px)]" // Adjusted width and padding
+                        >
+                          <option value="Patient List">Patient List</option>
+                          <option value="Referred Patient List">
+                            Referred Patient List
+                          </option>
+                          <option value="Clinic Visit Volume">
+                            Clinic Visit Volume
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <table className="mt-5 max-w-fit border-spacing border-separate">
+                <tbody className="text-xs leading-5 text-black">
+                  {date.map((item, index) => (
+                    <tr key={index} className="h-8">
+                      <td className="border-l-[12px] border-transparent">
+                        <div className="text-black font-semibold text-xs leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[32px] border-transparent">
                         <input
                           type="date"
                           className="grow justify-center items-start px-2 py-1.5 pl-2 pr-1 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[calc(78% - 10px)]" // Adjusted width and padding
@@ -117,10 +154,10 @@ export default function Reports() {
                   ))}
                 </tbody>
               </table>
-            </div>
-            <div className="flex gap-3 self-start mt-7 ml-16 text-black max-md:ml-2.5">
-              <input type="checkbox" />
-              <div>Generate All</div>
+              <div className="flex gap-3 self-start mt-7 ml-20 text-black max-md:ml-2.5">
+                <input type="checkbox" />
+                <div>Select All</div>
+              </div>
             </div>
           </div>
         </div>

@@ -24,6 +24,7 @@ export default function ReferredPatientList() {
       name: "Marvin Raymundo",
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
+
       datereferred: "April 20, 2024",
       status: "Accepted",
     },
@@ -46,6 +47,7 @@ export default function ReferredPatientList() {
       doctor: "Dr. Johnny Santos",
       specialization: "Cardiologist",
       datereferred: "April 20, 2024",
+
       status: "Accepted",
     },
   ];
@@ -90,13 +92,16 @@ export default function ReferredPatientList() {
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
+
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[20%]">Patient Name</TableHead>
                 <TableHead>Doctor</TableHead>
+
                 <TableHead className="text-left">Specialization</TableHead>
                 <TableHead className="text-left">Date Referred</TableHead>
                 <TableHead className="text-left">Status</TableHead>
+
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -105,10 +110,12 @@ export default function ReferredPatientList() {
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.doctor}</TableCell>
                   <TableCell>{item.specialization}</TableCell>
+
                   <TableCell className="text-left">
                     {item.datereferred}
                   </TableCell>
                   <TableCell className="text-left">{item.status}</TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
