@@ -4,6 +4,7 @@ import Navbar from "../navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { healthRecords } from "../../../lib/backend/health_records/health_records";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +13,16 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
 export default function MyComponent() {
   const [navigation, setNavigation] = React.useState([]);
+  const [originalPatients, setOriginalPatients] = React.useState([]);
   const [sortOptionName, setSortOptionName] = React.useState("asc");
   const [sortOptionAge, setSortOptionAge] = React.useState("youngest");
+  const [selectedGenders, setSelectedGenders] = React.useState([]);
 
   function computeAge(birthdate) {
     const dob = new Date(birthdate);
@@ -31,51 +35,115 @@ export default function MyComponent() {
     return age;
   }
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const patients = await healthRecords.getPatients();
 
-      const nameSortFunction = (a, b) => {
-        const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
-        const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
-        
-        if (sortOptionName === "asc") {
-          return nameA.localeCompare(nameB);
-        } else if (sortOptionName === "desc") {
-          return nameB.localeCompare(nameA);
-        }
-      };
+  
+  const fetchData = async () => {
+    const patients = await healthRecords.getPatients();
+    setOriginalPatients(patients);
 
-      patients.sort(nameSortFunction);
-
-      const ageSortFunction = (a, b) => {
-        if (sortOptionAge === "youngest") {
-          return computeAge(a.personal_information.birthdate) - computeAge(b.personal_information.birthdate);
-        } else if (sortOptionAge === "oldest") {
-          return computeAge(b.personal_information.birthdate) - computeAge(a.personal_information.birthdate);
-        }
-      };
-
-      patients.sort(ageSortFunction);
-
-      setNavigation(
-        patients.map((patient) => ({
-          name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
-          age: computeAge(patient.personal_information.birthdate),
-          href: `/health_records/about_patient/${patient.id}`,
-          src: patient.personal_information.photo,
-        }))
-      );
+    const nameSortFunction = (a, b) => {
+      const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
+      const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
+      
+      if (sortOptionName === "asc") {
+        return nameA.localeCompare(nameB);
+      } else if (sortOptionName === "desc") {
+        return nameB.localeCompare(nameA);
+      }
     };
 
+    patients.sort(nameSortFunction);
+
+    const ageSortFunction = (a, b) => {
+      if (sortOptionAge === "youngest") {
+        return computeAge(a.personal_information.birthdate) - computeAge(b.personal_information.birthdate);
+      } else if (sortOptionAge === "oldest") {
+        return computeAge(b.personal_information.birthdate) - computeAge(a.personal_information.birthdate);
+      }
+    };
+
+    patients.sort(ageSortFunction);
+    
+    setNavigation(
+      patients.map((patient) => ({
+        name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
+        age: computeAge(patient.personal_information.birthdate),
+        href: `/health_records/about_patient/${patient.id}`,
+        src: patient.personal_information.photo,
+        gender: patient.personal_information.gender,
+      }))
+    );
+  };
+
+  React.useEffect(() => {
     fetchData();
   }, [sortOptionName, sortOptionAge]);
+
+
 
   React.useEffect(() => {
     console.log(navigation);
   }, [navigation]);
 
   const router = useRouter();
+
+ const handleGenderFilter = (gender) => {
+    setSelectedGenders((prevSelectedGenders) => {
+      if (prevSelectedGenders.includes(gender)) {
+        return prevSelectedGenders.filter((selectedGender) => selectedGender !== gender);
+      } else {
+        return [...prevSelectedGenders, gender];
+      }
+    });
+  };
+  
+  React.useEffect(() => {
+    const filterAndSortPatients = () => {
+      if (selectedGenders.length === 0) {
+        // If no filters are applied, show original patients
+        setNavigation(
+          originalPatients.map((patient) => ({
+            name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
+            age: computeAge(patient.personal_information.birthdate),
+            href: `/health_records/about_patient/${patient.id}`,
+            src: patient.personal_information.photo,
+            gender: patient.personal_information.gender,
+          }))
+        );
+        return; // Exit early to prevent further processing
+      }
+
+      let filteredPatients = [...originalPatients];
+
+      filteredPatients = filteredPatients.filter((patient) =>
+        selectedGenders.includes(patient.personal_information.gender.toLowerCase())
+      );
+
+      const sortedPatients = filteredPatients.sort((a, b) => {
+        const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
+        const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
+        if (sortOptionName === "asc") {
+          return nameA.localeCompare(nameB);
+        } else if (sortOptionName === "desc") {
+          return nameB.localeCompare(nameA);
+        }
+        return 0;
+      });
+
+      setNavigation(
+        sortedPatients.map((patient) => ({
+          name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
+          age: computeAge(patient.personal_information.birthdate),
+          href: `/health_records/about_patient/${patient.id}`,
+          src: patient.personal_information.photo,
+          gender: patient.personal_information.gender,
+        }))
+      );
+    };
+
+    filterAndSortPatients();
+  }, [selectedGenders, sortOptionName, originalPatients]);
+
   
   const handleNameSort = (option) => {
     setSortOptionName(option);
@@ -123,25 +191,46 @@ export default function MyComponent() {
                       SEARCH
                     </div>
                   </span>
-                  <button className="flex gap-1 px-5 py-2 text-xs rounded-md border border-black border-solid">
-                    <Image
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
-                      width="100"
-                      height="100"
-                      className="shrink-0 w-3 aspect-[0.85]"
-                      alt="img"
-                    />
-                    <div className="self-start">FILTER</div>
-                  </button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline"
+                      <button className="flex gap-1 px-5 py-2 text-xs rounded-md border border-black border-solid">
+                        <Image
+                          loading="lazy"
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
+                          width="100"
+                          height="100"
+                          className="shrink-0 w-3 aspect-[0.85]"
+                          alt="img"
+                        />
+                        <div className="self-start">FILTER</div>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>Gender</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+
+                      <DropdownMenuCheckboxItem
+                        checked={selectedGenders.includes("male")}
+                        onCheckedChange={() => handleGenderFilter("male")}
+                      >
+                        Male
+                      </DropdownMenuCheckboxItem>
+                      <DropdownMenuCheckboxItem
+                        checked={selectedGenders.includes("female")}
+                        onCheckedChange={() => handleGenderFilter("female")}
+                      >
+                        Female
+                      </DropdownMenuCheckboxItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        
                         className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid"
                       >
                         SORT
-                      </Button>
+                      </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
                       <DropdownMenuLabel>Sort By Name</DropdownMenuLabel>
