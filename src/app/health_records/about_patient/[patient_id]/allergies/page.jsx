@@ -92,13 +92,11 @@ export default function PatientAllergies({ params }) {
                 <AllergiesNav />
 
                 {selected === "Drug" ? (
-                  <DrugAllergies allergy={medication} patientId={patientId} />
+                  <DrugAllergies onAdd={handleAdd} allergy={medication} patientId={patientId} />
                 ) : selected === "Food" ? (
                   <FoodAllergies allergy={food} patientId={patientId} />
                 ) : selected === "Environmental" ? (
                   <EnvAllergies allergy={env} patientId={patientId} />
-                ) : selected === "Add Allergy" ? (
-                  <AddAllergy onAdd={handleAdd} patientId={patientId} />
                 ) : (
                   ""
                 )}

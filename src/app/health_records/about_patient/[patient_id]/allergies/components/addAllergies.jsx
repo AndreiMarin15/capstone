@@ -11,15 +11,13 @@ import { useRouter } from "next/navigation";
 
 import * as React from "react";
 import { useState, useEffect } from "react";
+import BackButton from "../../components/sub_components/BackButton";
 import { updateAddAllergiesDoctor } from "../../../../../../../lib/backend/patient/personal_details/master_data";
 import { PatientSignUp as signUp } from "../../../../../../../lib/backend/signup/patient_signup";
 
-export default function AddAllergy({ onAdd, patientId }) {
+export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrentScreen}) {
   const router = useRouter();
-  const handleButtonClick = () => {
-    // Trigger the parent's callback function
-    onAdd();
-  };
+  
 
   const reactionCodes = [
     "J301",
@@ -40,7 +38,7 @@ export default function AddAllergy({ onAdd, patientId }) {
     "T886",
     "T887",
   ];
-  const [reactions, setReactions] = useState([]);
+  const [reactions, setReactions] = useState("");
   const [reactionNames, setNames] = useState([]);
   const [filteredNames, setFilteredNames] = useState([]);
 
@@ -104,9 +102,9 @@ export default function AddAllergy({ onAdd, patientId }) {
   const [saved, setSaved] = useState(false);
 
   const [allergy, setAllergy] = useState({
-    category_of_allergen: "Food",
-    allergen: "Milk",
-    reactions: [],
+    category_of_allergen: "",
+    allergen: "",
+    reactions: "",
     severity_of_allergy: "",
     date_of_onset: "",
     comments: "",
@@ -132,7 +130,7 @@ export default function AddAllergy({ onAdd, patientId }) {
           <option value="Medication">Medication</option>
           <option value="Environment">Environment</option>
           <option value="Biologic">Biologic</option>
-          {/* Add more options here */}
+       
         </select>
       ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/6f6c16bf79fcef72c689d9cf0dca5633ff9c15a7fd4a0cfecf641759b0e5e537?",
@@ -140,7 +138,8 @@ export default function AddAllergy({ onAdd, patientId }) {
     {
       label: "Allergen",
       field: (
-        <select
+        <input
+          type="text"
           onChange={(e) => {
             setAllergy((prev) => {
               return {
@@ -149,115 +148,31 @@ export default function AddAllergy({ onAdd, patientId }) {
               };
             });
           }}
-          value={allergy.allergen}
+        
           className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
-        >
-          {allergenList.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-
-          {/* Add more options here */}
-        </select>
+          placeholder="Enter allergen"
+        />
       ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8d83467a6242c7712b40f0ed0318ecf32eb3765ea8bbaaa517562b75d192879b?",
     },
     {
       label: "Add Reactions",
-      field: (
-        <>
-          {reactions.length > 0 ? (
-            <div className="flex">
-              <div className="inline-block relative">
-                <input
-                  autoComplete="off"
-                  type="text"
-                  className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
-                  placeholder="Allergy"
-                  id="allergyInput"
-                  onChange={(e) => {
-                    let filteredDiseases = [];
-                    reactions.forEach((reaction) => {
-                      if (e.target.value.length > 0) {
-                        if (
-                          reaction.disease
-                            .toLowerCase()
-                            .includes(e.target.value.toLowerCase())
-                        ) {
-                          filteredDiseases.push(reaction);
-                        }
-                      } else {
-                        filteredDiseases = [];
-                      }
-                    });
-
-                    setFilteredNames(filteredDiseases);
-                  }}
-                />
-                {filteredNames.length > 0 ? (
-                  <>
-                    <ul
-                      style={{
-                        listStyle: "none",
-                        padding: "unset",
-                        margin: "unset",
-                        position: "absolute",
-                        width: "100%",
-                      }}
-                    >
-                      {filteredNames.map((aller) => (
-                        <li
-                          key={aller.id}
-                          className="border border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
-                        >
-                          <button
-                            className="border-none cursor-pointer block w-full text-left py-2 px-4"
-                            onClick={() => {
-                              setAllergy((prev) => {
-                                return {
-                                  ...prev,
-                                  reactions: [
-                                    ...allergy.reactions,
-                                    {
-                                      substance: aller.id,
-                                      description: aller.disease,
-                                    },
-                                  ],
-                                };
-                              });
-
-                              document.getElementById("allergyInput").value =
-                                "";
-                              setFilteredNames([]);
-                            }}
-                          >
-                            {aller.disease}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div>
-                <ul className="m-[10px] absolute">
-                  {allergy.reactions.map((item, index) => (
-                    <li className="m-[5px]" key={item.substance}>
-                      {" "}
-                      {index + 1}. {item.substance} - {item.description}
-                    </li>
-                  ))}
-                </ul>
-              </div>{" "}
-            </div>
-          ) : (
-            "loading..."
-          )}
-        </>
-      ),
+        field: (
+          <input
+            type="text"
+            onChange={(e) => {
+              setAllergy((prev) => {
+                return {
+                  ...prev,
+                  reactions: e.target.value,
+                };
+              });
+            }}
+          
+            className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
+            placeholder="Enter Reactions"
+          />
+        ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0f79f841ae91f66e8662f831b661819a926269652b904eff7314e2b43bb39640?apiKey=66e07193974a40e683930e95115a1cfd&width=100",
     },
     {
@@ -361,106 +276,75 @@ export default function AddAllergy({ onAdd, patientId }) {
     }
   }, [allergy.category_of_allergen, setAllergenList]);
 
-  useEffect(() => {
-    setAllergenList(allergens[0].content);
-
-    const getReactions = async () => {
-      const query = await signUp.retrieveReactions(reactionCodes);
-      setReactions(query);
-
-      const names = query.map((react) => {
-        react.disease;
-      });
-
-      setNames(names);
-    };
-
-    getReactions();
-  }, []);
-
-  {
-    /* =========================================================== */
-  }
   return (
     <>
-      <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-        ADD ALLERGY
-      </div>
-      <div>
-        <table className="max-w-fit border-spacing-y-7 border-separate">
-          {form.map((item) => (
-            <tr key={item.label}>
-              <td className="border-l-[16px] border-transparent">
-                <div className="text-black text-xs font-semibold flex">
-                  <Image
-                    alt="image"
-                    height={18}
-                    width={18}
-                    loading="lazy"
-                    src={item.src}
-                    className="self-start aspect-square w-[18px] mr-3"
-                  />
-                  {item.label}
-                </div>
-              </td>
-              <td className="border-l-[5rem] border-transparent">
-                <div>{item.field}</div>
-              </td>
-            </tr>
-          ))}
-        </table>
-        <button
-          onClick={async () => {
-            if (saved === false) {
-              await updateAddAllergiesDoctor(patientId, allergy);
-              setSaved(true);
-
-              setAllergy({
-                category_of_allergen: "Food",
-                allergen: "Milk",
-                reactions: [],
-                severity_of_allergy: "Mild",
-                date_of_onset: "",
-                comments: "",
-              });
-
-              setTimeout(() => {
-                setSaved(false);
-              }, 500);
-              handleButtonClick();
-            }
-          }}
-          className={
-            "text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch" +
-            (saved ? " bg-lime-600 " : " bg-sky-900 ") +
-            "self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
-          }
-        >
-          {saved ? "Saved" : "Add to list"}
-        </button>
-      </div>
-
-      {/* BACK BUTTON */}
-      <div className="w-full flex justify-between max-md:max-w-full mt-10 max-md:px-5">
-        <button
-          onClick={() => {
-            router.push(`/health_records/about_patient/${patientId}`);
-          }}
-          className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
-        >
-          <div className="flex gap-0.5 justify-between items-center">
-            <Image
-              height={0}
-              width={0}
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-              className="w-3 h-3 aspect-square"
-              alt="Back Arrow"
-            />
-            <div className="text-xs">BACK</div>
+      {currentScreen === 1 ? (
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            ADD ALLERGY
           </div>
-        </button>
-      </div>
+          <div>
+            <table className="max-w-fit border-spacing-y-7 border-separate">
+              {form.map((item) => (
+                <tr key={item.label}>
+                  <td className="border-l-[16px] border-transparent">
+                    <div className="text-black text-xs font-semibold flex">
+                      <Image
+                        alt="image"
+                        height={18}
+                        width={18}
+                        loading="lazy"
+                        src={item.src}
+                        className="self-start aspect-square w-[18px] mr-3"
+                      />
+                      {item.label}
+                    </div>
+                  </td>
+                  <td className="border-l-[5rem] border-transparent">
+                    <div>{item.field}</div>
+                  </td>
+                </tr>
+              ))}
+            </table>
+            
+            
+            <div className="flex justify-between">
+           
+         
+          
+            <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
+            <button
+              onClick={async () => {
+                if (saved === false) {
+                  await updateAddAllergiesDoctor(patientId, allergy);
+                  setSaved(true);
+  
+                  setAllergy({
+                    category_of_allergen: "Food",
+                    allergen: "Milk",
+                    reactions: "",
+                    severity_of_allergy: "Mild",
+                    date_of_onset: "",
+                    comments: "",
+                  });
+                  setTimeout(() => {
+                    setSaved(false);
+                  }, 500);
+                  
+                }
+              }}
+              className={
+                "text-white text-xs font-semibold whitespace-nowrap" +
+                (saved ? " bg-lime-600 " : " bg-sky-900 ") +
+                "px-4 rounded"
+              }
+            >
+              {saved ? "Saved" : "Save"}
+            </button>
+            </div>
+          </div>
+        </>
+      ) : null}
     </>
   );
 }

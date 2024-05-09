@@ -4,7 +4,7 @@ import { useAllergyNav } from "@/app/store";
 export default function AllergiesNav() {
   const { selected, setSelected } = useAllergyNav();
 
-  const items = ["Drug", "Food", "Environmental", "Add Allergy"];
+  const items = ["Drug", "Food", "Environmental"];
 
   return (
     <span className="flex items-start justify-between gap-5 mt-4 self-start max-md:max-w-full max-md:flex-wrap">
