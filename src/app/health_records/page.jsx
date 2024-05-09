@@ -193,7 +193,7 @@ export default function MyComponent() {
                   </span>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button className="flex gap-1 px-5 py-2 text-xs rounded-md border border-black border-solid">
+                      <button className="flex gap-1 px-5 py-3 text-xs rounded-md border border-black border-solid">
                         <Image
                           loading="lazy"
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
@@ -225,12 +225,18 @@ export default function MyComponent() {
                   </DropdownMenu>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button
-                        
-                        className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid"
-                      >
-                        SORT
-                      </button>
+                      
+                        <span className="flex items-center gap-1 px-1 py-1 rounded-md border-[0.5px] border-solid border-black font-normal">
+                  <Image
+                      alt="picture"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
+                      className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
+                  />
+                  <div className="text-black text-xs leading-5 self-center">SORT</div>
+              </span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
                       <DropdownMenuLabel>Sort By Name</DropdownMenuLabel>
