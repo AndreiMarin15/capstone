@@ -78,27 +78,66 @@ export default function GenerateRecords() {
             </div>
           ))}
         </div>
-        <Checkbox> Select All </Checkbox>
-        <div className="flex justify-between">
-          <div className="flex flex-col">
-            <Checkbox>Master Data</Checkbox>
-            <Checkbox>Family & Social History</Checkbox>
-          </div>
-          <div className="flex flex-col">
-            <Checkbox>Medical History</Checkbox>
-            <Checkbox>Medication History</Checkbox>
-          </div>
-          <div className="flex flex-col">
-            <Checkbox>Lab Test History</Checkbox>
-            <Checkbox>List of Care Plans</Checkbox>
-          </div>
-          <div className="flex flex-col">
-            <Checkbox>Referral History</Checkbox>
-          </div>
-        </div>
-        <div className="mt-10 text-center">
-          <Button>Generate</Button>
-        </div>
+      </div>
+      <div className="text-xs">
+        <table>
+          <tr>
+            <td>Master Data</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Family & Social History</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Medical History</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Medication History</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Lab Test History</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>List of Care Plans</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Referral History</td>
+            <td>
+              <Button variant="outline" className="ml-4">
+                Download
+              </Button>
+            </td>
+          </tr>
+        </table>
       </div>
     </>
   );

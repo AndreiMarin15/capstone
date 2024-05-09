@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
-import { format } from "date-fns";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,49 +21,47 @@ ChartJS.register(
 
 const BarChart = () => {
   const options = {
-    responsive: true,
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: "Diagnosis",
-        },
+    indexAxis: "y",
+    elements: {
+      bar: {
+        borderWidth: 2,
       },
-      y: {
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "right",
+      },
+      title: {
         display: true,
-        title: {
-          display: true,
-          text: "No. of patients",
-        },
+        text: "Diagnosis Data",
       },
     },
   };
 
-  const sample_data = [50, 70, 40, 55, 75, 55, 60];
-  const sample_label = [
-    ["Type", "2", "Diabetes"],
-    ["Type", "1", "Diabetes", "Melitius"],
-    ["Type", "2", "Diabetes", "Mellitus", "with", "Neuropathy"],
-    ["Type", "2", "Diabetes", "with", "Heart", "Disease"],
-    ["Type", "2", "Diabetes"],
-    ["Type", "1", "Diabetes", "with", "Heart", "Disease"],
-    ["Type", "2", "Diabetes", "with", "Liver", "Problems"],
+  const labels = [
+    "Type 1 Diabetes",
+    "Type 2 Diabetes",
+    "Diabetes Mellitus with Neuropathy",
+    "Diabetes with Heart Disease",
+    "Diabetes",
+    "Diabetes with Heart Disease",
+    "Diabetes with Liver Problems",
   ];
-  const dataInput = {
-    labels: sample_label,
-    datasets: [
-      {
-        label: "Diagnosis Data",
-        data: sample_data,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-    ],
-  };
+  const data = [50, 70, 40, 55, 75, 55, 60];
+
+  const datasets = [
+    {
+      label: "Diagnosis Data",
+      data,
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+    },
+  ];
 
   return (
     <div className="rounded px-4 py-2 max-w-screen-lg mx-auto">
-      <Bar data={dataInput} options={options} />
+      <Bar options={options} data={{ labels, datasets }} />
     </div>
   );
 };

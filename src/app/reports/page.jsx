@@ -53,24 +53,23 @@ export default function Reports() {
 
     const clinicVisitsVolume = selectedOptions["Clinic Visits Volume"];
 
-
     if (patientListSelected) {
       router.push("reports/patient_list"); // Navigate to new page
     } else if (referredSelected) {
       router.push("reports/referred_patients"); // Navigate to new page
-
     } else if (clinicVisitsVolume) {
       router.push("reports/clinic_visits_volume");
-
     } else {
       router.push("reports/clinic_visits"); // Navigate to new page
-
     }
   };
 
   return (
-    <div className="bg-white h-screen flex">
-      <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full">
+    <div
+      className="bg-white h-screen flex"
+      style={{ overflowY: "scroll", maxHeight: "100vh" }}
+    >
+      <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full h-[100vh]">
         <div className="text-xl font-semibold text-black max-md:max-w-full">
           Reports
         </div>

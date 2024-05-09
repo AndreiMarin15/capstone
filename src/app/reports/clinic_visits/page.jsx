@@ -53,7 +53,7 @@ export default function ClinicVisitsVolume() {
 
   return (
     <div className="bg-white h-screen flex">
-      <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full">
+      <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full overflow: scroll">
         <div className="text-xl font-semibold text-black max-md:max-w-full">
           Reports
         </div>

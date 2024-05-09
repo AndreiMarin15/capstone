@@ -52,8 +52,21 @@ export default function ReferredPatientList() {
     },
   ];
 
+  const practitioners = [
+    { id: 1, name: "Dr. John Doe" },
+    { id: 2, name: "Dr. Jane Smith" },
+    { id: 3, name: "Dr. Mary Johnson" },
+  ];
+  const handlePractitionerChange = (event) => {
+    const selectedPractitionerId = event.target.value;
+    console.log(`Selected Practitioner ID: ${selectedPractitionerId}`);
+  };
+
   return (
-    <div className="bg-white h-screen flex">
+    <div
+      className="bg-white h-screen flex"
+      style={{ overflowY: "scroll", maxHeight: "100vh" }}
+    >
       <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full">
         <div className="text-xl font-semibold text-black max-md:max-w-full">
           Reports
@@ -87,40 +100,65 @@ export default function ReferredPatientList() {
           </button>
         </div>
 
-        <PieChart></PieChart>
-
-        <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
-          <Table>
-            {/* To change to button */}
-
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[20%]">Patient Name</TableHead>
-                <TableHead>Doctor</TableHead>
-
-                <TableHead className="text-left">Specialization</TableHead>
-                <TableHead className="text-left">Date Referred</TableHead>
-                <TableHead className="text-left">Status</TableHead>
-
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {patientInfo.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.doctor}</TableCell>
-                  <TableCell>{item.specialization}</TableCell>
-
-                  <TableCell className="text-left">
-                    {item.datereferred}
-                  </TableCell>
-                  <TableCell className="text-left">{item.status}</TableCell>
-
-                </TableRow>
+        <div className="flex flex-col">
+          <div className="mt-4 w-[30%]">
+            {/* Dropdown component */}
+            <label
+              htmlFor="practitionerSelect"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Practitioner
+            </label>
+            <select
+              id="practitionerSelect"
+              value=""
+              onChange={handlePractitionerChange}
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="" disabled selected>
+                Select a Practitioner
+              </option>
+              {practitioners.map((practitioner) => (
+                <option key={practitioner.id} value={practitioner.id}>
+                  {practitioner.name}
+                </option>
               ))}
-            </TableBody>
-          </Table>
+            </select>
+          </div>
+          <div className="flex-1">
+            {/* PieChart component */}
+            <PieChart></PieChart>
+          </div>
+
+          <div className="flex-1 mt-4 text-xs">
+            {/* Table component */}
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[20%]">Patient Name</TableHead>
+                  <TableHead>Doctor</TableHead>
+                  <TableHead className="text-left">Specialization</TableHead>
+                  <TableHead className="text-left">Date Referred</TableHead>
+                  <TableHead className="text-left">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {patientInfo.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>{item.doctor}</TableCell>
+                    <TableCell>{item.specialization}</TableCell>
+                    <TableCell className="text-left">
+                      {item.datereferred}
+                    </TableCell>
+                    <TableCell className="text-left">{item.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
+
         <div className="text-base text-xs text-sky-900 mt-8">
           <button className="flex items-center justify-center px-6 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5">
             <div className="flex gap-0.5 justify-between items-center">
