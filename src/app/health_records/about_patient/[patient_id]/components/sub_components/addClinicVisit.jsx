@@ -614,6 +614,24 @@ export default function AddClinicVisit({
   ];
   const [currentScreen, setCurrentScreen] = useState(0);
 
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+  
+    // Add leading zero if month/day is single digit
+    if (month < 10) {
+      month = '0' + month;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+  
+    return `${year}-${month}-${day}`;
+  }
+
 	return (
 		<>
 			{currentScreen === 0 ? (
@@ -646,18 +664,16 @@ export default function AddClinicVisit({
 											<td className="border-l-[5rem] border-transparent">
 												{item.variable === "Date" ? (
 													<input
-														type="date"
-														value={clinicDate}
-														onChange={(e) => setClinicDate(e.target.value)}
-														className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]'}
-							
-                            }`}
-                            style={
-                              errorStyles.clinicDate
-                                ? { borderColor: "red", borderWidth: "2px" }
-                                : {}
-                            }
-                          />
+                          type="date"
+                          value={clinicDate || getCurrentDate()}
+                          onChange={(e) => setClinicDate(e.target.value)}
+                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
+                          style={
+                            errorStyles.clinicDate
+                              ? { borderColor: "red", borderWidth: "2px" }
+                              : {}
+                          }
+                        />
                         ) : (
                           <>
                             <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5" />
