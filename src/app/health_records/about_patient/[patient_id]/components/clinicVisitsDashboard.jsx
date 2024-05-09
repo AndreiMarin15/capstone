@@ -10,6 +10,16 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
 import ViewClinicVisit from "./sub_components/viewClinicVisit";
 import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
@@ -24,7 +34,7 @@ export default function ClinicVisits({patientId}) {
   const [renderingOptions, setRenderingOptions] = useState(5);
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
   const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
-
+  const [sortOptionDate, setSortOptionDate] = React.useState("Recent");
  
  
   React.useEffect(() => {
@@ -83,6 +93,28 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
   handleEncounterClick(id);
 };
 
+const handleDateSort = (value) => {
+  setSortOptionDate(value); // Update the sort option
+
+  // Sort encounters based on the selected value without mutating the original state
+  const sortedEncounters = [...encounters].sort((a, b) => {
+    // Convert dates to Date objects
+    const dateA = new Date(a.resource.period.start);
+    const dateB = new Date(b.resource.period.start);
+
+    // Compare dates based on the selected option
+    if (value === "Recent") {
+      return dateA - dateB; // Sort from recent to oldest
+    } else if (value === "") {
+      return dateB - dateA; // Sort from oldest to recent
+    }
+  });
+
+  // Update the encounters state with sorted encounters
+  setEncounters(sortedEncounters);
+};
+
+
   return (
     <>
       {currentPage === 0 ? (
@@ -136,6 +168,10 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
                       FILTER
                   </div>
               </span>
+
+
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
               <span className="flex items-center gap-1 px-1 py-1 rounded-md border-[0.5px] border-solid border-black font-normal">
                   <Image
                       alt="picture"
@@ -145,51 +181,125 @@ const addHandleVisitClick = (id, clinicVisitNumber) => {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
                       className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                   />
-                  <div className="text-black text-xs leading-5 self-center">SORT</div>
+                  <button className="text-black text-xs leading-5 self-center">SORT</button>
               </span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={sortOptionDate}
+                        onValueChange={handleDateSort}
+                      >
+                         <DropdownMenuRadioItem value="Recent">
+                          Sort by Most Recent
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="Oldest">
+                          Sort By Oldest
+                        </DropdownMenuRadioItem>
+                       
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
             </div>
             
         </div>
    
-        {encounters.slice().reverse().slice(0, renderingOptions).map((encounter, index) => (
-          <button
-            key={encounter.id}
-            className="flex mt-4 mb-4 text-xs text-black"
-            onClick={() => addHandleVisitClick(encounter.id, encounters.length - index)}
-          >
-            <div className="flex justify-between w-full">
-            <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                className="self-start aspect-square fill-black w-[15px]"
-              />
-              {/* Display encounter data */}
-              <div className="flex flex-col flex-1 px-3.5 text-left">
-              <div className="font-semibold whitespace-nowrap">
-                    Clinic Visit {encounters.length - index}
-                  </div>
-                <div className="flex justify-between w-fit">
-                <Image
+        {sortOptionDate === "Recent"
+          ? encounters
+              .slice()
+              .reverse()
+              .slice(0, renderingOptions)
+              .map((encounter, index) => (
+                  <button
+                    key={encounter.id}
+                    className="flex mt-4 mb-4 text-xs text-black"
+                    onClick={() =>
+                      addHandleVisitClick(encounter.id, encounters.length - index)
+                    }
+                  >
+                    <div className="flex justify-between w-full">
+                      <Image
+                        alt="image"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                        className="self-start aspect-square fill-black w-[15px]"
+                      />
+                      {/* Display encounter data */}
+                      <div className="flex flex-col flex-1 px-3.5 text-left">
+                        <div className="font-semibold whitespace-nowrap">
+                          Clinic Visit {encounters.length - index}
+                        </div>
+                        <div className="flex justify-between w-fit">
+                          <Image
+                            alt="picture"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                            className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
+                          />
+                          <div className="ml-2 mr-10">
+                            {encounter.resource.participant &&
+                              encounter.resource.participant.actor &&
+                              encounter.resource.participant.actor}
+                          </div>
+                          <div>{encounter.resource.period.start}</div>
+                        </div>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        Last Opened: {encounter.lastOpened}
+                      </span>
+                    </div>
+                  </button>
+                ))
+          : encounters.slice(0, renderingOptions).map((encounter, index) => (
+              <button
+                key={encounter.id}
+                className="flex mt-4 mb-4 text-xs text-black"
+                onClick={() =>
+                  addHandleVisitClick(encounter.id, index + 1)
+                }
+              >
+                <div className="flex justify-between w-full">
+                  <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                    className="self-start aspect-square fill-black w-[15px]"
+                  />
+                  {/* Display encounter data */}
+                  <div className="flex flex-col flex-1 px-3.5 text-left">
+                    <div className="font-semibold whitespace-nowrap">
+                      Clinic Visit {index + 1}
+                    </div>
+                    <div className="flex justify-between w-fit">
+                      <Image
                         alt="picture"
                         height={0}
                         width={0}
                         loading="lazy"
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
                         className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
-                    />
-                    <div className="ml-2 mr-10">
-                        {encounter.resource.participant && encounter.resource.participant.actor && encounter.resource.participant.actor}
+                      />
+                      <div className="ml-2 mr-10">
+                        {encounter.resource.participant &&
+                          encounter.resource.participant.actor &&
+                          encounter.resource.participant.actor}
+                      </div>
+                      <div>{encounter.resource.period.start}</div>
                     </div>
-                  <div>{encounter.resource.period.start}</div>
                   </div>
+                  <span className="text-xs text-gray-500">
+                    Last Opened: {encounter.lastOpened}
+                  </span>
                 </div>
-              <span className="text-xs text-gray-500">Last Opened: {encounter.lastOpened}</span>
-            </div>
-          </button>
-        ))}
+              </button>
+            ))}
     
 		  <BackButton currentPage={currentPage} setCurrentPage={setCurrentPage}/>
         </>
