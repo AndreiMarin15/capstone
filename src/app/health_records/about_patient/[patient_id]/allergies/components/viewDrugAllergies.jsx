@@ -94,10 +94,4 @@ export default function DrugAllergies({ handleAdd, allergy, patientId }) {
   } else if (currentScreen === 1) {
     return <AddAllergies onAdd={handleAdd} patientId={patientId} currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>;
   }
-  else if (currentScreen === 2) {
-    return <AddAllergies onAdd={handleAdd} patientId={patientId} currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>;
-  }
-  else if (currentScreen === 5) {
-    return <AddAllergies onAdd={handleAdd} patientId={patientId} currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>;
-  }
 }

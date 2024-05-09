@@ -110,28 +110,36 @@ export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrent
     comments: "",
   });
 
+  useEffect(() => {
+    // Set category of allergen based on currentScreen
+    if (currentScreen === 1) {
+      setAllergy((prevAllergy) => ({
+        ...prevAllergy,
+        category_of_allergen: "Medication",
+      }));
+    } else if (currentScreen === 2) {
+      setAllergy((prevAllergy) => ({
+        ...prevAllergy,
+        category_of_allergen: "Food",
+      }));
+    }
+    else if (currentScreen === 5) {
+      setAllergy((prevAllergy) => ({
+        ...prevAllergy,
+        category_of_allergen: "Environment",
+      }));
+    }
+  }, [currentScreen]);
+
+
   const form = [
     {
       label: "Category of Allergen",
       field: (
-        <select
-          onChange={(e) => {
-            setAllergy((prev) => {
-              return {
-                ...prev,
-                category_of_allergen: e.target.value,
-              };
-            });
-          }}
-          value={allergy.category_of_allergen}
-          className="rounded shadow-sm h-10 mt-2 border-[0.5px] px-2 py-2 border-solid border-black"
-        >
-          <option value="">Select Allergen</option>
-          <option value="Food">Food</option>
-          <option value="Medication">Medication</option>
-          <option value="Environment">Environment</option>
-          <option value="Biologic">Biologic</option>
-        </select>
+        <div className="rounded shadow-sm h-10 mt-2 border-[0.5px] px-2 py-2 border-solid border-black">
+          {/* Display the selected category as text */}
+          <span>{allergy.category_of_allergen}</span>
+        </div>
       ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/6f6c16bf79fcef72c689d9cf0dca5633ff9c15a7fd4a0cfecf641759b0e5e537?",
     },
