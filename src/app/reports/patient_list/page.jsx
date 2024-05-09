@@ -2,6 +2,7 @@
 import * as React from "react";
 import Image from "next/image";
 import BarChart from "./barChart";
+import PieChart from "./pieChart";
 import { useRouter } from "next/navigation";
 import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
@@ -47,7 +48,10 @@ export default function PatientList() {
   ];
 
   return (
-    <div className="bg-white h-screen flex">
+    <div
+      className="bg-white h-screen flex"
+      style={{ overflowY: "scroll", maxHeight: "100vh" }}
+    >
       <div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full">
         <div className="text-xl font-semibold text-black max-md:max-w-full">
           Reports
@@ -80,9 +84,11 @@ export default function PatientList() {
             <div>FILTER</div>
           </button>
         </div>
-        <div className="w-full">
-          <BarChart></BarChart>
+        <div className="w-full flex justify-center items-center">
+          <PieChart />
+          <BarChart />
         </div>
+
         <div className="flex mt-4 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
             {/* To change to button */}
