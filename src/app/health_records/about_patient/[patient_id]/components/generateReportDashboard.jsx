@@ -5,6 +5,15 @@ import BackButton from "./sub_components/BackButton";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
+import { CarePlansPDF } from "./PDF_templates/careplanlist";
+import { FamilySocialHistoryPDF } from "./PDF_templates/familysocialhistoryPDF";
+import { LabTestHistoryPDF } from "./PDF_templates/labtesthistoryPDF";
+import { MasterDataPDF } from "./PDF_templates/masterdatapdf";
+import { MedicalHistoryPDF } from "./PDF_templates/medicalhistoryPDF";
+import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
+import { ReferralHistoryPDF } from "./PDF_templates/referralhistoryPDF";
+
+
 export default function GenerateRecords() {
   const [date, setDate] = useState();
 
@@ -84,57 +93,57 @@ export default function GenerateRecords() {
           <tr>
             <td>Master Data</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <MasterDataPDF />
+
             </td>
           </tr>
           <tr>
             <td>Family & Social History</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <FamilySocialHistoryPDF />
+
             </td>
           </tr>
           <tr>
             <td>Medical History</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <MedicalHistoryPDF />
+
             </td>
           </tr>
           <tr>
             <td>Medication History</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+             <MedicationHistoryPDF />
+
             </td>
           </tr>
           <tr>
             <td>Lab Test History</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <LabTestHistoryPDF />
+
             </td>
           </tr>
           <tr>
             <td>List of Care Plans</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <CarePlansPDF />
+
             </td>
           </tr>
           <tr>
             <td>Referral History</td>
             <td>
-              <Button variant="outline" className="ml-4">
-                Download
-              </Button>
+
+              <ReferralHistoryPDF />
+
             </td>
           </tr>
         </table>
