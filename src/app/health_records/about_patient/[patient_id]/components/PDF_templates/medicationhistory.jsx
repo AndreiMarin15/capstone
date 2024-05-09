@@ -95,9 +95,9 @@ export function MedicationHistoryPDF() {
 					Medication History
 				</div>
 				<div className="flex mt-4 px-16 w-full text-xs max-md:flex-wrap max-md:max-w-full">
-					<Table>
+					<Table className="mb-5 pb-5">
 						{/* To change to button */}
-						<TableCaption>Page 1 of 2</TableCaption>
+						{/* <TableCaption>Page 1 of 2</TableCaption> */}
 						<TableHeader>
 							<TableRow>
 								<TableHead>No.</TableHead>
