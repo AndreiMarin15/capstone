@@ -36,7 +36,7 @@ export default function PatientAllergies({ params }) {
     };
 
     fetchData();
-  }, [refresher]);
+  }, [refresher, patientId]);
 
   const [patientData, setPatientData] = React.useState({});
   const [patientFhirData, setPatientFhirData] = React.useState({});
@@ -94,9 +94,9 @@ export default function PatientAllergies({ params }) {
                 {selected === "Drug" ? (
                   <DrugAllergies onAdd={handleAdd} allergy={medication} patientId={patientId} />
                 ) : selected === "Food" ? (
-                  <FoodAllergies allergy={food} patientId={patientId} />
+                  <FoodAllergies onAdd={handleAdd} allergy={food} patientId={patientId} />
                 ) : selected === "Environmental" ? (
-                  <EnvAllergies allergy={env} patientId={patientId} />
+                  <EnvAllergies onAdd={handleAdd} allergy={env} patientId={patientId} />
                 ) : (
                   ""
                 )}

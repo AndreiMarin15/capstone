@@ -323,6 +323,8 @@ export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrent
             <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
             <button
               onClick={async () => {
+                setCurrentScreen(0);
+
                 if (saved === false) {
                   await updateAddAllergiesDoctor(patientId, allergy);
                   setSaved(true);

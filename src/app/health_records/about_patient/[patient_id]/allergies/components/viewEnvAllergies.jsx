@@ -31,7 +31,7 @@ const rowdata = ({
   );
 };
 
-export default function EnvAllergies({ allergy, patientId }) {
+export default function EnvAllergies({ handleAdd, allergy, patientId }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const router = useRouter();
   const header = [
@@ -41,6 +41,13 @@ export default function EnvAllergies({ allergy, patientId }) {
     "Onset Date",
     "Comments",
   ];
+  const handleSave = async () => {
+    setCurrentScreen(0);
+    // Here you can fetch the updated data or do any other necessary operations
+    // For example, refetching allergy data
+    // const updatedAllergyData = await fetchAllergyData();
+    // setAllergy(updatedAllergyData);
+  };
 
   if (currentScreen === 0) {
     return (

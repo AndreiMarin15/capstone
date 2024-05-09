@@ -29,7 +29,7 @@ const rowdata = ({
     </tr>
   );
 };
-export default function FoodAllergies({ allergy, patientId }) {
+export default function FoodAllergies({ handleAdd, allergy, patientId }) {
   const [currentScreen, setCurrentScreen] = useState(0);
   const router = useRouter();
   const header = ["Food", "Reactions", "Severity", "Onset Date", "Comments"];
