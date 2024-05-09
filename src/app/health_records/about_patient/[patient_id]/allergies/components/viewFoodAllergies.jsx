@@ -9,6 +9,8 @@ import {
 } from "@nextui-org/react";
 
 import * as React from "react";
+import AddAllergies from "./addAllergies";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 const rowdata = ({
   allergen,
@@ -20,23 +22,20 @@ const rowdata = ({
   return (
     <tr>
       <td>{allergen}</td>
-      <td>
-        <ol class="list-decimal list-inside">
-          {reactions.map((item, index) => (
-            <li key={index}>{item.description}</li>
-          ))}
-        </ol>
-      </td>
+      <td>{reactions} </td>
       <td>{severity_of_allergy || "mild"}</td>
       <td>{date_of_onset || "mm-dd-yyy"}</td>
       <td>{comments || "N/A"}</td>
     </tr>
   );
 };
-export default function FoodAllergies({ allergy, patientId }) {
+export default function FoodAllergies({ handleAdd, allergy, patientId }) {
+  const [currentScreen, setCurrentScreen] = useState(0);
   const router = useRouter();
   const header = ["Food", "Reactions", "Severity", "Onset Date", "Comments"];
-  return (
+  
+  if (currentScreen === 0) {
+    return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
         FOOD ALLERGIES
@@ -48,14 +47,24 @@ export default function FoodAllergies({ allergy, patientId }) {
             {header.map((item, index) => (
               <th key={index}>{item}</th>
             ))}
+             <th>
+                <button
+                  onClick={() => {
+                    setCurrentScreen(2);
+                  }}
+                  className="flex px-4 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
+                >
+                  Add
+                </button>
+              </th>
           </tr>
         </thead>
         <tbody>
-          {allergy &&
-            allergy.map((item) => {
-              return <>{rowdata({ ...item })}</>;
-            })}
-        </tbody>
+            {allergy &&
+              allergy.map((item, index) => {
+                return <React.Fragment key={index}>{rowdata({ ...item })}</React.Fragment>;
+              })}
+          </tbody>
       </table>
 
       {/* BACK BUTTON */}
@@ -82,3 +91,8 @@ export default function FoodAllergies({ allergy, patientId }) {
     </>
   );
 }
+  else if (currentScreen === 2) {
+    return <AddAllergies patientId={patientId} currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>;
+  }
+}
+
