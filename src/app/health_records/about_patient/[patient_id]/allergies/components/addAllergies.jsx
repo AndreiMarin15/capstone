@@ -126,11 +126,11 @@ export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrent
           value={allergy.category_of_allergen}
           className="rounded shadow-sm h-10 mt-2 border-[0.5px] px-2 py-2 border-solid border-black"
         >
+          <option value="">Select Allergen</option>
           <option value="Food">Food</option>
           <option value="Medication">Medication</option>
           <option value="Environment">Environment</option>
           <option value="Biologic">Biologic</option>
-       
         </select>
       ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/6f6c16bf79fcef72c689d9cf0dca5633ff9c15a7fd4a0cfecf641759b0e5e537?",
@@ -278,7 +278,7 @@ export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrent
 
   return (
     <>
-      {currentScreen === 1 ? (
+      {currentScreen === 1 || 2 || 5 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             ADD ALLERGY
