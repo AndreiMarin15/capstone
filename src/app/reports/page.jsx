@@ -57,8 +57,6 @@ export default function Reports() {
       router.push("reports/patient_list"); // Navigate to new page
     } else if (referredSelected) {
       router.push("reports/referred_patients"); // Navigate to new page
-    } else if (clinicVisitsVolume) {
-      router.push("reports/clinic_visits_volume");
     } else {
       router.push("reports/clinic_visits"); // Navigate to new page
     }
@@ -100,7 +98,7 @@ export default function Reports() {
                   ))}
                 </tbody>
               </table>
-              <table className="mt-10 max-w-fit border-spacing border-separate">
+              {/*  <table className="mt-10 max-w-fit border-spacing border-separate">
                 <tbody className="text-xs leading-5 text-black">
                   {report.map((item, index) => (
                     <tr key={index} className="h-8">
@@ -125,7 +123,7 @@ export default function Reports() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+                  </table> */}
 
               <table className="mt-5 max-w-fit border-spacing border-separate">
                 <tbody className="text-xs leading-5 text-black">

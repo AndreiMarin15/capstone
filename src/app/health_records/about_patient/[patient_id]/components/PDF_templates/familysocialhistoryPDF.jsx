@@ -67,7 +67,7 @@ export function FamilySocialHistoryPDF() {
   };
   return (
     <div className="flex items-center justify-center text-center m-2">
-      <Button onClick={downloadPDF}>Download Family History</Button>
+      <Button onClick={downloadPDF}>Download</Button>
       <div
         ref={pdfRef}
         className="hidden z-[-10] absolute"

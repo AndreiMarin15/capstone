@@ -66,7 +66,7 @@ export function MedicalHistoryPDF() {
   };
   return (
     <div className="flex items-center justify-center text-center m-2">
-      <Button onClick={downloadPDF}>Download Medical History</Button>
+      <Button onClick={downloadPDF}>Download</Button>
       <div
         ref={pdfRef}
         className="hidden z-[-10] absolute"
@@ -85,8 +85,8 @@ export function MedicalHistoryPDF() {
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[200px]">No.</TableHead>
               <TableHead>No.</TableHead>
+              {/* <TableHead>No.</TableHead> */}
               <TableHead>Diagnosis</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Provider</TableHead>
@@ -96,6 +96,9 @@ export function MedicalHistoryPDF() {
           <TableBody className="bg-white">
             {medicalhistory.map((medicalhistory) => (
               <TableRow key={medicalhistory.number}>
+                <TableCell className="font-medium">
+                  {medicalhistory.number}
+                </TableCell>
                 <TableCell className="font-medium">
                   {medicalhistory.diagnosis}
                 </TableCell>
