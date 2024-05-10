@@ -12,6 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import BarChart from "./barchart";
+
 
 export default function TotalVisits() {
   const router = useRouter(); // Initialize useRouter
@@ -53,6 +55,7 @@ export default function TotalVisits() {
           (January 1, 2024 to May 1, 2024){" "}
         </span>
       </div>
+      <BarChart></BarChart>
 
       <div className="flex mt-4 px-8 w-full text-xs max-md:flex-wrap max-md:max-w-full">
         <Table>
