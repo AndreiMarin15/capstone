@@ -85,7 +85,7 @@ export function ReferralHistoryPDF() {
         <div className="text-black text-center text-base  leading-5max-md:ml-1 max-md:mt-10 mb-10">
           Referral History
         </div>
-        <div className="flex mt-4 px-16 w-full text-xs max-md:flex-wrap max-md:max-w-full">
+        <div className="flex items-center justify-center mt-4 px-16 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table className="mb-5 pb-5">
             {/* To change to button */}
             {/* <TableCaption>Page 1 of 2</TableCaption> */}
@@ -103,7 +103,7 @@ export function ReferralHistoryPDF() {
                   <TableCell className="font-medium">{item.number}</TableCell>
                   <TableCell>{item.referredto}</TableCell>
                   <TableCell>{item.specialization}</TableCell>
-                  <TableCell>{item.diet}</TableCell>
+                  <TableCell>{item.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
