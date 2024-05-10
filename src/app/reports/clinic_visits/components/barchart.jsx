@@ -21,7 +21,7 @@ ChartJS.register(
 
 const BarChart = () => {
   const options = {
-    indexAxis: "y",
+    indexAxis: "y", // Represent months along the x-axis
     elements: {
       bar: {
         borderWidth: 2,
@@ -34,25 +34,25 @@ const BarChart = () => {
       },
       title: {
         display: true,
-        text: "Diagnosis Data",
+        text: "Total Clinic Visits Over Time",
       },
     },
   };
 
   const labels = [
-    "Type 1 Diabetes",
-    "Type 2 Diabetes",
-    "Diabetes Mellitus with Neuropathy",
-    "Diabetes with Heart Disease",
-    "Diabetes",
-    "Diabetes with Heart Disease",
-    "Diabetes with Liver Problems",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
   ];
-  const data = [50, 70, 40, 55, 75, 55, 60];
+  const data = [150, 180, 200, 220, 210, 190, 175]; // Total clinic visits for each month
 
   const datasets = [
     {
-      label: "Diagnosis Data",
+      label: "Total Clinic Visits",
       data,
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -60,11 +60,8 @@ const BarChart = () => {
   ];
 
   return (
-    <div
-      className="rounded px-4 py-2 max-w-screen-lg mx-auto flex justify-center"
-      style={{ "flex-grow": "2" }}
-    >
-      <Bar options={options} data={{ labels, datasets }} className="w-full" />
+    <div className="rounded px-4 py-2 max-w-screen-lg mx-auto">
+      <Bar options={options} data={{ labels, datasets }} />
     </div>
   );
 };
