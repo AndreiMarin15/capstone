@@ -59,7 +59,6 @@ export default function NewAndReturning() {
         </div>
         <div className="flex mt-4 px-8 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table>
-            <TableCaption>Page 1 of 2</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[30%]">Patient Name</TableHead>

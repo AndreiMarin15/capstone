@@ -60,8 +60,11 @@ const BarChart = () => {
   ];
 
   return (
-    <div className="rounded px-4 py-2 max-w-screen-lg mx-auto">
-      <Bar options={options} data={{ labels, datasets }} />
+    <div
+      className="rounded px-4 py-2 max-w-screen-lg mx-auto flex justify-center"
+      style={{ "flex-grow": "2" }}
+    >
+      <Bar options={options} data={{ labels, datasets }} className="w-full" />
     </div>
   );
 };

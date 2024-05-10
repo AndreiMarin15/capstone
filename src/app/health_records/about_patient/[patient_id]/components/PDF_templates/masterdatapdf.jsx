@@ -64,7 +64,7 @@ export function MasterDataPDF() {
   };
   return (
     <div className="flex items-center justify-center text-center m-2">
-      <Button onClick={downloadPDF}>Download Master Data</Button>
+      <Button onClick={downloadPDF}>Download</Button>
       <div
         ref={pdfRef}
         className="hidden z-[-10] absolute p-5 m-5"
