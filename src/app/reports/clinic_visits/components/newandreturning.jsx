@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import PieChart from "./pieChart";
+import PieChart from "./piechart";
 
 export default function NewAndReturning() {
   const router = useRouter(); // Initialize useRouter
