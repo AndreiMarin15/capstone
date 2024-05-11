@@ -2,13 +2,13 @@ import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import BackButton from "./BackButton";
-import uploadMedication from "../../../../../lib/backend/health_records/uploadMedication";
-import { retrieveMedications } from "../../../../../lib/backend/health_records/getMedication";
+import uploadMedication from "@/app/lib/backend//health_records/uploadMedication";
+import { retrieveMedications } from "@/app/lib/backend//health_records/getMedication";
 import { formatDuration } from "date-fns/esm";
-import { healthRecords } from "../../../../../lib/backend/health_records/health_records";
+import { healthRecords } from "@/app/lib/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import doctor from "../../../../../lib/backend/health_records/doctor";
+import doctor from "@/app/lib/backend//health_records/doctor";
 
 export default function AddMedications({ currentScreen, setCurrentScreen, patientId }) {
 	const [regis, setRegis] = useState("");

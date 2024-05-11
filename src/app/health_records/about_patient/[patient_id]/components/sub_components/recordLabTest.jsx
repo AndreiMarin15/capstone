@@ -2,10 +2,10 @@ import Image from "next/image";
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import BackButton from "./BackButton";
-import doctor from "../../../../../lib/backend/health_records/doctor";
-import { getEncounterById } from "../../../../../lib/backend/health_records/getEncounter";
-import { getObservationsByPatientId } from "../../../../../lib/backend/health_records/getObservation";
-import { healthRecords } from "../../../../../lib/backend/health_records/health_records";
+import doctor from "@/app/lib/backend//health_records/doctor";
+import { getEncounterById } from "@/app/lib/backend//health_records/getEncounter";
+import { getObservationsByPatientId } from "@/app/lib/backend//health_records/getObservation";
+import { healthRecords } from "@/app/lib/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

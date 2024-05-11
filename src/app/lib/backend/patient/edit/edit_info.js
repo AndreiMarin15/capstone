@@ -36,8 +36,8 @@
 //         return { success: false, message: "Failed to update family member history." };
 //     }
 // };
-import { PUBLIC } from "../../../lib/backend/public/db";
-import { PROJECT } from "../../../lib/backend/project/db";
+import { PUBLIC } from "@/app/lib/backend//public/db";
+import { PROJECT } from "@/app/lib/backend//project/db";
 import { client } from "../../initSupabase";
 import { authentication } from "../../auth";
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import Navbar from "../navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { healthRecords } from "../lib/backend/health_records/health_records";
+import { healthRecords } from "@/app/lib/backend//health_records/health_records";
 
 import {
 	DropdownMenu,
@@ -234,7 +234,6 @@ export default function MyComponent() {
 							</span>
 						</span>
 
-
 						{navigation.map((item) => (
 							<div key={item.name} className="ml-5 flex w-full flex-col">
 								<button
@@ -270,5 +269,4 @@ export default function MyComponent() {
 			</div>
 		</div>
 	);
-
 }

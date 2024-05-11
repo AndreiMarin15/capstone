@@ -2,9 +2,9 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import VisitLabTests from "./sub_components/visitLabTests";
 import { useState, useEffect } from "react";
-import { getEncounters, getEncounterByPatientId } from "../../../../lib/backend/health_records/getEncounter";
-import { getObservationsByPatientId } from "../../../../lib/backend/health_records/getObservation";
-import doctor from "../../../../lib/backend/health_records/doctor";
+import { getEncounters, getEncounterByPatientId } from "@/app/lib/backend//health_records/getEncounter";
+import { getObservationsByPatientId } from "@/app/lib/backend//health_records/getObservation";
+import doctor from "@/app/lib/backend//health_records/doctor";
 
 export default function LabTests({ patientId }) {
 	const tests = [

@@ -10,7 +10,7 @@ import ClinicVisits from "./components/clinicVisitsDashboard";
 import VitalsBiometrics from "./components/vitalsDashboard";
 import Diagnoses from "./components/diagnosesDashboard";
 import { usePatientHRNav } from "@/app/store";
-import { healthRecords } from "../../../../lib/backend/health_records/health_records";
+import { healthRecords } from "@/app/lib/backend//health_records/health_records";
 
 export default function PatientData() {
 	const { selected } = usePatientHRNav();

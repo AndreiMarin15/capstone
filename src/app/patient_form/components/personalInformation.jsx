@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePatientInfo } from "@/app/store";
 import AllergyForm from "./subcomponents/allergies";
-import { PatientSignUp } from "../../lib/backend/signup/patient_signup";
+import { PatientSignUp } from "@/app/lib/backend//signup/patient_signup";
 export default function SignUpPersonalInformation() {
 	const patientStore = usePatientInfo();
 	const [showAllergy, setshowAllergy] = useState(false);

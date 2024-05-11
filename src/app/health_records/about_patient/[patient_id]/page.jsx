@@ -19,7 +19,7 @@ import SocialHistory from "./components/socialHistory";
 import FamilySocialHistory from "./components/familysocialHistoryDashboard";
 import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
 
-import { healthRecords } from "../../../lib/backend/health_records/health_records";
+import { healthRecords } from "@/app/lib/backend//health_records/health_records";
 
 export default function AboutPatient({ params }) {
 	const { selected } = useHRNav();

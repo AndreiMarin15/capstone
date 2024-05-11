@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import VisitLabtests from "./visitLabTests";
 import BackButton from "./BackButton";
 import { currentUser } from "@/app/store";
-import { importCarePlan } from "../../../../../lib/backend/patient/careplan/careplan";
+import { importCarePlan } from "@/app/lib/backend//patient/careplan/careplan";
 export default function AddCarePlan({ setCurrentScreen, patientData, patientId }) {
 	const lookup = {
 		dietaryManagement: { code: "18771-9", display: "Dietary counseling" },

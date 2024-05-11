@@ -7,15 +7,15 @@ import VisitLabtests from "./visitLabTests";
 import AddLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
 import { toast } from "react-toastify";
-import doctor from "../../../../../lib/backend/health_records/doctor";
+import doctor from "@/app/lib/backend//health_records/doctor";
 import "react-toastify/dist/ReactToastify.css";
 import {
 	getEncounters,
 	getEncounterById,
 	updateEncounterContained,
-} from "../../../../../lib/backend/health_records/getEncounter";
-import { getObservation } from "../../../../../lib/backend/health_records/getObservation";
-import { uploadObservation } from "../../../../../lib/backend/health_records/uploadObservation";
+} from "@/app/lib/backend//health_records/getEncounter";
+import { getObservation } from "@/app/lib/backend//health_records/getObservation";
+import { uploadObservation } from "@/app/lib/backend//health_records/uploadObservation";
 
 export default function LabTestList({ currentScreen, setCurrentScreen, patientId, encounterId, clinicVisitNumber }) {
 	const router = useRouter();

@@ -4,10 +4,10 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewMedications from "../medications/components/viewPatientMedications";
-import { doctor } from "../../../../lib/backend/health_records/doctor";
-import { getMedicationRequests } from "../../../../lib/backend/health_records/getMedicationRequest";
-import { getPatientRawData } from "../../../../lib/backend/patient/personal_details/master_data";
-import { client } from "../../../../lib/backend/initSupabase";
+import { doctor } from "@/app/lib/backend//health_records/doctor";
+import { getMedicationRequests } from "@/app/lib/backend//health_records/getMedicationRequest";
+import { getPatientRawData } from "@/app/lib/backend//patient/personal_details/master_data";
+import { client } from "@/app/lib/backend//initSupabase";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -199,16 +199,9 @@ export default function MedicationsDashboard() {
 						.filter((medication) => {
 							const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
 							if (status === "ACTIVE") {
-								return (
-									medication.resource.subject.reference === patientId &&
-							
-									medication.resource.status === "Active"
-								);
+								return medication.resource.subject.reference === patientId && medication.resource.status === "Active";
 							} else {
-								return (
-									medication.resource.subject.reference === patientId &&
-									(medication.resource.status === "Inactive")
-								);
+								return medication.resource.subject.reference === patientId && medication.resource.status === "Inactive";
 							}
 						})
 						.map((medication, index) => (

@@ -3,9 +3,9 @@ import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from 
 import BackButton from "./sub_components/BackButton";
 import * as React from "react";
 
-import { getFinalDiagnosisObservations } from "../../../../../lib/backend/health_records/getObservation";
-import { getEncounterByPatientId } from "../../../../../lib/backend/health_records/getEncounter";
-import { getPatientRawData } from "../../../../../lib/backend/patient/personal_details/master_data";
+import { getFinalDiagnosisObservations } from "@/app/lib/backend//health_records/getObservation";
+import { getEncounterByPatientId } from "@/app/lib/backend//health_records/getEncounter";
+import { getPatientRawData } from "@/app/lib/backend//patient/personal_details/master_data";
 export default function Diagnoses() {
 	const variables = ["Diagnoses", "Date of Diagnosis", "Doctor", "Hospital"];
 	const [patientData, setPatientData] = React.useState(null);
@@ -114,8 +114,9 @@ export default function Diagnoses() {
 															? encounters[index]?.resource.period.start
 															: variable === "Doctor"
 																? diagnosis.resource.participant.actor
-                                : variable === "Hospital" ? "Philippine General Hospital"
-																: diagnosis.resource[variable]}
+																: variable === "Hospital"
+																	? "Philippine General Hospital"
+																	: diagnosis.resource[variable]}
 												</span>
 											</td>
 										))}

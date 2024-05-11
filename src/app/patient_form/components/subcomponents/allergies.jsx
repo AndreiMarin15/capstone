@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePatientInfo } from "@/app/store";
-import { PatientSignUp as signUp } from "../../../lib/backend/signup/patient_signup";
+import { PatientSignUp as signUp } from "@/app/lib/backend//signup/patient_signup";
 export default function AllergyForm() {
 	const reactionCodes = [
 		"J301",

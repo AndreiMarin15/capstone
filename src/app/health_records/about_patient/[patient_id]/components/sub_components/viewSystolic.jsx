@@ -5,7 +5,7 @@ import { Chart as ChartJS, TimeScale, LinearScale, PointElement, LineElement } f
 import { format } from "date-fns";
 import "chartjs-adapter-date-fns";
 import Image from "next/image";
-import { getBPDoctor } from "../../../../../lib/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import { getBPDoctor } from "@/app/lib/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);
 
