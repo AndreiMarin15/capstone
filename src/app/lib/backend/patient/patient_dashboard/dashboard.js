@@ -1,7 +1,7 @@
 import { PROJECT as project } from "../../project/db";
 import { authentication as auth } from "../../auth";
 import { PUBLIC } from "../../public/db";
-import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "../@/app/store";
+import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "@/app/store";
 import { client } from "../../initSupabase";
 
 const fhir = client("public");

@@ -12,8 +12,8 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import BackButton from "../../components/sub_components/BackButton";
-import { updateAddAllergiesDoctor } from "../../../../../../../lib/backend/patient/personal_details/master_data";
-import { PatientSignUp as signUp } from "../../../../../../../lib/backend/signup/patient_signup";
+import { updateAddAllergiesDoctor } from "@/app/lib/backend/patient/personal_details/master_data";
+import { PatientSignUp as signUp } from "@/app/lib/backend/signup/patient_signup";
 
 export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrentScreen}) {
   const router = useRouter();

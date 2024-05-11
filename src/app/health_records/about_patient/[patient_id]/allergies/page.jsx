@@ -8,8 +8,8 @@ import DrugAllergies from "./components/viewDrugAllergies";
 import FoodAllergies from "./components/viewFoodAllergies";
 import EnvAllergies from "./components/viewEnvAllergies";
 import AddAllergy from "./components/addAllergies";
-import { getAllergiesDoctor } from "../../../../../../lib/backend/patient/personal_details/master_data";
-import { healthRecords } from "../../../../../../lib/backend/health_records/health_records";
+import { getAllergiesDoctor } from "@/app/lib/backend/patient/personal_details/master_data";
+import { healthRecords } from "@/app/lib/backend/health_records/health_records";
 
 export default function PatientAllergies({ params }) {
   const { selected } = useAllergyNav();

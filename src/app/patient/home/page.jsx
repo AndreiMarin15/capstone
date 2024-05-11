@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import * as React from "react";
-import dashboard from "../../lib/backend/patient/patient_dashboard/dashboard";
+import dashboard from "@/app/lib/backend/patient/patient_dashboard/dashboard";
 export default function Home() {
 	const [patientData, setPatient] = React.useState({
 		name: "Juan Dela Cruz",
