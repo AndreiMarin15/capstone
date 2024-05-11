@@ -1,7 +1,7 @@
 import { PROJECT as project } from "../../project/db";
 import { authentication as auth } from "../../auth";
 import { PUBLIC } from "../../public/db";
-import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "../../../../src/app/store";
+import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "@/app/store";
 import { client } from "../../initSupabase";
 
 const fhir = client("public");
@@ -66,9 +66,8 @@ const dashboard = {
 			.order("ts", { ascending: false })
 			.limit(1);
 
-	
 		const data = last_careplan.data[0];
-	
+
 		return data;
 	},
 };

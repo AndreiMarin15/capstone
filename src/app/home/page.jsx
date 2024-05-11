@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import * as React from "react";
-import dashboard from "../../../lib/backend/doctor/doctor_dashboard/dashboard";
+import dashboard from "@/app/lib/backend//doctor/doctor_dashboard/dashboard";
 
 export default function Home() {
 	const [editState, setEditState] = React.useState(false);
@@ -194,7 +194,7 @@ export default function Home() {
 								<div className="flex gap-4 mt-8 items-start w-full overflow-auto" style={{ maxHeight: "300px" }}>
 									<span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
 										{managedPatients
-											.filter((patient) => (patient.handledBy.length > 0)) // Filter patients with more than 1 doctor
+											.filter((patient) => patient.handledBy.length > 0) // Filter patients with more than 1 doctor
 											.map((patient) => (
 												<>
 													<div className="text-black text-xs font-semibold leading-5">{patient.name}</div>

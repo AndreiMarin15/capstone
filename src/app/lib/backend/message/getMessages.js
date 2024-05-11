@@ -1,31 +1,31 @@
 import { supabase, PROJECT } from "../project/db";
-import { currentUser } from "../../../src/app/store";
+import { currentUser } from "@/app/store";
 
 export const newChat = async (doctorId) => {
-	return PROJECT.insertInto("messages_header_referral", {
-		doctor1: currentUser.getState().info.id,
-		doctor2: doctorId,
+	return PROJECT.insertInto("messages_header", {
+		patient: currentUser.getState().info.id,
+		doctor: doctorId,
 	});
 };
 
 // Listening to insert messages
 export const getMessagesAndSubscribe = async (handleInserts) => {
 	return supabase
-		.channel("messages_referral")
-		.on("postgres_changes", { event: "INSERT", schema: "project", table: "messages_referral" }, handleInserts)
+		.channel("messages")
+		.on("postgres_changes", { event: "INSERT", schema: "project", table: "messages" }, handleInserts)
 		.subscribe();
 };
 // Listening to insert chat(new chat between doctor and patient)
 export const getChatAndSubscribe = async (handleInserts) => {
 	return supabase
-		.channel("chats_referral")
-		.on("postgres_changes", { event: "INSERT", schema: "project", table: "message_header_referral" }, handleInserts)
+		.channel("chats")
+		.on("postgres_changes", { event: "INSERT", schema: "project", table: "message_header" }, handleInserts)
 		.subscribe();
 };
 // list of supabase functions
 export const getMessages = {
 	insertMessage: async (header, message, status) => {
-		const { data, error } = await supabase.from("messages_referral").insert({
+		const { data, error } = await supabase.from("messages").insert({
 			message_status: status,
 			message: message,
 			message_header_id: header,
@@ -33,7 +33,7 @@ export const getMessages = {
 	},
 	updateRead: async (header, status, statusUpdate) => {
 		const { data, error } = await supabase
-			.from("messages_referral")
+			.from("messages")
 			.update({
 				message_status: statusUpdate,
 			})
@@ -44,46 +44,42 @@ export const getMessages = {
 	getMessage: async (chatID) => {
 		console.log("the chat ID: ", chatID);
 		const { data, error } = await supabase
-			.from("messages_header_referral")
+			.from("messages_header")
 			.select(
 				`
         *,
-        messages_referral:id(
+        messages:id(
           message,
           created_at,
           message_status
         ),
-        doctor1:doctor1(
-			id,
-            first_name,
-            last_name
-          ),
-		doctor2:doctor2(
-			id,
-			first_name,
-			last_name
-		)
-        
+        patients:patient(
+          personal_information->first_name,
+          personal_information->last_name
+        ),
+        doctors:doctor(
+          first_name,
+          last_name
+        )
       `
 			)
 			.eq("id", chatID)
-			.order("created_at", { referencedTable: "messages_referral", ascending: false });
+			.order("created_at", { referencedTable: "messages", ascending: false });
 		console.log(data);
-
 		return data ? data[0] : [];
 	},
 	// for rendering the clickable left panel(wiith changing colors)
 	getChats: async () => {
 		const { data, error } = await supabase
-			.from("chats_referral")
+			.from("chats")
 			.select(`*`)
-			.or(`doctor1.eq.${currentUser.getState().info.id},doctor2.eq.${currentUser.getState().info.id}`)
+			.or(`doctor.eq.${currentUser.getState().info.id},patient.eq.${currentUser.getState().info.id}`)
 			.order("created_at", { ascending: false });
 		return data ? data : [];
 	},
 	getNotifications: async () => {
 		const { data, error } = await supabase
-			.from("messages_header_referral")
+			.from("messages_header")
 			.select(
 				`
     *,

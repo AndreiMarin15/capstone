@@ -1,7 +1,7 @@
 import { PROJECT as project } from "../../project/db";
 import { authentication as auth } from "../../auth";
 import { client } from "../../initSupabase";
-import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "../../../../src/app/store";
+import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "@/app/store";
 const supabase = client("project");
 const dashboard = {
 	getDoctorData: async () => {

@@ -2,8 +2,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { getEncounters } from "../../../../../../lib/backend/health_records/getEncounter";
-import { getObservation } from "../../../../../../lib/backend/health_records/getObservation";
+import { getEncounters } from "@/app/lib/backend//health_records/getEncounter";
+import { getObservation } from "@/app/lib/backend//health_records/getObservation";
 import LaboratoryList from "../../../lab_tests/LaboratoryList";
 import BackButton from "./BackButton";
 import html2canvas from "html2canvas";
@@ -385,18 +385,16 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 				""
 			)}
 
-      {currentScreen === 2 && (
-        <>
-         <LaboratoryList
-              currentScreen={currentScreen}
-              setCurrentScreen={setCurrentScreen}
-              patientId={patientId} 
-              encounterId={encounterId}
-            />
-        </>
-      )}
-
-
+			{currentScreen === 2 && (
+				<>
+					<LaboratoryList
+						currentScreen={currentScreen}
+						setCurrentScreen={setCurrentScreen}
+						patientId={patientId}
+						encounterId={encounterId}
+					/>
+				</>
+			)}
 		</>
 	);
 }

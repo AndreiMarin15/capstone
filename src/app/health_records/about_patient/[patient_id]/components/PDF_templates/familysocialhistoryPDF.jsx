@@ -15,14 +15,14 @@ import { Button } from "@/components/ui/button";
 
 const familyhistory = [
   {
-    number: "1", // wala sa fhir pang count lang ng rows (number)
+    // number: "1", // wala sa fhir pang count lang ng rows (number)
     name: "Jhoanna Mae Dela Cruz", // familymemberhistory table: name (string)
     relationship: "Mother", // familymemberhistory table: relationship (string)
     condition: "Hypertension", // familymemberhistory table: condition code (string)
     procedure: "N/A", // familymemberhistory table: procedure (string)
   },
   {
-    number: "2",
+    // number: "2",
     name: "Jhomar Dela Cruz",
     relationship: "Father",
     condition: "Cardiomyopathy",
@@ -94,10 +94,10 @@ export function FamilySocialHistoryPDF() {
             </TableRow>
           </TableHeader>
           <TableBody className="bg-white">
-            {familyhistory.map((familyhistory) => (
+            {familyhistory.map((familyhistory, index) => (
               <TableRow key={familyhistory.name}>
                 <TableCell className="font-medium">
-                  {familyhistory.number}
+                  {familyhistory.index + 1}
                 </TableCell>
                 <TableCell>{familyhistory.name}</TableCell>
                 <TableCell>{familyhistory.relationship}</TableCell>

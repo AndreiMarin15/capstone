@@ -1,5 +1,5 @@
 import { authentication } from "../auth";
-import { currentUser, useUserInfo } from "../../../src/app/store";
+import { currentUser, useUserInfo } from "@/app/store";
 import { PROJECT } from "../project/db";
 
 export const login = {

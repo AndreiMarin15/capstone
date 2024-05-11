@@ -1,4 +1,4 @@
-import { PUBLIC } from "../../backend/public/db";
+import { PUBLIC } from "../public/db";
 import { client } from "../initSupabase";
 export async function getMedicationRequests() {
     try {

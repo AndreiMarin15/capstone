@@ -1,11 +1,10 @@
 import { PROJECT as project } from "../project/db";
 import { authentication as auth } from "../auth";
 import { client } from "../initSupabase";
-import { currentUser } from "../../../src/app/store";
+import { currentUser } from "@/app/store";
 import { newChat } from "./referralMessages";
 
 import { sendNotification, updateNotification, getNotifications } from "../sendNotification";
-
 
 const sProject = client("project");
 const sFhir = client("public");
@@ -56,11 +55,7 @@ const retrieveReferralData = {
 		return patients;
 	},
 	getDoctors: async () => {
-		const query = await sProject
-			.from("doctors")
-			.select("*")
-			.not("id", "eq", currentUser.getState().info.id)
-		
+		const query = await sProject.from("doctors").select("*").not("id", "eq", currentUser.getState().info.id);
 
 		const doctorsPromises = query.data.map(async (doctor) => {
 			const specialization = await sProject
@@ -182,7 +177,6 @@ const retrieveReferralData = {
 					},
 				})
 				.eq("id", referral.data[0].patient_id);
-
 
 			sendNotification(
 				referral.data[0].patient_id,

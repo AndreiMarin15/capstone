@@ -2,7 +2,7 @@ import { PUBLIC } from "../public/db";
 import { PROJECT } from "../project/db";
 import { client } from "../initSupabase";
 import { authentication } from "../auth";
-import { currentUser } from "../../../src/app/store";
+import { currentUser } from "@/app/store";
 import { newChat } from "../message/getMessages";
 const supabase = client("project");
 export const PatientSignUp = {

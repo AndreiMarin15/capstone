@@ -1,9 +1,9 @@
 import { PROJECT as project } from "../project/db";
 import { authentication as auth } from "../auth";
 import { client } from "../initSupabase";
-import { currentUser } from "../../../src/app/store";
+import { currentUser } from "@/app/store";
 import { newChat } from "./referralMessages";
-import {sendNotification, updateNotification, getNotifications} from "../sendNotification";
+import { sendNotification, updateNotification, getNotifications } from "../sendNotification";
 const sProject = client("project");
 function computeAge(birthdate) {
 	const dob = new Date(birthdate);

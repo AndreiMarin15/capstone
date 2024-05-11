@@ -1,6 +1,6 @@
 import { PROJECT as project } from "../project/db";
 import { authentication as auth } from "../auth";
-import { currentUser } from "../../../src/app/store";
+import { currentUser } from "@/app/store";
 import { client } from "../initSupabase";
 const supabase = client("project");
 const referralLetters = {
@@ -14,14 +14,11 @@ const referralLetters = {
 		return letters.data;
 	},
 
-    getLetter: async (id) => {
-        const letter = await supabase
-            .from("written_referrals")
-            .select("*")
-            .eq("id", id);
+	getLetter: async (id) => {
+		const letter = await supabase.from("written_referrals").select("*").eq("id", id);
 
-        return letter.data[0];
-    }
+		return letter.data[0];
+	},
 };
 
 export default referralLetters;

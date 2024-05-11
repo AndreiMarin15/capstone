@@ -1,5 +1,5 @@
 import { client as c } from "./initSupabase";
-import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "../../src/app/store";
+import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "@/app/store";
 
 const client = c("public");
 export const authentication = {
@@ -15,7 +15,7 @@ export const authentication = {
 				currentUser.getState().setInfo(session.user);
 			}
 		});
-		console.log(currentUser.getState().info)
+		console.log(currentUser.getState().info);
 
 		return currentUser.getState().info;
 	},

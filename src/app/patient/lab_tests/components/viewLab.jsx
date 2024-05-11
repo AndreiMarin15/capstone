@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import AddLabTest from "./addLab";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
-import { getObservationsWithLabTest } from "../../../../../lib/backend/health_records/getObservation";
+import { getObservationsWithLabTest } from "@/app/lib/backend/health_records/getObservation";
 
 const ImageModal = ({ src, onClose }) => {
   return (

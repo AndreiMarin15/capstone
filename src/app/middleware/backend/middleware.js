@@ -1,4 +1,4 @@
-import { useUserInfo } from "../../store";
+import { useUserInfo } from "@/app/store";
 
 const middleware = {
 	signUp: async () => {
@@ -10,7 +10,6 @@ const middleware = {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					
 					email: useUserInfo.getState().email,
 					password: useUserInfo.getState().password,
 				}),

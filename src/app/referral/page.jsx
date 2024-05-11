@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
-import retrieveReferralData from "../../../lib/backend/referral/retrieveReferralData";
+import retrieveReferralData from "@/app/lib/backend//referral/retrieveReferralData";
 import ReferralList from "./components/referralList";
-import { getMessages, getMessagesAndSubscribe } from "../../../lib/backend/referral/referralMessages";
+import { getMessages, getMessagesAndSubscribe } from "@/app/lib/backend//referral/referralMessages";
 
 export default function Referral() {
 	const router = useRouter();

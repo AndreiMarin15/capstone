@@ -4,7 +4,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { authentication } from "../../lib/backend/auth";
+import { authentication } from "./lib/backend/auth";
 import { AuthError } from "@supabase/supabase-js";
 import { currentUser } from "./store";
 
@@ -27,7 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					pathname !== "/patient_form" &&
 					pathname !== "/doctor_form" &&
 					pathname !== "/require_auth" &&
-					!pathname.includes("/legal")&&
+					!pathname.includes("/legal") &&
 					!pathname.includes("/middleware")
 				) {
 					router.push("/require_auth");
