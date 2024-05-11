@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useUserInfo } from "@/app/store";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import middleware from "@/app/middleware/backend/";
+import middleware from "@/app/middleware/backend/middleware";
 import { middlewareUser } from "@/app/store";
 
 export default function Home() {
