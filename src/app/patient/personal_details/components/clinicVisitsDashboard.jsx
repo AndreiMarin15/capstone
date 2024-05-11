@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import ViewClinicVisit from "./sub_components/viewClinicVisit";
 import * as React from "react";
-import { getEncounters } from "@/app/lib/backend//health_records/getEncounter";
-import { getPatientRawData } from "@/app/lib/backend//patient/personal_details/master_data";
+import { getEncounters } from "@/backend//health_records/getEncounter";
+import { getPatientRawData } from "@/backend//patient/personal_details/master_data";
 
 export default function ClinicVisits() {
 	const router = useRouter();

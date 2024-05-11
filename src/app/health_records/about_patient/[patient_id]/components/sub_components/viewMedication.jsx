@@ -6,7 +6,7 @@ import VisitMedications from "./visitMedications";
 import VisitLabtests from "./visitLabTests";
 import LabTestList from "./labTestList";
 import BackButton from "./BackButton";
-import { getMedicationRequests } from "@/app/lib/backend//health_records/getMedicationRequest";
+import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
 
 export default function ViewMedications({ currentScreen, setCurrentScreen, medicationId }) {
 	console.log("Current medicationId:", medicationId);

@@ -7,7 +7,7 @@ import DrugAllergies from "./components/viewDrugAllergies";
 import FoodAllergies from "./components/viewFoodAllergies";
 import EnvAllergies from "./components/viewEnvAllergies";
 import AddAllergy from "./components/addAllergies";
-import { getAllergies } from "@/app/lib/backend/patient/personal_details/master_data";
+import { getAllergies } from "@/backend/patient/personal_details/master_data";
 export default function PatientAllergies() {
 	const { selected } = useAllergyNav();
 	const [medication, setMedication] = React.useState([]);

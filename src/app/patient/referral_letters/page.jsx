@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import referralLetters from "@/app/lib/backend//referral_letters/getData";
+import referralLetters from "@/backend//referral_letters/getData";
 import { useRouter } from "next/navigation";
 export default function ReferralLetters() {
 	const router = useRouter();

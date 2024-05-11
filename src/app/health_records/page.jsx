@@ -3,7 +3,7 @@ import * as React from "react";
 import Navbar from "../navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { healthRecords } from "@/app/lib/backend//health_records/health_records";
+import { healthRecords } from "@/backend//health_records/health_records";
 
 import {
 	DropdownMenu,

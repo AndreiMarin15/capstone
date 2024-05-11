@@ -8,11 +8,11 @@ import AddMedications from "./addMedication";
 import RequestLabTest from "./requestLabTest";
 import RecordLabTest from "./recordLabTest";
 import BackButton from "./BackButton";
-import doctor from "@/app/lib/backend//health_records/doctor";
-import { retrieveDisease } from "@/app/lib/backend//health_records/getDisease";
-import uploadEncounter from "@/app/lib/backend//health_records/uploadEncounter";
-import { getEncounters } from "@/app/lib/backend//health_records/getEncounter";
-import { healthRecords } from "@/app/lib/backend//health_records/health_records";
+import doctor from "@/backend//health_records/doctor";
+import { retrieveDisease } from "@/backend//health_records/getDisease";
+import uploadEncounter from "@/backend//health_records/uploadEncounter";
+import { getEncounters } from "@/backend//health_records/getEncounter";
+import { healthRecords } from "@/backend//health_records/health_records";
 export default function AddClinicVisit({ currentPage, setCurrentPage, patientId }) {
 	const [clinicDate, setClinicDate] = useState("");
 	const [suggestedClinicDate, setSuggestedClinicDate] = useState("");

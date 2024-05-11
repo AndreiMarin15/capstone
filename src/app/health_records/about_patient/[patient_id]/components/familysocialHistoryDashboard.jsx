@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import FamilyHistory from "./sub_components/viewfamilyHistory";
 import { FaM } from "react-icons/fa6";
 import BackButton from "./sub_components/BackButton";
-import { getFamilyAndSocialHistoryDoctor } from "@/app/lib/backend//patient/personal_details/master_data";
+import { getFamilyAndSocialHistoryDoctor } from "@/backend//patient/personal_details/master_data";
 export default function SocialHistory({ patientId }) {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [familyHistory, setFamilyHistory] = useState([]);

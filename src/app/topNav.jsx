@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { pathIncluded } from "../../globals";
 import { useEffect, useState } from "react";
 import { currentUser } from "./store";
-import { authentication } from "./lib/backend/auth";
+import { authentication } from "@/backend/auth";
 import { useRouter } from "next/navigation";
 
 export default function TopNav() {

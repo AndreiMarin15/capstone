@@ -6,8 +6,8 @@ import VisitMedications from "./visitMedications";
 import VisitLabtests from "./visitLabTests";
 import LabTestList from "./labTestList";
 import BackButton from "./BackButton";
-import { getEncounters } from "@/app/lib/backend//health_records/getEncounter";
-import { getObservation } from "@/app/lib/backend//health_records/getObservation";
+import { getEncounters } from "@/backend//health_records/getEncounter";
+import { getObservation } from "@/backend//health_records/getObservation";
 export default function ViewClinicVisit({ currentPage, setCurrentPage, patientId, encounterId, clinicVisitNumber }) {
 	const [currentScreen, setCurrentScreen] = useState(0);
 	const [followupData, setFollowupData] = useState([]);

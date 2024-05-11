@@ -4,7 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 
 //NO BACK END YET
-// import { client } from "@/app/lib/backend//initSupabase";
+// import { client } from "@/backend//initSupabase";
 // import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
 
 export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {

@@ -8,7 +8,7 @@ import ViewBiometrics from "./sub_components/viewBiometrics";
 import {
 	getVitalsAndBiometricsDoctor,
 	getBiometricsDoctor,
-} from "@/app/lib/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+} from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
 export default function Vitals({ patientId }) {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [vitalsAndBio, setVitalsAndBio] = useState({});

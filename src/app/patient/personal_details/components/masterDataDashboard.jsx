@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { useRouter } from "next/router"; // Corrected import statement
 import { useState, useEffect } from "react";
-import { getMasterData } from "@/app/lib/backend//patient/personal_details/master_data";
+import { getMasterData } from "@/backend//patient/personal_details/master_data";
 import EditMasterData from "./sub_components/editMasterData";
 import { currentUser } from "@/app/store";
-import { PatientEditInfo as editInfo } from "@/app/lib/backend//patient/edit/edit_info";
+import { PatientEditInfo as editInfo } from "@/backend//patient/edit/edit_info";
 export default function MasterData() {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [isEditingMaster, setIsEditingMaster] = useState(false);

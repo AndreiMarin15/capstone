@@ -3,7 +3,7 @@
 import Image from "next/image";
 import * as React from "react";
 import { currentUser, useUserInfo } from "@/app/store";
-import referral from "@/app/lib/backend//referral/getRequests";
+import referral from "@/backend//referral/getRequests";
 import Request from "./components/request";
 
 export default function ViewSharing() {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDoctorInfo } from "@/app/store";
-// import { DoctorSignU } from "@/app/lib/backend//signup/doctor_signup";
-import { DoctorSignUp } from "@/app/lib/backend/signup/doctor_signup";
+// import { DoctorSignU } from "@/backend//signup/doctor_signup";
+import { DoctorSignUp } from "@/backend/signup/doctor_signup";
 export default function DoctorRegistration() {
 	const doctorStore = useDoctorInfo();
 	const [specializations, setSpecializations] = useState([]);
