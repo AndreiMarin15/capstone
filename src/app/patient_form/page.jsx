@@ -9,7 +9,7 @@ import SignUpSocialHistory from "./components/socialHistory";
 import SignUpMedicalHistory from "./components/medicalHistory";
 import { useRouter } from "next/navigation";
 import { usePatientInfo, useUserInfo } from "../store";
-import { PatientSignUp } from "@/app/lib/backend//signup/patient_signup";
+import { PatientSignUp } from "@/backend//signup/patient_signup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

@@ -3,12 +3,12 @@ import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
 import EditMedications from "./sub_components/editMedication";
-import { doctor } from "@/app/lib/backend//health_records/doctor";
+import { doctor } from "@/backend//health_records/doctor";
 import * as React from "react";
 import { useState } from "react";
-import { getMedicationRequests } from "@/app/lib/backend//health_records/getMedicationRequest";
+import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
 
-import { client } from "@/app/lib/backend//initSupabase";
+import { client } from "@/backend//initSupabase";
 import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
 
 export default function Medications({ patientId }) {

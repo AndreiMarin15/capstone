@@ -3,7 +3,7 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
-import { careplanInfo } from "@/app/lib/backend//patient/careplan/careplan";
+import { careplanInfo } from "@/backend//patient/careplan/careplan";
 
 export default function CarePlan({ patientId, patientData }) {
 	const [careplanInfor, setCareplanInfor] = useState([]);

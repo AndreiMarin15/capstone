@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import * as React from "react";
-import dashboard from "@/app/lib/backend//doctor/doctor_dashboard/dashboard";
+import dashboard from "@/backend//doctor/doctor_dashboard/dashboard";
 
 export default function Home() {
 	const [editState, setEditState] = React.useState(false);

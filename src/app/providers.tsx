@@ -4,7 +4,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { authentication } from "./lib/backend/auth";
+import { authentication } from "@/backend/auth";
 import { AuthError } from "@supabase/supabase-js";
 import { currentUser } from "./store";
 

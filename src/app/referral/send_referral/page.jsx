@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import ReferralPatients from "../components/referralPatients";
 import ReferralDoctors from "../components/referralDoctor";
 import NotesAndReview from "../components/notesAndReview";
-import retrieveReferralData from "@/app/lib/backend/referral/retrieveReferralData";
-import sendReferralData from "@/app/lib/backend/referral/sendReferralData";
+import retrieveReferralData from "@/backend/referral/retrieveReferralData";
+import sendReferralData from "@/backend/referral/sendReferralData";
 
 export default function SendReferral() {
 	const router = useRouter();

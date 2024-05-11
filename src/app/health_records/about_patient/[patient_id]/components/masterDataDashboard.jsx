@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import BackButton from "./sub_components/BackButton";
-import { getMasterDataDoctor } from "@/app/lib/backend//patient/personal_details/master_data";
+import { getMasterDataDoctor } from "@/backend//patient/personal_details/master_data";
 import ViewAttendingDoctors from "./sub_components/viewAttendingDoctors";
 import AddAttendingDoctors from "./sub_components/addAttendingDoctors";
 export default function MasterData({ patientId }) {

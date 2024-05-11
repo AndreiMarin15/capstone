@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { PatientSignUp as signUp } from "@/app/lib/backend/signup/patient_signup";
+import { PatientSignUp as signUp } from "@/backend/signup/patient_signup";
 
-import { updateAddAllergies } from "@/app/lib/backend/patient/personal_details/master_data";
+import { updateAddAllergies } from "@/backend/patient/personal_details/master_data";
 import * as React from "react";
 import { useState, useEffect } from "react";
 export default function AddAllergy({ onAdd }) {

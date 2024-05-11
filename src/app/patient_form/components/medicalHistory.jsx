@@ -2,7 +2,7 @@
 
 import { usePatientInfo } from "@/app/store";
 import { useEffect, useState } from "react";
-import { PatientSignUp as signUp } from "@/app/lib/backend//signup/patient_signup";
+import { PatientSignUp as signUp } from "@/backend//signup/patient_signup";
 export default function SignUpMedicalHistory() {
 	const patientStore = usePatientInfo();
 	const [medications, setMedications] = useState([]);

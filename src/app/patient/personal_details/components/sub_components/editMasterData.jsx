@@ -6,12 +6,12 @@ import { usePatientInfo } from "@/app/store";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { importVitalsAndBiometrics } from "@/app/lib/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import { importVitalsAndBiometrics } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
 import BackButton from "./BackButton";
 import { currentUser, useUserInfo } from "@/app/store";
-import { PatientSignUp } from "@/app/lib/backend//signup/patient_signup";
+import { PatientSignUp } from "@/backend//signup/patient_signup";
 
-import { getMasterData } from "@/app/lib/backend//patient/personal_details/master_data";
+import { getMasterData } from "@/backend//patient/personal_details/master_data";
 export default function EditMasterData() {
 	const [mData, setmData] = useState([
 		{

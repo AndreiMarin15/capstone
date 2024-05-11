@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LabTestList from "../../lab_tests/LaboratoryList";
-import { getMedicationRequests } from "@/app/lib/backend//health_records/getMedicationRequest";
+import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";

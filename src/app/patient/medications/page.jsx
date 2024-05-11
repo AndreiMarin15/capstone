@@ -4,10 +4,10 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewMedications from "../medications/components/viewPatientMedications";
-import { doctor } from "@/app/lib/backend//health_records/doctor";
-import { getMedicationRequests } from "@/app/lib/backend//health_records/getMedicationRequest";
-import { getPatientRawData } from "@/app/lib/backend//patient/personal_details/master_data";
-import { client } from "@/app/lib/backend//initSupabase";
+import { doctor } from "@/backend//health_records/doctor";
+import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
+import { getPatientRawData } from "@/backend//patient/personal_details/master_data";
+import { client } from "@/backend//initSupabase";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 

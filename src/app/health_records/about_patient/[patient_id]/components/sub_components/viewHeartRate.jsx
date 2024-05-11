@@ -3,7 +3,7 @@ import LineChart from "./lineChart";
 import BackButton from "./BackButton";
 import { Chart as ChartJS, TimeScale, LinearScale, PointElement, LineElement } from "chart.js";
 import { format } from "date-fns";
-import { getHeartRateDoctor } from "@/app/lib/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import { getHeartRateDoctor } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
 import "chartjs-adapter-date-fns";
 import Image from "next/image";
 

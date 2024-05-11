@@ -4,7 +4,7 @@ import BackButton from "./BackButton";
 import { Chart as ChartJS, TimeScale, LinearScale, PointElement, LineElement } from "chart.js";
 import { format } from "date-fns";
 import "chartjs-adapter-date-fns";
-import { getHeartRate } from "@/app/lib/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import { getHeartRate } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
 import Image from "next/image";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);

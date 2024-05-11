@@ -18,7 +18,7 @@ import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 
-import { getEncounters } from "@/app/lib/backend//health_records/getEncounter";
+import { getEncounters } from "@/backend//health_records/getEncounter";
 export default function ClinicVisits({ patientId }) {
 	const router = useRouter();
 	const [currentPage, setCurrentPage] = useState(0);
