@@ -4,7 +4,7 @@ import Image from "next/image";
 import * as React from "react";
 import sideImg from "../assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
-import { authentication } from "@/app/lib/backend/loginauth";
+// import { authentication } from "@/app/lib/backend/login/auth";
 import { login } from "@/app/lib/backend/login/login";
 import { useUserInfo } from "../store";
 import { toast } from "react-toastify";
