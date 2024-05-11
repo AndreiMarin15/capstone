@@ -4,16 +4,16 @@ import Image from "next/image";
 import * as React from "react";
 import sideImg from "../../assets/doctor-looking-information-database.jpeg";
 import { useRouter } from "next/navigation";
-import { useUserInfo } from "../../store";
+import { useUserInfo } from "@/app/store";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import middleware from "../backend/middleware";
-import { middlewareUser } from "../../store";
+import middleware from "../lib/backend/middleware";
+import { middlewareUser } from "@/app/store";
 
 export default function Home() {
 	const router = useRouter();
 	const userStore = useUserInfo();
-    const middlewareuser = middlewareUser();
+	const middlewareuser = middlewareUser();
 
 	const handleLoginClick = () => {
 		router.push("/middleware");

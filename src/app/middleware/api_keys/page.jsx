@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { middlewareUser } from "../../store";
+import { middlewareUser } from "@/app/store";
 import { fetchFrom } from "../../../../globals";
 import { useRouter } from "next/navigation";
 export default function MyTable() {

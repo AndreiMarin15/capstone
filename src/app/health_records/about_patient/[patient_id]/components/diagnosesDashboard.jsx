@@ -2,8 +2,8 @@ import Image from "next/image";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@nextui-org/react";
 import BackButton from "./sub_components/BackButton";
 import * as React from "react";
-import { getFinalDiagnosisObservations } from "../../../../../../lib/backend/health_records/getObservation";
-import { getEncounterByPatientId } from "../../../../../../lib/backend/health_records/getEncounter";
+import { getFinalDiagnosisObservations } from "../../../../lib/backend/health_records/getObservation";
+import { getEncounterByPatientId } from "../../../../lib/backend/health_records/getEncounter";
 
 export default function Diagnoses({ patientId }) {
 	const variables = ["Diagnoses", "Date of Diagnosis", "Doctor", "Hospital"];
