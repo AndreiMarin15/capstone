@@ -4,7 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useCPNav } from "@/app/store";
 import ViewCarePlan from "../careplan/components/viewCarePlan";
-import { careplanInfo } from "../../../../lib/backend/patient/careplan/careplan";
+import { careplanInfo } from "@/app/lib/backend/patient/careplan/careplan";
 import { currentUser } from "@/app/store";
 {
 	/* TO DO: Turn into component */

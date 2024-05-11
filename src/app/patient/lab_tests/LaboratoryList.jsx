@@ -5,12 +5,12 @@ import Image from "next/image";
 import UploadLab from "./components/uploadLab";
 import AddLab from "./components/addLab";
 import ViewLab from "./components/viewLab";
-import doctor from "../../../../lib/backend/health_records/doctor";
+import doctor from "@/app/lib/backend/health_records/doctor";
 import 'react-toastify/dist/ReactToastify.css';
 import BackButton from "../personal_details/components/sub_components/BackButton";
-import { getEncounters, getEncounterById, updateEncounterContained } from "../../../../lib/backend/health_records/getEncounter";
-import { getObservation } from "../../../../lib/backend/health_records/getObservation";
-import { uploadObservation } from "../../../../lib/backend/health_records/uploadObservation";
+import { getEncounters, getEncounterById, updateEncounterContained } from "@/app/lib/backend/health_records/getEncounter";
+import { getObservation } from "@/app/lib/backend/health_records/getObservation";
+import { uploadObservation } from "@/app/lib/backend/health_records/uploadObservation";
 
 export default function LaboratoryList( {currentScreen, setCurrentScreen, patientId, encounterId}) {
   const [currentPage, setCurrentPage] = useState(0);
