@@ -5,7 +5,7 @@ import Image from "next/image";
 import RegisterDoctor from "./components/doctorRegistration";
 import { useDoctorInfo, useUserInfo } from "../store";
 import { useRouter } from "next/navigation";
-import { DoctorSignUp } from "../../../lib/backend/signup/doctor_signup";
+import { DoctorSignUp } from "@/app/lib/backend/signup/doctor_signup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 {
@@ -92,7 +92,7 @@ export default function DoctorInformation() {
 								});
 
 								setTimeout(() => {
-									console.log(doctorStore.specialization_id)
+									console.log(doctorStore.specialization_id);
 									if (doctorStore.specialization_id === 1) {
 										router.push("/home");
 									} else {
