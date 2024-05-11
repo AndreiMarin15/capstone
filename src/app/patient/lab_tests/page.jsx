@@ -4,13 +4,13 @@ import React, { useState, useEffect, useRef } from "react"; // <-- Import useSta
 import Image from "next/image";
 import UploadLab from "./components/uploadLab";
 import ViewLab from "./components/viewLab";
-import doctor from "../../../../lib/backend/health_records/doctor";
+import doctor from "@/app/lib/backend/health_records/doctor";
 import 'react-toastify/dist/ReactToastify.css';
 import BackButton from "../personal_details/components/sub_components/BackButton";
-import { getEncounters, getEncounterById, updateEncounterContained, getEncounterByPatientId} from "../../../../lib/backend/health_records/getEncounter";
-import { getObservation, getObservationsByPatientId} from "../../../../lib/backend/health_records/getObservation";
-import { uploadObservation } from "../../../../lib/backend/health_records/uploadObservation";
-import { getPatientRawData } from "../../../../lib/backend/patient/personal_details/master_data";
+import { getEncounters, getEncounterById, updateEncounterContained, getEncounterByPatientId} from "@/app/lib/backend/health_records/getEncounter";
+import { getObservation, getObservationsByPatientId} from "@/app/lib/backend/health_records/getObservation";
+import { uploadObservation } from "@/app/lib/backend/health_records/uploadObservation";
+import { getPatientRawData } from "@/app/lib/backend/patient/personal_details/master_data";
 
 export default function LaboratoryDashboard() {
   const [currentPage, setCurrentPage] = useState(0);
