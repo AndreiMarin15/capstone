@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import BackButton from "../../personal_details/components/sub_components/BackButton";
 import { useState, useRef, useEffect } from "react";
-import { getObservationById, updateObservation } from "../../../../../lib/backend/health_records/getObservation";
+import { getObservationById, updateObservation } from "@/app/lib/backend/health_records/getObservation";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
