@@ -60,7 +60,7 @@ export default function MasterData() {
 				const masterData = await getMasterData();
 
 				// Create a new array with updated values
-				const updatedData = mData.map((item) => {
+				const updatedData = mData?.map((item) => {
 					switch (item.variable) {
 						case "Name":
 							return { ...item, value: masterData["name"] };
@@ -128,7 +128,7 @@ export default function MasterData() {
 						</button>
 					</div>
 					<table className="max-w-fit border-spacing-y-7 border-separate">
-						{mData.map((item) => (
+						{mData?.map((item) => (
 							<tr key={item.variable} suppressHydrationWarning>
 								<td className="w-5">
 									<Image alt="picture" height={0} width={0} loading="lazy" src={item["src"]} className="w-5" />

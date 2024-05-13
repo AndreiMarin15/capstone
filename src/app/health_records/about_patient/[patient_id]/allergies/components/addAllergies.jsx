@@ -273,7 +273,7 @@ export default function AddAllergy({ onAdd, patientId, currentScreen, setCurrent
 					</div>
 					<div>
 						<table className="max-w-fit border-spacing-y-7 border-separate">
-							{form.map((item) => (
+							{form?.map((item) => (
 								<tr key={item.label}>
 									<td className="border-l-[16px] border-transparent">
 										<div className="text-black text-xs font-semibold flex">

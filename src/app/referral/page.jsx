@@ -298,7 +298,7 @@ export default function Referral() {
 				<div className="flex">
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
-						{referralsList.map((referral) => {
+						{referralsList?.map((referral) => {
 							return (
 								<div
 									key={referral.id}
@@ -358,7 +358,7 @@ export default function Referral() {
 									<div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-80 h-80 px-7 overflow-y-auto gap-3">
 										{/* Start Message */}
 										{messageInfo.messages_referral &&
-											messageInfo.messages_referral?.map((item, index) => {
+											messageInfo.messages_referral??.map((item, index) => {
 												if (item.message_status === "received" || item.message_status === "read") {
 													return (
 														<div

@@ -117,7 +117,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
 							return doctor.status === "Pending";
 						}
 					})
-					.map((doctor, index) => (
+					?.map((doctor, index) => (
 						<div key={index} className="mt-5 items-start text-xs leading-5 text-black max-w-[1000px]">
 							<div className="items-start text-xs  text-black max-w-[1000px]">
 								<div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">

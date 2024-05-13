@@ -185,7 +185,7 @@ export default function Medications({ patientId }) {
 									);
 								}
 							})
-							.map((medication, index) => (
+							?.map((medication, index) => (
 								<button
 									key={medication.resource.id}
 									onClick={() => {

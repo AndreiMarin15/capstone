@@ -68,7 +68,7 @@ export default function SendReferral() {
 					{patients.length > 0 && doctors.length > 0 ? (
 						<>
 							{currentState === 1 ? (
-								patients.map((item) => (
+								patients?.map((item) => (
 									<div key={item.id}>
 										<div
 											onClick={() => {
@@ -81,7 +81,7 @@ export default function SendReferral() {
 									</div>
 								))
 							) : currentState === 2 ? (
-								doctors.map((item) => (
+								doctors?.map((item) => (
 									<div key={item.id}>
 										<div
 											onClick={() => {

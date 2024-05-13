@@ -204,7 +204,7 @@ export default function MedicationsDashboard() {
 								return medication.resource.subject.reference === patientId && medication.resource.status === "Inactive";
 							}
 						})
-						.map((medication, index) => (
+						?.map((medication, index) => (
 							<button
 								key={medication.resource.id}
 								onClick={() => {

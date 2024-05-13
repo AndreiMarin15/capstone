@@ -135,7 +135,7 @@ export default function AddAllergy({ onAdd }) {
 					value={allergy.allergen}
 					className="rounded shadow-sm h-10 mt-3 border-[0.5px] px-2 py-2 border-solid border-black"
 				>
-					{allergenList.map((item) => (
+					{allergenList?.map((item) => (
 						<option key={item} value={item}>
 							{item}
 						</option>
@@ -185,7 +185,7 @@ export default function AddAllergy({ onAdd }) {
 												width: "100%",
 											}}
 										>
-											{filteredNames.map((aller) => (
+											{filteredNames?.map((aller) => (
 												<li key={aller.id} className="border border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300">
 													<button
 														className="border-none cursor-pointer block w-full text-left py-2 px-4"
@@ -219,7 +219,7 @@ export default function AddAllergy({ onAdd }) {
 							</div>
 							<div>
 								<ul className="m-[10px] absolute">
-									{allergy.reactions.map((item, index) => (
+									{allergy.reactions?.map((item, index) => (
 										<li className="m-[5px]" key={item.substance}>
 											{" "}
 											{index + 1}. {item.substance} - {item.description}
@@ -343,7 +343,7 @@ export default function AddAllergy({ onAdd }) {
 			const query = await signUp.retrieveReactions(reactionCodes);
 			setReactions(query);
 
-			const names = query.map((react) => {
+			const names = query?.map((react) => {
 				react.disease;
 			});
 
@@ -363,7 +363,7 @@ export default function AddAllergy({ onAdd }) {
 			</div>
 			<div>
 				<table className="max-w-fit border-spacing-y-7 border-separate">
-					{form.map((item) => (
+					{form?.map((item) => (
 						<tr key={item.label}>
 							<td className="border-l-[16px] border-transparent">
 								<div className="text-black text-xs font-semibold flex">

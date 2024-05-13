@@ -86,7 +86,7 @@ export default function SocialHistory({ patientId }) {
 						FAMILY HISTORY
 					</div>
 
-					{fHistory.map((item, index) => (
+					{fHistory?.map((item, index) => (
 						<button key={index} className="flex gap-2.5 mt-3 mb-3 text-xs text-black" onClick={handleVisitClick}>
 							<div className="flex flex-col flex-1 text-left">
 								<div className="font-semibold whitespace-nowrap">{item.name}</div>
@@ -101,7 +101,7 @@ export default function SocialHistory({ patientId }) {
 					</div>
 
 					<table className="max-w-fit border-spacing-y-7 border-separate">
-						{sHistory.map((item) => (
+						{sHistory?.map((item) => (
 							<tr key={item.variable}>
 								<td className="w-5">
 									<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />

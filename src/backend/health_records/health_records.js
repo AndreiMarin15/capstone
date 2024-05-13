@@ -1,11 +1,17 @@
 import { PROJECT } from "../project/db";
 import { PUBLIC } from "../public/db";
 import { client } from "../initSupabase";
+import { currentUser } from "@/app/store";
 
 const supabase = client("public");
+const proj = client("project");
 export const healthRecords = {
 	getPatients: async () => {
-		const patients = await PROJECT.selectAllFrom("patients");
+		console.log("user", currentUser.getState().info.id);
+		const { data: patients, error } = await proj
+			.from("patients")
+			.select("*")
+			.contains("handled_by", { main_practitioner: currentUser.getState().info.id });
 
 		console.log(patients);
 		return patients;

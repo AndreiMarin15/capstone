@@ -5,7 +5,7 @@ const uploadEncounter = async (encounter) => {
 		const contained = [];
 
 		await Promise.all(
-			encounter.contained.map(async (element) => {
+			encounter.contained?.map(async (element) => {
 				const fhir = {
 					status: "created",
 					resource: element,
@@ -28,16 +28,15 @@ const uploadEncounter = async (encounter) => {
 			resource: {
 				id: encounter.id,
 				period: encounter.period,
-                participant:{
-                    type: doctorInfo.type,
-                    actor: doctorInfo.fullName,
-                },
+				participant: {
+					type: doctorInfo.type,
+					actor: doctorInfo.fullName,
+				},
 				subject: {
 					type: encounter.subject.type,
 					reference: encounter.subject.reference,
 				},
-				
-			
+
 				contained: contained,
 				resource_type: encounter.resource_type,
 			},
@@ -51,7 +50,6 @@ const uploadEncounter = async (encounter) => {
 		throw error;
 	}
 };
-
 
 // Export the uploadEncounter function
 export default uploadEncounter;

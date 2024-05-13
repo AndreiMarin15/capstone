@@ -207,7 +207,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 											</div>
 											<table className="w-full">
 												<tbody>
-													{dosage.map((item, index) => (
+													{dosage?.map((item, index) => (
 														<tr key={index} className="flex gap-5 justify-between mt-6 w-full">
 															{item.variable !== "Medicine Name" ? (
 																<>
@@ -303,7 +303,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 																						overflowX: "hidden",
 																					}}
 																				>
-																					{filteredMedications.map((med) => (
+																					{filteredMedications?.map((med) => (
 																						<li
 																							key={med["Registration Number"]}
 																							className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
@@ -349,7 +349,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 											</div>
 											<table className="w-full">
 												<tbody>
-													{prescription.map((item, index) => (
+													{prescription?.map((item, index) => (
 														<tr key={index} className="flex gap-5 justify-between mt-6 w-full">
 															<td className="flex gap-2 my-auto font-semibold text-black">
 																<Image
@@ -394,7 +394,7 @@ export default function AddMedications({ currentScreen, setCurrentScreen, patien
 											<div className="text-start text-xs  mt-10 whitespace-nowrap font-semibold text-black">Others</div>
 											<table className="w-full">
 												<tbody>
-													{others.map((item, index) => (
+													{others?.map((item, index) => (
 														<tr key={index} className="flex gap-5 justify-between mt-6 w-full">
 															<td className="flex gap-2 my-auto font-semibold text-black">
 																<Image

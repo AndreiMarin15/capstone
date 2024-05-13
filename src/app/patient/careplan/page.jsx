@@ -87,7 +87,7 @@ export default function CarePlanDashboard() {
 								</div>
 							</div>
 							{careplanInfor &&
-								careplanInfor.map((value, index) => (
+								careplanInfor?.map((value, index) => (
 									<button
 										key={index}
 										className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"

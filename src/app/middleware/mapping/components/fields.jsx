@@ -8,7 +8,7 @@ export default function Fields({ fields, onHoverOver, onHover, hoveredImageId, t
 	const [toSend, setToSend] = React.useState([]);
 
 	const handleSend = async (obj) => {
-		let objectArray = Object.entries(obj).map(([key, value]) => ({
+		let objectArray = Object.entries(obj)?.map(([key, value]) => ({
 			middleware_table: table,
 			client_table: clientTable,
 			middleware_column: key,
@@ -87,7 +87,7 @@ export default function Fields({ fields, onHoverOver, onHover, hoveredImageId, t
 					/>
 				</td>
 			</tr>
-			{fields.map((item, index) => (
+			{fields?.map((item, index) => (
 				<tr key={index} className="h-8 relative">
 					<td className="border-l-[16px] border-transparent">
 						<div className="flex gap-1 items-center">

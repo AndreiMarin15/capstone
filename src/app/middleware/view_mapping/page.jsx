@@ -9,7 +9,6 @@ const ViewMapping = () => {
 	const [selectedEntity, setSelectedEntity] = React.useState("account");
 	const handleButtonClick = (entity) => {
 		setSelectedEntity(entity);
-		
 	};
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -56,7 +55,7 @@ const ViewMapping = () => {
 				>
 					View API Keys
 				</button>
-			</div> 
+			</div>
 			<div>
 				{[
 					"Account",
@@ -67,7 +66,7 @@ const ViewMapping = () => {
 					"Encounter",
 					"Family Member History",
 					"Medication Request",
-				].map((entity) => {
+				]?.map((entity) => {
 					let modifiedEntity = entity.toLowerCase().replace(/ /g, "");
 
 					return (
@@ -94,7 +93,7 @@ const ViewMapping = () => {
 
 				<tbody>
 					{data != null &&
-						Object.entries(data).map(([key, value]) => (
+						Object.entries(data)?.map(([key, value]) => (
 							<tr key={key} className="bg-white hover:bg-gray-100">
 								<td className="px-6 py-4 text-left text-sm text-gray-500">{key}</td>
 								<td className="px-6 py-4 text-left text-sm text-gray-500">{value}</td>

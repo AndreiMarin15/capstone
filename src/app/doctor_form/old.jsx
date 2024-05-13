@@ -88,7 +88,7 @@ export default function DoctorForm() {
 								className=" text-xl leading-7 shadow-sm self-stretch w-full justify-center mt-2.5 pl-3 pr-16 py-3 rounded-md border-[0.638px] border-solid border-black items-start max-md:ml-2 max-md:pr-5"
 							>
 								{Array.isArray(specializations) &&
-									specializations.map((item) => {
+									specializations?.map((item) => {
 										return (
 											<option key={item.id} value={item.id}>
 												{item.doctor_specialization_name}

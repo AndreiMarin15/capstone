@@ -61,13 +61,12 @@ const Request = ({ sharing, index, handleApproval }) => {
 		setOtp(generateOTP());
 	}, []);
 
-	
 	return (
 		<tr key={sharing.id}>
 			<td className="px-6 py-4 whitespace-nowrap">{sharing.name}</td>
 			<td className="px-6 py-4 whitespace-nowrap">{sharing.specialization}</td>
 			<td className="px-6 py-4 whitespace-nowrap">
-				{sharing.document.map((document, i) => (
+				{sharing.document?.map((document, i) => (
 					<div key={i}>
 						{document}
 						{i !== sharing.document.length - 1 && <br />}

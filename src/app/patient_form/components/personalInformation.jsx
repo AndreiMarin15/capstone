@@ -122,7 +122,7 @@ export default function SignUpPersonalInformation() {
 							<option value="" disabled="true">
 								Select
 							</option>
-							{doctors.map((doctor) => (
+							{doctors?.map((doctor) => (
 								<>
 									<option value={doctor["id"]}>{`${doctor["first_name"]} ${doctor["last_name"]}`}</option>
 								</>

@@ -71,7 +71,7 @@ export default function Home() {
 
 			console.log(patients);
 
-			const formattedPatientsPromises = patients.map(async (patient) => {
+			const formattedPatientsPromises = patients?.map(async (patient) => {
 				const doctors = await dashboard.getHandledBy(patient.handled_by.referred_practitioners ?? []);
 
 				console.log(doctors);
@@ -79,7 +79,7 @@ export default function Home() {
 					name: `${patient?.personal_information?.first_name ?? ""} ${patient?.personal_information?.last_name ?? ""}`,
 					handledBy:
 						doctors.data.length > 0
-							? doctors.data.map((doctor) => ({
+							? doctors.data?.map((doctor) => ({
 									name: `${doctor.first_name} ${doctor.last_name}`,
 									specialty: "Cardiologist",
 								}))
@@ -195,11 +195,11 @@ export default function Home() {
 									<span className="self-stretch flex grow basis-[0%] flex-col items-stretch">
 										{managedPatients
 											.filter((patient) => patient.handledBy.length > 0) // Filter patients with more than 1 doctor
-											.map((patient) => (
+											?.map((patient) => (
 												<>
 													<div className="text-black text-xs font-semibold leading-5">{patient.name}</div>
 													<span className="flex flex-col items-stretch  mb-2">
-														{patient.handledBy.map((doctor) => {
+														{patient.handledBy?.map((doctor) => {
 															console.log(patient);
 															return (
 																<>
@@ -234,7 +234,7 @@ export default function Home() {
 									Notifications
 								</div>
 							</span>
-							{notifications.map((notification) => (
+							{notifications?.map((notification) => (
 								<div
 									key={notification.title}
 									className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"

@@ -518,7 +518,7 @@ export default function Middleware() {
 					"Encounter",
 					"Family Member History",
 					"Medication Request",
-				].map((entity) => {
+				]?.map((entity) => {
 					let modifiedEntity = entity.toLowerCase().replace(/ /g, "");
 
 					return (

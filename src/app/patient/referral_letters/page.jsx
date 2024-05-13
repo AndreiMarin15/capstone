@@ -55,7 +55,7 @@ export default function ReferralLetters() {
 						</div>
 						{letters.length > 0 ? (
 							<>
-								{letters.map((letter) => (
+								{letters?.map((letter) => (
 									<div
 										key={letter.id}
 										className="flex gap-2.5 self-start px-5 mt-11 text-xs font-medium leading-5 text-black max-md:mt-10 hover:cursor-pointer"

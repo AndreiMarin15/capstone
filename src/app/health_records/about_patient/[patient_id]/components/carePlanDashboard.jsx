@@ -73,7 +73,7 @@ export default function CarePlan({ patientId, patientData }) {
 						</div>
 					</div>
 					{careplanInfor &&
-						careplanInfor.map((careplan, index) => (
+						careplanInfor?.map((careplan, index) => (
 							<button
 								key={index}
 								className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"

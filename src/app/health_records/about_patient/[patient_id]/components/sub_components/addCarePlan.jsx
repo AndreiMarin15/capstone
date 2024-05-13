@@ -235,7 +235,7 @@ export default function AddCarePlan({ setCurrentScreen, patientData, patientId }
 							<div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
 								<table className="w-full  text-xs">
 									<tbody>
-										{date.map((item, index) => (
+										{date?.map((item, index) => (
 											<tr key={index} className="flex gap-5 justify-between mb-3 w-full">
 												<td className="flex gap-2 my-auto font-semibold text-black">
 													<Image

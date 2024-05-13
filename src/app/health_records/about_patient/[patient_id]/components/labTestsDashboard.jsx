@@ -46,7 +46,7 @@ export default function LabTests({ patientId }) {
 
 				const labTestObservations = observationsData
 					.filter((observation) => observation.resource.id === "labtest")
-					.map((observation) => ({
+					?.map((observation) => ({
 						id: observation.id,
 						doctor: observation.resource.participant.actor,
 						srcdoctor:
@@ -104,7 +104,7 @@ export default function LabTests({ patientId }) {
 							</span>
 						</div>
 					</div>
-					{labTests.map((labTest, index) => (
+					{labTests?.map((labTest, index) => (
 						<button
 							key={index}
 							className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"

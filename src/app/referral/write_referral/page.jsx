@@ -42,7 +42,7 @@ export default function SendReferral() {
 					{patients.length > 0 ? (
 						<>
 							{currentState === 1 ? (
-								patients.map((item) => (
+								patients?.map((item) => (
 									<div key={item.id}>
 										<div
 											onClick={() => {

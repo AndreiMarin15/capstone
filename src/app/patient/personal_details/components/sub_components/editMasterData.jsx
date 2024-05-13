@@ -65,7 +65,7 @@ export default function EditMasterData() {
 			<div className="text-large leading-5 mt-10 text-black font-bold"> Edit Master Data</div>
 
 			<table className="max-w-fit border-spacing-y-7 border-separate">
-				{mData.map((item) => (
+				{mData?.map((item) => (
 					<tr key={item.variable} suppressHydrationWarning>
 						<td className="w-5">
 							<Image alt="picture" height={0} width={0} loading="lazy" src={item["src"]} className="w-5" />

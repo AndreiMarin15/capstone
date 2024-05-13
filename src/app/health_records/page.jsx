@@ -4,7 +4,7 @@ import Navbar from "../navbar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { healthRecords } from "@/backend//health_records/health_records";
-
+import { currentUser } from "@/app/store";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -50,7 +50,7 @@ export default function MyComponent() {
 			}
 		};
 
-		patients.sort(nameSortFunction);
+		patients?.sort(nameSortFunction);
 
 		const ageSortFunction = (a, b) => {
 			if (sortOptionAge === "youngest") {
@@ -60,10 +60,10 @@ export default function MyComponent() {
 			}
 		};
 
-		patients.sort(ageSortFunction);
+		patients?.sort(ageSortFunction);
 
 		setNavigation(
-			patients.map((patient) => ({
+			patients?.map((patient) => ({
 				name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
 				age: computeAge(patient.personal_information.birthdate),
 				href: `/health_records/about_patient/${patient.id}`,
@@ -98,7 +98,7 @@ export default function MyComponent() {
 			if (selectedGenders.length === 0) {
 				// If no filters are applied, show original patients
 				setNavigation(
-					originalPatients.map((patient) => ({
+					originalPatients?.map((patient) => ({
 						name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
 						age: computeAge(patient.personal_information.birthdate),
 						href: `/health_records/about_patient/${patient.id}`,
@@ -115,7 +115,7 @@ export default function MyComponent() {
 				selectedGenders.includes(patient.personal_information.gender.toLowerCase())
 			);
 
-			const sortedPatients = filteredPatients.sort((a, b) => {
+			const sortedPatients = filteredPatients?.sort((a, b) => {
 				const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
 				const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
 				if (sortOptionName === "asc") {
@@ -127,7 +127,7 @@ export default function MyComponent() {
 			});
 
 			setNavigation(
-				sortedPatients.map((patient) => ({
+				sortedPatients?.map((patient) => ({
 					name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
 					age: computeAge(patient.personal_information.birthdate),
 					href: `/health_records/about_patient/${patient.id}`,
@@ -234,7 +234,7 @@ export default function MyComponent() {
 							</span>
 						</span>
 
-						{navigation.map((item) => (
+						{navigation?.map((item) => (
 							<div key={item.name} className="ml-5 flex w-full flex-col">
 								<button
 									className="flex w-full items-stretch justify-between gap-5 max-md:max-w-full max-md:flex-wrap"

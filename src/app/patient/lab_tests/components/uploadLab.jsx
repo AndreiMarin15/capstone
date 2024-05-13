@@ -61,7 +61,7 @@ export default function UploadLab({ currentPage, setCurrentPage, observationId, 
 					uploadedDateTime: newDateFieldValue,
 					effectiveDateTime: dateTaken,
 					valueQuantity: {
-						valueQuantities: rows.map((row) => ({
+						valueQuantities: rows?.map((row) => ({
 							display: row.labValueName,
 							value: row.value,
 							unit: row.unit,
@@ -280,7 +280,7 @@ export default function UploadLab({ currentPage, setCurrentPage, observationId, 
 						<tr>
 							<td className="h-6"></td>
 						</tr>
-						{rows.map((row, index) => (
+						{rows?.map((row, index) => (
 							<tbody key={index} className="ml-4">
 								<tr className="flex">
 									<td className="border-l-[8px] border-transparent flex items-center">

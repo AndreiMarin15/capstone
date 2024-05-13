@@ -61,7 +61,7 @@ export default function EditFamilyHistory({ currentPage, setCurrentPage }) {
 				const masterData = await getMasterData();
 				// Set the state with the fetched data
 				setFHistory((prevFHistory) => {
-					return prevFHistory.map((item) => {
+					return prevFHistory?.map((item) => {
 						switch (item.variable) {
 							case "First Name":
 								return { ...item, value: masterData["firstName"] };
@@ -81,7 +81,7 @@ export default function EditFamilyHistory({ currentPage, setCurrentPage }) {
 	}, []);
 
 	const handleInputChange = (e, variable) => {
-		const updatedFHistory = fHistory.map((item) =>
+		const updatedFHistory = fHistory?.map((item) =>
 			item.variable === variable ? { ...item, value: e.target.value } : item
 		);
 		setFHistory(updatedFHistory);
@@ -90,7 +90,7 @@ export default function EditFamilyHistory({ currentPage, setCurrentPage }) {
 	const handleSave = async () => {
 		try {
 			const patientId = currentUser.id; // Assuming you have the patient's ID
-			const familyHistoryData = fHistory.map((item) => ({
+			const familyHistoryData = fHistory?.map((item) => ({
 				first_name: item.value, // Assuming first_name, last_name, relationship, etc. are the keys in your family history data
 				last_name: item.value,
 				relationship: item.value,
@@ -115,7 +115,7 @@ export default function EditFamilyHistory({ currentPage, setCurrentPage }) {
 			<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">FAMILY HISTORY</div>
 
 			<table className="max-w-fit border-spacing-y-7 border-separate">
-				{fHistory.map((item) => (
+				{fHistory?.map((item) => (
 					<tr key={item.variable}>
 						<td className="w-5">
 							<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />

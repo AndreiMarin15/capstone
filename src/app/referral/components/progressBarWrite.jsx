@@ -5,7 +5,7 @@ const ProgressBarWrite = ({ currentStep }) => {
 
 	return (
 		<div className="flex items-center justify-center pt-10 pb-10 pl-10 pr-10">
-			{steps.map((step, index) => (
+			{steps?.map((step, index) => (
 				<React.Fragment key={index}>
 					<div className={`flex flex-col items-center ${currentStep > index ? "text-blue-500" : "text-gray-500"}`}>
 						<div
