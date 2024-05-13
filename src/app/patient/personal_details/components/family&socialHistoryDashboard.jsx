@@ -122,7 +122,7 @@ export default function SocialHistory() {
 						</button>
 					</div>
 
-					{fHistory.map((item, index) => (
+					{fHistory?.map((item, index) => (
 						<button
 							key={index}
 							className="flex gap-2.5 mt-3 mb-3 text-xs text-black"
@@ -169,7 +169,7 @@ export default function SocialHistory() {
 
 					<table className="max-w-fit border-spacing-y-7 border-separate">
 						{" "}
-						{sHistory.map((item, index) => (
+						{sHistory?.map((item, index) => (
 							<tr key={item.variable}>
 								<td className="w-5">
 									<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />

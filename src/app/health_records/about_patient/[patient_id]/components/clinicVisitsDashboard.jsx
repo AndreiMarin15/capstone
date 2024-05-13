@@ -62,7 +62,7 @@ export default function ClinicVisits({ patientId }) {
 
 	const addHandleVisitClick = (id, clinicVisitNumber) => {
 		// Update lastOpened for the clicked encounter
-		const updatedEncounters = encounters.map((encounter) =>
+		const updatedEncounters = encounters?.map((encounter) =>
 			encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
 		);
 
@@ -83,7 +83,7 @@ export default function ClinicVisits({ patientId }) {
 		setSortOptionDate(value); // Update the sort option
 
 		// Sort encounters based on the selected value without mutating the original state
-		const sortedEncounters = [...encounters].sort((a, b) => {
+		const sortedEncounters = [...encounters]?.sort((a, b) => {
 			// Convert dates to Date objects
 			const dateA = new Date(a.resource.period.start);
 			const dateB = new Date(b.resource.period.start);
@@ -179,7 +179,7 @@ export default function ClinicVisits({ patientId }) {
 								.slice()
 								.reverse()
 								.slice(0, renderingOptions)
-								.map((encounter, index) => (
+								?.map((encounter, index) => (
 									<button
 										key={encounter.id}
 										className="flex mt-4 mb-4 text-xs text-black"
@@ -218,7 +218,7 @@ export default function ClinicVisits({ patientId }) {
 										</div>
 									</button>
 								))
-						: encounters.slice(0, renderingOptions).map((encounter, index) => (
+						: encounters.slice(0, renderingOptions)?.map((encounter, index) => (
 								<button
 									key={encounter.id}
 									className="flex mt-4 mb-4 text-xs text-black"

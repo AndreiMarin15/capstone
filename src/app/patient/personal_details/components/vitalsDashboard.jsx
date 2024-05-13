@@ -181,7 +181,7 @@ export default function Vitals() {
 					<div className="flex max-w-full pt-4 pb-8">
 						<div id="col" className="w-[27%] max-w-[27%] min-w-[27%] flex flex-col gap-3 pr-4">
 							<div className="h-6 max-h-6"></div>
-							{vitalsName.map((item, index) => (
+							{vitalsName?.map((item, index) => (
 								<div
 									key={index}
 									className="text-black text-small font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
@@ -200,7 +200,7 @@ export default function Vitals() {
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
 							{vitalsAndBio &&
-								Object.keys(vitalsAndBio).map((key, index) => (
+								Object.keys(vitalsAndBio)?.map((key, index) => (
 									<div
 										key={index}
 										className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
@@ -222,7 +222,7 @@ export default function Vitals() {
 						</div>
 						<div id="col" className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end">
 							<div className="h-6 max-h-6"></div>
-							{vitalsName.map((item, index) => (
+							{vitalsName?.map((item, index) => (
 								<div
 									key={index}
 									className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
@@ -286,7 +286,7 @@ export default function Vitals() {
 					<div className="flex max-w-full pt-4 pb-8">
 						<div id="col" className="w-[27%] max-w-[27%] min-w-[27%] flex flex-col gap-3 pr-4">
 							<div className="h-6 max-h-6"></div>
-							{biometricsName.map((item, index) => (
+							{biometricsName?.map((item, index) => (
 								<div
 									key={index}
 									className="text-black text-small font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
@@ -305,7 +305,7 @@ export default function Vitals() {
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
 							{vitalsAndBio &&
-								Object.keys(vitalsAndBio).map((key, index) => (
+								Object.keys(vitalsAndBio)?.map((key, index) => (
 									<div
 										key={index}
 										className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
@@ -327,7 +327,7 @@ export default function Vitals() {
 						</div>
 						<div id="col" className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end">
 							<div className="h-6 max-h-6"></div>
-							{biometricsName.map((item, index) => (
+							{biometricsName?.map((item, index) => (
 								<div
 									key={index}
 									className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"

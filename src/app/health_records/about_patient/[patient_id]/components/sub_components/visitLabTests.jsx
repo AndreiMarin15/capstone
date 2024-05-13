@@ -72,7 +72,7 @@ export default function VisitLabtests({ currentScreen, setCurrentScreen, observa
 						VISITS - TESTS
 					</div>
 
-					{medication.map((medication, index) => (
+					{medication?.map((medication, index) => (
 						<div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[700px]">
 							<div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
 								<Image
@@ -100,7 +100,7 @@ export default function VisitLabtests({ currentScreen, setCurrentScreen, observa
 									<div className="ml-5 w-[40%]">
 										<div className="flex gap-5 my-auto font-semibold text-lg text-black">Lab Values:</div>
 										<div className="mt-5 text-sm">
-											{medication.valueQuantities.map((valueQuantity, index) => (
+											{medication.valueQuantities?.map((valueQuantity, index) => (
 												<div key={index}>
 													{valueQuantity.display} = {valueQuantity.value} {valueQuantity.unit}
 												</div>

@@ -64,7 +64,7 @@ export default function LabTestList({ currentScreen, setCurrentScreen, patientId
 				const observationsData = await getObservation();
 				console.log(observationsData);
 
-				const observationIds = observationsData.map((observation) => observation.id);
+				const observationIds = observationsData?.map((observation) => observation.id);
 
 				// Filter observationIds by newContainedIDs
 				const filteredObservationIds = observationIds.filter((id) => newContainedIDs.includes(id));
@@ -74,13 +74,13 @@ export default function LabTestList({ currentScreen, setCurrentScreen, patientId
 				// Extract data within observation.resource based on filteredObservationIds
 				const filteredObservationData = observationsData
 					.filter((observation) => filteredObservationIds.includes(observation.id))
-					.map((observation) => observation.resource);
+					?.map((observation) => observation.resource);
 
 				console.log(filteredObservationData);
 
 				const labTestObservations = observationsData
 					.filter((observation) => newContainedIDs.includes(observation.id) && observation.resource.id === "labtest")
-					.map((observation) => ({
+					?.map((observation) => ({
 						id: observation.id,
 						src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
 						variable: observation.resource.codeText,
@@ -170,7 +170,7 @@ export default function LabTestList({ currentScreen, setCurrentScreen, patientId
 				},
 				resource_type: "Observation",
 				valueQuantity: {
-					valueQuantities: data.valueQuantities.map((val) => ({
+					valueQuantities: data.valueQuantities?.map((val) => ({
 						display: val.display,
 						unit: val.unit,
 						value: val.value,
@@ -232,7 +232,7 @@ export default function LabTestList({ currentScreen, setCurrentScreen, patientId
 					{labTests.length === 0 ? ( // Check if labTests array is empty
 						<div className="text-black text-sm font-medium mt-4">No lab tests available.</div>
 					) : (
-						labTests.map((item) => (
+						labTests?.map((item) => (
 							<button
 								onClick={() => {
 									if (item.status !== "requested") {

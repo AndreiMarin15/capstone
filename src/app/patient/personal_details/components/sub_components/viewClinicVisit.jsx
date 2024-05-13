@@ -148,7 +148,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 				// Fetch observations
 				const observationsData = await getObservation();
 
-				const observationIds = observationsData.map((observation) => observation.id);
+				const observationIds = observationsData?.map((observation) => observation.id);
 
 				// Filter observationIds by newContainedIDs
 				const filteredObservationIds = observationIds.filter((id) => newContainedIDs.includes(id));
@@ -156,7 +156,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 				// Extract data within observation.resource based on filteredObservationIds
 				const filteredObservationData = observationsData
 					.filter((observation) => filteredObservationIds.includes(observation.id))
-					.map((observation) => observation.resource);
+					?.map((observation) => observation.resource);
 
 				const diagnosisObservation = filteredObservationData.find((observation) => observation.id === "diagnosis");
 
@@ -279,7 +279,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 							<div className="flex gap-[4rem] align-baseline">
 								<table className="max-w-fit border-spacing-y-7 border-separate">
 									<tbody className=" text-xs leading-5 text-black">
-										{followup.map((item, index) => (
+										{followup?.map((item, index) => (
 											<tr key={index} className="h-8">
 												<td className="w-5">
 													<Image
@@ -320,7 +320,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 										<div className="text-large leading-5 text-black font-bold">
 											{" "}
 											Vitals
-											{clinicVitals.map((item, index) => (
+											{clinicVitals?.map((item, index) => (
 												<tr key={index} className="h-8">
 													<td className="w-5">
 														<Image
@@ -349,7 +349,7 @@ export default function ClinicVisit({ currentPage, setCurrentPage, patientId, en
 										<div className="text-large leading-5 text-black font-bold">
 											{" "}
 											Biometrics
-											{clinicBiometrics.map((item, index) => (
+											{clinicBiometrics?.map((item, index) => (
 												<tr key={index} className="h-8">
 													<td className="w-5">
 														<Image

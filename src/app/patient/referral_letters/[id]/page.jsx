@@ -98,7 +98,7 @@ export default function ReferralLetter({ params }) {
 				<div className="mt-14 leading-5 max-md:mt-10 max-md:max-w-full">
 					Here are the medications I am giving the patient: <br />
 					<div>
-						{referralDetails.medications.split("\n").map((line, index) => (
+						{referralDetails.medications.split("\n")?.map((line, index) => (
 							<React.Fragment key={index}>
 								{line}
 								<br />

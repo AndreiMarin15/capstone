@@ -124,7 +124,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
 								<div className="text-xs leading-5 text-black ">
 									{" "}
 									<span className="font-bold"> Dosage Instructions</span>
-									{dosage.map((item, index) => (
+									{dosage?.map((item, index) => (
 										<tr key={index} className="h-8">
 											<td className="w-5">
 												<Image
@@ -165,7 +165,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
 								<div className="text-xs leading-5 text-black font-bold">
 									{" "}
 									Prescription Duration
-									{prescription.map((item, index) => (
+									{prescription?.map((item, index) => (
 										<tr key={index} className="h-8">
 											<td className="w-5">
 												<Image
@@ -194,7 +194,7 @@ export default function ViewMedications({ currentScreen, setCurrentScreen, medic
 								<div className="text-xs leading-5 text-black font-bold">
 									{" "}
 									Other Remarks
-									{others.map((item, index) => (
+									{others?.map((item, index) => (
 										<tr key={index} className="h-8">
 											<td className="w-5">
 												<Image

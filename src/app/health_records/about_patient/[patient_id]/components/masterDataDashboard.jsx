@@ -84,7 +84,7 @@ export default function MasterData({ patientId }) {
 				const masterData = await getMasterDataDoctor(patientId);
 
 				// Create a new array with updated values
-				const updatedData = mData.map((item) => {
+				const updatedData = mData?.map((item) => {
 					switch (item.variable) {
 						case "Name":
 							return { ...item, value: masterData["name"] };
@@ -125,7 +125,7 @@ export default function MasterData({ patientId }) {
 				<>
 					<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">MASTER DATA</div>
 					<table className="max-w-fit border-spacing-y-7 border-separate">
-						{mData.map((item) => (
+						{mData?.map((item) => (
 							<tr key={item.variable}>
 								<td className="w-5">
 									<Image alt="picture" height={0} width={0} loading="lazy" src={item.src} className="w-5" />

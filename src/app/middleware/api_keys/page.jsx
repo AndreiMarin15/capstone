@@ -30,7 +30,7 @@ export default function MyTable() {
 		console.log(data);
 		if (data.data != null && data.data.length > 0) {
 			setCensoredData(
-				data.data.map((item) => ({
+				data.data?.map((item) => ({
 					...item,
 					key: censorKey(item.key),
 				}))
@@ -66,7 +66,7 @@ export default function MyTable() {
 	function censorKey(key) {
 		return key
 			.split("")
-			.map((char, index) => {
+			?.map((char, index) => {
 				// Censor approximately 70% of the characters
 				return Math.random() > 0.5 ? "*" : char;
 			})
@@ -138,7 +138,7 @@ export default function MyTable() {
 
 					<tbody style={{ maxHeight: "500px", overflow: "auto" }}>
 						{censoredData.length > 0 &&
-							censoredData.map((item, index) => (
+							censoredData?.map((item, index) => (
 								<tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
 									<td className="border px-4 py-2 text-center">{formatDateTime(item.created_at)}</td>
 									<td className="border px-4 py-2 text-center">{censorKey(item.key)}</td>

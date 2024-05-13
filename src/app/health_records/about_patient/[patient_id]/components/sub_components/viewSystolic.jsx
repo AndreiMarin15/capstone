@@ -31,7 +31,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId })
 				backgroundColor: "rgba(255, 255, 255, 0.8)",
 			}}
 		>
-			{tooltip.dataPoints.map((point, index) => (
+			{tooltip.dataPoints?.map((point, index) => (
 				<div key={index}>
 					<p>Type: {point.type}</p>
 					<p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
@@ -45,11 +45,11 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId })
 	const systolicPressureData = [];
 
 	const data = {
-		labels: labels.map((dateString) => new Date(dateString)),
+		labels: labels?.map((dateString) => new Date(dateString)),
 		datasets: [
 			{
 				label: "Systolic Blood Pressure",
-				data: sampleData.map(({ date, systolic }) => ({
+				data: sampleData?.map(({ date, systolic }) => ({
 					x: new Date(date),
 					y: systolic,
 				})),
@@ -60,7 +60,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId })
 			},
 			{
 				label: "Diastolic Blood Pressure",
-				data: sampleData.map(({ date, diastolic }) => ({
+				data: sampleData?.map(({ date, diastolic }) => ({
 					x: new Date(date),
 					y: diastolic,
 				})),
@@ -76,7 +76,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId })
 	const formatDateCommon = (date) => format(date, "yyyy-MM-dd");
 
 	// Table data
-	const tableData = sampleData.map(({ date, systolic, diastolic }) => ({
+	const tableData = sampleData?.map(({ date, systolic, diastolic }) => ({
 		date,
 		systolic,
 		diastolic,
@@ -131,7 +131,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId })
 							</tr>
 						</thead>
 						<tbody>
-							{tableData.map(({ date, systolic, diastolic, commonFormat }) => (
+							{tableData?.map(({ date, systolic, diastolic, commonFormat }) => (
 								<tr key={date}>
 									<td className="border border-transparent px-4 py-2 text-center">
 										{formatDateCommon(new Date(date))}

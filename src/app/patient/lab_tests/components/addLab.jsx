@@ -52,7 +52,7 @@ export default function AddLabTest({
 
 				const labTestObservations = observationsData
 					.filter((observation) => observation.resource.id === "labtest")
-					.map((observation) => ({
+					?.map((observation) => ({
 						id: observation.id,
 						doctor: encountersData.resource.participant.actor,
 						srcdoctor:
@@ -175,7 +175,7 @@ export default function AddLabTest({
 			base64Image = uploadedImageSrc.split(",")[1];
 		}
 
-		const valueQuantities = rows.map((row) => ({
+		const valueQuantities = rows?.map((row) => ({
 			display: row.labValueName,
 			unit: row.unit,
 			value: row.value,
@@ -355,7 +355,7 @@ export default function AddLabTest({
 											<tbody className="text-xs leading-5 text-black">
 												<tr></tr>
 												{/* Your existing row */}
-												{rows.map((row, index) => (
+												{rows?.map((row, index) => (
 													<tr key={index}>
 														<td className="border-l-[16px] border-transparent">
 															<input

@@ -23,7 +23,7 @@ const retrieveReferralData = {
 		const query = await sProject.from("patients").select("*");
 		console.log(query);
 
-		const patients = query.data.map((patient) => {
+		const patients = query.data?.map((patient) => {
 			return {
 				name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
 				age: computeAge(patient.personal_information.birthdate),
@@ -43,7 +43,7 @@ const retrieveReferralData = {
 				patient.handled_by?.referred_practicioners?.includes(currentUser.getState().info.id)
 			);
 		});
-		const patients = p.map((patient) => {
+		const patients = p?.map((patient) => {
 			return {
 				name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
 				age: computeAge(patient.personal_information.birthdate),
@@ -57,7 +57,7 @@ const retrieveReferralData = {
 	getDoctors: async () => {
 		const query = await sProject.from("doctors").select("*").not("id", "eq", currentUser.getState().info.id);
 
-		const doctorsPromises = query.data.map(async (doctor) => {
+		const doctorsPromises = query.data?.map(async (doctor) => {
 			const specialization = await sProject
 				.from("specializations")
 				.select("doctor_specialization_name")
@@ -84,7 +84,7 @@ const retrieveReferralData = {
 			.or(`referred_to.eq.${currentUser.getState().info.id},referred_by.eq.${currentUser.getState().info.id}`);
 
 		console.log(query);
-		const referralsPromises = query.data.map(async (referral) => {
+		const referralsPromises = query.data?.map(async (referral) => {
 			const patient = await sProject.from("patients").select("*").eq("id", referral.patient_id);
 			console.log(patient);
 			const referred_by = await sProject

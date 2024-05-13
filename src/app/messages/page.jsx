@@ -78,7 +78,7 @@ export default function Messaging() {
 				{/* Left side tabs */}
 				<div className="flex flex-col w-full px-5 mt-9 gap-3">
 					{chats &&
-						chats?.map((item, index) => {
+						chats??.map((item, index) => {
 							return (
 								<div key={index} className="w-full group" onClick={() => getUser(item.id)}>
 									<div className="flex gap-5 items-center group-hover:bg-neutral-200">
@@ -152,7 +152,7 @@ export default function Messaging() {
 				<div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-full h-full px-7 overflow-y-auto gap-3">
 					{/* Start Message */}
 					{messageInfo.messages &&
-						messageInfo.messages?.map((item, index) => {
+						messageInfo.messages??.map((item, index) => {
 							if (item.message_status === "received" || item.message_status === "read") {
 								return (
 									<div key={index} className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]">

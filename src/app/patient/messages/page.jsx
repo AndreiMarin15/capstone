@@ -103,7 +103,7 @@ export default function Messaging() {
 			<div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-full h-full px-7 overflow-y-auto gap-3">
 				{/* Start Message */}
 				{messageInfo.messages &&
-					messageInfo.messages?.map((item, index) => {
+					messageInfo.messages??.map((item, index) => {
 						if (item.message_status === "sent" || item.message_status === "seen") {
 							return (
 								<div key={index} className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap">

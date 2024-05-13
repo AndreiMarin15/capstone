@@ -88,7 +88,7 @@ export default function Diagnoses() {
 			<table className="pt-1.5 leading-5 text-black mt-10 max-w-[914px]">
 				<thead>
 					<tr className="font-medium text-left">
-						{variables.map((variable, index) => (
+						{variables?.map((variable, index) => (
 							<th key={index} className={index === 0 ? "" : ""}>
 								<span className="text-sm">{variable}</span>
 							</th>
@@ -100,12 +100,12 @@ export default function Diagnoses() {
 					<tr>
 						<td colSpan={variables.length} className="h-8"></td>
 					</tr>
-					{finalDiagnoses.map((diagnosis, index) => {
+					{finalDiagnoses?.map((diagnosis, index) => {
 						return (
 							<>
 								{diagnosis.resource.valueString != null && diagnosis.resource.valueString.length > 0 && (
 									<React.Fragment key={index}>
-										{variables.map((variable, variableIndex) => (
+										{variables?.map((variable, variableIndex) => (
 											<td key={variableIndex} className={`${variableIndex === 0 ? "font-normal" : "mt-4 mb-4"}`}>
 												<span className={`text-sm ${variable === "Diagnoses" ? "font-bold" : ""}`}>
 													{variable === "Diagnoses"

@@ -42,7 +42,7 @@ export default function ViewCarePlan({ carePlan, currentScreen, setCurrentScreen
 			<div ref={pdfRef} className="p-5">
 				<div className="text-start text-sm mt-10 whitespace-nowrap font-semibold text-black">Care Plan</div>
 
-				{carePlan.map((careplan, index) => (
+				{carePlan?.map((careplan, index) => (
 					<div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]">
 						<div className="flex gap-3.5 font-semibold whitespace-nowrap">
 							<Image

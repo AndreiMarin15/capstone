@@ -51,7 +51,7 @@ export default function ViewSharing() {
 			const data = await response.json();
 			console.log(data);
 
-			const clean = data.map(async (item) => {
+			const clean = data?.map(async (item) => {
 				const doctor = await referral.getDoctorData(item.requested_by);
 				const specialization = await referral.getDoctorSpecialization(doctor.specialization_id);
 
@@ -148,7 +148,7 @@ export default function ViewSharing() {
 								{sharing != null && sharing.length > 0 ? (
 									<>
 										<tbody className="bg-white divide-y divide-gray-200">
-											{sharing.map((sharing, index) => (
+											{sharing?.map((sharing, index) => (
 												<>
 													{sharing.status === null && (
 														<Request sharing={sharing} index={index} handleApproval={handleApproval} />

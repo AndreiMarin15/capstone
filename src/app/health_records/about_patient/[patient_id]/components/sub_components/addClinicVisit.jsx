@@ -487,7 +487,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 		setLabTestData([...labTestDataArray, ...labTestData]);
 
 		// Map over labTestData to create new observations
-		const newObservations = labTestData.map((data, index) => ({
+		const newObservations = labTestData?.map((data, index) => ({
 			id: `labtest`,
 			status: data.status,
 			code: {
@@ -620,7 +620,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 						<div className="flex gap-[4rem] align-baseline">
 							<table className="max-w-fit border-spacing-y-5 border-separate">
 								<tbody className="text-xs leading-5 text-black">
-									{date.map((item, index) => (
+									{date?.map((item, index) => (
 										<tr key={index} className="h-8">
 											<td className="w-5">
 												<Image
@@ -657,7 +657,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 											</td>
 										</tr>
 									))}
-									{followup.map((item, index) => (
+									{followup?.map((item, index) => (
 										<tr
 											key={index}
 											className={`h-${
@@ -710,7 +710,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																		zIndex: 999, // Set a higher z-index value
 																	}}
 																>
-																	{filteredDisease.map((disease) => (
+																	{filteredDisease?.map((disease) => (
 																		<li
 																			key={disease.id}
 																			className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
@@ -742,7 +742,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 																		overflowX: "hidden",
 																	}}
 																>
-																	{filteredFinalDisease.map((disease) => (
+																	{filteredFinalDisease?.map((disease) => (
 																		<li
 																			key={disease.id}
 																			className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
@@ -869,7 +869,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 									<div className="text-large leading-5 text-black font-bold">
 										{" "}
 										Vitals
-										{clinicVitals.map((item, index) => (
+										{clinicVitals?.map((item, index) => (
 											<tr key={index} className="h-8">
 												<td className="w-5">
 													<Image
@@ -957,7 +957,7 @@ export default function AddClinicVisit({ currentPage, setCurrentPage, patientId 
 									<div className="text-large leading-5 text-black font-bold items-center">
 										{" "}
 										Biometrics
-										{clinicBiometrics.map((item, index) => (
+										{clinicBiometrics?.map((item, index) => (
 											<tr key={index} className="h-8">
 												<td className="w-5">
 													<Image

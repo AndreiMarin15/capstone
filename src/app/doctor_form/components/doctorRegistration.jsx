@@ -79,7 +79,7 @@ export default function DoctorRegistration() {
 							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
 						>
 							{Array.isArray(specializations) &&
-								specializations.map((item) => {
+								specializations?.map((item) => {
 									return (
 										<option key={item.id} value={item.id}>
 											{item.doctor_specialization_name}

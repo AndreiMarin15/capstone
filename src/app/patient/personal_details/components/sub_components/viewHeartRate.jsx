@@ -32,7 +32,7 @@ export default function ViewHeartRate({ currentPage, setCurrentPage }) {
 				backgroundColor: "rgba(255, 255, 255, 0.8)",
 			}}
 		>
-			{tooltip.dataPoints.map((point, index) => (
+			{tooltip.dataPoints?.map((point, index) => (
 				<div key={index}>
 					<p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
 					<p>Heart Rate: {point.y}</p>
@@ -45,11 +45,11 @@ export default function ViewHeartRate({ currentPage, setCurrentPage }) {
 	const heartRateData = [];
 
 	const data = {
-		labels: labels.map((dateString) => new Date(dateString)),
+		labels: labels?.map((dateString) => new Date(dateString)),
 		datasets: [
 			{
 				label: "Heart Rate",
-				data: sampleData.map(({ date, heartrate }) => ({
+				data: sampleData?.map(({ date, heartrate }) => ({
 					x: new Date(date),
 					y: heartrate,
 				})),
@@ -63,7 +63,7 @@ export default function ViewHeartRate({ currentPage, setCurrentPage }) {
 
 	const formatDateCommon = (date) => format(date, "yyyy-MM-dd");
 
-	const tableData = sampleData.map(({ date, heartrate }) => ({
+	const tableData = sampleData?.map(({ date, heartrate }) => ({
 		date,
 		heartrate,
 	}));
@@ -114,7 +114,7 @@ export default function ViewHeartRate({ currentPage, setCurrentPage }) {
 							</tr>
 						</thead>
 						<tbody>
-							{tableData.map(({ date, heartrate }) => (
+							{tableData?.map(({ date, heartrate }) => (
 								<tr key={date}>
 									<td className="border border-transparent px-4 py-2 text-center">
 										{formatDateCommon(new Date(date))}

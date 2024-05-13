@@ -112,7 +112,7 @@ export default function AddVitals() {
 					<div className="text-large leading-5 text-black font-bold">
 						{" "}
 						Vitals
-						{vitals.map((item, index) => (
+						{vitals?.map((item, index) => (
 							<tr key={index} className="h-8">
 								<td className="w-5">
 									<Image
@@ -165,7 +165,7 @@ export default function AddVitals() {
 					<div className="text-large leading-5 text-black font-bold items-center">
 						{" "}
 						Biometrics
-						{biometrics.map((item, index) => (
+						{biometrics?.map((item, index) => (
 							<tr key={index} className="h-8">
 								<td className="w-5">
 									<Image

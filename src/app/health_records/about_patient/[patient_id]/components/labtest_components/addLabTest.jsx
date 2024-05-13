@@ -57,12 +57,11 @@ function AddLabTest() {
 			<div className="text-black text-xl font-semibold leading-8 mt-12 self-start max-md:max-w-full max-md:mt-10">
 				Lab Test #4
 			</div>
-			
-			
+
 			<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 				<div className="self-start w-full max-w-[925px] mt-12  max-md:max-w-full max-md:my-10">
 					<table className="max-w-fit border-spacing-y-7 border-separate">
-						{labtest.map((item) => (
+						{labtest?.map((item) => (
 							<tr key={item.variable}>
 								<td className="w-5">
 									{item.imgsrc && (

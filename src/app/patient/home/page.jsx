@@ -22,8 +22,11 @@ export default function Home() {
 			const patient = await dashboard.getPatientData();
 			const careplan = await dashboard.getLatestCarePlan();
 			console.log(patient);
-			console.log(careplan.resource);
-			setCareplan(careplan.resource);
+
+			if (careplan?.resource !== undefined && careplan?.resource !== null) {
+				setCareplan(careplan.resource);
+			}
+
 			setPatient(patient);
 		};
 
@@ -147,7 +150,7 @@ export default function Home() {
 									<div>Allergies</div>
 									<div className="text-xs font-medium text-black">
 										{patientData.allergies.length > 0
-											? patientData.allergies.map((allergy) => <>{allergy.allergen}</>)
+											? patientData.allergies?.map((allergy) => <>{allergy.allergen}</>)
 											: "None"}
 									</div>
 									<div className="mt-8">BMI</div>
@@ -167,7 +170,10 @@ export default function Home() {
 									src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d2d16adc26cdf297cc56f2b11bf7445f300308e55e3580060a017039d865f09?"
 									className="self-start w-3 aspect-square"
 								/>
-								<div className="grow">From Dr. {careplanData.title ? careplanData.contributor[0].display : ""}</div>
+								<div className="grow">
+									{careplanData.title && "From Dr."}
+									{careplanData.title ? careplanData.contributor[0].display : ""}
+								</div>
 							</div>
 							<div className="flex gap-1 mt-1.5 whitespace-nowrap">
 								<Image
@@ -184,7 +190,7 @@ export default function Home() {
 							<div className="flex gap-5 justify-between pr-8 mt-1.5 max-w-full whitespace-nowrap w-[229px] max-md:pr-5">
 								<div className="flex flex-col font-semibold">
 									{careplanData.title &&
-										careplanData.activity.map((activity) => {
+										careplanData.activity?.map((activity) => {
 											return (
 												<div key={activity.detail.code.text} className="mt-1.5">
 													{activity.detail.code.text}

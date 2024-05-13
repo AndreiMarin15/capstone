@@ -65,7 +65,7 @@ export default function LaboratoryDashboard() {
 
 				const labTestObservations = observationsData
 					.filter((observation) => observation.resource.id === "labtest")
-					.map((observation) => ({
+					?.map((observation) => ({
 						id: observation.id,
 						doctor: observation.resource.participant.actor,
 						srcdoctor:
@@ -118,7 +118,7 @@ export default function LaboratoryDashboard() {
 
 				<div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
 					<div className="w-full max-md:max-w-full h-full">
-						{labTests.map((item) => (
+						{labTests?.map((item) => (
 							<button
 								onClick={() => {
 									if (item.status === "requested") {

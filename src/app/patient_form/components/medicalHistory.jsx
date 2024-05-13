@@ -140,7 +140,7 @@ export default function SignUpMedicalHistory() {
 													overflowX: "hidden",
 												}}
 											>
-												{filteredMedications.slice(0, 50).map((med) => (
+												{filteredMedications.slice(0, 50)?.map((med) => (
 													<li
 														key={med["Registration Number"]}
 														className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"

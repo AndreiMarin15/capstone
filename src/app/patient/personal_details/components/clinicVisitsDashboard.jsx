@@ -59,7 +59,7 @@ export default function ClinicVisits() {
 
 	const addHandleVisitClick = (id, clinicVisitNumber) => {
 		// Update lastOpened for the clicked encounter
-		const updatedEncounters = encounters.map((encounter) =>
+		const updatedEncounters = encounters?.map((encounter) =>
 			encounter.id === id ? { ...encounter, lastOpened: new Date().toLocaleString() } : encounter
 		);
 
@@ -132,7 +132,7 @@ export default function ClinicVisits() {
 						.slice()
 						.reverse()
 						.slice(0, renderingOptions)
-						.map((encounter, index) => (
+						?.map((encounter, index) => (
 							<button
 								key={encounter.id}
 								className="flex mt-4 mb-4 text-xs text-black"
