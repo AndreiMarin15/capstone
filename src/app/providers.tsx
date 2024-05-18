@@ -27,6 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					pathname !== "/patient_form" &&
 					pathname !== "/doctor_form" &&
 					pathname !== "/require_auth" &&
+					pathname !== "/logout" &&
 					!pathname.includes("/legal") &&
 					!pathname.includes("/middleware")
 				) {

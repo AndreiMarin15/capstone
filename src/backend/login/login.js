@@ -22,8 +22,8 @@ export const login = {
 	getUserType: async () => {
 		let query = {};
 
-		console.log(currentUser.getState().info);
-		console.log(currentUser.getState().user);
+		console.log("info", currentUser.getState().info);
+		console.log("user", currentUser.getState().user);
 		if (currentUser.getState().info.id) {
 			query = await PROJECT.selectFrom("doctors", { column: "id", value: currentUser.getState().info.id });
 			console.log(query);
