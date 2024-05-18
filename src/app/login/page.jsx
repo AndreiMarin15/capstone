@@ -45,61 +45,71 @@ export default function Home() {
 								Sign up
 							</span>
 						</div>
-						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
-						<input
-							type="text"
-							id="email"
-							onChange={(e) => {
-								loginInfo.setEmail(e.target.value);
-							}}
-							value={loginInfo.email}
-							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
-						/>
-						<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
-						<input
-							type="password"
-							id="password"
-							onChange={(e) => {
-								loginInfo.setPassword(e.target.value);
-							}}
-							value={loginInfo.password}
-							className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
-						/>
-						<button
-							onClick={async () => {
+						<form
+							onSubmit={async (e) => {
+								e.preventDefault();
+							
 								const user = await login.loginUser();
+								console.log(user);
 
-								await login.getUserType(user).then((type) => {
-									toast.success("Verifying Information. Please wait.", {
+								
+								const type = await login.getUserType(user);
+
+
+								toast.success("Verifying Information. Please wait.", {
+									position: "top-left",
+									theme: "colored",
+									autoClose: 500,
+								});
+
+								console.log(type);
+
+								if (type === "patient") {
+									router.push("/patient/home");
+								} else if (type === "doctor") {
+									const specialization = login.getDoctorSpecialization();
+									if (specialization === 1) {
+										router.push("/home");
+									} else {
+										router.push("/other_doctor/referrals");
+									}
+								} else {
+									toast.error("Failed logging in. Kindly double check your information", {
 										position: "top-left",
 										theme: "colored",
-										autoClose: 500,
+										autoClose: 2000,
 									});
-
-									console.log(type);
-
-									if (type === "patient") {
-										router.push("/patient/home");
-									} else if (type === "doctor") {
-										const type = login.getDoctorSpecialization();
-										if (type === 1) {
-											router.push("/home");
-										} else {
-											router.push("/other_doctor/referrals");
-										}
-									} else {
-										toast.error("Failed logging in. Kindly double check your information", {
-											position: "top-left",
-											theme: "colored",
-											autoClose: 2000,
-										});
-									}
-								});
+								}
 							}}
-							className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
 						>
-							Login
-						</button>
+							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-7 max-md:ml-2">Email</div>
+							<input
+								type="text"
+								id="email"
+								onChange={(e) => {
+									loginInfo.setEmail(e.target.value);
+								}}
+								value={loginInfo.email}
+								className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+							/>
+							<div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">Password</div>
+							<input
+								type="password"
+								id="password"
+								onChange={(e) => {
+									loginInfo.setPassword(e.target.value);
+								}}
+								value={loginInfo.password}
+								className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
+							/>
+
+							<button
+								type="submit"
+								className="text-white text-lg font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 mt-10 px-8 py-3 rounded self-start max-md:px-5 hover:bg-sky-600"
+							>
+								Login
+							</button>
+						</form>
 					</div>
 				</div>
 				<div className="flex flex-col items-stretch justify-end h-[100vh] ml-5 w-full">

@@ -57,10 +57,21 @@ export const authentication = {
 
 	signOut: async () => {
 		const { error } = await client.auth.signOut();
-
+		console.log("err", error);
+		console.log(!error);
 		if (!error) {
-			authentication.unmountUser();
+			client.auth.setSession({});
+
+			await useUserInfo.getState().setEmail("");
+			await useUserInfo.getState().setPassword("");
+			await useDoctorInfo.getState().reset();
+			await usePatientInfo.getState().reset();
+			await currentUser.getState().setInfo({});
+			await currentUser.getState().setUser({});
 		}
+
+		console.log(currentUser.getState());
+		console.log(useUserInfo.getState());
 
 		return error ? error : null;
 	},
