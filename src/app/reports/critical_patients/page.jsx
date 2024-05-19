@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import PieChart from "./pieChart";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Link } from "next/link"; // Import Link component
@@ -16,7 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-export default function ReferredPatientList() {
+import { Button } from "@/components/ui/button";
+
+export default function CriticalConditionPatients() {
   const router = useRouter(); // Initialize useRouter
 
   const patientInfo = [
@@ -110,14 +111,11 @@ export default function ReferredPatientList() {
                 ))}
               </TableBody>
             </Table>
-
-            <div className="mt-14 text-xs italic leading-5 text-blue-800">
-              *Refer to individual patient records for detailed information on
-              risk factors and corresponding care plans.
-            </div>
           </div>
         </div>
-
+        <div className="text-center mt-10">
+          <Button> Refer All Patients</Button>
+        </div>
         <div className="text-base text-xs text-sky-900 mt-8">
           <button className="flex items-center justify-center px-6 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5">
             <div className="flex gap-0.5 justify-between items-center">

@@ -10,12 +10,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[#003168] text-white text-xs hover:bg-[#003168]/90 dark:bg-[#003168] dark:text-white dark:hover:bg-[#003168]/90 h-[30px]",
+          "bg-[#003168] border solid border-[#003168] text-white text-xs hover:bg-[#FFFFFF] hover:text-[#003168] dark:bg-[#003168] dark:text-white dark:hover:bg-[#003168]/90 h-[30px]",
         destructive:
           "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
         outline:
-          "border border-solid text-xs border-[#003168] bg-white hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
-
+          "border border-solid text-xs text-[#1E40AF] border-[#1E40AF] bg-white hover:bg-[#003168] hover:text-white dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+        remind: "font-medium text-blue-500 underline",
         secondary:
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
         ghost:
