@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import BackButton from "../sub_components/BackButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@/components/ui/button";
 
 export default function AddAttendingDoctors({
   currentScreen,
@@ -35,11 +36,16 @@ export default function AddAttendingDoctors({
       variable: "Place of Clinic",
       value: "",
     },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/2f5262fe18cacfe2ba811c7540eac580928c9def3078b6ed62ce856926ce2393?",
+      variable: "Contact",
+      value: "",
+    },
   ];
 
   return (
     <>
-      {currentScreen === 1 ? (
+      {currentScreen === 3 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD ATTENDING DOCTOR/S
@@ -117,15 +123,14 @@ export default function AddAttendingDoctors({
               setCurrentScreen={setCurrentScreen}
             />
             <div>
-              <button
+              <Button
                 onClick={() => {
                   handleSave(); // Save the medication
                   setCurrentScreen(2); // Navigate back to the medication list screen
                 }}
-                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
               >
                 SAVE
-              </button>
+              </Button>
             </div>
           </div>
         </>
