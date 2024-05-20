@@ -8,5 +8,5 @@ export default function AddAttendingDoctors({
   currentScreen,
   setCurrentScreen,
 }) {
-  return <>{currentScreen}</>;
+  return <>Hello</>;
 }

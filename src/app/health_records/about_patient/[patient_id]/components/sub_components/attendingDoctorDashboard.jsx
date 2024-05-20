@@ -10,6 +10,7 @@ import ViewAttendingDoctor from "../sub_sub_components/viewAttendingDoctor";
 // import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
 
 export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
+  const [atCurrentScreen, setAtCurrentScreen] = useState(1);
   // const supabase = client("public");
   const [medications, setMedications] = useState([]);
   const [attendingDoctors, setAttendingDoctors] = useState([]);
@@ -64,7 +65,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
 
   return (
     <>
-      {currentScreen === 1 ? (
+      {atCurrentScreen === 1 ? (
         <>
           <div>
             <div className="flex flex-col">
@@ -112,7 +113,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
                     className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
                     onClick={() => {
                       console.log({ currentScreen });
-                      setCurrentScreen(3);
+                      setAtCurrentScreen(3);
                     }}
                   >
                     <div className="items-start text-xs text-black">
@@ -150,19 +151,15 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
             </div>
           </div>
         </>
-      ) : (
-        <> {currentScreen}</>
-      )}
-      {currentScreen === 3 ? (
+      ) : null}
+      {atCurrentScreen === 3 ? (
         <>
           <ViewAttendingDoctor
-            currentScreen={currentScreen}
-            setCurrentScreen={setCurrentScreen}
+            currentScreen={atCurrentScreen}
+            setCurrentScreen={setAtCurrentScreen}
           />
         </>
-      ) : (
-        <> {currentScreen}</>
-      )}
+      ) : null}
     </>
   );
 }
