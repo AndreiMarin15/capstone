@@ -4,6 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import ViewAttendingDoctor from "../sub_sub_components/viewAttendingDoctor";
+import AddAttendingDoctor from "../sub_sub_components/addAttendingDoctors";
 
 //NO BACK END YET
 // import { client } from "@/backend//initSupabase";
@@ -74,7 +75,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    setCurrentScreen(1);
+                    setAtCurrentScreen(3);
                   }}
                 >
                   Add
@@ -113,7 +114,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
                     className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
                     onClick={() => {
                       console.log({ currentScreen });
-                      setAtCurrentScreen(3);
+                      setAtCurrentScreen(4);
                     }}
                   >
                     <div className="items-start text-xs text-black">
@@ -153,6 +154,14 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen }) {
         </>
       ) : null}
       {atCurrentScreen === 3 ? (
+        <>
+          <AddAttendingDoctor
+            currentScreen={atCurrentScreen}
+            setCurrentScreen={setAtCurrentScreen}
+          />
+        </>
+      ) : null}
+      {atCurrentScreen === 4 ? (
         <>
           <ViewAttendingDoctor
             currentScreen={atCurrentScreen}

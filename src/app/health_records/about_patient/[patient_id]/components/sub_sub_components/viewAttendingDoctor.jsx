@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddAttendingDoctors({
+export default function viewAttendingDoctors({
   currentScreen,
   setCurrentScreen,
 }) {
