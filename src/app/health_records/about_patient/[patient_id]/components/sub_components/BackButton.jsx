@@ -2,6 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const BackButton = ({
   currentPage,
@@ -29,7 +30,7 @@ const BackButton = ({
     } else if (currentScreen === 5) {
       setCurrentScreen(0);
     } else if (currentScreen === 6) {
-        setCurrentScreen(2);
+      setCurrentScreen(2);
     } else {
       router.push("/health_records"); // Navigate back to the default route
     }
@@ -37,10 +38,7 @@ const BackButton = ({
 
   return (
     <div className="flex items-start justify-between mt-5">
-      <button
-        onClick={handleBack}
-        className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
-      >
+      <Button variant="back" onClick={handleBack}>
         <div className="flex gap-0.5 justify-between items-center">
           <Image
             height={0}
@@ -50,9 +48,9 @@ const BackButton = ({
             className="w-3 h-3 aspect-square"
             alt="Back Arrow"
           />
-          <div className="text-xs">BACK</div>
+          BACK
         </div>
-      </button>
+      </Button>
     </div>
   );
 };
