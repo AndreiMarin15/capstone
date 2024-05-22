@@ -16,6 +16,9 @@ const buttonVariants = cva(
         outline:
           "border border-solid text-xs text-[#1E40AF] border-[#1E40AF] bg-white hover:bg-[#003168] hover:text-white dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         remind: "font-medium text-blue-500 underline",
+        back: "border border-solid text-xs text-[#003168] border-[#003168] bg-white hover:bg-[#BCD7FF]",
+        sortfilter:
+          "border border-solid text-xs text-[#000000] border-[#000000] bg-white hover:bg-[#D9D9D9]",
         secondary:
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
         ghost:
