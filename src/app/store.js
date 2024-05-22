@@ -27,6 +27,12 @@ export const useCPNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
+export const useLabNav = create((set) => ({
+	selected: "All",
+	setSelected: (item) => set(() => ({ selected: item })),
+}));
+
+
 export const currentUser = create(
 	persist(
 		(set) => ({
