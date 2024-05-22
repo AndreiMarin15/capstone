@@ -2,30 +2,21 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/router"; // Corrected import path
 import { useState, useEffect } from "react";
+import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import LabTests from "../../labTestsDashboard";
+import ClinicalDiagnosis from "./addClinicalDiagnosis";
 
-export default function AddClinicVisit({
+export default function AddObservation({
   currentPage,
   setCurrentPage,
   patientId,
 }) {
   const [clinicDate, setClinicDate] = useState("");
-  const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
-  const [height, setHeight] = useState(null);
-  const [weight, setWeight] = useState(null);
-  const [bmi, setBMI] = useState(null);
-  const [systolic, setSystolic] = useState(null);
-  const [diastolic, setDiastolic] = useState(null);
-  const [heartRate, setHeartRate] = useState(null);
   const [reviewOfSystems, setReviewOfSystems] = useState("");
   const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
-  const [finalDiagnosis, setFinalDiagnosis] = useState("");
   const [otherConcerns, setOtherConcerns] = useState("");
-  const [disease, setDisease] = useState([]);
-  const [filteredDisease, setFilteredDisease] = useState([]);
-  const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
-  const [encountersId, setEncountersId] = useState([]);
   const [labTestData, setLabTestData] = useState([]);
   const [observations, setObservations] = useState([]);
   const [labTestDataArray, setLabTestDataArray] = useState([]);
@@ -33,12 +24,6 @@ export default function AddClinicVisit({
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
-    height: false,
-    weight: false,
-    bmi: false,
-    systolic: false,
-    diastolic: false,
-    heartRate: false,
     reviewOfSystems: false,
     signsAndSymptoms: false,
   });
@@ -46,12 +31,6 @@ export default function AddClinicVisit({
   const validateFields = () => {
     const errors = {
       clinicDate: !clinicDate,
-      height: !height,
-      weight: !weight,
-      bmi: !bmi,
-      systolic: !systolic,
-      diastolic: !diastolic,
-      heartRate: !heartRate,
       reviewOfSystems: !reviewOfSystems,
       signsAndSymptoms: !signsAndSymptoms,
     };
@@ -123,6 +102,53 @@ export default function AddClinicVisit({
     }
   };
 
+  const addLabTestData = (labTestData) => {
+    // Check if labTestData is not already an array
+    if (!Array.isArray(labTestData)) {
+      // If labTestData is not an array, convert it into an array
+      labTestData = [labTestData];
+    }
+
+    // Add labTestData to the existing labTestDataArray
+    setLabTestData([...labTestDataArray, ...labTestData]);
+
+    // Map over labTestData to create new observations
+    const newObservations = labTestData?.map((data, index) => ({
+      id: `labtest`,
+      status: data.status,
+      code: {
+        coding: [
+          {
+            code: "YOUR_LOINC_CODE",
+            system: "http://loinc.org",
+          },
+        ],
+      },
+      subject: {
+        type: "Patient",
+        reference: data.subject.reference,
+      },
+      participant: {
+        type: "Doctor",
+        actor: data.participant.actor,
+      },
+      resource_type: "Observation",
+      valueQuantity: {
+        valueQuantities: data.valueQuantities,
+      },
+      uploadedDateTime: data.dateOfUpdate,
+      effectiveDateTime: data.dateOfResult,
+      requestedDateTime: clinicDate,
+      codeText: data.labTestName,
+      imageSrc: data.base64Image,
+    }));
+
+    // Update observations with new observations
+    setObservations([...observations, ...newObservations]);
+
+    console.log(observations);
+  };
+
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -131,318 +157,457 @@ export default function AddClinicVisit({
     },
   ];
 
-  const signsandsymptoms = [
+  //   const signsandsymptoms = [
+  //     {
+  //       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+  //       variable: "Signs and Symptoms",
+  //       value: "",
+  //     },
+  //   ];
+
+  //   const reviewofsystems = [
+  //     {
+  //       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+  //       variable: "Review of Systems",
+  //       value: "",
+  //     },
+  //   ];
+
+  //   const otherconcerns = [
+  //     {
+  //       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
+  //       variable: "Other Concerns",
+  //       value: "",
+  //     },
+  //   ];
+
+  //   const labtest = [
+  //     {
+  //       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+  //       variable: "Tests",
+  //       value: "",
+  //     },
+  //   ];
+
+  const fields = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
       variable: "Signs and Symptoms",
+      name: "signsAndSymptoms",
       value: "",
+      type: "textarea",
+      onChange: (e) => {
+        setSignsAndSymptoms(e.target.value);
+        setErrorStyles({
+          ...errorStyles,
+          signsAndSymptoms: false,
+        });
+      },
     },
-  ];
-
-  const reviewofsystems = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Review of Systems",
+      name: "ros",
       value: "",
+      type: "checkbox",
+      checkboxList: [
+        [
+          { name: "fever", value: "Fever" },
+          { name: "weightLoss", value: "Weight Loss" },
+          { name: "poorAppetite", value: "Poor Appetite" },
+          { name: "fatigue", value: "Fatigue" },
+        ],
+        [
+          { name: "fever", value: "Fever" },
+          { name: "weightLoss", value: "Weight Loss" },
+          { name: "poorAppetite", value: "Poor Appetite" },
+          { name: "fatigue", value: "Fatigue" },
+        ],
+      ],
     },
-  ];
-
-  const otherconcerns = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Other Concerns",
+      name: "otherConcerns",
       value: "",
+      type: "textarea",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Tests",
+      name: "tests",
+      value: "",
+      type: "button",
+      saveFunction: () => {
+        setCurrentScreen(2);
+      },
     },
   ];
-
   const [currentScreen, setCurrentScreen] = useState(0);
 
   return (
     <>
       {currentScreen === 0 && (
-        <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-          ADD CLINIC VISIT
-        </div>
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+            ADD CLINIC VISIT
+          </div>
+
+          <div className="flex w-full justify-center">
+            <Progress value={25} />
+          </div>
+          <div>
+            <div className="flex gap-[4rem] align-baseline">
+              <table className="max-w-fit border-spacing-y-5 border-separate">
+                <tbody className="text-xs leading-5 text-black">
+                  {date.map((item, index) => (
+                    <tr key={index}>
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[15px] border-transparent">
+                        <input
+                          type="date"
+                          value={clinicDate}
+                          onChange={(e) => setClinicDate(e.target.value)}
+                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
+                          style={
+                            errorStyles.clinicDate
+                              ? { borderColor: "red", borderWidth: "2px" }
+                              : {}
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colspan="3" className="font-semibold text-xs py-[20px]">
+                      OBSERVATION
+                    </td>
+                  </tr>
+                  {fields.map((item, index) =>
+                    item.type === "textarea" ? (
+                      <>
+                        <tr key={index} className="align-top">
+                          <td className="w-5">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src={item.src}
+                              className="self-start aspect-square fill-black w-[15px]"
+                            />
+                          </td>
+                          <td className="border-l-[5px] border-transparent">
+                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                              {item.variable}
+                            </div>
+                          </td>
+                          <td className="border-l-[15px] border-transparent">
+                            <textarea
+                              placeholder={"Add signs and symptoms"}
+                              name={item.name}
+                              value={signsAndSymptoms}
+                              onChange={item.onChange}
+                              className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                              style={{
+                                fontSize: "12px",
+                                height: "auto",
+                                whiteSpace: "pre-wrap",
+                                ...(item.variable === "Review of Systems" &&
+                                errorStyles.reviewOfSystems
+                                  ? {
+                                      ...errorStyles.reviewOfSystems,
+                                      borderColor: "red",
+                                      borderWidth: "2px",
+                                    }
+                                  : item.variable === "Signs and Symptoms" &&
+                                      errorStyles.signsAndSymptoms
+                                    ? {
+                                        ...errorStyles.signsAndSymptoms,
+                                        borderColor: "red",
+                                        borderWidth: "2px",
+                                      }
+                                    : {}),
+                              }}
+                              wrap="soft"
+                            />
+                          </td>
+                        </tr>
+                      </>
+                    ) : item.type === "checkbox" ? (
+                      <>
+                        <tr>
+                          <td>{item.variable}</td>
+                          {item.checkboxList.map((dataset, datasetIndex) => {
+                            <td className="border-l-[15px] border-transparent">
+                              {dataset.map((data, dataIndex) => {
+                                <></>;
+                              })}
+                            </td>;
+                          })}
+                        </tr>
+                      </>
+                    ) : null
+                  )}
+                  {signsandsymptoms.map((item, index) => (
+                    <tr key={index} className="align-top">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[15px] border-transparent">
+                        <textarea
+                          placeholder={"Add signs and symptoms"}
+                          value={signsAndSymptoms}
+                          onChange={(e) => {
+                            setSignsAndSymptoms(e.target.value);
+                            setErrorStyles({
+                              ...errorStyles,
+                              signsAndSymptoms: false,
+                            });
+                          }}
+                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                          style={{
+                            fontSize: "12px",
+                            height: "auto",
+                            whiteSpace: "pre-wrap",
+                            ...(item.variable === "Review of Systems" &&
+                            errorStyles.reviewOfSystems
+                              ? {
+                                  ...errorStyles.reviewOfSystems,
+                                  borderColor: "red",
+                                  borderWidth: "2px",
+                                }
+                              : item.variable === "Signs and Symptoms" &&
+                                  errorStyles.signsAndSymptoms
+                                ? {
+                                    ...errorStyles.signsAndSymptoms,
+                                    borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : {}),
+                          }}
+                          wrap="soft"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                  {reviewofsystems.map((item, index) => (
+                    <tr key={index} className="align-top">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+
+                      <td className="border-l-[15px] border-transparent">
+                        <div className="flex flex-col gap-1">
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="fever"
+                              value="Fever"
+                              checked={reviewOfSystems.includes("Fever")}
+                              onChange={(e) => handleCheckboxChange(e, "Fever")}
+                              className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                            <span className="ml-2">Fever</span>
+                          </label>
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="weightLoss"
+                              value="Weight Loss"
+                              checked={reviewOfSystems.includes("Weight Loss")}
+                              onChange={(e) =>
+                                handleCheckboxChange(e, "Weight Loss")
+                              }
+                              className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                            <span className="ml-2">Weight Loss</span>
+                          </label>
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="poorAppetite"
+                              value="Poor Appetite"
+                              checked={reviewOfSystems.includes(
+                                "Poor Appetite"
+                              )}
+                              onChange={(e) =>
+                                handleCheckboxChange(e, "Poor Appetite")
+                              }
+                              className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                            <span className="ml-2">Poor Appetite</span>
+                          </label>
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="fatigue"
+                              value="Fatigue"
+                              checked={reviewOfSystems.includes("Fatigue")}
+                              onChange={(e) =>
+                                handleCheckboxChange(e, "Fatigue")
+                              }
+                              className="form-checkbox h-5 w-5 text-blue-600"
+                            />
+                            <span className="ml-2">Fatigue</span>
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {otherconcerns.map((item, index) => (
+                    <tr key={index} className="align-top">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[15px] border-transparent">
+                        <textarea
+                          placeholder={"Add other concern/s"}
+                          value={otherConcerns}
+                          onChange={(e) => {
+                            setOtherConcerns(e.target.value);
+                            setErrorStyles({
+                              ...errorStyles,
+                              otherConcerns: false,
+                            });
+                          }}
+                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                          style={{
+                            fontSize: "12px",
+                            height: "auto",
+                            whiteSpace: "pre-wrap",
+                            ...(item.variable === "Review of Systems" &&
+                            errorStyles.otherConcerns
+                              ? {
+                                  ...errorStyles.otherConcerns,
+                                  borderColor: "red",
+                                  borderWidth: "2px",
+                                }
+                              : item.variable === "Signs and Symptoms" &&
+                                  errorStyles.signsAndSymptoms
+                                ? {
+                                    ...errorStyles.signsAndSymptoms,
+                                    borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : {}),
+                          }}
+                          wrap="soft"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                  {labtest.map((item, index) => (
+                    <tr key={index} className="align-top">
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[15px] border-transparent">
+                        <Button variant="outline">Request</Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {/* BACK & SAVE BUTTON */}
+          <div className="flex justify-between items-center mt-5">
+            <BackButton
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+            <div>
+              <Button
+                onClick={() => {
+                  handleSave(labTestData, true);
+                  setCurrentScreen(1);
+                }} // Pass labTestData and true to indicate saving clinic visit
+              >
+                NEXT
+              </Button>
+            </div>
+          </div>
+        </>
+      )}{" "}
+      {currentScreen === 1 ? (
+        <ClinicalDiagnosis />
+      ) : currentScreen === 2 ? (
+        <RequestLabTest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          patientId={patientId}
+          doctorId={doctorId}
+          handleSave={(data) => {
+            addLabTestData(data);
+            handleSave(false);
+          }}
+        />
+      ) : (
+        ""
       )}
-      <div className="flex w-full justify-center">
-        <Progress value={25} />
-      </div>
-      <div>
-        <div className="flex gap-[4rem] align-baseline">
-          <table className="max-w-fit border-spacing-y-5 border-separate">
-            <tbody className="text-xs leading-5 text-black">
-              {date.map((item, index) => (
-                <tr key={index}>
-                  <td className="w-5">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={item.src}
-                      className="self-start aspect-square fill-black w-[15px]"
-                    />
-                  </td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
-                    </div>
-                  </td>
-                  <td className="border-l-[15px] border-transparent">
-                    <input
-                      type="date"
-                      value={clinicDate}
-                      onChange={(e) => setClinicDate(e.target.value)}
-                      className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
-                      style={
-                        errorStyles.clinicDate
-                          ? { borderColor: "red", borderWidth: "2px" }
-                          : {}
-                      }
-                    />
-                  </td>
-                </tr>
-              ))}
-              <tr>
-                <td colspan="3" className="font-semibold text-xs mt-15 mb-15">
-                  OBSERVATION
-                </td>
-              </tr>
-              {signsandsymptoms.map((item, index) => (
-                <tr key={index} className="align-top">
-                  <td className="w-5">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={item.src}
-                      className="self-start aspect-square fill-black w-[15px]"
-                    />
-                  </td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
-                    </div>
-                  </td>
-                  <td className="border-l-[15px] border-transparent">
-                    <textarea
-                      placeholder={"Add signs and symptoms"}
-                      value={signsAndSymptoms}
-                      onChange={(e) => {
-                        setSignsAndSymptoms(e.target.value);
-                        setErrorStyles({
-                          ...errorStyles,
-                          signsAndSymptoms: false,
-                        });
-                      }}
-                      className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                      style={{
-                        fontSize: "12px",
-                        height: "auto",
-                        whiteSpace: "pre-wrap",
-                        ...(item.variable === "Review of Systems" &&
-                        errorStyles.reviewOfSystems
-                          ? {
-                              ...errorStyles.reviewOfSystems,
-                              borderColor: "red",
-                              borderWidth: "2px",
-                            }
-                          : item.variable === "Signs and Symptoms" &&
-                              errorStyles.signsAndSymptoms
-                            ? {
-                                ...errorStyles.signsAndSymptoms,
-                                borderColor: "red",
-                                borderWidth: "2px",
-                              }
-                            : {}),
-                      }}
-                      wrap="soft"
-                    />
-                  </td>
-                </tr>
-              ))}
-              {reviewofsystems.map((item, index) => (
-                <tr key={index} className="align-top">
-                  <td className="w-5">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={item.src}
-                      className="self-start aspect-square fill-black w-[15px]"
-                    />
-                  </td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
-                    </div>
-                  </td>
-                  <td className="border-l-[15px] border-transparent">
-                    <div className="flex flex-col gap-1">
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="fever"
-                          value="Fever"
-                          checked={reviewOfSystems.includes("Fever")}
-                          onChange={(e) => handleCheckboxChange(e, "Fever")}
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Fever</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="weightLoss"
-                          value="Weight Loss"
-                          checked={reviewOfSystems.includes("Weight Loss")}
-                          onChange={(e) =>
-                            handleCheckboxChange(e, "Weight Loss")
-                          }
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Weight Loss</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="poorAppetite"
-                          value="Poor Appetite"
-                          checked={reviewOfSystems.includes("Poor Appetite")}
-                          onChange={(e) =>
-                            handleCheckboxChange(e, "Poor Appetite")
-                          }
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Poor Appetite</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="fatigue"
-                          value="Fatigue"
-                          checked={reviewOfSystems.includes("Fatigue")}
-                          onChange={(e) => handleCheckboxChange(e, "Fatigue")}
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Fatigue</span>
-                      </label>
-                    </div>
-                  </td>
-                  <td className="border-l-[15px] border-transparent">
-                    <div className="flex flex-col gap-1">
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="fever"
-                          value="Fever"
-                          checked={reviewOfSystems.includes("Fever")}
-                          onChange={(e) => handleCheckboxChange(e, "Fever")}
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Fever</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="weightLoss"
-                          value="Weight Loss"
-                          checked={reviewOfSystems.includes("Weight Loss")}
-                          onChange={(e) =>
-                            handleCheckboxChange(e, "Weight Loss")
-                          }
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Weight Loss</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="poorAppetite"
-                          value="Poor Appetite"
-                          checked={reviewOfSystems.includes("Poor Appetite")}
-                          onChange={(e) =>
-                            handleCheckboxChange(e, "Poor Appetite")
-                          }
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Poor Appetite</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          name="fatigue"
-                          value="Fatigue"
-                          checked={reviewOfSystems.includes("Fatigue")}
-                          onChange={(e) => handleCheckboxChange(e, "Fatigue")}
-                          className="form-checkbox h-5 w-5 text-blue-600"
-                        />
-                        <span className="ml-2">Fatigue</span>
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {otherconcerns.map((item, index) => (
-                <tr key={index} className="align-top">
-                  <td className="w-5">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={item.src}
-                      className="self-start aspect-square fill-black w-[15px]"
-                    />
-                  </td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
-                    </div>
-                  </td>
-                  <td className="border-l-[15px] border-transparent">
-                    <textarea
-                      placeholder={"Add other concern/s"}
-                      value={otherConcerns}
-                      onChange={(e) => {
-                        setOtherConcerns(e.target.value);
-                        setErrorStyles({
-                          ...errorStyles,
-                          otherConcerns: false,
-                        });
-                      }}
-                      className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                      style={{
-                        fontSize: "12px",
-                        height: "auto",
-                        whiteSpace: "pre-wrap",
-                        ...(item.variable === "Review of Systems" &&
-                        errorStyles.otherConcerns
-                          ? {
-                              ...errorStyles.otherConcerns,
-                              borderColor: "red",
-                              borderWidth: "2px",
-                            }
-                          : item.variable === "Signs and Symptoms" &&
-                              errorStyles.signsAndSymptoms
-                            ? {
-                                ...errorStyles.signsAndSymptoms,
-                                borderColor: "red",
-                                borderWidth: "2px",
-                              }
-                            : {}),
-                      }}
-                      wrap="soft"
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </>
   );
 }
