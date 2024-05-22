@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
 import ClinicalDiagnosis from "./addClinicalDiagnosis";
+import RequestLab from "../requestLabTest";
 
 export default function AddObservation({
   currentPage,
@@ -415,7 +416,7 @@ export default function AddObservation({
             <div>
               <Button
                 onClick={() => {
-                  handleSave(labTestData, true);
+                  // handleSave(labTestData, true);
                   setCurrentScreen(1);
                 }} // Pass labTestData and true to indicate saving clinic visit
               >
@@ -428,7 +429,7 @@ export default function AddObservation({
       {currentScreen === 1 ? (
         <ClinicalDiagnosis />
       ) : currentScreen === 2 ? (
-        <RequestLabTest
+        <RequestLab
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
           patientId={patientId}

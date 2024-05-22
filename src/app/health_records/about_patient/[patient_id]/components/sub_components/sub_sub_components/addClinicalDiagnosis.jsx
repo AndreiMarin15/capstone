@@ -6,6 +6,7 @@ import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
+import Vitals from "./addVitals";
 
 export default function AddClinicalDiagnosis({
   currentPage,
@@ -262,7 +263,7 @@ export default function AddClinicalDiagnosis({
             <div>
               <Button
                 onClick={() => {
-                  handleSave(labTestData, true);
+                  //handleSave(labTestData, true);
                   setCurrentScreen(1);
                 }} // Pass labTestData and true to indicate saving clinic visit
               >
@@ -272,22 +273,7 @@ export default function AddClinicalDiagnosis({
           </div>
         </>
       )}{" "}
-      {currentScreen === 1 ? (
-        <ClinicalDiagnosis />
-      ) : currentScreen === 2 ? (
-        <RequestLabTest
-          currentScreen={currentScreen}
-          setCurrentScreen={setCurrentScreen}
-          patientId={patientId}
-          doctorId={doctorId}
-          handleSave={(data) => {
-            addLabTestData(data);
-            handleSave(false);
-          }}
-        />
-      ) : (
-        ""
-      )}
+      {currentScreen === 1 ? <Vitals /> : ""}
     </>
   );
 }
