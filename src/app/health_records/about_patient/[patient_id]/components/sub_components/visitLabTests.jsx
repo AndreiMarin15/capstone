@@ -101,6 +101,8 @@ export default function VisitLabtests({
                   {`${medication.startdate}`}
                 </div>
                 <div className="flex-auto my-auto">
+                  {/* HARDCODED */}
+
                   <span className="font-semibold">Valid Until: </span>
                   {`${medication.startdate}`}
                 </div>
@@ -135,6 +137,7 @@ export default function VisitLabtests({
 
                     <div className=" self-start text-sm text-black">
                       <span className=" font-semibold">Value Range:</span>
+                      {/* HARDCODED */}
                       <div className="mt-5 text-sm">
                         Normal = 5.70%
                         <br />

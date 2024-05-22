@@ -1,6 +1,8 @@
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import VisitLabTests from "./sub_components/visitLabTests";
+import ViewLabRequest from "./sub_components/viewLabRequest";
+
 import { useState, useEffect } from "react";
 import {
   getEncounters,
@@ -140,7 +142,9 @@ export default function LabTests({ patientId }) {
                   src={labTest.src}
                   className="aspect-square fill-black w-[15px]"
                 />
-                <div className="my-auto">{labTest.variable}</div>
+                {/* <div className="my-auto">{labTest.variable}</div> */}
+                <div className="my-auto">Lab Test Request #1</div>
+
               </div>
               <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 w-[100%]">
                 <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
@@ -205,7 +209,12 @@ export default function LabTests({ patientId }) {
         </div>
       )}
       {currentScreen === 1 && (
-        <VisitLabTests
+        // <VisitLabTests
+        //   currentScreen={currentScreen}
+        //   setCurrentScreen={setCurrentScreen}
+        //   observationId={selectedObservationId}
+        // />
+        <ViewLabRequest
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
           observationId={selectedObservationId}
