@@ -20,10 +20,6 @@ export default function Reports() {
       variable: "Critical Condition Patients",
       value: "",
     },
-    {
-      variable: "Patients with High & Low Sugar Levels (Self-pricking)",
-      value: "",
-    },
   ];
 
   const date = [
