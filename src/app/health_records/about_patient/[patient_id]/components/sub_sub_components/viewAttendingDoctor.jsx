@@ -90,16 +90,7 @@ export default function ViewAttendingDoctors({
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
         />
-        <div>
-          <Button
-            onClick={() => {
-              handleSave(); // Save the medication
-              setCurrentScreen(2); // Navigate back to the medication list screen
-            }}
-          >
-            SAVE
-          </Button>
-        </div>
+        <div></div>
       </div>
     </>
   );
