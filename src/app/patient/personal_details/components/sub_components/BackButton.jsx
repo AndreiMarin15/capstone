@@ -2,6 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const BackButton = ({
   currentPage,
@@ -12,7 +13,12 @@ const BackButton = ({
   const router = useRouter();
 
   const handleBack = () => {
-    if (currentPage === 10 || currentPage === 1 || currentPage === 3 || currentPage === 4) {
+    if (
+      currentPage === 10 ||
+      currentPage === 1 ||
+      currentPage === 3 ||
+      currentPage === 4
+    ) {
       setCurrentPage(0);
     } else if (currentPage === 2) {
       setCurrentPage(0); // Set currentPage to 0 if currentPage is 2
@@ -30,10 +36,7 @@ const BackButton = ({
   };
   return (
     <div className="flex items-start justify-between mt-5">
-      <button
-        onClick={handleBack}
-        className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
-      >
+      <Button variant="back" onClick={handleBack}>
         <div className="flex gap-0.5 justify-between items-center">
           <Image
             height={0}
@@ -43,9 +46,8 @@ const BackButton = ({
             className="w-3 h-3 aspect-square"
             alt="Back Arrow"
           />
-          <div className="text-xs">BACK</div>
         </div>
-      </button>
+      </Button>
     </div>
   );
 };
