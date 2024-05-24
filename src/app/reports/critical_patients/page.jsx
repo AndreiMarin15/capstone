@@ -117,19 +117,7 @@ export default function CriticalConditionPatients() {
           <Button> Refer All Patients</Button>
         </div>
         <div className="text-base text-xs text-sky-900 mt-8">
-          <button className="flex items-center justify-center px-6 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5">
-            <div className="flex gap-0.5 justify-between items-center">
-              <Image
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-                className="w-3 h-3 aspect-square"
-                alt="Back Arrow"
-              />
-              <div className="text-xs">BACK</div>
-            </div>
-          </button>
+          <Button variant="back">BACK</Button>
         </div>
       </div>
     </div>
