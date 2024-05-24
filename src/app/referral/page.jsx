@@ -349,7 +349,7 @@ export default function Referral() {
                   <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
                     <div className="mt-2 text-lg font-semibold text-black">
                       {currentInfo?.name ? currentInfo.name : ""}
-
+                     
                       <div className="mr-5 text-m text-zinc-600">
                         <span className="text-black font-medium">
                           {currentInfo?.specialty ?? ""}
