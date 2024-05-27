@@ -9,10 +9,11 @@ import {
 } from "@nextui-org/react";
 import BackButton from "./sub_components/BackButton";
 import * as React from "react";
+
 import { getFinalDiagnosisObservations } from "@/backend//health_records/getObservation";
 import { getEncounterByPatientId } from "@/backend//health_records/getEncounter";
-
-export default function Diagnoses({ patientId }) {
+import { getPatientRawData } from "@/backend//patient/personal_details/master_data";
+export default function Diagnoses() {
   const variables = [
     "Diagnoses",
     "Date of Diagnosis",
@@ -20,19 +21,34 @@ export default function Diagnoses({ patientId }) {
     "Specialization",
     "Hospital",
   ];
+  const [patientData, setPatientData] = React.useState(null);
   const [finalDiagnoses, setFinalDiagnoses] = React.useState([]);
   const [encounters, setEncounters] = React.useState([]);
 
   React.useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getPatientRawData(); // Fetch patient data
+        setPatientData(data.id);
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  React.useEffect(() => {
     async function fetchFinalDiagnoses() {
       try {
+        console.log(patientData);
         // Fetch all final diagnosis observations
         const allFinalDiagnoses = await getFinalDiagnosisObservations();
         console.log(allFinalDiagnoses);
 
         // Filter the observations by patientId
         const filteredDiagnoses = allFinalDiagnoses.filter((diagnosis) => {
-          return diagnosis.resource.subject.reference === patientId;
+          return diagnosis.resource.subject.reference === patientData;
         });
 
         console.log(filteredDiagnoses);
@@ -43,8 +59,8 @@ export default function Diagnoses({ patientId }) {
       }
     }
 
-    fetchFinalDiagnoses(); // Call the function to fetch final diagnoses
-  }, [patientId]); // Only run once when patientId changes
+    fetchFinalDiagnoses();
+  }, [patientData]);
 
   React.useEffect(() => {
     async function findEncounters() {
@@ -55,7 +71,7 @@ export default function Diagnoses({ patientId }) {
         }
 
         // Fetch encounters by patientId
-        const patientEncounters = await getEncounterByPatientId(patientId);
+        const patientEncounters = await getEncounterByPatientId(patientData);
         console.log("Patient Encounters:", patientEncounters);
 
         // Filter encounters whose contained array contains any ID from finalDiagnoses
@@ -78,7 +94,7 @@ export default function Diagnoses({ patientId }) {
     }
 
     findEncounters(); // Call the function to find encounters
-  }, [patientId, finalDiagnoses]); // Include finalDiagnoses as a dependency
+  }, [patientData, finalDiagnoses]);
 
   return (
     <>
@@ -102,49 +118,50 @@ export default function Diagnoses({ patientId }) {
             <td colSpan={variables.length} className="h-8"></td>
           </tr>
           {finalDiagnoses?.map((diagnosis, index) => {
-            if (diagnosis.resource.valueString.length > 0) {
-              return (
-                <React.Fragment key={index}>
-                  {variables?.map((variable, variableIndex) => (
-                    <td
-                      key={variableIndex}
-                      className={`${
-                        variableIndex === 0 ? "font-normal" : "mt-4 mb-4"
-                      }`}
-                    >
-                      <span
-                        className={`text-sm ${
-                          variable === "Diagnoses" ? "font-bold" : ""
-                        }`}
-                      >
-                        {variable === "Diagnoses"
-                          ? diagnosis.resource.valueString
-                          : variable === "Date of Diagnosis"
-                            ? encounters[index]?.resource.period.start
-                            : variable === "Doctor"
-                              ? diagnosis.resource.participant.actor
-                              : diagnosis.resource[variable]}
-                      </span>
-                    </td>
-                  ))}
-                  {index < finalDiagnoses.length - 1 && (
-                    <tr key={`gap-${index}`}>
-                      <td
-                        colSpan={variables.length}
-                        className="border-t border-transparent h-4"
-                      />
-                    </tr>
+            return (
+              <>
+                {diagnosis.resource.valueString != null &&
+                  diagnosis.resource.valueString.length > 0 && (
+                    <React.Fragment key={index}>
+                      {variables?.map((variable, variableIndex) => (
+                        <td
+                          key={variableIndex}
+                          className={`${
+                            variableIndex === 0 ? "font-normal" : "mt-4 mb-4"
+                          }`}
+                        >
+                          <span
+                            className={`text-sm ${
+                              variable === "Diagnoses" ? "font-bold" : ""
+                            }`}
+                          >
+                            {variable === "Diagnoses"
+                              ? diagnosis.resource.valueString
+                              : variable === "Date of Diagnosis"
+                                ? encounters[index]?.resource.period.start
+                                : variable === "Doctor"
+                                  ? diagnosis.resource.participant.actor
+                                  : variable === "Hospital"
+                                    ? "Philippine General Hospital"
+                                    : diagnosis.resource[variable]}
+                          </span>
+                        </td>
+                      ))}
+                      {index < finalDiagnoses.length - 1 && (
+                        <tr key={`gap-${index}`}>
+                          <td
+                            colSpan={variables.length}
+                            className="border-t border-transparent h-4"
+                          />
+                        </tr>
+                      )}
+                    </React.Fragment>
                   )}
-                </React.Fragment>
-              );
-            } else {
-              return "";
-            }
+              </>
+            );
           })}
         </tbody>
       </table>
-
-      <BackButton />
     </>
   );
 }
