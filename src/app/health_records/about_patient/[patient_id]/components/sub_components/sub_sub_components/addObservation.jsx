@@ -211,7 +211,7 @@ export default function AddObservation({
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Request",
+      variable: "Request Lab Test",
       name: "tests",
       type: "button",
       saveFunction: () => {

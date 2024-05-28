@@ -13,28 +13,28 @@ import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 
-const referralhistory = [
+const vitalslist = [
   {
     number: "1",
-    referredto: "Dr. Johnny Santos",
-    specialization: "Cardiologist",
     date: "2024-04-21",
+    systolic: "130",
+    diastolic: "100",
+    heartrate: "75",
+    height: "169",
+    weight: "58",
   },
   {
     number: "2",
-    referredto: "Dr. Mari Abalos",
-    specialization: "Gastroenterologist",
     date: "2024-04-21",
-  },
-  {
-    number: "3",
-    referredto: "Dr. Kim Cruz",
-    specialization: "Cardiologist",
-    date: "2024-04-26",
+    systolic: "130",
+    diastolic: "100",
+    heartrate: "75",
+    height: "169",
+    weight: "58",
   },
 ];
 
-export function ReferralHistoryPDF() {
+export function VitalsPDF() {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;
@@ -63,7 +63,7 @@ export function ReferralHistoryPDF() {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
         pdf.addImage(imgData, "PNG", 0, 0, width, height);
-        pdf.save(`Referral History.pdf`);
+        pdf.save(`Vitals & Biometrics.pdf`);
       })
       .finally(() => {
         // Add the 'hidden' class back after the PDF has been downloaded
@@ -78,32 +78,37 @@ export function ReferralHistoryPDF() {
         className="hidden z-[-10] absolute"
         style={{ left: "-5000px" }}
       >
-        {" "}
         <div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
           JUAN DELA CRUZ
         </div>
-        <div className="text-black text-center text-base  leading-5max-md:ml-1 max-md:mt-10 mb-10">
-          Referral History
+        <div className="text-black text-center text-base  leading-5 max-md:ml-1 max-md:mt-10 mb-10">
+          Vitals & Biometrics
         </div>
-        <div className="flex items-center justify-center mt-4 px-16 w-full text-xs max-md:flex-wrap max-md:max-w-full">
+        <div className="flex mt-4 px-5 w-full text-xs max-md:flex-wrap max-md:max-w-full">
           <Table className="mb-5 pb-5">
             {/* To change to button */}
             {/* <TableCaption>Page 1 of 2</TableCaption> */}
             <TableHeader>
               <TableRow>
                 <TableHead>No.</TableHead>
-                <TableHead>Date Referred</TableHead>
-                <TableHead>Referred to</TableHead>
-                <TableHead>Specialization</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Systolic BP - mmHg </TableHead>
+                <TableHead>Diastolic BP - mmHg</TableHead>
+                <TableHead>Heart Rate</TableHead>
+                <TableHead>Height</TableHead>
+                <TableHead>Weight</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {referralhistory?.map((item, index) => (
+              {vitalslist?.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.number}</TableCell>
                   <TableCell>{item.date}</TableCell>
-                  <TableCell>{item.referredto}</TableCell>
-                  <TableCell>{item.specialization}</TableCell>
+                  <TableCell>{item.systolic}</TableCell>
+                  <TableCell>{item.diastolic}</TableCell>
+                  <TableCell>{item.heartrate}</TableCell>
+                  <TableCell>{item.height}</TableCell>
+                  <TableCell>{item.weight}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
