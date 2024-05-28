@@ -30,7 +30,7 @@ export function MasterDataPDF() {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
-
+ 
 		// Remove the 'hidden' class
 		input.classList.remove("hidden");
 
