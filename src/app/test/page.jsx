@@ -1,6 +1,6 @@
 "use client";
 
-import { CarePlansPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/careplanlist";
+import { CarePlansPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/careplanlistPDF";
 import { FamilySocialHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/familysocialhistoryPDF";
 import { LabTestHistoryPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/labtesthistoryPDF";
 import { MasterDataPDF } from "../health_records/about_patient/[patient_id]/components/PDF_templates/masterdataPDF";
