@@ -31,7 +31,7 @@ const BackButton = ({
     } else if (currentScreen === 5) {
       setCurrentScreen(0);
     } else {
-      router.push("/patient/personal_details");
+      router.push("/patient/my_health_record");
     }
   };
   return (
@@ -46,6 +46,7 @@ const BackButton = ({
             className="w-3 h-3 aspect-square"
             alt="Back Arrow"
           />
+          BACK
         </div>
       </Button>
     </div>
