@@ -10,13 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[#003168] border solid border-[#003168] text-white text-xs hover:bg-[#FFFFFF] hover:text-[#003168] dark:bg-[#003168] dark:text-white dark:hover:bg-[#003168]/90 h-[30px]",
+          "bg-[#003168] border solid border-[#003168] text-white text-xs hover:bg-[#2B4B6F] hover:text-[#FFFFFF] dark:bg-[#003168] dark:text-white dark:hover:bg-[#003168]/90 h-[30px]",
         destructive:
           "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
         outline:
-          "border border-solid text-xs text-[#1E40AF] border-[#1E40AF] bg-white hover:bg-[#003168] hover:text-white dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "border border-solid text-xs text-[#1E40AF] border-[#1E40AF] bg-white hover:bg-[#E9ECFF] dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50",
         remind: "font-medium text-blue-500 underline",
-        back: "border border-solid text-xs text-[#003168] border-[#003168] bg-white hover:bg-[#BCD7FF]",
+        back: "border border-solid text-xs text-[#003168] border-[#003168] bg-white hover:bg-[#E9ECFF]",
         sortfilter:
           "border border-solid text-xs text-[#000000] border-[#000000] bg-white hover:bg-[#D9D9D9]",
         secondary:
