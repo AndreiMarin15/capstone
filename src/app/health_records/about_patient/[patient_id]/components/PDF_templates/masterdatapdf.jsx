@@ -1,3 +1,5 @@
+
+// ./src/app/health_records/about_patient/[patient_id]/components/generateRecordsDashboard.jsx
 import {
 	Table,
 	TableBody,

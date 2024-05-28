@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import Navbar from "../../../navbar";
+
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import HealthRecordsNav from "../../healthRecordsNav";
 import PatientProfile from "../../patientProfile";
 import ClinicVisits from "./components/clinicVisitsDashboard";
