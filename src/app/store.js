@@ -32,7 +32,6 @@ export const useLabNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-
 export const currentUser = create(
 	persist(
 		(set) => ({
@@ -187,6 +186,7 @@ export const usePatientInfo = create(
 				medications: [],
 				past_medical_procedures: [],
 				date_of_hypertension: "",
+				diabetes: false,
 			},
 			handled_by: {
 				main_practitioner: "",
@@ -255,6 +255,8 @@ export const usePatientInfo = create(
 				set((state) => ({
 					medical_history: { ...state.medical_history, stroke: item },
 				})),
+
+			setDiabetes: (item) => set((state) => ({ medical_history: { ...state.medical_history, diabetes: item } })),
 
 			setMedications: (item) =>
 				set((state) => ({

@@ -93,6 +93,27 @@ export default function SignUpMedicalHistory() {
 						Yes
 					</label>
 				</div>
+				
+				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-6 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+					Have you been diagnosed with diabetes?
+				</div>
+				<div className="flex items-center gap-2 text-sm">
+					<label htmlFor="bloodPressureYes" className="flex items-center">
+						<input
+							onChange={(e) => {
+								patientStore.setDiabetes(e.target.checked);
+								console.log(patientStore.medical_history.diabetes)
+							}}
+							value={patientStore.medical_history.diabetes}
+							type="checkbox"
+							id="bloodPressureYes"
+							name="bloodPressure"
+							className="mr-2"
+						/>
+						Yes
+					</label>
+				</div>
+				
 
 				<div className="flex items-stretch self-stretch mt-5 flex-grow flex-col">
 					<div className="text-black text-sm font-semibold leading-5">Enter Medications </div>
