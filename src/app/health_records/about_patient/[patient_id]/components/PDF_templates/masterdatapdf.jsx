@@ -1,4 +1,3 @@
-
 // ./src/app/health_records/about_patient/[patient_id]/components/generateRecordsDashboard.jsx
 import {
 	Table,
@@ -32,7 +31,7 @@ export function MasterDataPDF() {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
- 
+
 		// Remove the 'hidden' class
 		input.classList.remove("hidden");
 
