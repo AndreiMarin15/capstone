@@ -97,6 +97,21 @@ export const useDoctorInfo = create(
 			birthdate: "",
 			years_of_practice: 1,
 			about: "",
+			ptr: "",
+			photo: "",
+			hospital: {
+				name: "",
+				clinic: "",
+				schedule: "",
+				contact: "",
+			},
+			setHospital: (item) => set(() => ({ hospital: item })),
+			setHospitalName: (item) => set((state) => ({ hospital: { ...state.hospital, name: item } })),
+			setClinic: (item) => set((state) => ({ hospital: { ...state.hospital, clinic: item } })),
+			setSchedule: (item) => set((state) => ({ hospital: { ...state.hospital, schedule: item } })),
+			setContact: (item) => set((state) => ({ hospital: { ...state.hospital, contact: item } })),
+			setPhoto: (item) => set(() => ({ photo: item })),
+			setPtr: (item) => set(() => ({ ptr: item })),
 
 			setAbout: (item) => set(() => ({ about: item })),
 
