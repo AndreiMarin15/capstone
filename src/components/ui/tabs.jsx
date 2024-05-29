@@ -29,18 +29,20 @@ const TabsTrigger = React.forwardRef(
           "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium",
           {
             "border-2": selected, // Apply border only when selected
-            "border-[#003168]": selected, // Border color
+            "border-[#1E40AF]": selected, // Border color
             "rounded-full": true, // Full border radius
             "bg-transparent": !selected, // Background transparent when not selected
             "text-black": !selected, // Text color black when not selected
             "text-white": selected, // Text color white when selected
+            "text-xs": true,
+            "px-6 py-3": true,
             "focus-visible:outline-none": true,
             "focus-visible:ring-2": true,
-            "focus-visible:ring-[#003168]": true, // Focus ring color
+            "focus-visible:ring-[#1E40AF]": true, // Focus ring color
             "focus-visible:ring-offset-2": true,
             "disabled:pointer-events-none": true,
             "disabled:opacity-50": true,
-            "data-[state=active]:bg-[#003168]": true, // Active state background color
+            "data-[state=active]:bg-[#1E40AF]": true, // Active state background color
             "data-[state=active]:text-white": true, // Active state text color
             "data-[state=active]:shadow-sm": true,
           },
