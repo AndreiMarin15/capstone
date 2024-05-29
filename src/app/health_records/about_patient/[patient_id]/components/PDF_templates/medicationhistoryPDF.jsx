@@ -51,7 +51,7 @@ const medicationhistory = [
   },
 ];
 
-export function MedicationHistoryPDF() {
+export function MedicationHistoryPDF({ patientId, patientData }) {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;

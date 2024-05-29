@@ -29,7 +29,7 @@ const labtesthistory = [
 	},
 ];
 
-export function LabTestHistoryPDF() {
+export function LabTestHistoryPDF({ patientId, patientData }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;

@@ -34,7 +34,7 @@ const clinicvisitlist = [
   },
 ];
 
-export function ClinicVisitsPDF() {
+export function ClinicVisitsPDF({ patientId, patientData }) {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;

@@ -38,7 +38,7 @@ const careplanlist = [
   },
 ];
 
-export function CarePlansPDF() {
+export function CarePlansPDF({ patientId, patientData }) {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;

@@ -30,7 +30,7 @@ const medicalhistory = [
     hospital: "Taytay Hospital",
   },
 ];
-export function MedicalHistoryPDF() {
+export function MedicalHistoryPDF({ patientId, patientData }) {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;

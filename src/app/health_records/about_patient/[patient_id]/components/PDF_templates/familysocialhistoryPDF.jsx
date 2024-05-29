@@ -29,7 +29,7 @@ const familyhistory = [
 		procedure: "Angioplasty",
 	},
 ];
-export function FamilySocialHistoryPDF() {
+export function FamilySocialHistoryPDF({ patientId, patientData }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;

@@ -34,7 +34,7 @@ const vitalslist = [
   },
 ];
 
-export function VitalsPDF() {
+export function VitalsPDF({ patientId, patientData }) {
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;

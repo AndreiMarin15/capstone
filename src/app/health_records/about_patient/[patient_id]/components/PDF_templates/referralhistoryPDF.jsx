@@ -34,7 +34,7 @@ const referralhistory = [
 	},
 ];
 
-export function ReferralHistoryPDF() {
+export function ReferralHistoryPDF({ patientId, patientData }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;

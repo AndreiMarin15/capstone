@@ -1,4 +1,5 @@
 // ./src/app/health_records/about_patient/[patient_id]/components/generateRecordsDashboard.jsx
+
 import {
 	Table,
 	TableBody,
@@ -13,22 +14,24 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { getPatientData } from "@/backend/pdfBackend/getPatientData";
 
-const masterdata = [
-	{
-		name: "Juan Dela Cruz", // patient table: name (string)
-		age: "74", // auto gen in fhir using patient table: birthdate (date)
-		birthday: "January 01, 1950", //patient table: birthdate (date)
-		gender: "Male", //patient table: gender (string)
-		address: "1 Pasay Rd. Pasay City, Metro Manila", // patient table: address (string)
-		contact: "0999 999 9999", // hindi pa sinesave sa tables sa supabase
-		stroke: "Yes", // hindi pa sinesave sa tables sa supabase
-		allergies: "Pennicilin | Effect: Headache", // allegyintolerance table: type & reaction (string)
-		attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
-	},
-];
-export function MasterDataPDF() {
+export function MasterDataPDF({ patientId, patientData }) {
+	const masterdata = [
+		{
+			name: patientData.first_name + " " + patientData.last_name, // patient table: name (string)
+			age: "74", // auto gen in fhir using patient table: birthdate (date)
+			birthday: "January 01, 1950", //patient table: birthdate (date)
+			gender: "Male", //patient table: gender (string)
+			address: "1 Pasay Rd. Pasay City, Metro Manila", // patient table: address (string)
+			contact: "0999 999 9999", // hindi pa sinesave sa tables sa supabase
+			stroke: "Yes", // hindi pa sinesave sa tables sa supabase
+			allergies: "Pennicilin | Effect: Headache", // allegyintolerance table: type & reaction (string)
+			attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
+		},
+	];
 	const pdfRef = useRef();
+	
 	const downloadPDF = () => {
 		const input = pdfRef.current;
 
@@ -39,7 +42,7 @@ export function MasterDataPDF() {
 		const height = input.offsetHeight;
 		let computedWidth = width;
 		let computedHeight = height;
-		console.log(width, height);
+		console.log(patientId);
 		if (width < 1920 / 2) {
 			computedWidth = 1920 / 2;
 			// computedHeight = computedWidth / 2;
@@ -69,7 +72,7 @@ export function MasterDataPDF() {
 			<div ref={pdfRef} className="hidden z-[-10] absolute p-5 m-5" style={{ left: "-5000px" }}>
 				{" "}
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					JUAN DELA CRUZ
+					{patientData?.first_name + " " + patientData?.last_name}
 				</div>
 				<div className="text-black text-center text-base leading-5 max-md:ml-1 max-md:mt-10 mb-10">Master Data</div>
 				<Table className="mb-5 pb-5">
