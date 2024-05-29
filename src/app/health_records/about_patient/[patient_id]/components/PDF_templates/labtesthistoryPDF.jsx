@@ -71,7 +71,7 @@ export function LabTestHistoryPDF({ patientId, patientData }) {
 			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
 				{" "}
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					JUAN DELA CRUZ
+					{patientData?.first_name} {patientData?.last_name}
 				</div>
 				<div className="text-black text-center text-base  leading-5 max-md:ml-1 max-md:mt-10 mb-10">
 					Lab Test History
