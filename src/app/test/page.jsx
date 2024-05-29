@@ -10,13 +10,13 @@ import { ReferralHistoryPDF } from "../health_records/about_patient/[patient_id]
 export default function Test() {
   return (
     <div>
-      <CarePlansPDF />
+      {/* <CarePlansPDF />
       <FamilySocialHistoryPDF />
       <LabTestHistoryPDF />
       <MasterDataPDF />
       <MedicalHistoryPDF />
       <MedicationHistoryPDF />
-      <ReferralHistoryPDF />
+      <ReferralHistoryPDF /> */}
     </div>
   );
 }
