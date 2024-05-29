@@ -9,6 +9,9 @@ import {
   getVitalsAndBiometricsDoctor,
   getBiometricsDoctor,
 } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+
 export default function Vitals({ patientId }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [vitalsAndBio, setVitalsAndBio] = useState({});
@@ -117,27 +120,63 @@ export default function Vitals({ patientId }) {
     (property) => property !== "date"
   );
 
+
   return (
     <>
       {currentPage === 0 && (
         <div className="w-full max-w-full text-black">
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-3 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+            PATIENTS VITALS & BIOMETRICS
+          </div>
+          <div className="mb-8">
+            <Tabs defaultValue="all" className="w-[400px]">
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="endocrinologist">
+                  Endocrinologist
+                </TabsTrigger>
+                <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
+                <TabsTrigger value="gastroenterologist">
+                  Gastroenterologist
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="account">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="endocrinologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="cardiologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="gastroenterologist">
+                {/* Add contents here */}
+              </TabsContent>
+            </Tabs>
+          </div>
           <div className="flex justify-between">
-            <div className="text-black text-base font-bold leading-5 mt-8 mb-2 max-md:ml-1 max-md:mt-10">
-              PATIENT VITALS
-              <div className="flex items-center justify-between">
-                <span className="text-black text-base leading-5">
-                  Rendering Options:
-                </span>
-                <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
-                  <option value="3">3</option>
-                  <option value="5">5</option>
-                  <option value="7">7</option>
-                  <option value="10">10</option>
-                </select>
-                <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
-                  Appointments
-                </span>
-              </div>
+            <div className="flex items-center">
+              <span className="text-black text-base font-bold leading-5">
+                Rendering Options:
+              </span>
+
+              <select
+                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+                onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+                defaultValue="5"
+              >
+                <option value="5" disabled hidden>
+                  5
+                </option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+                <option value="10">10</option>
+              </select>
+              <span className="ml-2 text-black text-base leading-5 font-normal">
+                Appointments
+              </span>
+
             </div>
           </div>
           {/* 

@@ -86,9 +86,9 @@ export default function Diagnoses({ patientId }) {
         DIAGNOSES
       </div>
 
-      <table className="pt-1.5 leading-5 text-black mt-10 max-w-[100%]">
+      <table className="pt-1.5 leading-5 text-black text-xs mt-10 max-w-[100%]">
         <thead>
-          <tr className="font-medium text-left">
+          <tr className="font-medium text-left text-xs">
             {variables?.map((variable, index) => (
               <th key={index} className={index === 0 ? "" : ""}>
                 <span className="text-sm">{variable}</span>
@@ -99,7 +99,7 @@ export default function Diagnoses({ patientId }) {
         <tbody>
           {/* Empty row for spacing */}
           <tr>
-            <td colSpan={variables.length} className="h-8"></td>
+            <td colSpan={variables.length} className="h-8 text-xs"></td>
           </tr>
           {finalDiagnoses?.map((diagnosis, index) => {
             if (diagnosis.resource.valueString.length > 0) {
@@ -113,8 +113,8 @@ export default function Diagnoses({ patientId }) {
                       }`}
                     >
                       <span
-                        className={`text-sm ${
-                          variable === "Diagnoses" ? "font-bold" : ""
+                        className={`text-xs ${
+                          variable === "Diagnoses" ? "font-regular" : ""
                         }`}
                       >
                         {variable === "Diagnoses"
