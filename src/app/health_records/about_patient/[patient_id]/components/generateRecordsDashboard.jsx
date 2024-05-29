@@ -41,7 +41,7 @@ export default function GenerateRecords() {
 
   return (
     <>
-      <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 mb-10">
+      <div className="text-black text-base font-bold leading-5 mt-8  max-md:ml-1 max-md:mt-10 mb-10">
         GENERATE RECORDS
       </div>
       <Checkbox checked={isCheckboxChecked} onClick={handleCheckboxChange}>
