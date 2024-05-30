@@ -88,41 +88,37 @@ export default function PredictiveAnalytics(patientId) {
     return value;
   };
   const [percentage, setPercentage] = React.useState(0);
-
-  React.useEffect(() => {
+  const analyze = () => {
     axios
       .post("https://predictive-analytics.onrender.com/predict", pAnalytics)
       .then((res) => {
+        setPercentage((res.data.prediction * 100).toFixed(2));
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  });
+  };
   return (
     <>
       <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
         PREDICTIVE ANALYTICS
       </div>
       <table className="max-w-fit border-spacing-y-5 border-spacing-x-[5em] border-separate text-xs">
-        {Object.keys(pAnalytics).map((key, i) => (
+        {Object.keys(pAnalytics).map((keyValue, i) => (
           <>
             <tr key={i}>
-              <td>{wordMatch[key]}</td>
-              <td>{formatValue(key, pAnalytics[key])}</td>
+              <td>{wordMatch[keyValue]}</td>
+              <td>{formatValue(keyValue, pAnalytics[keyValue])}</td>
             </tr>
           </>
         ))}
       </table>
 
+      <h3>{percentage}% Risk of a Heart Disease</h3>
+
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
-        <Button
-          onClick={() => {
-            window.location.href = "/health_records/about_patient";
-          }}
-        >
-          Generate
-        </Button>
+        <Button onClick={() => analyze()}>Generate</Button>
       </div>
     </>
   );
