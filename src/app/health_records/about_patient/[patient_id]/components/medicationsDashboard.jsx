@@ -1,13 +1,14 @@
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
-import AddMedications from "./sub_components/addMedication";
+import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
 import ViewMedications from "./sub_components/viewMedication";
 import EditMedications from "./sub_components/editMedication";
 import { doctor } from "@/backend//health_records/doctor";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
-
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend//initSupabase";
 
 export default function Medications({ patientId }) {
@@ -18,6 +19,7 @@ export default function Medications({ patientId }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentScreen, setCurrentScreen] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [prescriptionDate, setPrescriptionDate] = useState("");
 
   React.useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -116,6 +118,16 @@ export default function Medications({ patientId }) {
       console.error("Error discontinuing medication:", error);
     }
   };
+  const date = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Date",
+      value: "2024-01-24",
+    },
+  ];
+  useEffect(() => {
+    setPrescriptionDate(new Date().toISOString().split("T")[0]);
+  }, []);
   return (
     <>
       {isEdit ? (
@@ -143,16 +155,40 @@ export default function Medications({ patientId }) {
           <div className="flex flex-col">
             <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
               MEDICATIONS
-              <button
-                className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
+              <Button
+                variant="outline"
                 onClick={() => {
                   setTest(false);
                   setAdd(true);
                 }}
               >
-                Add
-              </button>
+                Create Prescription
+              </Button>
             </div>
+            <Tabs defaultValue="all" className="w-[400px] mb-10">
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="endocrinologist">
+                  Endocrinologist
+                </TabsTrigger>
+                <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
+                <TabsTrigger value="gastroenterologist">
+                  Gastroenterologist
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="account">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="endocrinologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="cardiologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="gastroenterologist">
+                {/* Add contents here */}
+              </TabsContent>
+            </Tabs>
             <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
               <div className="flex gap-1.5 p-2.5">
                 <div className="mt-3 font-semibold text-black flex gap-1 items-center">
@@ -169,23 +205,8 @@ export default function Medications({ patientId }) {
                   </button>
                 </div>
               </div>
-              <div className="flex gap-1 my-auto text-black whitespace-nowrap leading-[150%]">
-                <button className="flex gap-1 px-5 py-2 rounded-md border border-black border-solid">
-                  <Image
-                    alt="update"
-                    height={0}
-                    width={0}
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
-                    className="shrink-0 w-3 aspect-[0.85]"
-                  />
-                  <div className="self-start">FILTER</div>
-                </button>
-                <button className="grow justify-center px-6 py-2.5 rounded-md border border-black border-solid max-md:pl-5">
-                  SORT
-                </button>
-              </div>
             </div>
+
             {medications
               .filter((medication) => {
                 if (status === "ACTIVE") {
@@ -225,12 +246,15 @@ export default function Medications({ patientId }) {
                         }
                         className="aspect-square fill-black w-[15px]"
                       />
+                      {/* Name of Medicine */}
                       <div className="my-auto">
-                        {medication.resource.medicationCodeableConcept[0].text}
+                        {/*  {medication.resource.medicationCodeableConcept[0].text} */}
+                        Prescription #1
                       </div>
                     </div>
                     <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
                       <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                        {/* Name of Provider */}
                         <Image
                           alt="image"
                           height={0}
@@ -244,10 +268,12 @@ export default function Medications({ patientId }) {
                         <div className="grow my-auto">
                           {medication.resource.requester.agent.reference}
                         </div>
-                        <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
+                        {/* Date of Medicine */}
+                        {/* <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>} */}
                       </div>
 
-                      {medication.resource.requester.agent.reference ===
+                      {/* Edit and Delete */}
+                      {/* {medication.resource.requester.agent.reference ===
                         currentUser?.fullName &&
                         medication.resource.status === "Active" && (
                           <div className="flex justify-end">
@@ -284,10 +310,12 @@ export default function Medications({ patientId }) {
                               </button>
                             </span>
                           </div>
-                        )}
-                    </div>
+                        )} */}
 
-                    <div className="flex justify-between mt-2">
+                      <Button variant="download"> Download </Button>
+                    </div>
+                    {/* Medicine form/quantity/etc */}
+                    {/* <div className="flex justify-between mt-2">
                       <div className="flex-grow ml-7 my-auto">
                         Form: {medication.resource.form.text}
                       </div>
@@ -315,7 +343,7 @@ export default function Medications({ patientId }) {
                         Possible Side Effect:{" "}
                         {medication.resource.adverseEvent.adverseReaction}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="mt-2 border-b border-gray-300 w-full"></div>
                 </button>
