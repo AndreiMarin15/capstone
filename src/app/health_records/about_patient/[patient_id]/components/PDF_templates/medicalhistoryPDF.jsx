@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,25 +13,48 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-const medicalhistory = [
-	{
-		number: "1", // wala sa fhir pang count lang ng rows (number)
-		diagnosis: "Type 2 Diabetes", // observation table: id-diagnosis (string)
-		date: "2020-01-24", // observation table: date (date)
-		provider: "Dr. Harold Chiu", // observation table: actor (string)
-		specialization: "Endocrinologist", // user table: specialization (string)
-		hospital: "Philippine General Hospital", // hindi pa sinesave sa tables sa supabase
-	},
-	{
-		number: "2",
-		diagnosis: "Ketoacidosis",
-		date: "2023-08-09",
-		provider: "Dr. Eli Cruz",
-		specialization: "Endocrinologist",
-		hospital: "Taytay Hospital",
-	},
-];
+import { getMedicalHistory } from "@/backend/pdfBackend/getPDFData";
+import { useEffect, useState } from "react";
+
 export function MedicalHistoryPDF({ patientId, patientData }) {
+	const [medicalhistory, setMedicalHistory] = useState([
+		{
+			number: "1", // wala sa fhir pang count lang ng rows (number)
+			diagnosis: "Type 2 Diabetes", // observation table: id-diagnosis (string)
+			date: "2020-01-24", // observation table: date (date)
+			provider: "Dr. Harold Chiu", // observation table: actor (string)
+			specialization: "Endocrinologist", // user table: specialization (string)
+			hospital: "Philippine General Hospital", // hindi pa sinesave sa tables sa supabase
+		},
+		{
+			number: "2",
+			diagnosis: "Ketoacidosis",
+			date: "2023-08-09",
+			provider: "Dr. Eli Cruz",
+			specialization: "Endocrinologist",
+			hospital: "Taytay Hospital",
+		},
+	]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await getMedicalHistory(patientId);
+			console.log(response);
+
+			setMedicalHistory(
+				response.map((medicalhistory, index) => ({
+					number: index + 1,
+					diagnosis: medicalhistory.resource.code.text,
+					date: medicalhistory.resource.issued,
+					provider: medicalhistory.resource.performer[0].actor.display,
+					specialization: medicalhistory.resource.performer[0].actor.specialization,
+					hospital: medicalhistory.resource.performer[0].actor.hospital,
+				}))
+			);
+		};
+		fetchData();
+	}, []);
+
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;

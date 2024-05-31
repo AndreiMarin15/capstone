@@ -109,7 +109,7 @@ export default function AboutPatient({ params }) {
 									</>
 								) : selected === "Generate Records" ? (
 									<>
-										<GenerateRecords patientId={patientId} patientData={patientData.personal_information} />
+										<GenerateRecords patientId={patientId} patientData={patientData} />
 									</>
 								) : (
 									""
