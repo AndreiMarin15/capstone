@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,24 +13,44 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { getFamilyMemberHistory } from "@/backend/pdfBackend/getPDFData";
+import { useEffect, useState } from "react";
 
-const familyhistory = [
-	{
-		// number: "1", // wala sa fhir pang count lang ng rows (number)
-		name: "Jhoanna Mae Dela Cruz", // familymemberhistory table: name (string)
-		relationship: "Mother", // familymemberhistory table: relationship (string)
-		condition: "Hypertension", // familymemberhistory table: condition code (string)
-		procedure: "N/A", // familymemberhistory table: procedure (string)
-	},
-	{
-		// number: "2",
-		name: "Jhomar Dela Cruz",
-		relationship: "Father",
-		condition: "Cardiomyopathy",
-		procedure: "Angioplasty",
-	},
-];
 export function FamilySocialHistoryPDF({ patientId, patientData }) {
+	const [familyhistory, setFamilyHistory] = useState([
+		{
+			// number: "1", // wala sa fhir pang count lang ng rows (number)
+			name: "Jhoanna Mae Dela Cruz", // familymemberhistory table: name (string)
+			relationship: "Mother", // familymemberhistory table: relationship (string)
+			condition: "Hypertension", // familymemberhistory table: condition code (string)
+			procedure: "N/A", // familymemberhistory table: procedure (string)
+		},
+		{
+			// number: "2",
+			name: "Jhomar Dela Cruz",
+			relationship: "Father",
+			condition: "Cardiomyopathy",
+			procedure: "Angioplasty",
+		},
+	]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await getFamilyMemberHistory(patientId);
+
+			console.log(response);
+			setFamilyHistory(
+				response.map((familyhistory, index) => ({
+					name: familyhistory.resource.name,
+					relationship: familyhistory.resource.relationship,
+					condition: familyhistory.resource.condition.code || "N/A",
+					procedure: familyhistory.resource.procedure?.length > 0 ? familyhistory.resource.procedure : "N/A",
+				}))
+			);
+		};
+
+		fetchData();
+	}, []);
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -90,7 +111,7 @@ export function FamilySocialHistoryPDF({ patientId, patientData }) {
 					<TableBody className="bg-white">
 						{familyhistory?.map((familyhistory, index) => (
 							<TableRow key={familyhistory.name}>
-								<TableCell className="font-medium">{familyhistory.index + 1}</TableCell>
+								<TableCell className="font-medium">{index + 1}</TableCell>
 								<TableCell>{familyhistory.name}</TableCell>
 								<TableCell>{familyhistory.relationship}</TableCell>
 								<TableCell>{familyhistory.condition}</TableCell>
