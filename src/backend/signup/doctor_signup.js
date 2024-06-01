@@ -66,7 +66,7 @@ export const DoctorSignUp = {
 					email: doctorData.email,
 				},
 				gender: doctorData.gender,
-				birthdate: doctorData.birthdate,
+				// birthdate: doctorData.birthdate,
 			},
 		};
 
@@ -78,6 +78,7 @@ export const DoctorSignUp = {
 
 				if (addAccount === null) {
 					const addDoctor = await PROJECT.insertIntoNoSelect("doctors", doctorInfo);
+					console.log("add", addDoctor);
 					if (addDoctor === null) {
 						await authentication.mountUser();
 						await currentUser.getState().setUser({
@@ -87,20 +88,20 @@ export const DoctorSignUp = {
 						});
 
 						return account;
-					} 
+					}
 					return {
-						message: "Server Side Error. Please contact support and try again.",
+						message: "Server Side Error. Please contact support and try again. 1",
 					};
 				}
 
 				return {
-					message: "Server Side Error. Please contact support and try again.",
+					message: "Server Side Error. Please contact support and try again. 2",
 				};
 			}
 		}
 
 		return {
-			message: "Server Side Error. Please contact support and try again.",
+			message: "Server Side Error. Please contact support and try again. 3",
 		};
 	},
 };
