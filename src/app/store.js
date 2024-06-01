@@ -94,7 +94,7 @@ export const useDoctorInfo = create(
 			first_name: "",
 			specialization_id: 1,
 			gender: "",
-			birthdate: "",
+			// birthdate: null,
 			years_of_practice: 1,
 			about: "",
 			ptr: "",
@@ -123,7 +123,7 @@ export const useDoctorInfo = create(
 
 			setSpecialization_id: (item) => set(() => ({ specialization_id: item })),
 
-			setBirthdate: (item) => set(() => ({ birthdate: item })),
+			// setBirthdate: (item) => set(() => ({ birthdate: item })),
 
 			setGender: (item) => set(() => ({ gender: item })),
 

@@ -71,7 +71,7 @@ export default function DoctorInformation() {
 								first_name: doctorStore.first_name,
 								last_name: doctorStore.last_name,
 								gender: doctorStore.gender,
-								birthdate: doctorStore.birthdate,
+								// birthdate: doctorStore.birthdate,
 								years_of_practice: doctorStore.years_of_practice,
 								about: doctorStore.about,
 							};
