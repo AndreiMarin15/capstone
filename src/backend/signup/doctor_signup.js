@@ -12,9 +12,9 @@ export const DoctorSignUp = {
 
 	signUpAsDoctor: async (doctorData) => {
 		const account = await authentication.signUpNewUser(doctorData.email, doctorData.password);
-
-		// console.log(account);
-		// console.log(account.user.id);
+	
+		console.log(account);
+		console.log(account.user.id);
 		const doctorInfo = {
 			id: account.user.id,
 			first_name: doctorData.first_name,
@@ -27,7 +27,7 @@ export const DoctorSignUp = {
 			years_of_practice: doctorData.years_of_practice,
 			about: doctorData.about,
 		};
-
+	
 		const practitionerResource = {
 			status: "created",
 			resource: {
@@ -37,24 +37,25 @@ export const DoctorSignUp = {
 				telecom: doctorData.email,
 				gender: doctorData.gender,
 				birthdate: doctorData.birthdate,
+				specialization: doctorData.specialization_name,
 				qualification: {
 					identifier: doctorData.license_id,
 				},
 			},
 		};
-
+	
 		const accountResource = {
 			id: account.user.id,
-
 			status: "created",
 			resource: {
 				identifier: account.user.id,
 				description: "Practitioner",
 				status: "active",
 				name: doctorData.first_name + " " + doctorData.last_name,
+				specialization: doctorData.specialization_name,
 			},
 		};
-
+	
 		const personResource = {
 			status: "created",
 			resource: {
@@ -67,15 +68,16 @@ export const DoctorSignUp = {
 				},
 				gender: doctorData.gender,
 				// birthdate: doctorData.birthdate,
+				specialization: doctorData.specialization_name,
 			},
 		};
-
+	
 		if (account.user.id) {
 			const addResource = await PUBLIC.insertIntoNoSelect("practitioner", practitionerResource);
 			const addPerson = await PUBLIC.insertIntoNoSelect("person", personResource);
 			if (addResource === null && addPerson === null) {
 				const addAccount = await PUBLIC.insertIntoNoSelect("account", accountResource);
-
+	
 				if (addAccount === null) {
 					const addDoctor = await PROJECT.insertIntoNoSelect("doctors", doctorInfo);
 					console.log("add", addDoctor);
@@ -86,20 +88,20 @@ export const DoctorSignUp = {
 							fullName: doctorData.first_name + " " + doctorData.last_name,
 							type: "doctor",
 						});
-
+	
 						return account;
-					}
+					} 
 					return {
 						message: "Server Side Error. Please contact support and try again. 1",
 					};
 				}
-
+	
 				return {
 					message: "Server Side Error. Please contact support and try again. 2",
 				};
 			}
 		}
-
+	
 		return {
 			message: "Server Side Error. Please contact support and try again. 3",
 		};
