@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,31 +13,51 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-
-const careplanlist = [
-	{
-		number: "1",
-		date: "2024-04-21",
-		provider: "Dr. John Doe",
-		specialization: "Endocrinologist",
-		diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
-		physical:
-			"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
-		monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
-	},
-	{
-		number: "2",
-		date: "2024-04-30",
-		provider: "Dr. John Doe",
-		specialization: "Endocrinologist",
-		diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
-		physical:
-			"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
-		monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
-	},
-];
+import { useEffect, useState } from "react";
+import { getCarePlan } from "@/backend/pdfBackend/getPDFData";
 
 export function CarePlansPDF({ patientId, patientData }) {
+	const [careplanlist, setCareplanList] = useState([
+		{
+			number: "1",
+			date: "2024-04-21",
+			provider: "Dr. John Doe",
+			specialization: "Endocrinologist",
+			diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
+			physical:
+				"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
+			monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
+		},
+		{
+			number: "2",
+			date: "2024-04-30",
+			provider: "Dr. John Doe",
+			specialization: "Endocrinologist",
+			diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
+			physical:
+				"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
+			monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
+		},
+	]);
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await getCarePlan(patientId);
+			console.log(response);
+
+			setCareplanList(
+				response.map((careplanlist, index) => ({
+					number: index + 1,
+					date: careplanlist.resource.created,
+					provider: careplanlist.resource.contributor.display,
+					specialization: "Endocrinologist",
+					diet: careplanlist.resource.activity[0].detail.description,
+					physical: careplanlist.resource.activity[1].detail.description,
+					monitoring: careplanlist.resource.activity[2].detail.description,
+				}))
+			);
+		};
+		fetchData();
+	}, []);
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;

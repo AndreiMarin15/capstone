@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,25 +13,53 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-const medicalhistory = [
-	{
-		number: "1", // wala sa fhir pang count lang ng rows (number)
-		diagnosis: "Type 2 Diabetes", // observation table: id-diagnosis (string)
-		date: "2020-01-24", // observation table: date (date)
-		provider: "Dr. Harold Chiu", // observation table: actor (string)
-		specialization: "Endocrinologist", // user table: specialization (string)
-		hospital: "Philippine General Hospital", // hindi pa sinesave sa tables sa supabase
-	},
-	{
-		number: "2",
-		diagnosis: "Ketoacidosis",
-		date: "2023-08-09",
-		provider: "Dr. Eli Cruz",
-		specialization: "Endocrinologist",
-		hospital: "Taytay Hospital",
-	},
-];
+import { getMedicalHistory } from "@/backend/pdfBackend/getPDFData";
+import { useEffect, useState } from "react";
+
 export function MedicalHistoryPDF({ patientId, patientData }) {
+	const [medicalhistory, setMedicalHistory] = useState([
+		{
+			number: "1", // wala sa fhir pang count lang ng rows (number)
+			diagnosis: "Type 2 Diabetes", // observation table: id-diagnosis (string)
+			date: "2020-01-24", // observation table: date (date)
+			provider: "Dr. Harold Chiu", // observation table: actor (string)
+			specialization: "Endocrinologist", // user table: specialization (string)
+			hospital: "Philippine General Hospital", // hindi pa sinesave sa tables sa supabase
+		},
+		{
+			number: "2",
+			diagnosis: "Ketoacidosis",
+			date: "2023-08-09",
+			provider: "Dr. Eli Cruz",
+			specialization: "Endocrinologist",
+			hospital: "Taytay Hospital",
+		},
+	]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await getMedicalHistory(patientId);
+			console.log(response);
+
+			setMedicalHistory(
+				response
+					.filter((medicalhistory) => medicalhistory.resource.valueString)
+					.map((medicalhistory, index) => {
+						return {
+							number: index + 1 || 1,
+							diagnosis: medicalhistory.resource.valueString || "",
+							date: medicalhistory.ts,
+							provider: medicalhistory.resource.participant.actor,
+							specialization: medicalhistory.resource.participant.specialization || "",
+							hospital: medicalhistory.resource.participant.hospital || "",
+							// TODO: UPDATE WHEN THE BLOCKER IS FIXED
+						};
+					})
+			);
+		};
+		fetchData();
+	}, []);
+
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -90,13 +119,13 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 					</TableHeader>
 					<TableBody className="bg-white">
 						{medicalhistory?.map((medicalhistory) => (
-							<TableRow key={medicalhistory.number}>
-								<TableCell className="font-medium">{medicalhistory.number}</TableCell>
-								<TableCell className="font-medium">{medicalhistory.diagnosis}</TableCell>
-								<TableCell>{medicalhistory.date}</TableCell>
-								<TableCell>{medicalhistory.provider}</TableCell>
-								<TableCell>{medicalhistory.specialization}</TableCell>
-								<TableCell>{medicalhistory.hospital}</TableCell>
+							<TableRow key={medicalhistory?.number}>
+								<TableCell className="font-medium">{medicalhistory?.number ?? 1}</TableCell>
+								<TableCell className="font-medium text-left">{medicalhistory?.diagnosis}</TableCell>
+								<TableCell>{medicalhistory?.date}</TableCell>
+								<TableCell>{medicalhistory?.provider}</TableCell>
+								<TableCell>{medicalhistory?.specialization}</TableCell>
+								<TableCell>{medicalhistory?.hospital}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
