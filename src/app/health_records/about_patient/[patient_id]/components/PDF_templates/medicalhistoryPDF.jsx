@@ -42,14 +42,19 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 			console.log(response);
 
 			setMedicalHistory(
-				response.map((medicalhistory, index) => ({
-					number: index + 1,
-					diagnosis: medicalhistory.resource.code.text,
-					date: medicalhistory.resource.issued,
-					provider: medicalhistory.resource.performer[0].actor.display,
-					specialization: medicalhistory.resource.performer[0].actor.specialization,
-					hospital: medicalhistory.resource.performer[0].actor.hospital,
-				}))
+				response
+					.filter((medicalhistory) => medicalhistory.resource.valueString)
+					.map((medicalhistory, index) => {
+						return {
+							number: index + 1 || 1,
+							diagnosis: medicalhistory.resource.valueString || "",
+							date: medicalhistory.ts,
+							provider: medicalhistory.resource.participant.actor,
+							specialization: medicalhistory.resource.participant.specialization || "",
+							hospital: medicalhistory.resource.participant.hospital || "",
+							// TODO: UPDATE WHEN THE BLOCKER IS FIXED
+						};
+					})
 			);
 		};
 		fetchData();
@@ -114,13 +119,13 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 					</TableHeader>
 					<TableBody className="bg-white">
 						{medicalhistory?.map((medicalhistory) => (
-							<TableRow key={medicalhistory.number}>
-								<TableCell className="font-medium">{medicalhistory.number}</TableCell>
-								<TableCell className="font-medium">{medicalhistory.diagnosis}</TableCell>
-								<TableCell>{medicalhistory.date}</TableCell>
-								<TableCell>{medicalhistory.provider}</TableCell>
-								<TableCell>{medicalhistory.specialization}</TableCell>
-								<TableCell>{medicalhistory.hospital}</TableCell>
+							<TableRow key={medicalhistory?.number}>
+								<TableCell className="font-medium">{medicalhistory?.number ?? 1}</TableCell>
+								<TableCell className="font-medium text-left">{medicalhistory?.diagnosis}</TableCell>
+								<TableCell>{medicalhistory?.date}</TableCell>
+								<TableCell>{medicalhistory?.provider}</TableCell>
+								<TableCell>{medicalhistory?.specialization}</TableCell>
+								<TableCell>{medicalhistory?.hospital}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

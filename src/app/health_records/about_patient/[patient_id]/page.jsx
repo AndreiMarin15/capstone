@@ -85,35 +85,37 @@ export default function AboutPatient({ params }) {
 									/>
 								</span>
 								<HealthRecordsNav />
-								{selected === "Master Data" ? (
-									<MasterData currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
-								) : selected === "Clinic Visits" ? (
-									<ClinicVisits currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
-								) : selected === "Diagnoses" ? (
-									<Diagnoses patientId={patientId} />
-								) : selected === "Medications" ? (
-									<Medications patientId={patientId} />
-								) : selected === "Care Plans" ? (
-									<CarePlans patientId={patientId} patientData={patientData} />
-								) : selected === "Lab Tests" ? (
-									<LabTests patientId={patientId} />
-								) : selected === "Vitals & Biometrics" ? (
-									<Vitals patientId={patientId} />
-								) : selected === "Family & Social History" ? (
-									<>
-										<FamilySocialHistory patientId={patientId} />
-									</>
-								) : selected === "Other Records" ? (
-									<>
-										<OtherRecords patientId={patientId} />
-									</>
-								) : selected === "Generate Records" ? (
-									<>
-										<GenerateRecords patientId={patientId} patientData={patientData} />
-									</>
-								) : (
-									""
-								)}
+								<>
+									{selected === "Master Data" ? (
+										<MasterData currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+									) : selected === "Clinic Visits" ? (
+										<ClinicVisits currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+									) : selected === "Diagnoses" ? (
+										<Diagnoses patientId={patientId} />
+									) : selected === "Medications" ? (
+										<Medications patientId={patientId} />
+									) : selected === "Care Plans" ? (
+										<CarePlans patientId={patientId} patientData={patientData} />
+									) : selected === "Lab Tests" ? (
+										<LabTests patientId={patientId} />
+									) : selected === "Vitals & Biometrics" ? (
+										<Vitals patientId={patientId} />
+									) : selected === "Family & Social History" ? (
+										<>
+											<FamilySocialHistory patientId={patientId} />
+										</>
+									) : selected === "Other Records" ? (
+										<>
+											<OtherRecords patientId={patientId} />
+										</>
+									) : selected === "Generate Records" ? (
+										<>
+											<GenerateRecords patientId={patientId} patientData={patientData} />
+										</>
+									) : (
+										<></>
+									)}
+								</>
 							</span>
 						</div>
 					</div>
