@@ -22,7 +22,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import ViewClinicVisit from "./sub_components/viewClinicVisit";
-import AddClinicVisit from "./sub_components/sub_sub_components/addObservation";
+import AddObservation from "./sub_components/sub_sub_components/addObservation";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -317,7 +317,7 @@ export default function ClinicVisits({ patientId }) {
         </>
       ) : currentPage === 10 ? (
         <>
-          <AddClinicVisit
+          <AddObservation
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             patientId={patientId}

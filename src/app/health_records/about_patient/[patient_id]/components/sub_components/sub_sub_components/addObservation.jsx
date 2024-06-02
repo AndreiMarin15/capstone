@@ -10,6 +10,8 @@ import ClinicalDiagnosis from "./addClinicalDiagnosis";
 import RequestLab from "../requestLabTest";
 import AddVitals from "../sub_sub_components/addVitals";
 import AddAnalysis from "./addAnalysis";
+import { toast } from "react-toastify"; // Assuming toast is imported from 'react-toastify'
+
 export default function AddObservation({
   currentPage,
   setCurrentPage,
@@ -33,7 +35,7 @@ export default function AddObservation({
   const validateFields = () => {
     const errors = {
       clinicDate: !clinicDate,
-      reviewOfSystems: !reviewOfSystems,
+      reviewOfSystems: !Object.keys(reviewOfSystems).length,
       signsAndSymptoms: !signsAndSymptoms,
     };
 
@@ -62,6 +64,7 @@ export default function AddObservation({
     setReviewOfSystems({ ...reviewOfSystems, [dataset]: true });
     console.log(reviewOfSystems);
   };
+
   const handleSave = async (saveClinicVisit = false) => {
     if (!validateFields()) {
       toast.error("Please fill in all required fields before saving.", {
@@ -114,17 +117,13 @@ export default function AddObservation({
   };
 
   const addLabTestData = (labTestData) => {
-    // Check if labTestData is not already an array
     if (!Array.isArray(labTestData)) {
-      // If labTestData is not an array, convert it into an array
       labTestData = [labTestData];
     }
 
-    // Add labTestData to the existing labTestDataArray
     setLabTestData([...labTestDataArray, ...labTestData]);
 
-    // Map over labTestData to create new observations
-    const newObservations = labTestData?.map((data, index) => ({
+    const newObservations = labTestData?.map((data) => ({
       id: `labtest`,
       status: data.status,
       code: {
@@ -154,7 +153,6 @@ export default function AddObservation({
       imageSrc: data.base64Image,
     }));
 
-    // Update observations with new observations
     setObservations([...observations, ...newObservations]);
 
     console.log(observations);
@@ -216,10 +214,11 @@ export default function AddObservation({
       name: "tests",
       type: "button",
       saveFunction: () => {
-        setCurrentScreen(2);
+        setCurrentScreen(5);
       },
     },
   ];
+
   const [currentScreen, setCurrentScreen] = useState(0);
 
   return (
@@ -276,132 +275,118 @@ export default function AddObservation({
                   </tr>
                   {fields.map((item, index) =>
                     item.type === "textarea" ? (
-                      <>
-                        <tr key={index} className="align-top">
-                          <td className="w-5">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src={item.src}
-                              className="self-start aspect-square fill-black w-[15px]"
-                            />
-                          </td>
-                          <td className="border-l-[5px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                              {item.variable}
-                            </div>
-                          </td>
-                          <td className="border-l-[15px] border-transparent">
-                            <textarea
-                              placeholder={"Add signs and symptoms"}
-                              name={item.name}
-                              value={item.value}
-                              onChange={item.onChange}
-                              className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                              style={{
-                                fontSize: "12px",
-                                height: "auto",
-                                whiteSpace: "pre-wrap",
-                                ...(item.variable === "Review of Systems" &&
-                                errorStyles.reviewOfSystems
-                                  ? {
-                                      ...errorStyles.reviewOfSystems,
-                                      borderColor: "red",
-                                      borderWidth: "2px",
-                                    }
-                                  : item.variable === "Signs and Symptoms" &&
-                                      errorStyles.signsAndSymptoms
-                                    ? {
-                                        ...errorStyles.signsAndSymptoms,
-                                        borderColor: "red",
-                                        borderWidth: "2px",
-                                      }
-                                    : {}),
-                              }}
-                              wrap="soft"
-                            />
-                          </td>
-                        </tr>
-                      </>
+                      <tr key={index} className="align-top">
+                        <td className="w-5">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={item.src}
+                            className="self-start aspect-square fill-black w-[15px]"
+                          />
+                        </td>
+                        <td className="border-l-[5px] border-transparent">
+                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            {item.variable}
+                          </div>
+                        </td>
+                        <td className="border-l-[15px] border-transparent">
+                          <textarea
+                            placeholder={"Add signs and symptoms"}
+                            name={item.name}
+                            value={item.value}
+                            onChange={item.onChange}
+                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                            style={{
+                              fontSize: "12px",
+                              height: "auto",
+                              whiteSpace: "pre-wrap",
+                              ...(item.variable === "Review of Systems" &&
+                              errorStyles.reviewOfSystems
+                                ? {
+                                    ...errorStyles.reviewOfSystems,
+                                    borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : item.variable === "Signs and Symptoms" &&
+                                  errorStyles.signsAndSymptoms
+                                ? {
+                                    ...errorStyles.signsAndSymptoms,
+                                    borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : {}),
+                            }}
+                            wrap="soft"
+                          />
+                        </td>
+                      </tr>
                     ) : item.type === "checkbox" ? (
-                      <>
-                        <tr key={index} className="align-top">
-                          <td className="w-5">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src={item.src}
-                              className="self-start aspect-square fill-black w-[15px]"
-                            />
-                          </td>
-                          <td className="border-l-[5px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                              {item.variable}
-                            </div>
-                          </td>
-                          <td className="border-l-[15px] border-transparent">
-                            <div className="flex flex-col gap-1">
-                              {item.checkboxList.map(
-                                (dataset, datasetIndex) => {
-                                  return (
-                                    <>
-                                      <label className="inline-flex items-center">
-                                        <input
-                                          type="checkbox"
-                                          name={dataset.name}
-                                          value={reviewOfSystems[dataset.name]}
-                                          onChange={(e) => {
-                                            handleCheckboxChange(
-                                              e,
-                                              dataset.value
-                                            );
-                                          }}
-                                          className="form-checkbox h-5 w-5 text-blue-600"
-                                        />
-                                        <span className="ml-2">
-                                          {dataset.value}
-                                        </span>
-                                      </label>
-                                    </>
-                                  );
-                                }
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      </>
+                      <tr key={index} className="align-top">
+                        <td className="w-5">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={item.src}
+                            className="self-start aspect-square fill-black w-[15px]"
+                          />
+                        </td>
+                        <td className="border-l-[5px] border-transparent">
+                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            {item.variable}
+                          </div>
+                        </td>
+                        <td className="border-l-[15px] border-transparent">
+                          <div className="flex flex-col gap-1">
+                            {item.checkboxList.map((dataset, datasetIndex) => (
+                              <label
+                                key={datasetIndex}
+                                className="inline-flex items-center"
+                              >
+                                <input
+                                  type="checkbox"
+                                  name={dataset.name}
+                                  value={reviewOfSystems[dataset.name]}
+                                  onChange={(e) => {
+                                    handleCheckboxChange(e, dataset.value);
+                                  }}
+                                  className="form-checkbox h-5 w-5 text-blue-600"
+                                />
+                                <span className="ml-2">{dataset.value}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </td>
+                      </tr>
                     ) : item.type === "button" ? (
-                      <>
-                        <tr key={index} className="align-top">
-                          <td className="w-5">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src={item.src}
-                              className="self-start aspect-square fill-black w-[15px]"
-                            />
-                          </td>
-                          <td className="border-l-[5px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                              {item.variable}
-                            </div>
-                          </td>
-                          <td className="border-l-[15px] border-transparent">
-                            <Button
-                              variant="outline"
-                              onClick={item.saveFunction}
-                            >
-                              Request
-                            </Button>
-                          </td>
-                        </tr>
-                      </>
+                      <tr key={index} className="align-top">
+                        <td className="w-5">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={item.src}
+                            className="self-start aspect-square fill-black w-[15px]"
+                          />
+                        </td>
+                        <td className="border-l-[5px] border-transparent">
+                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            {item.variable}
+                          </div>
+                        </td>
+                        <td className="border-l-[15px] border-transparent">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurrentScreen(6)}
+                          >
+                            Request
+                          </Button>
+                        </td>
+                      </tr>
                     ) : null
                   )}
                 </tbody>
@@ -417,25 +402,25 @@ export default function AddObservation({
             <div>
               <Button
                 onClick={() => {
-                  // handleSave(labTestData, true);
                   setCurrentScreen(1);
-                }} // Pass labTestData and true to indicate saving clinic visit
+                }}
               >
                 NEXT
               </Button>
             </div>
           </div>
         </>
-      )}{" "}
-      {currentScreen === 1 ? (
-        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
-        
-      ) : currentScreen === 2 ? (
-        <AddVitals currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} /> 
-       ) : currentScreen === 4 ? (
-        <AddAnalysis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} /> 
-       )
-       : currentScreen === 5 ? (
+      )}
+      {currentScreen === 1 && (
+        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+      )}
+      {currentScreen === 2 && (
+        <AddVitals currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
+      )}
+      {currentScreen === 4 && (
+        <AddAnalysis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
+      )}
+      {currentScreen === 6 && (
         <RequestLab
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -446,8 +431,6 @@ export default function AddObservation({
             handleSave(false);
           }}
         />
-      ) : (
-        ""
       )}
     </>
   );
