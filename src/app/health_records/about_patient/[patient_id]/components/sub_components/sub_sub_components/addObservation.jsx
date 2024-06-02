@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
 import ClinicalDiagnosis from "./addClinicalDiagnosis";
 import RequestLab from "../requestLabTest";
-
+import AddVitals from "../sub_sub_components/addVitals";
+import AddAnalysis from "./addAnalysis";
 export default function AddObservation({
   currentPage,
   setCurrentPage,
@@ -427,8 +428,14 @@ export default function AddObservation({
         </>
       )}{" "}
       {currentScreen === 1 ? (
-        <ClinicalDiagnosis />
+        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
+        
       ) : currentScreen === 2 ? (
+        <AddVitals currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} /> 
+       ) : currentScreen === 4 ? (
+        <AddAnalysis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} /> 
+       )
+       : currentScreen === 5 ? (
         <RequestLab
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}

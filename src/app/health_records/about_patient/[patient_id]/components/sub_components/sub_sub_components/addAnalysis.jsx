@@ -9,9 +9,9 @@ import LabTests from "../../labTestsDashboard";
 import ClinicalDiagnosis from "./addClinicalDiagnosis";
 import RequestLab from "../requestLabTest";
 
-export default function AddObservation({
-  currentPage,
-  setCurrentPage,
+export default function AddAnalysis({
+  currentScreen,
+  setCurrentScreen,
   patientId,
 }) {
   const [clinicDate, setClinicDate] = useState("");
@@ -169,11 +169,11 @@ export default function AddObservation({
       value: "",
     },
   ];
-  const [currentScreen, setCurrentScreen] = useState(0);
+  
 
   return (
     <>
-      {currentScreen === 0 && (
+      {currentScreen === 4 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
@@ -274,8 +274,8 @@ export default function AddObservation({
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentScreen={currentScreen}
+              setCurrentScreen={setCurrentScreen}
             />
             <div>
               <Button

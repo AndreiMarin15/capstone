@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
 import Analysis from "./addAnalysis";
 
-export default function AddObservation({
-  currentPage,
-  setCurrentPage,
+export default function AddVitals({
+  currentScreen,
+  setCurrentScreen,
   patientId,
 }) {
   const [clinicDate, setClinicDate] = useState("");
@@ -21,6 +21,7 @@ export default function AddObservation({
   const [diastolic, setDiastolic] = useState(null);
   const [heartRate, setHeartRate] = useState(null);
   const [doctorId, setDoctorId] = useState("");
+  
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
@@ -201,11 +202,12 @@ export default function AddObservation({
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
+ 
 
   return (
     <>
-      {currentScreen === 0 && (
+    
+      {currentScreen === 2 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
@@ -333,14 +335,14 @@ export default function AddObservation({
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentScreen={3}
+              setCurrentScreen={setCurrentScreen}
             />
             <div>
               <Button
                 onClick={() => {
                   // handleSave(labTestData, true);
-                  setCurrentScreen(1);
+                  setCurrentScreen(4);
                 }} // Pass labTestData and true to indicate saving clinic visit
               >
                 NEXT
@@ -348,8 +350,16 @@ export default function AddObservation({
             </div>
           </div>
         </>
-      )}{" "}
-      {currentScreen === 1 ? <Analysis /> : ""}
+      )}{currentScreen === 4 && (
+        <>
+          <Analysis
+            currentScreen={currentScreen} 
+            setCurrentScreen={setCurrentScreen} 
+            patientId={patientId} 
+          />
+        </>
+      )}
     </>
   );
 }
+

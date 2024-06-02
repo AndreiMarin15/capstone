@@ -6,11 +6,11 @@ import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
-import Vitals from "./addVitals";
+import AddVitals from "./addVitals";
 
 export default function AddClinicalDiagnosis({
-  currentPage,
-  setCurrentPage,
+  currentScreen,
+  setCurrentScreen,
   patientId,
 }) {
   const [clinicDate, setClinicDate] = useState("");
@@ -165,11 +165,11 @@ export default function AddClinicalDiagnosis({
       value: "",
     },
   ];
-  const [currentScreen, setCurrentScreen] = useState(0);
+  // const [currentScreen, setCurrentScreen] = useState(1);
 
   return (
     <>
-      {currentScreen === 0 && (
+      {currentScreen === 1 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
@@ -257,14 +257,14 @@ export default function AddClinicalDiagnosis({
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentScreen={2}
+              setCurrentScreen={setCurrentScreen}
             />
             <div>
               <Button
                 onClick={() => {
                   //handleSave(labTestData, true);
-                  setCurrentScreen(1);
+                  setCurrentScreen(2); // Update currentScreen to 2
                 }} // Pass labTestData and true to indicate saving clinic visit
               >
                 NEXT
@@ -272,8 +272,17 @@ export default function AddClinicalDiagnosis({
             </div>
           </div>
         </>
-      )}{" "}
-      {currentScreen === 1 ? <Vitals /> : ""}
+      )}
+      {currentScreen === 2 && (
+        <>
+         
+          <AddVitals 
+            currentScreen={currentScreen} 
+            setCurrentScreen={setCurrentScreen} 
+            patientId={patientId} 
+          />
+        </>
+      )}
     </>
   );
 }
