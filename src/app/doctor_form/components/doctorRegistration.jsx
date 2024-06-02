@@ -141,13 +141,16 @@ export default function DoctorRegistration() {
 						<div className="text-black text-sm font-semibold leading-5">Specialization</div>
 						<select
 							onChange={(e) => {
-								doctorStore.setSpecialization_id(e.target.value);
-								console.log(doctorStore.specialization_id);
-							}}
+									const id = e.target.value;
+									const name = e.target.options[e.target.selectedIndex].text;
+									doctorStore.setSpecializationId(id);
+									doctorStore.setSpecializationName(name);
+								}}
 							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
 						>
 							{Array.isArray(specializations) &&
 								specializations?.map((item) => {
+									
 									return (
 										<option key={item.id} value={item.id}>
 											{item.doctor_specialization_name}

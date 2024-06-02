@@ -68,6 +68,7 @@ export default function DoctorInformation() {
 								password: userStore.password,
 								license_id: doctorStore.doctor_license.license_number,
 								specialization_id: doctorStore.specialization_id,
+								specialization_name: doctorStore.specialization_name,
 								first_name: doctorStore.first_name,
 								last_name: doctorStore.last_name,
 								gender: doctorStore.gender,
@@ -93,7 +94,7 @@ export default function DoctorInformation() {
 
 								setTimeout(() => {
 									console.log(doctorStore.specialization_id);
-									if (doctorStore.specialization_id === 1) {
+									if (doctorStore.specialization_id === 1 || 2 || 3) {
 										router.push("/home");
 									} else {
 										router.push("/other_doctor/referrals");
