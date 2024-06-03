@@ -50,20 +50,20 @@ export default function PredictiveAnalytics(patientId) {
   };
   const pAnalytics = {
     male: 1,
-    age: 51,
+    age: 50,
     education: 4,
     currentSmoker: 1,
-    cigsPerDay: 15,
+    cigsPerDay: 6,
     BPMeds: 0,
     prevalentStroke: 0,
-    prevalentHyp: 0,
+    prevalentHyp: 1,
     diabetes: 0,
     totChol: 238,
     sysBP: 125,
-    diaBP: 80,
-    BMI: 19.36,
-    heartRate: 60,
-    glucose: 66,
+    diaBP: 100,
+    BMI: 26,
+    heartRate: 70,
+    glucose: 100,
   };
   const formatValue = (key, value) => {
     const boolean = [
@@ -115,7 +115,9 @@ export default function PredictiveAnalytics(patientId) {
         ))}
       </table>
 
-      <h3>{percentage}% Risk of a Heart Disease</h3>
+      <div className="text-bold justify-center">
+        {percentage}% Probability of TenYearCHD
+      </div>
 
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
         <Button onClick={() => analyze()}>Generate</Button>
