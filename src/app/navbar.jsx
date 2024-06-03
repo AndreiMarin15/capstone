@@ -57,6 +57,11 @@ const patientNavigation = [
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
   },
   {
+    name: "Letters",
+    href: "/patient/letters",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d3e9000904abf60c99bac7a9a7c190e556583d3c8e0cb2c6ba0298a2bed56d6d?",
+  },
+  {
     name: "Medications",
     href: "/patient/medications",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",

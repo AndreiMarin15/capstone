@@ -236,7 +236,7 @@ export default function Medications({ patientId }) {
                     key={index}
                     className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-full"
                   >
-                    <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
+                    <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                       <Image
                         alt="image"
                         height={0}
@@ -253,8 +253,10 @@ export default function Medications({ patientId }) {
                         Prescription #1
                       </div>
                     </div>
-                    <div className="flex gap-5 w-full justify-between">
-                      <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+
+                    <div className="flex w-full justify-between text-xs">
+                      <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+
                         {/* Name of Provider */}
                         <Image
                           alt="image"
