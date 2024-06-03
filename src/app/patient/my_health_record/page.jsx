@@ -24,7 +24,7 @@ export default function PatientData() {
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
             <div className="flex flex-col items-stretch w-[70%] ml-5 max-md:w-full max-md:ml-0">
               <span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
-                <span className="flex w-[100%]] max-w-full flex-col items-stretch self-start mb-5">
+                <span className="flex w-[100%] max-w-full flex-col items-stretch self-start mb-5">
                   <div className="text-black text-xl font-semibold leading-8">
                     My Health Record
                   </div>
