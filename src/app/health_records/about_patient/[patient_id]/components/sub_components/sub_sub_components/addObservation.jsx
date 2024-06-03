@@ -16,11 +16,17 @@ export default function AddObservation({
   currentPage,
   setCurrentPage,
   patientId,
+  clinicDate,
+  setClinicDate,
+  reviewOfSystems,
+  setReviewOfSystems,
+  signsAndSymptoms,
+  setSignsAndSymptoms,
+  otherConcerns,
+  setOtherConcerns,
+  handleNext
+
 }) {
-  const [clinicDate, setClinicDate] = useState("");
-  const [reviewOfSystems, setReviewOfSystems] = useState({});
-  const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
-  const [otherConcerns, setOtherConcerns] = useState("");
   const [labTestData, setLabTestData] = useState([]);
   const [observations, setObservations] = useState([]);
   const [labTestDataArray, setLabTestDataArray] = useState([]);
@@ -53,69 +59,18 @@ export default function AddObservation({
     setClinicDate(new Date().toISOString().split("T")[0]);
   }, []);
 
-  let patientDataId;
-
   const handleCheckboxChange = (e, dataset) => {
-    if (dataset in reviewOfSystems) {
-      setReviewOfSystems({ ...reviewOfSystems, [dataset]: e.target.checked });
-      console.log(reviewOfSystems);
-      return;
-    }
-    setReviewOfSystems({ ...reviewOfSystems, [dataset]: true });
-    console.log(reviewOfSystems);
-  };
-
-  const handleSave = async (saveClinicVisit = false) => {
-    if (!validateFields()) {
-      toast.error("Please fill in all required fields before saving.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    try {
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      setDoctorId(doctorInfo.fullName);
-      const patientData = await healthRecords.getPatientData(patientId);
-      patientDataId = patientData.id;
-
-      const contained = [
-        // Your observations array content here
-      ];
-
-      const dataToSave = {
-        id: "example",
-        period: {
-          start: clinicDate,
-        },
-        participant: {
-          type: "Doctor",
-          actor: doctorInfo.fullName,
-        },
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-        contained: contained,
-        resource_type: "Encounter",
+    console.log("Checkbox changed:", dataset, e.target.checked);
+    setReviewOfSystems((prevReview) => {
+      const updatedReview = {
+        ...prevReview,
+        [dataset]: e.target.checked,
       };
-
-      if (saveClinicVisit) {
-        const savedData = await uploadEncounter(dataToSave);
-        toast.success("Clinic Visit Added", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 2000,
-        });
-        setCurrentPage(0);
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
+      console.log("Updated review of systems:", updatedReview);
+      return updatedReview;
+    });
   };
-
+  
   const addLabTestData = (labTestData) => {
     if (!Array.isArray(labTestData)) {
       labTestData = [labTestData];
@@ -228,7 +183,7 @@ export default function AddObservation({
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
           </div>
-
+  
           <div className="flex w-full justify-center">
             <Progress value={25} />
           </div>
@@ -349,9 +304,9 @@ export default function AddObservation({
                                 <input
                                   type="checkbox"
                                   name={dataset.name}
-                                  value={reviewOfSystems[dataset.name]}
+                                  checked={reviewOfSystems[dataset.name]}
                                   onChange={(e) => {
-                                    handleCheckboxChange(e, dataset.value);
+                                    handleCheckboxChange(e, dataset.name);
                                   }}
                                   className="form-checkbox h-5 w-5 text-blue-600"
                                 />
