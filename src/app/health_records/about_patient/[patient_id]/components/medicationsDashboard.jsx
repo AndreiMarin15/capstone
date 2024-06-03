@@ -1,7 +1,8 @@
 import Image from "next/image";
-import BackButton from "./sub_components/BackButton";
+/* import BackButton from "./sub_components/BackButton"; */
 import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
-import ViewMedications from "./sub_components/viewMedication";
+import AddPrescription from "./sub_components/sub_sub_components/addPrescription";
+import ViewMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/viewMedication";
 import EditMedications from "./sub_components/editMedication";
 import { doctor } from "@/backend//health_records/doctor";
 import * as React from "react";
@@ -63,7 +64,7 @@ export default function Medications({ patientId }) {
   }, []);
 
   const [isTest, setTest] = useState(false);
-  const [isAdd, setAdd] = useState(false);
+  const [isAddPrescription, setAdd] = useState(false);
   const [isEdit, setEdit] = useState(false);
 
   const handleSetCurrentScreen = (screen) => {
@@ -144,8 +145,8 @@ export default function Medications({ patientId }) {
           patientId={patientId}
           medicationId={regis}
         />
-      ) : isAdd ? (
-        <AddMedications
+      ) : isAddPrescription ? (
+        <AddPrescription
           currentScreen={4}
           setCurrentScreen={handleSetCurrentScreen}
           patientId={patientId}
@@ -233,7 +234,7 @@ export default function Medications({ patientId }) {
                 >
                   <div
                     key={index}
-                    className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
+                    className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-full"
                   >
                     <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                       <Image
@@ -252,7 +253,7 @@ export default function Medications({ patientId }) {
                         Prescription #1
                       </div>
                     </div>
-                    <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
+                    <div className="flex gap-5 w-full justify-between">
                       <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                         {/* Name of Provider */}
                         <Image
@@ -312,7 +313,7 @@ export default function Medications({ patientId }) {
                           </div>
                         )} */}
 
-                      <Button variant="download"> Download </Button>
+                      <Button variant="download"> ↓ Download (.pdf)</Button>
                     </div>
                     {/* Medicine form/quantity/etc */}
                     {/* <div className="flex justify-between mt-2">
@@ -345,10 +346,9 @@ export default function Medications({ patientId }) {
                       </div>
                     </div> */}
                   </div>
-                  <div className="mt-2 border-b border-gray-300 w-full"></div>
                 </button>
               ))}
-            <BackButton />
+            {/* <BackButton /> */}
           </div>
         </>
       )}
