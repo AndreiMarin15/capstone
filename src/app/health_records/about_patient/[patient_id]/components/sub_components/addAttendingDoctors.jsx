@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import BackButton from "../sub_components/BackButton";
+import BackButton from "./BackButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/components/ui/button";
