@@ -5,16 +5,19 @@ import BackButton from "./sub_components/BackButton";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { CarePlansPDF } from "./PDF_templates/careplanlist";
+import { CarePlansPDF } from "./PDF_templates/careplanlistPDF";
 import { FamilySocialHistoryPDF } from "./PDF_templates/familysocialhistoryPDF";
 import { LabTestHistoryPDF } from "./PDF_templates/labtesthistoryPDF";
-import { MasterDataPDF } from "./PDF_templates/masterdatapdf";
+import { MasterDataPDF } from "./PDF_templates/masterdataPDF";
 import { MedicalHistoryPDF } from "./PDF_templates/medicalhistoryPDF";
-import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
+import { MedicationHistoryPDF } from "./PDF_templates/medicationhistoryPDF";
 import { ReferralHistoryPDF } from "./PDF_templates/referralhistoryPDF";
+import { ClinicVisitsPDF } from "./PDF_templates/clinicvisitPDF";
+import { VitalsPDF } from "./PDF_templates/vitalsPDF";
 
-export default function GenerateRecords() {
+export default function GenerateRecords({patientId, patientData}) {
 	const [date, setDate] = useState();
+  
 
 	const dates = [
 		{
@@ -37,9 +40,11 @@ export default function GenerateRecords() {
 		setIsCheckboxChecked(!isCheckboxChecked);
 	};
 
+
+
 	return (
 		<>
-			<div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 mb-10">
+			<div className="text-black text-base font-bold leading-5 mt-8  max-md:ml-1 max-md:mt-10 mb-10">
 				GENERATE RECORDS
 			</div>
 			<Checkbox checked={isCheckboxChecked} onClick={handleCheckboxChange}>
@@ -87,45 +92,57 @@ export default function GenerateRecords() {
 			<div className="text-xs">
 				<table>
 					<tr>
-						<td>Master Data</td>
+						<td> Master Data</td>
 						<td>
-							<MasterDataPDF />
+							<MasterDataPDF patientId={patientId} patientData={patientData} />
 						</td>
-					</tr>
-					<tr>
+
 						<td>Family & Social History</td>
 						<td>
-							<FamilySocialHistoryPDF />
+							<FamilySocialHistoryPDF patientId={patientId} patientData={patientData} />
 						</td>
 					</tr>
+
 					<tr>
 						<td>Medical History</td>
 						<td>
-							<MedicalHistoryPDF />
+							<MedicalHistoryPDF patientId={patientId} patientData={patientData} />
 						</td>
-					</tr>
-					<tr>
+
 						<td>Medication History</td>
 						<td>
-							<MedicationHistoryPDF />
+							<MedicationHistoryPDF patientId={patientId} patientData={patientData} />
 						</td>
 					</tr>
+
 					<tr>
 						<td>Lab Test History</td>
 						<td>
-							<LabTestHistoryPDF />
+							<LabTestHistoryPDF patientId={patientId} patientData={patientData} />
 						</td>
-					</tr>
-					<tr>
+
 						<td>List of Care Plans</td>
 						<td>
-							<CarePlansPDF />
+							<CarePlansPDF patientId={patientId} patientData={patientData}/>
 						</td>
 					</tr>
+
 					<tr>
 						<td>Referral History</td>
 						<td>
-							<ReferralHistoryPDF />
+							<ReferralHistoryPDF patientId={patientId} patientData={patientData}/>
+						</td>
+
+						<td>Vitals & Biometrics</td>
+						<td>
+							<VitalsPDF patientId={patientId} patientData={patientData}/>
+						</td>
+					</tr>
+
+					<tr>
+						<td> Clinic Visits</td>
+						<td>
+							<ClinicVisitsPDF patientId={patientId} patientData={patientData}/>
 						</td>
 					</tr>
 				</table>

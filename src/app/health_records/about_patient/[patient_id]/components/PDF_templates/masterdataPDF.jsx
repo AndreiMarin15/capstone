@@ -1,3 +1,5 @@
+// ./src/app/health_records/about_patient/[patient_id]/components/generateRecordsDashboard.jsx
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,22 +14,41 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+// import { getPatientData } from "@/backend/pdfBackend/getPatientData";
+import { useEffect, useState } from "react";
 
-const masterdata = [
-	{
-		name: "Juan Dela Cruz", // patient table: name (string)
-		age: "74", // auto gen in fhir using patient table: birthdate (date)
-		birthday: "January 01, 1950", //patient table: birthdate (date)
-		gender: "Male", //patient table: gender (string)
-		address: "1 Pasay Rd. Pasay City, Metro Manila", // patient table: address (string)
-		contact: "0999 999 9999", // hindi pa sinesave sa tables sa supabase
-		stroke: "Yes", // hindi pa sinesave sa tables sa supabase
-		allergies: "Pennicilin | Effect: Headache", // allegyintolerance table: type & reaction (string)
-		attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
-	},
-];
-export function MasterDataPDF() {
+export function MasterDataPDF({ patientId, patientData }) {
+	function getAge(birthdate) {
+		const birthDate = new Date(birthdate);
+		const today = new Date();
+		let age = today.getFullYear() - birthDate.getFullYear();
+		const monthDifference = today.getMonth() - birthDate.getMonth();
+
+		if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+
+		return age;
+	}
+	const masterdata = [
+		{
+			name: patientData.personal_information.first_name + " " + patientData.personal_information.last_name, // patient table: name (string)
+			age: getAge(patientData.personal_information.birthdate), // auto gen in fhir using patient table: birthdate (date)
+			birthday: patientData.personal_information.birthdate, //patient table: birthdate (date)
+			gender: patientData.personal_information.gender, //patient table: gender (string)
+			address: patientData.personal_information.street_address + " " + patientData.personal_information.city, // patient table: address (string)
+			contact: patientData.personal_information.contact_number, // hindi pa sinesave sa tables sa supabase
+			stroke: patientData.medical_history.stroke.toString(), // hindi pa sinesave sa tables sa supabase
+			allergies:
+				patientData.allergies.length > 0 ? patientData.allergies.map((obj) => obj.allergen).join(", ") : "None", // allegyintolerance table: type & reaction (string)
+			attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
+		},
+	];
 	const pdfRef = useRef();
+	useEffect(() => {
+		console.log(patientData);
+	}, []);
+
 	const downloadPDF = () => {
 		const input = pdfRef.current;
 
@@ -38,7 +59,7 @@ export function MasterDataPDF() {
 		const height = input.offsetHeight;
 		let computedWidth = width;
 		let computedHeight = height;
-		console.log(width, height);
+		console.log(patientId);
 		if (width < 1920 / 2) {
 			computedWidth = 1920 / 2;
 			// computedHeight = computedWidth / 2;
@@ -68,7 +89,7 @@ export function MasterDataPDF() {
 			<div ref={pdfRef} className="hidden z-[-10] absolute p-5 m-5" style={{ left: "-5000px" }}>
 				{" "}
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					JUAN DELA CRUZ
+					{patientData?.personal_information.first_name + " " + patientData?.personal_information.last_name}
 				</div>
 				<div className="text-black text-center text-base leading-5 max-md:ml-1 max-md:mt-10 mb-10">Master Data</div>
 				<Table className="mb-5 pb-5">

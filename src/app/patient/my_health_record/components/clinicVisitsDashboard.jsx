@@ -7,10 +7,13 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { Button } from "@/components/ui/button";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ViewClinicVisit from "./sub_components/viewClinicVisit";
+import * as React from "react";
+import { getEncounters } from "@/backend//health_records/getEncounter";
+import { getPatientRawData } from "@/backend//patient/personal_details/master_data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,14 +24,10 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
-import ViewClinicVisit from "./sub_components/viewClinicVisit";
-import AddClinicVisit from "./sub_components/sub_sub_components/addObservation";
-import * as React from "react";
-import BackButton from "./sub_components/BackButton";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { getEncounters } from "@/backend//health_records/getEncounter";
-export default function ClinicVisits({ patientId }) {
+export default function ClinicVisits() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const [lastClicked, setLastClicked] = useState(null);
@@ -37,6 +36,20 @@ export default function ClinicVisits({ patientId }) {
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
   const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
   const [sortOptionDate, setSortOptionDate] = React.useState("Recent");
+  const [patientId, setPatientId] = useState("");
+
+  useEffect(() => {
+    async function fetchPatientId() {
+      try {
+        const patientData = await getPatientRawData();
+        console.log(patientData);
+        setPatientId(patientData.id); // Assuming patientData contains the patient ID
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    }
+    fetchPatientId();
+  }, []);
 
   React.useEffect(() => {
     async function fetchEncounters() {
@@ -62,11 +75,6 @@ export default function ClinicVisits({ patientId }) {
     setSelectedEncounterId(id); // Set the selected encounter ID
     console.log(selectedEncounterId);
     setCurrentPage(1);
-  };
-
-  const handleVisitClick = () => {
-    // Increment the currentPage when the user clicks the div
-    setCurrentPage(10);
   };
 
   const addHandleVisitClick = (id, clinicVisitNumber) => {
@@ -117,13 +125,9 @@ export default function ClinicVisits({ patientId }) {
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-3 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             CLINIC VISIT
-            <Button variant="outline" onClick={handleVisitClick}>
-              {" "}
-              {/* current page = 1 */}
-              Add
-            </Button>
           </div>
-          <div className="mb-8">
+
+          <div className="mb-5">
             <Tabs defaultValue="all" className="w-[400px]">
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
@@ -156,7 +160,7 @@ export default function ClinicVisits({ patientId }) {
               </span>
 
               <select
-                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal"
                 onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
                 defaultValue="5"
               >
@@ -168,7 +172,7 @@ export default function ClinicVisits({ patientId }) {
                 <option value="7">7</option>
                 <option value="10">10</option>
               </select>
-              <span className="ml-2 text-black text-base leading-5 font-normal">
+              <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
                 Appointments
               </span>
             </div>
@@ -295,11 +299,6 @@ export default function ClinicVisits({ patientId }) {
                   </div>
                 </button>
               ))}
-
-          <BackButton
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
         </>
       ) : (
         ""
@@ -312,15 +311,7 @@ export default function ClinicVisits({ patientId }) {
             setCurrentPage={setCurrentPage}
             patientId={patientId}
             encounterId={selectedEncounterId}
-            clinicVisitNumber={clinicVisitNumber} // Pass clinic visit number here
-          />
-        </>
-      ) : currentPage === 10 ? (
-        <>
-          <AddClinicVisit
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            patientId={patientId}
+            clinicVisitNumber={clinicVisitNumber}
           />
         </>
       ) : (

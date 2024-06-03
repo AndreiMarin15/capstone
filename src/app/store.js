@@ -32,7 +32,6 @@ export const useLabNav = create((set) => ({
 	setSelected: (item) => set(() => ({ selected: item })),
 }));
 
-
 export const currentUser = create(
 	persist(
 		(set) => ({
@@ -80,6 +79,7 @@ const initialDoctorInfo = {
 	last_name: "",
 	first_name: "",
 	specialization_id: 1,
+	specialization_name: "",
 	gender: "",
 	birthdate: "",
 	years_of_practice: 1,
@@ -93,11 +93,27 @@ export const useDoctorInfo = create(
 			},
 			last_name: "",
 			first_name: "",
-			specialization_id: 1,
+			specialization_id: 0,
+			specialization_name: "",
 			gender: "",
-			birthdate: "",
+			// birthdate: null,
 			years_of_practice: 1,
 			about: "",
+			ptr: "",
+			photo: "",
+			hospital: {
+				name: "",
+				clinic: "",
+				schedule: "",
+				contact: "",
+			},
+			setHospital: (item) => set(() => ({ hospital: item })),
+			setHospitalName: (item) => set((state) => ({ hospital: { ...state.hospital, name: item } })),
+			setClinic: (item) => set((state) => ({ hospital: { ...state.hospital, clinic: item } })),
+			setSchedule: (item) => set((state) => ({ hospital: { ...state.hospital, schedule: item } })),
+			setContact: (item) => set((state) => ({ hospital: { ...state.hospital, contact: item } })),
+			setPhoto: (item) => set(() => ({ photo: item })),
+			setPtr: (item) => set(() => ({ ptr: item })),
 
 			setAbout: (item) => set(() => ({ about: item })),
 
@@ -107,9 +123,14 @@ export const useDoctorInfo = create(
 
 			setFirst_name: (item) => set(() => ({ first_name: item })),
 
-			setSpecialization_id: (item) => set(() => ({ specialization_id: item })),
+			setSpecializationId: (id) => set(() => ({ 
+				specialization_id: id,
+			})),
+			setSpecializationName: (name) => set(() => ({ 
+				specialization_name: name,
+			})),
 
-			setBirthdate: (item) => set(() => ({ birthdate: item })),
+			// setBirthdate: (item) => set(() => ({ birthdate: item })),
 
 			setGender: (item) => set(() => ({ gender: item })),
 
@@ -187,6 +208,7 @@ export const usePatientInfo = create(
 				medications: [],
 				past_medical_procedures: [],
 				date_of_hypertension: "",
+				diabetes: false,
 			},
 			handled_by: {
 				main_practitioner: "",
@@ -255,6 +277,8 @@ export const usePatientInfo = create(
 				set((state) => ({
 					medical_history: { ...state.medical_history, stroke: item },
 				})),
+
+			setDiabetes: (item) => set((state) => ({ medical_history: { ...state.medical_history, diabetes: item } })),
 
 			setMedications: (item) =>
 				set((state) => ({

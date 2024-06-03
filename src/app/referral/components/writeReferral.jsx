@@ -2,9 +2,57 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getMedicalHistory, getMedications } from "@/backend/pdfBackend/getPDFData";
+export default function WriteReferral({ referralData, setReferralData, selectedPatientId }) {
+	useEffect(() => {
+		console.log(referralData);
+	}, [referralData]);
 
-export default function WriteReferral({ referralData, setReferralData }) {
-	React.useEffect(() => {
+	const [diagnoses, setDiagnoses] = useState([]);
+	const [medications, setMedications] = useState([]);
+
+	const [diagnosisText, setDiagnosisText] = useState("");
+	const [medicationText, setMedicationText] = useState("");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const diagnosis = await getMedicalHistory(selectedPatientId);
+			console.log(diagnosis);
+			const medication = await getMedications(selectedPatientId);
+			console.log(medication);
+
+			setDiagnoses(
+				diagnosis
+					.filter((medicalhistory) => medicalhistory.resource.valueString)
+					.map((medicalhistory) => medicalhistory.resource.valueString)
+			);
+			setMedications(medication.map((medication) => medication.resource.medicationCodeableConcept[0].text));
+		};
+		fetchData();
+	}, []);
+
+	useEffect(() => {
+		setDiagnosisText(`Diagnoses: \n${diagnoses.join("\n")}`);
+	}, [diagnoses]);
+
+	useEffect(() => {
+		setMedicationText(`Here are the medications I am giving the patient:\n${medications.join("\n")}`);
+
+		
+	}, [medications]);
+
+	useEffect(() => {
+		console.log(diagnosisText);
+		setReferralData((currentReferralData) => ({ ...currentReferralData, reason_for_referral: diagnosisText }));
+	}, [diagnosisText]);
+
+	useEffect(() => {
+		console.log(medicationText);
+		setReferralData((currentReferralData) => ({ ...currentReferralData, medications: medicationText }));
+	}, [medicationText]);
+
+	useEffect(() => {
 		console.log(referralData);
 	}, [referralData]);
 	return (

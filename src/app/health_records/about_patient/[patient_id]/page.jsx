@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import Navbar from "../../../navbar";
+
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import HealthRecordsNav from "../../healthRecordsNav";
 import PatientProfile from "../../patientProfile";
 import ClinicVisits from "./components/clinicVisitsDashboard";
@@ -12,7 +12,7 @@ import Vitals from "./components/vitalsDashboard";
 import Medications from "./components/medicationsDashboard";
 import CarePlans from "./components/carePlanDashboard";
 import LabTests from "./components/labTestsDashboard";
-import GenerateRecords from "./components/generateReportDashboard";
+import GenerateRecords from "./components/generateRecordsDashboard";
 import OtherRecords from "./components/otherRecordsDashboard";
 
 import { useHRNav } from "@/app/store";
@@ -24,52 +24,49 @@ import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
 import { healthRecords } from "@/backend//health_records/health_records";
 
 export default function AboutPatient({ params }) {
-  const { selected } = useHRNav();
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = React.useState(0);
+	const { selected } = useHRNav();
+	const router = useRouter();
+	const [currentPage, setCurrentPage] = React.useState(0);
 
-  const [patientData, setPatientData] = React.useState({});
-  const [patientFhirData, setPatientFhirData] = React.useState({});
+	const [patientData, setPatientData] = React.useState({});
+	const [patientFhirData, setPatientFhirData] = React.useState({});
 
-  const patientId = params.patient_id;
+	const patientId = params.patient_id;
 
-  const handleBack = () => {
-    setCurrentPage(currentPage - 1); // Go back one page
-  };
+	const handleBack = () => {
+		setCurrentPage(currentPage - 1); // Go back one page
+	};
 
-  const calculateAge = (birthdayString) => {
-    const birthday = new Date(birthdayString);
-    const today = new Date();
+	const calculateAge = (birthdayString) => {
+		const birthday = new Date(birthdayString);
+		const today = new Date();
 
-    let age = today.getFullYear() - birthday.getFullYear();
-    const monthDifference = today.getMonth() - birthday.getMonth();
+		let age = today.getFullYear() - birthday.getFullYear();
+		const monthDifference = today.getMonth() - birthday.getMonth();
 
-    if (
-      monthDifference < 0 ||
-      (monthDifference === 0 && today.getDate() < birthday.getDate())
-    ) {
-      age--;
-    }
+		if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthday.getDate())) {
+			age--;
+		}
 
-    return age;
-  };
+		return age;
+	};
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const data1 = await healthRecords.getPatientData(patientId);
-      const data2 = await healthRecords.getPatientFhirData(patientId);
+	React.useEffect(() => {
+		const fetchData = async () => {
+			const data1 = await healthRecords.getPatientData(patientId);
+			const data2 = await healthRecords.getPatientFhirData(patientId);
 
-      setPatientData(data1);
-      setPatientFhirData(data2);
-    };
+			setPatientData(data1);
+			setPatientFhirData(data2);
+		};
 
-    fetchData();
-  }, []);
+		fetchData();
+	}, []);
 
-  React.useEffect(() => {
-    console.log(patientData);
-    console.log("this is patient data", patientFhirData);
-  }, [patientData, patientFhirData]);
+	React.useEffect(() => {
+		console.log(patientData);
+		console.log("this is patient data", patientFhirData);
+	}, [patientData, patientFhirData]);
 
   return (
     <>
