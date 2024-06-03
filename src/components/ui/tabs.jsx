@@ -21,7 +21,8 @@ const TabsList = React.forwardRef(({ className, ...props }, ref) => (
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const TabsTrigger = React.forwardRef(
-  ({ className, selected, ...props }, ref) => {
+  ({ className, selected, color, ...props }, ref) => {
+    const backgroundColor = color ? `bg-${color}` : "";
     return (
       <TabsPrimitive.Trigger
         ref={ref}
@@ -45,6 +46,7 @@ const TabsTrigger = React.forwardRef(
             "data-[state=active]:bg-[#1E40AF]": true, // Active state background color
             "data-[state=active]:text-white": true, // Active state text color
             "data-[state=active]:shadow-sm": true,
+            backgroundColor,
           },
           className
         )}
