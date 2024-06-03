@@ -35,6 +35,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
     bmi: ''
   });
   const [conditionSeverity, setConditionSeverity] = useState('');
+  const [currentScreen, setCurrentScreen] = useState(0);
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
@@ -79,6 +80,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
     <>
       {currentStep === 0 && (
         <AddObservation
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           patientId={patientId}
@@ -95,6 +98,11 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
       )}
       {currentStep === 1 && (
         <AddClinicalDiagnosis
+            currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
+            patientId={patientId}
+            clinicDate={clinicDate}
+            setclinicDate={setClinicDate}
           initialDiagnosis={initialDiagnosis}
           setInitialDiagnosis={setInitialDiagnosis}
           finalDiagnosis={finalDiagnosis}

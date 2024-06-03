@@ -7,16 +7,67 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
 import AddVitals from "./addVitals";
+import { retrieveDisease } from "@/backend/health_records/getDisease";
+
 
 export default function AddClinicalDiagnosis({
   currentScreen,
   setCurrentScreen,
   patientId,
+  clinicDate,
+  setClinicDate,
+  initialDiagnosis,
+  setInitialDiagnosis,
+  finalDiagnosis,
+  setFinalDiagnosis,
+  handleNext,
+  handleBack,
 }) {
-  const [clinicDate, setClinicDate] = useState("");
-  const [suggestedClinicDate, setSuggestedClinicDate] = useState("");
+  
   const [diagnosis, setDiagnosis] = useState("");
-  const [finalDiagnosis, setFinalDiagnosis] = useState("");
+  const [filteredDisease, setFilteredDisease] = useState([]);
+  const [filteredFinalDisease, setFilteredFinalDisease] = useState([]);
+  const [disease, setDisease] = useState([]);
+  
+  useEffect(() => {
+    const fetchDisease = async () => {
+      try {
+        const diseaseData = await retrieveDisease();
+        setDisease(diseaseData);
+        console.log(diseaseData);
+      } catch (error) {
+        console.error("Error fetching diseases:", error);
+      }
+    };
+
+    fetchDisease();
+  }, []);
+
+
+  const handleDiagnosisChange = (e) => {
+    const inputValue = e.target.value.toLowerCase();
+    const filteredDisease = disease
+      .filter((disease) => {
+        const diseaseName = disease["disease"]?.toLowerCase() || "";
+        return diseaseName.includes(inputValue);
+      })
+      .slice(0, 50);
+    setFilteredDisease(filteredDisease);
+    setDiagnosis(inputValue);
+  };
+  
+  const handleFinalDiagnosisChange = (e) => {
+    const inputValue = e.target.value.toLowerCase();
+    const filteredDisease = disease
+      .filter((disease) => {
+        const diseaseName = disease["disease"]?.toLowerCase() || "";
+        return diseaseName.includes(inputValue);
+      })
+      .slice(0, 50);
+    setFilteredFinalDisease(filteredDisease); // Update filteredFinalDiagnosis
+    setFinalDiagnosis(inputValue);
+  };
+
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
@@ -41,11 +92,9 @@ export default function AddClinicalDiagnosis({
     borderStyle: "solid",
   };
 
-  useEffect(() => {
-    setClinicDate(new Date().toISOString().split("T")[0]);
-  }, []);
+ 
 
-  let patientDataId;
+ 
 
   const handleSave = async (saveClinicVisit = false) => {
     if (!validateFields()) {
@@ -75,6 +124,7 @@ export default function AddClinicalDiagnosis({
         participant: {
           type: "Doctor",
           actor: doctorInfo.fullName,
+          
         },
         subject: {
           type: "Patient",
@@ -165,7 +215,7 @@ export default function AddClinicalDiagnosis({
       value: "",
     },
   ];
-  // const [currentScreen, setCurrentScreen] = useState(1);
+
 
   return (
     <>
@@ -174,7 +224,7 @@ export default function AddClinicalDiagnosis({
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
           </div>
-
+  
           <div className="flex w-full justify-center">
             <Progress value={50} />
           </div>
@@ -220,36 +270,102 @@ export default function AddClinicalDiagnosis({
                     </td>
                   </tr>
                   {diagnosismap.map((item, index) => (
-                    <tr key={index} className="align-top">
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[15px] border-transparent">
-                        <textarea
-                          placeholder={"Add diagnosis"}
-                          value={diagnosis}
-                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                          style={{
-                            fontSize: "12px",
-                            height: "auto",
-                          }}
-                          wrap="soft"
-                        />
-                      </td>
-                    </tr>
-                  ))}
+  <tr key={index} className="align-top">
+    <td className="w-5">
+      <Image
+        alt="image"
+        height={0}
+        width={0}
+        loading="lazy"
+        src={item.src}
+        className="self-start aspect-square fill-black w-[15px]"
+      />
+    </td>
+    <td className="border-l-[5px] border-transparent">
+      <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+        {item.variable}
+      </div>
+    </td>
+    <td className="border-l-[15px] border-transparent">
+      <textarea
+        placeholder={"Add diagnosis"}
+        value={item.variable === "Initial Diagnosis" ? initialDiagnosis : finalDiagnosis}
+        onChange={item.variable === "Initial Diagnosis" ? handleDiagnosisChange : handleFinalDiagnosisChange}
+        className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+        style={{
+          fontSize: "12px",
+          height: "auto",
+        }}
+        wrap="soft"
+      />
+      {item.variable === "Initial Diagnosis" && (
+        <ul
+          style={{
+            listStyle: "none",
+            padding: "unset",
+            margin: "unset",
+            position: "absolute",
+            width: "400px", // Subtract 4px for the border width
+            maxHeight: "300px", // Adjust the maximum height as needed
+            overflowY: "auto", // Enable vertical scrolling if needed
+            overflowX: "hidden",
+            zIndex: 999, // Set a higher z-index value
+          }}
+        >
+          {filteredDisease.map((disease) => (
+            <li
+              key={disease.id}
+              className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+            >
+              <button
+                className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                onClick={() => {
+                  console.log(`Selected Diagnosis: ${disease.disease}`);
+                  setInitialDiagnosis(disease.disease);
+                  setFilteredDisease([]);
+                }}
+              >
+                {disease.disease}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {item.variable === "Final Diagnosis" && (
+        <ul
+          style={{
+            listStyle: "none",
+            padding: "unset",
+            margin: "unset",
+            position: "absolute",
+            width: "400px", // Subtract 4px for the border width
+            maxHeight: "300px", // Adjust the maximum height as needed
+            overflowY: "auto", // Enable vertical scrolling if needed
+            overflowX: "hidden",
+          }}
+        >
+          {filteredFinalDisease.map((disease) => (
+            <li
+              key={disease.id}
+              className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+            >
+              <button
+                className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                onClick={() => {
+                  console.log(`Selected Final Diagnosis: ${disease.disease}`);
+                  setFinalDiagnosis(disease.disease);
+                  setFilteredFinalDisease([]);
+                }}
+              >
+                {disease.disease}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </td>
+  </tr>
+))}
                 </tbody>
               </table>
             </div>
@@ -263,9 +379,8 @@ export default function AddClinicalDiagnosis({
             <div>
               <Button
                 onClick={() => {
-                  //handleSave(labTestData, true);
                   setCurrentScreen(2); // Update currentScreen to 2
-                }} // Pass labTestData and true to indicate saving clinic visit
+                }}
               >
                 NEXT
               </Button>
@@ -275,7 +390,6 @@ export default function AddClinicalDiagnosis({
       )}
       {currentScreen === 2 && (
         <>
-         
           <AddVitals 
             currentScreen={currentScreen} 
             setCurrentScreen={setCurrentScreen} 
@@ -285,4 +399,5 @@ export default function AddClinicalDiagnosis({
       )}
     </>
   );
+  
 }

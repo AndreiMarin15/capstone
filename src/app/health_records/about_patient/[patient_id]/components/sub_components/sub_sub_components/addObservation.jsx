@@ -13,6 +13,8 @@ import AddAnalysis from "./addAnalysis";
 import { toast } from "react-toastify"; // Assuming toast is imported from 'react-toastify'
 
 export default function AddObservation({
+  currentScreen,
+  setCurrentScreen,
   currentPage,
   setCurrentPage,
   patientId,
@@ -71,6 +73,11 @@ export default function AddObservation({
     });
   };
   
+  useEffect(() => {
+    console.log("Signs and Symptoms:", signsAndSymptoms);
+    console.log("OtherConcerns:", otherConcerns);
+}, [signsAndSymptoms, otherConcerns]);
+
   const addLabTestData = (labTestData) => {
     if (!Array.isArray(labTestData)) {
       labTestData = [labTestData];
@@ -112,6 +119,8 @@ export default function AddObservation({
 
     console.log(observations);
   };
+
+
 
   const date = [
     {
@@ -174,8 +183,7 @@ export default function AddObservation({
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
-
+ 
   return (
     <>
       {currentScreen === 0 && (
@@ -247,34 +255,38 @@ export default function AddObservation({
                           </div>
                         </td>
                         <td className="border-l-[15px] border-transparent">
-                          <textarea
-                            placeholder={"Add signs and symptoms"}
-                            name={item.name}
-                            value={item.value}
-                            onChange={item.onChange}
-                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                            style={{
-                              fontSize: "12px",
-                              height: "auto",
-                              whiteSpace: "pre-wrap",
-                              ...(item.variable === "Review of Systems" &&
-                              errorStyles.reviewOfSystems
-                                ? {
-                                    ...errorStyles.reviewOfSystems,
-                                    borderColor: "red",
-                                    borderWidth: "2px",
-                                  }
-                                : item.variable === "Signs and Symptoms" &&
-                                  errorStyles.signsAndSymptoms
-                                ? {
-                                    ...errorStyles.signsAndSymptoms,
-                                    borderColor: "red",
-                                    borderWidth: "2px",
-                                  }
-                                : {}),
-                            }}
-                            wrap="soft"
-                          />
+                        <textarea
+                          placeholder={
+                            item.variable === "Other Concerns"
+                              ? "Add other concerns"
+                              : "Add signs and symptoms"
+                          }
+                          name={item.name}
+                          value={item.value}
+                          onChange={item.onChange}
+                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                          style={{
+                            fontSize: "12px",
+                            height: "auto",
+                            whiteSpace: "pre-wrap",
+                            ...(item.variable === "Review of Systems" &&
+                            errorStyles.reviewOfSystems
+                              ? {
+                                  ...errorStyles.reviewOfSystems,
+                                  borderColor: "red",
+                                  borderWidth: "2px",
+                                }
+                              : item.variable === "Signs and Symptoms" &&
+                                errorStyles.signsAndSymptoms
+                              ? {
+                                  ...errorStyles.signsAndSymptoms,
+                                  borderColor: "red",
+                                  borderWidth: "2px",
+                                }
+                              : {}),
+                          }}
+                          wrap="soft"
+                        />
                         </td>
                       </tr>
                     ) : item.type === "checkbox" ? (
@@ -367,7 +379,7 @@ export default function AddObservation({
         </>
       )}
       {currentScreen === 1 && (
-        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} clinicDate={clinicDate}/>
       )}
       {currentScreen === 2 && (
         <AddVitals currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />

@@ -307,6 +307,7 @@ export default function AddClinicVisit({
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
+            //reference id
           },
           valueString: diagnosis,
           resource_type: "Observation",
