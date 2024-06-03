@@ -104,15 +104,17 @@ export default function PredictiveAnalytics(patientId) {
       <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
         PREDICTIVE ANALYTICS
       </div>
-      <table className="max-w-fit border-spacing-y-5 border-spacing-x-[5em] border-separate text-xs">
-        {Object.keys(pAnalytics).map((key, i) => (
-          <>
-            <tr key={i}>
-              <td>{wordMatch[key]}</td>
-              <td>{formatValue(key, pAnalytics[key])}</td>
-            </tr>
-          </>
-        ))}
+      <table className="max-w-fit border-spacing-y-5 border-separate text-xs">
+        {Object.keys(pAnalytics).map((key, i) =>
+          key != "education" ? (
+            <>
+              <tr key={i}>
+                <td>{wordMatch[key]}</td>
+                <td className="pl-8">{formatValue(key, pAnalytics[key])}</td>
+              </tr>
+            </>
+          ) : null
+        )}
       </table>
 
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
