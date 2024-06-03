@@ -120,6 +120,7 @@ export default function Vitals({ patientId }) {
     (property) => property !== "date"
   );
 
+
   return (
     <>
       {currentPage === 0 && (
@@ -175,6 +176,7 @@ export default function Vitals({ patientId }) {
               <span className="ml-2 text-black text-base leading-5 font-normal">
                 Appointments
               </span>
+
             </div>
           </div>
           {/* 
