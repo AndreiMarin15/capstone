@@ -5,20 +5,20 @@ import { useState, useEffect } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
+import AddVitals from "./sub_components/addVitals";
 import {
-  getVitalsAndBiometricsDoctor,
-  getBiometricsDoctor,
+  getVitalsAndBiometrics,
+  getBiometrics,
 } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
-export default function Vitals({ patientId }) {
+export default function Vitals() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [vitalsAndBio, setVitalsAndBio] = useState({});
+  const [vitalsAndBio, setVitalsAndBio] = useState(0);
   const [selectedMetric, setSelectedMetric] = useState("");
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getVitalsAndBiometricsDoctor(patientId);
+      const data = await getVitalsAndBiometrics();
       setVitalsAndBio(data);
       console.log(data);
     };
@@ -26,16 +26,13 @@ export default function Vitals({ patientId }) {
   }, []);
   useEffect(() => {
     const fetchData = async () => {
-      const bio = await getBiometricsDoctor(patientId);
+      const bio = await getBiometrics();
       console.log(bio);
       setSampleData(bio);
     };
     fetchData();
   }, []);
 
-  const handleVisitClick = () => {
-    setCurrentPage(currentPage + 1);
-  };
   const [sampleData, setSampleData] = useState({
     height: [],
     weight: [],
@@ -88,16 +85,6 @@ export default function Vitals({ patientId }) {
     "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
     "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
   ];
-
-  /*  const variableNames = [
-    "Systolic Blood Pressure",
-    "Diastolic Blood Pressure",
-    "Heart Rate",
-    "Height (cm)",
-    "Weight (cm)",
-    "Body Mass Index",
-  ]; */
-
   const vitalsImages = [
     "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
     "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -109,6 +96,15 @@ export default function Vitals({ patientId }) {
     "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
   ];
 
+  const variableNames = [
+    "Systolic Blood Pressure",
+    "Diastolic Blood Pressure",
+    "Heart Rate",
+    "Height (cm)",
+    "Weight (cm)",
+    "Body Mass Index",
+  ];
+
   const vitalsName = [
     "Systolic Blood Pressure",
     "Diastolic Blood Pressure",
@@ -116,6 +112,7 @@ export default function Vitals({ patientId }) {
   ];
 
   const biometricsName = ["Height (cm)", "Weight (cm)", "Body Mass Index"];
+
   const properties = Object.keys(vitals[0]).filter(
     (property) => property !== "date"
   );
@@ -124,75 +121,48 @@ export default function Vitals({ patientId }) {
     <>
       {currentPage === 0 && (
         <div className="w-full max-w-full text-black">
-          <div className="text-black text-base font-bold leading-5 mt-8 mb-3 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            PATIENTS VITALS & BIOMETRICS
-          </div>
-          <div className="mb-8">
-            <Tabs defaultValue="all" className="w-[400px]">
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="endocrinologist">
-                  Endocrinologist
-                </TabsTrigger>
-                <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
-                <TabsTrigger value="gastroenterologist">
-                  Gastroenterologist
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="account">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="endocrinologist">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="cardiologist">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="gastroenterologist">
-                {/* Add contents here */}
-              </TabsContent>
-            </Tabs>
-          </div>
-          <div className="flex justify-between">
-            <div className="flex items-center">
-              <span className="text-black text-base font-bold leading-5">
-                Rendering Options:
-              </span>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-2 max-md:ml-1 max-md:mt-10">
+            <div className="mb-5">PATIENT VITALS</div>
 
-              <select
-                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
-                onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
-                defaultValue="5"
-              >
-                <option value="5" disabled hidden>
-                  5
-                </option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="7">7</option>
-                <option value="10">10</option>
-              </select>
-              <span className="ml-2 text-black text-base leading-5 font-normal">
-                Appointments
-              </span>
+            <div className="flex justify-between">
+              <div>
+                <span className="text-black text-xs leading-5">
+                  Rendering Options:
+                </span>
+                <select className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal">
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                  <option value="10">10</option>
+                </select>
+                <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
+                  Appointments
+                </span>
+              </div>
+
+              <div>
+                <Button variant="outline" onClick={() => setCurrentPage(1)}>
+                  Add
+                </Button>
+              </div>
             </div>
           </div>
-          {/* 
-					<a
-						href="/path/to/pdf"
-						download="full_vitals_history.pdf"
-						className="text-blue-500 text-xs block flex items-center"
-					>
-						<Image
-							height={0}
-							width={0}
-							src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f1514e9c761b45ed8abcb6811a56eaaf480fdda4754ab1d1e1240f3cb88e4a2?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-							alt="icon"
-							className="w-4 mr-2"
-						/>
-						<span>Full Vitals History (.pdf)</span>
-					</a>
- */}
+
+          {/* <a
+            href="/path/to/pdf"
+            download="full_vitals_history.pdf"
+            className="text-blue-500 text-xs block flex items-center"
+          >
+            <Image
+              height={0}
+              width={0}
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/0f1514e9c761b45ed8abcb6811a56eaaf480fdda4754ab1d1e1240f3cb88e4a2?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+              alt="icon"
+              className="w-4 mr-2"
+            />
+            <span>Full Vitals History (.pdf)</span>
+          </a> */}
+          {/* TABLE */}
           <div className="flex max-w-full pt-4 pb-8">
             <div
               id="col"
@@ -224,20 +194,20 @@ export default function Vitals({ patientId }) {
                 Object.keys(vitalsAndBio)?.map((key, index) => (
                   <div
                     key={index}
-                    className="h-6 max-h-6 text-xs max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
+                    className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
                   >
                     <div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                       {key}
                     </div>
                     <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                      {vitalsAndBio[key]["systolic"].valueQuantity.value ?? "-"}
+                      {vitalsAndBio[key]?.systolic?.valueQuantity?.value ?? "-"}
                     </div>
                     <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                      {vitalsAndBio[key]["diastolic"].valueQuantity.value ??
+                      {vitalsAndBio[key]?.diastolic?.valueQuantity?.value ??
                         "-"}
                     </div>
                     <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-                      {vitalsAndBio[key]["heartRate"].valueQuantity.value ??
+                      {vitalsAndBio[key]?.heartRate?.valueQuantity?.value ??
                         "-"}
                     </div>
                   </div>
@@ -293,7 +263,7 @@ export default function Vitals({ patientId }) {
             <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 ">
               BIOMETRICS
             </div>
-            {/*  <a
+            {/* <a
               href="/path/to/pdf"
               download="full_vitals_history.pdf"
               className="text-blue-500 text-xs block mb-2 flex items-center"
@@ -308,7 +278,7 @@ export default function Vitals({ patientId }) {
               <span>Full Biometrics History (.pdf)</span>
             </a> */}
           </div>
-
+          {/* TABLE */}
           <div className="flex max-w-full pt-4 pb-8">
             <div
               id="col"
@@ -365,7 +335,7 @@ export default function Vitals({ patientId }) {
               {biometricsName?.map((item, index) => (
                 <div
                   key={index}
-                  className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
+                  className="text-black text-small font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
                 >
                   <Image
                     height={0}
@@ -402,16 +372,16 @@ export default function Vitals({ patientId }) {
               ))}
             </div>
           </div>
-
-          <BackButton />
         </div>
       )}
 
+      {currentPage === 1 && (
+        <AddVitals currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      )}
       {currentPage === 2 && (
         <ViewSystolic
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          patientId={patientId}
         />
       )}
 
@@ -419,7 +389,6 @@ export default function Vitals({ patientId }) {
         <ViewHeartRate
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          patientId={patientId}
         />
       )}
 

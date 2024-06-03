@@ -12,43 +12,29 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-const medicationhistory = [
+
+const clinicvisitlist = [
 	{
 		number: "1",
-		provider: "Dr. Johnny Santos",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-04-21",
-		end: "2024-04-29",
+		date: "2024-04-21",
+		provider: "Dr. John Doe",
+		specialization: "Endocrinologist",
+		signsandsymptoms: "Increased thirst and hunger",
+		ros: "Fatigue, muscle pain",
+		otherconcerns: "Dizziness with new medicine",
 	},
 	{
 		number: "2",
-		provider: "Dr. Kim Cruz",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-05-21",
-		end: "2024-05-29",
-	},
-	{
-		number: "3",
+		date: "2024-06-16",
 		provider: "Dr. John Doe",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-07-21",
-		end: "2024-07-29",
+		specialization: "Endocrinologist",
+		signsandsymptoms: "Lower extremities pain",
+		ros: "Muscle pain",
+		otherconcerns: "Wounds not getting better",
 	},
 ];
 
-export function MedicationHistoryPDF() {
+export function ClinicVisitsPDF({ patientId, patientData }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -77,7 +63,7 @@ export function MedicationHistoryPDF() {
 				const imgData = canvas.toDataURL("image/png");
 				const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
 				pdf.addImage(imgData, "PNG", 0, 0, width, height);
-				pdf.save(`Medication History.pdf`);
+				pdf.save(`Clinic Visits.pdf`);
 			})
 			.finally(() => {
 				// Add the 'hidden' class back after the PDF has been downloaded
@@ -89,40 +75,34 @@ export function MedicationHistoryPDF() {
 			<Button onClick={downloadPDF}>Download</Button>
 			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					JUAN DELA CRUZ
+					{patientData?.first_name} {patientData?.last_name}
 				</div>
-				<div className="text-black text-center text-base  leading-5max-md:ml-1 max-md:mt-10 mb-10">
-					Medication History
-				</div>
-				<div className="flex mt-4 px-16 w-full text-xs max-md:flex-wrap max-md:max-w-full">
+				<div className="text-black text-center text-base  leading-5 max-md:ml-1 max-md:mt-10 mb-10">Clinic Visits</div>
+				<div className="flex mt-4 px-5 w-full text-xs max-md:flex-wrap max-md:max-w-full">
 					<Table className="mb-5 pb-5">
 						{/* To change to button */}
 						{/* <TableCaption>Page 1 of 2</TableCaption> */}
 						<TableHeader>
 							<TableRow>
 								<TableHead>No.</TableHead>
+								<TableHead>Date</TableHead>
 								<TableHead>Provider</TableHead>
-								<TableHead>Generic Name</TableHead>
-								<TableHead>Brand Name</TableHead>
-								<TableHead>Form</TableHead>
-								<TableHead>Dose/Unit</TableHead>
-								<TableHead>Frequency</TableHead>
-								<TableHead>Start Date</TableHead>
-								<TableHead>End Date</TableHead>
+								<TableHead>Specialization</TableHead>
+								<TableHead>Signs and Symptoms</TableHead>
+								<TableHead>Review of Systems</TableHead>
+								<TableHead>Other Concerns</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{medicationhistory?.map((item, index) => (
+							{clinicvisitlist?.map((item, index) => (
 								<TableRow key={index}>
 									<TableCell className="font-medium">{item.number}</TableCell>
+									<TableCell>{item.date}</TableCell>
 									<TableCell>{item.provider}</TableCell>
-									<TableCell>{item.generic}</TableCell>
-									<TableCell>{item.brand}</TableCell>
-									<TableCell>{item.form}</TableCell>
-									<TableCell>{item.dose}</TableCell>
-									<TableCell>{item.frequency}</TableCell>
-									<TableCell>{item.start}</TableCell>
-									<TableCell>{item.end}</TableCell>
+									<TableCell>{item.specialization}</TableCell>
+									<TableCell>{item.signsandsymptoms}</TableCell>
+									<TableCell>{item.ros}</TableCell>
+									<TableCell>{item.otherconcerns}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

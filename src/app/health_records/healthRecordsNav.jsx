@@ -14,6 +14,7 @@ export default function HealthRecordsNav() {
 		"Vitals & Biometrics",
 		"Family & Social History",
 		"Other Records",
+		"Predictive Analytics",
 	];
 
 	return (

@@ -13,28 +13,28 @@ import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 
-const careplanlist = [
+const vitalslist = [
 	{
 		number: "1",
-		provider: "Dr. John Doe",
 		date: "2024-04-21",
-		diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
-		physical:
-			"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
-		monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
+		systolic: "130",
+		diastolic: "100",
+		heartrate: "75",
+		height: "169",
+		weight: "58",
 	},
 	{
 		number: "2",
-		provider: "Dr. John Doe",
-		date: "2024-04-30",
-		diet: "Prioritize fruits, vegetables, whole grains, and lean protein sources like fish, chicken, and beans",
-		physical:
-			"Aim for at least 150 minutes of moderate-intensity aerobic activity or 75 minutes of vigorous-intensity aerobic activity per week.",
-		monitoring: "Pay attention to your feet and check for any cuts, sores, or redness",
+		date: "2024-04-21",
+		systolic: "130",
+		diastolic: "100",
+		heartrate: "75",
+		height: "169",
+		weight: "58",
 	},
 ];
 
-export function CarePlansPDF() {
+export function VitalsPDF({ patientId, patientData }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -63,7 +63,7 @@ export function CarePlansPDF() {
 				const imgData = canvas.toDataURL("image/png");
 				const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
 				pdf.addImage(imgData, "PNG", 0, 0, width, height);
-				pdf.save(`Care Plans.pdf`);
+				pdf.save(`Vitals & Biometrics.pdf`);
 			})
 			.finally(() => {
 				// Add the 'hidden' class back after the PDF has been downloaded
@@ -75,9 +75,11 @@ export function CarePlansPDF() {
 			<Button onClick={downloadPDF}>Download</Button>
 			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					JUAN DELA CRUZ
+					{patientData?.first_name} {patientData?.last_name}
 				</div>
-				<div className="text-black text-center text-base  leading-5 max-md:ml-1 max-md:mt-10 mb-10">Care Plans</div>
+				<div className="text-black text-center text-base  leading-5 max-md:ml-1 max-md:mt-10 mb-10">
+					Vitals & Biometrics
+				</div>
 				<div className="flex mt-4 px-5 w-full text-xs max-md:flex-wrap max-md:max-w-full">
 					<Table className="mb-5 pb-5">
 						{/* To change to button */}
@@ -85,22 +87,24 @@ export function CarePlansPDF() {
 						<TableHeader>
 							<TableRow>
 								<TableHead>No.</TableHead>
-								<TableHead>Provider</TableHead>
 								<TableHead>Date</TableHead>
-								<TableHead>Dietary Management</TableHead>
-								<TableHead>Physical Activities</TableHead>
-								<TableHead>Self Monitoring</TableHead>
+								<TableHead>Systolic BP - mmHg </TableHead>
+								<TableHead>Diastolic BP - mmHg</TableHead>
+								<TableHead>Heart Rate</TableHead>
+								<TableHead>Height</TableHead>
+								<TableHead>Weight</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{careplanlist?.map((item, index) => (
+							{vitalslist?.map((item, index) => (
 								<TableRow key={index}>
 									<TableCell className="font-medium">{item.number}</TableCell>
-									<TableCell>{item.provider}</TableCell>
 									<TableCell>{item.date}</TableCell>
-									<TableCell>{item.diet}</TableCell>
-									<TableCell>{item.physical}</TableCell>
-									<TableCell>{item.monitoring}</TableCell>
+									<TableCell>{item.systolic}</TableCell>
+									<TableCell>{item.diastolic}</TableCell>
+									<TableCell>{item.heartrate}</TableCell>
+									<TableCell>{item.height}</TableCell>
+									<TableCell>{item.weight}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

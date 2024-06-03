@@ -10,13 +10,10 @@ import {
 } from "@/backend//health_records/getEncounter";
 import { getObservationsByPatientId } from "@/backend//health_records/getObservation";
 import doctor from "@/backend//health_records/doctor";
-import LabNav from "../labNav";
-import { useLabNav } from "@/app/store";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LabTests({ patientId }) {
-  const { selected } = useLabNav();
-
   const tests = [
     {
       srctest:
@@ -119,7 +116,26 @@ export default function LabTests({ patientId }) {
               </span>
             </div>
           </div>
-          <LabNav />
+          <Tabs defaultValue="all" className="w-[400px]">
+            <TabsList>
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="endocrinologist">Endocrinologist</TabsTrigger>
+              <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
+              <TabsTrigger value="gastroenterologist">
+                Gastroenterologist
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="account">{/* Add contents here */}</TabsContent>
+            <TabsContent value="endocrinologist">
+              {/* Add contents here */}
+            </TabsContent>
+            <TabsContent value="cardiologist">
+              {/* Add contents here */}
+            </TabsContent>
+            <TabsContent value="gastroenterologist">
+              {/* Add contents here */}
+            </TabsContent>
+          </Tabs>
 
           {labTests?.map((labTest, index) => (
             <button
@@ -144,7 +160,6 @@ export default function LabTests({ patientId }) {
                 />
                 {/* <div className="my-auto">{labTest.variable}</div> */}
                 <div className="my-auto">Lab Test Request #1</div>
-
               </div>
               <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 w-[100%]">
                 <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
