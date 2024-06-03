@@ -292,7 +292,7 @@ export default function WriteReferral({ referralData, setReferralData, selectedP
 					<Image
 						alt="img"
 						loading="lazy"
-						src="https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"
+						src={referralData.signature ?? "https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"}
 						className="aspect-[1.02] w-[53px]"
 						width="0"
 						height="0"
