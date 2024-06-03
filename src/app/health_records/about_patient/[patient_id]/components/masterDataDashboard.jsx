@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import BackButton from "./sub_components/BackButton";
 import { getMasterDataDoctor } from "@/backend//patient/personal_details/master_data";
 import AttendingDoctorsDashboard from "./sub_components/attendingDoctorDashboard";
-import AddAttendingDoctors from "./sub_sub_components/addAttendingDoctors";
+import AddAttendingDoctors from "./sub_components/addAttendingDoctors";
 import { Button } from "@/components/ui/button";
 export default function MasterData({ patientId }) {
   const [currentScreen, setCurrentScreen] = useState(0);

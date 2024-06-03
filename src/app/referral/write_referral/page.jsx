@@ -54,7 +54,7 @@ export default function SendReferral() {
 									</div>
 								))
 							) : (
-								<WriteReferral referralData={referralData} setReferralData={setReferralData} />
+								<WriteReferral referralData={referralData} setReferralData={setReferralData} selectedPatientId={selectedPatientId} />
 							)}
 						</>
 					) : (

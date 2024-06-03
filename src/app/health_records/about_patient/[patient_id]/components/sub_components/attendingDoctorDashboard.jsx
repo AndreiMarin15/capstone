@@ -3,8 +3,8 @@ import BackButton from "./BackButton";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import ViewAttendingDoctor from "../sub_sub_components/viewAttendingDoctor";
-import AddAttendingDoctor from "../sub_sub_components/addAttendingDoctors";
+import ViewAttendingDoctor from "./viewAttendingDoctor";
+import AddAttendingDoctor from "./addAttendingDoctors";
 
 //NO BACK END YET
 // import { client } from "@/backend//initSupabase";
