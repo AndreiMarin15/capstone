@@ -227,7 +227,7 @@ export default function ClinicVisits({ patientId }) {
                       {/* Display encounter data */}
                       <div className="flex flex-col flex-1 px-3.5 text-left">
                         <div className="font-semibold whitespace-nowrap">
-                          Clinic Visit {encounters.length - index}
+                          Clinic Visit {encounter.resource.period.start}
                         </div>
                         <div className="flex justify-between w-fit">
                           <Image
@@ -243,7 +243,7 @@ export default function ClinicVisits({ patientId }) {
                               encounter.resource.participant.actor &&
                               encounter.resource.participant.actor}
                           </div>
-                          <div>{encounter.resource.period.start}</div>
+                        
                         </div>
                       </div>
                       <span className="text-xs text-gray-500">
@@ -270,7 +270,7 @@ export default function ClinicVisits({ patientId }) {
                     {/* Display encounter data */}
                     <div className="flex flex-col flex-1 px-3.5 text-left">
                       <div className="font-semibold whitespace-nowrap">
-                        Clinic Visit {index + 1}
+                        Clinic Visit {encounter.resource.period.start}
                       </div>
                       <div className="flex justify-between w-fit">
                         <Image
@@ -286,7 +286,7 @@ export default function ClinicVisits({ patientId }) {
                             encounter.resource.participant.actor &&
                             encounter.resource.participant.actor}
                         </div>
-                        <div>{encounter.resource.period.start}</div>
+                       
                       </div>
                     </div>
                     <span className="text-xs text-gray-500">
