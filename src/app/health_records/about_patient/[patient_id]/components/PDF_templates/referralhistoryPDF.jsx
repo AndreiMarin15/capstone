@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -10,31 +11,40 @@ import {
 } from "@/components/ui/table";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
-const referralhistory = [
-	{
-		number: "1",
-		referredto: "Dr. Johnny Santos",
-		specialization: "Cardiologist",
-		date: "2024-04-21",
-	},
-	{
-		number: "2",
-		referredto: "Dr. Mari Abalos",
-		specialization: "Gastroenterologist",
-		date: "2024-04-21",
-	},
-	{
-		number: "3",
-		referredto: "Dr. Kim Cruz",
-		specialization: "Cardiologist",
-		date: "2024-04-26",
-	},
-];
+import { getReferralHistory } from "@/backend/pdfBackend/getPDFData";
 
 export function ReferralHistoryPDF({ patientId, patientData }) {
+	const [referralhistory, setReferralHistory] = useState([
+		// {
+		// 	number: "1",
+		// 	referredto: "Dr. Johnny Santos",
+		// 	specialization: "Cardiologist",
+		// 	date: "2024-04-21",
+		// },
+		// {
+		// 	number: "2",
+		// 	referredto: "Dr. Mari Abalos",
+		// 	specialization: "Gastroenterologist",
+		// 	date: "2024-04-21",
+		// },
+		// {
+		// 	number: "3",
+		// 	referredto: "Dr. Kim Cruz",
+		// 	specialization: "Cardiologist",
+		// 	date: "2024-04-26",
+		// },
+	]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const referralHistory = await getReferralHistory(patientId);
+			console.log(referralHistory);
+			setReferralHistory(referralHistory);
+		};
+		fetchData();
+	}, []);
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
