@@ -11,7 +11,7 @@ const clinicVisitStore = create((set) => ({
     poorAppetite: false,
     fatigue: false,
   },
-  setReviewOfSystems: (systems) => set({ reviewOfSystems: systems }),
+  setReviewOfSystems: (systems) => set((state) => ({ ...state, reviewOfSystems: systems })),
   signsAndSymptoms: "",
   setSignsAndSymptoms: (symptoms) => set({ signsAndSymptoms: symptoms }),
   otherConcerns: "",

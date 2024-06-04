@@ -51,10 +51,6 @@ export default function AddAnalysis({
     borderStyle: "solid",
   };
 
-  useEffect(() => {
-    setClinicDate(new Date().toISOString().split("T")[0]);
-  }, []);
-
   let patientDataId;
 
   const handleCheckboxChange = (e, dataset) => {

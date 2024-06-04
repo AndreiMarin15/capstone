@@ -17,13 +17,27 @@ export default function AddObservation({
 }) {
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
-  const reviewOfSystems = useClinicVisitStore(state => state.reviewOfSystems);
-  const setReviewOfSystems = useClinicVisitStore(state => state.setReviewOfSystems);
+
   const signsAndSymptoms = useClinicVisitStore(state => state.signsAndSymptoms);
   const setSignsAndSymptoms = useClinicVisitStore(state => state.setSignsAndSymptoms);
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
+  const reviewOfSystemsStore = useClinicVisitStore(state => state.reviewOfSystems);
 
+  // Initialize local state with Zustand store values
+  const [reviewOfSystems, setReviewOfSystems] = useState(reviewOfSystemsStore);
+  
+  const resetReviewOfSystems = () => {
+    const reset = {};
+    fields
+      .filter(item => item.type === "checkbox")
+      .forEach(item => {
+        item.checkboxList.forEach(checkbox => {
+          reset[checkbox.name] = false;
+        });
+      });
+    setReviewOfSystems(reset);
+  };
 
   const addLabTestData = (labTestData) => {
     if (!Array.isArray(labTestData)) {
@@ -80,7 +94,19 @@ export default function AddObservation({
   const handleGoBack = () => {
     setCurrentScreen(0); // Reset currentScreen to 0
     setCurrentPage(currentPage - 1); // Update currentPage accordingly
+    
+    // Reset reviewOfSystems to an object with all checkboxes set to false
+    const resetReviewOfSystems = {};
+    fields
+      .filter(item => item.type === "checkbox")
+      .forEach(item => {
+        item.checkboxList.forEach(checkbox => {
+          resetReviewOfSystems[checkbox.name] = false;
+        });
+      });
+    setReviewOfSystems(resetReviewOfSystems);
   };
+
 
   const validateFields = () => {
     const errors = {
@@ -95,23 +121,42 @@ export default function AddObservation({
 
   useEffect(() => {
     setClinicDate(new Date().toISOString().split("T")[0]);
+    
+    // Initialize reviewOfSystems with empty object
+    const initialReviewOfSystems = {};
+  
+    // Retrieve reviewOfSystems from Zustand store
+    const storedReviewOfSystems = useClinicVisitStore.getState().reviewOfSystems;
+  
+    // If storedReviewOfSystems is not empty, update initialReviewOfSystems accordingly
+    if (Object.keys(storedReviewOfSystems).length !== 0) {
+      fields
+        .filter(item => item.type === "checkbox")
+        .forEach(item => {
+          item.checkboxList.forEach(checkbox => {
+            initialReviewOfSystems[checkbox.name] = storedReviewOfSystems[checkbox.name] || false;
+          });
+        });
+    }
+    
+    setReviewOfSystems(initialReviewOfSystems);
   }, []);
 
-  const handleCheckboxChange = (e, dataset) => {
-    console.log("Checkbox changed:", dataset, e.target.checked);
-    setReviewOfSystems((prevReview) => {
-      const updatedReview = {
-        ...prevReview,
-        [dataset]: e.target.checked,
-      };
-      console.log("Updated review of systems:", updatedReview);
-      return updatedReview;
-    });
-  };
+  const handleCheckboxChange = (e, name) => {
+    const updatedReviewOfSystems = {
+      ...reviewOfSystems,
+      [name]: e.target.checked
+    };
+    setReviewOfSystems(updatedReviewOfSystems);
   
+    // Update reviewOfSystems in Zustand store
+    useClinicVisitStore.setState({ reviewOfSystems: updatedReviewOfSystems });
+  };
+
   useEffect(() => {
     console.log("Signs and Symptoms:", signsAndSymptoms);
     console.log("OtherConcerns:", otherConcerns);
+    console.log(reviewOfSystems)
   }, [signsAndSymptoms, otherConcerns]);
 
   const fields = [
@@ -244,43 +289,41 @@ export default function AddObservation({
                       </tr>
                     ) : item.type === "checkbox" ? (
                       <tr key={index} className="align-top">
-                        <td className="w-5">
-                          <Image
-                            alt="image"
-                            height={0}
-                            width={0}
-                            loading="lazy"
-                            src={item.src}
-                            className="self-start aspect-square fill-black w-[15px]"
-                          />
-                        </td>
-                        <td className="border-l-[5px] border-transparent">
-                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                            {item.variable}
-                          </div>
-                        </td>
-                        <td className="border-l-[15px] border-transparent">
-                          <div className="flex flex-col gap-1">
-                            {item.checkboxList.map((dataset, datasetIndex) => (
-                              <label
-                                key={datasetIndex}
-                                className="inline-flex items-center"
-                              >
-                                <input
-                                  type="checkbox"
-                                  name={dataset.name}
-                                  checked={reviewOfSystems[dataset.name]}
-                                  onChange={(e) => {
-                                    handleCheckboxChange(e, dataset.name);
-                                  }}
-                                  className="form-checkbox h-5 w-5 text-blue-600"
-                                />
-                                <span className="ml-2">{dataset.value}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </td>
-                      </tr>
+                      <td className="w-5">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src={item.src}
+                          className="self-start aspect-square fill-black w-[15px]"
+                        />
+                      </td>
+                      <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          {item.variable}
+                        </div>
+                      </td>
+                      <td className="border-l-[15px] border-transparent">
+                        <div className="flex flex-col gap-1">
+                          {item.checkboxList.map((dataset, datasetIndex) => (
+                            <label
+                              key={datasetIndex}
+                              className="inline-flex items-center"
+                            >
+                              <input
+                                type="checkbox"
+                                name={dataset.name}
+                                checked={reviewOfSystems[dataset.name]} // Set checked attribute based on state
+                                onChange={(e) => handleCheckboxChange(e, dataset.name)}
+                                className="form-checkbox h-5 w-5 text-blue-600"
+                              />
+                              <span className="ml-2">{dataset.value}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
                     ) : item.type === "date" ? (
                       <tr key={index}>
                         <td className="w-5">
@@ -348,11 +391,11 @@ export default function AddObservation({
                 </div>
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
-         <BackButton
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            handleGoBack={handleGoBack} // Pass the handleGoBack function
-          />
+          <BackButton
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  resetReviewOfSystems={resetReviewOfSystems} // Pass the resetReviewOfSystems function
+                />
             <div>
               <Button onClick={handleNext}>NEXT</Button>
             </div>

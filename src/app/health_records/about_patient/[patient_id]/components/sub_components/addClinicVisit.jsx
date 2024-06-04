@@ -116,7 +116,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
         <AddAnalysis
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
-        
+          clinicDate={clinicDate}
+          setClinicDate={setClinicDate}
           handleNext={handleNext}
           handleBack={handleBack}
         />
