@@ -10,26 +10,46 @@ import useClinicVisitStore from '@/app/clinicVisitStore'; // Import Zustand stor
 export default function AddVitals({
   currentScreen,
   setCurrentScreen,
+
   patientId,
 }) {
-  const [clinicDate, setClinicDate] = useState("");
+  const clinicDate = useClinicVisitStore(state => state.clinicDate);
+  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  
+  const [systolic, setSystolic] = useState("");
+  const [diastolic, setDiastolic] = useState("");
+  const [heartRate, setHeartRate] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [bmi, setBMI] = useState("");
+
+  const { setVitals } = useClinicVisitStore();
+
+  const handleSave = () => {
+    // Save vitals to global state
+    setVitals({
+      systolic: Number(systolic),
+      diastolic: Number(diastolic),
+      heartRate: Number(heartRate),
+      height: Number(height),
+      weight: Number(weight),
+      bmi: Number(bmi),
+    });
+
+    // Move to the next screen
+    setCurrentScreen(4);
+  };
 
 
+  
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
     reviewOfSystems: false,
     signsAndSymptoms: false,
   });
 
-  const { vitals, setVitals } = useClinicVisitStore();
-  
-  const updateVitals = (key, value) => {
-    setVitals({ ...vitals, [key]: value });
-  };
 
-  useEffect(() => {
-    setClinicDate(new Date().toISOString().split("T")[0]);
-  }, []);
+
 
 
 
@@ -149,7 +169,41 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          // // value={}
+                          value={
+                            item.variable === "Systolic Blood Pressure"
+                              ? systolic || ""
+                              : item.variable === "Diastolic Blood Pressure"
+                                ? diastolic || ""
+                                : heartRate || ""
+                          }
+                          onChange={(e) => {
+                            // Update the corresponding state variable based on the input field
+                            if (item.variable === "Systolic Blood Pressure") {
+                              setSystolic(e.target.value);
+                              console.log(systolic);
+                              setErrorStyles({
+                                ...errorStyles,
+                                systolic: false,
+                              }); // Reset error state
+                            } else if (
+                              item.variable === "Diastolic Blood Pressure"
+                            ) {
+                              setDiastolic(e.target.value);
+                              console.log(diastolic);
+                              setErrorStyles({
+                                ...errorStyles,
+                                diastolic: false,
+                              }); // Reset error state
+                            } else if (
+                              item.variable === "Heart Rate (beats/min)"
+                            ) {
+                              setHeartRate(e.target.value);
+                              setErrorStyles({
+                                ...errorStyles,
+                                heartRate: false,
+                              });
+                            }
+                          }}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
                             fontSize: "12px",
@@ -187,7 +241,33 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          // value={}
+                         value={
+                              item.variable === "Height (cm)"
+                                ? height
+                                : item.variable === "Weight (kg)"
+                                  ? weight
+                                  : bmi
+                            }
+                            onChange={(e) => {
+                              // Update the corresponding state variable based on the input field
+                              if (item.variable === "Height (cm)") {
+                                setHeight(e.target.value);
+                                console.log(height);
+                                setErrorStyles({
+                                  ...errorStyles,
+                                  height: false,
+                                }); // Reset error state
+                              } else if (item.variable === "Weight (kg)") {
+                                setWeight(e.target.value);
+                                setErrorStyles({
+                                  ...errorStyles,
+                                  weight: false,
+                                }); // Reset error state
+                              } else if (item.variable === "Body Mass Index") {
+                                setBMI(e.target.value);
+                                setErrorStyles({ ...errorStyles, bmi: false }); // Reset error state
+                              }
+                            }}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
                             fontSize: "12px",
@@ -211,9 +291,7 @@ export default function AddVitals({
             />
             <div>
               <Button
-                onClick={() => {
-                  setCurrentScreen(4);
-                }}
+                onClick={handleSave}
               >
                 NEXT
               </Button>
