@@ -2,7 +2,7 @@ import Image from "next/image";
 /* import BackButton from "./sub_components/BackButton"; */
 import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
 import AddPrescription from "./sub_components/sub_sub_components/addPrescription";
-import ViewMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/viewMedication";
+import ViewPrescription from "./sub_components/viewPrescription";
 import EditMedications from "./sub_components/editMedication";
 import { doctor } from "@/backend//health_records/doctor";
 import * as React from "react";
@@ -151,6 +151,8 @@ export default function Medications({ patientId }) {
           setCurrentScreen={handleSetCurrentScreen}
           patientId={patientId}
         />
+      ) : currentScreen === 2 ? (
+        <ViewPrescription />
       ) : (
         <>
           <div className="flex flex-col">
@@ -226,10 +228,11 @@ export default function Medications({ patientId }) {
                 <button
                   key={medication.resource.id}
                   onClick={() => {
-                    console.log(medication.resource.id);
+                    /* console.log(medication.resource.id);
                     setRegis(medication.resource.id);
                     setTest(true);
-                    setAdd(false);
+                    setAdd(false); */
+                    setCurrentScreen(2);
                   }}
                 >
                   <div
