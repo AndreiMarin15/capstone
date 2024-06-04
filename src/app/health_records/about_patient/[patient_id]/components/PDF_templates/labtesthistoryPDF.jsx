@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -12,24 +13,47 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-const labtesthistory = [
-	{
-		number: "1",
-		name: "HB1AC",
-		date: "2024-04-21",
-		valid: "2024-04-28",
-		values: "FBS = 90 mg/dL, PPBS =  140 mg/dL",
-	},
-	{
-		number: "2",
-		name: "HB1AC",
-		date: "2024-05-21",
-		valid: "2024-05-28",
-		values: "FBS = 90 mg/dL, PPBS =  140 mg/dL",
-	},
-];
+import { useEffect, useState } from "react";
+import { getLabTests } from "@/backend/pdfBackend/getPDFData";
 
 export function LabTestHistoryPDF({ patientId, patientData }) {
+	const [labtesthistory, setLabTestHistory] = useState([
+		// {
+		// 	number: "1",
+		// 	name: "HB1AC", // resource.codeText
+		// 	date: "2024-04-21",
+		// 	valid: "2024-04-28",
+		// 	values: "FBS = 90 mg/dL, PPBS =  140 mg/dL",
+		// },
+		// {
+		// 	number: "2",
+		// 	name: "HB1AC",
+		// 	date: "2024-05-21",
+		// 	valid: "2024-05-28",
+		// 	values: "FBS = 90 mg/dL, PPBS =  140 mg/dL",
+		// },
+	]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const labTests = await getLabTests(patientId);
+			console.log(labTests);
+			const labTestHistory = labTests.map((test, index) => {
+				return {
+					number: index + 1,
+					name: test.resource.codeText,
+					date: test.resource.uploadedDateTime,
+					valid: test.resource.effectiveDateTime,
+					values: test.resource.valueQuantity.valueQuantities
+						.map((value) => `${value.display} = ${value.value}${value.unit}`)
+						.join(", "),
+				};
+			});
+			setLabTestHistory(labTestHistory);
+		};
+		fetchData();
+	}, []);
+
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
