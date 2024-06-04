@@ -1,23 +1,11 @@
 import Image from "next/image";
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-// import BackButton from "./BackButton";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import ViewTest from "./lab_components/viewTest"; // Adjust the import path as necessary
 
 export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
   const [currentScreen3, setCurrentScreen3] = useState(0);
+  const [showVisitLabTests, setShowVisitLabTests] = useState(false);
 
   const labreqs = [
     {
@@ -37,6 +25,10 @@ export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
       name: "Urinalysis",
     },
   ];
+
+  if (showVisitLabTests) {
+    return <ViewTest />;
+  }
 
   return (
     <>
@@ -66,20 +58,15 @@ export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
                       />
                     </td>
                     <td className="border-l-[16px] border-transparent">
-                      {/* Clicking this should lead to the visitLabTests page */}
-                      {/* HARDCODED */}
-
-                      <button>{item.name}</button>
+                      <button onClick={() => setShowVisitLabTests(true)}>
+                        {item.name}
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {/* <BackButton
-            currentScreen={currentScreen}
-            setCurrentScreen={setCurrentScreen}
-          /> */}
         </>
       )}
     </>

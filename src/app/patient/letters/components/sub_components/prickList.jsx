@@ -5,8 +5,9 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import ViewLab from "./sub_components/viewLab";
-import PrickList from "./sub_components/prickList";
+import AddPrick from "./lab_components/addPrick"; // Adjust the import path as necessary
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +19,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 
-export default function LabTests() {
+export default function PrickList() {
   const router = useRouter();
 
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -35,30 +36,9 @@ export default function LabTests() {
         <TabsContent value="labtestrequest">
           <div className="flex justify-between items-center mt-4">
             <div className="font-semibold items-center self-center text-s ml-5">
-              Lab Test Requests
+              Self Pricking
             </div>
-            <div className="flex gap-2">
-              <div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid">
-                      SORT
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Sort By Doctor Name</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuRadioGroup>
-                      <DropdownMenuRadioItem value="asc">
-                        A-Z
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="desc">
-                        Z-A
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+            
               <div className="">
                 <Button
                   variant="outline"
@@ -66,11 +46,10 @@ export default function LabTests() {
                     setCurrentScreen(2);
                   }}
                 >
-                  Self-Pricking
+                  Add
                 </Button>
               </div>
             </div>
-          </div>
           <button
             className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
             onClick={handleButtonClick}
@@ -89,11 +68,11 @@ export default function LabTests() {
               {/* Name of Medicine */}
               <div className="text-xs font-semibold">
                 {/*  {medication.resource.medicationCodeableConcept[0].text} */}
-                Lab Test Request #1
+                Self-Pricking #1
               </div>
             </div>
             <div className="flex gap-5 justify-between ml-7  max-md:ml-2.5 w-[100%]">
-              <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+              {/* <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                 <Image
                   alt="image"
                   height={0}
@@ -103,35 +82,24 @@ export default function LabTests() {
                   className="aspect-square fill-black w-[15px]"
                 />
                 <div className="grow my-auto">Dr. Harold Chiu</div>
-              </div>
+              </div> */}
               <div
-                className="flex-auto my-auto"
+                className="flex-auto my-auto ml-3"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                 }}
               >
                 <div>
-                  <span className="font-semibold">Date Requested:</span>{" "}
-                  2024/01/24
+                  <span className="font-semibold">Date:</span> 2024/01/24
                 </div>
               </div>
 
-              <div className="text-black text-xs font-medium leading-5 flex items-center">
-                <svg
-                  className="h-3 w-3 ml-1 text-red-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="10" cy="10" r="5" />
-                </svg>
-                Requested
+              <div className="text-black text-xs font-normal leading-5 flex items-center">
+                After Eating
               </div>
 
-              <div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
-                <Button variant="download"> ↓ Download (.pdf)</Button>
-              </div>
+            
             </div>
           </button>
         </TabsContent>
@@ -142,7 +110,7 @@ export default function LabTests() {
         />
       ) : currentScreen === 2 ? (
         /* CHANGE TO SELF PRICK JSX HERE */
-        <PrickList
+        <AddPrick
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
         />
