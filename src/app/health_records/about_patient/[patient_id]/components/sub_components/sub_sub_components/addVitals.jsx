@@ -1,12 +1,11 @@
 import Image from "next/image";
-import * as React from "react";
 import { useRouter } from "next/router"; // Corrected import path
 import { useState, useEffect } from "react";
 import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import LabTests from "../../labTestsDashboard";
 import Analysis from "./addAnalysis";
+import useClinicVisitStore from '@/app/clinicVisitStore'; // Import Zustand store
 
 export default function AddVitals({
   currentScreen,
@@ -14,14 +13,7 @@ export default function AddVitals({
   patientId,
 }) {
   const [clinicDate, setClinicDate] = useState("");
-  const [height, setHeight] = useState(null);
-  const [weight, setWeight] = useState(null);
-  const [bmi, setBMI] = useState(null);
-  const [systolic, setSystolic] = useState(null);
-  const [diastolic, setDiastolic] = useState(null);
-  const [heartRate, setHeartRate] = useState(null);
-  const [doctorId, setDoctorId] = useState("");
-  
+
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
@@ -29,135 +21,17 @@ export default function AddVitals({
     signsAndSymptoms: false,
   });
 
-  const validateFields = () => {
-    const errors = {
-      clinicDate: !clinicDate,
-      reviewOfSystems: !reviewOfSystems,
-      signsAndSymptoms: !signsAndSymptoms,
-    };
-
-    setErrorStyles(errors);
-    return !Object.values(errors).some((error) => error);
-  };
-
-  const reqField = {
-    borderColor: "red",
-    borderWidth: "2px",
-    borderStyle: "solid",
+  const { vitals, setVitals } = useClinicVisitStore();
+  
+  const updateVitals = (key, value) => {
+    setVitals({ ...vitals, [key]: value });
   };
 
   useEffect(() => {
     setClinicDate(new Date().toISOString().split("T")[0]);
   }, []);
 
-  let patientDataId;
 
-  const handleCheckboxChange = (e, dataset) => {
-    if (dataset in reviewOfSystems) {
-      setReviewOfSystems({ ...reviewOfSystems, [dataset]: e.target.checked });
-      console.log(reviewOfSystems);
-      return;
-    }
-    setReviewOfSystems({ ...reviewOfSystems, [dataset]: true });
-    console.log(reviewOfSystems);
-  };
-  const handleSave = async (saveClinicVisit = false) => {
-    if (!validateFields()) {
-      toast.error("Please fill in all required fields before saving.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    try {
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      setDoctorId(doctorInfo.fullName);
-      const patientData = await healthRecords.getPatientData(patientId);
-      patientDataId = patientData.id;
-
-      const contained = [
-        // Your observations array content here
-      ];
-
-      const dataToSave = {
-        id: "example",
-        period: {
-          start: clinicDate,
-        },
-        participant: {
-          type: "Doctor",
-          actor: doctorInfo.fullName,
-        },
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-        contained: contained,
-        resource_type: "Encounter",
-      };
-
-      if (saveClinicVisit) {
-        const savedData = await uploadEncounter(dataToSave);
-        toast.success("Clinic Visit Added", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 2000,
-        });
-        setCurrentPage(0);
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
-
-  const addLabTestData = (labTestData) => {
-    // Check if labTestData is not already an array
-    if (!Array.isArray(labTestData)) {
-      // If labTestData is not an array, convert it into an array
-      labTestData = [labTestData];
-    }
-
-    // Add labTestData to the existing labTestDataArray
-    setLabTestData([...labTestDataArray, ...labTestData]);
-
-    // Map over labTestData to create new observations
-    const newObservations = labTestData?.map((data, index) => ({
-      id: `labtest`,
-      status: data.status,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE",
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: data.subject.reference,
-      },
-      participant: {
-        type: "Doctor",
-        actor: data.participant.actor,
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-        valueQuantities: data.valueQuantities,
-      },
-      uploadedDateTime: data.dateOfUpdate,
-      effectiveDateTime: data.dateOfResult,
-      requestedDateTime: clinicDate,
-      codeText: data.labTestName,
-      imageSrc: data.base64Image,
-    }));
-
-    // Update observations with new observations
-    setObservations([...observations, ...newObservations]);
-
-    console.log(observations);
-  };
 
   const date = [
     {
@@ -202,11 +76,8 @@ export default function AddVitals({
     },
   ];
 
- 
-
   return (
     <>
-    
       {currentScreen === 2 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
@@ -278,11 +149,11 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          //value={}
+                          // // value={}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
                             fontSize: "12px",
-                            width: "70px",
+                            width: "50px",
                             height: "30px",
                             resize: "none",
                           }}
@@ -316,11 +187,11 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          //value={}
+                          // value={}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
                             fontSize: "12px",
-                            width: "70px",
+                            width: "50px",
                             height: "30px",
                             resize: "none",
                           }}
@@ -341,25 +212,24 @@ export default function AddVitals({
             <div>
               <Button
                 onClick={() => {
-                  // handleSave(labTestData, true);
                   setCurrentScreen(4);
-                }} // Pass labTestData and true to indicate saving clinic visit
+                }}
               >
                 NEXT
               </Button>
             </div>
           </div>
         </>
-      )}{currentScreen === 4 && (
+      )}
+      {currentScreen === 4 && (
         <>
           <Analysis
-            currentScreen={currentScreen} 
-            setCurrentScreen={setCurrentScreen} 
-            patientId={patientId} 
+            currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
+            patientId={patientId}
           />
         </>
       )}
     </>
   );
 }
-

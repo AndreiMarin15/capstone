@@ -20,6 +20,19 @@ const clinicVisitStore = create((set) => ({
   setInitialDiagnosis: (initialDiagnosis) => set({ initialDiagnosis }), 
   finalDiagnosis: "",
   setFinalDiagnosis: (finalDiagnosis) => set({ finalDiagnosis }),
+  // Vitals state
+  vitals: {
+    height: null,
+    weight: null,
+    bmi: null,
+    systolic: null,
+    diastolic: null,
+    heartRate: null,
+  },
+  setVitals: (newVitals) => set((state) => ({
+    vitals: { ...state.vitals, ...newVitals }
+    
+  })),
 }));
 
 export default clinicVisitStore;

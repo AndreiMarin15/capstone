@@ -15,6 +15,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const initialDiagnosis = useClinicVisitStore(state => state.initialDiagnosis);
   const finalDiagnosis = useClinicVisitStore(state => state.finalDiagnosis);
+  const vitals = useClinicVisitStore(state => state.vitals); // new
   const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
   const setReviewOfSystems = useClinicVisitStore(state => state.setReviewOfSystems);
@@ -22,13 +23,15 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
   const setInitialDiagnosis = useClinicVisitStore(state => state.setInitialDiagnosis);
   const setFinalDiagnosis = useClinicVisitStore(state => state.setFinalDiagnosis);
+  const setVitals = useClinicVisitStore(state => state.setVitals);
 
   const handleNext = () => {
     setCurrentScreen(currentScreen + 1);
   };
 
   const handleBack = () => {
-    setCurrentScreen(currentScreen - 1);
+    setCurrentScreen(0);
+
   };
 
   const handleSave = async () => {
@@ -101,6 +104,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
         <AddVitals
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
+          clinicDate={clinicDate}
+          setClinicDate={setClinicDate}
+          vitals={vitals} // pass vitals state
+          setVitals={setVitals} // pass setVitals function
           handleNext={handleNext}
           handleBack={handleBack}
         />

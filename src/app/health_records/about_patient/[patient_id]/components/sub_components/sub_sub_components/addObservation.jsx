@@ -29,6 +29,11 @@ export default function AddObservation({
     signsAndSymptoms: false,
   });
 
+  const handleGoBack = () => {
+    setCurrentScreen(0); // Reset currentScreen to 0
+    setCurrentPage(currentPage - 1); // Update currentPage accordingly
+  };
+
   const validateFields = () => {
     const errors = {
       clinicDate: !clinicDate,
@@ -257,10 +262,11 @@ export default function AddObservation({
           </div>
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
-            <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
+         <BackButton
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            handleGoBack={handleGoBack} // Pass the handleGoBack function
+          />
             <div>
               <Button onClick={handleNext}>NEXT</Button>
             </div>
