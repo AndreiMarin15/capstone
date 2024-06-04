@@ -1,48 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AddObservation from './sub_sub_components/addObservation';
 import AddClinicalDiagnosis from './sub_sub_components/addClinicalDiagnosis';
 import AddVitals from './sub_sub_components/addVitals';
 import AddAnalysis from './sub_sub_components/addAnalysis';
 import { toast } from 'react-toastify';
 import uploadEncounter from "@/backend//health_records/uploadEncounter";
-import { getEncounters } from "@/backend//health_records/getEncounter";
-import { healthRecords } from "@/backend//health_records/health_records";
-import doctor from "@/backend//health_records/doctor";
+import useClinicVisitStore from '@/app/clinicVisitStore';
 
 const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [clinicDate, setClinicDate] = useState(new Date().toISOString().split('T')[0]);
-  const [reviewOfSystems, setReviewOfSystems] = useState({
-    fever: false,
-    weightLoss: false,
-    poorAppetite: false,
-    fatigue: false,
-    // Add more checkboxes as needed
-  });
-  const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
-  const [otherConcerns, setOtherConcerns] = useState("");
-  const [labTestData, setLabTestData] = useState([]);
-  const [observations, setObservations] = useState([]);
-  const [doctorId, setDoctorId] = useState("");
-  const [initialDiagnosis, setInitialDiagnosis] = useState("");
-  const [finalDiagnosis, setFinalDiagnosis] = useState("");
-  const [vitals, setVitals] = useState({
-    systolicBP: '',
-    diastolicBP: '',
-    heartRate: '',
-    height: '',
-    weight: '',
-    bmi: ''
-  });
-  const [conditionSeverity, setConditionSeverity] = useState('');
-  const [currentScreen, setCurrentScreen] = useState(0);
+  const currentScreen = useClinicVisitStore(state => state.currentScreen);
+  const clinicDate = useClinicVisitStore(state => state.clinicDate);
+  const reviewOfSystems = useClinicVisitStore(state => state.reviewOfSystems);
+  const signsAndSymptoms = useClinicVisitStore(state => state.signsAndSymptoms);
+  const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
+  const initialDiagnosis = useClinicVisitStore(state => state.initialDiagnosis);
+  const finalDiagnosis = useClinicVisitStore(state => state.finalDiagnosis);
+  const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
+  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  const setReviewOfSystems = useClinicVisitStore(state => state.setReviewOfSystems);
+  const setSignsAndSymptoms = useClinicVisitStore(state => state.setSignsAndSymptoms);
+  const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
+  const setInitialDiagnosis = useClinicVisitStore(state => state.setInitialDiagnosis);
+  const setFinalDiagnosis = useClinicVisitStore(state => state.setFinalDiagnosis);
 
   const handleNext = () => {
-    setCurrentStep(currentStep + 1);
+    setCurrentScreen(currentScreen + 1);
   };
 
   const handleBack = () => {
-    setCurrentStep(currentStep - 1);
+    setCurrentScreen(currentScreen - 1);
   };
 
   const handleSave = async () => {
@@ -70,7 +56,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
         theme: "colored",
         autoClose: 2000,
       });
-      setCurrentStep(0);
+      setCurrentScreen(0);
     } catch (error) {
       console.error("Error saving data:", error);
     }
@@ -78,7 +64,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
 
   return (
     <>
-      {currentStep === 0 && (
+      {currentScreen === 0 && (
         <AddObservation
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -96,13 +82,13 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           handleNext={handleNext}
         />
       )}
-      {currentStep === 1 && (
+      {currentScreen === 1 && (
         <AddClinicalDiagnosis
-            currentScreen={currentScreen}
-            setCurrentScreen={setCurrentScreen}
-            patientId={patientId}
-            clinicDate={clinicDate}
-            setclinicDate={setClinicDate}
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          patientId={patientId}
+          clinicDate={clinicDate}
+          setClinicDate={setClinicDate}
           initialDiagnosis={initialDiagnosis}
           setInitialDiagnosis={setInitialDiagnosis}
           finalDiagnosis={finalDiagnosis}
@@ -111,18 +97,18 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           handleBack={handleBack}
         />
       )}
-      {currentStep === 2 && (
+      {currentScreen === 2 && (
         <AddVitals
-          vitals={vitals}
-          setVitals={setVitals}
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
           handleNext={handleNext}
           handleBack={handleBack}
         />
       )}
-      {currentStep === 3 && (
+      {currentScreen === 3 && (
         <AddAnalysis
-          conditionSeverity={conditionSeverity}
-          setConditionSeverity={setConditionSeverity}
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
           handleSave={handleSave}
           handleBack={handleBack}
         />

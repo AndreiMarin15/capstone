@@ -1,38 +1,27 @@
 import Image from "next/image";
 import * as React from "react";
-import { useRouter } from "next/router"; // Corrected import path
 import { useState, useEffect } from "react";
-import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import LabTests from "../../labTestsDashboard";
-import ClinicalDiagnosis from "./addClinicalDiagnosis";
-import RequestLab from "../requestLabTest";
-import AddVitals from "../sub_sub_components/addVitals";
-import AddAnalysis from "./addAnalysis";
 import { toast } from "react-toastify"; // Assuming toast is imported from 'react-toastify'
-
+import useClinicVisitStore from '@/app/clinicVisitStore';
+import BackButton from "../BackButton";
 export default function AddObservation({
   currentScreen,
   setCurrentScreen,
   currentPage,
   setCurrentPage,
   patientId,
-  clinicDate,
-  setClinicDate,
-  reviewOfSystems,
-  setReviewOfSystems,
-  signsAndSymptoms,
-  setSignsAndSymptoms,
-  otherConcerns,
-  setOtherConcerns,
   handleNext
-
 }) {
-  const [labTestData, setLabTestData] = useState([]);
-  const [observations, setObservations] = useState([]);
-  const [labTestDataArray, setLabTestDataArray] = useState([]);
-  const [doctorId, setDoctorId] = useState("");
+  const clinicDate = useClinicVisitStore(state => state.clinicDate);
+  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  const reviewOfSystems = useClinicVisitStore(state => state.reviewOfSystems);
+  const setReviewOfSystems = useClinicVisitStore(state => state.setReviewOfSystems);
+  const signsAndSymptoms = useClinicVisitStore(state => state.signsAndSymptoms);
+  const setSignsAndSymptoms = useClinicVisitStore(state => state.setSignsAndSymptoms);
+  const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
+  const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
@@ -49,12 +38,6 @@ export default function AddObservation({
 
     setErrorStyles(errors);
     return !Object.values(errors).some((error) => error);
-  };
-
-  const reqField = {
-    borderColor: "red",
-    borderWidth: "2px",
-    borderStyle: "solid",
   };
 
   useEffect(() => {
@@ -76,63 +59,18 @@ export default function AddObservation({
   useEffect(() => {
     console.log("Signs and Symptoms:", signsAndSymptoms);
     console.log("OtherConcerns:", otherConcerns);
-}, [signsAndSymptoms, otherConcerns]);
-
-  const addLabTestData = (labTestData) => {
-    if (!Array.isArray(labTestData)) {
-      labTestData = [labTestData];
-    }
-
-    setLabTestData([...labTestDataArray, ...labTestData]);
-
-    const newObservations = labTestData?.map((data) => ({
-      id: `labtest`,
-      status: data.status,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE",
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: data.subject.reference,
-      },
-      participant: {
-        type: "Doctor",
-        actor: data.participant.actor,
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-        valueQuantities: data.valueQuantities,
-      },
-      uploadedDateTime: data.dateOfUpdate,
-      effectiveDateTime: data.dateOfResult,
-      requestedDateTime: clinicDate,
-      codeText: data.labTestName,
-      imageSrc: data.base64Image,
-    }));
-
-    setObservations([...observations, ...newObservations]);
-
-    console.log(observations);
-  };
-
-
-
-  const date = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Date",
-      value: "",
-    },
-  ];
+  }, [signsAndSymptoms, otherConcerns]);
 
   const fields = [
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Date",
+      value: clinicDate,
+      onChange: (e) => setClinicDate(e.target.value),
+      type: "date",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Signs and Symptoms",
       name: "signsAndSymptoms",
       value: signsAndSymptoms,
@@ -171,19 +109,9 @@ export default function AddObservation({
           otherConcerns: false,
         });
       },
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Request",
-      name: "tests",
-      type: "button",
-      saveFunction: () => {
-        setCurrentScreen(5);
-      },
-    },
+    }
   ];
 
- 
   return (
     <>
       {currentScreen === 0 && (
@@ -199,43 +127,6 @@ export default function AddObservation({
             <div className="flex gap-[4rem] align-baseline">
               <table className="max-w-fit border-spacing-y-5 border-separate">
                 <tbody className="text-xs leading-5 text-black">
-                  {date.map((item, index) => (
-                    <tr key={index}>
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="date"
-                          value={clinicDate}
-                          onChange={(e) => setClinicDate(e.target.value)}
-                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
-                          style={
-                            errorStyles.clinicDate
-                              ? { borderColor: "red", borderWidth: "2px" }
-                              : {}
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td colspan="3" className="font-semibold text-xs py-[20px]">
-                      OBSERVATION
-                    </td>
-                  </tr>
                   {fields.map((item, index) =>
                     item.type === "textarea" ? (
                       <tr key={index} className="align-top">
@@ -255,38 +146,37 @@ export default function AddObservation({
                           </div>
                         </td>
                         <td className="border-l-[15px] border-transparent">
-                        <textarea
-                          placeholder={
-                            item.variable === "Other Concerns"
-                              ? "Add other concerns"
-                              : "Add signs and symptoms"
-                          }
-                          name={item.name}
-                          value={item.value}
-                          onChange={item.onChange}
-                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
-                          style={{
-                            fontSize: "12px",
-                            height: "auto",
-                            whiteSpace: "pre-wrap",
-                            ...(item.variable === "Review of Systems" &&
-                            errorStyles.reviewOfSystems
-                              ? {
-                                  ...errorStyles.reviewOfSystems,
-                                  borderColor: "red",
-                                  borderWidth: "2px",
-                                }
-                              : item.variable === "Signs and Symptoms" &&
-                                errorStyles.signsAndSymptoms
-                              ? {
-                                  ...errorStyles.signsAndSymptoms,
-                                  borderColor: "red",
-                                  borderWidth: "2px",
-                                }
-                              : {}),
-                          }}
-                          wrap="soft"
-                        />
+                          <textarea
+                            placeholder={
+                              item.variable === "Other Concerns"
+                                ? "Add other concerns"
+                                : "Add signs and symptoms"
+                            }
+                            name={item.name}
+                            value={item.value}
+                            onChange={item.onChange}
+                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
+                            style={{
+                              fontSize: "12px",
+                              height: "auto",
+                              whiteSpace: "pre-wrap",
+                              ...(item.variable === "Review of Systems" &&
+                              errorStyles.reviewOfSystems
+                                ? {
+                                    ...errorStyles.reviewOfSystems,
+                                    borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : item.variable === "Signs and Symptoms" &&
+                                  errorStyles.signsAndSymptoms
+                                ? {
+                                    ...errorStyles.signsAndSymptoms,                                  borderColor: "red",
+                                    borderWidth: "2px",
+                                  }
+                                : {}),
+                            }}
+                            wrap="soft"
+                          />
                         </td>
                       </tr>
                     ) : item.type === "checkbox" ? (
@@ -328,8 +218,8 @@ export default function AddObservation({
                           </div>
                         </td>
                       </tr>
-                    ) : item.type === "button" ? (
-                      <tr key={index} className="align-top">
+                    ) : item.type === "date" ? (
+                      <tr key={index}>
                         <td className="w-5">
                           <Image
                             alt="image"
@@ -346,12 +236,17 @@ export default function AddObservation({
                           </div>
                         </td>
                         <td className="border-l-[15px] border-transparent">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurrentScreen(6)}
-                          >
-                            Request
-                          </Button>
+                          <input
+                            type="date"
+                            value={item.value}
+                            onChange={item.onChange}
+                            className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
+                            style={
+                              errorStyles.clinicDate
+                                ? { borderColor: "red", borderWidth: "2px" }
+                                : {}
+                            }
+                          />
                         </td>
                       </tr>
                     ) : null
@@ -367,38 +262,12 @@ export default function AddObservation({
               setCurrentPage={setCurrentPage}
             />
             <div>
-              <Button
-                onClick={() => {
-                  setCurrentScreen(1);
-                }}
-              >
-                NEXT
-              </Button>
+              <Button onClick={handleNext}>NEXT</Button>
             </div>
           </div>
         </>
       )}
-      {currentScreen === 1 && (
-        <ClinicalDiagnosis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} clinicDate={clinicDate}/>
-      )}
-      {currentScreen === 2 && (
-        <AddVitals currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
-      )}
-      {currentScreen === 4 && (
-        <AddAnalysis currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
-      )}
-      {currentScreen === 6 && (
-        <RequestLab
-          currentScreen={currentScreen}
-          setCurrentScreen={setCurrentScreen}
-          patientId={patientId}
-          doctorId={doctorId}
-          handleSave={(data) => {
-            addLabTestData(data);
-            handleSave(false);
-          }}
-        />
-      )}
     </>
   );
 }
+
