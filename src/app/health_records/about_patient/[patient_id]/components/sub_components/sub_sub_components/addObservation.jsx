@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify"; // Assuming toast is imported from 'react-toastify'
 import useClinicVisitStore from '@/app/clinicVisitStore';
+import LabTests from "../../labTestsDashboard";
 import BackButton from "../BackButton";
 export default function AddObservation({
   currentScreen,
@@ -22,6 +23,53 @@ export default function AddObservation({
   const setSignsAndSymptoms = useClinicVisitStore(state => state.setSignsAndSymptoms);
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
+
+
+  const addLabTestData = (labTestData) => {
+    if (!Array.isArray(labTestData)) {
+      labTestData = [labTestData];
+    }
+
+    setLabTestData([...labTestDataArray, ...labTestData]);
+
+    const newObservations = labTestData?.map((data) => ({
+      id: `labtest`,
+      status: data.status,
+      code: {
+        coding: [
+          {
+            code: "YOUR_LOINC_CODE",
+            system: "http://loinc.org",
+          },
+        ],
+      },
+      subject: {
+        type: "Patient",
+        reference: data.subject.reference,
+      },
+      participant: {
+        type: "Doctor",
+        actor: data.participant.actor,
+      },
+      resource_type: "Observation",
+      valueQuantity: {
+        valueQuantities: data.valueQuantities,
+      },
+      uploadedDateTime: data.dateOfUpdate,
+      effectiveDateTime: data.dateOfResult,
+      requestedDateTime: clinicDate,
+      codeText: data.labTestName,
+      imageSrc: data.base64Image,
+    }));
+
+    setObservations([...observations, ...newObservations]);
+
+    console.log(observations);
+  };
+
+
+
+
 
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
@@ -114,8 +162,18 @@ export default function AddObservation({
           otherConcerns: false,
         });
       },
-    }
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Request",
+      name: "tests",
+      type: "button",
+      saveFunction: () => {
+        setCurrentScreen(6);
+      },
+    },
   ];
+    
 
   return (
     <>
@@ -253,13 +311,41 @@ export default function AddObservation({
                             }
                           />
                         </td>
+                    
                       </tr>
-                    ) : null
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          ) : item.type === "button" ? (
+                            <tr key={index}>
+                              <td className="w-5">
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src={item.src}
+                                  className="self-start aspect-square fill-black w-[15px]"
+                                />
+                              </td>
+                              <td className="border-l-[5px] border-transparent">
+                                <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                                  {item.variable}
+                                </div>
+                              </td>
+                              <td className="border-l-[15px] border-transparent">
+                                <Button
+                                  className="w-[80px]"
+                                
+                                  onClick={item.saveFunction}
+                                >
+                                  Request
+                                </Button>
+                              </td>
+                            </tr>
+                          ) : null
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
          <BackButton

@@ -8,13 +8,23 @@ import { Button } from "@/components/ui/button";
 import LabTests from "../../labTestsDashboard";
 import ClinicalDiagnosis from "./addClinicalDiagnosis";
 import RequestLab from "../requestLabTest";
+import useClinicVisitStore from '@/app/clinicVisitStore';
 
 export default function AddAnalysis({
   currentScreen,
   setCurrentScreen,
   patientId,
+  handleNext,
+  handleBack,
 }) {
-  const [clinicDate, setClinicDate] = useState("");
+  const clinicDate = useClinicVisitStore(state => state.clinicDate);
+  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  const condition = useClinicVisitStore(state => state.condition);
+  const setCondition = useClinicVisitStore(state => state.setCondition);
+
+  const handleConditionChange = (e) => {
+    setCondition(e.target.value);
+  };
 
   const [doctorId, setDoctorId] = useState("");
 
@@ -173,7 +183,7 @@ export default function AddAnalysis({
 
   return (
     <>
-      {currentScreen === 4 && (
+      {currentScreen === 3 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
@@ -182,95 +192,100 @@ export default function AddAnalysis({
           <div className="flex w-full justify-center">
             <Progress value={100} />
           </div>
-          <div>
-            <div className="flex gap-[4rem] align-baseline">
-              <table className="max-w-fit border-spacing-y-5 border-separate">
-                <tbody className="text-xs leading-5 text-black">
-                  {date.map((item, index) => (
-                    <tr key={index}>
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="date"
-                          value={clinicDate}
-                          onChange={(e) => setClinicDate(e.target.value)}
-                          className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[78%]`}
-                          style={
-                            errorStyles.clinicDate
-                              ? { borderColor: "red", borderWidth: "2px" }
-                              : {}
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td colspan="3" className="font-semibold text-xs py-[20px]">
-                      CONDITION SEVERITY
+          <div className="flex gap-[4rem] align-baseline">
+            <table className="max-w-fit border-spacing-y-5 border-separate">
+              <tbody className="text-xs leading-5 text-black">
+                {date.map((item, index) => (
+                  <tr key={index}>
+                    <td className="w-5">
+                      <Image
+                        alt="image"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src={item.src}
+                        className="self-start aspect-square fill-black w-[15px]"
+                      />
+                    </td>
+                    <td className="border-l-[5px] border-transparent">
+                      <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        {item.variable}
+                      </div>
+                    </td>
+                    <td className="border-l-[15px] border-transparent">
+                      <input
+                        type="date"
+                        value={clinicDate}
+                        onChange={(e) => setClinicDate(e.target.value)}
+                        className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[120px]`}
+                        style={
+                          errorStyles.clinicDate
+                            ? { borderColor: "red", borderWidth: "2px" }
+                            : {}
+                        }
+                      />
                     </td>
                   </tr>
-                  {analysismap.map((item, index) => (
-                    <tr key={index}>
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={item.src}
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[15px] border-transparent">
-                        <select
-                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                          style={{
-                            fontSize: "12px",
-                            width: "150px",
-                            height: "30px",
-                            resize: "none",
-                          }}
-                        >
-                          <option value="">Select Condition</option>
-                          <option value="critical">
-                            Patient’s condition is critical and requires
-                            immediate attention or intervention.
-                          </option>
-                          <option value="monitoring">
-                            Patient’s condition necessitates regular monitoring
-                            and follow-up appointments.
-                          </option>
-                          <option value="stable">
-                            Patient's condition is stable and minimal monitoring
-                            required.
-                          </option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
+
+          <div className="flex gap-[4rem] align-baseline mt-5">
+            <table className="max-w-fit border-spacing-y-5 border-separate">
+              <tbody className="text-xs leading-5 text-black">
+                <tr>
+                  <td colSpan="3" className="font-semibold text-xs py-[20px]">
+                    CONDITION SEVERITY
+                  </td>
+                </tr>
+                {analysismap.map((item, index) => (
+                  <tr key={index}>
+                    <td className="w-5">
+                      <Image
+                        alt="image"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src={item.src}
+                        className="self-start aspect-square fill-black w-[15px]"
+                      />
+                    </td>
+                    <td className="border-l-[5px] border-transparent">
+                      <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        {item.variable}
+                      </div>
+                    </td>
+                    <td className="border-l-[15px] border-transparent">
+                      <select
+                        value={condition}
+                        onChange={handleConditionChange}
+                        className="justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black"
+                        style={{
+                          fontSize: "12px",
+                          width: "500px",
+                          height: "20px",
+                          resize: "none",
+                        }}
+                      >
+                        <option value="">Select Condition</option>
+                        <option value="critical">
+                          Patient’s condition is critical and requires immediate attention or intervention.
+                        </option>
+                        <option value="monitoring">
+                          Patient’s condition necessitates regular monitoring and follow-up appointments.
+                        </option>
+                        <option value="stable">
+                          Patient's condition is stable and minimal monitoring required.
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
@@ -280,16 +295,16 @@ export default function AddAnalysis({
             <div>
               <Button
                 onClick={() => {
-                  //handleSave(labTestData, true);
+                  handleSave(true); // Call handleSave with true to indicate saving clinic visit
                   setCurrentScreen(1);
-                }} // Pass labTestData and true to indicate saving clinic visit
+                }}
               >
                 SAVE
               </Button>
             </div>
           </div>
         </>
-      )}{" "}
+      )}
       {currentScreen === 1 ? <ClinicalDiagnosis /> : ""}
     </>
   );

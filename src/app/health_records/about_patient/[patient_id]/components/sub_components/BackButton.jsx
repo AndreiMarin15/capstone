@@ -21,10 +21,12 @@ const BackButton = ({
       currentPage === 4
     ) {
       setCurrentPage(0);
-    } else if (currentScreen === 1 || currentScreen === 2) {
+    } else if (currentScreen === 1) {
       setCurrentScreen(0);
-    } else if (currentScreen === 3) {
+    } else if (currentScreen === 2) {
       setCurrentScreen(1);
+    } else if (currentScreen === 3) {
+      setCurrentScreen(2);
     } else if (currentScreen === 4) {
       setCurrentScreen(2);
     } else if (currentScreen === 5) {

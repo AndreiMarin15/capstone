@@ -10,7 +10,8 @@ import useClinicVisitStore from '@/app/clinicVisitStore'; // Import Zustand stor
 export default function AddVitals({
   currentScreen,
   setCurrentScreen,
-
+  handleNext,
+  handleBack,
   patientId,
 }) {
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
@@ -286,12 +287,12 @@ export default function AddVitals({
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentScreen={3}
+              currentScreen={2}
               setCurrentScreen={setCurrentScreen}
             />
             <div>
               <Button
-                onClick={handleSave}
+                onClick={handleNext}
               >
                 NEXT
               </Button>
@@ -299,7 +300,7 @@ export default function AddVitals({
           </div>
         </>
       )}
-      {currentScreen === 4 && (
+      {currentScreen === 3 && (
         <>
           <Analysis
             currentScreen={currentScreen}

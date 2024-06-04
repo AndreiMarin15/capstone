@@ -381,7 +381,7 @@ export default function AddClinicalDiagnosis({
       {/* BACK & SAVE BUTTON */}
       <div className="flex justify-between items-center mt-5">
         <BackButton
-          currentScreen={2}
+          currentScreen={1}
           setCurrentScreen={setCurrentScreen}
         />
         <div>

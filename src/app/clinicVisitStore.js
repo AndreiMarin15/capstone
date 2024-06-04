@@ -31,8 +31,10 @@ const clinicVisitStore = create((set) => ({
   },
   setVitals: (newVitals) => set((state) => ({
     vitals: { ...state.vitals, ...newVitals }
-    
   })),
+  // New state for condition
+  condition: "",
+  setCondition: (condition) => set({ condition }),
 }));
 
 export default clinicVisitStore;
