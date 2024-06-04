@@ -4,7 +4,7 @@ import { usePatientHRNav } from "@/app/store";
 export default function HealthRecordsNav() {
 	const { selected, setSelected } = usePatientHRNav();
 
-	const items = ["Master Data", "Clinic Visits", "Diagnoses", "Vitals & Biometrics", "Family & Social History"];
+	const items = ["Master Data", "Clinic Visits", "Diagnoses", "Vitals & Biometrics", "Family & Social History", "Other Records"];
 
 	return (
 		<span className="flex items-start justify-between gap-5 mt-4 self-start max-md:max-w-full max-md:flex-wrap">
