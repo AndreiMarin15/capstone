@@ -24,31 +24,23 @@ export default function AddVitals({
   const [weight, setWeight] = useState("");
   const [bmi, setBMI] = useState("");
 
-  const { setVitals } = useClinicVisitStore();
+  const { vitals, setVitals } = useClinicVisitStore(); // Access vitals from store
 
   const handleSave = () => {
-    // Save vitals to global state
-    setVitals({
-      systolic: Number(systolic),
-      diastolic: Number(diastolic),
-      heartRate: Number(heartRate),
-      height: Number(height),
-      weight: Number(weight),
-      bmi: Number(bmi),
-    });
-
-    // Move to the next screen
+  
     setCurrentScreen(4);
   };
 
 
   
   const [errorStyles, setErrorStyles] = useState({
-    clinicDate: false,
-    reviewOfSystems: false,
-    signsAndSymptoms: false,
+    systolic: false,
+    diastolic: false,
+    heartRate: false,
+    height: false,
+    weight: false,
+    bmi: false,
   });
-
 
 
 
@@ -167,52 +159,33 @@ export default function AddVitals({
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="number"
-                          placeholder={"Add"}
-                          value={
-                            item.variable === "Systolic Blood Pressure"
-                              ? systolic || ""
-                              : item.variable === "Diastolic Blood Pressure"
-                                ? diastolic || ""
-                                : heartRate || ""
-                          }
-                          onChange={(e) => {
-                            // Update the corresponding state variable based on the input field
-                            if (item.variable === "Systolic Blood Pressure") {
-                              setSystolic(e.target.value);
-                              console.log(systolic);
-                              setErrorStyles({
-                                ...errorStyles,
-                                systolic: false,
-                              }); // Reset error state
-                            } else if (
-                              item.variable === "Diastolic Blood Pressure"
-                            ) {
-                              setDiastolic(e.target.value);
-                              console.log(diastolic);
-                              setErrorStyles({
-                                ...errorStyles,
-                                diastolic: false,
-                              }); // Reset error state
-                            } else if (
-                              item.variable === "Heart Rate (beats/min)"
-                            ) {
-                              setHeartRate(e.target.value);
-                              setErrorStyles({
-                                ...errorStyles,
-                                heartRate: false,
-                              });
-                            }
-                          }}
-                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                          style={{
-                            fontSize: "12px",
-                            width: "50px",
-                            height: "30px",
-                            resize: "none",
-                          }}
-                        />
+                      <input
+                  type="number"
+                  placeholder={"Add"}
+                  value={item.variable === "Systolic Blood Pressure" ? vitals.systolic || "" :
+                         item.variable === "Diastolic Blood Pressure" ? vitals.diastolic || "" :
+                         item.variable === "Heart Rate (beats/min)" ? vitals.heartRate || "" : ""}
+                  onChange={(e) => {
+                    if (item.variable === "Systolic Blood Pressure") {
+                      setVitals({ ...vitals, systolic: e.target.value });
+                      setErrorStyles({ ...errorStyles, systolic: false });
+                    } else if (item.variable === "Diastolic Blood Pressure") {
+                      setVitals({ ...vitals, diastolic: e.target.value });
+                      setErrorStyles({ ...errorStyles, diastolic: false });
+                    } else if (item.variable === "Heart Rate (beats/min)") {
+                      setVitals({ ...vitals, heartRate: e.target.value });
+                      setErrorStyles({ ...errorStyles, heartRate: false });
+                    }
+                  }}
+                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                  style={{
+                    fontSize: "12px",
+                    width: "50px",
+                    height: "30px",
+                    resize: "none",
+                    borderColor: errorStyles[item.variable] ? "red" : "black",
+                  }}
+                />
                       </td>
                     </tr>
                   ))}
@@ -239,44 +212,33 @@ export default function AddVitals({
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="number"
-                          placeholder={"Add"}
-                         value={
-                              item.variable === "Height (cm)"
-                                ? height
-                                : item.variable === "Weight (kg)"
-                                  ? weight
-                                  : bmi
-                            }
-                            onChange={(e) => {
-                              // Update the corresponding state variable based on the input field
-                              if (item.variable === "Height (cm)") {
-                                setHeight(e.target.value);
-                                console.log(height);
-                                setErrorStyles({
-                                  ...errorStyles,
-                                  height: false,
-                                }); // Reset error state
-                              } else if (item.variable === "Weight (kg)") {
-                                setWeight(e.target.value);
-                                setErrorStyles({
-                                  ...errorStyles,
-                                  weight: false,
-                                }); // Reset error state
-                              } else if (item.variable === "Body Mass Index") {
-                                setBMI(e.target.value);
-                                setErrorStyles({ ...errorStyles, bmi: false }); // Reset error state
-                              }
-                            }}
-                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                          style={{
-                            fontSize: "12px",
-                            width: "50px",
-                            height: "30px",
-                            resize: "none",
-                          }}
-                        />
+                      <input
+                  type="number"
+                  placeholder={"Add"}
+                  value={item.variable === "Height (cm)" ? vitals.height || "" :
+                         item.variable === "Weight (kg)" ? vitals.weight || "" :
+                         item.variable === "Body Mass Index" ? vitals.bmi || "" : ""}
+                  onChange={(e) => {
+                    if (item.variable === "Height (cm)") {
+                      setVitals({ ...vitals, height: e.target.value });
+                      setErrorStyles({ ...errorStyles, height: false });
+                    } else if (item.variable === "Weight (kg)") {
+                      setVitals({ ...vitals, weight: e.target.value });
+                      setErrorStyles({ ...errorStyles, weight: false });
+                    } else if (item.variable === "Body Mass Index") {
+                      setVitals({ ...vitals, bmi: e.target.value });
+                      setErrorStyles({ ...errorStyles, bmi: false });
+                    }
+                  }}
+                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                  style={{
+                    fontSize: "12px",
+                    width: "50px",
+                    height: "30px",
+                    resize: "none",
+                    borderColor: errorStyles[item.variable] ? "red" : "black",
+                  }}
+                />
                       </td>
                     </tr>
                   ))}
