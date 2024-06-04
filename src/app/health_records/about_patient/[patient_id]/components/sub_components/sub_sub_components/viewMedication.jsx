@@ -2,13 +2,13 @@ import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import VisitMedications from "../../visitMedications";
-import VisitLabtests from "../../visitLabTests";
-import LabTestList from "../../labTestList";
-import BackButton from "../../BackButton";
+import VisitMedications from "../visitMedications";
+import VisitLabtests from "../visitLabTests";
+import LabTestList from "../labTestList";
+import BackButton from "../BackButton";
 import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
 
-export default function ViewMedications({
+export default function ViewMedication({
   currentScreen,
   setCurrentScreen,
   medicationId,
