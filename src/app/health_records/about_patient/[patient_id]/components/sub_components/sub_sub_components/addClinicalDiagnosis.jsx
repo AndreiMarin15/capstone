@@ -16,6 +16,8 @@ export default function AddClinicalDiagnosis({
 
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  const suggestedDate = useClinicVisitStore(state => state.suggestedDate);
+  const setSuggestedDate = useClinicVisitStore(state => state.setSuggestedDate);
   const initialDiagnosis = useClinicVisitStore(state => state.initialDiagnosis); // Retrieve initial diagnosis from store
   const finalDiagnosis = useClinicVisitStore(state => state.finalDiagnosis); // Retrieve final diagnosis from store
   const setInitialDiagnosis = useClinicVisitStore(state => state.setInitialDiagnosis);
@@ -196,6 +198,13 @@ export default function AddClinicalDiagnosis({
     },
   ];
 
+  const suggesteddate = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Suggested Next Visit",
+      value: "",
+    },
+  ];
   const diagnosismap = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
@@ -240,7 +249,7 @@ export default function AddClinicalDiagnosis({
                   />
                 </td>
                 <td className="border-l-[5px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto mr-10">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto mr-20">
                     {item.variable}
                   </div>
                 </td>
@@ -287,7 +296,7 @@ export default function AddClinicalDiagnosis({
                   />
                 </td>
                 <td className="border-l-[5px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto mr-9">
                     {item.variable}
                   </div>
                 </td>
@@ -301,7 +310,7 @@ export default function AddClinicalDiagnosis({
                       fontSize: "12px",
                       height: "80px",
                       width: "400px",
-                      marginRight: "10px", 
+                       
                     }}
                     wrap="soft"
                   />
@@ -376,6 +385,48 @@ export default function AddClinicalDiagnosis({
             </tbody>
           </table>
         </div>
+        <div className="flex gap-[4rem] align-baseline">
+        <table className="max-w-fit border-spacing-y-5 border-separate">
+          <tbody className="text-xs leading-5 text-black">
+            {suggesteddate.map((item, index) => (
+              <tr key={index}>
+                <td className="w-5">
+                  <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={item.src}
+                    className="self-start aspect-square fill-black w-[15px]"
+                  />
+                </td>
+                <td className="border-l-[5px] border-transparent">
+                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto mr-5">
+                    {item.variable}
+                  </div>
+                </td>
+                <td className=" border-transparent">
+                  <input
+                    type="date"
+                    value={suggestedDate}
+                    onChange={(e) => setSuggestedDate(e.target.value)}
+                    className={`grow justify-center items-start py-1.5 pl-2 mr-5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[100%]`}
+                    style={
+                      errorStyles.suggestedDate
+                        ? { borderColor: "red", borderWidth: "2px" }
+                        : {}
+                    }
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+
+
+
       </div>
 
       {/* BACK & SAVE BUTTON */}

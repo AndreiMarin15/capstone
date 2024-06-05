@@ -19,7 +19,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const finalDiagnosis = useClinicVisitStore(state => state.finalDiagnosis);
   const vitals = useClinicVisitStore(state => state.vitals);
   const doctorId = useClinicVisitStore(state => state.doctorId); 
-
+  const suggestedDate = useClinicVisitStore(state => state.suggestedDate);
 
   const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
@@ -30,6 +30,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const setFinalDiagnosis = useClinicVisitStore(state => state.setFinalDiagnosis);
   const setVitals = useClinicVisitStore(state => state.setVitals);
   const setDoctorId = useClinicVisitStore(state => state.setDoctorId);
+  const setSuggestedDate = useClinicVisitStore(state => state.setSuggestedDate);
 
   React.useEffect(() => {
     const fetchDoctorId = async () => {
@@ -112,6 +113,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           patientId={patientId}
           clinicDate={clinicDate}
           setClinicDate={setClinicDate}
+          suggestedDate={suggestedDate}
+          setSuggestedDate={setSuggestedDate}
           initialDiagnosis={initialDiagnosis}
           setInitialDiagnosis={setInitialDiagnosis}
           finalDiagnosis={finalDiagnosis}

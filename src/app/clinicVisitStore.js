@@ -5,6 +5,8 @@ const clinicVisitStore = create((set) => ({
   setCurrentScreen: (screen) => set({ currentScreen: screen }),
   clinicDate: new Date().toISOString().split('T')[0],
   setClinicDate: (date) => set({ clinicDate: date }),
+  suggestedDate: "",
+  setSuggestedDate: (date) => set({ suggestedDate: date }),
   reviewOfSystems: {
     fever: false,
     weightLoss: false,
@@ -38,6 +40,7 @@ const clinicVisitStore = create((set) => ({
   reset: () => set({
     currentScreen: 0,
     clinicDate: new Date().toISOString().split('T')[0],
+    suggestedDate: "",
     reviewOfSystems: {
       fever: false,
       weightLoss: false,
