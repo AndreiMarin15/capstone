@@ -16,6 +16,7 @@ export default function AddAnalysis({
   patientId,
   handleNext,
   handleBack,
+  handleSave,
 }) {
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
@@ -62,103 +63,7 @@ export default function AddAnalysis({
     setReviewOfSystems({ ...reviewOfSystems, [dataset]: true });
     console.log(reviewOfSystems);
   };
-  const handleSave = async (saveClinicVisit = false) => {
-    if (!validateFields()) {
-      toast.error("Please fill in all required fields before saving.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
-      return;
-    }
 
-    try {
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      setDoctorId(doctorInfo.fullName);
-      const patientData = await healthRecords.getPatientData(patientId);
-      patientDataId = patientData.id;
-
-      const contained = [
-        // Your observations array content here
-      ];
-
-      const dataToSave = {
-        id: "example",
-        period: {
-          start: clinicDate,
-        },
-        participant: {
-          type: "Doctor",
-          actor: doctorInfo.fullName,
-        },
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-        contained: contained,
-        resource_type: "Encounter",
-      };
-
-      if (saveClinicVisit) {
-        const savedData = await uploadEncounter(dataToSave);
-        toast.success("Clinic Visit Added", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 2000,
-        });
-        setCurrentPage(0);
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
-
-  const addLabTestData = (labTestData) => {
-    // Check if labTestData is not already an array
-    if (!Array.isArray(labTestData)) {
-      // If labTestData is not an array, convert it into an array
-      labTestData = [labTestData];
-    }
-
-    // Add labTestData to the existing labTestDataArray
-    setLabTestData([...labTestDataArray, ...labTestData]);
-
-    // Map over labTestData to create new observations
-    const newObservations = labTestData?.map((data, index) => ({
-      id: `labtest`,
-      status: data.status,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE",
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: data.subject.reference,
-      },
-      participant: {
-        type: "Doctor",
-        actor: data.participant.actor,
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-        valueQuantities: data.valueQuantities,
-      },
-      uploadedDateTime: data.dateOfUpdate,
-      effectiveDateTime: data.dateOfResult,
-      requestedDateTime: clinicDate,
-      codeText: data.labTestName,
-      imageSrc: data.base64Image,
-    }));
-
-    // Update observations with new observations
-    setObservations([...observations, ...newObservations]);
-
-    console.log(observations);
-  };
 
   const date = [
     {
