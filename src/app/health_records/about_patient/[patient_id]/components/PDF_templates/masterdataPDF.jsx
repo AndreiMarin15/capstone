@@ -32,15 +32,15 @@ export function MasterDataPDF({ patientId, patientData }) {
 	}
 	const masterdata = [
 		{
-			name: patientData.personal_information.first_name + " " + patientData.personal_information.last_name, // patient table: name (string)
-			age: getAge(patientData.personal_information.birthdate), // auto gen in fhir using patient table: birthdate (date)
-			birthday: patientData.personal_information.birthdate, //patient table: birthdate (date)
-			gender: patientData.personal_information.gender, //patient table: gender (string)
-			address: patientData.personal_information.street_address + " " + patientData.personal_information.city, // patient table: address (string)
-			contact: patientData.personal_information.contact_number, // hindi pa sinesave sa tables sa supabase
-			stroke: patientData.medical_history.stroke.toString(), // hindi pa sinesave sa tables sa supabase
+			name: patientData?.personal_information.first_name + " " + patientData?.personal_information.last_name, // patient table: name (string)
+			age: getAge(patientData?.personal_information.birthdate), // auto gen in fhir using patient table: birthdate (date)
+			birthday: patientData?.personal_information.birthdate, //patient table: birthdate (date)
+			gender: patientData?.personal_information.gender, //patient table: gender (string)
+			address: patientData?.personal_information.street_address + " " + patientData?.personal_information.city, // patient table: address (string)
+			contact: patientData?.personal_information.contact_number, // hindi pa sinesave sa tables sa supabase
+			stroke: patientData?.medical_history.stroke.toString(), // hindi pa sinesave sa tables sa supabase
 			allergies:
-				patientData.allergies.length > 0 ? patientData.allergies.map((obj) => obj.allergen).join(", ") : "None", // allegyintolerance table: type & reaction (string)
+				patientData?.allergies.length > 0 ? patientData?.allergies.map((obj) => obj.allergen).join(", ") : "None", // allegyintolerance table: type & reaction (string)
 			attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
 		},
 	];

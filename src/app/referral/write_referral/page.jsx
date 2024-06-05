@@ -18,10 +18,17 @@ export default function SendReferral() {
 		doctor_name: "",
 		specialization: "",
 		place_of_clinic: "",
+		contact: "",
 		reason_for_referral: "",
 		medications: "",
 		other_remarks: "",
+		lab_tests: [],
+		signature: "",
 	});
+
+	React.useEffect(() => {
+		console.log(referralData);
+	}, [referralData]);
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -54,7 +61,11 @@ export default function SendReferral() {
 									</div>
 								))
 							) : (
-								<WriteReferral referralData={referralData} setReferralData={setReferralData} selectedPatientId={selectedPatientId} />
+								<WriteReferral
+									referralData={referralData}
+									setReferralData={setReferralData}
+									selectedPatientId={selectedPatientId}
+								/>
 							)}
 						</>
 					) : (
