@@ -14,6 +14,12 @@ const referralLetters = {
 		return letters.data;
 	},
 
+	getPatient: async () => {
+		const patient = await supabase.from("patients").select("*").eq("id", currentUser.getState().info.id);
+
+		return patient.data[0];
+	},
+
 	getLetter: async (id) => {
 		const letter = await supabase.from("written_referrals").select("*").eq("id", id);
 

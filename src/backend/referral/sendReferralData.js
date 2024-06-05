@@ -45,6 +45,7 @@ const sendReferralData = {
 		const toInsert = {
 			patient_id: patient,
 			doctor_id: currentUser.getState().info.id,
+			doctor_license: currentUser.getState().user.license_id,
 			referral_data: data,
 		};
 
