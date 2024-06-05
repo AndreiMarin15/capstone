@@ -20,7 +20,6 @@ const clinicVisitStore = create((set) => ({
   setInitialDiagnosis: (initialDiagnosis) => set({ initialDiagnosis }), 
   finalDiagnosis: "",
   setFinalDiagnosis: (finalDiagnosis) => set({ finalDiagnosis }),
-  // Vitals state
   vitals: {
     height: null,
     weight: null,
@@ -32,9 +31,31 @@ const clinicVisitStore = create((set) => ({
   setVitals: (newVitals) => set((state) => ({
     vitals: { ...state.vitals, ...newVitals }
   })),
-  // New state for condition
   condition: "",
   setCondition: (condition) => set({ condition }),
+  reset: () => set({
+    currentScreen: 0,
+    clinicDate: new Date().toISOString().split('T')[0],
+    reviewOfSystems: {
+      fever: false,
+      weightLoss: false,
+      poorAppetite: false,
+      fatigue: false,
+    },
+    signsAndSymptoms: "",
+    otherConcerns: "",
+    initialDiagnosis: "",
+    finalDiagnosis: "",
+    vitals: {
+      height: null,
+      weight: null,
+      bmi: null,
+      systolic: null,
+      diastolic: null,
+      heartRate: null,
+    },
+    condition: "",
+  }),
 }));
 
 export default clinicVisitStore;

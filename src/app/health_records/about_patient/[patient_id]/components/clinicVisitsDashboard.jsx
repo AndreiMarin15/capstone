@@ -27,6 +27,7 @@ import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useClinicVisitStore from "@/app/clinicVisitStore";
 
 import { getEncounters } from "@/backend//health_records/getEncounter";
 export default function ClinicVisits({ patientId }) {
@@ -38,8 +39,12 @@ export default function ClinicVisits({ patientId }) {
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
   const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
   const [sortOptionDate, setSortOptionDate] = React.useState("Recent");
+  const resetClinicVisitStore = useClinicVisitStore((state) => state.reset);
+
+
 
   React.useEffect(() => {
+    resetClinicVisitStore(); // Reset the Zustand store when the component is rendered
     async function fetchEncounters() {
       try {
         const encountersData = await getEncounters();
