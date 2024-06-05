@@ -1,8 +1,9 @@
+"use client";
 import * as React from "react";
 import Image from "next/image";
 import referralLetters from "@/backend/referral_letters/getData";
 import { Label } from "@/components/ui/label";
-export function ReferralLetterPDF({ referralData, patientData, referred_by }) {
+export function ReferralLetterPDF({ referralData, patientData, referred_by_id }) {
 	function getAge(birthdate) {
 		const birthDate = new Date(birthdate);
 		const today = new Date();
@@ -12,9 +13,18 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by }) {
 		if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
 			age--;
 		}
-
+		console.log(referred_by);
 		return age;
 	}
+
+	const [referred_by, setReferredBy] = React.useState({});
+	React.useEffect(() => {
+		const fetchDoctor = async () => {
+			const doctor = await referralLetters.getDoctor(referred_by_id);
+			setReferredBy(doctor);
+		};
+		fetchDoctor();
+	}, [referred_by_id]);
 	return (
 		<div
 			className={`flex flex-col px-14 py-20 rounded border border-gray-200 border-solid shadow-sm max-w-[867px] max-md:px-5`}
@@ -31,7 +41,7 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by }) {
 							<span className="font-normal">Room 253 W 2-6pm Contact: Aileen 09999999999</span>
 						</div>
 						<div className="justify-between text-right">
-							Date Requested <br /> <span className="font-normal">April 30, 2024</span>
+							Date Requested <br /> <span className="font-normal"> {new Date(referralData?.created_at).toISOString().split('T')[0]}</span>
 						</div>
 					</div>
 					<div className="mt-4 text-xs items-start text-start max-md:max-w-full">
@@ -113,8 +123,8 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by }) {
 						width={0}
 					/>
 					<div className="flex flex-col mt-2.5">
-						<div>License No. 0133564</div>
-						<div className="self-end mt-2.5">PTR #3145917</div>
+						<div>License No. {referred_by?.license_id}</div>
+						<div className="self-end mt-2.5">PTR #{referred_by?.ptr}</div>
 					</div>
 				</div>
 			</div>

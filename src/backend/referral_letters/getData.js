@@ -25,6 +25,12 @@ const referralLetters = {
 
 		return letter.data[0];
 	},
+
+	getDoctor: async (license_id) => {
+		const doctor = await supabase.from("doctors").select("*").eq("license_id", license_id);
+
+		return doctor.data[0];
+	}
 };
 
 export default referralLetters;

@@ -14,7 +14,7 @@ import referralLetters from "@/backend/referral_letters/getData";
 
 export default function Letters() {
 	const [written_referrals, setWrittenReferrals] = useState([]);
-  const [patientData, setPatientData] = useState({});
+	const [patientData, setPatientData] = useState({});
 	const [selectedTab, setSelectedTab] = React.useState("prescription");
 
 	const handleTabChange = (value) => {
@@ -26,7 +26,8 @@ export default function Letters() {
 			const fetchLetters = async () => {
 				const letters = await referralLetters.getLetters();
 				const patient = await referralLetters.getPatient();
-        setPatientData(patient);
+
+				setPatientData(patient);
 				setWrittenReferrals(letters);
 			};
 			fetchLetters();
@@ -135,9 +136,15 @@ export default function Letters() {
 															Referral Letter to Dr. {referral.referral_data?.doctor_name}
 														</div>
 													</div>
-												
+
 													<Reusable
-														child={<ReferralLetterPDF referralData={referral} patientData={patientData} />}
+														child={
+															<ReferralLetterPDF
+																referralData={referral}
+																patientData={patientData}
+																referred_by_id={referral.doctor_license}
+															/>
+														}
 														filename={`referral_letter_${referral.referral_data?.doctor_name}`}
 													/>
 												</div>
