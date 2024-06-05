@@ -22,6 +22,7 @@ export const uploadObservation = async (observation) => {
 				participant: {
 					type: observation.participant.type,
 					actor: observation.participant.actor,
+					license: observation.participant.license
 				},
 				resource_type: observation.resource_type,
 				valueQuantity: {
