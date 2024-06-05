@@ -6,6 +6,8 @@ import AddAnalysis from './sub_sub_components/addAnalysis';
 import { toast } from 'react-toastify';
 import uploadEncounter from "@/backend//health_records/uploadEncounter";
 import useClinicVisitStore from '@/app/clinicVisitStore';
+import RequestLabTest from './requestLabTest';
+import doctor from "@/backend//health_records/doctor";
 
 const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const currentScreen = useClinicVisitStore(state => state.currentScreen);
@@ -15,7 +17,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const initialDiagnosis = useClinicVisitStore(state => state.initialDiagnosis);
   const finalDiagnosis = useClinicVisitStore(state => state.finalDiagnosis);
-  const vitals = useClinicVisitStore(state => state.vitals); // new
+  const vitals = useClinicVisitStore(state => state.vitals);
+  const doctorId = useClinicVisitStore(state => state.doctorId); 
+
+
   const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
   const setReviewOfSystems = useClinicVisitStore(state => state.setReviewOfSystems);
@@ -24,6 +29,22 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
   const setInitialDiagnosis = useClinicVisitStore(state => state.setInitialDiagnosis);
   const setFinalDiagnosis = useClinicVisitStore(state => state.setFinalDiagnosis);
   const setVitals = useClinicVisitStore(state => state.setVitals);
+  const setDoctorId = useClinicVisitStore(state => state.setDoctorId);
+
+  React.useEffect(() => {
+    const fetchDoctorId = async () => {
+      try {
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
+        setDoctorId(doctorInfo.fullName);
+      } catch (error) {
+        console.error('Error fetching doctorId:', error);
+      }
+    };
+
+    fetchDoctorId();
+  }, [setDoctorId]);
+
+
 
   const handleNext = () => {
     setCurrentScreen(currentScreen + 1);
@@ -36,8 +57,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
 
   const handleSave = async () => {
     try {
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      setDoctorId(doctorInfo.fullName);
+      
       const patientData = await healthRecords.getPatientData(patientId);
 
       const contained = [
@@ -122,8 +142,18 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           handleBack={handleBack}
         />
       )}
+    {currentScreen === 4 && (
+        <RequestLabTest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          doctorId={doctorId} // Pass doctorId to RequestLabTest component
+          patientId={patientId}
+          handleSave={handleSave}
+        />
+      )}
     </>
   );
 };
+
 
 export default AddClinicVisit;

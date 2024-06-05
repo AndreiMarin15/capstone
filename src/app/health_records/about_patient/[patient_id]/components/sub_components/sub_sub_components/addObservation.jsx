@@ -214,7 +214,7 @@ export default function AddObservation({
       name: "tests",
       type: "button",
       saveFunction: () => {
-        setCurrentScreen(6);
+        setCurrentScreen(4);
       },
     },
   ];
@@ -389,7 +389,7 @@ export default function AddObservation({
                       </table>
                     </div>
                 </div>
-          {/* BACK & SAVE BUTTON */}
+   
           <div className="flex justify-between items-center mt-5">
           <BackButton
                   currentPage={currentPage}

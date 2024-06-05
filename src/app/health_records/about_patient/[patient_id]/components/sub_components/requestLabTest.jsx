@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BackButton from "./BackButton";
+
 export default function RequestLabTest({
   currentScreen,
   setCurrentScreen,
@@ -57,6 +58,10 @@ export default function RequestLabTest({
       value: labTestName,
     },
   ];
+
+  if (currentScreen !== 4) {
+    return null; // Do not render if currentScreen is not 4
+  }
 
   return (
     <>

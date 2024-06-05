@@ -33,6 +33,8 @@ const clinicVisitStore = create((set) => ({
   })),
   condition: "",
   setCondition: (condition) => set({ condition }),
+  doctorId: null, // Initialize doctorId
+  setDoctorId: (doctorId) => set({ doctorId }), // Setter function for doctorId
   reset: () => set({
     currentScreen: 0,
     clinicDate: new Date().toISOString().split('T')[0],
@@ -55,6 +57,7 @@ const clinicVisitStore = create((set) => ({
       heartRate: null,
     },
     condition: "",
+    doctorId: null, // Reset doctorId when reset is called
   }),
 }));
 
