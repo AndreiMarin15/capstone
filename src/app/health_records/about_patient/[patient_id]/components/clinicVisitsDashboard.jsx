@@ -22,10 +22,12 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import ViewClinicVisit from "./sub_components/viewClinicVisit";
-import AddClinicVisit from "./sub_components/sub_sub_components/addObservation";
+// import AddObservation from "./sub_components/sub_sub_components/addObservation";
+import AddClinicVisit from "./sub_components/addClinicVisit";
 import * as React from "react";
 import BackButton from "./sub_components/BackButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useClinicVisitStore from "@/app/clinicVisitStore";
 
 import { getEncounters } from "@/backend//health_records/getEncounter";
 export default function ClinicVisits({ patientId }) {
@@ -37,8 +39,12 @@ export default function ClinicVisits({ patientId }) {
   const [selectedEncounterId, setSelectedEncounterId] = useState("");
   const [clinicVisitNumber, setClinicVisitNumber] = useState(0);
   const [sortOptionDate, setSortOptionDate] = React.useState("Recent");
+  const resetClinicVisitStore = useClinicVisitStore((state) => state.reset);
+
+
 
   React.useEffect(() => {
+    resetClinicVisitStore(); // Reset the Zustand store when the component is rendered
     async function fetchEncounters() {
       try {
         const encountersData = await getEncounters();
@@ -227,7 +233,7 @@ export default function ClinicVisits({ patientId }) {
                       {/* Display encounter data */}
                       <div className="flex flex-col flex-1 px-3.5 text-left">
                         <div className="font-semibold whitespace-nowrap">
-                          Clinic Visit {encounters.length - index}
+                          Clinic Visit {encounter.resource.period.start}
                         </div>
                         <div className="flex justify-between w-fit">
                           <Image
@@ -243,7 +249,7 @@ export default function ClinicVisits({ patientId }) {
                               encounter.resource.participant.actor &&
                               encounter.resource.participant.actor}
                           </div>
-                          <div>{encounter.resource.period.start}</div>
+                        
                         </div>
                       </div>
                       <span className="text-xs text-gray-500">
@@ -270,7 +276,7 @@ export default function ClinicVisits({ patientId }) {
                     {/* Display encounter data */}
                     <div className="flex flex-col flex-1 px-3.5 text-left">
                       <div className="font-semibold whitespace-nowrap">
-                        Clinic Visit {index + 1}
+                        Clinic Visit {encounter.resource.period.start}
                       </div>
                       <div className="flex justify-between w-fit">
                         <Image
@@ -286,7 +292,7 @@ export default function ClinicVisits({ patientId }) {
                             encounter.resource.participant.actor &&
                             encounter.resource.participant.actor}
                         </div>
-                        <div>{encounter.resource.period.start}</div>
+                       
                       </div>
                     </div>
                     <span className="text-xs text-gray-500">

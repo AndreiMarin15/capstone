@@ -9,6 +9,7 @@ const BackButton = ({
   setCurrentPage,
   currentScreen,
   setCurrentScreen,
+  resetReviewOfSystems,
 }) => {
   const router = useRouter();
 
@@ -21,8 +22,10 @@ const BackButton = ({
       currentPage === 4
     ) {
       setCurrentPage(0);
-    } else if (currentScreen === 1 || currentScreen === 2) {
+    } else if (currentScreen === 1) {
       setCurrentScreen(0);
+    } else if (currentScreen === 2) {
+      setCurrentScreen(1);
     } else if (currentScreen === 3) {
       setCurrentScreen(2);
     } else if (currentScreen === 4) {
@@ -33,6 +36,11 @@ const BackButton = ({
       setCurrentScreen(2);
     } else {
       router.push("/health_records"); // Navigate back to the default route
+    }
+
+    // Check if resetReviewOfSystems prop is provided and call it
+    if (resetReviewOfSystems) {
+      resetReviewOfSystems();
     }
   };
 
