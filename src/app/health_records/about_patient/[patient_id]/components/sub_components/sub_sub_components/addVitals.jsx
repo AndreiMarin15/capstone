@@ -1,162 +1,50 @@
 import Image from "next/image";
-import * as React from "react";
 import { useRouter } from "next/router"; // Corrected import path
 import { useState, useEffect } from "react";
 import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import LabTests from "../../labTestsDashboard";
 import Analysis from "./addAnalysis";
+import useClinicVisitStore from '@/app/clinicVisitStore'; // Import Zustand store
 
-export default function AddObservation({
-  currentPage,
-  setCurrentPage,
+export default function AddVitals({
+  currentScreen,
+  setCurrentScreen,
+  handleNext,
+  handleBack,
   patientId,
 }) {
-  const [clinicDate, setClinicDate] = useState("");
-  const [height, setHeight] = useState(null);
-  const [weight, setWeight] = useState(null);
-  const [bmi, setBMI] = useState(null);
-  const [systolic, setSystolic] = useState(null);
-  const [diastolic, setDiastolic] = useState(null);
-  const [heartRate, setHeartRate] = useState(null);
-  const [doctorId, setDoctorId] = useState("");
+  const clinicDate = useClinicVisitStore(state => state.clinicDate);
+  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
+  
+  const [systolic, setSystolic] = useState("");
+  const [diastolic, setDiastolic] = useState("");
+  const [heartRate, setHeartRate] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [bmi, setBMI] = useState("");
 
+  const { vitals, setVitals } = useClinicVisitStore(); // Access vitals from store
+
+  const handleSave = () => {
+  
+    setCurrentScreen(4);
+  };
+
+
+  
   const [errorStyles, setErrorStyles] = useState({
-    clinicDate: false,
-    reviewOfSystems: false,
-    signsAndSymptoms: false,
+    systolic: false,
+    diastolic: false,
+    heartRate: false,
+    height: false,
+    weight: false,
+    bmi: false,
   });
 
-  const validateFields = () => {
-    const errors = {
-      clinicDate: !clinicDate,
-      reviewOfSystems: !reviewOfSystems,
-      signsAndSymptoms: !signsAndSymptoms,
-    };
 
-    setErrorStyles(errors);
-    return !Object.values(errors).some((error) => error);
-  };
 
-  const reqField = {
-    borderColor: "red",
-    borderWidth: "2px",
-    borderStyle: "solid",
-  };
 
-  useEffect(() => {
-    setClinicDate(new Date().toISOString().split("T")[0]);
-  }, []);
-
-  let patientDataId;
-
-  const handleCheckboxChange = (e, dataset) => {
-    if (dataset in reviewOfSystems) {
-      setReviewOfSystems({ ...reviewOfSystems, [dataset]: e.target.checked });
-      console.log(reviewOfSystems);
-      return;
-    }
-    setReviewOfSystems({ ...reviewOfSystems, [dataset]: true });
-    console.log(reviewOfSystems);
-  };
-  const handleSave = async (saveClinicVisit = false) => {
-    if (!validateFields()) {
-      toast.error("Please fill in all required fields before saving.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    try {
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      setDoctorId(doctorInfo.fullName);
-      const patientData = await healthRecords.getPatientData(patientId);
-      patientDataId = patientData.id;
-
-      const contained = [
-        // Your observations array content here
-      ];
-
-      const dataToSave = {
-        id: "example",
-        period: {
-          start: clinicDate,
-        },
-        participant: {
-          type: "Doctor",
-          actor: doctorInfo.fullName,
-        },
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-        contained: contained,
-        resource_type: "Encounter",
-      };
-
-      if (saveClinicVisit) {
-        const savedData = await uploadEncounter(dataToSave);
-        toast.success("Clinic Visit Added", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 2000,
-        });
-        setCurrentPage(0);
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
-
-  const addLabTestData = (labTestData) => {
-    // Check if labTestData is not already an array
-    if (!Array.isArray(labTestData)) {
-      // If labTestData is not an array, convert it into an array
-      labTestData = [labTestData];
-    }
-
-    // Add labTestData to the existing labTestDataArray
-    setLabTestData([...labTestDataArray, ...labTestData]);
-
-    // Map over labTestData to create new observations
-    const newObservations = labTestData?.map((data, index) => ({
-      id: `labtest`,
-      status: data.status,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE",
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: data.subject.reference,
-      },
-      participant: {
-        type: "Doctor",
-        actor: data.participant.actor,
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-        valueQuantities: data.valueQuantities,
-      },
-      uploadedDateTime: data.dateOfUpdate,
-      effectiveDateTime: data.dateOfResult,
-      requestedDateTime: clinicDate,
-      codeText: data.labTestName,
-      imageSrc: data.base64Image,
-    }));
-
-    // Update observations with new observations
-    setObservations([...observations, ...newObservations]);
-
-    console.log(observations);
-  };
 
   const date = [
     {
@@ -201,11 +89,9 @@ export default function AddObservation({
     },
   ];
 
-  const [currentScreen, setCurrentScreen] = useState(0);
-
   return (
     <>
-      {currentScreen === 0 && (
+      {currentScreen === 2 && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             ADD CLINIC VISIT
@@ -273,18 +159,33 @@ export default function AddObservation({
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="number"
-                          placeholder={"Add"}
-                          //value={}
-                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                          style={{
-                            fontSize: "12px",
-                            width: "70px",
-                            height: "30px",
-                            resize: "none",
-                          }}
-                        />
+                      <input
+                  type="number"
+                  placeholder={"Add"}
+                  value={item.variable === "Systolic Blood Pressure" ? vitals.systolic || "" :
+                         item.variable === "Diastolic Blood Pressure" ? vitals.diastolic || "" :
+                         item.variable === "Heart Rate (beats/min)" ? vitals.heartRate || "" : ""}
+                  onChange={(e) => {
+                    if (item.variable === "Systolic Blood Pressure") {
+                      setVitals({ ...vitals, systolic: e.target.value });
+                      setErrorStyles({ ...errorStyles, systolic: false });
+                    } else if (item.variable === "Diastolic Blood Pressure") {
+                      setVitals({ ...vitals, diastolic: e.target.value });
+                      setErrorStyles({ ...errorStyles, diastolic: false });
+                    } else if (item.variable === "Heart Rate (beats/min)") {
+                      setVitals({ ...vitals, heartRate: e.target.value });
+                      setErrorStyles({ ...errorStyles, heartRate: false });
+                    }
+                  }}
+                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                  style={{
+                    fontSize: "12px",
+                    width: "50px",
+                    height: "30px",
+                    resize: "none",
+                    borderColor: errorStyles[item.variable] ? "red" : "black",
+                  }}
+                />
                       </td>
                     </tr>
                   ))}
@@ -311,18 +212,33 @@ export default function AddObservation({
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                        <input
-                          type="number"
-                          placeholder={"Add"}
-                          //value={}
-                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                          style={{
-                            fontSize: "12px",
-                            width: "70px",
-                            height: "30px",
-                            resize: "none",
-                          }}
-                        />
+                      <input
+                  type="number"
+                  placeholder={"Add"}
+                  value={item.variable === "Height (cm)" ? vitals.height || "" :
+                         item.variable === "Weight (kg)" ? vitals.weight || "" :
+                         item.variable === "Body Mass Index" ? vitals.bmi || "" : ""}
+                  onChange={(e) => {
+                    if (item.variable === "Height (cm)") {
+                      setVitals({ ...vitals, height: e.target.value });
+                      setErrorStyles({ ...errorStyles, height: false });
+                    } else if (item.variable === "Weight (kg)") {
+                      setVitals({ ...vitals, weight: e.target.value });
+                      setErrorStyles({ ...errorStyles, weight: false });
+                    } else if (item.variable === "Body Mass Index") {
+                      setVitals({ ...vitals, bmi: e.target.value });
+                      setErrorStyles({ ...errorStyles, bmi: false });
+                    }
+                  }}
+                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                  style={{
+                    fontSize: "12px",
+                    width: "50px",
+                    height: "30px",
+                    resize: "none",
+                    borderColor: errorStyles[item.variable] ? "red" : "black",
+                  }}
+                />
                       </td>
                     </tr>
                   ))}
@@ -333,23 +249,28 @@ export default function AddObservation({
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
             <BackButton
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              currentScreen={2}
+              setCurrentScreen={setCurrentScreen}
             />
             <div>
               <Button
-                onClick={() => {
-                  // handleSave(labTestData, true);
-                  setCurrentScreen(1);
-                }} // Pass labTestData and true to indicate saving clinic visit
+                onClick={handleNext}
               >
                 NEXT
               </Button>
             </div>
           </div>
         </>
-      )}{" "}
-      {currentScreen === 1 ? <Analysis /> : ""}
+      )}
+      {currentScreen === 3 && (
+        <>
+          <Analysis
+            currentScreen={currentScreen}
+            setCurrentScreen={setCurrentScreen}
+            patientId={patientId}
+          />
+        </>
+      )}
     </>
   );
 }

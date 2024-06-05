@@ -31,6 +31,7 @@ const uploadEncounter = async (encounter) => {
 				participant: {
 					type: doctorInfo.type,
 					actor: doctorInfo.fullName,
+					license: doctorInfo.license,
 				},
 				subject: {
 					type: encounter.subject.type,
