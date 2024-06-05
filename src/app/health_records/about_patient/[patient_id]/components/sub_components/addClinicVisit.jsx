@@ -89,7 +89,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: JSON.stringify(reviewOfSystems), // Serialize to JSON string
           resource_type: "Observation",
@@ -111,7 +111,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: signsAndSymptoms,
           resource_type: "Observation",
@@ -133,7 +133,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: otherConcerns,
           resource_type: "Observation",
@@ -155,7 +155,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: initialDiagnosis,
           resource_type: "Observation",
@@ -177,7 +177,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: finalDiagnosis,
           resource_type: "Observation",
@@ -199,7 +199,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: suggestedDate,
           resource_type: "Observation",
@@ -222,7 +222,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.height.toString(),
           resource_type: "Observation",
@@ -244,7 +244,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.weight.toString(),
           resource_type: "Observation",
@@ -266,7 +266,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.bmi.toString(), // Convert BMI to string
           resource_type: "Observation",
@@ -288,7 +288,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.systolic.toString(), // Convert systolic to string
           resource_type: "Observation",
@@ -310,7 +310,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.diastolic.toString(), // Convert diastolic to string
           resource_type: "Observation",
@@ -332,7 +332,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: vitals.heartRate.toString(), // Convert heart rate to string
           resource_type: "Observation",
@@ -354,7 +354,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
           participant: {
             type: "Doctor",
             actor: doctorInfo.fullName,
-            license: doctorInfo.license,
+            license_id: doctorInfo.license,
           },
           valueString: condition,
           resource_type: "Observation",
