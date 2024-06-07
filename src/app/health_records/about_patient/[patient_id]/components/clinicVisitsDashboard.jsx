@@ -42,6 +42,19 @@ export default function ClinicVisits({ patientId }) {
   const resetClinicVisitStore = useClinicVisitStore((state) => state.reset);
 
 
+  const fetchEncounters = async () => {
+    try {
+      const encountersData = await getEncounters();
+      // Filter encounters by patientId
+      const filteredEncounters = encountersData.filter(
+        (encounter) => encounter.resource.subject.reference === patientId
+      );
+      setEncounters(filteredEncounters);
+    } catch (error) {
+      console.error("Error fetching encounters:", error);
+    }
+  };
+
 
   React.useEffect(() => {
     resetClinicVisitStore(); // Reset the Zustand store when the component is rendered
@@ -327,6 +340,7 @@ export default function ClinicVisits({ patientId }) {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             patientId={patientId}
+            fetchEncounters={fetchEncounters}
           />
         </>
       ) : (

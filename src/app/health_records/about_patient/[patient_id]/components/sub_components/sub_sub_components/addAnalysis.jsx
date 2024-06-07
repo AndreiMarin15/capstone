@@ -13,6 +13,8 @@ import useClinicVisitStore from '@/app/clinicVisitStore';
 export default function AddAnalysis({
   currentScreen,
   setCurrentScreen,
+  currentPage,
+  setCurrentPage,
   patientId,
   handleNext,
   handleBack,
@@ -170,13 +172,13 @@ export default function AddAnalysis({
                         }}
                       >
                         <option value="">Select Condition</option>
-                        <option value="critical">
+                        <option value="Patient’s condition is critical and requires immediate attention or intervention.">
                           Patient’s condition is critical and requires immediate attention or intervention.
                         </option>
-                        <option value="monitoring">
+                        <option value="Patient’s condition necessitates regular monitoring and follow-up appointments.">
                           Patient’s condition necessitates regular monitoring and follow-up appointments.
                         </option>
-                        <option value="stable">
+                        <option value="Patient's condition is stable and minimal monitoring required.">
                           Patient's condition is stable and minimal monitoring required.
                         </option>
                       </select>
@@ -197,7 +199,7 @@ export default function AddAnalysis({
               <Button
                 onClick={() => {
                   handleSave(true); // Call handleSave with true to indicate saving clinic visit
-                  setCurrentScreen(1);
+                  setCurrentPage(0);
                 }}
               >
                 SAVE
