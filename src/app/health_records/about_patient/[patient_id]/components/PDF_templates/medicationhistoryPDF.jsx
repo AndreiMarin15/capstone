@@ -35,24 +35,36 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 		const fetchData = async () => {
 			const medicationHistory = await getMedications(patientId);
 			console.log(medicationHistory);
-			setMedicationHistory(
-				medicationHistory.map((item, index) => ({
-					number: index + 1,
-					provider: item.resource.requester.agent.reference,
-					specialization: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
-					hospital: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
-					generic: item.resource.medicationCodeableConcept[0].text,
-					brand: item.resource.medicationCodeableConcept[0].coding[0].display,
-					form: item.resource.form.text,
-					dose: item.resource.dosageInstruction[0].doseAndRate[0].doseQuantity.doseUnit,
-					frequency: item.resource.dispenseRequest.dispenseInterval,
-					start: item.resource.dispenseRequest.validityPeriod.start,
-					end: item.resource.dispenseRequest.validityPeriod.end,
-				}))
+
+			const medicationHistoryWithDetails = await Promise.all(
+				medicationHistory.map(async (item, index) => {
+					// Assuming getDoctorSpecialization and getHospitalName return promises
+					const specializationPromise = getDoctorSpecialization(item.resource.requester.agent.license_id);
+					const hospitalPromise = getHospitalName(item.resource.requester.agent.license_id);
+
+					// Wait for both promises to resolve
+					const [specialization, hospital] = await Promise.all([specializationPromise, hospitalPromise]);
+
+					return {
+						number: index + 1,
+						provider: item.resource.requester.agent.reference,
+						specialization: specialization ?? "", // Now directly using the awaited value
+						hospital: hospital ?? "", // Now directly using the awaited value
+						generic: item.resource.medicationCodeableConcept[0].text,
+						brand: item.resource.medicationCodeableConcept[0].coding[0].display,
+						form: item.resource.form.text,
+						dose: item.resource.dosageInstruction[0].doseAndRate[0].doseQuantity.doseUnit,
+						frequency: item.resource.dispenseRequest.dispenseInterval,
+						start: item.resource.dispenseRequest.validityPeriod.start,
+						end: item.resource.dispenseRequest.validityPeriod.end,
+					};
+				})
 			);
+
+			setMedicationHistory(medicationHistoryWithDetails);
 		};
 		fetchData();
-	}, []);
+	}, [patientId]);
 
 	const pdfRef = useRef();
 	const downloadPDF = () => {
