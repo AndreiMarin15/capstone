@@ -68,7 +68,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
     setCurrentScreen(0);
 
   };
-  const [labTest, setLabTest] = useState(null);
+
+  const [labTests, setLabTests] = useState([]);
 
   const handleSave = async () => {
     try {
@@ -94,38 +95,6 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   
       // Construct contained array with observations
       const contained = [
-
-        {
-          id: 'labtest',
-          status: labTest.status,
-          code: {
-            coding: [
-              {
-                code: 'YOUR_LOINC_CODE',
-                system: 'http://loinc.org',
-              },
-            ],
-          },
-          subject: {
-            type: 'Patient',
-            reference: patientData.id,
-          },
-          participant: {
-            type: 'Doctor',
-            actor: doctorInfo.fullName,
-            license_id: doctorInfo.license,
-          },
-          resource_type: 'Observation',
-          valueQuantity: {
-            valueQuantities: labTest.valueQuantities,
-          },
-          uploadedDateTime: labTest.dateOfUpdate,
-          effectiveDateTime: labTest.dateOfResult,
-          requestedDateTime: clinicDate,
-          codeText: labTest.labTestName,
-          remarks: labTest.remarks,
-          imageSrc: labTest.base64Image,
-        },
       
         {
           id: "reviewOfSystems",
@@ -432,6 +401,37 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
           valueString: condition,
           resource_type: "Observation",
         },
+        ...labTests.map((labTest, index) => ({
+          id: `labtest`, // Unique identifier for lab test observation
+          status: labTest.status,
+          code: {
+            coding: [
+              {
+                code: 'YOUR_LOINC_CODE',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          subject: {
+            type: 'Patient',
+            reference: patientData.id,
+          },
+          participant: {
+            type: 'Doctor',
+            actor: doctorInfo.fullName,
+            license_id: doctorInfo.license,
+          },
+          resource_type: 'Observation',
+          valueQuantity: {
+            valueQuantities: labTest.valueQuantities,
+          },
+          uploadedDateTime: labTest.dateOfUpdate,
+          effectiveDateTime: labTest.dateOfResult,
+          requestedDateTime: clinicDate,
+          codeText: labTest.labTestName,
+          remarks: labTest.remarks,
+          imageSrc: labTest.base64Image,
+        })),
       ];
   
       // Construct encounter data object with clinicDate
@@ -470,12 +470,12 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
 
  
   const handleSaveLabTest = (labTestName, remarks, doctorInfo) => {
-    const labTestData = {
-      loincCode: "YOUR_LOINC_CODE",
-      status: "requested",
+    const newLabTest = {
+      loincCode: 'YOUR_LOINC_CODE',
+      status: 'requested',
       valueQuantities: [],
-      subject: { type: "Patient", reference: patientId },
-      participant: { type: "Doctor", actor: doctorInfo.fullName, license_id: doctorInfo.license },
+      subject: { type: 'Patient', reference: patientId },
+      participant: { type: 'Doctor', actor: doctorInfo.fullName, license_id: doctorInfo.license },
       dateOfUpdate: null,
       dateOfRequest: null,
       dateOfResult: null,
@@ -483,8 +483,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
       remarks: remarks,
       base64Image: null,
     };
-    console.log("Lab Test Data:", labTestData); // Log the lab test data
-    setLabTest(labTestData);
+    console.log(newLabTest); // Corrected variable name here
+    setLabTests((prevLabTests) => [...prevLabTests, newLabTest]);
   };
   
 

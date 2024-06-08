@@ -46,53 +46,6 @@ export default function AddObservation({
     setReviewOfSystems(reset);
   };
 
-  const addLabTestData = (labTestData) => {
-    if (!Array.isArray(labTestData)) {
-      labTestData = [labTestData];
-    }
-
-    setLabTestData([...labTestDataArray, ...labTestData]);
-
-    const newObservations = labTestData?.map((data) => ({
-      id: `labtest`,
-      status: data.status,
-      code: {
-        coding: [
-          {
-            code: "YOUR_LOINC_CODE",
-            system: "http://loinc.org",
-          },
-        ],
-      },
-      subject: {
-        type: "Patient",
-        reference: data.subject.reference,
-      },
-      participant: {
-        type: "Doctor",
-        actor: data.participant.actor,
-      },
-      resource_type: "Observation",
-      valueQuantity: {
-        valueQuantities: data.valueQuantities,
-      },
-      uploadedDateTime: data.dateOfUpdate,
-      effectiveDateTime: data.dateOfResult,
-      requestedDateTime: clinicDate,
-      codeText: data.labTestName,
-      remarks: data.remarks,
-      imageSrc: data.base64Image,
-    }));
-
-    setObservations([...observations, ...newObservations]);
-
-    console.log(observations);
-  };
-
-
-
-
-
   const [errorStyles, setErrorStyles] = useState({
     clinicDate: false,
     reviewOfSystems: false,
