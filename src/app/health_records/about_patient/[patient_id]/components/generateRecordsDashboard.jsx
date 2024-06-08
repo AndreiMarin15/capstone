@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,13 @@ import { ReferralHistoryPDF } from "./PDF_templates/referralhistoryPDF";
 import { ClinicVisitsPDF } from "./PDF_templates/clinicvisitPDF";
 import { VitalsPDF } from "./PDF_templates/vitalsPDF";
 
-export default function GenerateRecords({patientId, patientData}) {
+export default function GenerateRecords({ patientId, patientData }) {
 	const [date, setDate] = useState();
-  
 
+	useEffect(() => {
+		console.log(patientId)
+		console.log(patientData)
+	}, []);
 	const dates = [
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -39,8 +42,6 @@ export default function GenerateRecords({patientId, patientData}) {
 	const handleCheckboxChange = (event) => {
 		setIsCheckboxChecked(!isCheckboxChecked);
 	};
-
-
 
 	return (
 		<>
@@ -123,26 +124,26 @@ export default function GenerateRecords({patientId, patientData}) {
 
 						<td>List of Care Plans</td>
 						<td>
-							<CarePlansPDF patientId={patientId} patientData={patientData}/>
+							<CarePlansPDF patientId={patientId} patientData={patientData} />
 						</td>
 					</tr>
 
 					<tr>
 						<td>Referral History</td>
 						<td>
-							<ReferralHistoryPDF patientId={patientId} patientData={patientData}/>
+							<ReferralHistoryPDF patientId={patientId} patientData={patientData} />
 						</td>
 
 						<td>Vitals & Biometrics</td>
 						<td>
-							<VitalsPDF patientId={patientId} patientData={patientData}/>
+							<VitalsPDF patientId={patientId} patientData={patientData} />
 						</td>
 					</tr>
 
 					<tr>
 						<td> Clinic Visits</td>
 						<td>
-							<ClinicVisitsPDF patientId={patientId} patientData={patientData}/>
+							<ClinicVisitsPDF patientId={patientId} patientData={patientData} />
 						</td>
 					</tr>
 				</table>

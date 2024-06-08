@@ -110,7 +110,7 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 				<br />
 				<br />
 				<ul className="list-disc mt-0">
-					<li className="ml-2">{labtest?.resource?.codeText ?? ""}</li> 
+					<li className="ml-2">{labtest?.resource?.codeText ?? ""}</li>
 					{/* <li className="ml-2">Fasting Blood Sugar Test</li>{" "}
 					<li className="ml-2">Sample Lab Test</li>{" "} */}
 				</ul>
@@ -124,7 +124,7 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 					<Image
 						alt="image"
 						loading="lazy"
-						srcSet="..."
+						src={referred_by?.signature ?? ""}
 						className="self-center aspect-[1.92] w-[130px]"
 						height={0}
 						width={0}
