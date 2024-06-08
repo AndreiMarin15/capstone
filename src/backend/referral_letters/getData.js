@@ -10,7 +10,6 @@ const referralLetters = {
 			.select("*")
 			.eq("patient_id", currentUser.getState().info.id);
 
-		console.log(letters);
 		return letters.data;
 	},
 
@@ -30,7 +29,7 @@ const referralLetters = {
 		const doctor = await supabase.from("doctors").select("*").eq("license_id", license_id);
 
 		return doctor.data[0];
-	}
+	},
 };
 
 export default referralLetters;

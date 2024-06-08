@@ -10,12 +10,18 @@ import LabTest from "./components/labTests";
 import { useEffect, useState } from "react";
 import { Reusable } from "@/app/patient/letters/components/pdfs/reusable";
 import { ReferralLetterPDF } from "./components/pdfs/referralletter";
+import { Prescription } from "./components/pdfs/prescription";
 import referralLetters from "@/backend/referral_letters/getData";
+import { getPatient, getMedications, getRequestedLabTests, getLabTests } from "@/backend/pdfBackend/getPDFData";
 
 export default function Letters() {
 	const [written_referrals, setWrittenReferrals] = useState([]);
 	const [patientData, setPatientData] = useState({});
 	const [selectedTab, setSelectedTab] = React.useState("prescription");
+
+	const [prescriptions, setPrescriptions] = useState([]);
+
+	const [labtests, setLabTests] = useState([]);
 
 	const handleTabChange = (value) => {
 		setSelectedTab(value);
@@ -31,6 +37,26 @@ export default function Letters() {
 				setWrittenReferrals(letters);
 			};
 			fetchLetters();
+		} else if (selectedTab === "prescription") {
+			const fetchLetters = async () => {
+				const medications = await getMedications();
+				const patient = await getPatient();
+
+				setPatientData(patient);
+				setPrescriptions(medications);
+			};
+			fetchLetters();
+		} else if (selectedTab === "labtestrequest") {
+			const fetchLabTests = async () => {
+				// const labTests = await getLabTests(null);
+				const labTests = await getRequestedLabTests();
+				const patient = await getPatient();
+
+				console.log(labTests);
+				setPatientData(patient);
+				setLabTests(labTests);
+			};
+			fetchLabTests();
 		}
 	}, [selectedTab]);
 
@@ -70,44 +96,59 @@ export default function Letters() {
 													<TabsTrigger value="gastroenterologist">Gastroenterologist</TabsTrigger>
 												</TabsList>
 												<TabsContent value="all">
-													<div className="ml-5 gap-2 flex font-semibold mt-5">
-														<Image
-															alt="image"
-															height={3}
-															width={3}
-															loading="lazy"
-															src={
-																"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-															}
-															className="aspect-square fill-black w-[10px]"
-														/>
-														{/* Name of Medicine */}
-														<div className="text-xs font-semibold">
-															{/*  {medication.resource.medicationCodeableConcept[0].text} */}
-															Prescription #1
-														</div>
-													</div>
+													{prescriptions.map((medication, index) => (
+														<div key={index}>
+															<div className="ml-5 gap-2 flex font-semibold mt-5">
+																<Image
+																	alt="image"
+																	height={3}
+																	width={3}
+																	loading="lazy"
+																	src={
+																		"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+																	}
+																	className="aspect-square fill-black w-[10px]"
+																/>
+																{/* Name of Medicine */}
+																<div className="text-xs font-semibold">
+																	{/*  {medication.resource.medicationCodeableConcept[0].text} */}
+																	{medication.resource.medicationCodeableConcept[0].text}
+																</div>
+															</div>
 
-													<div className="flex w-full justify-between text-xs">
-														<div className="flex gap-1 font-medium whitespace-nowrap ml-7">
-															{/* Name of Provider */}
-															<Image
-																alt="image"
-																height={0}
-																width={0}
-																loading="lazy"
-																src={
-																	"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
-																}
-																className="w-4 aspect-square"
-															/>
-															<div className="grow my-auto">Dr. Harold Chiu</div>
-															{/* Date of Medicine */}
-															{/* <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>} */}
-														</div>
+															<div className="flex w-full justify-between text-xs">
+																<div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+																	{/* Name of Provider */}
+																	<Image
+																		alt="image"
+																		height={0}
+																		width={0}
+																		loading="lazy"
+																		src={
+																			"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+																		}
+																		className="w-4 aspect-square"
+																	/>
+																	<div className="grow my-auto">
+																		Dr. {medication.resource?.requester?.agent?.reference}
+																	</div>
+																	{/* Date of Medicine */}
+																	{/* <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>} */}
+																</div>
 
-														<Button variant="download"> ↓ Download (.pdf)</Button>
-													</div>
+																<Reusable
+																	child={
+																		<Prescription
+																			medicationData={medication}
+																			patientData={patientData}
+																			referred_by_id={medication.resource?.requester?.agent?.license_id}
+																		/>
+																	}
+																	filename={`prescription_${medication.resource.medicationCodeableConcept[0].text}`}
+																/>
+															</div>
+														</div>
+													))}
 												</TabsContent>
 												<TabsContent value="endocrinologist">{/* Add contents here */}</TabsContent>
 												<TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
@@ -151,7 +192,7 @@ export default function Letters() {
 											))}
 										</TabsContent>
 										<TabsContent value="labtestrequest" className="flex-1 min-h-screen w-full">
-											<LabTest />
+											<LabTest labtests={labtests} patient={patientData} />
 										</TabsContent>
 									</Tabs>
 								</div>

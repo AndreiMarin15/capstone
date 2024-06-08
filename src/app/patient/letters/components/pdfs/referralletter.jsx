@@ -36,12 +36,16 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by_id })
 						<div className="mt-4 text-base max-md:max-w-full">{referralData?.referral_data.specialization ?? ""}</div>
 					</div>
 					<div className="flex flex-row items-start text-start justify-between mt-16 text-xs max-md:mt-10 max-md:max-w-full w-full">
-						<div>
-							Philippine General Hospital <br />
-							<span className="font-normal">Room 253 W 2-6pm Contact: Aileen 09999999999</span>
+						<div className="items-start text-start">
+							{referred_by?.hospital?.name ?? ""} <br />
+							<span className="font-normal items-start text-start">
+								{referred_by?.hospital?.clinic ?? ""} {referred_by?.hospital?.schedule ?? ""} Contact:{" "}
+								{referred_by?.hospital?.contact ?? ""}
+							</span>
 						</div>
 						<div className="justify-between text-right">
-							Date Requested <br /> <span className="font-normal"> {new Date(referralData?.created_at).toISOString().split('T')[0]}</span>
+							Date Requested <br />{" "}
+							<span className="font-normal"> {new Date(referralData?.created_at).toISOString().split("T")[0]}</span>
 						</div>
 					</div>
 					<div className="mt-4 text-xs items-start text-start max-md:max-w-full">
