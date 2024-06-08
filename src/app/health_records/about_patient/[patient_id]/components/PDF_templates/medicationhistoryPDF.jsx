@@ -13,7 +13,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { getMedications } from "@/backend/pdfBackend/getPDFData";
+import { getMedications, getDoctorSpecialization, getDoctorHospital } from "@/backend/pdfBackend/getPDFData";
 
 export function MedicationHistoryPDF({ patientId, patientData }) {
 	const [medicationhistory, setMedicationHistory] = useState([
@@ -39,7 +39,8 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 				medicationHistory.map((item, index) => ({
 					number: index + 1,
 					provider: item.resource.requester.agent.reference,
-					specialization: item.resource.getSpecialization ?? "Endocrinologist",
+					specialization: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
+					hospital: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
 					generic: item.resource.medicationCodeableConcept[0].text,
 					brand: item.resource.medicationCodeableConcept[0].coding[0].display,
 					form: item.resource.form.text,
