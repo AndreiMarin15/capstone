@@ -16,24 +16,20 @@ import { ClinicVisitsPDF } from "./PDF_templates/clinicvisitPDF";
 import { VitalsPDF } from "./PDF_templates/vitalsPDF";
 
 export default function GenerateRecords({ patientId, patientData }) {
-	const [date, setDate] = useState();
+  const [date, setDate] = useState();
 
-	useEffect(() => {
-		console.log(patientId)
-		console.log(patientData)
-	}, []);
-	const dates = [
-		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-			variable: "Start Date",
-			value: "",
-		},
-		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-			variable: "End Date",
-			value: "",
-		},
-	];
+  const dates = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
+      variable: "Start Date",
+      value: "",
+    },
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
+      variable: "End Date",
+      value: "",
+    },
+  ];
 
   const [validityStart, setValidityStart] = useState();
   const [validityEnd, setValidityEnd] = useState();
