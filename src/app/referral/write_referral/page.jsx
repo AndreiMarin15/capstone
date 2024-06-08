@@ -5,8 +5,8 @@ import ProgressBarWrite from "../components/progressBarWrite";
 import { useRouter } from "next/navigation";
 import ReferralPatients from "../components/referralPatients";
 import WriteReferral from "../components/writeReferral";
-import retrieveReferralData from "@/backend//referral/retrieveReferralData";
-import sendReferralData from "@/backend//referral/sendReferralData";
+import retrieveReferralData from "@/backend/referral/retrieveReferralData";
+import sendReferralData from "@/backend/referral/sendReferralData";
 
 export default function SendReferral() {
 	const router = useRouter();

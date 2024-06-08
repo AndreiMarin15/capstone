@@ -26,6 +26,8 @@ export const DoctorSignUp = {
 			birthdate: doctorData.birthdate,
 			years_of_practice: doctorData.years_of_practice,
 			about: doctorData.about,
+			photo: doctorData.photo,
+			hospital: doctorData.hospital,
 		};
 	
 		const practitionerResource = {

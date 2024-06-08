@@ -75,6 +75,8 @@ export default function DoctorInformation() {
 								// birthdate: doctorStore.birthdate,
 								years_of_practice: doctorStore.years_of_practice,
 								about: doctorStore.about,
+								photo: doctorStore.photo,
+								hospital: doctorStore.hospital
 							};
 
 							const account = await DoctorSignUp.signUpAsDoctor(doctorInfo);

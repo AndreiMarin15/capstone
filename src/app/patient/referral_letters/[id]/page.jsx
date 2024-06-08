@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import referralLetters from "@/backend//referral_letters/getData";
+import referralLetters from "@/backend/referral_letters/getData";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
@@ -10,11 +10,14 @@ export default function ReferralLetter({ params }) {
 	const referralLetterId = params.id;
 	const [referralDetails, setDetails] = React.useState({
 		doctor_name: "",
-		medications: "",
-		other_remarks: "",
 		specialization: "",
 		place_of_clinic: "",
+		contact: "",
 		reason_for_referral: "",
+		medications: "",
+		other_remarks: "",
+		lab_tests: [],
+		signature: "",
 	});
 	React.useEffect(() => {
 		const fetchLetter = async () => {
