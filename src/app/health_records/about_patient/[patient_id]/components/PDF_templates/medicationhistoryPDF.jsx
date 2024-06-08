@@ -13,7 +13,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { getMedications } from "@/backend/pdfBackend/getPDFData";
+import { getMedications, getDoctorSpecialization, getDoctorHospital } from "@/backend/pdfBackend/getPDFData";
 
 export function MedicationHistoryPDF({ patientId, patientData }) {
 	const [medicationhistory, setMedicationHistory] = useState([
@@ -39,7 +39,8 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 				medicationHistory.map((item, index) => ({
 					number: index + 1,
 					provider: item.resource.requester.agent.reference,
-					specialization: item.resource.getSpecialization ?? "Endocrinologist",
+					specialization: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
+					hospital: getDoctorSpecialization(item.resource.requester.agent.license_id) ?? "", // fix
 					generic: item.resource.medicationCodeableConcept[0].text,
 					brand: item.resource.medicationCodeableConcept[0].coding[0].display,
 					form: item.resource.form.text,
@@ -93,7 +94,7 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 			<Button onClick={downloadPDF}>Download</Button>
 			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					{patientData?.first_name} {patientData?.last_name}
+					{patientData?.personal_information?.first_name} {patientData?.personal_information?.last_name}
 				</div>
 				<div className="text-black text-center text-base  leading-5max-md:ml-1 max-md:mt-10 mb-10">
 					Medication History

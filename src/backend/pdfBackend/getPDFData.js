@@ -102,5 +102,11 @@ export const getDoctorSpecialization = async (doctor_license) => {
 
 	const specialization = specializations.find((specialization) => specialization.id === data[0]?.specialization_id);
 
-	return specialization.doctor_specialization_name;
+	return specialization?.doctor_specialization_name;
 };
+
+export const getDoctorHospital = async (doctor_license) => {
+	const { data, error } = await project.from("doctors").select().eq("license_id", doctor_license);
+
+	return data[0]?.hospital?.name;
+}

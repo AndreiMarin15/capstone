@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { DoctorSignUp } from "@/backend/signup/doctor_signup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@/components/ui/button";
 {
 	/* MISSING ITEMS 
     - Progress Bar
@@ -28,7 +29,7 @@ export default function DoctorInformation() {
 	return (
 		<div className=" bg-white flex flex-col items-stretch pb-8 h-auto">
 			<span className="flex w-full flex-col mt-11 px-20 max-md:max-w-full max-md:mt-10 max-md:px-5">
-				<span className="self-stretch flex items-center justify-between gap-5 ml-4 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5">
+				<span className="self-stretch flex items-center justify-between gap-5 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5">
 					<div className="text-black text-xl font-semibold leading-8 my-auto">Doctor Registration</div>
 					<span className="self-stretch flex items-center justify-between gap-5">
 						<div className="text-gray-400 text-xs font-medium leading-5 grow whitespace-nowrap my-auto">
@@ -55,13 +56,11 @@ export default function DoctorInformation() {
 					}}
 					className="w-full flex justify-between px-14 max-md:max-w-full  max-md:px-5"
 				>
-					<button className=" text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2  px-6 py-2 rounded max-md:px-5">
-						BACK
-					</button>
+					<Button variant="back"> ← BACK</Button>
 
 					<div></div>
 
-					<button
+					<Button
 						onClick={async () => {
 							const doctorInfo = {
 								email: userStore.email,
@@ -76,7 +75,7 @@ export default function DoctorInformation() {
 								years_of_practice: doctorStore.years_of_practice,
 								about: doctorStore.about,
 								photo: doctorStore.photo,
-								hospital: doctorStore.hospital
+								hospital: doctorStore.hospital,
 							};
 
 							const account = await DoctorSignUp.signUpAsDoctor(doctorInfo);
@@ -104,10 +103,9 @@ export default function DoctorInformation() {
 								}, 2000);
 							}
 						}}
-						className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
 					>
 						NEXT
-					</button>
+					</Button>
 				</div>
 			</span>
 		</div>
