@@ -35,7 +35,6 @@ export async function getObservationsWithLabTest() {
 	}
 }
 
-
 export async function getObservationsByPatientId(patientId) {
 	try {
 		if (!patientId) {
@@ -69,7 +68,7 @@ export async function getFinalDiagnosisObservations(patientId) {
 			.contains("resource", { id: "finalDiagnosis" })
 			// .order("created_at", { ascending: false })
 			// .limit(1);
-		// .eq("resource->subject->>reference", patientId)
+			.eq("resource->subject->>reference", patientId);
 		// .order("created_at", { ascending: false });
 
 		if (error) {

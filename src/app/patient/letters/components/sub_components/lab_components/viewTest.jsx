@@ -50,74 +50,74 @@ export default function UploadLab({
     fetchObservations();
   }, []);
 
-  const range = [
-    {
-      imgsrc:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?",
-      variable: "Ranges",
-      value: (
-        <div className="flex flex-col">
-          <input
-            type="text"
-            className="text-xs font-semibold leading-5 text-black"
-            placeholder="Low"
-          />
-          <div className="flex gap-4 px-px mt-1.5">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-          <input
-            type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
-            placeholder="Normal"
-          />
-          <div className="flex gap-4 px-px mt-1.5">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-          <input
-            type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
-            placeholder="High"
-          />
-          <div className="flex gap-4 px-px">
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
-            />
-            <input
-              type="text"
-              className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
+  // const range = [
+  //   {
+  //     imgsrc:
+  //       "https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?",
+  //     variable: "Ranges",
+  //     value: (
+  //       <div className="flex flex-col">
+  //         <input
+  //           type="text"
+  //           className="text-xs font-semibold leading-5 text-black"
+  //           placeholder="Low"
+  //         />
+  //         <div className="flex gap-4 px-px mt-1.5">
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //         </div>
+  //         <input
+  //           type="text"
+  //           className="mt-7 text-xs font-semibold leading-5 text-black"
+  //           placeholder="Normal"
+  //         />
+  //         <div className="flex gap-4 px-px mt-1.5">
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //         </div>
+  //         <input
+  //           type="text"
+  //           className="mt-7 text-xs font-semibold leading-5 text-black"
+  //           placeholder="High"
+  //         />
+  //         <div className="flex gap-4 px-px">
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 rounded border border-black border-solid h-[23px] w-[35px]"
+  //           />
+  //           <input
+  //             type="text"
+  //             className="shrink-0 w-14 rounded border border-black border-solid h-[23px]"
+  //           />
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  // ];
 
   const handleSave = async () => {
     const currentDate = new Date();
@@ -402,25 +402,32 @@ export default function UploadLab({
               <td className="h-6"></td>
             </tr>
 
-            <tr>
-              <td className="w-full">
-                <div className="flex justify-between items-center">
-                  {" "}
-                  {/* Flex container */}
-                  <div className="text-black text-xs font-semibold leading-5 ml-10 self-center my-auto">
-                    Lab Values
-                  </div>{" "}
-                  {/* Text */}
-                  <span className="bg-white flex  max-w-full flex-col items-center mt-6 self-start max-md:px-5"></span>
-                  <div className="text-black text-xs font-semibold self-center mr-40">
-                    Unit
-                  </div>{" "}
-                </div>
-              </td>
-            </tr>
+            <table className="max-w-fit border-separate">
+              <tr>
+                <td className="">
+                  <div className="flex gap-4 my-auto font-semibold text-black">
+                    <Image
+                      alt="image"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
+                      className="aspect-square fill-black w-[15px]"
+                    />
+                    <div className="my-auto mr-2 ml-2 text-xs">Lab Values</div>
+                  </div>
+                </td>
+                {/* Text */}
+                <td className="pl-80">
+                  <div className="flex gap-4 my-auto font-semibold text-black">
+                    <div className="my-auto text-xs">Unit</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
             {rows?.map((row, index) => (
-              <tbody key={index} className="ml-4">
-                <tr className="flex">
+              <tbody key={index} className="ml-4  ">
+                <tr className="flex mt-4">
                   <td className="border-l-[8px] border-transparent flex items-center">
                     <span className="text-black text-xs font-semibold leading-5 self-center my-auto ml-4 mr-4">
                       {/* Lab Value {index + 1} */}
@@ -442,18 +449,22 @@ export default function UploadLab({
                       =
                     </span>
                   </td>
-                  <td className="border-l-[8px] border-transparent text-xs">
-                    <input
-                      className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                      type="text"
-                      placeholder="Enter value"
-                      value={row.value}
-                      onChange={(e) => handleValueChange(e.target.value, index)}
-                    />
+                  <td className=" border-transparent text-xs">
+                    <span className="flex items-center text-black font-medium">
+                      <input
+                        className="py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black max-w-[80%]"
+                        type="text"
+                        placeholder="Enter value"
+                        value={row.value}
+                        onChange={(e) =>
+                          handleValueChange(e.target.value, index)
+                        }
+                      />
+                    </span>
                   </td>
-                  <td className="border-l-[20px] border-transparent text-xs">
+                  <td className=" border-transparent text-xs">
                     <input
-                      className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                      className="mr-8 justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                       type="text"
                       placeholder="Unit"
                       value={row.unit}
@@ -463,45 +474,81 @@ export default function UploadLab({
                 </tr>
               </tbody>
             ))}
+            <table className="max-w-fit border-separate mt-8">
+              <tr>
+                <td>
+                  <div className="flex gap-4 my-auto font-semibold text-black">
+                    <Image
+                      alt="image"
+                      height={0}
+                      width={0}
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
+                      className="aspect-square fill-black w-[22px]"
+                    />
+                    <div className="my-auto text-xs">Ranges</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <table className="ml-6 max-w-fit border-spacing-y-2 border-separate">
+              <tbody className="text-xs leading-5 text-black">
+                <tr></tr>
+                {/* Your existing row */}
+                <tr>
+                  <td className="border-l-[16px] border-transparent">
+                    <input
+                      className="justify-center py-2 px-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                      type="text"
+                      placeholder="Normal"
+                    />
+                  </td>
+                  <td className="border-l-[8px] border-transparent flex items-center">
+                    <span className="mt-2 flex items-center text-black font-lg font-bold">
+                      :
+                    </span>
+                  </td>
+                  <td className="border-l-[8px] border-transparent">
+                    <input
+                      className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                      type="text"
+                      placeholder="100"
+                    />
+                  </td>
+                  <td className="border-l-[20px] border-transparent">
+                    <input
+                      className="text-center justify-center py-2 px-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-12"
+                      type="text"
+                      placeholder="-"
+                    />
+                  </td>
+                  <td className="border-l-[20px] border-transparent">
+                    <input
+                      className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                      type="text"
+                      placeholder="20"
+                    />
+                  </td>
+                </tr>
 
-            {range?.map((item) => (
-              <tbody key={item} className="ml-4">
-                <tr key={item.variable}>
-                  <td style={{ paddingRight: "36px" }}>
-                    {" "}
-                    {/* Adjust right padding */}
-                    {item.imgsrc && (
-                      <Image
-                        alt="picture"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src={item.imgsrc}
-                        className="w-5"
-                      />
-                    )}
-                  </td>
-                  <td
-                    style={{
-                      paddingLeft: "8px",
-                      borderLeftWidth: "0",
-                      marginRight: "64px",
-                    }}
-                  >
-                    {" "}
-                    {/* Adjust left padding and remove left border */}
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
-                    </div>
-                  </td>
-                  <td className="border-l-[5rem] border-transparent">
-                    <div className="text-black text-xs leading-5 ml-auto">
-                      {item.value}
-                    </div>
+                {/* Add another row button */}
+                <tr>
+                  <td colSpan="4" className="text-center">
+                    <button
+                      className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+                      // onClick={handleAddRow} // Assuming you have a function handleAddRow for adding rows
+                    >
+                      <div className=" justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
+                        +
+                      </div>
+                      <div className=" my-auto text-xs text-gray-400">
+                        Add another row
+                      </div>
+                    </button>
                   </td>
                 </tr>
               </tbody>
-            ))}
+            </table>
           </table>
           <div className="flex justify-between items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
             <div className="flex flex-col mt-8 max-md:max-w-full max-md:mt-7">
