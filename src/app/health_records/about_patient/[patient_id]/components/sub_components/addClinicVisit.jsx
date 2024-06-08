@@ -11,7 +11,7 @@ import uploadEncounter from "@/backend//health_records/uploadEncounter";
 import { healthRecords } from "@/backend//health_records/health_records";
 
 
-const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
+const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounters}) => {
   const currentScreen = useClinicVisitStore(state => state.currentScreen);
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
   const reviewOfSystems = useClinicVisitStore(state => state.reviewOfSystems);
@@ -224,7 +224,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.height.toString(),
+          valueQuantity: {
+            unit: "cm",
+            value: vitals.height,
+          },
           resource_type: "Observation",
         },
         {
@@ -246,7 +249,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.weight.toString(),
+          valueQuantity: {
+            unit: "kg",
+            value: vitals.weight,
+          },
           resource_type: "Observation",
         },
         {
@@ -268,7 +274,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.bmi.toString(), // Convert BMI to string
+          valueQuantity: {
+            unit: "kg/m2",
+            value: vitals.bmi,
+          },
           resource_type: "Observation",
         },
         {
@@ -290,7 +299,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.systolic.toString(), // Convert systolic to string
+          valueQuantity: {
+            unit: "mmHg",
+            value: vitals.systolic,
+          },
           resource_type: "Observation",
         },
         {
@@ -312,7 +324,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.diastolic.toString(), // Convert diastolic to string
+          valueQuantity: {
+            unit: "mmHg",
+            value: vitals.diastolic,
+          },
           resource_type: "Observation",
         },
         {
@@ -334,7 +349,10 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: vitals.heartRate.toString(), // Convert heart rate to string
+          valueQuantity: {
+            unit: "beats/minute",
+            value: vitals.heartRate,
+          },
           resource_type: "Observation",
         },
         {
@@ -388,6 +406,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
         autoClose: 2000,
       });
       setCurrentScreen(0);
+      fetchEncounters();
+      setCurrentPage(0);
     } catch (error) {
       console.error("Error saving data:", error);
     }
@@ -446,6 +466,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId }) => {
         <AddAnalysis
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
           clinicDate={clinicDate}
           setClinicDate={setClinicDate}
           condition={condition}

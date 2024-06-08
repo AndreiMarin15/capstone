@@ -188,10 +188,10 @@ export default function AddObservation({
       value: "",
       type: "checkbox",
       checkboxList: [
-        { name: "fever", value: "Fever" },
-        { name: "weightLoss", value: "Weight Loss" },
-        { name: "poorAppetite", value: "Poor Appetite" },
-        { name: "fatigue", value: "Fatigue" },
+        { name: "Fever", value: "Fever" },
+        { name: "Weight Loss", value: "Weight Loss" },
+        { name: "Poor Appetite", value: "Poor Appetite" },
+        { name: "Fatigue", value: "Fatigue" },
       ],
     },
     {
