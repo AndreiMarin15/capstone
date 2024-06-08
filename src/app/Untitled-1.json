@@ -1,0 +1,29 @@
+{
+  "id": "labtest",
+  "code": {
+    "coding": [
+      {
+        "code": "YOUR_LOINC_CODE",
+        "system": "http://loinc.org"
+      }
+    ]
+  },
+  "status": "requested",
+  "subject": {
+    "type": "Patient",
+    "reference": "43140f1c-6cd0-4b32-81a9-c788090b37ad"
+  },
+  "codeText": "Cough Examination A",
+  "imageSrc": null,
+  "participant": {
+    "type": "Doctor",
+    "actor": ""
+  },
+  "resource_type": "Observation",
+  "valueQuantity": {
+    "valueQuantities": []
+  },
+  "uploadedDateTime": null,
+  "effectiveDateTime": null,
+  "requestedDateTime": "2024-05-08"
+}

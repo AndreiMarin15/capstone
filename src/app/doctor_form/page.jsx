@@ -62,21 +62,25 @@ export default function DoctorInformation() {
 
           <div></div>
 
-          <Button
-            onClick={async () => {
-              const doctorInfo = {
-                email: userStore.email,
-                password: userStore.password,
-                license_id: doctorStore.doctor_license.license_number,
-                specialization_id: doctorStore.specialization_id,
-                specialization_name: doctorStore.specialization_name,
-                first_name: doctorStore.first_name,
-                last_name: doctorStore.last_name,
-                gender: doctorStore.gender,
-                // birthdate: doctorStore.birthdate,
-                years_of_practice: doctorStore.years_of_practice,
-                about: doctorStore.about,
-              };
+
+					<button
+						onClick={async () => {
+							const doctorInfo = {
+								email: userStore.email,
+								password: userStore.password,
+								license_id: doctorStore.doctor_license.license_number,
+								specialization_id: doctorStore.specialization_id,
+								specialization_name: doctorStore.specialization_name,
+								first_name: doctorStore.first_name,
+								last_name: doctorStore.last_name,
+								gender: doctorStore.gender,
+								// birthdate: doctorStore.birthdate,
+								years_of_practice: doctorStore.years_of_practice,
+								about: doctorStore.about,
+								photo: doctorStore.photo,
+								hospital: doctorStore.hospital
+							};
+
 
               const account = await DoctorSignUp.signUpAsDoctor(doctorInfo);
               console.log(account.message);
