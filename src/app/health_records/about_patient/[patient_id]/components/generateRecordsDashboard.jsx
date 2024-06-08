@@ -16,6 +16,7 @@ import { ClinicVisitsPDF } from "./PDF_templates/clinicvisitPDF";
 import { VitalsPDF } from "./PDF_templates/vitalsPDF";
 
 export default function GenerateRecords({ patientId, patientData }) {
+
 	const [date, setDate] = useState();
 
 	useEffect(() => {
@@ -150,4 +151,5 @@ export default function GenerateRecords({ patientId, patientData }) {
 			</div>
 		</>
 	);
+
 }

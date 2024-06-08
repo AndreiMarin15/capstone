@@ -56,7 +56,7 @@ export default function UploadLab({
         "https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?",
       variable: "Ranges",
       value: (
-        <div className="flex flex-col">
+        <div className="ml-11 flex flex-col">
           <input
             type="text"
             className="text-xs font-semibold leading-5 text-black"
@@ -465,9 +465,12 @@ export default function UploadLab({
             ))}
 
             {range?.map((item) => (
-              <tbody key={item} className="ml-4">
+              <tbody
+                key={item}
+                className="border-transparent items-center mt-12"
+              >
                 <tr key={item.variable}>
-                  <td style={{ paddingRight: "36px" }}>
+                  <td className="flex">
                     {" "}
                     {/* Adjust right padding */}
                     {item.imgsrc && (
@@ -480,21 +483,20 @@ export default function UploadLab({
                         className="w-5"
                       />
                     )}
-                  </td>
-                  <td
-                    style={{
+                    {/* style=
+                    {{
                       paddingLeft: "8px",
                       borderLeftWidth: "0",
                       marginRight: "64px",
-                    }}
-                  >
-                    {" "}
+                    }}{" "} */}
                     {/* Adjust left padding and remove left border */}
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    <div className="text-black text-xs font-semibold self-center my-auto">
                       {item.variable}
                     </div>
                   </td>
-                  <td className="border-l-[5rem] border-transparent">
+                </tr>
+                <tr>
+                  <td>
                     <div className="text-black text-xs leading-5 ml-auto">
                       {item.value}
                     </div>

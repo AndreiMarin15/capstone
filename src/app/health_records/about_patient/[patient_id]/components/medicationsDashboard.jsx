@@ -256,8 +256,10 @@ export default function Medications({ patientId }) {
                         Prescription #1
                       </div>
                     </div>
+
                     <div className="flex w-full justify-between text-xs">
                       <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+
                         {/* Name of Provider */}
                         <Image
                           alt="image"
