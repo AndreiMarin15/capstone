@@ -110,6 +110,7 @@ export default function AddMedications({
         requester: {
           agent: {
             reference: doctorInfo,
+            license_id: doctorInfo.license,
           },
         },
         form: {
