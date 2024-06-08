@@ -79,7 +79,7 @@ export default function LabTests({ labtests, patient }) {
 							<>
 								<button
 									className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
-									// onClick={handleButtonClick}
+									onClick={handleButtonClick}
 								>
 									<div className="ml-5 flex gap-2 items-center">
 										<Image
