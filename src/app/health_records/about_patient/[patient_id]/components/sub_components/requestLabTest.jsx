@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BackButton from "./BackButton";
+import { Button } from "@/components/ui/button";
 
 export default function RequestLabTest({
   currentScreen,
@@ -14,6 +15,7 @@ export default function RequestLabTest({
   handleSave,
 }) {
   const [labTestName, setLabTestName] = useState("");
+  const [remarks, setRemarks] = useState("");
 
   const handleSaveLabTestRequest = async () => {
     // Construct the lab test data object
@@ -36,7 +38,8 @@ export default function RequestLabTest({
 
       dateOfRequest: null,
       dateOfResult: null, // Null
-      labTestName: labTestName, // Lab test name from the state
+      labTestName: labTestName,
+      remarks: remarks, // Lab test name from the state
       base64Image: null, // Null
     };
 
@@ -54,10 +57,19 @@ export default function RequestLabTest({
   const labtest = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Lab Test Name",
+      variable: "Name of Lab Test",
       value: labTestName,
-    },
+    }
+   
   ];
+
+  const remark = [
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+      variable: "Remarks",
+      value: remarks,
+    }
+  ]
 
   if (currentScreen !== 4) {
     return null; // Do not render if currentScreen is not 4
@@ -70,12 +82,12 @@ export default function RequestLabTest({
       </div>
 
       <div>
-        <div className="flex gap-[4rem] align-baseline">
-          <table className="max-w-fit border-spacing-y-5 border-separate">
+        <div className="flex gap-[5rem] align-baseline">
+          <table className="max-w-fit border-spacing-y-7 border-separate">
             <tbody className="text-xs leading-5 text-black">
               {labtest?.map((item, index) => (
                 <tr key={index} className="h-8">
-                  <td className="w-5">
+                  <td className="w-8">
                     <Image
                       alt="image"
                       height={0}
@@ -101,6 +113,34 @@ export default function RequestLabTest({
                       <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
                     )}
                   </td>
+                  <td> 
+                    <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?"
+                            className="self-start aspect-square fill-black w-[15px] ml-10 mr-5"
+                          /> 
+                  </td>
+                  <td className= "text-black text-xs font-semibold leading-5 self-center my-auto"> Remarks </td>
+                  <td className="border-l-[5rem] border-transparent">
+                    {item.variable === "Remarks" ? (
+                      <input
+                        className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                      />
+                    ) : (
+                      <input className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-stone-300 max-md:pr-5" />
+                    )}
+                  </td>
+                  <td className="pl-20">
+                  <Button variant="outline">  
+                    Add
+                  </Button>
+                  </td>
+                  
                 </tr>
               ))}
             </tbody>
