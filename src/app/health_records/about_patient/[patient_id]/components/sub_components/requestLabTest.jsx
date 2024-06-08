@@ -21,6 +21,8 @@ export default function RequestLabTest({
   const setRemarks = useClinicVisitStore(state => state.setRemarks);
   const setDoctorId = useClinicVisitStore(state => state.setDoctorId);
   const [doctorInfo, setDoctorInfo] = useState(null);
+  const [labTests, setLabTests] = useState([{ labTestName: "", remarks: "" }]);
+
 
   useEffect(() => {
     const fetchDoctorId = async () => {
@@ -43,37 +45,28 @@ export default function RequestLabTest({
       return;
     }
   
-    const labTestData = {
-      loincCode: "YOUR_LOINC_CODE", // Empty or null
-      status: "requested", // Empty or null
-      valueQuantities: [],
-      subject: {
-        type: "Patient",
-        reference: patientId,
-      },
-      participant: {
-        type: "Doctor",
-        actor: doctorInfo.fullName,
-        license_id: doctorInfo.license,
-      },
-      dateOfUpdate: null,
-      dateOfRequest: null,
-      dateOfResult: null, // Null
-      labTestName: labTestName,
-      remarks: remarks, // Lab test name from the state
-      base64Image: null, // Null
-    };
-  
-    // Pass lab test data to the handleSave function of AddClinicVisit
-    handleSaveLabTest(labTestName, remarks, doctorInfo);
+    labTests.forEach(({ labTestName, remarks }) => {
+      // Pass lab test data to the handleSave function of AddClinicVisit
+      handleSaveLabTest(labTestName, remarks, doctorInfo);
+    });
     
-    toast.success("Lab Test Requested", {
+    toast.success("Lab Tests Requested", {
       position: "top-left",
       theme: "colored",
       autoClose: 2000,
     });
   
     setCurrentScreen(0);
+  };
+
+  const addLabTestRow = () => {
+    setLabTests([...labTests, { labTestName: "", remarks: "" }]);
+  };
+
+  const removeLabTestRow = (index) => {
+    const updatedLabTests = [...labTests];
+    updatedLabTests.splice(index, 1);
+    setLabTests(updatedLabTests);
   };
 
   const labtest = [
@@ -96,7 +89,7 @@ export default function RequestLabTest({
     return null; // Do not render if currentScreen is not 4
   }
 
-  return (
+ return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
         REQUEST LAB TEST
@@ -106,7 +99,7 @@ export default function RequestLabTest({
         <div className="flex gap-[5rem] align-baseline">
           <table className="max-w-fit border-spacing-y-7 border-separate">
             <tbody className="text-xs leading-5 text-black">
-              {labtest?.map((item, index) => (
+              {labTests.map((labTest, index) => (
                 <tr key={index} className="h-8">
                   <td className="w-8">
                     <Image
@@ -114,20 +107,24 @@ export default function RequestLabTest({
                       height={0}
                       width={0}
                       loading="lazy"
-                      src={item.src}
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                       className="self-start aspect-square fill-black w-[15px]"
                     />
                   </td>
                   <td className="border-l-[16px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                      {item.variable}
+                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto whitespace-nowrap">
+                      Lab Test Name {index + 1}
                     </div>
                   </td>
                   <td className="border-l-[5rem] border-transparent">
                     <input
                       className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
-                      value={labTestName}
-                      onChange={(e) => setLabTestName(e.target.value)}
+                      value={labTest.labTestName}
+                      onChange={(e) => {
+                        const updatedLabTests = [...labTests];
+                        updatedLabTests[index].labTestName = e.target.value;
+                        setLabTests(updatedLabTests);
+                      }}
                     />
                   </td>
                   <td>
@@ -146,14 +143,25 @@ export default function RequestLabTest({
                   <td className="border-l-[5rem] border-transparent">
                     <input
                       className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
-                      value={remarks}
-                      onChange={(e) => setRemarks(e.target.value)}
+                      value={labTest.remarks}
+                      onChange={(e) => {
+                        const updatedLabTests = [...labTests];
+                        updatedLabTests[index].remarks = e.target.value;
+                        setLabTests(updatedLabTests);
+                      }}
                     />
                   </td>
-                  <td className="pl-20">
-                    <Button variant="outline">
-                      Add
-                    </Button>
+                  <td className="pl-20" style={{ display: 'flex', gap: '8px' }}>
+                    {index === labTests.length - 1 && (
+                      <Button variant="outline" onClick={addLabTestRow}>
+                        Add
+                      </Button>
+                    )}
+                    {index !== 0 && (
+                      <Button variant="outline" onClick={() => removeLabTestRow(index)} style={{ backgroundColor: 'white', color: 'red', border: '1px solid red' }}>
+                        Remove
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}
