@@ -97,7 +97,8 @@ export default function PrickList() {
 					</button>
 				</TabsContent>
 			) : currentScreen === 1 ? (
-				<ViewLab currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				// <ViewLab currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<> </>
 			) : currentScreen === 2 ? (
 				/* CHANGE TO SELF PRICK JSX HERE */
 				<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />

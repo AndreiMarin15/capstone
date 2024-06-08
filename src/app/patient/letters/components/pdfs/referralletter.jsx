@@ -64,14 +64,14 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by_id })
 								Name
 								<br />
 								<span className="font-normal">
-									{patientData?.personal_information.first_name ?? ""}{" "}
-									{patientData?.personal_information.last_name ?? ""}
+									{patientData?.personal_information?.first_name ?? ""}{" "}
+									{patientData?.personal_information?.last_name ?? ""}
 								</span>
 							</div>
 							<div className="mt-6 items-start text-start">
 								Age
 								<br />
-								<span className="font-normal">{getAge(patientData?.personal_information.birthdate) ?? ""}</span>
+								<span className="font-normal">{getAge(patientData?.personal_information?.birthdate) ?? ""}</span>
 							</div>
 						</div>
 					</div>
@@ -80,8 +80,8 @@ export function ReferralLetterPDF({ referralData, patientData, referred_by_id })
 							Address
 							<br />
 							<span className="font-normal">
-								{patientData?.personal_information.street_address ?? ""},{" "}
-								{patientData?.personal_information.state ?? ""}, {patientData?.personal_information.city ?? ""}
+								{patientData?.personal_information?.street_address ?? ""},{" "}
+								{patientData?.personal_information?.state ?? ""}, {patientData?.personal_information?.city ?? ""}
 							</span>
 						</div>
 					</div>
