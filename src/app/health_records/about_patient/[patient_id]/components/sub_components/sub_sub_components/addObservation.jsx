@@ -13,7 +13,7 @@ export default function AddObservation({
   currentPage,
   setCurrentPage,
   patientId,
-  handleNext
+  handleNext,
 }) {
   const clinicDate = useClinicVisitStore(state => state.clinicDate);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
@@ -23,10 +23,17 @@ export default function AddObservation({
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
   const reviewOfSystemsStore = useClinicVisitStore(state => state.reviewOfSystems);
+  const labTestName = useClinicVisitStore ((state) => state.labTestName);
 
   // Initialize local state with Zustand store values
   const [reviewOfSystems, setReviewOfSystems] = useState(reviewOfSystemsStore);
   
+
+  useEffect(() => {
+    console.log("Lab Test Received in AddObservation:", labTestName);
+  }, [labTestName]);
+
+
   const resetReviewOfSystems = () => {
     const reset = {};
     fields
@@ -73,6 +80,7 @@ export default function AddObservation({
       effectiveDateTime: data.dateOfResult,
       requestedDateTime: clinicDate,
       codeText: data.labTestName,
+      remarks: data.remarks,
       imageSrc: data.base64Image,
     }));
 
@@ -217,6 +225,15 @@ export default function AddObservation({
         setCurrentScreen(4);
       },
     },
+
+    {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
+      variable: "Lab Test Name", // Display the lab test name
+      name: "labTestName", // Set a unique name for identification
+      value: labTestName, // Use the labTestName state value
+      type: "label", // Use a label to display text
+    },
+
   ];
     
 
