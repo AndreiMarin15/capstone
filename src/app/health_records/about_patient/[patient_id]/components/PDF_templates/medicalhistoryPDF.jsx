@@ -42,21 +42,30 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 			console.log(patientData);
 			const response = await getMedicalHistory(patientId);
 			console.log(response);
-			// console.log(response)
-			setMedicalHistory(
-				response
-					.filter((medicalhistory) => medicalhistory.resource.valueString)
-					.map((medicalhistory, index) => {
-						return {
-							number: index + 1 || 1,
-							diagnosis: medicalhistory.resource.valueString || "",
-							date: medicalhistory.ts,
-							provider: medicalhistory.resource.participant.actor,
-							specialization: getDoctorSpecialization(medicalhistory.resource.participant.license_id) ?? "Endocrinologist",
-							hospital: getDoctorHospital(medicalhistory.resource.participant.license_id) ?? "Philippine General Hospital",
-						};
-					})
-			);
+
+			const medicalHistoryPromises = response
+				.filter((medicalhistory) => medicalhistory.resource.valueString)
+				.map(async (medicalhistory, index) => {
+					const specializationPromise = getDoctorSpecialization(medicalhistory.resource.participant.license_id);
+					const hospitalPromise = getDoctorHospital(medicalhistory.resource.participant.license_id);
+
+					// Await for both promises to resolve
+					const specialization = (await specializationPromise) ?? "Endocrinologist";
+					const hospital = (await hospitalPromise) ?? "Philippine General Hospital";
+
+					return {
+						number: index + 1,
+						diagnosis: medicalhistory.resource.valueString || "",
+						date: medicalhistory.ts,
+						provider: medicalhistory.resource.participant.actor,
+						specialization,
+						hospital,
+					};
+				});
+
+			// Wait for all promises to resolve and then set the medical history
+			const medicalHistoryResolved = await Promise.all(medicalHistoryPromises);
+			setMedicalHistory(medicalHistoryResolved);
 		};
 
 		fetchData();
