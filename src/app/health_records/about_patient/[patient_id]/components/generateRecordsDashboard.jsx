@@ -39,11 +39,9 @@ export default function GenerateRecords({ patientId, patientData }) {
   const [validityEnd, setValidityEnd] = useState();
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
-	const handleCheckboxChange = (event) => {
-		setIsCheckboxChecked(!isCheckboxChecked);
-	};
-
-
+  const handleCheckboxChange = (event) => {
+    setIsCheckboxChecked(!isCheckboxChecked);
+  };
 
   return (
     <>
@@ -139,32 +137,38 @@ export default function GenerateRecords({ patientId, patientData }) {
               />
             </td>
 
-						<td>List of Care Plans</td>
-						<td>
-							<CarePlansPDF patientId={patientId} patientData={patientData}/>
-						</td>
-					</tr>
+            <td>List of Care Plans</td>
+            <td>
+              <CarePlansPDF patientId={patientId} patientData={patientData} />
+            </td>
+          </tr>
 
-					<tr>
-						<td>Referral History</td>
-						<td>
-							<ReferralHistoryPDF patientId={patientId} patientData={patientData}/>
-						</td>
+          <tr>
+            <td>Referral History</td>
+            <td>
+              <ReferralHistoryPDF
+                patientId={patientId}
+                patientData={patientData}
+              />
+            </td>
 
-						<td>Vitals & Biometrics</td>
-						<td>
-							<VitalsPDF patientId={patientId} patientData={patientData}/>
-						</td>
-					</tr>
+            <td>Vitals & Biometrics</td>
+            <td>
+              <VitalsPDF patientId={patientId} patientData={patientData} />
+            </td>
+          </tr>
 
-					<tr>
-						<td> Clinic Visits</td>
-						<td>
-							<ClinicVisitsPDF patientId={patientId} patientData={patientData}/>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</>
-	);
+          <tr>
+            <td> Clinic Visits</td>
+            <td>
+              <ClinicVisitsPDF
+                patientId={patientId}
+                patientData={patientData}
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+    </>
+  );
 }
