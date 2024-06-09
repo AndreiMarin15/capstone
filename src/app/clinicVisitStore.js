@@ -16,6 +16,8 @@ const clinicVisitStore = create((set) => ({
   setReviewOfSystems: (systems) => set((state) => ({ ...state, reviewOfSystems: systems })),
   signsAndSymptoms: "",
   setSignsAndSymptoms: (symptoms) => set({ signsAndSymptoms: symptoms }),
+  otherReviewOfSystems: "",
+  setOtherReviewOfSystems: (other) => set({ otherReviewOfSystems: other }),
   otherConcerns: "",
   setOtherConcerns: (concerns) => set({ otherConcerns: concerns }),
   initialDiagnosis: "",
@@ -52,6 +54,7 @@ const clinicVisitStore = create((set) => ({
       fatigue: false,
     },
     signsAndSymptoms: "",
+    otherReviewOfSystems: "",
     otherConcerns: "",
     initialDiagnosis: "",
     finalDiagnosis: "",
@@ -63,7 +66,6 @@ const clinicVisitStore = create((set) => ({
       diastolic: null,
       heartRate: null,
     },
-    condition: "",
     doctorId: null, // Reset doctorId when reset is called
     labTestName: "", // Reset labTestName when reset is called
     remarks: "", // Reset remarks when reset is called
