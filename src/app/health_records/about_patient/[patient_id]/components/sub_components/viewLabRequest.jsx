@@ -2,7 +2,7 @@ import Image from "next/image";
 import BackButton from "./BackButton";
 import { useState, useEffect } from "react";
 import RecordLabTest from "./recordLabTest";
-import useLabTestStore from "@/app/LabTestStore";
+import useLabTestStore from "@/app/labTestStore";
 export default function ViewLabRequest({ 
   currentScreen,
   setCurrentScreen, 

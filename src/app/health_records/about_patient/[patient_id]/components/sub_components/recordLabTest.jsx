@@ -8,7 +8,7 @@ import { getObservationsByPatientId, updateObservation } from "@/backend//health
 import { healthRecords } from "@/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
-import useLabTestStore from "@/app/LabTestStore";
+import useLabTestStore from "@/app/labTestStore";
 
 import "react-toastify/dist/ReactToastify.css";
 

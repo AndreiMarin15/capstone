@@ -10,7 +10,7 @@ import { getObservationsByPatientId } from "@/backend/health_records/getObservat
 import doctor from "@/backend/health_records/doctor";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import useLabTestStore from "@/app/LabTestStore";
+import useLabTestStore from "@/app/labTestStore";
 
 async function fetchEncounters(patientId, setLabTests) {
   console.log(patientId);
