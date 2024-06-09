@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import BackButton from "./BackButton";
 import doctor from "@/backend//health_records/doctor";
 import { getEncounterById } from "@/backend//health_records/getEncounter";
-import { getObservationsByPatientId } from "@/backend//health_records/getObservation";
+import { getObservationsByPatientId, updateObservation } from "@/backend//health_records/getObservation";
 import { healthRecords } from "@/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
+import useLabTestStore from "@/app/LabTestStore";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,72 +25,148 @@ const ImageModal = ({ src, onClose }) => {
   );
 };
 
-export default function AddLabTest({
+export default function RecordLabTest({
   currentScreen,
   setCurrentScreen,
   patientId,
+  labTests,
   encounterId,
-  handleSave,
+  fetchEncounters
 }) {
+
+  const observationId = useLabTestStore((state) => state.observationId);
+  console.log("observationID: ", observationId)
   const [doctorId, setDoctorId] = useState("");
-  const [labTests, setLabTests] = useState([]);
+  const [selectedLabTest, setSelectedLabTest] = useState(null);
+  const [labTestsList, setLabTestsList] = useState([]);
 
   useEffect(() => {
-    // Fetch medications when the component mounts
     const fetchDoctor = async () => {
       try {
         const doctorInfo = await doctor.getDoctorByCurrentUser();
-
         setDoctorId(doctorInfo.fullName);
-        console.log(doctorInfo.fullName);
-        console.log(doctorId);
       } catch (error) {
-        console.error("Error fetching medications:", error);
+        console.error("Error fetching doctor:", error);
       }
     };
 
     fetchDoctor();
   }, []);
 
+
   useEffect(() => {
-    // Fetch encounter by ID when encounterId changes
+    console.log("LabTests:", labTests);
+    console.log("encounter Id: ", encounterId);
+    console.log("observationID: ", observationId)
+  
+  }, [observationId, labTests]);
+
+
+  useEffect(() => {
     const fetchEncounter = async () => {
       try {
         const encounter = await getEncounterById(encounterId);
-        console.log(encounter);
-
         const observationsData = await getObservationsByPatientId(patientId);
-        console.log(observationsData);
-
+        
+        // Filter lab tests based on observationId
         const labTestObservations = observationsData
-          .filter((observation) => observation.resource.id === "labtest")
-          ?.map((observation) => ({
-            id: observation.id,
+          .filter((observation) => observation.resource.id === 'labtest')
+          .filter((observation) => observation.id === observationId)
+          .map((observation) => ({
+            id: observation.resource.id,
             doctor: encounter.resource.participant.actor,
             srcdoctor:
               "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
             src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
             variable: observation.resource.codeText,
+            remarks: observation.resource.remarks,
             update: observation.resource.uploadedDateTime,
             date: observation.resource.effectiveDateTime,
             reqdate: encounter.resource.period.start,
             status: observation.resource.status,
           }));
-        console.log("labTestObservations:", labTestObservations);
-        setLabTests(labTestObservations);
-
-        // Do something with the encounter data, e.g., set state
+    
+        setLabTestsList(labTestObservations);
       } catch (error) {
         console.error("Error fetching encounter:", error);
       }
     };
-
+  
     if (encounterId) {
       fetchEncounter();
     }
   }, [encounterId]);
 
-  console.log("Doctor ID:", doctorId);
+  const handleSaveLabTest = async () => {
+    try {
+      const doctorInfo = await doctor.getDoctorByCurrentUser();
+      // Get the observation data from labTestsList
+  
+  
+      // Construct payload with updated data
+      const updatedObservationData = {
+        resource: {
+          id: "labtest",
+          code: {
+            coding: [
+              {
+                code: "YOUR_LOINC_CODE",
+                system: "http://loinc.org"
+              }
+            ]
+          },
+          status: "final",
+          remarks: labTestsList[0]?.remarks,
+          subject: {
+            type: "Patient",
+            reference: patientId
+          },
+          codeText: labTestsList[0]?.variable,
+          // Assuming uploadedImageSrc is defined elsewhere
+          imageSrc: uploadedImageSrc,
+          participant: {
+            type: "Doctor",
+            actor: doctorId,
+            license_id: doctorInfo.license,
+          
+          },
+          resource_type: "Observation",
+          valueQuantity: {
+            valueQuantities: rows.map((row) => ({
+              display: row.labValueName,
+              value: row.value,
+              unit: row.unit
+            }))
+          },
+          uploadedDateTime: dateTaken,
+          effectiveDateTime: dateUntil,
+          requestedDateTime: labTestsList[0]?.reqdate
+        }
+      };
+  
+      // Send updated data to backend to update observation
+      const response = await updateObservation(observationId, updatedObservationData);
+  
+      // Handle success response from backend
+      console.log("Observation updated successfully:", response);
+  
+      toast.success("Lab Test Recorded", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000
+      });
+  
+      setCurrentScreen(0);
+    } catch (error) {
+      console.error("Error updating observation:", error);
+      toast.error("Error updating observation", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000
+      });
+    }
+  };
+  
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
   const [dateOfRequest, setdateOfRequest] = useState("");
@@ -97,8 +174,8 @@ export default function AddLabTest({
   const [labTestName, setLabTestName] = useState("");
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newDateField, setNewDateField] = useState("");
-
+  const [dateTaken, setDateTaken] = useState("")
+  const [dateUntil, setDateUntil] = useState("")
   const [values, setValues] = useState({
     custom: { value: "", unit: "" },
   });
@@ -196,9 +273,12 @@ export default function AddLabTest({
       value: row.value,
     }));
 
-    const reqdate = labTests.length > 0 ? labTests[0].reqdate : null;
+    const reqdate = labTestsList.length > 0 ? labTestsList[0].reqdate : null;
+
+  
 
     const labTestData = {
+      
       loincCode: "YOUR_LOINC_CODE",
       status: "final",
       valueQuantities: rows?.map((row) => ({
@@ -214,12 +294,13 @@ export default function AddLabTest({
       participant: {
         type: "Doctor",
         actor: doctorId,
+        license_id: doctorInfo.license,
       },
 
-      dateOfUpdate: newDateFieldValue,
+      dateOfUpdate: dateTaken,
       dateOfRequest: reqdate,
 
-      dateOfResult: dateOfResult,
+      dateOfResult: dateUntil,
       labTestName: labTestName,
       base64Image: base64Image,
     };
@@ -234,10 +315,10 @@ export default function AddLabTest({
 
     setCurrentScreen(0);
   };
-
+console.log(labTestsList)
   return (
     <>
-      {currentScreen === 2 || currentScreen === 4 ? (
+      {currentScreen === 2 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-8 max-md:ml-1 max-md:mt-10">
             RECORD LAB TEST
@@ -246,7 +327,7 @@ export default function AddLabTest({
           <div>
             <div className="flex flex-col max-w-full">
               <div className="w-full max-md:max-w-full">
-                <span className="font-medium text-sm">Fasting Blood Sugar</span>
+            
 
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
                   <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
@@ -269,8 +350,8 @@ export default function AddLabTest({
                               className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
                               type="date"
                               onChange={(e) => {
-                                console.log("date of result:", e.target.value);
-                                setDateOfResult(e.target.value);
+                                console.log("date Taken:", e.target.value);
+                                setDateTaken(e.target.value);
                               }}
                             />
                           </td>
@@ -290,16 +371,11 @@ export default function AddLabTest({
                             <div className="my-auto">Name of Lab Test</div>
                           </div>
                           <td>
-                            <input
-                              className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
-                              onChange={(e) => {
-                                console.log(
-                                  "Lab Test Name Changed:",
-                                  e.target.value
-                                );
-                                setLabTestName(e.target.value);
-                              }}
-                            />
+                          <input
+                            className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                            value={labTestsList[0]?.variable}
+                            readOnly
+                          />
                           </td>
                         </td>
                         <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
@@ -315,9 +391,13 @@ export default function AddLabTest({
                             <div className="my-auto">Valid Until</div>
                           </div>
                           <td>
-                            <input
+                          <input
                               className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
                               type="date"
+                              onChange={(e) => {
+                                console.log("date Until:", e.target.value);
+                                setDateUntil(e.target.value);
+                              }}
                             />
                           </td>
                         </td>
@@ -538,7 +618,7 @@ export default function AddLabTest({
                             </td>
                           </tr>
                         ))}
-                        {/* Add another row button */}
+                 
                         <tr>
                           <td colSpan="4" className="text-center">
                             <button
@@ -569,7 +649,7 @@ export default function AddLabTest({
 
             <Button
               className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
-              onClick={handleAddLabTest}
+              onClick={handleSaveLabTest}
             >
               Save
             </Button>

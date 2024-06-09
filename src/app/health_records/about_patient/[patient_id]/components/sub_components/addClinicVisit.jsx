@@ -79,19 +79,6 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
       // Fetch patient data
       const patientData = await healthRecords.getPatientData(patientId);
 
-      const labTest = {
-        loincCode: "YOUR_LOINC_CODE",
-        status: "requested",
-        valueQuantities: [],
-        subject: { type: "Patient", reference: patientId },
-        participant: { type: "Doctor", actor: doctorInfo.fullName, license_id: doctorInfo.license },
-        dateOfUpdate: null,
-        dateOfRequest: null,
-        dateOfResult: null,
-        labTestName: labTestName,
-        remarks: remarks,
-        base64Image: null,
-      };
   
       // Construct contained array with observations
       const contained = [
@@ -425,6 +412,9 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
           valueQuantity: {
             valueQuantities: labTest.valueQuantities,
           },
+          rangeQuantity:{
+            rangeQuantities: labTest.rangeQuantities,
+          },
           uploadedDateTime: labTest.dateOfUpdate,
           effectiveDateTime: labTest.dateOfResult,
           requestedDateTime: clinicDate,
@@ -443,7 +433,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
         participant: {
           type: "Doctor",
           actor: doctorInfo.fullName,
-          license: doctorInfo.license,
+          license_id: doctorInfo.license,
         },
         subject: {
           type: "Patient",
@@ -473,6 +463,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
     const newLabTest = {
       loincCode: 'YOUR_LOINC_CODE',
       status: 'requested',
+      rangeQuantities: [],
       valueQuantities: [],
       subject: { type: 'Patient', reference: patientId },
       participant: { type: 'Doctor', actor: doctorInfo.fullName, license_id: doctorInfo.license },
