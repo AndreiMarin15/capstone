@@ -25,6 +25,13 @@ export const uploadObservation = async (observation) => {
 					license: observation.participant.license
 				},
 				resource_type: observation.resource_type,
+				rangeQuantity: {
+					rangeQuantities: observation.rangeQuantity.rangeQuantities?.map((range) => ({
+						level: range.level,
+						min: range.min,
+						max: range.max,
+					})),
+				},
 				valueQuantity: {
 					valueQuantities: observation.valueQuantity.valueQuantities?.map((val) => ({
 						display: val.display,

@@ -3,6 +3,7 @@ import AddObservation from './sub_sub_components/addObservation';
 import AddClinicalDiagnosis from './sub_sub_components/addClinicalDiagnosis';
 import AddVitals from './sub_sub_components/addVitals';
 import AddAnalysis from './sub_sub_components/addAnalysis';
+import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import useClinicVisitStore from '@/app/clinicVisitStore';
 import RequestLabTest from './requestLabTest';
@@ -23,6 +24,9 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   const doctorId = useClinicVisitStore(state => state.doctorId); 
   const suggestedDate = useClinicVisitStore(state => state.suggestedDate);
   const condition = useClinicVisitStore(state => state.condition);
+  const labTestName = useClinicVisitStore(state => state.labTestName);
+  const remarks = useClinicVisitStore(state => state.remarks);
+
 
   const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
@@ -35,6 +39,9 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   const setDoctorId = useClinicVisitStore(state => state.setDoctorId);
   const setSuggestedDate = useClinicVisitStore(state => state.setSuggestedDate);
   const setCondition = useClinicVisitStore(state => state.setCondition);
+  const setLabTestName = useClinicVisitStore(state => state.setLabTestName);
+  const setRemarks = useClinicVisitStore(state => state.setRemarks);
+
 
   React.useEffect(() => {
     const fetchDoctorId = async () => {
@@ -62,6 +69,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
 
   };
 
+  const [labTests, setLabTests] = useState([]);
+
   const handleSave = async () => {
     try {
       // Fetch necessary doctor information
@@ -69,9 +78,11 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   
       // Fetch patient data
       const patientData = await healthRecords.getPatientData(patientId);
+
   
       // Construct contained array with observations
       const contained = [
+      
         {
           id: "reviewOfSystems",
           code: {
@@ -377,6 +388,40 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
           valueString: condition,
           resource_type: "Observation",
         },
+        ...labTests.map((labTest, index) => ({
+          id: `labtest`, // Unique identifier for lab test observation
+          status: labTest.status,
+          code: {
+            coding: [
+              {
+                code: 'YOUR_LOINC_CODE',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          subject: {
+            type: 'Patient',
+            reference: patientData.id,
+          },
+          participant: {
+            type: 'Doctor',
+            actor: doctorInfo.fullName,
+            license_id: doctorInfo.license,
+          },
+          resource_type: 'Observation',
+          valueQuantity: {
+            valueQuantities: labTest.valueQuantities,
+          },
+          rangeQuantity:{
+            rangeQuantities: labTest.rangeQuantities,
+          },
+          uploadedDateTime: labTest.dateOfUpdate,
+          effectiveDateTime: labTest.dateOfResult,
+          requestedDateTime: clinicDate,
+          codeText: labTest.labTestName,
+          remarks: labTest.remarks,
+          imageSrc: labTest.base64Image,
+        })),
       ];
   
       // Construct encounter data object with clinicDate
@@ -388,7 +433,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
         participant: {
           type: "Doctor",
           actor: doctorInfo.fullName,
-          license: doctorInfo.license,
+          license_id: doctorInfo.license,
         },
         subject: {
           type: "Patient",
@@ -413,6 +458,27 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
     }
   };
 
+ 
+  const handleSaveLabTest = (labTestName, remarks, doctorInfo) => {
+    const newLabTest = {
+      loincCode: 'YOUR_LOINC_CODE',
+      status: 'requested',
+      rangeQuantities: [],
+      valueQuantities: [],
+      subject: { type: 'Patient', reference: patientId },
+      participant: { type: 'Doctor', actor: doctorInfo.fullName, license_id: doctorInfo.license },
+      dateOfUpdate: null,
+      dateOfRequest: null,
+      dateOfResult: null,
+      labTestName: labTestName,
+      remarks: remarks,
+      base64Image: null,
+    };
+    console.log(newLabTest); // Corrected variable name here
+    setLabTests((prevLabTests) => [...prevLabTests, newLabTest]);
+  };
+  
+
   return (
     <>
       {currentScreen === 0 && (
@@ -431,6 +497,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
        otherConcerns={otherConcerns} // Pass otherConcerns
        setOtherConcerns={setOtherConcerns} // Pass setOtherConcerns
        handleNext={handleNext}
+       labTestName={labTestName} 
      />
       )}
       {currentScreen === 1 && (
@@ -478,12 +545,14 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
         />
       )}
     {currentScreen === 4 && (
-        <RequestLabTest
-          currentScreen={currentScreen}
+         <RequestLabTest
+         currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
-          doctorId={doctorId} // Pass doctorId to RequestLabTest component
+          doctorId={doctorId}
           patientId={patientId}
-         
+          handleSaveLabTest={handleSaveLabTest} // Pass handleSaveLabTest function
+          labTestName={labTestName} // Pass labTestName
+          remarks={remarks} // Pass remarks
         />
       )}
     </>

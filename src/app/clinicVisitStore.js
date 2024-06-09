@@ -37,6 +37,10 @@ const clinicVisitStore = create((set) => ({
   setCondition: (condition) => set({ condition }),
   doctorId: null, // Initialize doctorId
   setDoctorId: (doctorId) => set({ doctorId }), // Setter function for doctorId
+  labTestName: "", // Initialize labTestName
+  setLabTestName: (labTestName) => set({ labTestName }), // Setter function for labTestName
+  remarks: "", // Initialize remarks
+  setRemarks: (remarks) => set({ remarks }), // Setter function for remarks
   reset: () => set({
     currentScreen: 0,
     clinicDate: new Date().toISOString().split('T')[0],
@@ -61,6 +65,8 @@ const clinicVisitStore = create((set) => ({
     },
     condition: "",
     doctorId: null, // Reset doctorId when reset is called
+    labTestName: "", // Reset labTestName when reset is called
+    remarks: "", // Reset remarks when reset is called
   }),
 }));
 
