@@ -1,42 +1,19 @@
 import Image from "next/image";
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import BackButton from "./BackButton";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
+import { useState, useEffect } from "react";
+export default function ViewLabRequest({ 
+  
+  currentScreen,
+  setCurrentScreen, 
+  labTests,
+  fetchEncounters
+}) {
   const [currentScreen3, setCurrentScreen3] = useState(0);
-
-  const labreqs = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      name: "HbA1c",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      name: "Fasting Blood Sugar (FBS)",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      name: "Lipid Profile",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-      name: "Urinalysis",
-    },
-  ];
+  const [labTestDetails, setLabTestDetails] = useState(null);
+  
+    useEffect(() => {
+      fetchEncounters();
+    }, []);
 
   return (
     <>
@@ -46,12 +23,12 @@ export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
             LAB TESTS
           </div>
           <div className="text-black text-sm font-semibold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            Lab Test Request #1
+            Lab Test Request {labTests[0].reqdate}
           </div>{" "}
           <div className="flex-1 mr-4 text-xs">
             <table className="max-w-fit border-spacing-y-3 border-separate">
               <tbody className="text-xs leading-5 text-black">
-                {labreqs.map((item, index) => (
+                {labTests.map((item, index) => (
                   <tr key={index}>
                     <td className="pl-2 pr-0">
                       <Image
@@ -64,10 +41,40 @@ export default function ViewLabRequest({ currentScreen, setCurrentScreen }) {
                       />
                     </td>
                     <td className="border-l-[16px] border-transparent">
-                      {/* Clicking this should lead to the visitLabTests page */}
-                      {/* HARDCODED */}
-
-                      <button>{item.name}</button>
+                   
+                      <button>
+                        <div className="flex justify-between">
+                          {item.variable}
+                    
+                          <div className="text-xs ml-10" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', textAlign: "right" }}>
+                            {item.status === "requested" ? (
+                              <>
+                                <svg
+                                  className="h-3 w-3 ml-1 text-red-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle cx="10" cy="10" r="5" />
+                                </svg>
+                                <span style={{ marginLeft: '0.25rem' }}>Requested</span>
+                              </>
+                            ) : item.status === "final" ? (
+                              <>
+                                <svg
+                                  className="h-3 w-3 ml-1 text-green-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle cx="10" cy="10" r="5" />
+                                </svg>
+                                <span style={{ marginLeft: '0.25rem' }}>Uploaded</span>
+                              </>
+                            ) : null}
+                          </div>
+                        </div>
+                      </button>
                     </td>
                   </tr>
                 ))}
