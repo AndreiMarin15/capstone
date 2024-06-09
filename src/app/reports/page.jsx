@@ -97,34 +97,8 @@ export default function Reports() {
                   ))}
                 </tbody>
               </table>
-              {/*  <table className="mt-10 max-w-fit border-spacing border-separate">
-                <tbody className="text-xs leading-5 text-black">
-                  {report?.map((item, index) => (
-                    <tr key={index} className="h-8">
-                      <td className="border-l-[12px] border-transparent">
-                        <div className="text-black font-semibold text-xs leading-5 self-center my-auto">
-                          {item.variable}
-                        </div>
-                      </td>
-                      <td className="border-l-[16px] border-transparent">
-                        <select
-                          className="grow justify-center items-start px-2 py-1.5 pl-2 pr-1 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[calc(78% - 10px)]" // Adjusted width and padding
-                        >
-                          <option value="Patient List">Patient List</option>
-                          <option value="Referred Patient List">
-                            Referred Patient List
-                          </option>
-                          <option value="Clinic Visit Volume">
-                            Clinic Visit Volume
-                          </option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                  </table> */}
-
-              <table className="mt-5 max-w-fit border-spacing border-separate">
+            
+              {/* <table className="mt-5 max-w-fit border-spacing border-separate">
                 <tbody className="text-xs leading-5 text-black">
                   {date?.map((item, index) => (
                     <tr key={index} className="h-8">
@@ -153,7 +127,7 @@ export default function Reports() {
               <div className="flex gap-3 self-start mt-7 ml-20 text-black max-md:ml-2.5">
                 <input type="checkbox" />
                 <div>Select All</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

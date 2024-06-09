@@ -18,14 +18,51 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useRef } from "react";
 
 export default function FollowUpList() {
 	const router = useRouter(); // Initialize useRouter
-
+	const pdfRef = useRef();
 	const [overduePatients, setOverduePatients] = useState([]);
 	const [patientsDiagnosis, setPatientsDiagnosis] = useState([]);
 	const [patientInfo, setPatientInfo] = useState([]);
 
+	const downloadPDF = () => {
+		const input = pdfRef.current;
+
+		// Remove the 'hidden' class
+		input.classList.remove("hidden");
+
+		const width = input.offsetWidth;
+		const height = input.offsetHeight;
+		let computedWidth = width;
+		let computedHeight = height;
+		console.log(width, height);
+		if (width < 1920 / 2) {
+			computedWidth = 1920 / 2;
+			// computedHeight = computedWidth / 2;
+		}
+		if (height < 1080 / 2) {
+			computedHeight = 1080 / 2;
+			// computedWidth = computedHeight * 2;
+		}
+
+		console.log(computedWidth, computedHeight);
+		const date = new Date().toLocaleDateString();
+		html2canvas(input)
+			.then((canvas) => {
+				const imgData = canvas.toDataURL("image/png");
+				const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
+				pdf.addImage(imgData, "PNG", 0, 0, width, height);
+				pdf.save(`follow_up_list_${date}.pdf`);
+			})
+			.finally(() => {
+				// Add the 'hidden' class back after the PDF has been downloaded
+				// input.classList.add("hidden");
+			});
+	};
 	useEffect(() => {
 		const fetchOverduePatients = async () => {
 			const overduePatients = await getOverduePatients();
@@ -74,7 +111,10 @@ export default function FollowUpList() {
 
 	return (
 		<div className="bg-white h-screen flex" style={{ overflowY: "scroll", maxHeight: "100vh" }}>
-			<div className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full">
+			<div
+				ref={pdfRef}
+				className="flex flex-col grow shrink-0 self-start px-8 mt-14 basis-0 leading-[150%] w-fit max-md:mt-10 max-md:max-w-full"
+			>
 				<div className="text-xl font-semibold text-black max-md:max-w-full">Reports</div>
 				<div className="shrink-0 mt-5 h-px bg-black border border-black border-solid max-md:max-w-full" />
 				<div className="flex justify-between gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
@@ -83,7 +123,13 @@ export default function FollowUpList() {
 					</div>
 
 					<div className="mt-8 text-xs text-blue-500 max-md:max-w-full">
-						<button>Download (.pdf)</button>
+						<button
+							onClick={() => {
+								downloadPDF();
+							}}
+						>
+							Download (.pdf)
+						</button>
 					</div>
 				</div>
 				<div className="flex justify-between items-center gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
@@ -136,8 +182,15 @@ export default function FollowUpList() {
 						</TableBody>
 					</Table>
 				</div>
-				<div className="text-base text-xs text-sky-900 mt-8">
-					<Button variant="back">BACK</Button>
+				<div className="text-base text-sky-900 mt-8">
+					<Button
+						variant="back"
+						onClick={() => {
+							router.back();
+						}}
+					>
+						BACK
+					</Button>
 				</div>
 			</div>
 		</div>
