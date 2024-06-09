@@ -273,7 +273,7 @@ export default function Referral() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("other_doctor/referrals/send_referral");
+								router.push("referrals/send_referral");
 							}}
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
@@ -328,7 +328,8 @@ export default function Referral() {
 												<span className="text-black font-medium">{currentInfo?.specialty ?? ""}</span>
 											</div>
 											<div className="text-m text-zinc-600">
-												<span className="text-black text-sm">About: {currentInfo?.patient ?? ""}</span>
+												<span className="text-black text-sm">About: </span>
+												<span className="text-black text-sm font-normal">{currentInfo?.patient ?? ""}</span>
 											</div>
 											<div className="text-xs text-zinc-600">
 												<span className="text-black text-sm">
@@ -420,6 +421,24 @@ export default function Referral() {
 													}}
 												>
 													Pull Records
+												</button>
+											</div>
+
+											<div className="flex gap-2">
+												<Image
+													alt="picture"
+													height={0}
+													width={0}
+													loading="lazy"
+													src="https://cdn.builder.io/api/v1/image/assets/TEMP/01c0bac69d971db5ceab6a14362a487d7075841b45abae5d7e1d709ca6ef4f0f?"
+													className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
+												/>
+												<button
+													type="button"
+													className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+													onClick={() => {}}
+												>
+													Upload Attachments
 												</button>
 											</div>
 											<button

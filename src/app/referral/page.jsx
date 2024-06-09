@@ -349,7 +349,7 @@ export default function Referral() {
                   <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
                     <div className="mt-2 text-lg font-semibold text-black">
                       {currentInfo?.name ? currentInfo.name : ""}
-                     
+
                       <div className="mr-5 text-m text-zinc-600">
                         <span className="text-black font-medium">
                           {currentInfo?.specialty ?? ""}
@@ -357,7 +357,10 @@ export default function Referral() {
                       </div>
                       <div className="text-m text-zinc-600">
                         <span className="text-black text-sm">
-                          PATIENT: {currentInfo?.patient ?? ""}
+                          PATIENT:{" "}
+                          <span className="font-normal">
+                            {currentInfo?.patient ?? ""}
+                          </span>
                         </span>
                       </div>
                       <div className="text-xs text-zinc-600">
@@ -462,6 +465,24 @@ export default function Referral() {
                           Pull Records
                         </button>
                       </div>
+                      <div className="flex gap-2">
+                        <Image
+                          alt="picture"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/01c0bac69d971db5ceab6a14362a487d7075841b45abae5d7e1d709ca6ef4f0f?"
+                          className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
+                        />
+                        <button
+                          type="button"
+                          className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+                          onClick={() => {}}
+                        >
+                          Upload Attachments
+                        </button>
+                      </div>
+
                       <button
                         type="submit"
                         className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
