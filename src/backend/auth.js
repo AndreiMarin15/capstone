@@ -59,7 +59,7 @@ export const authentication = {
 		const { error } = await client.auth.signOut();
 		console.log("err", error);
 		console.log(!error);
-		if (!error) {
+		
 			client.auth.setSession({});
 
 			await useUserInfo.getState().setEmail("");
@@ -68,7 +68,7 @@ export const authentication = {
 			await usePatientInfo.getState().reset();
 			await currentUser.getState().setInfo({});
 			await currentUser.getState().setUser({});
-		}
+		
 
 		console.log(currentUser.getState());
 		console.log(useUserInfo.getState());
