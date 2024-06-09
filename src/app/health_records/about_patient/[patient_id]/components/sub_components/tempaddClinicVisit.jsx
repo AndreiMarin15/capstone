@@ -270,11 +270,11 @@ export default function AddClinicVisit({
           },
         },
         {
-          id: "signsAndSymptoms",
+          id: "reviewOfSystems",
           code: {
             coding: [
               {
-                code: "33483-9",
+                code: "8687-6",
                 system: "http://loinc.org",
               },
             ],
@@ -287,7 +287,7 @@ export default function AddClinicVisit({
             type: "Doctor",
             actor: doctorInfo.fullName,
           },
-          valueString: signsAndSymptoms,
+          valueString: reviewOfSystems,
           resource_type: "Observation",
         },
         {
