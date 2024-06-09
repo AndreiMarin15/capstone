@@ -53,15 +53,6 @@ export default function RecordLabTest({
     fetchDoctor();
   }, []);
 
-
-  useEffect(() => {
-    console.log("LabTests:", labTests);
-    console.log("encounter Id: ", encounterId);
-    console.log("observationID: ", observationId)
-  
-  }, [observationId, labTests]);
-
-
   useEffect(() => {
     const fetchEncounter = async () => {
       try {
@@ -164,7 +155,7 @@ export default function RecordLabTest({
         autoClose: 2000
       });
   
-      setCurrentScreen(0);
+      setCurrentScreen(1);
     } catch (error) {
       console.error("Error updating observation:", error);
       toast.error("Error updating observation", {
