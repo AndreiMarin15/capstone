@@ -27,9 +27,8 @@ export const uploadObservation = async (observation) => {
 				resource_type: observation.resource_type,
 				rangeQuantity: {
 					rangeQuantities: observation.rangeQuantity.rangeQuantities?.map((range) => ({
-						level: range.display,
+						level: range.level,
 						min: range.min,
-						symbol: range.symbol,
 						max: range.max,
 					})),
 				},

@@ -130,12 +130,20 @@ export default function RecordLabTest({
             license_id: doctorInfo.license,
           
           },
+          
           resource_type: "Observation",
+          rangeQuantity: {
+            rangeQuantities: ranges.map((range) => ({
+              level: range.level,
+              min: range.min,
+              max: range.max
+            }))
+          },
           valueQuantity: {
-            valueQuantities: rows.map((row) => ({
-              display: row.labValueName,
-              value: row.value,
-              unit: row.unit
+            valueQuantities: labValues.map((labValues) => ({
+              display: labValues.labValueName,
+              value: labValues.value,
+              unit: labValues.unit
             }))
           },
           uploadedDateTime: dateTaken,
@@ -176,10 +184,13 @@ export default function RecordLabTest({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateTaken, setDateTaken] = useState("")
   const [dateUntil, setDateUntil] = useState("")
-  const [values, setValues] = useState({
-    custom: { value: "", unit: "" },
-  });
-  const [rows, setRows] = useState([{ labValueName: "", value: "", unit: "" }]);
+
+  
+  
+  
+  const [labValues, setLabValues] = useState([{ labValueName: "", value: "", unit: "" }]);
+  const [ranges, setRanges] = useState([{ level: "", min: "", max: "" }]);
+
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -224,33 +235,63 @@ export default function RecordLabTest({
     setIsModalOpen(false);
   };
 
-  const handleAddRow = () => {
-    setRows([...rows, { labValueName: "", value: "", unit: "" }]);
+  const handleAddLabValueRow = () => {
+    setLabValues([...labValues, { labValueName: "", value: "", unit: "" }]);
+  };
+  
+  const handleAddRangeRow = () => {
+    setRanges([...ranges, { level: "", min: "", max: "" }]);
   };
 
-  const handleRemoveRow = (index) => {
-    const updatedRows = [...rows];
-    updatedRows.splice(index, 1);
-    setRows(updatedRows);
+  const handleRemoveLabValueRow = (index) => {
+    const updatedLabValues = [...labValues];
+    updatedLabValues.splice(index, 1);
+    setLabValues(updatedLabValues);
+  };
+  
+  const handleRemoveRangeRow = (index) => {
+    const updatedRanges = [...ranges];
+    updatedRanges.splice(index, 1);
+    setRanges(updatedRanges);
   };
 
   const handleLabValueNameChange = (value, index) => {
-    const updatedRows = [...rows];
-    updatedRows[index].labValueName = value;
-    setRows(updatedRows);
+    const updatedlabValues = [...labValues];
+    updatedlabValues[index].labValueName = value;
+    setLabValues(updatedlabValues);
   };
 
   const handleValueChange = (value, index) => {
-    const updatedRows = [...rows];
-    updatedRows[index].value = value;
-    setRows(updatedRows);
+    const updatedlabValues = [...labValues];
+    updatedlabValues[index].value = value;
+    setLabValues(updatedlabValues);
   };
 
   const handleUnitChange = (unit, index) => {
-    const updatedRows = [...rows];
-    updatedRows[index].unit = unit;
-    setRows(updatedRows);
+    const updatedlabValues = [...labValues];
+    updatedlabValues[index].unit = unit;
+    setLabValues(updatedlabValues);
   };
+
+  const handleLevelChange = (value, index) => {
+    const updatedranges = [...ranges];
+    updatedranges[index].level = value;
+    setRanges(updatedranges);
+  };
+
+  
+  const handleMinChange = (value, index) => {
+    const updatedranges = [...ranges];
+    updatedranges[index].min = value;
+    setRanges(updatedranges);
+  };
+
+  const handleMaxChange = (value, index) => {
+    const updatedranges = [...ranges];
+    updatedranges[index].max = value;
+    setRanges(updatedranges);
+  };
+
 
   const handleAddLabTest = async () => {
     const currentDate = new Date();
@@ -496,7 +537,7 @@ console.log(labTestsList)
                       <tbody className="text-xs leading-5 text-black">
                         <tr></tr>
                         {/* Your existing row */}
-                        {rows?.map((row, index) => (
+                        {labValues?.map((row, index) => (
                           <tr key={index}>
                             <td className="border-l-[16px] border-transparent">
                               <input
@@ -541,18 +582,18 @@ console.log(labTestsList)
                             </td>
                           </tr>
                         ))}
-                        {/* Add another row button */}
+                       
                         <tr>
                           <td colSpan="4" className="text-center">
                             <button
                               className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                              onClick={handleAddRow} // Assuming you have a function handleAddRow for adding rows
+                              onClick={handleAddLabValueRow}
                             >
                               <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
                                 +
                               </div>
                               <div className=" my-auto text-xs text-gray-400">
-                                Add another row
+                                Add another lab value row
                               </div>
                             </button>
                           </td>
@@ -581,13 +622,15 @@ console.log(labTestsList)
                       <tbody className="text-xs leading-5 text-black">
                         <tr></tr>
                         {/* Your existing row */}
-                        {rows?.map((row, index) => (
+                        {ranges?.map((row, index) => (
                           <tr key={index}>
                             <td className="border-l-[16px] border-transparent">
-                              <input
-                                className="justify-center py-2 px-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                            <input
+                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                                 type="text"
                                 placeholder="Normal"
+                                value={row.level}
+                                onChange={(e) => handleLevelChange(e.target.value, index)}
                               />
                             </td>
                             <td className="border-l-[8px] border-transparent flex items-center">
@@ -596,24 +639,24 @@ console.log(labTestsList)
                               </span>
                             </td>
                             <td className="border-l-[8px] border-transparent">
-                              <input
+                            <input
                                 className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
                                 type="text"
-                                placeholder="100"
+                                placeholder="Min"
+                                value={row.min}
+                                onChange={(e) => handleMinChange(e.target.value, index)}
                               />
                             </td>
                             <td className="border-l-[20px] border-transparent">
-                              <input
-                                className="text-center justify-center py-2 px-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-12"
-                                type="text"
-                                placeholder="-"
-                              />
+                              -
                             </td>
                             <td className="border-l-[20px] border-transparent">
-                              <input
+                            <input
                                 className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
                                 type="text"
-                                placeholder="20"
+                                placeholder="Max"
+                                value={row.max}
+                                onChange={(e) => handleMaxChange(e.target.value, index)}
                               />
                             </td>
                           </tr>
@@ -623,13 +666,13 @@ console.log(labTestsList)
                           <td colSpan="4" className="text-center">
                             <button
                               className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                              onClick={handleAddRow} // Assuming you have a function handleAddRow for adding rows
+                              onClick={handleAddRangeRow} // Assuming you have a function handleAddRow for adding rows
                             >
                               <div className=" justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
                                 +
                               </div>
                               <div className=" my-auto text-xs text-gray-400">
-                                Add another row
+                                Add another range row
                               </div>
                             </button>
                           </td>
