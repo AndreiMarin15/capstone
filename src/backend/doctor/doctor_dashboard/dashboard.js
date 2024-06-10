@@ -31,7 +31,6 @@ const dashboard = {
 		const toReturn = patients.filter((patient) => {
 			console.log(patient);
 			if (patient.handled_by?.main_practitioner === currentUser.getState().info.id) {
-				
 				if (patient.handled_by.referred_practitioners?.length > 0) {
 					return patient;
 				}
@@ -57,8 +56,6 @@ const dashboard = {
 
 		console.log(update);
 	},
-
-	
 
 	getNotifications: async () => {},
 };

@@ -83,6 +83,7 @@ export default function AboutPatient({ params }) {
                                         name={patientFhirData?.resource?.name}
                                         age={calculateAge(patientFhirData?.resource?.birthdate)}
                                         gender={patientFhirData?.resource?.gender}
+                                        patientId={patientId}
                                     />
                                 </span>
                                 <HealthRecordsNav />
