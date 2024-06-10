@@ -2,11 +2,11 @@
 import Image from "next/image";
 
 import * as React from "react";
-import ProgressBar from "../components/progressBar";
+import ProgressBar from "../../components/progressBar";
 import { useRouter } from "next/navigation";
-import ReferralPatients from "../components/referralPatients";
-import ReferralDoctors from "../components/referralDoctor";
-import NotesAndReview from "../components/notesAndReview";
+import ReferralPatients from "../../components/referralPatients";
+import ReferralDoctors from "../../components/referralDoctor";
+import NotesAndReview from "../../components/notesAndReview";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import sendReferralData from "@/backend/referral/sendReferralData";
 import {
@@ -20,9 +20,9 @@ import {
 	DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 
-export default function SendReferral() {
+export default function SendReferral({ params }) {
 	const [selectedGenders, setSelectedGenders] = React.useState([]);
-
+	const patientId = params.id;
 	const handleGenderFilter = (gender) => {
 		setSelectedGenders((prevSelectedGenders) => {
 			if (prevSelectedGenders.includes(gender)) {
@@ -112,7 +112,7 @@ export default function SendReferral() {
 												setSelectedPatient(item);
 											}}
 										>
-											<ReferralPatients name={item.name} age={item.age} id={item.id} selectedId={selectedPatientId} />
+											<ReferralPatients name={item.name} age={item.age} id={item.id} selectedId={patientId} />
 										</div>
 									</div>
 								))
