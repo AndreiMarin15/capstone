@@ -51,7 +51,7 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 
 					// Await for both promises to resolve
 					const specialization = (await specializationPromise) ?? "Endocrinologist";
-					const hospital = (await hospitalPromise) ?? "Philippine General Hospital";
+					const hospital = (await hospitalPromise) ?? "";
 
 					return {
 						number: index + 1,
