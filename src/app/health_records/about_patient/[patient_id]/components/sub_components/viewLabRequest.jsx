@@ -18,13 +18,18 @@ export default function ViewLabRequest({
     fetchEncounters();
   }, []);
 
-  const handleRowClick = (observationId, encounterId) => {
+  const handleRowClick = (observationId, encounterId, status) => {
     setSelectedObservationId(observationId);
     setSelectedEncounterId(encounterId);
-    setCurrentScreen(2);
     setObservationId(observationId);
-    console.log(observationId) // Set the observation ID in Zustand
+    if (status === "final") {
+      setCurrentScreen(3);
+      console.log("pressed");
+    } else {
+      setCurrentScreen(2);
+    }
   };
+
   return (
     <>
       {(currentScreen === 1) && (
@@ -39,7 +44,7 @@ export default function ViewLabRequest({
             <table className="max-w-fit border-spacing-y-3 border-separate">
               <tbody className="text-xs leading-5 text-black">
                 {labTests.map((item, index) => (
-                  <tr key={index} onClick={() => handleRowClick(item.id, item.encounterId)}>
+                  <tr key={index} onClick={() => handleRowClick(item.id, item.encounterId, item.status)}>
                     <td className="pl-2 pr-0">
                       <Image
                         alt="image"
