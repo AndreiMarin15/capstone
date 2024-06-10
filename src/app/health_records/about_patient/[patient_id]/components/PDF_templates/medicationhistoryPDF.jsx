@@ -40,7 +40,7 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 				medicationHistory.map(async (item, index) => {
 					// Assuming getDoctorSpecialization and getHospitalName return promises
 					const specializationPromise = getDoctorSpecialization(item.resource.requester.agent.license_id);
-					const hospitalPromise = getHospitalName(item.resource.requester.agent.license_id);
+					const hospitalPromise = getDoctorHospital(item.resource.requester.agent.license_id);
 
 					// Wait for both promises to resolve
 					const [specialization, hospital] = await Promise.all([specializationPromise, hospitalPromise]);

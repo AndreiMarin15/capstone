@@ -2,6 +2,7 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import ViewLabRequest from "./sub_components/viewLabRequest";
 import RecordLabTest from "./sub_components/recordLabTest";
+import VisitLabTests from "./sub_components/visitLabTests";
 import { useState, useEffect } from "react";
 import {
   getEncounterByPatientId,
@@ -252,6 +253,13 @@ export default function LabTests({ patientId }) {
       encounterId={selectedEncounterId}
       fetchEncounters={() => fetchEncounters()} 
     />
+  ) : currentScreen === 3 ? (
+    <VisitLabTests
+      currentScreen={currentScreen}
+      setCurrentScreen={setCurrentScreen}
+      observationId={observationId}
+    />
+  
   ) : (
     ""
   )}
