@@ -57,7 +57,7 @@ export default function PredictiveAnalytics(patientId) {
     BPMeds: 0,
     prevalentStroke: 0,
     prevalentHyp: 1,
-    diabetes: 0,
+    diabetes: 1,
     totChol: 238,
     sysBP: 125,
     diaBP: 100,
@@ -82,8 +82,8 @@ export default function PredictiveAnalytics(patientId) {
       if (value == 1) return "Yes";
       return "No";
     }
-    if (bp.includes(key)) return value + " mmHg";
-    if (key == "totChol") return value + " mm/dL";
+    if (bp.includes(key)) return value + " mm Hg";
+    if (key == "totChol") return value + " mg/dL";
     if (key == "glucose") return value + " mg/dL";
     return value;
   };
@@ -101,9 +101,32 @@ export default function PredictiveAnalytics(patientId) {
   };
   return (
     <>
-      <div className="text-black text-xs font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
+      <div className="text-black text-m font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
         PREDICTIVE ANALYTICS
       </div>
+      <div className="text-justify w-full">
+        {" "}
+        <div className="font-normal text-xs italic mt-5 mb-5">
+          The 10-year chronic heart disease (CHD) risk is a percentage that
+          represents your chance of developing CHD within the next 10 years.
+          <div className="mb-5 mt-5">
+            Low risk (less than 10%): You have a low chance of developing CHD in
+            the next 10 years.{" "}
+          </div>
+          <div className="mb-5">
+            Moderate risk (10% to 20%): You have an increased chance of
+            developing CHD. Lifestyle changes and preventive medications might
+            be recommended by your doctor.
+          </div>
+          <div className="mb-5">
+            High risk (greater than 20%): You have a significantly high chance
+            of developing CHD. Your doctor will likely recommend aggressive
+            treatment strategies, including medications and possibly lifestyle
+            changes.{" "}
+          </div>
+        </div>
+      </div>
+
       <table className="max-w-fit border-spacing-y-5 border-spacing-x-[5em] border-separate text-xs">
         {Object.keys(pAnalytics).map((keyValue, i) => (
           <>
@@ -115,8 +138,14 @@ export default function PredictiveAnalytics(patientId) {
         ))}
       </table>
 
-      <div className="text-bold justify-center">
-        {percentage}% Probability of TenYearCHD
+      <div
+        className="font-extrabold text-sm mt-10 mb-10"
+        style={{ color: "blue" }}
+      >
+        Result:{" "}
+        <span className="text-sm font-normal text-black">
+          {percentage}% Probability of TenYearCHD
+        </span>
       </div>
 
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
