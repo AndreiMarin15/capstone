@@ -84,6 +84,30 @@ export async function getFinalDiagnosisObservations(patientId) {
 	}
 }
 
+
+export async function getMostRecentConditionObservations(patientId) {
+    try {
+        // Fetch observations where the resource column contains JSON with id set to "condition"
+        const { data: observations, error } = await supabase
+            .from("observation")
+            .select("*")
+            .contains("resource", { id: "condition" })
+            .order("ts", { ascending: false })
+            .limit(1)
+            .eq("resource->subject->>reference", patientId);
+
+        if (error) {
+            console.error("Error fetching observations with Condition ID:", error);
+            throw error;
+        }
+
+        console.log(observations);
+        return observations;
+    } catch (error) {
+        console.error("Error fetching observations with Condition ID:", error);
+        throw error;
+    }
+}
 export async function getObservationById(observationId) {
 	try {
 		if (!observationId) {
@@ -129,4 +153,28 @@ export async function updateObservation(observationId, updatedObservationData) {
 		console.error("Error updating observation:", error.message);
 		throw error;
 	}
+}
+
+export async function getObservationsByEncounterId(encounterId) {
+    try {
+        if (!encounterId) {
+            throw new Error("Encounter ID is required");
+        }
+
+        const { data: observations, error } = await supabase
+            .from("observation")
+            .select("*")
+            .contains("resource", { encounter: { reference: encounterId } });
+
+        if (error) {
+            console.error("Error fetching observations by encounter ID:", error);
+            throw error;
+        }
+
+        console.log(observations);
+        return observations;
+    } catch (error) {
+        console.error("Error fetching observations by encounter ID:", error);
+        throw error;
+    }
 }
