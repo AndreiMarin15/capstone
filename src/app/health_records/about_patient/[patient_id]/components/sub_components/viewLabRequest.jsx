@@ -9,6 +9,7 @@ export default function ViewLabRequest({
   labTests,
   fetchEncounters
 }) {
+  console.log(labTests)
   const [selectedObservationId, setSelectedObservationId] = useState(null);
   const [selectedEncounterId, setSelectedEncounterId] = useState(null);
   const setObservationId = useLabTestStore((state) => state.setObservationId);
@@ -24,7 +25,6 @@ export default function ViewLabRequest({
     setObservationId(observationId);
     if (status === "final") {
       setCurrentScreen(3);
-      console.log("pressed");
     } else {
       setCurrentScreen(2);
     }

@@ -53,6 +53,7 @@ export default function Letters() {
 				const patient = await getPatient();
 
 				console.log(labTests);
+				
 				setPatientData(patient);
 				setLabTests(labTests);
 			};
@@ -192,7 +193,7 @@ export default function Letters() {
 											))}
 										</TabsContent>
 										<TabsContent value="labtestrequest" className="flex-1 min-h-screen w-full">
-											<LabTest labtests={labtests} patient={patientData} />
+											<LabTest labtests={labtests} patientId={patientData.id} patientData={patientData}/>
 										</TabsContent>
 									</Tabs>
 								</div>
