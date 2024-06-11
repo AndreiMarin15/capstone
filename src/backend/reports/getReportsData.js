@@ -8,7 +8,7 @@ export const getOverduePatients = async () => {
 	const twoWeeksAgo = new Date();
 	twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14); // Subtract 14 days
 	const formattedDate = twoWeeksAgo.toISOString().split("T")[0]; // Format to "YYYY-MM-DD"
-	console.log("FORMATTED DATE", formattedDate);
+
 	// Fetch all observations before two weeks ago
 	let { data: observations, error } = await supabase
 		.from("observation")
@@ -18,11 +18,9 @@ export const getOverduePatients = async () => {
 
 	if (error) {
 		console.error("Error fetching observations:", error);
-		console.log("ERROR", error);
+
 		return;
 	}
-
-	console.log("OBSERVATIONS", observations);
 
 	// Group observations by `resource.subject.reference`
 	const groupedObservations = observations.reduce((acc, observation) => {
@@ -33,8 +31,6 @@ export const getOverduePatients = async () => {
 		acc[reference].push(observation);
 		return acc;
 	}, {});
-
-	console.log("GROUPED OBSERVATIONS", groupedObservations);
 
 	// For each group, find the most recent observation
 	const mostRecentObservations = Object.values(groupedObservations).map((group) => {
@@ -47,40 +43,30 @@ export const getOverduePatients = async () => {
 		}, null);
 	});
 
-	console.log("MOST RECENT OBSERVATIONS", mostRecentObservations);
-
 	// Assuming getCurrentUser is a function that retrieves the current user's details
 	const user = currentUser.getState().user;
-	console.log("USER", user);
 
 	const currentUserFullName = `${user.first_name} ${user.last_name}`;
-	console.log("FULL NAME", currentUserFullName);
 
-	console.log("FNAME", currentUserFullName);
 	// Filter mostRecentObservations based on resource.participant.actor
 	const filteredObservations = mostRecentObservations.filter((observation) => {
 		// Assuming resource.participant is an array of participants
 		// and we're looking for any match of actor with currentUserFullName
-		console.log(observation.resource.participant);
-		console.log(currentUserFullName === observation.resource.participant.actor);
 
 		return currentUserFullName === observation.resource.participant.actor;
 		// return observation.resource.participant.some((participant) => participant.actor === currentUserFullName);
 	});
-	console.log("FILTERED OBSERVATIONS", filteredObservations);
 
 	return filteredObservations;
 };
 
 export const getPatientAndFinalDiagnosis = async (patientId) => {
-	console.log("PATIENT ID", patientId);
 	const { data: patient, error } = await project.from("patients").select("*").eq("id", patientId);
 
 	if (error) {
 		console.error("Error fetching patient:", error);
 		return;
 	}
-	console.log("PATIENT", patient);
 
 	const { data: diagnosis, error: diagnosisError } = await supabase
 		.from("observation")
@@ -96,8 +82,6 @@ export const getPatientAndFinalDiagnosis = async (patientId) => {
 	}
 	console.log("DIAGNOSIS", diagnosis);
 
-	console.log("PATIENT", patient);
-	console.log("DIAGNOSIS", diagnosis);
 	return { patient, diagnosis };
 };
 
@@ -111,7 +95,7 @@ export const getCriticalPatients = async () => {
 			"resource->participant->>actor",
 			`${currentUser.getState().user.first_name} ${currentUser.getState().user.last_name}`
 		);
-	console.log("OBSERVATIONS", observations);
+
 	if (error) {
 		console.error("Error fetching observations:", error);
 		return;
@@ -136,3 +120,19 @@ export const getCriticalPatients = async () => {
 	// Convert the object back to an array of observations
 	return Object.values(latestObservations);
 };
+
+export const remindPatients = async (patientIds, reminderDetails) => {
+	// Assuming sendReminder is a function that sends a reminder to the patient
+
+	patientIds.forEach(async (patient) => {
+		const reminder = {
+			...reminderDetails,
+			patient_id: patient,
+		};
+		const reminders = await project.from("patient_reminders").insert(reminder);
+		console.log("Reminder sent to patient:", reminders);
+	});
+
+	return true;
+};
+

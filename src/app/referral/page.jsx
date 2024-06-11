@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
-import retrieveReferralData from "@/backend//referral/retrieveReferralData";
-import ReferralList from "./components/referralList";
+import retrieveReferralData from "@/backend/referral/retrieveReferralData";
+import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend//referral/referralMessages";
 import { Button } from "@/components/ui/button";
+import { Attachments } from "./components/ui/attachments";
 
 export default function Referral() {
 	const router = useRouter();
@@ -41,7 +42,7 @@ export default function Referral() {
 			getMessages.insertMessage(chatId, message, "sent");
 		}
 	};
-
+	const [referralFlag, setReferralFlag] = React.useState(false);
 	const [currentInfo, setCurrentInfo] = React.useState({});
 
 	const [referralsList, setList] = React.useState([]);
@@ -207,7 +208,7 @@ export default function Referral() {
 			setCurrentInfo(referrals[0]);
 		};
 		fetchData();
-	}, []);
+	}, [referralFlag]);
 
 	React.useEffect(() => {
 		console.log(referralsList);
@@ -314,6 +315,8 @@ export default function Referral() {
 										setCurrentInfo={setCurrentInfo}
 										referral={referral}
 										retrieveReferralData={retrieveReferralData}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
 									/>
 								</div>
 							);
@@ -422,7 +425,6 @@ export default function Referral() {
 										<div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
 											{/* <span className="flex items-stretch gap-2 my-auto"></span> */}
 											<div className="flex gap-2">
-												{" "}
 												<Image
 													alt="picture"
 													height={0}
@@ -443,21 +445,7 @@ export default function Referral() {
 												</button>
 											</div>
 											<div className="flex gap-2">
-												<Image
-													alt="picture"
-													height={0}
-													width={0}
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/01c0bac69d971db5ceab6a14362a487d7075841b45abae5d7e1d709ca6ef4f0f?"
-													className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
-												/>
-												<button
-													type="button"
-													className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
-													onClick={() => {}}
-												>
-													View Attachments
-												</button>
+												<Attachments recepient={currentInfo} />
 											</div>
 
 											<button

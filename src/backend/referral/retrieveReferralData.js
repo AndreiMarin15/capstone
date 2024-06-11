@@ -77,16 +77,14 @@ const retrieveReferralData = {
 	},
 
 	getReferrals: async () => {
-		console.log(currentUser.getState().info.id);
 		const query = await sProject
 			.from("referrals")
 			.select("*")
 			.or(`referred_to.eq.${currentUser.getState().info.id},referred_by.eq.${currentUser.getState().info.id}`);
 
-		console.log(query);
 		const referralsPromises = query.data?.map(async (referral) => {
 			const patient = await sProject.from("patients").select("*").eq("id", referral.patient_id);
-			console.log(patient);
+			// console.log(patient);
 			const referred_by = await sProject
 				.from("doctors")
 				.select("first_name, last_name, specialization_id")
@@ -96,8 +94,8 @@ const retrieveReferralData = {
 				.select("first_name, last_name, specialization_id")
 				.eq("id", referral.referred_to);
 
-			console.log(referred_by);
-			console.log(referred_to);
+			// console.log(referred_by);
+			// console.log(referred_to);
 
 			const by_specialization = await sProject
 				.from("specializations")
@@ -109,7 +107,7 @@ const retrieveReferralData = {
 				.select("doctor_specialization_name")
 				.eq("id", referred_to.data[0].specialization_id);
 
-			console.log(by_specialization, to_specialization);
+			// console.log(by_specialization, to_specialization);
 			console.log(referral.accepted);
 			const displayAccept =
 				referral.referred_to === currentUser.getState().info.id && referral.accepted !== true ? true : false;
@@ -124,6 +122,7 @@ const retrieveReferralData = {
 				notes: referral.notes,
 				display_accept: displayAccept,
 				accepted: referral.accepted,
+				recepientId: isReferrer ? referral.referred_by : referral.referred_to,
 				name: isReferrer
 					? referred_by.data[0].first_name + " " + referred_by.data[0].last_name
 					: referred_to.data[0].first_name + " " + referred_to.data[0].last_name,
