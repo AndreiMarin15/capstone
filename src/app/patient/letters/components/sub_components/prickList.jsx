@@ -5,24 +5,16 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import AddPrick from "./lab_components/addPrick"; // Adjust the import path as necessary
+import AddPrick from "./lab_components/addPrick";
+import ViewPrick from "./lab_components/viewPrick";
 import { getSelfPrickObservations } from "@/backend/health_records/getObservation";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuLabel,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-	DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu";
+
 
 export default function PrickList({patientId}) {
 
 	const [currentScreen, setCurrentScreen] = useState(0);
 	const [selfPrickObservations, setSelfPrickObservations] = useState([]);
-	
+	const [observationId, setObservationId] = useState("");
 
 	const fetchSelfPrickObservations = async () => {
         try {
@@ -43,9 +35,12 @@ export default function PrickList({patientId}) {
         fetchSelfPrickObservations();
     };
 
-	const handleButtonClick = () => {
-		setCurrentScreen(1);
-	};
+	const handleButtonClick = (observationId) => {
+        setObservationId(observationId); 
+		console.log(observationId)// Save the observationId
+        setCurrentScreen(1);
+    };
+
 
 	return (
 		<>
@@ -69,10 +64,10 @@ export default function PrickList({patientId}) {
 			  </div>
 			  {selfPrickObservations.map((observation, index) => (
 				<button
-				  key={index}
-				  className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
-				  onClick={handleButtonClick}
-				>
+				key={index}
+				className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
+				onClick={() => handleButtonClick(observation.id)}
+			>
 				  <div className="ml-5 flex gap-2 items-center">
 					<Image
 					  alt="image"
@@ -109,7 +104,10 @@ export default function PrickList({patientId}) {
 			</TabsContent>
 		  ) : currentScreen === 3 ? (
 			<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId}   refetchSelfPrickObservations={refetchSelfPrickObservations}/>
-		  ) : (
+		  
+		) : currentScreen === 1 ? (
+			<ViewPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} observationId={observationId}/>
+		) : (
 			""
 		  )}
 		</>

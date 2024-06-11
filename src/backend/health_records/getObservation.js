@@ -134,6 +134,7 @@ export async function getSelfPrickObservations(patientId) {
     }
 }
 
+
 export async function updateObservation(observationId, updatedObservationData) {
 	try {
 		// Update the observation with the provided observationId
