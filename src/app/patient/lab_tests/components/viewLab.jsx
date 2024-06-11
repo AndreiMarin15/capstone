@@ -57,20 +57,24 @@ export default function VisitLabtests({
     setIsImageModalOpen(false);
   };
 
-  const medication = selectedObservation
+  const labTestData = selectedObservation
     ? [
         {
-          srcmedicine:
+          srclabtest:
             "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-          medicinename: selectedObservation.resource.codeText,
-          startdate: selectedObservation.resource.effectiveDateTime,
+          labTestName: selectedObservation.resource.codeText,
+          startdate: selectedObservation.resource.uploadedDateTime,
+          untildate: selectedObservation.resource.effectiveDateTime,
           imageSrc: selectedObservation.resource.imageSrc,
           valueQuantities:
             selectedObservation.resource.valueQuantity?.valueQuantities || [],
+          rangeQuantities:
+          selectedObservation.resource.rangeQuantity?.rangeQuantities || [],
         },
       ]
     : [];
 
+    console.log(labTestData)
   return (
     <>
       {
@@ -79,51 +83,75 @@ export default function VisitLabtests({
             VISITS - TESTS
           </div>
 
-          {medication?.map((medication, index) => (
+       {labTestData?.map((labTestData, index) => (
             <div
               key={index}
-              className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[700px]"
+              className="self-start w-full max-w-[925px] mt-12 mb-56 max-md:max-w-full max-md:my-10"
             >
-              <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+               <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
                 <Image
                   alt="image"
                   height={0}
                   width={0}
                   loading="lazy"
-                  src={medication.srcmedicine}
+                  src={  "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
                   className="aspect-square fill-black w-[15px]"
                 />
-                <div className="my-auto">{medication.medicinename}</div>
+                <div className="my-auto">{labTestData.labTestName}</div>
               </div>
-              <div className="flex gap-5 justify-between ml-12 max-md:ml-2.5">
-                <div className="flex-auto my-auto">{`${medication.startdate}`}</div>
+              <div className="mt-5 ml-12 max-md:ml-2.5">
+                <div className="flex-auto my-auto">
+                  <span className="font-semibold">Laboratory Test Date: </span>
+                  {`${labTestData.startdate}`}
+                </div>
+                <div className="flex-auto my-auto">
+                
+
+                  <span className="font-semibold">Valid Until: </span>
+                  {`${labTestData.untildate}`}
+                </div>
               </div>
 
-              <div className="flex flex-col ml-5 w-[100%] mt-10 text-xs max-md:ml-0 max-md:w-full">
-                <div className="flex">
+
+                <div className="flex flex-col ml-5 w-[100%] mt-10 text-xs max-md:ml-0 max-md:w-full">
+                <div className="flex gap-10">
                   <img
-                    src={`data:image/png;base64, ${medication.imageSrc}`} // Update the src attribute
+                    src={` ${labTestData.imageSrc}`} // Update the src attribute
                     alt="uploaded"
                     style={{ maxWidth: "600px", maxHeight: "600px" }} // Adjust max-width and max-height as needed
                     onClick={() =>
                       handleOpenImageModal(
-                        `data:image/png;base64, ${medication.imageSrc}`
+                        ` ${labTestData.imageSrc}`
                       )
-                    } // Add onClick to open image modal
+                    }
                   />
-                  <div className="ml-5 w-[40%]">
-                    <div className="flex gap-5 my-auto font-semibold text-lg text-black">
-                      Lab Values:
+                 <div className="flex gap-16">
+                    <div className=" self-start text-sm text-black">
+                      <span className=" font-semibold">Lab Values:</span>
+                      <div className="mt-5 text-sm">
+                        {labTestData.valueQuantities?.map(
+                          (valueQuantity, index) => (
+                            <div key={index}>
+                              {valueQuantity.display} = {valueQuantity.value}{" "}
+                              {valueQuantity.unit}
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
-                    <div className="mt-5 text-sm">
-                      {medication.valueQuantities?.map(
-                        (valueQuantity, index) => (
-                          <div key={index}>
-                            {valueQuantity.display} = {valueQuantity.value}{" "}
-                            {valueQuantity.unit}
-                          </div>
-                        )
-                      )}
+                    <div className=" self-start text-sm text-black">
+                      <span className=" font-semibold">Value Range:</span>
+                      {/* HARDCODED */}
+                      <div className="mt-5 text-sm">
+                        {labTestData.rangeQuantities?.map(
+                          (rangeQuantity, index) => (
+                            <div key={index}>
+                              {rangeQuantity.level} = {rangeQuantity.min} - {" "}
+                              {rangeQuantity.max}
+                            </div>
+                          )
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

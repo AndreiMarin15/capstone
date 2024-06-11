@@ -42,6 +42,8 @@ export default function LabTests({ labtests, patient }) {
 		console.log("current Screen:", currentScreen);
 	};
 
+	const sortedLabtests = labtests.sort((b, a) => new Date(a.resource.requestedDateTime) - new Date(b.resource.requestedDateTime));
+
 	return (
 		<>
 			{currentScreen === 0 ? (
@@ -78,7 +80,7 @@ export default function LabTests({ labtests, patient }) {
 							</div>
 						</div>
 					</div>
-					{labtests.map((labtest, index) => {
+					{sortedLabtests.map((labtest, index) => {
 						return (
 							<>
 								<button

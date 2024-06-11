@@ -82,7 +82,7 @@ console.log(labTestData)
             VISITS - TESTS
           </div>
 
-          {labTestData?.map((medication, index) => (
+          {labTestData?.map((labTestData, index) => (
             <div
               key={index}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-[150%] max-w-[150%]"
@@ -121,7 +121,7 @@ console.log(labTestData)
                       handleOpenImageModal(
                         ` ${labTestData[0]?.imageSrc}`
                       )
-                    } // Add onClick to open image modal
+                    }
                   />
                   <div className="flex gap-16">
                     <div className=" self-start text-sm text-black">
