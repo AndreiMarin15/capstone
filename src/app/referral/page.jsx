@@ -8,6 +8,7 @@ import retrieveReferralData from "@/backend//referral/retrieveReferralData";
 import ReferralList from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend//referral/referralMessages";
 import { Button } from "@/components/ui/button";
+import { Attachments } from "./components/ui/attachments";
 
 export default function Referral() {
 	const router = useRouter();
@@ -422,7 +423,8 @@ export default function Referral() {
 										<div className="flex w-full items-center justify-between gap-5 mt-2.5 pr-4 max-md:max-w-full max-md:flex-wrap">
 											{/* <span className="flex items-stretch gap-2 my-auto"></span> */}
 											<div className="flex gap-2">
-												{" "}
+												
+												
 												<Image
 													alt="picture"
 													height={0}
@@ -443,7 +445,8 @@ export default function Referral() {
 												</button>
 											</div>
 											<div className="flex gap-2">
-												<Image
+												<Attachments recepient={currentInfo} />
+												{/* <Image
 													alt="picture"
 													height={0}
 													width={0}
@@ -457,7 +460,7 @@ export default function Referral() {
 													onClick={() => {}}
 												>
 													View Attachments
-												</button>
+												</button> */}
 											</div>
 
 											<button
