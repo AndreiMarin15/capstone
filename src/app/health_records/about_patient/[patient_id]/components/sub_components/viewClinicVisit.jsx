@@ -19,6 +19,7 @@ export default function ViewClinicVisit({
   const [followupData, setFollowupData] = useState([]);
   const [encounterDate, setEncounterDate] = useState("");
   const [signsAndSymptoms, setSignsAndSymptoms] = useState("");
+  const [otherReviewOfSystems, setOtherReviewOfSystems] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
   const [finalDiagnosis, setFinalDiagnosis] = useState("");
   const [reviewOfSystems, setReviewOfSystems] = useState("");
@@ -31,7 +32,6 @@ export default function ViewClinicVisit({
   const [weight, setWeight] = useState(null);
   const [bmi, setBMI] = useState(null);
   const [condition, setCondition] = useState("");
-
 
   let displayReviewOfSystems = "";
 
@@ -51,6 +51,11 @@ export default function ViewClinicVisit({
   } catch (error) {
     console.error("Error parsing review of systems:", error);
   }
+  
+  // Combine displayReviewOfSystems with otherReviewOfSystems
+  displayReviewOfSystems = displayReviewOfSystems
+    ? `${displayReviewOfSystems}, ${otherReviewOfSystems}`
+    : otherReviewOfSystems;
 
   const date = [
     {
@@ -58,8 +63,8 @@ export default function ViewClinicVisit({
       variable: "Date",
       value: encounterDate || "",
     },
-
   ]
+
   const followup = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
@@ -221,6 +226,7 @@ export default function ViewClinicVisit({
           setSignsAndSymptoms(signsAndSymptomsObservation.valueString);
           console.log("Signs and Symptoms:", signsAndSymptomsObservation.valueString);
         }
+        
   
         const reviewOfSystemsObservation = filteredObservationData.find(
           (observation) => observation.id === "reviewOfSystems"
@@ -228,6 +234,15 @@ export default function ViewClinicVisit({
         if (reviewOfSystemsObservation) {
           setReviewOfSystems(reviewOfSystemsObservation.valueString);
           console.log("Review of Systems:", reviewOfSystemsObservation.valueString);
+        }
+
+        const otherReviewOfSystemsObservation = filteredObservationData.find(
+          (observation) => observation.id === "otherReviewOfSystems"
+        );
+        
+        if (otherReviewOfSystemsObservation) {
+          setOtherReviewOfSystems(otherReviewOfSystemsObservation.valueString);
+          console.log("Other Review of Systems:", otherReviewOfSystemsObservation.valueString);
         }
   
         const otherConcernsObservation = filteredObservationData.find(

@@ -26,7 +26,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   const condition = useClinicVisitStore(state => state.condition);
   const labTestName = useClinicVisitStore(state => state.labTestName);
   const remarks = useClinicVisitStore(state => state.remarks);
-
+  const otherReviewOfSystems = useClinicVisitStore(state => state.otherReviewOfSystems);
 
   const setCurrentScreen = useClinicVisitStore(state => state.setCurrentScreen);
   const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
@@ -41,6 +41,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
   const setCondition = useClinicVisitStore(state => state.setCondition);
   const setLabTestName = useClinicVisitStore(state => state.setLabTestName);
   const setRemarks = useClinicVisitStore(state => state.setRemarks);
+  const setOtherReviewOfSystems = useClinicVisitStore(state => state.setOtherReviewOfSystems);
 
 
   React.useEffect(() => {
@@ -79,7 +80,9 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
       // Fetch patient data
       const patientData = await healthRecords.getPatientData(patientId);
 
-  
+      const combinedReviewOfSystems = { ...reviewOfSystems };
+      const reviewOfSystemsJSON = JSON.stringify(combinedReviewOfSystems);
+
       // Construct contained array with observations
       const contained = [
       
@@ -102,7 +105,29 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: JSON.stringify(reviewOfSystems), // Serialize to JSON string
+          valueString: reviewOfSystemsJSON, // Serialize to JSON string
+          resource_type: "Observation",
+        },
+        {
+          id: "otherReviewOfSystems",
+          code: {
+            coding: [
+              {
+                code: "8687-6",
+                system: "http://loinc.org",
+              },
+            ],
+          },
+          subject: {
+            type: "Patient",
+            reference: patientData.id,
+          },
+          participant: {
+            type: "Doctor",
+            actor: doctorInfo.fullName,
+            license_id: doctorInfo.license,
+          },
+          valueString: otherReviewOfSystems, // Serialize to JSON string
           resource_type: "Observation",
         },
         {
@@ -493,7 +518,9 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
        reviewOfSystems={reviewOfSystems} // Pass reviewOfSystems
        setReviewOfSystems={setReviewOfSystems} // Pass setReviewOfSystems
        signsAndSymptoms={signsAndSymptoms} // Pass signsAndSymptoms
-       setSignsAndSymptoms={setSignsAndSymptoms} // Pass setSignsAndSymptoms
+       setSignsAndSymptoms={setSignsAndSymptoms} 
+       otherReviewOfSystems={otherReviewOfSystems}
+       setOtherReviewOfSystems={setOtherReviewOfSystems}// Pass setSignsAndSymptoms
        otherConcerns={otherConcerns} // Pass otherConcerns
        setOtherConcerns={setOtherConcerns} // Pass setOtherConcerns
        handleNext={handleNext}
@@ -537,6 +564,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
           setCurrentPage={setCurrentPage}
           clinicDate={clinicDate}
           setClinicDate={setClinicDate}
+          patientId={patientId}
           condition={condition}
           setCondition={setCondition}
           handleNext={handleNext}
