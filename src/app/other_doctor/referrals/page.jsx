@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
-import ReferralList from "./components/referralList";
+import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend/referral/referralMessages";
 import { Attachments } from "@/app/referral/components/ui/attachments";
 
@@ -21,6 +21,8 @@ export default function Referral() {
 	const [message, setMessage] = React.useState("");
 	const [chatId, setChatId] = React.useState("");
 	const [chats, setChats] = React.useState([{ id: "", doctor: "", doctor_full_name: "" }]);
+	const [referralFlag, setReferralFlag] = React.useState(false);
+
 	const [messageInfo, setMessageInfo] = React.useState({
 		messages: [
 			{
@@ -299,6 +301,8 @@ export default function Referral() {
 										setCurrentInfo={setCurrentInfo}
 										referral={referral}
 										retrieveReferralData={retrieveReferralData}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
 									/>
 								</div>
 							);
