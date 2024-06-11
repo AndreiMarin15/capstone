@@ -35,6 +35,25 @@ const sendReferralData = {
 
 		return referral;
 	},
+
+	referManyPatients: async (patients, selectedDoctorId, notes) => {
+		console.log(patients, selectedDoctorId, notes);
+		patients.forEach(async (patient) => {
+			const chatId = await newChat(selectedDoctorId);
+
+			const data = {
+				referred_by: currentUser.getState().info.id,
+				referred_to: selectedDoctorId,
+				patient_id: patient.resource?.subject?.reference,
+				chat_id: chatId[0].id,
+				notes: notes,
+			};
+			const referral = await project.insertInto("referrals", data);
+			sendNotification(selectedDoctorId, "Referral", "You have a new referral request", currentUser.getState().info.id);
+			console.log(referral);
+		});
+		return true;
+	},
 	acceptReferralRequest: async (referral_id) => {
 		const referral = await project.updateTable("referrals", { accepted: true }, { id: referral_id });
 

@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
-import ReferralList from "./components/referralList";
+import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend/referral/referralMessages";
+import { Attachments } from "@/app/referral/components/ui/attachments";
 
 export default function Referral() {
 	const router = useRouter();
@@ -20,6 +21,8 @@ export default function Referral() {
 	const [message, setMessage] = React.useState("");
 	const [chatId, setChatId] = React.useState("");
 	const [chats, setChats] = React.useState([{ id: "", doctor: "", doctor_full_name: "" }]);
+	const [referralFlag, setReferralFlag] = React.useState(false);
+
 	const [messageInfo, setMessageInfo] = React.useState({
 		messages: [
 			{
@@ -298,6 +301,8 @@ export default function Referral() {
 										setCurrentInfo={setCurrentInfo}
 										referral={referral}
 										retrieveReferralData={retrieveReferralData}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
 									/>
 								</div>
 							);
@@ -425,21 +430,7 @@ export default function Referral() {
 											</div>
 
 											<div className="flex gap-2">
-												<Image
-													alt="picture"
-													height={0}
-													width={0}
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/01c0bac69d971db5ceab6a14362a487d7075841b45abae5d7e1d709ca6ef4f0f?"
-													className="aspect-square object-contain object-center w-4 fill-black fill-opacity-0 overflow-hidden shrink-0 max-w-full"
-												/>
-												<button
-													type="button"
-													className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
-													onClick={() => {}}
-												>
-													Upload Attachments
-												</button>
+												<Attachments recepient={currentInfo} />
 											</div>
 											<button
 												type="submit"
