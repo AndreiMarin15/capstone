@@ -104,25 +104,35 @@ export default function PredictiveAnalytics(patientId) {
       <div className="text-black text-m font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
         PREDICTIVE ANALYTICS
       </div>
-      <div className="text-justify w-full">
+      <div className="text-justify w-[80%]">
         {" "}
         <div className="font-normal text-xs italic mt-5 mb-5">
           The 10-year chronic heart disease (CHD) risk is a percentage that
-          represents your chance of developing CHD within the next 10 years.
-          <div className="mb-5 mt-5">
-            Low risk (less than 10%): You have a low chance of developing CHD in
-            the next 10 years.{" "}
+          represents your chance of developing CHD within the next 10 years. The
+          percentage of accuracy of this model is 85%. It is possible that it
+          will decrease if not all data required from the patient is available.
+          <div className="mb-5 mt-5" style={{ color: "darkgreen" }}>
+            Low risk (less than 10%):{" "}
+            <span className="text-black">
+              {" "}
+              You have a low chance of developing CHD in the next 10 years.{" "}
+            </span>
           </div>
-          <div className="mb-5">
-            Moderate risk (10% to 20%): You have an increased chance of
-            developing CHD. Lifestyle changes and preventive medications might
-            be recommended by your doctor.
+          <div className="mb-5" style={{ color: "orange" }}>
+            Moderate risk (10% to 20%):{" "}
+            <span className="text-black">
+              {" "}
+              You have an increased chance of developing CHD. Lifestyle changes
+              and preventive medications might be recommended by your doctor.{" "}
+            </span>
           </div>
-          <div className="mb-5">
-            High risk (greater than 20%): You have a significantly high chance
-            of developing CHD. Your doctor will likely recommend aggressive
-            treatment strategies, including medications and possibly lifestyle
-            changes.{" "}
+          <div className="mb-5" style={{ color: "red" }}>
+            High risk (greater than 20%):{" "}
+            <span className="text-black">
+              You have a significantly high chance of developing CHD. Your
+              doctor will likely recommend aggressive treatment strategies,
+              including medications and possibly lifestyle changes.{" "}
+            </span>
           </div>
         </div>
       </div>
@@ -138,14 +148,26 @@ export default function PredictiveAnalytics(patientId) {
         ))}
       </table>
 
-      <div
-        className="font-extrabold text-sm mt-10 mb-10"
-        style={{ color: "blue" }}
-      >
+      <div className="font-extrabold text-sm mt-10" style={{ color: "blue" }}>
         Result:{" "}
         <span className="text-sm font-normal text-black">
-          {percentage}% Probability of TenYearCHD
+          {percentage}% Ten Year CHD Probability
         </span>
+      </div>
+      <div
+        className={`text-sm font-bold mb-10 ${
+          percentage < 10
+            ? "text-green-600"
+            : percentage >= 10 && percentage <= 20
+              ? "text-orange-500"
+              : "text-red-600"
+        }`}
+      >
+        {percentage < 10
+          ? " Low Risk"
+          : percentage >= 10 && percentage <= 20
+            ? "Moderate Risk"
+            : " High Risk"}
       </div>
 
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto">
