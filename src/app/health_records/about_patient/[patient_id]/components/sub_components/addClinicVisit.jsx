@@ -564,6 +564,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
           setCurrentPage={setCurrentPage}
           clinicDate={clinicDate}
           setClinicDate={setClinicDate}
+          patientId={patientId}
           condition={condition}
           setCondition={setCondition}
           handleNext={handleNext}

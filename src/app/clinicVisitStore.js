@@ -69,6 +69,7 @@ const clinicVisitStore = create((set) => ({
     doctorId: null, // Reset doctorId when reset is called
     labTestName: "", // Reset labTestName when reset is called
     remarks: "", // Reset remarks when reset is called
+    condition: "", // Ensure the condition is reset
   }),
 }));
 
