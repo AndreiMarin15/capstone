@@ -5,10 +5,10 @@ import doctor from "@/backend//health_records/doctor";
 import { uploadObservation } from "@/backend/health_records/uploadObservation";
 import { toast } from "react-toastify";
 
-export default function AddPrick ({ currentScreen, setCurrentScreen, patientId}) {
+export default function AddPrick ({ currentScreen, setCurrentScreen, patientId, refetchSelfPrickObservations }) {
     
-
     const [value, setValue] = useState("");
+
     const [unit, setUnit] = useState("");
     const [dateTaken, setDateTaken] = useState("");
     const [time, setTime] = useState("");
@@ -24,9 +24,8 @@ export default function AddPrick ({ currentScreen, setCurrentScreen, patientId})
     useEffect(() => {
         const fetchDoctor = async () => {
           try {
-            const doctorInfo = await doctor.getDoctorByCurrentUser();
-            setDoctorId(doctorInfo.fullName);
-            setLicense(doctorInfo.license);
+            const patientInfo = await doctor.getDoctorByCurrentUser();
+            console.log(patientInfo)
           } catch (error) {
             console.error("Error fetching doctor:", error);
           }
@@ -87,18 +86,10 @@ export default function AddPrick ({ currentScreen, setCurrentScreen, patientId})
           autoClose: 2000,
         });
 
-
+        refetchSelfPrickObservations();
 
       };
-    
-      const handleRangeChange = (index, field, value) => {
-        setRanges(prevRanges => {
-            const newRanges = [...prevRanges];
-            newRanges[index][field] = value;
-            return newRanges;
-        });
-    };
-
+  
   const labtest = [
     {
       imgsrc:

@@ -109,6 +109,31 @@ export async function getObservationById(observationId) {
 	}
 }
 
+export async function getSelfPrickObservations(patientId) {
+    try {
+        if (!patientId) {
+            throw new Error("Patient ID is required");
+        }
+
+        const { data: observations, error } = await supabase
+		.from("observation")
+		.select("*")
+		.contains("resource", { id: "selfprick" })
+		.eq("resource->subject->>reference", patientId);
+
+        if (error) {
+            console.error("Error fetching selfprick observations by patient ID:", error);
+            throw error;
+        }
+
+        console.log(observations);
+        return observations;
+    } catch (error) {
+        console.error("Error fetching selfprick observations by patient ID:", error);
+        throw error;
+    }
+}
+
 export async function updateObservation(observationId, updatedObservationData) {
 	try {
 		// Update the observation with the provided observationId

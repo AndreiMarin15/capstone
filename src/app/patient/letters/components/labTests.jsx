@@ -273,7 +273,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
 						fetchEncounters={() => fetchEncounters(patientId, setLabTests)}
 					/>
 				) : currentScreen === 2 ? (
-					<PrickList currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+					<PrickList  patientId={patientId} />
 				) : currentScreen === 3 ? (
 					<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 				) : (
