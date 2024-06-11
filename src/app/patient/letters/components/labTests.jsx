@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import ViewLab from "./sub_components/viewLab";
 import PrickList from "./sub_components/prickList";
+import AddPrick from "./sub_components/lab_components/addPrick";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -20,14 +21,17 @@ import {
 import { LabTest } from "./pdfs/labtest";
 import { Reusable } from "./pdfs/reusable";
 export default function LabTests({ labtests, patient }) {
+	const [patientId, setPatientId] = useState("");
 	useEffect(() => {
 		console.log(labtests);
+	
 	}, [labtests]);
 
 	const [patientData, setPatientData] = useState({});
 
 	useEffect(() => {
 		setPatientData(patient);
+		setPatientId(patient.id)
 	}, [patient]);
 
 	const [currentScreen, setCurrentScreen] = useState(0);
@@ -158,8 +162,9 @@ export default function LabTests({ labtests, patient }) {
 			) : currentScreen === 1 ? (
 				<ViewLab currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : currentScreen === 2 ? (
-				/* CHANGE TO SELF PRICK JSX HERE */
 				<PrickList currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+			) : currentScreen === 3 ? (
+				<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
 			) : (
 				""
 			)}

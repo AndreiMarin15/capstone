@@ -40,7 +40,7 @@ export default function PrickList() {
 							<Button
 								variant="outline"
 								onClick={() => {
-									setCurrentScreen(2);
+									setCurrentScreen(3);
 								}}
 							>
 								Add
@@ -98,7 +98,7 @@ export default function PrickList() {
 				</TabsContent>
 			// ) : currentScreen === 1 ? (
 			// 	<ViewLab currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
-			) : currentScreen === 1 ? (
+			) : currentScreen === 3 ? (
 				/* CHANGE TO SELF PRICK JSX HERE */
 				<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
 			) : (

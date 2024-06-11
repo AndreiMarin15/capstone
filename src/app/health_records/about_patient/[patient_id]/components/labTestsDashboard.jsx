@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useLabTestStore from "@/app/labTestStore";
 
+
 async function fetchEncounters(patientId, setLabTests) {
   console.log(patientId);
   try {
