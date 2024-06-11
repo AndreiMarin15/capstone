@@ -77,7 +77,7 @@ export default function AddPrick ({ currentScreen, setCurrentScreen, patientId, 
         // Call the uploadObservation function with the observation data
         const result = await uploadObservation(observation);
         // Handle the result if needed
-        setCurrentScreen(0)
+        setCurrentScreen(2)
         console.log("Self prick saved:", result);
 
         toast.success("Self Prick Recorded", {
@@ -323,9 +323,9 @@ export default function AddPrick ({ currentScreen, setCurrentScreen, patientId, 
             ))}
           </table>
           <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
-            <div className="flex justify-between ">
+            <div className="flex justify-between  ">
               <BackButton
-                currentScreen={1}
+                currentScreen={3}
                 setCurrentScreen={setCurrentScreen}
               />
               <button

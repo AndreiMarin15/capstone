@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import BackButton from "../../../../my_health_record/components/sub_components/BackButton";
 import { getObservationById } from "@/backend/health_records/getObservation";
+import useLabTestStore from "@/app/labTestStore";
 
-
-export default function ViewPrick ({ currentScreen, setCurrentScreen, observationId }) {
+export default function ViewPrick ({ currentScreen, setCurrentScreen }) {
     
     const [value, setValue] = useState("");
 
@@ -19,6 +19,9 @@ export default function ViewPrick ({ currentScreen, setCurrentScreen, observatio
       { level: "High", min: "", max: "" }
   ]);
 
+  const observationId = useLabTestStore((state) => state.observationId); 
+
+  console.log(observationId)
   useEffect(() => {
     if (observationId) {
         const fetchObservationData = async () => {
@@ -158,7 +161,7 @@ export default function ViewPrick ({ currentScreen, setCurrentScreen, observatio
           <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
             <div className="flex justify-between ">
               <BackButton
-                currentScreen={1}
+                currentScreen={3}
                 setCurrentScreen={setCurrentScreen}
               />
             </div>

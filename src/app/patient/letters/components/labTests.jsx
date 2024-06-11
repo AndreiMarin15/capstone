@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import ViewLab from "./sub_components/viewLab";
 import PrickList from "./sub_components/prickList";
 import AddPrick from "./sub_components/lab_components/addPrick";
+import ViewPrick from "./sub_components/lab_components/viewPrick";
 import useLabTestStore from "@/app/labTestStore";
 import {getEncounterByPatientId} from "@/backend/health_records/getEncounter";
 import { getObservationsByPatientId } from "@/backend/health_records/getObservation";
@@ -28,6 +29,7 @@ import { Reusable } from "./pdfs/reusable";
 
 
 async function fetchEncounters(patientId, setLabTests) {
+	
 	console.log(patientId);
 	try {
 	 
@@ -81,6 +83,25 @@ async function fetchEncounters(patientId, setLabTests) {
 
 
 export default function LabTests({ labtests, patientId, patientData }) {
+
+	const fetchSelfPrickObservations = async () => {
+        try {
+            const observations = await getSelfPrickObservations(patientId);
+			observations.sort((a, b) => new Date(b.resource.uploadedDateTime) - new Date(a.resource.uploadedDateTime));
+            setSelfPrickObservations(observations);
+            console.log(observations);
+        } catch (error) {
+            console.error("Error fetching self-prick observations:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchSelfPrickObservations();
+    }, []);
+
+	const refetchSelfPrickObservations = () => {
+        fetchSelfPrickObservations();
+    };
 
 	
 	  const [containedIDs, setContainedIDs] = useState([]);
@@ -273,9 +294,15 @@ export default function LabTests({ labtests, patientId, patientData }) {
 						fetchEncounters={() => fetchEncounters(patientId, setLabTests)}
 					/>
 				) : currentScreen === 2 ? (
-					<PrickList  patientId={patientId} />
+					<PrickList  currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId}/>
 				) : currentScreen === 3 ? (
-					<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} />
+					<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId} refetchSelfPrickObservations={refetchSelfPrickObservations} />
+				) : currentScreen === 4 ? (
+					<ViewPrick
+							currentScreen={currentScreen}
+							setCurrentScreen={setCurrentScreen}
+							observationId={observationId} // Pass observationId to ViewPrick
+						/>
 				) : (
 					""
 				)}

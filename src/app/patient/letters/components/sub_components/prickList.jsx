@@ -7,14 +7,16 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import AddPrick from "./lab_components/addPrick";
 import ViewPrick from "./lab_components/viewPrick";
+import BackButton from "../../../my_health_record/components/sub_components/BackButton";
 import { getSelfPrickObservations } from "@/backend/health_records/getObservation";
+import useLabTestStore from "@/app/labTestStore";
 
 
-export default function PrickList({patientId}) {
+export default function PrickList({currentScreen, setCurrentScreen, patientId, observationId}) {
 
-	const [currentScreen, setCurrentScreen] = useState(0);
+
 	const [selfPrickObservations, setSelfPrickObservations] = useState([]);
-	const [observationId, setObservationId] = useState("");
+	const setObservationId = useLabTestStore((state) => state.setObservationId);
 
 	const fetchSelfPrickObservations = async () => {
         try {
@@ -38,13 +40,13 @@ export default function PrickList({patientId}) {
 	const handleButtonClick = (observationId) => {
         setObservationId(observationId); 
 		console.log(observationId)// Save the observationId
-        setCurrentScreen(1);
+        setCurrentScreen(4);
     };
 
 
 	return (
 		<>
-		  {currentScreen === 0 ? (
+		  {currentScreen === 2 ? (
 			<TabsContent value="labtestrequest">
 			  <div className="flex justify-between items-center mt-4">
 				<div className="font-semibold items-center self-center text-s ml-5">
@@ -100,12 +102,17 @@ export default function PrickList({patientId}) {
 					</div>
 				  </div>
 				</button>
+				
 			  ))}
+			   <BackButton
+                currentScreen={1}
+                setCurrentScreen={setCurrentScreen}
+              />
 			</TabsContent>
 		  ) : currentScreen === 3 ? (
 			<AddPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} patientId={patientId}   refetchSelfPrickObservations={refetchSelfPrickObservations}/>
 		  
-		) : currentScreen === 1 ? (
+		) : currentScreen === 4 ? (
 			<ViewPrick currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} observationId={observationId}/>
 		) : (
 			""
