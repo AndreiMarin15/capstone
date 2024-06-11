@@ -131,7 +131,7 @@ export default function VisitLabtests({
                       <div className="mt-5 text-sm">
                         {labTestData.valueQuantities?.map(
                           (valueQuantity, index) => (
-                            <div key={index}>
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
                               {valueQuantity.display} = {valueQuantity.value}{" "}
                               {valueQuantity.unit}
                             </div>
@@ -145,7 +145,7 @@ export default function VisitLabtests({
                       <div className="mt-5 text-sm">
                         {labTestData.rangeQuantities?.map(
                           (rangeQuantity, index) => (
-                            <div key={index}>
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
                               {rangeQuantity.level} = {rangeQuantity.min} - {" "}
                               {rangeQuantity.max}
                             </div>

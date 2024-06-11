@@ -62,7 +62,7 @@ export default function UploadLab({
 
 
   const handleSave = async () => {
-    const doctorInfo = await doctor.getDoctorByCurrentUser();
+   
 
     try {
       // Construct payload with updated data
@@ -78,7 +78,7 @@ export default function UploadLab({
             ]
           },
           status: "final",
-          remarks: observations?.resource?.remarks,
+          remarks: observations.resource.remarks,
           subject: {
             type: "Patient",
             reference: patientId
@@ -87,8 +87,8 @@ export default function UploadLab({
           imageSrc: uploadedImageSrc,
           participant: {
             type: "Doctor",
-            actor: doctorInfo.fullName,
-            license_id: doctorInfo.license,
+            actor: observations.resource.participant.actor,
+            license_id: observations.resource.participant.license_id,
           
           },
           
@@ -109,7 +109,7 @@ export default function UploadLab({
           },
           uploadedDateTime: dateTaken,
           effectiveDateTime: dateUntil,
-          requestedDateTime: observations?.resource?.requestedDateTime
+          requestedDateTime: observations.resource.requestedDateTime
         }
       };
 
