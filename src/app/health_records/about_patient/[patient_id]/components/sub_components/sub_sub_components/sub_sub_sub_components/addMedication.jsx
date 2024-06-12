@@ -198,11 +198,11 @@ export default function AddMedications({
 
   return (
     <>
-      {/*  {currentScreen === 2 || currentScreen === 4 ? (
-        <> */}
-      <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-        ADD MEDICATION
-      </div>
+      {currentScreen === 3 ? (
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+            ADD MEDICATION
+          </div>
 
       <div>
         <div className="flex flex-col max-w-[914px]">
@@ -502,10 +502,10 @@ export default function AddMedications({
           </Button>
         </div>
       </div>
-      {/* </>
+      </>
       ) : (
         ""
-      )} */}
+      )}
     </>
   );
 }

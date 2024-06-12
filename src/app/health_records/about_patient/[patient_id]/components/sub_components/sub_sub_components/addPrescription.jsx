@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import BackButton from "../../BackButton";
+import BackButton from "../BackButton";
 import uploadMedication from "@/backend//health_records/uploadMedication";
 import { retrieveMedications } from "@/backend//health_records/getMedication";
 import { formatDuration } from "date-fns/esm";
@@ -25,13 +25,15 @@ export default function AddPrescription({currentScreen, setCurrentScreen, patien
 
   return (
     <>
-      {currentScreen === 2 || currentScreen === 4 ? (
+      {currentScreen === 1 ? (
         <>
-          <div className="flex justify-center">
+          <div className="flex justify-between">
             <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
               CREATE PRESCRIPTION
             </div>
-            <Button>Add Medicine</Button>
+            <Button className="mt-5" onClick={() => setCurrentScreen(3)}>
+              Add Medicine
+            </Button>
           </div>
           <table className="gap-1 whitespace-nowrap mt-10">
          
