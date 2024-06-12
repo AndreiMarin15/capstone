@@ -48,6 +48,7 @@ export const authentication = {
 			email: email,
 			password: password,
 		});
+		if(error) console.log(error);
 		if (!error) {
 			authentication.mountUser();
 		}
