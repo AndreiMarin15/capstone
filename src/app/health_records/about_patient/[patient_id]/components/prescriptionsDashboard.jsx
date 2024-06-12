@@ -2,7 +2,7 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
 import AddPrescription from "./sub_components/sub_sub_components/addPrescription";
-
+import usePrescriptionsStore from "@/app/prescriptionsStore";
 import { doctor } from "@/backend/health_records/doctor";
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -17,9 +17,10 @@ export default function Prescriptions({ patientId }) {
     const [regis, setRegis] = useState("");
     const [status, setStatus] = useState("ACTIVE");
     const [currentUser, setCurrentUser] = useState(null);
-    const [currentScreen, setCurrentScreen] = useState(0);
+  
     const [refresh, setRefresh] = useState(false);
     const [prescriptionDate, setPrescriptionDate] = useState("");
+    const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
 
     React.useEffect(() => {
         const fetchCurrentUser = async () => {
@@ -47,7 +48,7 @@ export default function Prescriptions({ patientId }) {
         };
 
         // Fetch medications whenever refresh state changes or when currentScreen is 0 or 2
-        if (refresh || currentScreen === 0 || currentScreen === 2) {
+        if (refresh) {
             fetchMedications();
         }
     }, [refresh, currentScreen]);

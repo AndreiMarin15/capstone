@@ -10,14 +10,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
+import usePrescriptionsStore from "@/app/prescriptionsStore";
+
 
 export default function AddMedications({
-  currentScreen,
-  setCurrentScreen,
+
   patientId,
 }) {
   const [regis, setRegis] = useState("");
-
+  const { currentScreen, setCurrentScreen } = usePrescriptionsStore(); 
   const [medicationName, setMedicationName] = useState("");
   const [name, setName] = useState("");
   const [genName, setGenName] = useState("");
@@ -487,7 +488,7 @@ export default function AddMedications({
       </div>
       <div className="flex justify-between items-center mt-5">
         <BackButton
-          currentScreen={currentScreen}
+          currentScreen={2}
           setCurrentScreen={setCurrentScreen}
         />
         <div>

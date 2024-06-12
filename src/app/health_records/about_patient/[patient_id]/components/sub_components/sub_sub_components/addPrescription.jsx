@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
+import usePrescriptionsStore from "@/app/prescriptionsStore";
+
+
 
 const medicine = [
   {
@@ -20,7 +23,9 @@ const medicine = [
   },
 ];
 
-export default function AddPrescription({currentScreen, setCurrentScreen, patientId}) {
+export default function AddPrescription({patientId}) {
+
+  const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
 
 
   return (
@@ -67,6 +72,7 @@ export default function AddPrescription({currentScreen, setCurrentScreen, patien
               </>
             ))}
           </table>
+          <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
         </>
       ) : (
         ""
