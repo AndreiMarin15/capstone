@@ -82,7 +82,7 @@ console.log(labTestData)
             VISITS - TESTS
           </div>
 
-          {labTestData?.map((medication, index) => (
+          {labTestData?.map((labTestData, index) => (
             <div
               key={index}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-[150%] max-w-[150%]"
@@ -96,40 +96,40 @@ console.log(labTestData)
                   src={  "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
                   className="aspect-square fill-black w-[15px]"
                 />
-                <div className="my-auto">{labTestData[0]?.labTestName}</div>
+                <div className="my-auto">{labTestData.labTestName}</div>
               </div>
               <div className="mt-5 ml-12 max-md:ml-2.5">
                 <div className="flex-auto my-auto">
                   <span className="font-semibold">Laboratory Test Date: </span>
-                  {`${labTestData[0]?.startdate}`}
+                  {`${labTestData.startdate}`}
                 </div>
                 <div className="flex-auto my-auto">
                 
 
                   <span className="font-semibold">Valid Until: </span>
-                  {`${labTestData[0]?.untildate}`}
+                  {`${labTestData.untildate}`}
                 </div>
               </div>
 
               <div className="flex flex-col ml-5 w-[100%] mt-10 text-xs max-md:ml-0 max-md:w-full">
                 <div className="flex gap-10">
                   <img
-                    src={` ${labTestData[0]?.imageSrc}`} // Update the src attribute
+                    src={` ${labTestData.imageSrc}`} // Update the src attribute
                     alt="uploaded"
                     style={{ maxWidth: "600px", maxHeight: "600px" }} // Adjust max-width and max-height as needed
                     onClick={() =>
                       handleOpenImageModal(
-                        ` ${labTestData[0]?.imageSrc}`
+                        ` ${labTestData.imageSrc}`
                       )
-                    } // Add onClick to open image modal
+                    }
                   />
                   <div className="flex gap-16">
                     <div className=" self-start text-sm text-black">
                       <span className=" font-semibold">Lab Values:</span>
                       <div className="mt-5 text-sm">
-                        {labTestData[0].valueQuantities?.map(
+                        {labTestData.valueQuantities?.map(
                           (valueQuantity, index) => (
-                            <div key={index}>
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
                               {valueQuantity.display} = {valueQuantity.value}{" "}
                               {valueQuantity.unit}
                             </div>
@@ -140,11 +140,10 @@ console.log(labTestData)
 
                     <div className=" self-start text-sm text-black">
                       <span className=" font-semibold">Value Range:</span>
-                      {/* HARDCODED */}
                       <div className="mt-5 text-sm">
-                        {labTestData[0].rangeQuantities?.map(
+                        {labTestData.rangeQuantities?.map(
                           (rangeQuantity, index) => (
-                            <div key={index}>
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
                               {rangeQuantity.level} = {rangeQuantity.min} - {" "}
                               {rangeQuantity.max}
                             </div>
