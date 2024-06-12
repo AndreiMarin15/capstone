@@ -23,6 +23,8 @@ export default function AddObservation({
   const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
   const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
   const reviewOfSystemsStore = useClinicVisitStore(state => state.reviewOfSystems);
+  const otherReviewOfSystems = useClinicVisitStore(state => state.otherReviewOfSystems);
+  const setOtherReviewOfSystems = useClinicVisitStore(state => state.setOtherReviewOfSystems);
   const labTestName = useClinicVisitStore ((state) => state.labTestName);
 
   // Initialize local state with Zustand store values
@@ -155,6 +157,8 @@ export default function AddObservation({
         { name: "Fatigue", value: "Fatigue" },
       ],
     },
+
+
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
       variable: "Other Concerns",
@@ -169,6 +173,8 @@ export default function AddObservation({
         });
       },
     },
+
+    
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
       variable: "Request",
@@ -292,7 +298,18 @@ export default function AddObservation({
                             </label>
                           ))}
                         </div>
-                      </td>
+                        
+                        
+                        <textarea
+                            placeholder="Other"
+                            name="otherReviewOfSystems"
+                            value={otherReviewOfSystems}
+                            onChange={(e) => setOtherReviewOfSystems(e.target.value)}
+                            className="grow justify-center items-start mt-5 py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]"
+                            style={{ fontSize: "12px", height: "auto", whiteSpace: "pre-wrap" }}
+                            wrap="soft"
+                          />
+                        </td>                  
                     </tr>
                     ) : item.type === "date" ? (
                       <tr key={index}>

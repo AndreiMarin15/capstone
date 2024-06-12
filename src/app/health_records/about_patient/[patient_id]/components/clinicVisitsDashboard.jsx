@@ -207,7 +207,7 @@ export default function ClinicVisits({ patientId }) {
 											{/* Display encounter data */}
 											<div className="flex flex-col flex-1 px-3.5 text-left">
 												<div className="font-semibold whitespace-nowrap">
-													Clinic Visit {encounter.resource.period.start}
+													Clinic Visit {new Date(encounter.resource.period.start).toISOString().split('T')[0]}
 												</div>
 												<div className="flex justify-between w-fit">
 													<Image

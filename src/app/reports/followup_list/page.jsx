@@ -6,7 +6,7 @@ import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { getOverduePatients, getPatientAndFinalDiagnosis } from "@/backend/reports/getReportsData";
+import { getOverduePatients, getPatientAndFinalDiagnosis, remindPatients } from "@/backend/reports/getReportsData";
 import {
 	Table,
 	TableBody,
@@ -94,12 +94,14 @@ export default function FollowUpList() {
 		console.log("PATIENTS DIAGNOSIS", patientsDiagnosis);
 		setPatientInfo(
 			patientsDiagnosis.map((patientDiagnoses) => {
+				console.log(patientDiagnoses.diagnosis?.resource?.subject?.reference);
 				return {
 					name: patientDiagnoses.patient?.first_name + " " + patientDiagnoses.patient?.last_name,
 					diagnosis: patientDiagnoses.diagnosis?.resource?.valueString,
 					currentDate: new Date().toLocaleDateString(),
 					supposedClinicVisit: new Date(patientDiagnoses.visit?.resource?.valueString).toLocaleDateString(),
 					dateLastClinicVisit: new Date(patientDiagnoses.visit?.ts).toLocaleDateString(),
+					id: patientDiagnoses.diagnosis?.resource?.subject?.reference,
 				};
 			})
 		);
@@ -121,15 +123,33 @@ export default function FollowUpList() {
 					<div className="mt-8 text-base font-semibold text-black max-md:max-w-full">
 						LATE FOR FOLLOW-UP PATIENT LIST
 					</div>
-
-					<div className="mt-8 text-xs text-blue-500 max-md:max-w-full">
-						<button
+					<div className="flex mt-8">
+						<div className="text-xs text-blue-500 max-md:max-w-full">
+							<Button
+								variant="remind"
+								onClick={() => {
+									downloadPDF();
+								}}
+							>
+								Download (.pdf)
+							</Button>
+						</div>
+						<Button
 							onClick={() => {
-								downloadPDF();
+								patientInfo?.forEach(async (item) => {
+									await remindPatients([item.id], {
+										reminder: "Please remember to visit the clinic",
+										supposed_visit: item.supposedClinicVisit,
+										last_visit: item.dateLastClinicVisit,
+										reminded_by: `${currentUser.getState().user.license_id}`,
+									});
+								});
+								toast.success("Patients have been reminded");
 							}}
+							variant="remind"
 						>
-							Download (.pdf)
-						</button>
+							Remind All Patients
+						</Button>
 					</div>
 				</div>
 				<div className="flex justify-between items-center gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
@@ -172,10 +192,25 @@ export default function FollowUpList() {
 											className="w-5 h-3"
 											alt="Remind Patient"
 										/>
-										<Button variant="remind">Remind Patient</Button>
+										<Button
+											onClick={() => {
+												remindPatients([item.id], {
+													reminder: "Please remember to visit the clinic",
+													supposed_visit: item.supposedClinicVisit,
+													last_visit: item.dateLastClinicVisit,
+													reminded_by: `${currentUser.getState().user.license_id}`,
+												});
+												toast.success("Patient has been reminded");
+											}}
+											variant="remind"
+										>
+											Remind Patient
+										</Button>
 									</TableCell>
 									<TableCell>
-										<Button variant="outline">Message</Button>
+										<Button onClick={()=> {
+											router.push(`/messages`);
+										}} variant="outline">Message</Button>
 									</TableCell>
 								</TableRow>
 							))}
