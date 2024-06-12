@@ -11,6 +11,8 @@ import { getObservationsByPatientId } from "@/backend/health_records/getObservat
 import doctor from "@/backend/health_records/doctor";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ViewSelfPrick from "./sub_components/viewSelfPrick";
+import ViewSelfPrickList from "./sub_components/viewSelfPrickList";
 import useLabTestStore from "@/app/labTestStore";
 
 
@@ -115,7 +117,7 @@ export default function LabTests({ patientId }) {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      setCurrentScreen(2);
+                      setCurrentScreen(4);
                     }}
                   >
                     Self-Pricking
@@ -252,6 +254,22 @@ export default function LabTests({ patientId }) {
       currentScreen={currentScreen}
       setCurrentScreen={setCurrentScreen}
       observationId={observationId}
+    />
+  
+  ) : currentScreen === 4 ? (
+    <ViewSelfPrickList
+      currentScreen={currentScreen}
+      setCurrentScreen={setCurrentScreen}
+      observationId={observationId}
+      patientId={patientId}
+    />
+  
+  ) : currentScreen === 5 ? (
+    <ViewSelfPrick
+      currentScreen={currentScreen}
+      setCurrentScreen={setCurrentScreen}
+      observationId={observationId}
+      patientId={patientId}
     />
   
   ) : (

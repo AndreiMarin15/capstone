@@ -38,7 +38,7 @@ export default function ViewLabRequest({
             LAB TESTS
           </div>
           <div className="text-black text-sm font-semibold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-            Lab Test Request {labTests[0]?.reqdate}
+            Lab Test Request {labTests[0].reqdate}
           </div>{" "}
           <div className="flex-1 mr-4 text-xs">
             <table className="max-w-fit border-spacing-y-3 border-separate">
