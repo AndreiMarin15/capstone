@@ -61,6 +61,7 @@ export async function getObservationsByPatientId(patientId) {
 
 export async function getFinalDiagnosisObservations(patientId) {
 	try {
+		console.log(patientId);
 		// Fetch observations where the resource column contains JSON with id set to "Final Diagnosis"
 		const { data: observations, error } = await supabase
 			.from("observation")
