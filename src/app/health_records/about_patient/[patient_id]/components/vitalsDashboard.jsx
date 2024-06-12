@@ -434,8 +434,14 @@ export default function Vitals({ patientId }) {
 			)}
 
 			{currentPage === 2 && (
-				<ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues}
-				/>
+				<ViewSystolic
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+				patientId={patientId}
+				chartValues={chartValues}
+				renderingOptions={renderingOptions}
+			  />
+			
 			)}
 
 			{currentPage === 3 && (

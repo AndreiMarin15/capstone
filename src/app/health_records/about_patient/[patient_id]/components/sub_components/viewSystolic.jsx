@@ -9,11 +9,12 @@ import { getBPDoctor } from "@/backend//patient/vitalsAndBiometrics/vitalsAndBio
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);
 
-export default function ViewSystolic({ currentPage, setCurrentPage, patientId, chartValues }) {
+export default function ViewSystolic({ currentPage, setCurrentPage, patientId, chartValues, renderingOptions }) {
 	
 	console.log(chartValues)
-
+	console.log(renderingOptions)
 	
+
 	const systolicTooltipContent = (tooltip) => (
 		<div
 			className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold"
@@ -27,7 +28,7 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId, c
 			  {tooltip.dataPoints?.map((point, index) => (
                 <div key={index}>
                     <p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
-                    <p>Systolic: {point.y} mm(Hg)</p>
+                    <p>{point.y} mm(Hg)</p>
                 </div>
             ))}
 		</div>
@@ -35,16 +36,15 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId, c
 
 
 
-	const systolicData = chartValues.systolic.map(({ value, date }) => ({
+	const systolicData = chartValues.systolic.slice(-renderingOptions).map(({ value, date }) => ({
         x: new Date(date),
         y: value,
     }));
 
-    const diastolicData = chartValues.diastolic.map(({ value, date }) => ({
+    const diastolicData = chartValues.diastolic.slice(-renderingOptions).map(({ value, date }) => ({
         x: new Date(date),
         y: value,
     }));
-
 
 	const labels = [];
 	
@@ -75,11 +75,12 @@ export default function ViewSystolic({ currentPage, setCurrentPage, patientId, c
 	const formatDateCommon = (date) => format(date, "yyyy-MM-dd");
 
 	// Table data
-	const tableData = chartValues.systolic.map(({ value: systolic, date }, index) => ({
+	const tableData = chartValues.systolic.slice(-renderingOptions).map(({ value: systolic, date }, index) => ({
         date,
         systolic,
-        diastolic: chartValues.diastolic[index].value,
-        commonFormat: `${systolic}/${chartValues.diastolic[index].value} mm(Hg)`,
+        
+        diastolic: chartValues.diastolic.slice(-renderingOptions)[index]?.value,
+        commonFormat: `${systolic}/${chartValues.diastolic.slice(-renderingOptions)[index]?.value} mm(Hg)`,
     }));
 
 	   return (
