@@ -5,10 +5,8 @@ import { useState, useEffect } from "react";
 import ViewSystolic from "./sub_components/viewSystolic";
 import ViewHeartRate from "./sub_components/viewHeartRate";
 import ViewBiometrics from "./sub_components/viewBiometrics";
-import {
-	getVitalsAndBiometricsDoctor,
-	getBiometricsDoctor,
-} from "@/backend//patient/vitalsAndBiometrics/vitalsAndBiometrics";
+import {getEncounterByPatientId} from "@/backend/health_records/getEncounter";
+import {getSpecificMeasurementsObservations} from "@/backend/health_records/getObservation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
@@ -16,70 +14,148 @@ export default function Vitals({ patientId }) {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [vitalsAndBio, setVitalsAndBio] = useState({});
 	const [selectedMetric, setSelectedMetric] = useState("");
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = await getVitalsAndBiometricsDoctor(patientId);
-			setVitalsAndBio(data);
-			console.log(data);
-		};
-		fetchData();
-	}, []);
-	useEffect(() => {
-		const fetchData = async () => {
-			const bio = await getBiometricsDoctor(patientId);
-			console.log(bio);
-			setSampleData(bio);
-		};
-		fetchData();
-	}, []);
-
-	const handleVisitClick = () => {
-		setCurrentPage(currentPage + 1);
-	};
-	const [sampleData, setSampleData] = useState({
-		height: [],
+	const [matchedObservations, setMatchedObservations] = useState([]);
+	const [chartValues, setChartValues] = useState({
+		systolic: [],
+		diastolic: [],
+		heartRate: [],
 		weight: [],
 		bmi: [],
+		height: []
 	});
-	const vitals = [
-		{
-			date: "2023-12-01",
-			systolic: "110",
-			diastolic: "90",
-			heartrate: "60",
-			height: "180",
-			weight: "70",
-			bmi: "50",
-		},
-		{
-			date: "2024-02-15",
-			systolic: "120",
-			diastolic: "90",
-			heartrate: "60",
-			height: "180",
-			weight: "70",
-			bmi: "50",
-		},
-		{
-			date: "2023-5-25",
-			systolic: "110",
-			diastolic: "90",
-			heartrate: "60",
-			height: "180",
-			weight: "70",
-			bmi: "50",
-		},
-		{
-			date: "2024-08-01",
-			systolic: "120",
-			diastolic: "90",
-			heartrate: "60",
-			height: "180",
-			weight: "70",
-			bmi: "60",
-		},
-	];
+	const [renderingOptions, setRenderingOptions] = useState(5);
+	const [latestVitalsAndBio, setLatestVitalsAndBio] = useState({});
 
+
+
+	const filterLatestVitalsAndBio = (options) => {
+		const sortedDates = Object.keys(vitalsAndBio).sort((a, b) => new Date(b) - new Date(a));
+		const latestData = sortedDates.slice(0, options).reduce((acc, key) => {
+			acc[key] = vitalsAndBio[key];
+			return acc;
+		}, {});
+		setLatestVitalsAndBio(latestData);
+		console.log(latestData)
+	};
+	useEffect(() => {
+		filterLatestVitalsAndBio(renderingOptions);
+	}, [renderingOptions, vitalsAndBio]);
+
+	useEffect(() => {
+        const fetchData = async () => {
+            // Fetch encounters by patient id
+            const encounterData = await getEncounterByPatientId(patientId);
+            console.log(encounterData);
+
+            // Fetch specific measurements observations
+            const observationData = await getSpecificMeasurementsObservations(patientId);
+            console.log(observationData);
+
+            const matchedObservations = [];
+
+            encounterData.forEach(encounter => {
+                // Get the ids from the contained array of the encounter
+                const encounterIds = encounter.resource.contained;
+                const encounterStartDate = encounter.resource.period.start;
+
+                // Filter observations that have ids matching the encounter ids
+                const matchedObservationsForEncounter = observationData.filter(observation => {
+                    return encounterIds.includes(observation.id);
+                });
+
+                // Add encounter start date to the matched observations
+                matchedObservationsForEncounter.forEach(observation => {
+                    observation.encounterStartDate = encounterStartDate;
+                });
+
+                // Group matched observations by encounter id
+                matchedObservations.push({
+                    encounterId: encounter.id,
+                    observations: matchedObservationsForEncounter
+                });
+            });
+
+            // Sort matched observations by encounter start date
+            matchedObservations.sort((b, a) => new Date(b.observations[0].encounterStartDate) - new Date(a.observations[0].encounterStartDate));
+
+            console.log(matchedObservations);
+            setMatchedObservations(matchedObservations);
+        };
+
+        fetchData();
+    }, [patientId]);
+
+
+	
+
+	useEffect(() => {
+		if (matchedObservations.length > 0) {
+			const updatedVitalsAndBio = {};
+			const updatedChartValues = {
+				systolic: [],
+				diastolic: [],
+				heartRate: [],
+				weight: [],
+				bmi: [],
+				height: []
+			};
+	
+			matchedObservations.forEach(({ observations }) => {
+				observations.forEach(observation => {
+					const { encounterStartDate, resource } = observation;
+					const date = encounterStartDate.split('T')[0]; // Extract date from encounterStartDate
+	
+					if (!updatedVitalsAndBio[date]) {
+						// Initialize object for the date if not already present
+						updatedVitalsAndBio[date] = {};
+					}
+	
+					// Extract relevant data based on observation id
+					switch (resource.id) {
+						case 'height':
+						case 'weight':
+						case 'bmi':
+						case 'heartRate':
+							// Check if valueQuantity exists before accessing value
+							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
+								// Initialize an object for the resource if not already present
+								if (!updatedVitalsAndBio[date][resource.id]) {
+									updatedVitalsAndBio[date][resource.id] = {};
+								}
+								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
+								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
+								// Update chartValues with heartRate, weight, bmi, and height values
+								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
+							}
+							break;
+						case 'systolic':
+						case 'diastolic':
+							// Check if valueQuantity exists before accessing value
+							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
+								// Push value into the corresponding array in chartValues along with the date
+								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
+								// Store value in vitalsAndBio under respective keys
+								if (!updatedVitalsAndBio[date][resource.id]) {
+									updatedVitalsAndBio[date][resource.id] = {};
+								}
+								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
+								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
+							}
+							break;
+						default:
+							break;
+					}
+				});
+			});
+	
+			setVitalsAndBio(updatedVitalsAndBio);
+			console.log(updatedVitalsAndBio)
+			setChartValues(updatedChartValues);
+			console.log(updatedChartValues)
+		}
+	}, [matchedObservations]);
+
+	
 	const images = [
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -88,15 +164,6 @@ export default function Vitals({ patientId }) {
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
 	];
-
-	/*  const variableNames = [
-    "Systolic Blood Pressure",
-    "Diastolic Blood Pressure",
-    "Heart Rate",
-    "Height (cm)",
-    "Weight (cm)",
-    "Body Mass Index",
-  ]; */
 
 	const vitalsImages = [
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -112,7 +179,7 @@ export default function Vitals({ patientId }) {
 	const vitalsName = ["Systolic Blood Pressure", "Diastolic Blood Pressure", "Heart Rate"];
 
 	const biometricsName = ["Height (cm)", "Weight (cm)", "Body Mass Index"];
-	const properties = Object.keys(vitals[0]).filter((property) => property !== "date");
+
 
 	return (
 		<>
@@ -142,11 +209,8 @@ export default function Vitals({ patientId }) {
 							<select
 								className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
 								onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
-								defaultValue="5"
+								defaultValue={renderingOptions.toString()}
 							>
-								<option value="5" disabled hidden>
-									5
-								</option>
 								<option value="3">3</option>
 								<option value="5">5</option>
 								<option value="7">7</option>
@@ -192,25 +256,27 @@ export default function Vitals({ patientId }) {
 							))}
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
-							{vitalsAndBio &&
-								Object.keys(vitalsAndBio)?.map((key, index) => (
-									<div
-										key={index}
-										className="h-6 max-h-6 text-xs max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
-									>
-										<div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{key}
-										</div>
-										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["systolic"].valueQuantity.value ?? "-"}
-										</div>
-										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["diastolic"].valueQuantity.value ?? "-"}
-										</div>
-										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["heartRate"].valueQuantity.value ?? "-"}
-										</div>
+						{latestVitalsAndBio &&
+							Object.keys(latestVitalsAndBio)
+								.reverse() // Reverse the array of keys
+								.map((date, index) => (
+								<div
+									key={index}
+									className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
+								>
+									<div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+									{date}
 									</div>
+									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+									{latestVitalsAndBio[date]["systolic"] ? latestVitalsAndBio[date]["systolic"].value : "-"}
+									</div>
+									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+									{latestVitalsAndBio[date]["diastolic"] ? latestVitalsAndBio[date]["diastolic"].value : "-"}
+									</div>
+									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+									{latestVitalsAndBio[date]["heartRate"] ? latestVitalsAndBio[date]["heartRate"].value : "-"}
+									</div>
+								</div>
 								))}
 						</div>
 						<div id="col" className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end">
@@ -297,26 +363,28 @@ export default function Vitals({ patientId }) {
 							))}
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
-							{vitalsAndBio &&
-								Object.keys(vitalsAndBio)?.map((key, index) => (
+						{latestVitalsAndBio &&
+								Object.keys(latestVitalsAndBio).reverse().map((date, index) => (
 									<div
 										key={index}
 										className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
 									>
 										<div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{key}
+											{date}
 										</div>
 										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["height"].valueQuantity.value ?? "-"}
+											{vitalsAndBio[date]["height"] ? vitalsAndBio[date]["height"].value : "-"}
+											
 										</div>
 										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["weight"].valueQuantity.value ?? "-"}
+											{vitalsAndBio[date]["weight"] ? vitalsAndBio[date]["weight"].value : "-"} 
 										</div>
 										<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-											{vitalsAndBio[key]["bmi"].valueQuantity.value ?? "-"}
+											{vitalsAndBio[date]["bmi"] ? vitalsAndBio[date]["bmi"].value : "-"}
 										</div>
 									</div>
-								))}
+								))
+							}
 						</div>
 						<div id="col" className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end">
 							<div className="h-6 max-h-6"></div>
@@ -366,19 +434,27 @@ export default function Vitals({ patientId }) {
 			)}
 
 			{currentPage === 2 && (
-				<ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+				<ViewSystolic
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+				patientId={patientId}
+				chartValues={chartValues}
+				renderingOptions={renderingOptions}
+			  />
+			
 			)}
 
 			{currentPage === 3 && (
-				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues} renderingOptions={renderingOptions}/>
 			)}
 
 			{currentPage === 4 && selectedMetric && (
 				<ViewBiometrics
 					currentPage={currentPage}
 					setCurrentPage={setCurrentPage}
-					defaultMetric={selectedMetric} // Pass selected metric as prop
-					sampleData={sampleData}
+					defaultMetric={selectedMetric}
+					chartValues={chartValues}
+					renderingOptions={renderingOptions}
 				/>
 			)}
 		</>
