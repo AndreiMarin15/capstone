@@ -454,6 +454,7 @@ export default function Vitals({ patientId }) {
 					setCurrentPage={setCurrentPage}
 					defaultMetric={selectedMetric}
 					chartValues={chartValues}
+					renderingOptions={renderingOptions}
 				/>
 			)}
 		</>
