@@ -74,6 +74,7 @@ export const getVitalsAndBiometricsDoctor = async (userId) => {
 		}
 		return sortedJson;
 	}
+	console.log(data);
 	return data;
 };
 
