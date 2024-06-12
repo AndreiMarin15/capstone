@@ -445,7 +445,7 @@ export default function Vitals({ patientId }) {
 			)}
 
 			{currentPage === 3 && (
-				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues}/>
+				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues} renderingOptions={renderingOptions}/>
 			)}
 
 			{currentPage === 4 && selectedMetric && (
