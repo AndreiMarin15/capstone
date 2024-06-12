@@ -7,7 +7,8 @@ import "chartjs-adapter-date-fns";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);
 
-export default function ViewBiometrics({ currentPage, setCurrentPage, defaultMetric, sampleData }) {
+export default function ViewBiometrics({ currentPage, setCurrentPage, defaultMetric, chartValues }) {
+
 	const [selectedMetric, setSelectedMetric] = useState(defaultMetric);
 	const [data, setData] = useState(null); // Initialize data state
 

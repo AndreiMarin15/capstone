@@ -23,6 +23,23 @@ export default function Vitals({ patientId }) {
 		bmi: [],
 		height: []
 	});
+	const [renderingOptions, setRenderingOptions] = useState(5);
+	const [latestVitalsAndBio, setLatestVitalsAndBio] = useState({});
+
+
+
+	const filterLatestVitalsAndBio = (options) => {
+		const sortedDates = Object.keys(vitalsAndBio).sort((a, b) => new Date(b) - new Date(a));
+		const latestData = sortedDates.slice(0, options).reduce((acc, key) => {
+			acc[key] = vitalsAndBio[key];
+			return acc;
+		}, {});
+		setLatestVitalsAndBio(latestData);
+		console.log(latestData)
+	};
+	useEffect(() => {
+		filterLatestVitalsAndBio(renderingOptions);
+	}, [renderingOptions, vitalsAndBio]);
 
 	useEffect(() => {
         const fetchData = async () => {
@@ -108,15 +125,15 @@ export default function Vitals({ patientId }) {
 								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
 								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
 								// Update chartValues with heartRate, weight, bmi, and height values
-								updatedChartValues[resource.id].push(resource.valueQuantity.value);
+								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
 							}
 							break;
 						case 'systolic':
 						case 'diastolic':
 							// Check if valueQuantity exists before accessing value
 							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
-								// Push value into the corresponding array in chartValues
-								updatedChartValues[resource.id].push(resource.valueQuantity.value);
+								// Push value into the corresponding array in chartValues along with the date
+								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
 								// Store value in vitalsAndBio under respective keys
 								if (!updatedVitalsAndBio[date][resource.id]) {
 									updatedVitalsAndBio[date][resource.id] = {};
@@ -192,11 +209,8 @@ export default function Vitals({ patientId }) {
 							<select
 								className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
 								onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
-								defaultValue="5"
+								defaultValue={renderingOptions.toString()}
 							>
-								<option value="5" disabled hidden>
-									5
-								</option>
 								<option value="3">3</option>
 								<option value="5">5</option>
 								<option value="7">7</option>
@@ -242,26 +256,28 @@ export default function Vitals({ patientId }) {
 							))}
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
-						{vitalsAndBio &&
-							Object.keys(vitalsAndBio)?.map((key, index) => (
+						{latestVitalsAndBio &&
+							Object.keys(latestVitalsAndBio)
+								.reverse() // Reverse the array of keys
+								.map((date, index) => (
 								<div
 									key={index}
 									className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
 								>
 									<div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-										{key}
+									{date}
 									</div>
 									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-										{vitalsAndBio[key]["systolic"] ? vitalsAndBio[key]["systolic"].value : "-"}
+									{latestVitalsAndBio[date]["systolic"] ? latestVitalsAndBio[date]["systolic"].value : "-"}
 									</div>
 									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-										{vitalsAndBio[key]["diastolic"] ? vitalsAndBio[key]["diastolic"].value : "-"}
+									{latestVitalsAndBio[date]["diastolic"] ? latestVitalsAndBio[date]["diastolic"].value : "-"}
 									</div>
 									<div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
-										{vitalsAndBio[key]["heartRate"] ? vitalsAndBio[key]["heartRate"].value : "-"}
+									{latestVitalsAndBio[date]["heartRate"] ? latestVitalsAndBio[date]["heartRate"].value : "-"}
 									</div>
 								</div>
-							))}
+								))}
 						</div>
 						<div id="col" className="w-[20%] max-w-[20%] min-w-[20%] flex flex-col gap-3 items-end">
 							<div className="h-6 max-h-6"></div>
@@ -347,8 +363,8 @@ export default function Vitals({ patientId }) {
 							))}
 						</div>
 						<div id="col" className="w-full flex flex-row gap-3 overflow-x-auto">
-						{vitalsAndBio &&
-								Object.keys(vitalsAndBio).map((date, index) => (
+						{latestVitalsAndBio &&
+								Object.keys(latestVitalsAndBio).reverse().map((date, index) => (
 									<div
 										key={index}
 										className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
@@ -418,11 +434,12 @@ export default function Vitals({ patientId }) {
 			)}
 
 			{currentPage === 2 && (
-				<ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+				<ViewSystolic currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues}
+				/>
 			)}
 
 			{currentPage === 3 && (
-				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} />
+				<ViewHeartRate currentPage={currentPage} setCurrentPage={setCurrentPage} patientId={patientId} chartValues={chartValues}/>
 			)}
 
 			{currentPage === 4 && selectedMetric && (
@@ -430,7 +447,7 @@ export default function Vitals({ patientId }) {
 					currentPage={currentPage}
 					setCurrentPage={setCurrentPage}
 					defaultMetric={selectedMetric}
-					sampleData={sampleData}
+					chartValues={chartValues}
 				/>
 			)}
 		</>
