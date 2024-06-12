@@ -11,15 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend//initSupabase";
 
-export default function Medications({ patientId }) {
-  const supabase = client("public");
-  const [medications, setMedications] = useState([]);
-  const [regis, setRegis] = useState("");
-  const [status, setStatus] = useState("ACTIVE");
-  const [currentUser, setCurrentUser] = useState(null);
-  const [currentScreen, setCurrentScreen] = useState(0);
-  const [refresh, setRefresh] = useState(false);
-  const [prescriptionDate, setPrescriptionDate] = useState("");
+export default function Prescriptions({ patientId }) {
+	const supabase = client("public");
+	const [medications, setMedications] = useState([]);
+	const [regis, setRegis] = useState("");
+	const [status, setStatus] = useState("ACTIVE");
+	const [currentUser, setCurrentUser] = useState(null);
+	const [currentScreen, setCurrentScreen] = useState(0);
+	const [refresh, setRefresh] = useState(false);
+	const [prescriptionDate, setPrescriptionDate] = useState("");
 
   React.useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -110,102 +110,89 @@ export default function Medications({ patientId }) {
           })
           .eq("id", medicationRequestToUpdate.id);
 
-        // Refresh medication list after updating status
-        const updatedMedicationRequests = await getMedicationRequests();
-        setMedications(updatedMedicationRequests);
-      }
-    } catch (error) {
-      console.error("Error discontinuing medication:", error);
-    }
-  };
-  const date = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Date",
-      value: "2024-01-24",
-    },
-  ];
-  useEffect(() => {
-    setPrescriptionDate(new Date().toISOString().split("T")[0]);
-  }, []);
-  return (
-    <>
-      {isEdit ? (
-        <EditMedications
-          currentScreen={6}
-          setCurrentScreen={handleSetCurrentScreen}
-          patientId={patientId}
-          medicationId={regis}
-        />
-      ) : isTest ? (
-        <ViewMedications
-          currentScreen={3}
-          setCurrentScreen={handleSetCurrentScreen}
-          patientId={patientId}
-          medicationId={regis}
-        />
-      ) : isAdd ? (
-        <AddMedications
-          currentScreen={4}
-          setCurrentScreen={handleSetCurrentScreen}
-          patientId={patientId}
-        />
-      ) : (
-        <>
-          <div className="flex flex-col">
-            <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-              MEDICATIONS
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setTest(false);
-                  setAdd(true);
-                }}
-              >
-                Create Prescription
-              </Button>
-            </div>
-            <Tabs defaultValue="all" className="w-[400px] mb-10">
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="endocrinologist">
-                  Endocrinologist
-                </TabsTrigger>
-                <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
-                <TabsTrigger value="gastroenterologist">
-                  Gastroenterologist
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="account">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="endocrinologist">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="cardiologist">
-                {/* Add contents here */}
-              </TabsContent>
-              <TabsContent value="gastroenterologist">
-                {/* Add contents here */}
-              </TabsContent>
-            </Tabs>
-            <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
-              <div className="flex gap-1.5 p-2.5">
-                <div className="mt-3 font-semibold text-black flex gap-1 items-center">
-                  Status:
-                  <button
-                    className={`flex flex-col flex-1 justify-center font-bold ${
-                      status === "ACTIVE" ? "text-green-600" : "text-red-600"
-                    } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
-                    onClick={toggleStatus}
-                  >
-                    <div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
-                      {status}
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
+				// Refresh medication list after updating status
+				const updatedMedicationRequests = await getMedicationRequests();
+				setMedications(updatedMedicationRequests);
+			}
+		} catch (error) {
+			console.error("Error discontinuing medication:", error);
+		}
+	};
+	const date = [
+		{
+			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
+			variable: "Date",
+			value: "2024-01-24",
+		},
+	];
+	useEffect(() => {
+		setPrescriptionDate(new Date().toISOString().split("T")[0]);
+	}, []);
+	return (
+		<>
+			{isEdit ? (
+				<EditMedications
+					currentScreen={1}
+					setCurrentScreen={handleSetCurrentScreen}
+					patientId={patientId}
+					medicationId={regis}
+				/>
+			) : isTest ? (
+				// <ViewMedications
+				//   currentScreen={3}
+				//   setCurrentScreen={handleSetCurrentScreen}
+				//   patientId={patientId}
+				//   medicationId={regis}
+				// />
+				<> </>
+			) : isAddPrescription ? (
+				<AddPrescription currentScreen={4} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} />
+			) : currentScreen === 2 ? (
+				<ViewPrescription />
+			) : (
+				<>
+					<div className="flex flex-col">
+						<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+							MEDICATIONS
+							<Button
+								variant="outline"
+								onClick={() => {
+									setTest(false);
+									setAdd(true);
+								}}
+							>
+								Create Prescription
+							</Button>
+						</div>
+						<Tabs defaultValue="all" className="w-[400px] mb-10">
+							<TabsList>
+								<TabsTrigger value="all">All</TabsTrigger>
+								<TabsTrigger value="endocrinologist">Endocrinologist</TabsTrigger>
+								<TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
+								<TabsTrigger value="gastroenterologist">Gastroenterologist</TabsTrigger>
+							</TabsList>
+							<TabsContent value="account">{/* Add contents here */}</TabsContent>
+							<TabsContent value="endocrinologist">{/* Add contents here */}</TabsContent>
+							<TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
+							<TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
+						</Tabs>
+						<div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
+							<div className="flex gap-1.5 p-2.5">
+								<div className="mt-3 font-semibold text-black flex gap-1 items-center">
+									Status:
+									<button
+										className={`flex flex-col flex-1 justify-center font-bold ${
+											status === "ACTIVE" ? "text-green-600" : "text-red-600"
+										} whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
+										onClick={toggleStatus}
+									>
+										<div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
+											{status}
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
 
             {medications
               .filter((medication) => {
@@ -344,14 +331,13 @@ export default function Medications({ patientId }) {
                         {medication.resource.adverseEvent.adverseReaction}
                       </div>
                     </div> */}
-                  </div>
-                  <div className="mt-2 border-b border-gray-300 w-full"></div>
-                </button>
-              ))}
-            <BackButton />
-          </div>
-        </>
-      )}
-    </>
-  );
+									</div>
+								</button>
+							))}
+						
+					</div>
+				</>
+			)}
+		</>
+	);
 }
