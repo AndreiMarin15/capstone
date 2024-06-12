@@ -1,29 +1,46 @@
 {
-  "id": "labtest",
-  "code": {
-    "coding": [
-      {
-        "code": "YOUR_LOINC_CODE",
-        "system": "http://loinc.org"
-      }
-    ]
-  },
-  "status": "requested",
-  "subject": {
-    "type": "Patient",
-    "reference": "43140f1c-6cd0-4b32-81a9-c788090b37ad"
-  },
-  "codeText": "Cough Examination A",
-  "imageSrc": null,
-  "participant": {
-    "type": "Doctor",
-    "actor": ""
-  },
-  "resource_type": "Observation",
-  "valueQuantity": {
-    "valueQuantities": []
-  },
-  "uploadedDateTime": null,
-  "effectiveDateTime": null,
-  "requestedDateTime": "2024-05-08"
+  '2024-04-14': {
+    height: {
+      id: 'height',
+      code: { coding: [ { code: '8302-2', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'cm', value: '169' }
+    },
+    weight: {
+      id: 'weight',
+      code: { coding: [ { code: '29463-7', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'kg', value: '65' }
+    },
+    bmi: {
+      id: 'bmi',
+      code: { coding: [ { code: '39156-5', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'kg/m2', value: '20' }
+    },
+    systolic: {
+      id: 'systolic',
+      code: { coding: [ { code: '8480-6', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'mmHg', value: '120' }
+    },
+    diastolic: {
+      id: 'diastolic',
+      code: { coding: [ { code: '8462-4', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'mmHg', value: '80' }
+    },
+    heartRate: {
+      id: 'heartRate',
+      code: { coding: [ { code: '8867-4', system: 'http://loinc.org' } ] },
+      subject: '546bc2ce-444b-479a-a23e-2b57e9a31dc9',
+      resource_type: 'Observation',
+      valueQuantity: { unit: 'beats/minute', value: '65' }
+    }
+  }
 }
