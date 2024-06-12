@@ -4,6 +4,7 @@ import { client } from "../initSupabase";
 import { currentUser } from "@/app/store";
 import { newChat } from "./referralMessages";
 import { sendNotification, updateNotification, getNotifications } from "../sendNotification";
+import { addAttendingDoctor } from "../attending_doctors/attending_doctors";
 const sProject = client("project");
 function computeAge(birthdate) {
 	const dob = new Date(birthdate);
@@ -27,13 +28,52 @@ const sendReferralData = {
 			notes: data.notes,
 			chat_id: chatId[0].id,
 		};
-
+		console.log(data)
+		const attendingDoctor = {
+			patient: {
+				id: data.patient_id,
+			},
+			doctor: {
+				id: data.doctor_id,
+				license_id: data.selectedDoctor?.license_id,
+				first_name: data.selectedDoctor?.first_name,
+				last_name: data.selectedDoctor?.last_name,
+				doctor_specialization: data.selectedDoctor?.specialization,
+				doctor_years: data.selectedDoctor?.years,
+				doctor_first_name: data.selectedDoctor?.first_name,
+				doctor_last_name: data.selectedDoctor?.last_name,
+				contact: data.selectedDoctor?.contact,
+				clinic: data.selectedDoctor?.clinic,
+			},
+		};
+		console.log(attendingDoctor);
+		const attendingDoctorData = await addAttendingDoctor(attendingDoctor.doctor, attendingDoctor.patient);
+		console.log(attendingDoctorData);
 		console.log(referralData);
 		const referral = await project.insertInto("referrals", referralData);
 		sendNotification(data.doctor_id, "Referral", "You have a new referral request", currentUser.getState().info.id);
 		console.log(referral);
 
 		return referral;
+	},
+
+	referManyPatients: async (patients, selectedDoctorId, notes) => {
+		console.log(patients, selectedDoctorId, notes);
+		patients.forEach(async (patient) => {
+			const chatId = await newChat(selectedDoctorId);
+
+			const data = {
+				referred_by: currentUser.getState().info.id,
+				referred_to: selectedDoctorId,
+				patient_id: patient.resource?.subject?.reference,
+				chat_id: chatId[0].id,
+				notes: notes,
+			};
+			const referral = await project.insertInto("referrals", data);
+			sendNotification(selectedDoctorId, "Referral", "You have a new referral request", currentUser.getState().info.id);
+			console.log(referral);
+		});
+		return true;
 	},
 	acceptReferralRequest: async (referral_id) => {
 		const referral = await project.updateTable("referrals", { accepted: true }, { id: referral_id });
@@ -45,6 +85,7 @@ const sendReferralData = {
 		const toInsert = {
 			patient_id: patient,
 			doctor_id: currentUser.getState().info.id,
+			doctor_license: currentUser.getState().user.license_id,
 			referral_data: data,
 		};
 

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Image from "next/image";
-import { getMessages, getMessagesAndSubscribe } from "@/backend//message/getMessages";
+import { getMessages, getMessagesAndSubscribe } from "@/backend/message/getMessages";
 export default function Messaging() {
 	const [patient, setPatient] = React.useState("");
 	const [message, setMessage] = React.useState("");

@@ -5,8 +5,9 @@ import ProgressBarWrite from "../components/progressBarWrite";
 import { useRouter } from "next/navigation";
 import ReferralPatients from "../components/referralPatients";
 import WriteReferral from "../components/writeReferral";
-import retrieveReferralData from "@/backend//referral/retrieveReferralData";
-import sendReferralData from "@/backend//referral/sendReferralData";
+import retrieveReferralData from "@/backend/referral/retrieveReferralData";
+import sendReferralData from "@/backend/referral/sendReferralData";
+import { addAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
 
 export default function SendReferral() {
 	const router = useRouter();
@@ -18,10 +19,17 @@ export default function SendReferral() {
 		doctor_name: "",
 		specialization: "",
 		place_of_clinic: "",
+		contact: "",
 		reason_for_referral: "",
 		medications: "",
 		other_remarks: "",
+		lab_tests: [],
+		signature: "",
 	});
+
+	React.useEffect(() => {
+		console.log(referralData);
+	}, [referralData]);
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -32,7 +40,13 @@ export default function SendReferral() {
 
 		fetchData();
 	}, []);
-
+	function splitName(name) {
+		const lastSpaceIndex = name.lastIndexOf(" ");
+		if (lastSpaceIndex === -1) {
+			return [name]; // Return the original name in an array if there's no space.
+		}
+		return [name.substring(0, lastSpaceIndex), name.substring(lastSpaceIndex + 1)];
+	}
 	return (
 		<div className="bg-white flex flex-col items-stretch pb-8 h-[100vh]">
 			<div className="ml-6 mt-8 text-black text-xl font-semibold leading-8">Referral</div>
@@ -54,7 +68,11 @@ export default function SendReferral() {
 									</div>
 								))
 							) : (
-								<WriteReferral referralData={referralData} setReferralData={setReferralData} />
+								<WriteReferral
+									referralData={referralData}
+									setReferralData={setReferralData}
+									selectedPatientId={selectedPatientId}
+								/>
 							)}
 						</>
 					) : (
@@ -95,6 +113,26 @@ export default function SendReferral() {
 						if (currentState < 2) {
 							setCurrentState(currentState + 1);
 						} else if (currentState === 2) {
+							const splitname = splitName(referralData.doctor_name);
+							const attendingDoctor = {
+								patient: {
+									id: selectedPatientId,
+								},
+								doctor: {
+									first_name: splitname[0],
+									last_name: splitname[1],
+									doctor_specialization: referralData.specialization,
+									doctor_years: null,
+									doctor_first_name: splitname[0],
+									doctor_last_name: splitname[1],
+									license_id: null,
+									doctor_id: null,
+									status: "accepted",
+									clinic: referralData.place_of_clinic,
+									contact: referralData.contact,
+								},
+							};
+							await addAttendingDoctor(attendingDoctor.doctor, attendingDoctor.patient);
 							await sendReferralData.sendWrittenReferral(referralData, selectedPatientId);
 							router.push("/referral");
 						}

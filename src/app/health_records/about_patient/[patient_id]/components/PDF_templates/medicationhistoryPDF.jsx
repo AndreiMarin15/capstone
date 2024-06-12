@@ -1,3 +1,4 @@
+"use client";
 import {
 	Table,
 	TableBody,
@@ -10,48 +11,82 @@ import {
 } from "@/components/ui/table";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-const medicationhistory = [
-	{
-		number: "1",
-		provider: "Dr. Johnny Santos",
-		specialization: "Cardiologist",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-04-21",
-		end: "2024-04-29",
-	},
-	{
-		number: "2",
-		provider: "Dr. Kim Cruz",
-		specialization: "Cardiologist",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-05-21",
-		end: "2024-05-29",
-	},
-	{
-		number: "3",
-		provider: "Dr. John Doe",
-		specialization: "Endocrinologist",
-		generic: "Ibuprofen",
-		brand: "Paracetamol",
-		form: "Tablet",
-		dose: "500mg",
-		frequency: "3x a day",
-		start: "2024-07-21",
-		end: "2024-07-29",
-	},
-];
+import { getMedications, getDoctorSpecialization, getDoctorHospital } from "@/backend/pdfBackend/getPDFData";
+import { currentUser } from "@/app/store";
 
 export function MedicationHistoryPDF({ patientId, patientData }) {
+	const [medicationhistory, setMedicationHistory] = useState([
+		{
+			number: "1",
+			provider: "Dr. Johnny Santos", // resource.requester.agent.reference
+			specialization: "Cardiologist", // resource.getSpecialization
+			generic: "Ibuprofen", // resource.medicationCodeableConcept[0].text
+			brand: "Paracetamol", // resource.medicationCodeableConcept[0].coding[0].display
+			form: "Tablet", // resource.form.text
+			dose: "500mg", // resource.dosageInstruction[0].doseAndRate[0].doseQuantity.doseUnit
+			frequency: "3x a day", // resource.dispenseRequest.dispenseInterval
+			start: "2024-04-21", // resource.dispenseRequest.validityPeriod.start
+			end: "2024-04-29", // resource.dispenseRequest.validityPeriod.end
+		},
+	]);
+	function getCurrentDateFormatted() {
+		const date = new Date();
+		const monthNames = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December",
+		];
+		const month = monthNames[date.getMonth()];
+		const day = date.getDate();
+		const year = date.getFullYear();
+		return `${month} ${day}, ${year}`;
+	}
+	useEffect(() => {
+		const fetchData = async () => {
+			const medicationHistory = await getMedications(patientId);
+			console.log(medicationHistory);
+
+			const medicationHistoryWithDetails = await Promise.all(
+				medicationHistory.map(async (item, index) => {
+					// Assuming getDoctorSpecialization and getHospitalName return promises
+					const specializationPromise = getDoctorSpecialization(item.resource.requester.agent.license_id);
+					const hospitalPromise = getDoctorHospital(item.resource.requester.agent.license_id);
+
+					// Wait for both promises to resolve
+					const [specialization, hospital] = await Promise.all([specializationPromise, hospitalPromise]);
+
+					return {
+						number: index + 1,
+						provider: item.resource.requester.agent.reference,
+						specialization: specialization ?? "", // Now directly using the awaited value
+						hospital: hospital ?? "", // Now directly using the awaited value
+						generic: item.resource.medicationCodeableConcept[0].text,
+						brand: item.resource.medicationCodeableConcept[0].coding[0].display,
+						form: item.resource.form.text,
+						dose: item.resource.dosageInstruction[0].doseAndRate[0].doseQuantity.doseUnit,
+						frequency: item.resource.dispenseRequest.dispenseInterval,
+						start: item.resource.dispenseRequest.validityPeriod.start,
+						end: item.resource.dispenseRequest.validityPeriod.end,
+					};
+				})
+			);
+
+			setMedicationHistory(medicationHistoryWithDetails);
+		};
+		fetchData();
+	}, [patientId]);
+
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -92,7 +127,7 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 			<Button onClick={downloadPDF}>Download</Button>
 			<div ref={pdfRef} className="hidden z-[-10] absolute" style={{ left: "-5000px" }}>
 				<div className="text-black text-center text-base font-bold leading-5 mt-8 max-md:ml-1 max-md:mt-10">
-					{patientData?.first_name} {patientData?.last_name}
+					{patientData?.personal_information?.first_name} {patientData?.personal_information?.last_name}
 				</div>
 				<div className="text-black text-center text-base  leading-5max-md:ml-1 max-md:mt-10 mb-10">
 					Medication History
@@ -101,6 +136,12 @@ export function MedicationHistoryPDF({ patientId, patientData }) {
 					<Table className="mb-5 pb-5">
 						{/* To change to button */}
 						{/* <TableCaption>Page 1 of 2</TableCaption> */}
+						<TableCaption>
+						<div className="flex items-center text-center">
+						Generated by {currentUser.getState().user.first_name} {currentUser.getState().user.last_name} through
+						EndoTracker on {getCurrentDateFormatted()}
+						</div>
+					</TableCaption>
 						<TableHeader>
 							<TableRow>
 								<TableHead>No.</TableHead>

@@ -57,29 +57,32 @@ export default function VisitLabtests({
     setIsImageModalOpen(false);
   };
 
-  const medication = selectedObservation
+  const labTestData = selectedObservation
     ? [
         {
-          srcmedicine:
+          srclabtest:
             "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
-          medicinename: selectedObservation.resource.codeText,
-          startdate: selectedObservation.resource.effectiveDateTime,
+          labTestName: selectedObservation.resource.codeText,
+          startdate: selectedObservation.resource.uploadedDateTime,
+          untildate: selectedObservation.resource.effectiveDateTime,
           imageSrc: selectedObservation.resource.imageSrc,
           valueQuantities:
             selectedObservation.resource.valueQuantity?.valueQuantities || [],
+          rangeQuantities:
+          selectedObservation.resource.rangeQuantity?.rangeQuantities || [],
         },
       ]
     : [];
-
+console.log(labTestData)
   return (
     <>
-      {(currentScreen3 === 0 || currentScreen === 1) && (
+      {(currentScreen === 3) && (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - TESTS
           </div>
 
-          {medication?.map((medication, index) => (
+          {labTestData?.map((labTestData, index) => (
             <div
               key={index}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-[150%] max-w-[150%]"
@@ -90,43 +93,43 @@ export default function VisitLabtests({
                   height={0}
                   width={0}
                   loading="lazy"
-                  src={medication.srcmedicine}
+                  src={  "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
                   className="aspect-square fill-black w-[15px]"
                 />
-                <div className="my-auto">{medication.medicinename}</div>
+                <div className="my-auto">{labTestData.labTestName}</div>
               </div>
               <div className="mt-5 ml-12 max-md:ml-2.5">
                 <div className="flex-auto my-auto">
                   <span className="font-semibold">Laboratory Test Date: </span>
-                  {`${medication.startdate}`}
+                  {`${labTestData.startdate}`}
                 </div>
                 <div className="flex-auto my-auto">
-                  {/* HARDCODED */}
+                
 
                   <span className="font-semibold">Valid Until: </span>
-                  {`${medication.startdate}`}
+                  {`${labTestData.untildate}`}
                 </div>
               </div>
 
               <div className="flex flex-col ml-5 w-[100%] mt-10 text-xs max-md:ml-0 max-md:w-full">
                 <div className="flex gap-10">
                   <img
-                    src={`data:image/png;base64, ${medication.imageSrc}`} // Update the src attribute
+                    src={` ${labTestData.imageSrc}`} // Update the src attribute
                     alt="uploaded"
                     style={{ maxWidth: "600px", maxHeight: "600px" }} // Adjust max-width and max-height as needed
                     onClick={() =>
                       handleOpenImageModal(
-                        `data:image/png;base64, ${medication.imageSrc}`
+                        ` ${labTestData.imageSrc}`
                       )
-                    } // Add onClick to open image modal
+                    }
                   />
                   <div className="flex gap-16">
                     <div className=" self-start text-sm text-black">
                       <span className=" font-semibold">Lab Values:</span>
                       <div className="mt-5 text-sm">
-                        {medication.valueQuantities?.map(
+                        {labTestData.valueQuantities?.map(
                           (valueQuantity, index) => (
-                            <div key={index}>
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
                               {valueQuantity.display} = {valueQuantity.value}{" "}
                               {valueQuantity.unit}
                             </div>
@@ -137,12 +140,15 @@ export default function VisitLabtests({
 
                     <div className=" self-start text-sm text-black">
                       <span className=" font-semibold">Value Range:</span>
-                      {/* HARDCODED */}
                       <div className="mt-5 text-sm">
-                        Normal = 5.70%
-                        <br />
-                        Pre-diabetic = 5.71% - 6.41% <br />
-                        Diabetic = -6.50% <br />
+                        {labTestData.rangeQuantities?.map(
+                          (rangeQuantity, index) => (
+                            <div key={index} style={{ whiteSpace: "nowrap" }}>
+                              {rangeQuantity.level} = {rangeQuantity.min} - {" "}
+                              {rangeQuantity.max}
+                            </div>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
@@ -151,12 +157,12 @@ export default function VisitLabtests({
             </div>
           ))}
           <BackButton
-            currentScreen={currentScreen}
+            currentScreen={2}
             setCurrentScreen={setCurrentScreen}
           />
         </>
       )}
-      {currentScreen3 === 1 && <AddLabTest />}
+     
       {isImageModalOpen && (
         <ImageModal src={selectedImageSrc} onClose={handleCloseImageModal} />
       )}

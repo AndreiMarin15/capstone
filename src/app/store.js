@@ -79,6 +79,7 @@ const initialDoctorInfo = {
 	last_name: "",
 	first_name: "",
 	specialization_id: 1,
+	specialization_name: "",
 	gender: "",
 	birthdate: "",
 	years_of_practice: 1,
@@ -92,9 +93,10 @@ export const useDoctorInfo = create(
 			},
 			last_name: "",
 			first_name: "",
-			specialization_id: 1,
+			specialization_id: 0,
+			specialization_name: "",
 			gender: "",
-			birthdate: "",
+			// birthdate: null,
 			years_of_practice: 1,
 			about: "",
 			ptr: "",
@@ -121,9 +123,14 @@ export const useDoctorInfo = create(
 
 			setFirst_name: (item) => set(() => ({ first_name: item })),
 
-			setSpecialization_id: (item) => set(() => ({ specialization_id: item })),
+			setSpecializationId: (id) => set(() => ({ 
+				specialization_id: id,
+			})),
+			setSpecializationName: (name) => set(() => ({ 
+				specialization_name: name,
+			})),
 
-			setBirthdate: (item) => set(() => ({ birthdate: item })),
+			// setBirthdate: (item) => set(() => ({ birthdate: item })),
 
 			setGender: (item) => set(() => ({ gender: item })),
 

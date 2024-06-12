@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
-import ReferralList from "./components/referralList";
+import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend/referral/referralMessages";
+import { Attachments } from "@/app/referral/components/ui/attachments";
 
 export default function Referral() {
 	const router = useRouter();
@@ -20,6 +21,8 @@ export default function Referral() {
 	const [message, setMessage] = React.useState("");
 	const [chatId, setChatId] = React.useState("");
 	const [chats, setChats] = React.useState([{ id: "", doctor: "", doctor_full_name: "" }]);
+	const [referralFlag, setReferralFlag] = React.useState(false);
+
 	const [messageInfo, setMessageInfo] = React.useState({
 		messages: [
 			{
@@ -273,7 +276,7 @@ export default function Referral() {
 						</div>
 						<button
 							onClick={() => {
-								router.push("other_doctor/referrals/send_referral");
+								router.push("referrals/send_referral");
 							}}
 							className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
 						>
@@ -298,6 +301,8 @@ export default function Referral() {
 										setCurrentInfo={setCurrentInfo}
 										referral={referral}
 										retrieveReferralData={retrieveReferralData}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
 									/>
 								</div>
 							);
@@ -328,7 +333,8 @@ export default function Referral() {
 												<span className="text-black font-medium">{currentInfo?.specialty ?? ""}</span>
 											</div>
 											<div className="text-m text-zinc-600">
-												<span className="text-black text-sm">About: {currentInfo?.patient ?? ""}</span>
+												<span className="text-black text-sm">About: </span>
+												<span className="text-black text-sm font-normal">{currentInfo?.patient ?? ""}</span>
 											</div>
 											<div className="text-xs text-zinc-600">
 												<span className="text-black text-sm">
@@ -421,6 +427,10 @@ export default function Referral() {
 												>
 													Pull Records
 												</button>
+											</div>
+
+											<div className="flex gap-2">
+												<Attachments recepient={currentInfo} />
 											</div>
 											<button
 												type="submit"

@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-export default function ReferralList({ setCurrentInfo, referral, retrieveReferralData }) {
+import { DeleteReferral } from "./ui/deleteReferral";
+export function ReferralList({ setCurrentInfo, referral, retrieveReferralData, referralFlag, setReferralFlag }) {
 	const [accepted, setAccepted] = useState(referral.accepted);
 	const [displayAccept, setDisplayAccept] = useState(referral.display_accept);
+
 	return (
 		<>
 			<div
@@ -12,7 +14,7 @@ export default function ReferralList({ setCurrentInfo, referral, retrieveReferra
 				}}
 			>
 				{/* Left side tab with bg-blue-500 */}
-				<div className="flex gap-5">
+				<div className="flex gap-5 w-[100%]">
 					<div className={accepted ? "bg-blue-500 w-2.5 h-[129px]" : "bg-orange-500 w-2.5 h-[129px]"} />
 					<Image
 						alt="image"
@@ -24,7 +26,16 @@ export default function ReferralList({ setCurrentInfo, referral, retrieveReferra
 					/>
 					<div className="flex flex-col flex-1 my-auto">
 						<div className="text-lg font-semibold whitespace-nowrap">
-							{referral.name}
+							<div className="flex w-full gap-28 justify-between whitespace-nowrap">
+								{referral.name}
+								<span>
+									<DeleteReferral
+										referralId={referral.id}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
+									/>
+								</span>
+							</div>
 							<div className="text-m text-zinc-600">
 								<span className="text-zinc-300 font-medium">{referral.specialty}</span>
 								<div className="mt-4 text-xs font-medium text-zinc-600">

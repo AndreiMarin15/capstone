@@ -59,6 +59,31 @@ export async function getEncounterByPatientId(patientId) {
 }
 
 
+export async function getMostRecentEncounterByPatientId(patientId) {
+  try {
+    if (!patientId) {
+      throw new Error("Patient ID is required");
+    }
+
+    const { data, error } = await supabase
+      .from("encounter")
+      .select("*")
+      .contains("resource", { "subject": { "reference": patientId } })
+      .order("ts", { ascending: false }) // Sort by start date in descending order
+      .limit(1); // Limit to 1 result to get the most recent encounter
+
+    if (error) {
+      throw new Error("Error fetching most recent encounter by patient ID: " + error.message);
+    }
+
+    return data && data.length > 0 ? data[0] : null; // Return the first encounter if found, otherwise null
+  } catch (error) {
+    console.error("Error fetching most recent encounter by patient ID:", error.message);
+    throw error;
+  }
+}
+
+
 export async function updateEncounterContained(containedArray, encounter) {
   try {
 

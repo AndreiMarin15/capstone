@@ -9,18 +9,9 @@ import Image from "next/image";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);
 
-export default function ViewSystolic({ currentPage, setCurrentPage }) {
-	// Sample data
-	useEffect(() => {
-		const fetchData = async () => {
-			const bp = await getBP();
-			console.log(bp);
-			setSampleData(bp);
-		};
-		fetchData();
-	}, []);
-
-	const [sampleData, setSampleData] = useState([]);
+export default function ViewSystolic({ currentPage, setCurrentPage, patientId, chartValues, renderingOptions }) {
+	
+	
 
 	const systolicTooltipContent = (tooltip) => (
 		<div
@@ -32,57 +23,60 @@ export default function ViewSystolic({ currentPage, setCurrentPage }) {
 				backgroundColor: "rgba(255, 255, 255, 0.8)",
 			}}
 		>
-			{tooltip.dataPoints?.map((point, index) => (
-				<div key={index}>
-					<p>Type: {point.type}</p>
-					<p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
-					<p>{point.y} mm(Hg)</p>
-				</div>
-			))}
+			  {tooltip.dataPoints?.map((point, index) => (
+                <div key={index}>
+                    <p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
+                    <p>{point.y} mm(Hg)</p>
+                </div>
+            ))}
 		</div>
 	);
 
+	const systolicData = chartValues.systolic.slice(-renderingOptions).map(({ value, date }) => ({
+        x: new Date(date),
+        y: value,
+    }));
+
+    const diastolicData = chartValues.diastolic.slice(-renderingOptions).map(({ value, date }) => ({
+        x: new Date(date),
+        y: value,
+    }));
+
+
 	const labels = [];
-	const systolicPressureData = [];
 
 	const data = {
-		labels: labels?.map((dateString) => new Date(dateString)),
-		datasets: [
-			{
-				label: "Systolic Blood Pressure",
-				data: sampleData?.map(({ date, systolic }) => ({
-					x: new Date(date),
-					y: systolic,
-				})),
-				borderColor: "#2AB651",
-				borderWidth: 3,
-				pointRadius: 6,
-				fill: false,
-			},
-			{
-				label: "Diastolic Blood Pressure",
-				data: sampleData?.map(({ date, diastolic }) => ({
-					x: new Date(date),
-					y: diastolic,
-				})),
-				borderColor: "#4B0082",
-				borderWidth: 3,
-				pointRadius: 6,
-				fill: false,
-			},
-		],
-	};
-
+        labels: chartValues.systolic.map(({ date }) => new Date(date)),
+        datasets: [
+            {
+                label: "Systolic Blood Pressure",
+                data: systolicData,
+                borderColor: "#2AB651",
+                borderWidth: 3,
+                pointRadius: 6,
+                fill: false,
+            },
+            {
+                label: "Diastolic Blood Pressure",
+                data: diastolicData,
+                borderColor: "#4B0082",
+                borderWidth: 3,
+                pointRadius: 6,
+                fill: false,
+            },
+        ],
+    };
 	// Function to format date in a common format
 	const formatDateCommon = (date) => format(date, "yyyy-MM-dd");
 
 	// Table data
-	const tableData = sampleData?.map(({ date, systolic, diastolic }) => ({
-		date,
-		systolic,
-		diastolic,
-		commonFormat: `${systolic}/${diastolic} mm(Hg)`,
-	}));
+	const tableData = chartValues.systolic.slice(-renderingOptions).map(({ value: systolic, date }, index) => ({
+        date,
+        systolic,
+        
+        diastolic: chartValues.diastolic.slice(-renderingOptions)[index]?.value,
+        commonFormat: `${systolic}/${chartValues.diastolic.slice(-renderingOptions)[index]?.value} mm(Hg)`,
+    }));
 
 	return (
 		<>
@@ -132,11 +126,9 @@ export default function ViewSystolic({ currentPage, setCurrentPage }) {
 							</tr>
 						</thead>
 						<tbody>
-							{tableData?.map(({ date, systolic, diastolic, commonFormat }) => (
+							{tableData?.reverse()?.map(({ date, systolic, diastolic, commonFormat }) => (
 								<tr key={date}>
-									<td className="border border-transparent px-4 py-2 text-center">
-										{formatDateCommon(new Date(date))}
-									</td>
+									<td className="border border-transparent px-4 py-2 text-center">{formatDateCommon(new Date(date))}</td>
 									<td className="border border-transparent px-4 py-2 text-center">{systolic}</td>
 									<td className="border border-transparent px-4 py-2 text-center">{diastolic}</td>
 									<td className="border border-transparent px-4 py-2 text-center">{commonFormat}</td>

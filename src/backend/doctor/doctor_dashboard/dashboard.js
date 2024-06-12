@@ -6,7 +6,7 @@ const supabase = client("project");
 const dashboard = {
 	getDoctorData: async () => {
 		const result = await auth.getSession();
-		const user = await result.session.user;
+		const user = await result?.session?.user;
 
 		const doctor = await project.selectFrom("doctors", {
 			column: "id",
@@ -21,6 +21,9 @@ const dashboard = {
 			specialization: specialization[0].doctor_specialization_name,
 			yearsOfExperience: doctor[0].years_of_practice,
 			about: doctor[0].about,
+			photo:
+				doctor[0].photo ??
+				"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
 		};
 	},
 
@@ -31,7 +34,6 @@ const dashboard = {
 		const toReturn = patients.filter((patient) => {
 			console.log(patient);
 			if (patient.handled_by?.main_practitioner === currentUser.getState().info.id) {
-				
 				if (patient.handled_by.referred_practitioners?.length > 0) {
 					return patient;
 				}
@@ -57,8 +59,6 @@ const dashboard = {
 
 		console.log(update);
 	},
-
-	
 
 	getNotifications: async () => {},
 };

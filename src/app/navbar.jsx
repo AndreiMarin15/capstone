@@ -17,11 +17,7 @@ const navigation = [
     href: "/health_records",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
   },
-  {
-    name: "Predictive Analytics",
-    href: "/predictive_analytics",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/c35ff7a63db6e0c83ebb8a2f068ab8d73a42bd06d44ba0d433ef1d14a4f86e01?",
-  },
+
   {
     name: "Referral",
     href: "/referral",
@@ -55,6 +51,11 @@ const patientNavigation = [
     name: "My Health Record",
     href: "/patient/my_health_record",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9c43abea937dfcb94c562af7386aed6ebf39633f38ef2eb125de44f44e12f1?",
+  },
+  {
+    name: "Letters",
+    href: "/patient/letters",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d3e9000904abf60c99bac7a9a7c190e556583d3c8e0cb2c6ba0298a2bed56d6d?",
   },
   {
     name: "Medications",
