@@ -3,6 +3,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import ViewTest from "./lab_components/viewTest"; // Adjust the import path as necessary
 import useLabTestStore from "@/app/labTestStore";
+import BackButton from "../../../my_health_record/components/sub_components/BackButton";
 
 export default function ViewLab({  
 	currentScreen,
@@ -25,10 +26,11 @@ export default function ViewLab({
 		setSelectedEncounterId(encounterId);
 		setObservationId(observationId);
 		if (status === "final") {
-			setCurrentScreen(3);
+			setCurrentScreen(6);
 			console.log("pressed");
 		} else {
-			setCurrentScreen(2);
+			setCurrentScreen(5);
+			console.log("opened")
 		}
 		};
 		console.log(labTests);
@@ -99,6 +101,10 @@ export default function ViewLab({
 				</div>
 			</>
 		)}
+		<BackButton 
+            currentScreen={1}
+            setCurrentScreen={setCurrentScreen}
+          />
 		</>
 	);
 }

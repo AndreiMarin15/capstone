@@ -19,6 +19,8 @@ const ImageModal = ({ src, onClose }) => {
 export default function VisitLabtests({
   currentPage,
   setCurrentPage,
+  currentScreen,
+  setCurrentScreen,
   observationId,
 }) {
   const [observations, setObservations] = useState([]);
@@ -160,7 +162,9 @@ export default function VisitLabtests({
           ))}
           <BackButton
             currentPage={currentPage}
+            currentScreen={5}
             setCurrentPage={setCurrentPage}
+            setCurrentScreen={setCurrentScreen}
           />
         </>
       }

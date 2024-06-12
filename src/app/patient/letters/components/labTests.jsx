@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+
 import { useState, useEffect } from "react";
 import ViewLab from "./sub_components/viewLab";
 import PrickList from "./sub_components/prickList";
 import AddPrick from "./sub_components/lab_components/addPrick";
 import ViewPrick from "./sub_components/lab_components/viewPrick";
+import UploadLab from "../../lab_tests/components/uploadLab";
+import VisitLab from "../../lab_tests/components/viewLab";
 import useLabTestStore from "@/app/labTestStore";
 import {getEncounterByPatientId} from "@/backend/health_records/getEncounter";
 import { getObservationsByPatientId } from "@/backend/health_records/getObservation";
@@ -103,7 +106,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
         fetchSelfPrickObservations();
     };
 
-	
+
 	  const [containedIDs, setContainedIDs] = useState([]);
 	  const [dateOfRequest, setDateOfRequest] = useState("");
 	
@@ -145,8 +148,6 @@ export default function LabTests({ labtests, patientId, patientData }) {
 	  useEffect(() => {
 		resetLabTestStore();
 	  }, []);
-
-
 
 	  console.log(labTests)
 	return (
@@ -282,7 +283,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
 						</div> */}
 					</button>
 				</>
-			
+							
 		
 				</TabsContent>
 				) : currentScreen === 1 && selectedEncounterId !== null ? (
@@ -301,8 +302,23 @@ export default function LabTests({ labtests, patientId, patientData }) {
 					<ViewPrick
 							currentScreen={currentScreen}
 							setCurrentScreen={setCurrentScreen}
-							observationId={observationId} // Pass observationId to ViewPrick
+							observationId={observationId}
 						/>
+				) : currentScreen === 5 ? (
+					<UploadLab
+							currentScreen={currentScreen}
+							setCurrentScreen={setCurrentScreen}
+							observationId={observationId}
+							patientId={patientId}
+						/>
+
+				) : currentScreen === 6 ? (
+					<VisitLab
+							currentScreen={currentScreen}
+							setCurrentScreen={setCurrentScreen}
+							observationId={observationId}
+						/>
+
 				) : (
 					""
 				)}

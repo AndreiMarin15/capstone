@@ -29,7 +29,7 @@ const BackButton = ({
     } else if (currentScreen === 3 || currentScreen === 4) {
       setCurrentScreen(2);
     } else if (currentScreen === 5) {
-      setCurrentScreen(0);
+      setCurrentScreen(1);
     } else {
       router.push("/patient/my_health_record");
     }

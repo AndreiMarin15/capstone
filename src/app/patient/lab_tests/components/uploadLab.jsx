@@ -28,6 +28,7 @@ export default function UploadLab({
   currentPage,
   setCurrentPage,
   observationId,
+  currentScreen,
   setCurrentScreen,
   patientId,
 }) {
@@ -128,7 +129,11 @@ export default function UploadLab({
         autoClose: 2000,
       });
 
-      setCurrentPage(0);
+      if (currentPage === 2) {
+        setCurrentPage(0); 
+    } else if (currentScreen === 5) {
+        setCurrentScreen(1); 
+    }
     } catch (error) {
       console.error("Error updating observation:", error);
     }
@@ -245,7 +250,7 @@ export default function UploadLab({
   console.log(uploadedImageSrc)
   return (
     <>
-      {currentPage === 2 ? (
+      {currentPage === 2 || currentScreen === 5 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-8 max-md:ml-1 max-md:mt-10">
             RECORD LAB TEST
@@ -567,8 +572,10 @@ export default function UploadLab({
        
           <div className="flex justify-between items-center">
             <BackButton
-              currentScreen={currentPage}
-              setCurrentScreen={setCurrentPage}
+              currentScreen={5}
+              currentPage={currentPage}
+              setCurrentScreen={setCurrentScreen}
+              setCurrentPage={setCurrentPage}
             />
 
             <Button
