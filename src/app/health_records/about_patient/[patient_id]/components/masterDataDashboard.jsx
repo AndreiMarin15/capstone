@@ -165,6 +165,7 @@ export default function MasterData({ patientId }) {
           <AttendingDoctorsDashboard
             currentScreen={currentScreen}
             setCurrentScreen={setCurrentScreen}
+            patientId={patientId}
           />
         </>
       ) : null}

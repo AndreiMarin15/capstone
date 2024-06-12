@@ -1,12 +1,15 @@
+"use client";
 import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
-import { ImageError } from "next/dist/server/image-optimizer";
+// import { ImageError } from "next/dist/server/image-optimizer";
+import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
+
 export default function ViewDoctors() {
 	const defaultIconSrc =
 		"https://cdn.builder.io/api/v1/image/assets/TEMP/a8dedf603ab1b2738fdec0d172ab06fda7dd43e50364fe6839a4b4b5bacc7b06?apiKey=7e8c8e70f3bd479289a042d9c544736c&";
 
-	const doctors = [
+	const [doctors, setDoctors] = React.useState([
 		{
 			name: "Dr. Johnny Santos",
 			hospital: "Philippine General Hospital",
@@ -19,7 +22,26 @@ export default function ViewDoctors() {
 			specialization: "Internal Medicine",
 			yearsOfExperience: 5,
 		},
-	];
+	]);
+
+	React.useEffect(() => {
+		const fetchDoctors = async () => {
+			const doctors = await getAttendingDoctors(null);
+			console.log(doctors);
+			// setDoctors(doctors);
+			setDoctors(
+				doctors.map((doctor) => ({
+					name: `${doctor.doctor_first_name} ${doctor.doctor_last_name}`,
+					hospital: doctor.clinic,
+					specialization: doctor.doctor_specialization,
+					yearsOfExperience: doctor.doctor_years,
+					
+				}))
+			);
+		};
+
+		fetchDoctors();
+	}, []);
 	return (
 		<>
 			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh] pt-10">
@@ -99,7 +121,13 @@ export default function ViewDoctors() {
 											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
 											<td className="px-6 py-4 whitespace-nowrap">
 												<Link href="/patient/messages">
-													<Image src={doctor.iconSrc || defaultIconSrc} height={0} width={0} alt="Icon" className="h-8 w-8 cursor-pointer" />
+													<Image
+														src={doctor.iconSrc || defaultIconSrc}
+														height={0}
+														width={0}
+														alt="Icon"
+														className="h-8 w-8 cursor-pointer"
+													/>
 												</Link>
 											</td>
 										</tr>

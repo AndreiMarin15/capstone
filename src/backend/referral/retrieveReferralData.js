@@ -5,6 +5,7 @@ import { currentUser } from "@/app/store";
 import { newChat } from "./referralMessages";
 
 import { sendNotification, updateNotification, getNotifications } from "../sendNotification";
+import { getDoctorByLicense } from "../pdfBackend/getPDFData";
 
 const sProject = client("project");
 const sFhir = client("public");
@@ -67,6 +68,12 @@ const retrieveReferralData = {
 				age: computeAge(doctor.birthdate),
 				id: doctor.id,
 				specialization: specialization.data[0].doctor_specialization_name,
+				license_id: doctor.license_id,
+				first_name: doctor.first_name,
+				last_name: doctor.last_name,
+				years: doctor.years_of_practice,
+				contact: doctor.hospital?.contact,
+				clinic: doctor.hospital?.name + " " + doctor.hospital?.clinic,
 			};
 			return data;
 		});

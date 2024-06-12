@@ -59,6 +59,13 @@ export default function SendReferral() {
 
 	const [notes, setNotes] = React.useState("");
 
+	React.useEffect(() => {
+		console.log(selectedPatient);
+	}, [selectedPatient]);
+	React.useEffect(() => {
+		console.log(selectedDoctor);
+	}, [selectedDoctor]);
+
 	const handleSelect = () => {
 		if (currentState < 3) {
 			setCurrentState(currentState + 1);
@@ -230,6 +237,8 @@ export default function SendReferral() {
 								patient_id: selectedPatientId,
 								doctor_id: selectedDoctorId,
 								notes: notes,
+								selectedPatient: selectedPatient,
+								selectedDoctor: selectedDoctor,
 							};
 							sendReferralData.newReferralRequest(referralData);
 							router.push("/referral");
