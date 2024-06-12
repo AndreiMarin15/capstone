@@ -15,8 +15,14 @@ export default function Vitals({ patientId }) {
 	const [vitalsAndBio, setVitalsAndBio] = useState({});
 	const [selectedMetric, setSelectedMetric] = useState("");
 	const [matchedObservations, setMatchedObservations] = useState([]);
-
-
+	const [chartValues, setChartValues] = useState({
+		systolic: [],
+		diastolic: [],
+		heartRate: [],
+		weight: [],
+		bmi: [],
+		height: []
+	});
 
 	useEffect(() => {
         const fetchData = async () => {
@@ -62,9 +68,20 @@ export default function Vitals({ patientId }) {
         fetchData();
     }, [patientId]);
 
+
+	
+
 	useEffect(() => {
 		if (matchedObservations.length > 0) {
 			const updatedVitalsAndBio = {};
+			const updatedChartValues = {
+				systolic: [],
+				diastolic: [],
+				heartRate: [],
+				weight: [],
+				bmi: [],
+				height: []
+			};
 	
 			matchedObservations.forEach(({ observations }) => {
 				observations.forEach(observation => {
@@ -82,8 +99,6 @@ export default function Vitals({ patientId }) {
 						case 'weight':
 						case 'bmi':
 						case 'heartRate':
-						case 'systolic':
-						case 'diastolic':
 							// Check if valueQuantity exists before accessing value
 							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
 								// Initialize an object for the resource if not already present
@@ -92,16 +107,34 @@ export default function Vitals({ patientId }) {
 								}
 								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
 								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
+								// Update chartValues with heartRate, weight, bmi, and height values
+								updatedChartValues[resource.id].push(resource.valueQuantity.value);
 							}
 							break;
-					
+						case 'systolic':
+						case 'diastolic':
+							// Check if valueQuantity exists before accessing value
+							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
+								// Push value into the corresponding array in chartValues
+								updatedChartValues[resource.id].push(resource.valueQuantity.value);
+								// Store value in vitalsAndBio under respective keys
+								if (!updatedVitalsAndBio[date][resource.id]) {
+									updatedVitalsAndBio[date][resource.id] = {};
+								}
+								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
+								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
+							}
+							break;
 						default:
 							break;
 					}
 				});
 			});
+	
 			setVitalsAndBio(updatedVitalsAndBio);
 			console.log(updatedVitalsAndBio)
+			setChartValues(updatedChartValues);
+			console.log(updatedChartValues)
 		}
 	}, [matchedObservations]);
 
@@ -396,7 +429,7 @@ export default function Vitals({ patientId }) {
 				<ViewBiometrics
 					currentPage={currentPage}
 					setCurrentPage={setCurrentPage}
-					defaultMetric={selectedMetric} // Pass selected metric as prop
+					defaultMetric={selectedMetric}
 					sampleData={sampleData}
 				/>
 			)}
