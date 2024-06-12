@@ -49,6 +49,7 @@ export default function LaboratoryDashboard() {
   const [dateOfRequest, setDateOfRequest] = useState("");
   const [labTests, setLabTests] = useState([]);
   const [selectedObservationId, setSelectedObservationId] = useState(null);
+  const sortedLabTests = labTests.sort((b,a) => new Date(a.reqdate) - new Date(b.reqdate));
 
   useEffect(() => {
     async function fetchEncounters() {
@@ -74,6 +75,7 @@ export default function LaboratoryDashboard() {
               "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
             src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
             variable: observation.resource.codeText,
+            remarks: observation.resource.remarks,
             update: observation.resource.uploadedDateTime,
             date: observation.resource.effectiveDateTime,
             reqdate: observation.resource.requestedDateTime,
@@ -122,7 +124,7 @@ export default function LaboratoryDashboard() {
 
         <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
           <div className="w-full max-md:max-w-full h-full">
-            {labTests?.map((item) => (
+            {sortedLabTests?.map((item) => (
               <button
                 onClick={() => {
                   if (item.status === "requested") {
@@ -200,6 +202,7 @@ export default function LaboratoryDashboard() {
           setCurrentPage={setCurrentPage}
           observationId={selectedObservationId}
           setCurrentScreen={setCurrentScreen}
+          patientId={patientIds}
         />
       </div>
     ) : currentPage === 4 ? (
