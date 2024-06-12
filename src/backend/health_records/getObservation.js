@@ -84,6 +84,42 @@ export async function getFinalDiagnosisObservations(patientId) {
 	}
 }
 
+export async function getSpecificMeasurementsObservations(patientId) {
+	try {
+		const measurementIds = [
+			"height",
+			"weight",
+			"bmi",
+			"systolic",
+			"diastolic",
+			"heartRate"
+		];
+
+		const { data: observations, error } = await supabase
+				.from("observation")
+				.select("*")
+				.eq("resource->subject->>reference", patientId)
+				.or(
+					measurementIds
+						.map(id => `resource->>id.eq.${id}`)
+						.join(',')
+				);
+
+		if (error) {
+			console.error("Error fetching observations with specified measurement IDs:", error);
+			throw error;
+		}
+
+		console.log(observations);
+		return observations;
+	} catch (error) {
+		console.error("Error fetching observations with specified measurement IDs:", error);
+		throw error;
+	}
+}
+
+
+
 
 export async function getMostRecentConditionObservations(patientId) {
     try {
