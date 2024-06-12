@@ -6,7 +6,7 @@ const supabase = client("project");
 const dashboard = {
 	getDoctorData: async () => {
 		const result = await auth.getSession();
-		const user = await result.session.user;
+		const user = await result?.session?.user;
 
 		const doctor = await project.selectFrom("doctors", {
 			column: "id",
