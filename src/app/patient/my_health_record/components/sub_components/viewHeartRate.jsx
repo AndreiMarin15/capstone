@@ -9,64 +9,60 @@ import Image from "next/image";
 
 ChartJS.register(TimeScale, LinearScale, PointElement, LineElement);
 
-export default function ViewHeartRate({ currentPage, setCurrentPage }) {
-	// Sample data
-	useEffect(() => {
-		const fetchData = async () => {
-			const hr = await getHeartRate();
-			console.log(hr);
-			setSampleData(hr);
-		};
-		fetchData();
-	}, []);
+export default function ViewHeartRate({ currentPage, setCurrentPage, patientId, chartValues, renderingOptions }) {
 
-	const [sampleData, setSampleData] = useState([]);
+	
+
+
 
 	const heartRateTooltipContent = (tooltip) => (
-		<div
-			className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold"
-			style={{
-				position: "absolute",
-				top: tooltip.y,
-				left: tooltip.x,
-				backgroundColor: "rgba(255, 255, 255, 0.8)",
-			}}
-		>
-			{tooltip.dataPoints?.map((point, index) => (
-				<div key={index}>
-					<p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
-					<p>Heart Rate: {point.y}</p>
-				</div>
-			))}
-		</div>
-	);
+        <div
+            className="border border-gray-300 rounded px-4 py-2 max-w-screen-lg mx-auto text-xs font-semibold"
+            style={{
+                position: "absolute",
+                top: tooltip.y,
+                left: tooltip.x,
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+            }}
+        >
+            {tooltip.dataPoints?.map((point, index) => (
+                <div key={index}>
+                    <p>Date: {format(point.x, "yyyy-MMM-dd")}</p>
+                    <p>Heart Rate: {point.y}</p>
+                </div>
+            ))}
+        </div>
+    );
+
 
 	const labels = [];
-	const heartRateData = [];
 
-	const data = {
-		labels: labels?.map((dateString) => new Date(dateString)),
-		datasets: [
-			{
-				label: "Heart Rate",
-				data: sampleData?.map(({ date, heartrate }) => ({
-					x: new Date(date),
-					y: heartrate,
-				})),
-				borderColor: "#FF5733",
-				borderWidth: 3,
-				pointRadius: 6,
-				fill: false,
-			},
-		],
-	};
+	const heartRateData = chartValues.heartRate.slice(-renderingOptions).map(({ value, date }) => ({
+        x: new Date(date),
+        y: value,
+    }));
+
+const data = {
+        labels: labels?.map((dateString) => new Date(dateString)),
+        datasets: [
+            {
+                label: "Heart Rate",
+                data: heartRateData,
+                borderColor: "#FF5733",
+                borderWidth: 3,
+                pointRadius: 6,
+                fill: false,
+            },
+        ],
+    };
+
 
 	const formatDateCommon = (date) => format(date, "yyyy-MM-dd");
 
-	const tableData = sampleData?.map(({ date, heartrate }) => ({
-		date,
-		heartrate,
-	}));
+	const tableData = chartValues.heartRate.slice(-renderingOptions).map(({ date, value }) => ({
+        date,
+        heartrate: value,
+    }));
 
 	return (
 		<>
@@ -114,7 +110,7 @@ export default function ViewHeartRate({ currentPage, setCurrentPage }) {
 							</tr>
 						</thead>
 						<tbody>
-							{tableData?.map(({ date, heartrate }) => (
+						{tableData?.reverse()?.map(({ date, heartrate }) => (
 								<tr key={date}>
 									<td className="border border-transparent px-4 py-2 text-center">
 										{formatDateCommon(new Date(date))}
