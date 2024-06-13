@@ -20,7 +20,7 @@ export default function AddMedications({
 
 }) {
   const [regis, setRegis] = useState("");
-  const { currentScreen, setCurrentScreen } = usePrescriptionsStore(); 
+  const { currentScreen, setCurrentScreen, addMedicationId } = usePrescriptionsStore(); 
   const [medicationName, setMedicationName] = useState("");
   const [name, setName] = useState("");
   const [genName, setGenName] = useState("");
@@ -37,8 +37,8 @@ export default function AddMedications({
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
 
+ 
   useEffect(() => {
-    // Fetch medications when the component mounts
     const fetchMedications = async () => {
       try {
         const meds = await retrieveMedications();
@@ -112,7 +112,7 @@ export default function AddMedications({
         },
         requester: {
           agent: {
-            reference: doctorInfo,
+            reference: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
         },
@@ -131,8 +131,9 @@ export default function AddMedications({
       const savedData = await uploadMedication(dataToSave);
 
       console.log("Data saved successfully:", savedData);
+      console.log(savedData)
 
-      setRefresh((prevRefresh) => !prevRefresh);
+      addMedicationId(savedData);
 
       toast.success("Medication Added", {
         position: "top-left",

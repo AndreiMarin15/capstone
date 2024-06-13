@@ -20,7 +20,7 @@ import FamilyHistory from "./components/sub_components/viewfamilyHistory";
 import SocialHistory from "./components/socialHistory";
 import FamilySocialHistory from "./components/familysocialHistoryDashboard";
 import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
-
+import useLabTestStore from "@/app/labTestStore";
 import { healthRecords } from "@/backend//health_records/health_records";
 
 export default function AboutPatient({ params }) {

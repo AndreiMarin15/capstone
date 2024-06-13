@@ -41,34 +41,6 @@ export default function Prescriptions({ patientId }) {
         fetchCurrentUser();
     }, []);
 
-    React.useEffect(() => {
-        const fetchMedications = async () => {
-            try {
-                // Fetch medications based on current patient ID
-                const medicationRequestsData = await getMedicationRequests(patientId);
-                setMedications(medicationRequestsData);
-                console.log(medicationRequestsData);
-            } catch (error) {
-                console.error("Error fetching medication requests:", error);
-            }
-        };
-
-        // Fetch medications whenever refresh state changes or when currentScreen is 0 or 2
-        if (refresh) {
-            fetchMedications();
-        }
-    }, [refresh, currentScreen]);
-
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            setRefresh((prevRefresh) => !prevRefresh);
-        }, 1000); // Adjust the interval time as needed
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
-
     const [isTest, setTest] = useState(false);
     const [isAddPrescription, setAdd] = useState(false);
 
@@ -84,7 +56,7 @@ export default function Prescriptions({ patientId }) {
         setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
     };
 
-    const today = new Date();
+   
 
     const handleDiscontinue = async (medicationId) => {
         console.log("Medication ID before update:", medicationId);
@@ -133,24 +105,19 @@ export default function Prescriptions({ patientId }) {
     }, []);
 
 
-    const handleAddMedicationToPrescription = (medication) => {
-        setPrescriptionMedications([...prescriptionMedications, medication]);
-    };
-
     // Function to save prescription
     const handleSavePrescription = async (prescriptionData) => {
         try {
+            console.log(prescriptionData)
             // Call your backend API or function to save the prescription data
             const savedPrescription = await uploadPrescription(prescriptionData); // Assuming uploadPrescription function handles the backend integration
     
             console.log("Prescription saved successfully:", savedPrescription);
     
-            // Optionally, you can update local state or perform other actions upon successful save
-            // For example, clearing prescription data or updating UI state
-            setPrescriptionMedications([]);
-            setCurrentScreen(0); // Reset to initial screen state after successful save
     
-            // Display success message to the user using toast notification
+         
+            setCurrentScreen(0); 
+    
             toast.success("Prescription saved successfully!");
         } catch (error) {
             console.error("Error saving prescription:", error);

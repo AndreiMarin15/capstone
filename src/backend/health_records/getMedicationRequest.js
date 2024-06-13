@@ -31,3 +31,24 @@ export async function retrieveMedicationById(medicationId) {
         throw error;
     }
 }
+
+export async function retrieveMedicationsByIds(medicationIds) {
+    try {
+        const supabase = client("public");
+        // Fetch medications by IDs using Supabase
+        const { data, error } = await supabase
+            .from("medicationrequest")
+            .select("*")
+            .in("id", medicationIds); 
+
+        if (error) {
+            throw error;
+        }
+
+        console.log("Retrieved Medications Data:", data); // Log the data
+        return data;
+    } catch (error) {
+        console.error("Error retrieving medications by IDs:", error.message);
+        throw error;
+    }
+}

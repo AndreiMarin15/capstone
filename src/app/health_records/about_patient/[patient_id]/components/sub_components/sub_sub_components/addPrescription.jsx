@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
-import { getMedicationRequests, retrieveMedicationById } from "@/backend/health_records/getMedicationRequest";
+import { getMedicationRequests, retrieveMedicationById, retrieveMedicationsByIds } from "@/backend/health_records/getMedicationRequest";
 
 // const medicine = [
 //   {
@@ -20,82 +20,35 @@ import { getMedicationRequests, retrieveMedicationById } from "@/backend/health_
 //   },
 // ];
 
+export default function AddPrescription({ onSave }) {
+  const {
+    currentScreen,
+    setCurrentScreen,
+    medications,
+    setMedications,
+    medicationIds,
+    removeMedicationId,
+  } = usePrescriptionsStore();
 
-const sampleMedications = [
-  {
-    id: "1",
-    medicationCodeableConcept: [
-      {
-        coding: [
-          {
-            system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-            display: "Ibuprofen",
-          },
-        ],
-        text: "Advil",
-      },
-    ],
-    dispenseRequest: {
-      validityPeriod: {
-        start: "2024-06-15",
-        end: "2024-06-30",
-      },
-    },
-  },
-  {
-    id: "2",
-    medicationCodeableConcept: [
-      {
-        coding: [
-          {
-            system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-            display: "Paracetamol",
-          },
-        ],
-        text: "Tylenol",
-      },
-    ],
-    dispenseRequest: {
-      validityPeriod: {
-        start: "2024-06-10",
-        end: "2024-06-25",
-      },
-    },
-  },
-];
-
-export default function AddPrescription({patientId, prescriptionMedications, onSave}) {
-
-  const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
-  const [medications, setMedications] = useState([]);
-  const [notes, setNotes] = useState("");
-  const [prescriptionDate, setPrescriptionDate] = useState(new Date().toISOString().split("T")[0]);
+  
 
   useEffect(() => {
-    fetchMedications();
-  }, []);
+    if (medicationIds.length > 0) {
+      fetchMedications();
+    }
+  }, [medicationIds]);
 
   const fetchMedications = async () => {
     try {
-      const medicationRequestsData = await getMedicationRequests();
-      // Assuming medicationRequestsData is an array of medication requests
-      console.log("Medication Requests Data:", medicationRequestsData);
-
-      // Example: Fetching a specific medication by ID
-      if (medicationRequestsData.length > 0) {
-        const medicationId = medicationRequestsData[0].id; // Example: Get the ID of the first medication request
-        const medicationData = await retrieveMedicationById(medicationId);
-        console.log("Retrieved Medication Data:", medicationData);
-
-        // Set medications state with fetched data
-        setMedications([medicationData]);
-      }
+      const fetchedMedications = await retrieveMedicationsByIds(medicationIds);
+      console.log(medicationIds)
+      console.log("Retrieved Medication Data:", fetchedMedications);
+      setMedications(fetchedMedications);
     } catch (error) {
       console.error("Error fetching medications:", error);
       toast.error("Failed to fetch medications.");
     }
   };
-
 
   const handleAddMedication = (medication) => {
     setMedications([...medications, medication]);
@@ -106,35 +59,34 @@ export default function AddPrescription({patientId, prescriptionMedications, onS
     setMedications(newMedications);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    const medicationDataArray = medications.map((medication, index) => ({
-      id: `medication-${Date.now()}-${index}`,
-      ...medication,
-    }));
+  const medicationDataArray = medications.map((medication, index) => ({
 
-    const prescriptionData = {
-      resource: {
-        id: `prescription-${Date.now()}`,
-        medicationData: sampleMedications,
-        resource_type: "prescription",
-      },
-    };
+    ...medication, // Ensure all necessary fields like resource_type are included
+    resource_type: "MedicationRequest"
+  }));
 
-    try {
-      await onSave(prescriptionData);
-      toast.success("Prescription Added", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
-      setCurrentScreen(0); // Reset to initial screen state after successful save
-    } catch (error) {
-      console.error("Error creating prescription:", error);
-      toast.error("Failed to create prescription.");
-    }
+  const prescriptionData = {
+    resource: {
+      medicationData: medicationDataArray,
+      resource_type: "prescription",
+    },
   };
+
+  try {
+    console.log(prescriptionData)
+    await onSave(prescriptionData); // Ensure onSave function handles prescriptionData correctly
+    toast.success("Prescription Added");
+    setCurrentScreen(0); // Reset to initial screen state after successful save
+  } catch (error) {
+    console.error("Error creating prescription:", error);
+    toast.error("Failed to create prescription.");
+  }
+};
+
+
 
 
   return (
@@ -166,7 +118,7 @@ export default function AddPrescription({patientId, prescriptionMedications, onS
                   </td>
                   <td className="border-l-[10px] border-transparent">
                     <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                    {item.medicationCodeableConcept[0]?.coding[0]?.display}
+                    {item.resource.medicationCodeableConcept[0]?.coding[0]?.display}
                     </div>
                   </td>
                 </tr>
@@ -175,7 +127,7 @@ export default function AddPrescription({patientId, prescriptionMedications, onS
                   <td className="border-l-[5px] border-transparent">
                     <div className="text-black text-xs font-regular leading-5 ml-auto">
                       
-                    {item.dispenseRequest?.validityPeriod?.start} to {item.dispenseRequest?.validityPeriod?.end}
+                    {item.resource.dispenseRequest?.validityPeriod?.start} to {item.resource.dispenseRequest?.validityPeriod?.end}
                     </div>
                   </td>
                 </tr>
