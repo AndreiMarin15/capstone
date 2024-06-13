@@ -16,6 +16,8 @@ import usePrescriptionsStore from "@/app/prescriptionsStore";
 export default function AddMedications({
 
   patientId,
+  onAddMedication
+
 }) {
   const [regis, setRegis] = useState("");
   const { currentScreen, setCurrentScreen } = usePrescriptionsStore(); 
@@ -27,7 +29,7 @@ export default function AddMedications({
   const [refresh, setRefresh] = useState(false);
 
   const [patientInstructions, setPatientInstructions] = useState("");
-  const [doseUnit, setDoseUnit] = useState(null);
+  const [doseUnit, setDoseUnit] = useState("");
 
   const [form, setForm] = useState("");
   const [duration, setDuration] = useState("");
@@ -66,7 +68,7 @@ export default function AddMedications({
     }
   }, [regis, medications]);
 
-  const handleSave = async () => {
+ const handleSave = async () => {
     try {
       const patientData = await healthRecords.getPatientData(patientId);
       const doctorInfo = await doctor.getDoctorByCurrentUser();
@@ -125,15 +127,13 @@ export default function AddMedications({
       };
 
       console.log("Data to save:", dataToSave);
-      // Call the uploadEncounter function with the data to save
+
       const savedData = await uploadMedication(dataToSave);
 
       console.log("Data saved successfully:", savedData);
 
-      // Trigger refresh by toggling the refresh state
       setRefresh((prevRefresh) => !prevRefresh);
 
-      // Display success message or perform other actions
       toast.success("Medication Added", {
         position: "top-left",
         theme: "colored",
@@ -143,8 +143,9 @@ export default function AddMedications({
       console.error("Error saving data:", error);
     }
 
-    setCurrentScreen(2);
+    setCurrentScreen(1);
   };
+
 
   const dosage = [
     {
@@ -494,9 +495,7 @@ export default function AddMedications({
         <div>
           <Button
             onClick={() => {
-              handleSave(); // Save the medication
-              setRefresh((prevRefresh) => !prevRefresh); // Trigger refresh by toggling the refresh state
-              setCurrentScreen(2); // Navigate back to the medication list screen
+              handleSave();
             }}
           >
             SAVE

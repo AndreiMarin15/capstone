@@ -54,7 +54,8 @@ const uploadMedication = async (medication) => {
             },
             requester: {
                 agent: {
-                    reference: doctorInfo.fullName
+                    reference: doctorInfo.fullName,
+                    license_id: doctorInfo.license
                 }
             },
             form: {

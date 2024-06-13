@@ -21,6 +21,8 @@ export default function Prescriptions({ patientId }) {
     const [refresh, setRefresh] = useState(false);
     const [prescriptionDate, setPrescriptionDate] = useState("");
     const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
+    const [prescriptionMedications, setPrescriptionMedications] = useState([]);
+
 
     React.useEffect(() => {
         const fetchCurrentUser = async () => {
@@ -126,14 +128,45 @@ export default function Prescriptions({ patientId }) {
         setPrescriptionDate(new Date().toISOString().split("T")[0]);
     }, []);
 
+
+    const handleAddMedicationToPrescription = (medication) => {
+        setPrescriptionMedications([...prescriptionMedications, medication]);
+    };
+
+    // Function to save prescription
+    const handleSavePrescription = async (prescriptionData) => {
+        try {
+          
+            console.log("Saving prescription data:", prescriptionData);
+          
+        } catch (error) {
+            console.error("Error saving prescription:", error);
+        }
+    };
+
+
+
+
+
     return (
         <>
                {currentScreen === 1 ? (
-                <AddPrescription currentScreen={currentScreen} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} />
+               <AddPrescription
+               currentScreen={currentScreen}
+               setCurrentScreen={setCurrentScreen}
+               patientId={patientId}
+               prescriptionMedications={prescriptionMedications}
+               onSave={handleSavePrescription}
+            />
             ) : currentScreen === 2 ? (
                 <ViewPrescription />
             ) : currentScreen === 3 ? (
-                <AddMedications currentScreen={currentScreen} setCurrentScreen={handleSetCurrentScreen} patientId={patientId} />
+                <AddMedications
+                    currentScreen={currentScreen}
+                    setCurrentScreen={setCurrentScreen}
+                    patientId={patientId}
+                    onAddMedication={handleAddMedicationToPrescription}
+                />
             ) : (
                 <>
                     <div className="flex flex-col">

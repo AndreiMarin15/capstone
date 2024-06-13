@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
-
+import uploadPrescription from "@/backend/health_records/uploadPrescription";
 
 
 const medicine = [
@@ -23,9 +23,48 @@ const medicine = [
   },
 ];
 
-export default function AddPrescription({patientId}) {
+export default function AddPrescription({patientId, prescriptionMedications, onSave}) {
 
   const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
+  const [medications, setMedications] = useState([]);
+  const [notes, setNotes] = useState("");
+  const [prescriptionDate, setPrescriptionDate] = useState(new Date().toISOString().split("T")[0]);
+
+  const handleAddMedication = (medication) => {
+    setMedications([...medications, medication]);
+  };
+
+  const handleRemoveMedication = (index) => {
+    const newMedications = medications.filter((_, i) => i !== index);
+    setMedications(newMedications);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const medicationDataArray = medications.map((medication, index) => ({
+        id: `medication-${Date.now()}-${index}`,
+        ...medication,
+    }));
+
+    const prescriptionData = {
+        resource: {
+            id: `prescription-${Date.now()}`,
+            medicationData: medicationDataArray,
+            resource_type: "prescription",
+        },
+    };
+
+    try {
+        await onSave(prescriptionData);
+        toast.success("Prescription created successfully!");
+        setCurrentScreen(0);
+    } catch (error) {
+        console.error("Error creating prescription:", error);
+        toast.error("Failed to create prescription.");
+    }
+};
+
 
 
   return (
@@ -72,7 +111,11 @@ export default function AddPrescription({patientId}) {
               </>
             ))}
           </table>
+          <div className="flex justify-between">
+        
           <BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}/>
+          <Button onClick={handleSubmit}>SAVE</Button>
+          </div>
         </>
       ) : (
         ""
