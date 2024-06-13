@@ -1,93 +1,107 @@
-// Import necessary dependencies from Supabase and other modules
-import { PROJECT } from "../project/db";  // Assuming you have a db.js file for project schema
-import { doctor } from "./doctor";  // Assuming doctor.js provides necessary functions
+import { PROJECT } from "../project/db";
+import { doctor } from "./doctor";
 
 const uploadPrescription = async (prescription) => {
     try {
+        // Ensure prescription object exists
+        if (!prescription) {
+            throw new Error('Invalid prescription data. Prescription object is missing.');
+        }
+
         const medicationDataArray = [];
 
-        // Process each medication in the prescription
-        await Promise.all(
-            prescription.medications?.map(async (medication) => {
-                const doctorInfo = await doctor.getDoctorByCurrentUser();
-                
-                const medicationData = {
-                    status: "created",
-                    resource: {
-                        status: medication.status,
-                        id: medication.id,
-                        medicationCodeableConcept: [
-                            {
-                                coding: [
+        // Check if prescription.medications exists and is an array
+        if (prescription.medications && Array.isArray(prescription.medications)) {
+            // Process each medication in the prescription
+            await Promise.all(
+                prescription.medications.map(async (medication) => {
+                    try {
+                        const doctorInfo = await doctor.getDoctorByCurrentUser();
+
+                        // Default values for medication data
+                        const defaultMedicationData = {
+                            status: "created",
+                            resource: {
+                                status: medication.status || "", // Default status
+                                id: medication.id || "", // Default ID
+                                medicationCodeableConcept: [
                                     {
-                                        system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                                        display: medication.medicationCodeableConcept[0]?.coding[0]?.display, // generic name
+                                        coding: [
+                                            {
+                                                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                                display: medication.medicationCodeableConcept?.[0]?.coding?.[0]?.display || "", // Default display
+                                            }
+                                        ],
+                                        text: medication.medicationCodeableConcept?.[0]?.text || "" // Default text
                                     }
                                 ],
-                                text: medication.medicationCodeableConcept[0]?.text // brand name
-                            }
-                        ],
-                        subject: {
-                            type: medication.subject.type,
-                            reference: medication.subject.reference,
-                        },
-                        dosageInstruction: [
-                            {
-                                text: medication.instructions,
-                                doseAndRate: [
+                                subject: {
+                                    type: medication.subject?.type || "", // Default type
+                                    reference: medication.subject?.reference || "", // Default reference
+                                },
+                                dosageInstruction: [
                                     {
-                                        doseQuantity: {
-                                            doseUnit: medication.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit,
-                                        }
+                                        text: medication.instructions || "", // Default instructions
+                                        doseAndRate: [
+                                            {
+                                                doseQuantity: {
+                                                    doseUnit: medication.dosageInstruction?.[0]?.doseAndRate?.[0]?.doseQuantity?.doseUnit || "", // Default dose unit
+                                                }
+                                            }
+                                        ]
                                     }
-                                ]
+                                ],
+                                dispenseRequest: {
+                                    dispenseInterval: medication.dispenseRequest?.dispenseInterval || "", // Default dispense interval
+                                    validityPeriod: {
+                                        start: medication.dispenseRequest?.validityPeriod?.start || "", // Default validity period start
+                                        end: medication.dispenseRequest?.validityPeriod?.end || "" // Default validity period end
+                                    },
+                                },
+                                requester: {
+                                    agent: {
+                                        reference: doctorInfo.fullName || "", // Default full name
+                                        license_id: doctorInfo.license || "" // Default license ID
+                                    }
+                                },
+                                form: {
+                                    text: medication.form?.text || "" // Default form text
+                                },
+                                note: medication.note || "", // Default note
+                                adverseEvent: {
+                                    adverseReaction: medication.adverseEvent?.adverseReaction || "", // Default adverse reaction
+                                },
                             }
-                        ],
-                        dispenseRequest: {
-                            dispenseInterval: medication.dispenseRequest.dispenseInterval, // Map from medication.duration
-                            validityPeriod: {
-                                start: medication.dispenseRequest.validityPeriod.start, // Map from medication.start
-                                end: medication.dispenseRequest.validityPeriod.end // Map from medication.end
-                            },
-                        },
-                        requester: {
-                            agent: {
-                                reference: doctorInfo.fullName,
-                                license_id: doctorInfo.license
-                                
-                            }
-                        },
-                        form: {
-                            text: medication.form.text
-                        },
-                        note: medication.note,
-                        adverseEvent: {
-                            adverseReaction: medication.adverseEvent.adverseReaction,
-                        },
-                    }
-                };
+                        };
 
-                medicationDataArray.push(medicationData);
-            })
-        );
+                        // Push default medication data to array
+                        medicationDataArray.push(defaultMedicationData);
+                    } catch (error) {
+                        console.error('Error processing medication:', error);
+                        throw error; // Rethrow to stop Promise.all if medication processing fails
+                    }
+                })
+            );
+        }
 
         // Prepare data for inserting into project.prescriptions
         const prescriptionData = {
             resource: {
-                id: prescription.id,
+                id: prescription.id || "Sample", // Default value if prescription.id is not provided
                 medicationData: medicationDataArray,
-                resource_type: prescription.resource_type,
+                resource_type: prescription.resource_type || "prescription", // Default value if not provided
             },
-           
         };
+
         // Insert data into project.prescriptions table
         const insertedPrescription = await PROJECT.insertInto('prescriptions', prescriptionData);
-        console.log(prescriptionData)
+        console.log("Prescription data:", prescriptionData);
+
         return { prescription: insertedPrescription, medicationDataArray };
     } catch (error) {
-        throw error;
+        console.error("Error in uploadPrescription:", error);
+        throw error; // Re-throw the error to be caught by the caller
     }
 };
 
-// Export the uploadPrescription function
 export default uploadPrescription;

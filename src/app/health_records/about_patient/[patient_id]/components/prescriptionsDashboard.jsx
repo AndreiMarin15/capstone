@@ -7,10 +7,14 @@ import { doctor } from "@/backend/health_records/doctor";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { getMedicationRequests } from "@/backend/health_records/getMedicationRequest";
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend/initSupabase";
-
+import uploadPrescription from "@/backend/health_records/uploadPrescription";
 export default function Prescriptions({ patientId }) {
     const supabase = client("public");
     const [medications, setMedications] = useState([]);
@@ -136,17 +140,25 @@ export default function Prescriptions({ patientId }) {
     // Function to save prescription
     const handleSavePrescription = async (prescriptionData) => {
         try {
-          
-            console.log("Saving prescription data:", prescriptionData);
-          
+            // Call your backend API or function to save the prescription data
+            const savedPrescription = await uploadPrescription(prescriptionData); // Assuming uploadPrescription function handles the backend integration
+    
+            console.log("Prescription saved successfully:", savedPrescription);
+    
+            // Optionally, you can update local state or perform other actions upon successful save
+            // For example, clearing prescription data or updating UI state
+            setPrescriptionMedications([]);
+            setCurrentScreen(0); // Reset to initial screen state after successful save
+    
+            // Display success message to the user using toast notification
+            toast.success("Prescription saved successfully!");
         } catch (error) {
             console.error("Error saving prescription:", error);
+    
+            // Display error message to the user using toast notification
+            toast.error("Failed to save prescription. Please try again later.");
         }
     };
-
-
-
-
 
     return (
         <>
@@ -242,8 +254,8 @@ export default function Prescriptions({ patientId }) {
                                             />
                                             {/* Name of Medicine */}
                                             <div className="my-auto">
-                                                {/*  {medication.resource.medicationCodeableConcept[0].text} */}
-                                                Prescription #1
+                                                 {medication.resource.medicationCodeableConcept[0].text}
+                                              
                                             </div>
                                         </div>
 
