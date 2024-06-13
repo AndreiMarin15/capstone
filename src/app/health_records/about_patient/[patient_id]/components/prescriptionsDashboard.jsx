@@ -2,6 +2,7 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
 import AddPrescription from "./sub_components/sub_sub_components/addPrescription";
+import ViewPrescription from "./sub_components/viewPrescription";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
 import { doctor } from "@/backend/health_records/doctor";
 import * as React from "react";
@@ -9,22 +10,23 @@ import { useState, useEffect } from "react";
 import { getMedicationRequests } from "@/backend/health_records/getMedicationRequest";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend/initSupabase";
 import uploadPrescription from "@/backend/health_records/uploadPrescription";
+import { getPrescriptions }  from "@/backend/health_records/getPrescription";
+
 export default function Prescriptions({ patientId }) {
     const supabase = client("public");
-    const [medications, setMedications] = useState([]);
-    const [regis, setRegis] = useState("");
     const [status, setStatus] = useState("ACTIVE");
     const [currentUser, setCurrentUser] = useState(null);
-  
-    const [refresh, setRefresh] = useState(false);
-    const [prescriptionDate, setPrescriptionDate] = useState("");
     const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
     const [prescriptionMedications, setPrescriptionMedications] = useState([]);
+    const [prescriptions, setPrescriptions] = useState([]);
+    const [prescriptionId, setPrescriptionId] = useState("");
+    const toggleStatus = () => {
+        setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+    };
 
 
     React.useEffect(() => {
@@ -40,44 +42,6 @@ export default function Prescriptions({ patientId }) {
         fetchCurrentUser();
     }, []);
 
-
-    const toggleStatus = () => {
-        setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
-    };
-
-    const handleDiscontinue = async (medicationId) => {
-        console.log("Medication ID before update:", medicationId);
-        try {
-            // Update the medication status directly using updateTable
-
-            const { data: medicationRequests, error } = await supabase.from("medicationrequest").select("*");
-
-            if (error) {
-                console.error(error);
-                return;
-            }
-
-            const medicationRequestToUpdate = medicationRequests.find((request) => request.resource.id === medicationId);
-
-            if (medicationRequestToUpdate) {
-                const updateData = await supabase
-                    .from("medicationrequest")
-                    .update({
-                        resource: {
-                            ...medicationRequestToUpdate.resource,
-                            status: "Inactive",
-                        },
-                    })
-                    .eq("id", medicationRequestToUpdate.id);
-
-                // Refresh medication list after updating status
-                const updatedMedicationRequests = await getMedicationRequests();
-                setMedications(updatedMedicationRequests);
-            }
-        } catch (error) {
-            console.error("Error discontinuing medication:", error);
-        }
-    };
 
 
     const handleSavePrescription = async (prescriptionData) => {
@@ -104,6 +68,20 @@ export default function Prescriptions({ patientId }) {
         }
     };
 
+    useEffect(() => {
+        const fetchPrescriptions = async () => {
+            try {
+                const fetchedPrescriptions = await getPrescriptions();
+                setPrescriptions(fetchedPrescriptions.reverse());
+                console.log("Fetched Prescriptions:", fetchedPrescriptions);
+            } catch (error) {
+                console.error("Error fetching prescriptions:", error);
+               
+            }
+        };
+
+        fetchPrescriptions();
+    }, []); 
     return (
         <>
                {currentScreen === 1 ? (
@@ -114,8 +92,13 @@ export default function Prescriptions({ patientId }) {
                prescriptionMedications={prescriptionMedications}
                onSave={handleSavePrescription}
             />
+            
             ) : currentScreen === 2 ? (
-                <ViewPrescription />
+                <ViewPrescription
+                currentScreen={currentScreen}
+                setCurrentScreen={setCurrentScreen}
+                prescriptionId={prescriptionId}/>
+
             ) : currentScreen === 3 ? (
                 <AddMedications
                     currentScreen={currentScreen}
@@ -166,20 +149,21 @@ export default function Prescriptions({ patientId }) {
                             </div>
                         </div>
 
-                        {medications
-                            .filter((medication) => {
-                                if (status === "ACTIVE") {
-                                    return medication.resource.subject.reference === patientId && medication.resource.status === "Active";
-                                } else {
-                                    return (
-                                        medication.resource.subject.reference === patientId && medication.resource.status === "Inactive"
-                                    );
-                                }
-                            })
-                            ?.map((medication, index) => (
+                        {prescriptions
+                            // .filter((prescription) => {
+                            //     if (status === "ACTIVE") {
+                            //         // Assuming structure of prescription object
+                            //         return prescription.status === "Active"; // Adjust condition as per your data structure
+                            //     } else {
+                            //         return prescription.status === "Inactive"; // Adjust condition as per your data structure
+                            //     }
+                            // })
+                            ?.map((prescription, index) => (
                                 <button
-                                    key={medication.resource.id}
+                                    key={prescription.id}
                                     onClick={() => {
+                                        console.log(prescription.id)
+                                        setPrescriptionId(prescription.id)
                                         setCurrentScreen(2);
                                     }}
                                 >
@@ -195,16 +179,13 @@ export default function Prescriptions({ patientId }) {
                                                 }
                                                 className="aspect-square fill-black w-[15px]"
                                             />
-                                            {/* Name of Medicine */}
-                                            <div className="my-auto">
-                                                 {medication.resource.medicationCodeableConcept[0].text}
-                                              
-                                            </div>
+                                           
+                                            <div className="my-auto">Prescription #{prescriptions.length - index}</div>
                                         </div>
 
                                         <div className="flex w-full justify-between text-xs">
                                             <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
-                                                {/* Name of Provider */}
+                                         
                                                 <Image
                                                     alt="image"
                                                     height={0}
@@ -215,8 +196,10 @@ export default function Prescriptions({ patientId }) {
                                                     }
                                                     className="w-4 aspect-square"
                                                 />
-                                                <div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
+                                                <div className="grow my-auto">{prescription.resource.requester.agent.reference}</div>
+                                                <div className="grow my-auto ml-10">Provided On: {new Date(prescription.created_at).toLocaleDateString()}</div>
                                             </div>
+                                         
 
                                             <Button variant="download"> ↓ Download (.pdf)</Button>
                                         </div>

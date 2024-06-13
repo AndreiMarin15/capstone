@@ -33,7 +33,7 @@ export default function AddPrescription({ onSave }) {
 
   
   const { setMedicationIds } = usePrescriptionsStore();
-  
+
   useEffect(() => {
     
       fetchMedications();
@@ -121,12 +121,50 @@ const handleSubmit = async (event) => {
                 <tr>
                   <td></td>
                   <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-regular leading-5 ml-auto">
-                      
-                    {item.resource.dispenseRequest?.validityPeriod?.start} to {item.resource.dispenseRequest?.validityPeriod?.end}
+                    <div className="text-black text-xs font-regular leading-5 ml-1">
+                    From{" "}
+                      {item.resource.dispenseRequest?.validityPeriod?.start} to{" "}
+                      {item.resource.dispenseRequest?.validityPeriod?.end}
                     </div>
                   </td>
+                 
                 </tr>
+                <tr>
+                  <td></td>
+                  <td className="flex  border-l-[5px] border-transparent">
+                    <div
+                      className="text-black text-xs font-regular leading-5"
+                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                    >
+                      <span className="font-semibold">Dosage:</span>{" "}
+                     {item.resource.dosageInstruction?.[0]?.doseAndRate?.[0]?.doseQuantity?.doseUnit}
+                    </div>
+                    <div
+                      className="text-black text-xs font-regular leading-5 ml-10"
+                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                    >
+                    <span className="font-semibold">Form:</span>{" "}
+                     {item.resource.form?.text}
+                    </div>
+                    <div
+                      className="text-black text-xs font-regular leading-5 ml-10"
+                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                    >
+                    <span className="font-semibold">Frequency:</span>{" "}
+                     {item.resource.dispenseRequest?.dispenseInterval}
+                    </div>
+
+                    <div
+                      className="text-black text-xs font-regular leading-5 ml-10"
+                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                    >
+                    <span className="font-semibold">Instructions:</span>{" "}
+                     {item.resource.note}
+                    </div>
+                  </td>
+               
+                </tr>
+              
               </React.Fragment>
             ))}
           </table>
