@@ -1,4 +1,4 @@
-import { PUBLIC } from "../public/db";
+import { PUBLIC, deleteTable } from "../public/db";
 import { client } from "../initSupabase";
 export async function getMedicationRequests() {
     try {
@@ -17,7 +17,7 @@ export async function retrieveMedicationById(medicationId) {
         const { data, error } = await supabase
             .from("medicationrequest")
             .select("*")
-            .contains("resource", { id: medicationId })
+            .eq("id", medicationId)
             .single();
 
         if (error) {
@@ -52,3 +52,16 @@ export async function retrieveMedicationsByIds(medicationIds) {
         throw error;
     }
 }
+
+export async function deleteMedicationById(medicationId) {
+    try {
+      const result = await PUBLIC.deleteTable("medicationrequest", { id: medicationId });
+  
+      if (result.error) {
+        throw result.error;
+      }
+
+    } catch (error) {
+    
+    }
+  }

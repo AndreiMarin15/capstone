@@ -3,6 +3,7 @@ import BackButton from "./sub_components/BackButton";
 import AddMedications from "./sub_components/sub_sub_components/sub_sub_sub_components/addMedication";
 import AddPrescription from "./sub_components/sub_sub_components/addPrescription";
 import ViewPrescription from "./sub_components/viewPrescription";
+import EditMedication from "./sub_components/editMedication";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
 import { doctor } from "@/backend/health_records/doctor";
 import * as React from "react";
@@ -15,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend/initSupabase";
 import uploadPrescription from "@/backend/health_records/uploadPrescription";
 import { getPrescriptions }  from "@/backend/health_records/getPrescription";
+
 
 export default function Prescriptions({ patientId }) {
     const supabase = client("public");
@@ -68,20 +70,21 @@ export default function Prescriptions({ patientId }) {
         }
     };
 
-    useEffect(() => {
-        const fetchPrescriptions = async () => {
-            try {
-                const fetchedPrescriptions = await getPrescriptions();
-                setPrescriptions(fetchedPrescriptions.reverse());
-                console.log("Fetched Prescriptions:", fetchedPrescriptions);
-            } catch (error) {
-                console.error("Error fetching prescriptions:", error);
-               
-            }
-        };
+    const fetchPrescriptions = async () => {
+        try {
+            const fetchedPrescriptions = await getPrescriptions();
+            setPrescriptions(fetchedPrescriptions.reverse());
+            console.log("Fetched Prescriptions:", fetchedPrescriptions);
+        } catch (error) {
+            console.error("Error fetching prescriptions:", error);
+        }
+    };
 
+
+    useEffect(() => {
         fetchPrescriptions();
     }, []); 
+
     return (
         <>
                {currentScreen === 1 ? (
@@ -91,6 +94,7 @@ export default function Prescriptions({ patientId }) {
                patientId={patientId}
                prescriptionMedications={prescriptionMedications}
                onSave={handleSavePrescription}
+               fetchPrescriptions={fetchPrescriptions}
             />
             
             ) : currentScreen === 2 ? (
@@ -101,6 +105,12 @@ export default function Prescriptions({ patientId }) {
 
             ) : currentScreen === 3 ? (
                 <AddMedications
+                    currentScreen={currentScreen}
+                    setCurrentScreen={setCurrentScreen}
+                    patientId={patientId}
+                />
+            ) : currentScreen === 4 ? (
+                <EditMedication
                     currentScreen={currentScreen}
                     setCurrentScreen={setCurrentScreen}
                     patientId={patientId}
@@ -167,7 +177,7 @@ export default function Prescriptions({ patientId }) {
                                         setCurrentScreen(2);
                                     }}
                                 >
-                                    <div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black w-full">
+                                    <div key={index} className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full">
                                         <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                                             <Image
                                                 alt="image"
