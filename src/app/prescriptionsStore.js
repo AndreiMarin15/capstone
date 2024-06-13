@@ -12,6 +12,7 @@ const usePrescriptionsStore = create((set) => ({
     set((state) => ({
       medicationIds: state.medicationIds.filter((medId) => medId !== id),
     })),
+  setMedicationIds: (ids) => set({ medicationIds: ids }), // New setter function
 }));
 
 export default usePrescriptionsStore;

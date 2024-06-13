@@ -27,16 +27,18 @@ export default function AddPrescription({ onSave }) {
     medications,
     setMedications,
     medicationIds,
+    addMedicationId,
     removeMedicationId,
   } = usePrescriptionsStore();
 
   
-
+  const { setMedicationIds } = usePrescriptionsStore();
+  
   useEffect(() => {
-    if (medicationIds.length > 0) {
+    
       fetchMedications();
-    }
-  }, [medicationIds]);
+    
+  }, []);
 
   const fetchMedications = async () => {
     try {
@@ -50,9 +52,6 @@ export default function AddPrescription({ onSave }) {
     }
   };
 
-  const handleAddMedication = (medication) => {
-    setMedications([...medications, medication]);
-  };
 
   const handleRemoveMedication = (index) => {
     const newMedications = medications.filter((_, i) => i !== index);
@@ -63,8 +62,7 @@ const handleSubmit = async (event) => {
   event.preventDefault();
 
   const medicationDataArray = medications.map((medication, index) => ({
-
-    ...medication, // Ensure all necessary fields like resource_type are included
+    ...medication,
     resource_type: "MedicationRequest"
   }));
 
@@ -77,17 +75,15 @@ const handleSubmit = async (event) => {
 
   try {
     console.log(prescriptionData)
-    await onSave(prescriptionData); // Ensure onSave function handles prescriptionData correctly
-    toast.success("Prescription Added");
-    setCurrentScreen(0); // Reset to initial screen state after successful save
+    await onSave(prescriptionData);
+    setMedicationIds([]);
+    setCurrentScreen(0);
+
   } catch (error) {
     console.error("Error creating prescription:", error);
     toast.error("Failed to create prescription.");
   }
 };
-
-
-
 
   return (
     <>

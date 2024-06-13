@@ -8,7 +8,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { getMedicationRequests } from "@/backend/health_records/getMedicationRequest";
 import { toast } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 
 import { Button } from "@/components/ui/button";
@@ -41,22 +40,10 @@ export default function Prescriptions({ patientId }) {
         fetchCurrentUser();
     }, []);
 
-    const [isTest, setTest] = useState(false);
-    const [isAddPrescription, setAdd] = useState(false);
-
-    const handleSetCurrentScreen = (screen) => {
-        // Reset isTest to false when navigating back to screen 2
-        if (screen === 2 || currentScreen === 2) {
-            setTest(false);
-            setAdd(false);
-        }
-    };
 
     const toggleStatus = () => {
         setStatus(status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
     };
-
-   
 
     const handleDiscontinue = async (medicationId) => {
         console.log("Medication ID before update:", medicationId);
@@ -92,20 +79,7 @@ export default function Prescriptions({ patientId }) {
         }
     };
 
-    const date = [
-        {
-            src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-            variable: "Date",
-            value: "2024-01-24",
-        },
-    ];
 
-    useEffect(() => {
-        setPrescriptionDate(new Date().toISOString().split("T")[0]);
-    }, []);
-
-
-    // Function to save prescription
     const handleSavePrescription = async (prescriptionData) => {
         try {
             console.log(prescriptionData)
@@ -114,11 +88,14 @@ export default function Prescriptions({ patientId }) {
     
             console.log("Prescription saved successfully:", savedPrescription);
     
-    
+            toast.success("Prescription Created", {
+                position: "top-left",
+                theme: "colored",
+                autoClose: 2000,
+              });
          
             setCurrentScreen(0); 
     
-            toast.success("Prescription saved successfully!");
         } catch (error) {
             console.error("Error saving prescription:", error);
     
@@ -144,7 +121,6 @@ export default function Prescriptions({ patientId }) {
                     currentScreen={currentScreen}
                     setCurrentScreen={setCurrentScreen}
                     patientId={patientId}
-                    onAddMedication={handleAddMedicationToPrescription}
                 />
             ) : (
                 <>
