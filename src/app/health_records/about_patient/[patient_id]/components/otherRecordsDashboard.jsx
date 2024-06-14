@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import { Button } from "@/components/ui/button";
@@ -15,36 +15,33 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
+import { getRecord } from "@/backend/health_records/getRecord";
 
-export default function OtherRecords() {
+
+export default function OtherRecords({patientId}) {
   const [date, setDate] = useState();
   const [currentScreen, setCurrentScreen] = useState(0);
+  const [records, setRecords] = useState([]); 
+
   const handleRecordClick = () => {
     // Set currentScreen to the desired value when a medication item is clicked
-    setCurrentScreen(1); // Assuming the desired value for the second screen is 1
+    setCurrentScreen(2); // Assuming the desired value for the second screen is 1
     console.log("current Screen:", currentScreen);
   };
 
-  const dates = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Start Date",
-      value: "",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "End Date",
-      value: "",
-    },
-  ];
-
-  const [validityStart, setValidityStart] = useState();
-  const [validityEnd, setValidityEnd] = useState();
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-
-  const handleCheckboxChange = (event) => {
-    setIsCheckboxChecked(!isCheckboxChecked);
+  const fetchRecords = async () => {
+    try {
+      const otherRecords = await getRecord();
+      console.log(otherRecords);
+      setRecords(otherRecords);
+    } catch (error) {
+      console.error("Error fetching records:", error);
+    }
   };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
 
   return (
     <>
@@ -102,99 +99,37 @@ export default function OtherRecords() {
               </DropdownMenu>
             </div>
           </div>
-          <Button className="self-end max-w-[20%]" variant="outline">
-            Add Record
+          <Button className="self-end max-w-[20%]" variant="outline" onClick={() => setCurrentScreen(1)}>
+              Add Record
           </Button>
-          <button
-            onClick={handleRecordClick}
-            className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[100%]"
-          >
-            <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
-              <Image
-                alt="image"
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                className="aspect-square fill-black w-[15px]"
-              />
-              <div className="my-auto">
-                Referral Note from Dr. Kayla Atienza
+          {records.map((record, index) => (
+            <button
+              key={index}
+              onClick={handleRecordClick}
+              className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[100%]"
+            >
+              <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
+                <Image
+                  alt="image"
+                  height={0}
+                  width={0}
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                  className="aspect-square fill-black w-[15px]"
+                />
+                <div className="my-auto">{record.resource.title}</div>
               </div>
-              {/* <div className="ml-96 font-normal text-gray-400 my-auto">
-                Last opened: 1 min ago
-      </div> */}
-            </div>
-            {/* <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 w-[100%]">
-      <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
-        <Image
-          alt="image"
-          height={0}
-          width={0}
-          loading="lazy"
-          src={labTest.srcdoctor}
-          className="aspect-square fill-black w-[15px]"
-        />
-        <div className="grow my-auto">{labTest.doctor}</div>
-      </div>
-      <div
-        className="flex-auto my-auto"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <div>
-          <span style={{ fontWeight: "bold" }}>Date Requested:</span>{" "}
-          {labTest.reqdate}
-        </div>
-        {labTest.status === "final" && (
-          <div style={{ marginLeft: "8px" }}>
-            <span style={{ fontWeight: "bold" }}>Date Uploaded:</span>{" "}
-            {labTest.update}
-          </div>
-        )}
-      </div>
-      {labTest.status === "requested" && (
-        <div className="text-black text-xs font-medium leading-5 flex items-center">
-          <svg
-            className="h-3 w-3 ml-1 text-red-500"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="10" cy="10" r="5" />
-          </svg>
-          Requested
-        </div>
-      )}
-      {labTest.status === "final" && (
-        <div className="text-black text-xs font-medium leading-5 flex items-center">
-          <svg
-            className="h-3 w-3 ml-1 text-green-500"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="10" cy="10" r="5" />
-          </svg>
-          Uploaded
-        </div>
-      )}
-      <div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
-        <button>Download (.pdf)</button>
-      </div>
-    </div> */}
-          </button>
+            </button>
+          ))}
         </>
       )}
 
       {currentScreen === 1 && (
-        // <VisitLabTests
-        //   currentScreen={currentScreen}
-        //   setCurrentScreen={setCurrentScreen}
-        //   observationId={selectedObservationId}
-        // />
         <AddRecord
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
+          patientId={patientId}
+          fetchRecords={fetchRecords}
         />
       )}
     </>
