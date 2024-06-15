@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import BackButton from "./sub_components/BackButton";
+import BackButton from "../../my_health_record/components/sub_components/BackButton";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { getPatientRawData } from "@/backend//patient/personal_details/master_data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,21 +15,37 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
-import ViewRecords from "./sub_components/viewRecords"; 
+import ViewRecords from "./sub_components/viewRecord"; 
 import { getRecord } from "@/backend/health_records/getRecord";
 
 
-export default function OtherRecords({patientId}) {
+export default function OtherRecords() {
   const [date, setDate] = useState();
   const [currentScreen, setCurrentScreen] = useState(0);
   const [records, setRecords] = useState([]); 
   const [recordId, setRecordId] = useState(""); 
+  const [patientData, setPatientData] = useState(null)
   const handleRecordClick = (record) => {
     setCurrentScreen(2);
     setRecordId(record)
     console.log(record)
     console.log("current Screen:", currentScreen);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const data = await getPatientRawData(); // Fetch patient data
+            setPatientData(data.id);
+            console.log(data.id)
+        } catch (error) {
+            console.error("Error fetching patient data:", error);
+        }
+    }
+
+    fetchData();
+}, []);
+
 
   const fetchRecords = async () => {
     try {
@@ -133,7 +149,7 @@ export default function OtherRecords({patientId}) {
         <AddRecord
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
-          patientId={patientId}
+          patientId={patientData}
           fetchRecords={fetchRecords}
         />
       )}

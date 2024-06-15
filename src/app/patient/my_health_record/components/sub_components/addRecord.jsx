@@ -47,29 +47,29 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     }
   });
 
-  useEffect(() => {
-    const fetchDoctorInfo = async () => {
-      try {
-        const doctorId = await doctor.getDoctorByCurrentUser();
-        console.log(doctorId);
-        setDoctorInfo(doctorId);
+//   useEffect(() => {
+//     const fetchDoctorInfo = async () => {
+//       try {
+//         const doctorId = await doctor.getDoctorByCurrentUser();
+//         console.log(doctorId);
+//         setDoctorInfo(doctorId);
 
-        // Update formData with the fetched doctorInfo
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          doctorInfo: {
-            type: doctorId.type,
-            fullName: doctorId.fullName,
-            license: doctorId.license,
-          }
-        }));
-      } catch (error) {
-        console.error('Error fetching doctorId:', error);
-      }
-    };
+//         // Update formData with the fetched doctorInfo
+//         setFormData((prevFormData) => ({
+//           ...prevFormData,
+//           doctorInfo: {
+//             type: doctorId.type,
+//             fullName: doctorId.fullName,
+//             license: doctorId.license,
+//           }
+//         }));
+//       } catch (error) {
+//         console.error('Error fetching doctorId:', error);
+//       }
+//     };
 
-    fetchDoctorInfo();
-  }, []);
+//     fetchDoctorInfo();
+//   }, []);
 
 
 
