@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { deleteReferral } from "@/backend/referral/deleteReferrals";
 
-export function DeleteReferral({ referralId , referralFlag, setReferralFlag }) {
+export function DeleteReferral({ referralId, referralFlag, setReferralFlag }) {
 	function deleteReferralHandler() {
 		setReferralFlag(!referralFlag);
 		deleteReferral(referralId);
@@ -42,14 +42,14 @@ export function DeleteReferral({ referralId , referralFlag, setReferralFlag }) {
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<AlertDialogTrigger asChild>
-					<Button
-						variant="destructive"
-						onClick={() => {
-							deleteReferralHandler();
-						}}
-					>
-						Continue
-					</Button>
+						<Button
+							variant="destructive"
+							onClick={() => {
+								deleteReferralHandler();
+							}}
+						>
+							Continue
+						</Button>
 					</AlertDialogTrigger>
 				</AlertDialogFooter>
 			</AlertDialogContent>
