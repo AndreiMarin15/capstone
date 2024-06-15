@@ -12,7 +12,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 export default function MedicationsDashboard() {
-	const pdfRef = React.useRef();
+	const pdfRef = useRef();
 	const { selected } = useCPNav();
 	const [currentPage, setCurrentPage] = useState(0);
 	const supabase = client("public");
@@ -31,7 +31,7 @@ export default function MedicationsDashboard() {
 			"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		async function fetchPatientId() {
 			try {
 				const patientData = await getPatientRawData();
@@ -44,7 +44,7 @@ export default function MedicationsDashboard() {
 		fetchPatientId();
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchCurrentUser = async () => {
 			try {
 				const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
@@ -57,7 +57,7 @@ export default function MedicationsDashboard() {
 		fetchCurrentUser();
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchMedications = async () => {
 			try {
 				// Fetch medications based on current patient ID
@@ -75,7 +75,7 @@ export default function MedicationsDashboard() {
 		}
 	}, [refresh, currentScreen]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const interval = setInterval(() => {
 			setRefresh((prevRefresh) => !prevRefresh);
 		}, 1000); // Adjust the interval time as needed
@@ -119,8 +119,6 @@ export default function MedicationsDashboard() {
 
 	return (
 		<div className="h-screen">
-			{" "}
-			{/* Set the height to full screen */}
 			{isTest ? (
 				<ViewMedications
 					currentScreen={3}
@@ -129,23 +127,17 @@ export default function MedicationsDashboard() {
 					medicationId={regis}
 				/>
 			) : (
-				<div
-					ref={pdfRef}
-					className="border h-full w-full bg-white flex flex-col px-20 py-12 border-solid border-stone-300 max-md:px-5"
-				>
+				<div ref={pdfRef} className="border h-full w-full bg-white flex flex-col px-20 py-12 border-solid border-stone-300 max-md:px-5">
 					<div className="flex flex-col gap-5 mt-11 max-md:max-w-full max-md:flex-wrap max-md:mt-10">
 						<span>
 							<div className="text-black text-xl font-semibold leading-8 whitespace-nowrap">Medications</div>
 						</span>
-
 						<div className="flex items-stretch mt-8">
 							{/* Status section */}
 							<div className="font-semibold text-black flex gap-1 items-center text-sm self-start mt-3">
 								Status:
 								<button
-									className={`flex flex-col flex-1 justify-start font-bold ${
-										status === "ACTIVE" ? "text-green-600" : "text-red-600"
-									} whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
+									className={`flex flex-col flex-1 justify-start font-bold ${status === "ACTIVE" ? "text-green-600" : "text-red-600"} whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
 									onClick={toggleStatus}
 								>
 									<div className="justify-start items-start py-2 pr-4 pl-3 text-xs rounded border border-black border-solid shadow-sm max-md:pr-5">
@@ -153,10 +145,8 @@ export default function MedicationsDashboard() {
 									</div>
 								</button>
 							</div>
-
 							{/* Spacer */}
 							<div className="flex-grow" />
-
 							{/* Search and Filter section */}
 							<div className="flex justify-end gap-2.5">
 								<span className="flex items-stretch gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
@@ -194,58 +184,56 @@ export default function MedicationsDashboard() {
 							<span>Medications(.pdf)</span>
 						</div>
 					</div>
-
-					{medications
-						.filter((medication) => {
-							const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
-							if (status === "ACTIVE") {
-								return medication.resource.subject.reference === patientId && medication.resource.status === "Active";
-							} else {
-								return medication.resource.subject.reference === patientId && medication.resource.status === "Inactive";
-							}
-						})
-						?.map((medication, index) => (
-							<button
-								key={medication.resource.id}
-								onClick={() => {
-									console.log(medication.resource.id);
-									setRegis(medication.resource.id);
-									setTest(true);
-									setAdd(false);
-								}}
-							>
-								<div
-									key={index}
-									className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]"
+					<div className="overflow-y-auto max-h-[500px]">
+						{medications
+							.filter((medication) => {
+								const validityPeriodEnd = new Date(medication.resource.dispenseRequest.validityPeriod.end);
+								if (status === "ACTIVE") {
+									return medication.resource.subject.reference === patientId && medication.resource.status === "Active";
+								} else {
+									return medication.resource.subject.reference === patientId && medication.resource.status === "Inactive";
+								}
+							})
+							?.map((medication, index) => (
+								<button
+									key={medication.resource.id}
+									onClick={() => {
+										console.log(medication.resource.id);
+										setRegis(medication.resource.id);
+										setTest(true);
+										setAdd(false);
+									}}
 								>
-									<div className="flex gap-3.5 font-semibold whitespace-nowrap ">
-										<Image
-											alt="image"
-											height={0}
-											width={0}
-											loading="lazy"
-											src={medicationsIcons.srcmedicine}
-											className="aspect-square fill-black w-[15px]"
-										/>
-										<div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
-									</div>
-									<div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
-										<div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+									<div key={index} className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px] mr-10">
+										<div className="flex gap-3.5 font-semibold whitespace-nowrap ">
 											<Image
 												alt="image"
 												height={0}
 												width={0}
 												loading="lazy"
-												src={medicationsIcons.srddoctor}
-												className="w-4 aspect-square"
+												src={medicationsIcons.srcmedicine}
+												className="aspect-square fill-black w-[15px]"
 											/>
-											<div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
-											<div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
+											<div className="my-auto">{medication.resource.medicationCodeableConcept[0].text}</div>
+										</div>
+										<div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
+											<div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+												<Image
+													alt="image"
+													height={0}
+													width={0}
+													loading="lazy"
+													src={medicationsIcons.srddoctor}
+													className="w-4 aspect-square"
+												/>
+												<div className="grow my-auto">{medication.resource.requester.agent.reference}</div>
+												<div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>
+											</div>
 										</div>
 									</div>
-								</div>
-							</button>
-						))}
+								</button>
+							))}
+					</div>
 				</div>
 			)}
 		</div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import BackButton from "../../my_health_record/components/sub_components/BackButton";
 import { useState } from "react";
 import LabTestList from "../../lab_tests/LaboratoryList";
 import { getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
@@ -260,10 +261,10 @@ export default function ViewMedications({
                 </table>
               </div>
 
-              {/* <BackButton
-                currentScreen={currentScreen}
+              <BackButton
+                currentScreen={3}
                 setCurrentScreen={setCurrentScreen}
-					  /> */}
+					  />
             </div>
           </div>
         </>
