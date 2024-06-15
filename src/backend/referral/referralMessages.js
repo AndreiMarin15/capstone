@@ -30,6 +30,17 @@ export const getMessages = {
 			message: message,
 			message_header_id: header,
 		});
+
+		const { data: headerData, error: headerError } = await supabase
+			.from("messages_header_referral")
+			.select("*")
+			.eq("id", header);
+
+		if (headerData[0].doctor1 === currentUser.getState().info.id) {
+			sendNotification(headerData[0].doctor2, "New Message", "You have a new message", currentUser.getState().user.id);
+		} else if (headerData[0].doctor2 === currentUser.getState().info.id) {
+			sendNotification(headerData[0].doctor1, "New Message", "You have a new message", currentUser.getState().user.id);
+		}
 	},
 	updateRead: async (header, status, statusUpdate) => {
 		const { data, error } = await supabase

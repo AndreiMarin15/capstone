@@ -87,7 +87,8 @@ const retrieveReferralData = {
 		const query = await sProject
 			.from("referrals")
 			.select("*")
-			.or(`referred_to.eq.${currentUser.getState().info.id},referred_by.eq.${currentUser.getState().info.id}`);
+			.or(`referred_to.eq.${currentUser.getState().info.id},referred_by.eq.${currentUser.getState().info.id}`)
+			.or("status.eq.pending, status.eq.accepted");
 
 		const referralsPromises = query.data?.map(async (referral) => {
 			const patient = await sProject.from("patients").select("*").eq("id", referral.patient_id);
@@ -149,9 +150,21 @@ const retrieveReferralData = {
 
 	updateReferralRequest: async (referral_id, accepted) => {
 		// try {
-		const update = await sProject.from("referrals").update({ accepted: accepted }).eq("id", referral_id);
+		const update = await sProject
+			.from("referrals")
+			.update({ accepted: accepted, status: accepted ? "accepted" : "rejected" })
+			.eq("id", referral_id);
 		console.log(update);
 
+		if (!accepted) {
+			const referral = await sProject.from("referrals").select("*").eq("id", referral_id);
+			await sendNotification(
+				referral.data[0].referred_by,
+				"Referral",
+				"Your referral request has been declined",
+				currentUser.getState().info.id
+			);
+		}
 		if (accepted) {
 			const referral = await sProject.from("referrals").select("*").eq("id", referral_id);
 

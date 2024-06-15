@@ -3,7 +3,9 @@
 import Image from "next/image";
 import * as React from "react";
 import dashboard from "@/backend//doctor/doctor_dashboard/dashboard";
-
+import { getNotifications } from "@/backend/sendNotification";
+import { currentUser } from "@/app/store";
+import { Bell } from "lucide-react";
 export default function Home() {
 	const [editState, setEditState] = React.useState(false);
 	const [doctorInfo, setDoctor] = React.useState({
@@ -50,10 +52,21 @@ export default function Home() {
 	]);
 
 	React.useEffect(() => {
+		const fetchNotifs = async () => {
+			const notifications = await getNotifications(currentUser.getState().info.id);
+			setNotifications(notifications.map((notif) => ({ title: notif.title, content: notif.content })));
+		};
+
+		fetchNotifs();
+	}, []);
+
+	React.useEffect(() => {
 		const retrieveData = async () => {
 			const doctor = await dashboard.getDoctorData();
 			setDoctor({
-				photoSrc: doctor.photo ?? "https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
+				photoSrc:
+					doctor.photo ??
+					"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
 				name: doctor.name,
 				specialization: doctor.specialization,
 				yearsOfExperience: doctor.yearsOfExperience,
@@ -233,25 +246,20 @@ export default function Home() {
 									Notifications
 								</div>
 							</span>
-							{notifications?.map((notification) => (
-								<div
-									key={notification.title}
-									className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
-								>
-									<Image
-										alt="picture"
-										height={0}
-										width={0}
-										loading="lazy"
-										src={notification.imageSrc}
-										className="aspect-square object-contain object-center w-[22px] overflow-hidden shrink-0 max-w-full"
-									/>
-									<span className="flex grow basis-[0%] flex-col items-stretch">
-										<div className="text-black text-xs font-medium leading-5">{notification.title}</div>
-										<div className="text-black text-xs leading-5 mt-2.5">{notification.content} </div>
-									</span>
-								</div>
-							))}
+							{notifications?.length > 0
+								? notifications?.map((notification) => (
+										<div
+											key={notification.title}
+											className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
+										>
+											<Bell size={20} />
+											<span className="flex grow basis-[0%] flex-col items-stretch">
+												<div className="text-black text-xs font-medium leading-5">{notification.title}</div>
+												<div className="text-black text-xs leading-5 mt-2.5">{notification.content} </div>
+											</span>
+										</div>
+									))
+								: "No notifications"}
 						</div>
 					</div>
 				</div>

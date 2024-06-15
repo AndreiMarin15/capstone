@@ -27,8 +27,9 @@ const sendReferralData = {
 			referred_by: currentUser.getState().info.id,
 			notes: data.notes,
 			chat_id: chatId[0].id,
+			status: "pending",
 		};
-		console.log(data)
+		console.log(data);
 		const attendingDoctor = {
 			patient: {
 				id: data.patient_id,
@@ -68,6 +69,7 @@ const sendReferralData = {
 				patient_id: patient.resource?.subject?.reference,
 				chat_id: chatId[0].id,
 				notes: notes,
+				status: "pending",
 			};
 			const referral = await project.insertInto("referrals", data);
 			sendNotification(selectedDoctorId, "Referral", "You have a new referral request", currentUser.getState().info.id);
@@ -76,7 +78,21 @@ const sendReferralData = {
 		return true;
 	},
 	acceptReferralRequest: async (referral_id) => {
-		const referral = await project.updateTable("referrals", { accepted: true }, { id: referral_id });
+		const referral = await project.updateTable(
+			"referrals",
+			{ accepted: true, status: "accepted" },
+			{ id: referral_id }
+		);
+
+		console.log(referral);
+		return referral;
+	},
+	declineReferralRequest: async (referral_id) => {
+		const referral = await project.updateTable(
+			"referrals",
+			{ accepted: false, status: "declined" },
+			{ id: referral_id }
+		);
 
 		console.log(referral);
 		return referral;

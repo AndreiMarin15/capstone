@@ -31,6 +31,8 @@ export const getNotifications = async (recepient_id) => {
 		.select("*")
 		.eq("recepient_id", recepient_id)
 		.eq("read", false);
-
+	
+	console.log(error)
+	console.log(notifications);
 	return notifications;
 };
