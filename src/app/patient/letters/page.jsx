@@ -13,14 +13,16 @@ import { ReferralLetterPDF } from "./components/pdfs/referralletter";
 import { Prescription } from "./components/pdfs/prescription";
 import referralLetters from "@/backend/referral_letters/getData";
 import { getPatient, getMedications, getRequestedLabTests, getLabTests } from "@/backend/pdfBackend/getPDFData";
+import { getPrescriptions }  from "@/backend/health_records/getPrescription";
+import ViewPrescription from './components/sub_components/viewPrescription'; 
 
 export default function Letters() {
 	const [written_referrals, setWrittenReferrals] = useState([]);
 	const [patientData, setPatientData] = useState({});
 	const [selectedTab, setSelectedTab] = React.useState("prescription");
-
+	const [currentScreen, setCurrentScreen] = useState(0)
 	const [prescriptions, setPrescriptions] = useState([]);
-
+	const [prescriptionId, setPrescriptionId] = useState("");
 	const [labtests, setLabTests] = useState([]);
 
 	const handleTabChange = (value) => {
@@ -39,11 +41,12 @@ export default function Letters() {
 			fetchLetters();
 		} else if (selectedTab === "prescription") {
 			const fetchLetters = async () => {
-				const medications = await getMedications();
+				const medications = await getPrescriptions();
 				const patient = await getPatient();
 
 				setPatientData(patient);
 				setPrescriptions(medications);
+				
 			};
 			fetchLetters();
 		} else if (selectedTab === "labtestrequest") {
@@ -60,10 +63,13 @@ export default function Letters() {
 			fetchLabTests();
 		}
 	}, [selectedTab]);
-
+	console.log(prescriptions)
 	return (
 		<>
 			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen min-w-full">
+			{currentScreen === 1 ? (
+                <ViewPrescription currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} prescriptionId={prescriptionId} />
+            ) : (
 				<div className="w-full max-md:max-w-full">
 					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
 						<div className="flex flex-col items-stretch w-[70%] ml-5 max-md:w-full max-md:ml-0">
@@ -97,57 +103,49 @@ export default function Letters() {
 													<TabsTrigger value="gastroenterologist">Gastroenterologist</TabsTrigger>
 												</TabsList>
 												<TabsContent value="all">
-													{prescriptions.map((medication, index) => (
-														<div key={index}>
-															<div className="ml-5 gap-2 flex font-semibold mt-5">
-																<Image
-																	alt="image"
-																	height={3}
-																	width={3}
-																	loading="lazy"
-																	src={
-																		"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-																	}
-																	className="aspect-square fill-black w-[10px]"
-																/>
-																{/* Name of Medicine */}
-																<div className="text-xs font-semibold">
-																	{/*  {medication.resource.medicationCodeableConcept[0].text} */}
-																	{medication.resource.medicationCodeableConcept[0].text}
-																</div>
-															</div>
-
-															<div className="flex w-full justify-between text-xs">
-																<div className="flex gap-1 font-medium whitespace-nowrap ml-7">
-																	{/* Name of Provider */}
-																	<Image
-																		alt="image"
-																		height={0}
-																		width={0}
-																		loading="lazy"
-																		src={
-																			"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
-																		}
-																		className="w-4 aspect-square"
-																	/>
-																	<div className="grow my-auto">
-																		Dr. {medication.resource?.requester?.agent?.reference}
-																	</div>
-																	{/* Date of Medicine */}
-																	{/* <div className=" ml-16 justify-between flex-auto my-auto">{`${medication.resource.dispenseRequest.validityPeriod.start} to ${medication.resource.dispenseRequest.validityPeriod.end}`}</div>} */}
-																</div>
-
-																<Reusable
-																	child={
-																		<Prescription
-																			medicationData={medication}
-																			patientData={patientData}
-																			referred_by_id={medication.resource?.requester?.agent?.license_id}
+												{prescriptions
+													?.map((prescription, index) => (
+														<div key={prescription.id}>
+															<button
+																onClick={() => {
+																	console.log(prescription.id);
+																	setPrescriptionId(prescription.id)
+																	setCurrentScreen(1)
+																}}
+															>
+																<div key={index} className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full">
+																	<div className="flex gap-3.5 font-semibold whitespace-nowrap">
+																		<Image
+																			alt="image"
+																			height={0}
+																			width={0}
+																			loading="lazy"
+																			src={
+																				"https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+																			}
+																			className="aspect-square fill-black w-[15px]"
 																		/>
-																	}
-																	filename={`prescription_${medication.resource.medicationCodeableConcept[0].text}`}
-																/>
-															</div>
+																		<div className="my-auto">Prescription #{prescriptions.length - index}</div>
+																	</div>
+																	<div className="flex w-full justify-between text-xs">
+																		<div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+																			<Image
+																				alt="image"
+																				height={0}
+																				width={0}
+																				loading="lazy"
+																				src={
+																					"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+																				}
+																				className="w-4 aspect-square"
+																			/>
+																			<div className="grow my-auto">{prescription.resource.requester.agent.reference}</div>
+																			<div className="grow my-auto ml-10">Provided On: {new Date(prescription.created_at).toLocaleDateString()}</div>
+																		</div>
+																	</div>
+																</div>
+															</button>
+															<Button  variant="download"> ↓ Download (.pdf)</Button>
 														</div>
 													))}
 												</TabsContent>
@@ -195,13 +193,14 @@ export default function Letters() {
 										<TabsContent value="labtestrequest" className="flex-1 min-h-screen w-full">
 											<LabTest labtests={labtests} patientId={patientData.id} patientData={patientData}/>
 										</TabsContent>
-									</Tabs>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+	                                    </Tabs>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    </>
+);
 }

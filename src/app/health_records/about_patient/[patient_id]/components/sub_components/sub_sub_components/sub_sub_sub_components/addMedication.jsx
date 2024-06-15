@@ -10,14 +10,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
+import usePrescriptionsStore from "@/app/prescriptionsStore";
+
 
 export default function AddMedications({
-  currentScreen,
-  setCurrentScreen,
+
   patientId,
+  onAddMedication
+
 }) {
   const [regis, setRegis] = useState("");
-
+  const { currentScreen, setCurrentScreen, addMedicationId } = usePrescriptionsStore(); 
   const [medicationName, setMedicationName] = useState("");
   const [name, setName] = useState("");
   const [genName, setGenName] = useState("");
@@ -26,7 +29,7 @@ export default function AddMedications({
   const [refresh, setRefresh] = useState(false);
 
   const [patientInstructions, setPatientInstructions] = useState("");
-  const [doseUnit, setDoseUnit] = useState(null);
+  const [doseUnit, setDoseUnit] = useState("");
 
   const [form, setForm] = useState("");
   const [duration, setDuration] = useState("");
@@ -34,8 +37,8 @@ export default function AddMedications({
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
 
+ 
   useEffect(() => {
-    // Fetch medications when the component mounts
     const fetchMedications = async () => {
       try {
         const meds = await retrieveMedications();
@@ -65,7 +68,7 @@ export default function AddMedications({
     }
   }, [regis, medications]);
 
-  const handleSave = async () => {
+ const handleSave = async () => {
     try {
       const patientData = await healthRecords.getPatientData(patientId);
       const doctorInfo = await doctor.getDoctorByCurrentUser();
@@ -109,7 +112,7 @@ export default function AddMedications({
         },
         requester: {
           agent: {
-            reference: doctorInfo,
+            reference: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
         },
@@ -124,15 +127,14 @@ export default function AddMedications({
       };
 
       console.log("Data to save:", dataToSave);
-      // Call the uploadEncounter function with the data to save
+
       const savedData = await uploadMedication(dataToSave);
 
       console.log("Data saved successfully:", savedData);
+      console.log(savedData)
 
-      // Trigger refresh by toggling the refresh state
-      setRefresh((prevRefresh) => !prevRefresh);
+      addMedicationId(savedData);
 
-      // Display success message or perform other actions
       toast.success("Medication Added", {
         position: "top-left",
         theme: "colored",
@@ -142,8 +144,9 @@ export default function AddMedications({
       console.error("Error saving data:", error);
     }
 
-    setCurrentScreen(2);
+    setCurrentScreen(1);
   };
+
 
   const dosage = [
     {
@@ -198,11 +201,11 @@ export default function AddMedications({
 
   return (
     <>
-      {/*  {currentScreen === 2 || currentScreen === 4 ? (
-        <> */}
-      <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-        ADD MEDICATION
-      </div>
+      {currentScreen === 3 ? (
+        <>
+          <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
+            ADD MEDICATION
+          </div>
 
       <div>
         <div className="flex flex-col max-w-[914px]">
@@ -487,25 +490,23 @@ export default function AddMedications({
       </div>
       <div className="flex justify-between items-center mt-5">
         <BackButton
-          currentScreen={currentScreen}
+          currentScreen={2}
           setCurrentScreen={setCurrentScreen}
         />
         <div>
           <Button
             onClick={() => {
-              handleSave(); // Save the medication
-              setRefresh((prevRefresh) => !prevRefresh); // Trigger refresh by toggling the refresh state
-              setCurrentScreen(2); // Navigate back to the medication list screen
+              handleSave();
             }}
           >
             SAVE
           </Button>
         </div>
       </div>
-      {/* </>
+      </>
       ) : (
         ""
-      )} */}
+      )}
     </>
   );
 }

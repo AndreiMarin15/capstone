@@ -5,40 +5,47 @@ import BackButton from "./BackButton";
 import uploadMedication from "@/backend//health_records/uploadMedication";
 import { retrieveMedicationById, getMedicationRequests } from "@/backend//health_records/getMedicationRequest";
 import { retrieveMedications } from "@/backend//health_records/getMedication";
-import { formatDuration } from "date-fns/esm";
 import { healthRecords } from "@/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { client } from "@/backend//initSupabase";
+import usePrescriptionsStore from "@/app/prescriptionsStore";
 
-export default function EditMedications({ currentScreen, setCurrentScreen, patientId, medicationId }) {
+export default function EditMedications({ patientId }) {
 	const supabase = client("public");
 
-	const [regis, setRegis] = useState("");
-	const [medicationName, setMedicationName] = useState("");
-	const [name, setName] = useState("");
-	const [genName, setGenName] = useState("");
-	const [medications, setMedications] = useState([]);
+	const {
+		editingMedicationId,
+		setCurrentScreen,
+		setEditingMedicationId,
+		currentScreen,
+		fetchMedications
+	  } = usePrescriptionsStore();
+
+	  const [medications, setMedications] = useState([]);
 	const [filteredMedications, setFilteredMedications] = useState([]);
+	const [regis, setRegis] = useState("");
 	const [medication, setMedication] = useState(null);
+	const [medicationName, setMedicationName] = useState('');
+	const [genName, setGenName] = useState('');
+	const [medId, setMedId] = useState('');
+	const [name, setName] = useState('');
+	const [doseUnit, setDoseUnit] = useState('');
+	const [form, setForm] = useState('');
+	const [duration, setDuration] = useState('');
+	const [validityStart, setValidityStart] = useState('');
+	const [validityEnd, setValidityEnd] = useState('');
+	const [patientInstructions, setPatientInstructions] = useState('');
+	const [adverseEvent, setAdverseEvent] = useState('');
 
-	const [patientInstructions, setPatientInstructions] = useState("");
-	const [doseUnit, setDoseUnit] = useState("null");
-
-	const [form, setForm] = useState("");
-	const [duration, setDuration] = useState("");
-	const [validityStart, setValidityStart] = useState();
-	const [validityEnd, setValidityEnd] = useState();
-	const [adverseEvent, setAdverseEvent] = useState("");
-
-	const updateMedicationRequest = async (medicationRequestId, updatedData) => {
+	const updateMedicationRequest = async (editingMedicationId, updatedData) => {
 		try {
 			const patientData = await healthRecords.getPatientData(patientId);
 			const doctorInfo = await doctor.getDoctorByCurrentUser();
 			const { data: medicationRequests, error } = await supabase.from("medicationrequest").select("*");
-
-			const medicationRequestToUpdate = medicationRequests.find((request) => request.resource.id === medicationId);
+			console.log(editingMedicationId)
+			const medicationRequestToUpdate = medicationRequests.find((request) => request.id === editingMedicationId);
 			console.log("Medication Request to Update:", medicationRequestToUpdate);
 
 			if (medicationRequestToUpdate) {
@@ -47,6 +54,7 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 					.update({
 						resource: {
 							...medicationRequestToUpdate.resource,
+							id: regis,
 							medicationCodeableConcept: [
 								{
 									coding: [
@@ -122,7 +130,7 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 	useEffect(() => {
 		const fetchMedicationDetails = async () => {
 			try {
-				const med = await retrieveMedicationById(medicationId);
+				const med = await retrieveMedicationById(editingMedicationId);
 				console.log(med);
 				setMedication(med);
 				const genericName = med.resource.medicationCodeableConcept[0]?.coding[0]?.display;
@@ -136,7 +144,8 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 				setForm(med.resource.form.text);
 				setPatientInstructions(med.resource.note);
 				setValidityStart(med.resource.dispenseRequest.validityPeriod.start);
-
+				setMedId(med.resource.id)
+				console.log(med.resource.id)
 				setValidityEnd(med.resource.dispenseRequest.validityPeriod.end);
 				setAdverseEvent(med.resource.adverseEvent.adverseReaction);
 				setDuration(med.resource.dispenseRequest.dispenseInterval);
@@ -146,11 +155,11 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 				console.error("Error fetching medication details:", error);
 			}
 		};
-
-		if (medicationId) {
-			fetchMedicationDetails();
+	
+		if (editingMedicationId) {
+		  fetchMedicationDetails();
 		}
-	}, [medicationId]);
+	  }, [editingMedicationId]);
 
 	useEffect(() => {
 		const findMedicationByRegis = () => {
@@ -234,8 +243,8 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 
 			console.log("Data to save:", dataToUpdate);
 			// Call the uploadEncounter function with the data to save
-			const updatedMedicationRequest = await updateMedicationRequest(medicationId, dataToUpdate);
-
+			const updatedMedicationRequest = await updateMedicationRequest(editingMedicationId, dataToUpdate);
+			await fetchMedications();
 			if (updatedMedicationRequest) {
 				// Update state or perform any other actions
 				console.log("Medication request updated successfully:", updatedMedicationRequest);
@@ -313,7 +322,7 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 
 	return (
 		<>
-			{currentScreen === 6 || currentScreen === 6 ? (
+			{currentScreen === 4? (
 				<>
 					<div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
 						EDIT MEDICATION
@@ -441,12 +450,17 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 																									);
 																									setMedicationName(`${med["Generic Name"]} - ${med["Brand Name"]}`);
 																									console.log(`Brand Name: ${med["Brand Name"]}`);
+																									
+																									
+																									
 																									setName(`${med["Brand Name"]}`);
-
-																									console.log(name);
+																									setGenName(`${med["Generic Name"]}`);
+																									console.log(med)
+																									// setMedId(med.resource.id)
+																									console.log(genName);
 																									setRegis(`${med["Registration Number"]}`);
 																									console.log(`Regis number: ${med["Registration Number"]}`);
-																									console.log("Registed id", regis);
+																									
 																									setFilteredMedications([]);
 																								}}
 																							>
@@ -554,12 +568,12 @@ export default function EditMedications({ currentScreen, setCurrentScreen, patie
 						</div>
 					</div>
 					<div className="flex justify-between items-center mt-5">
-						<BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+						<BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
 						<div>
 							<button
 								onClick={() => {
 									handleSave();
-									setCurrentScreen(2);
+									setCurrentScreen(1);
 								}} // Attach the handleSave function here
 								className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-xs bg-sky-900 text-white"
 							>

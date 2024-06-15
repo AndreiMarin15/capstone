@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import BackButton from "./BackButton";
+import BackButton from "../../../my_health_record/components/sub_components/BackButton";
 import { getPrescriptionById } from "@/backend/health_records/getPrescription";
 
 export default function ViewPrescription({currentScreen, setCurrentScreen, prescriptionId}) {
@@ -31,12 +31,12 @@ export default function ViewPrescription({currentScreen, setCurrentScreen, presc
       ) : (
         <>
           {" "}
-          <div className="flex justify-between items-center mt-10">
+          <div className="flex justify-between items-center mt-10 ml-10">
             <div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">
               VIEW PRESCRIPTION
             </div>
           </div>
-          <table className="gap-1 whitespace-nowrap mt-10">
+          <table className="gap-1 whitespace-nowrap mt-10  ml-10">
             {prescription?.map((prescriptionItem, index) => (
               <React.Fragment key={index}>
                 {prescriptionItem.resource.medicationData.map((medication, medIndex) => (
@@ -107,10 +107,12 @@ export default function ViewPrescription({currentScreen, setCurrentScreen, presc
               </React.Fragment>
             ))}
           </table>
+          <div className="ml-10">
           <BackButton
             currentScreen={1}
             setCurrentScreen={setCurrentScreen}
           />
+          </div>
         </>
       )}
     </>
