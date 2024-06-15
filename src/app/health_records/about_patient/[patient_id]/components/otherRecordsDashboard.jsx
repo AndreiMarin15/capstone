@@ -35,7 +35,7 @@ export default function OtherRecords({patientId}) {
     try {
       const otherRecords = await getRecord();
       console.log(otherRecords);
-      setRecords(otherRecords);
+      setRecords(otherRecords.reverse());
     } catch (error) {
       console.error("Error fetching records:", error);
     }

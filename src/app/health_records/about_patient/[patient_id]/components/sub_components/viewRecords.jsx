@@ -83,7 +83,7 @@ export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }
                     <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
                       {key.resource.title}
                     </div>
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    <div className="text-black text-xs leading-5 self-center my-auto">
                       {key.resource.description}
                     </div>
                     
