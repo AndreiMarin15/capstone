@@ -38,9 +38,6 @@ export async function getEncounters() {
 
 export async function getEncounterByPatientId(patientId) {
   try {
-    if (!patientId) {
-      throw new Error("Patient ID is required");
-    }
 
     const { data, error } = await supabase
       .from("encounter")
@@ -61,9 +58,7 @@ export async function getEncounterByPatientId(patientId) {
 
 export async function getMostRecentEncounterByPatientId(patientId) {
   try {
-    if (!patientId) {
-      throw new Error("Patient ID is required");
-    }
+  
 
     const { data, error } = await supabase
       .from("encounter")
