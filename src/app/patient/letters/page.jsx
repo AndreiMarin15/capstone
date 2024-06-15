@@ -65,7 +65,7 @@ export default function Letters() {
 			fetchLabTests();
 		}
 	}, [selectedTab]);
-	console.log(prescriptions)
+
 	return (
 		<>
 			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen min-w-full">

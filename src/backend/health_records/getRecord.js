@@ -13,6 +13,25 @@ export async function getRecord() {
   }
 }
 
+export async function getRecordByPatient(patientId) {
+  try {
+    // Query all records from the 'other_records' table
+    const otherRecords = await PROJECT.selectAllFrom('other_records');
+    
+    const filteredRecords = otherRecords.filter(record => 
+      record.resource.subject && record.resource.subject.reference === patientId
+    );
+    
+    console.log(filteredRecords)
+    return filteredRecords;
+    
+  } catch (error) {
+    console.error('Exception thrown while fetching records:', error);
+   
+  }
+}
+
+
 export async function getRecordById(id) {
   try {
   
