@@ -136,3 +136,28 @@ export const remindPatients = async (patientIds, reminderDetails) => {
 	return true;
 };
 
+export const getReminders = async () => {
+	const { data: reminders, error } = await project
+		.from("patient_reminders")
+		.select("*")
+		.eq("patient_id", currentUser.getState().info.id);
+
+	if (error) {
+		console.error("Error fetching reminders:", error);
+		return;
+	}
+
+	const { data: doctors, error: doctorError } = await project.from("doctors").select("*");
+
+	const reminderData = reminders.map((reminder) => {
+		const doctor = doctors.find((doc) => doc.license_id === reminder.reminded_by);
+		return {
+			reminderText: reminder.reminder,
+			doctor_name: `${doctor.first_name} ${doctor.last_name}`,
+			supposedVisit: reminder.supposed_visit,
+			lastVisit: reminder.last_visit,
+		};
+	});
+
+	return reminderData;
+};
