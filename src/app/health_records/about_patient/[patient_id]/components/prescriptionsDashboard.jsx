@@ -50,7 +50,7 @@ export default function Prescriptions({ patientId }) {
         try {
             console.log(prescriptionData)
             // Call your backend API or function to save the prescription data
-            const savedPrescription = await uploadPrescription(prescriptionData); // Assuming uploadPrescription function handles the backend integration
+            const savedPrescription = await uploadPrescription(prescriptionData, patientId); // Assuming uploadPrescription function handles the backend integration
     
             console.log("Prescription saved successfully:", savedPrescription);
     

@@ -38,6 +38,7 @@ export default function Messaging() {
 		event.preventDefault();
 		const formData = new FormData(event.target);
 		const message = formData.get("message");
+		
 		setMessage("");
 		if (patient) {
 			getMessages.insertMessage(patient, message, "sent");
@@ -70,6 +71,7 @@ export default function Messaging() {
 	function getUser(userId) {
 		setPatient(userId);
 		setChangeUser(!changeUser);
+		
 	}
 
 	return (
@@ -109,24 +111,7 @@ export default function Messaging() {
 			<div className="flex flex-col items-end max-md:pl-5 h-[100vh] w-full z-0">
 				<span className="shadow-sm bg-white z-[1] flex w-full max-w-full justify-between gap-5 pl-7 pr-10 py-9 self-start max-md:flex-wrap max-md:px-5">
 					<div className="text-black text-xl font-semibold leading-8 mt-1.5">Messaging</div>
-					{/* <div className="self-stretch flex justify-between gap-3.5 items-start">
-          <span className="flex items-stretch gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
-            <Image
-            alt="picture"
-					height={0}
-					width={0}
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/9d2563a94ad8aa522f388401bcea4e8e4e0594f9441c7803b82b0ebf300bf2d4?"
-              className="aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full"
-            />
-            <div className="text-stone-300 text-xs px-2 leading-5 my-auto">
-              SEARCH
-            </div>
-          </span>
-          <button className="px-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch grow px-5 py-2 rounded max-md:pl-5">
-            New message
-          </button>
-  </div> */}
+					
 				</span>
 				<div className="shadow-sm bg-white mt-0 w-full max-w-full pl-5 pr-20 pt-8 pb-4 max-md:px-5">
 					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">

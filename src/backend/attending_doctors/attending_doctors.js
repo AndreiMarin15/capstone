@@ -1,5 +1,6 @@
 import { currentUser } from "@/app/store.js";
 import { client } from "../initSupabase.js";
+import { sendNotification } from "../sendNotification.js";
 const project = client("project");
 
 export const addAttendingDoctor = async (doctor, patient) => {
@@ -22,6 +23,8 @@ export const addAttendingDoctor = async (doctor, patient) => {
 	if (error) {
 		throw error;
 	}
+
+	await sendNotification(patient.id, "New Referral", "You have a new referral", doctor.id);
 
 	return data;
 };
