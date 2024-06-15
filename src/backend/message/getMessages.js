@@ -1,6 +1,6 @@
 import { supabase, PROJECT } from "../project/db";
 import { currentUser } from "@/app/store";
-
+import { sendNotification } from "../sendNotification";
 export const newChat = async (doctorId) => {
 	return PROJECT.insertInto("messages_header", {
 		patient: currentUser.getState().info.id,
@@ -30,6 +30,17 @@ export const getMessages = {
 			message: message,
 			message_header_id: header,
 		});
+
+		const { data: headerData, error: headerError } = await supabase
+			.from("messages_header")
+			.select("*")
+			.eq("id", header);
+
+		if (headerData[0].doctor === currentUser.getState().info.id) {
+			sendNotification(headerData[0].patient, "New Message", "You have a new message", currentUser.getState().user.id);
+		} else if (headerData[0].patient === currentUser.getState().info.id) {
+			sendNotification(headerData[0].doctor, "New Message", "You have a new message", currentUser.getState().user.id);
+		}
 	},
 	updateRead: async (header, status, statusUpdate) => {
 		const { data, error } = await supabase

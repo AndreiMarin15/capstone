@@ -4,7 +4,7 @@ import { DeleteReferral } from "./ui/deleteReferral";
 export function ReferralList({ setCurrentInfo, referral, retrieveReferralData, referralFlag, setReferralFlag }) {
 	const [accepted, setAccepted] = useState(referral.accepted);
 	const [displayAccept, setDisplayAccept] = useState(referral.display_accept);
-  
+
 	return (
 		<>
 			<div
@@ -29,7 +29,11 @@ export function ReferralList({ setCurrentInfo, referral, retrieveReferralData, r
 							<div className="flex w-full gap-28 justify-between whitespace-nowrap">
 								{referral.name}
 								<span>
-									<DeleteReferral referralId={referral.id} referralFlag={referralFlag} setReferralFlag={setReferralFlag} />
+									<DeleteReferral
+										referralId={referral.id}
+										referralFlag={referralFlag}
+										setReferralFlag={setReferralFlag}
+									/>
 								</span>
 							</div>
 							<div className="text-m text-zinc-600">
