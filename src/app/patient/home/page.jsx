@@ -3,6 +3,7 @@ import Image from "next/image";
 import * as React from "react";
 import dashboard from "@/backend/patient/patient_dashboard/dashboard";
 import { getNotifications } from "@/backend/sendNotification";
+import { getReminders } from "@/backend/reports/getReportsData";
 import { currentUser } from "@/app/store";
 import { Bell } from "lucide-react";
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
 
 	const [careplanData, setCareplan] = React.useState({});
 	const [notifications, setNotifications] = React.useState([]);
+	const [reminders, setReminders] = React.useState([]);
 
 	React.useEffect(() => {
 		const getNotificationsData = async () => {
@@ -27,6 +29,14 @@ export default function Home() {
 			setNotifications(notifications.map((notif) => ({ title: notif.title, content: notif.content })));
 		};
 		getNotificationsData();
+	}, []);
+
+	React.useEffect(() => {
+		const getRemindersData = async () => {
+			const reminders = await getReminders(currentUser.getState().info.id);
+			setReminders(reminders);
+		};
+		getRemindersData();
 	}, []);
 
 	React.useEffect(() => {
@@ -171,6 +181,37 @@ export default function Home() {
 									</div>
 								))
 							: "No notifications"}
+
+						<div className="flex gap-3 justify-between text-base font-semibold leading-6 mt-10">
+							<Image
+								alt="image"
+								width={0}
+								height={0}
+								loading="lazy"
+								src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
+								className="w-5 aspect-[1.18] fill-black"
+							/>
+							<div className="flex-auto">Reminders</div>
+						</div>
+
+						{reminders?.length > 0
+							? reminders?.map((reminder) => (
+									<div
+										key={reminder.reminderText}
+										className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
+									>
+										<Bell size={20} />
+										<span className="flex grow basis-[0%] flex-col items-stretch">
+											<div className="text-black text-xs font-medium leading-5">{reminder.reminderText}</div>
+											<div className="text-black text-xs leading-5 mt-2.5">Your Last Visit: {reminder.lastVisit}</div>
+											<div className="text-black text-xs leading-5 mt-2.5">
+												Your Supposed Visit: {reminder.supposedVisit}
+											</div>
+											<div className="text-black text-xs leading-5 mt-2.5">From Dr. {reminder.doctor_name}</div>
+										</span>
+									</div>
+								))
+							: "No reminders"}
 					</div>
 				</div>
 			</div>
