@@ -1,82 +1,82 @@
 import { PUBLIC } from "../public/db";
-import { PROJECT } from "../project/db";
 import { getEncounters } from "./getEncounter";
 import { doctor } from "./doctor";
+
 const uploadMedication = async (medication) => {
     console.log("Medication data received:", medication);
+
     try {
-        
         const doctorInfo = await doctor.getDoctorByCurrentUser();
-        // const encounterDate = await getEncounters.resource.period.start;
-        // console.log(getEncounters.resource.period.start)
+        
+        // Construct medication data for insertion
         const medicationData = {
             status: "created",
-        resource:{
-            status: medication.status,
-            id: medication.id,
-            medicationCodeableConcept: [ {
-                coding: [
+            resource: {
+                status: medication.status,
+                id: medication.id,
+                medicationCodeableConcept: [
                     {
-                        system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                        
-                        display: medication.medicationCodeableConcept[0]?.coding[0]?.display,//generic name
+                        coding: [
+                            {
+                                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                display: medication.medicationCodeableConcept[0]?.coding[0]?.display,
+                            }
+                        ],
+                        text: medication.medicationCodeableConcept[0]?.text
                     }
                 ],
-                text: medication.medicationCodeableConcept[0]?.text//brand name
-            }
-            ],
-
-            subject: {
-                type: medication.subject.type,
-                reference: medication.subject.reference,
-            },
-
-            // period: encounterDate,
-
-            dosageInstruction: [
-                {
-                    text: medication.instructions,
-                    doseAndRate: [
-                        {
-                            doseQuantity: {
-                                doseUnit: medication.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit,
-                            }
-                        }
-                    ]
-                }
-            ],
-            dispenseRequest: {
-                dispenseInterval: medication.dispenseRequest.dispenseInterval, // Map from medication.duration
-                validityPeriod: {
-                    start: medication.dispenseRequest.validityPeriod.start, // Map from medication.start
-                    end: medication.dispenseRequest.validityPeriod.end // Map from medication.end
+                subject: {
+                    type: medication.subject.type,
+                    reference: medication.subject.reference,
                 },
-            },
-            requester: {
-                agent: {
-                    reference: doctorInfo.fullName
-                }
-            },
-            form: {
-                text: medication.form.text
-            },
-
-            note: medication.note,
-
-            adverseEvent: {
-               adverseReaction: medication.adverseEvent.adverseReaction,
-            }, 
+                dosageInstruction: [
+                    {
+                        text: medication.instructions,
+                        doseAndRate: [
+                            {
+                                doseQuantity: {
+                                    doseUnit: medication.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit,
+                                }
+                            }
+                        ]
+                    }
+                ],
+                dispenseRequest: {
+                    dispenseInterval: medication.dispenseRequest.dispenseInterval,
+                    validityPeriod: {
+                        start: medication.dispenseRequest.validityPeriod.start,
+                        end: medication.dispenseRequest.validityPeriod.end
+                    },
+                },
+                requester: {
+                    agent: {
+                        reference: doctorInfo.fullName,
+                        license_id: doctorInfo.license
+                    }
+                },
+                form: {
+                    text: medication.form.text
+                },
+                note: medication.note,
+                adverseEvent: {
+                   adverseReaction: medication.adverseEvent.adverseReaction,
+                }, 
             }
         };
-       
+
+        // Insert medication data into Supabase
         const insertedMedication = await PUBLIC.insertInto('medicationrequest', medicationData);
+        
         console.log("Insertion response:", insertedMedication);
-        return insertedMedication;
+
+        // Extract the ID of the newly inserted medication
+        const insertedId = insertedMedication[0]?.id;
+
+        // Return the inserted ID or any other relevant data
+        return insertedId;
     } catch (error) {
         throw error;
     }
 };
-
-
 
 export default uploadMedication;
