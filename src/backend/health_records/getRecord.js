@@ -1,4 +1,4 @@
-import { PROJECT } from "../project/db"; // Assuming this imports Supabase client instance
+import { PROJECT } from "../project/db";
 
 export async function getRecord() {
   try {
@@ -10,5 +10,20 @@ export async function getRecord() {
   } catch (error) {
     console.error('Exception thrown while fetching records:', error);
    
+  }
+}
+
+export async function getRecordById(id) {
+  try {
+  
+    const record = await PROJECT.selectFrom('other_records', {
+      column: 'id',
+      value: id
+
+    });
+
+    return record;
+  } catch (error) {
+    console.error('Exception thrown while fetching the record by ID:', error);
   }
 }

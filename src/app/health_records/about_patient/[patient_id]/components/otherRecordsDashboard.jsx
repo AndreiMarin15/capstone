@@ -15,6 +15,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
+import ViewRecords from "./sub_components/viewRecords"; 
 import { getRecord } from "@/backend/health_records/getRecord";
 
 
@@ -22,10 +23,11 @@ export default function OtherRecords({patientId}) {
   const [date, setDate] = useState();
   const [currentScreen, setCurrentScreen] = useState(0);
   const [records, setRecords] = useState([]); 
-
-  const handleRecordClick = () => {
-    // Set currentScreen to the desired value when a medication item is clicked
-    setCurrentScreen(2); // Assuming the desired value for the second screen is 1
+  const [recordId, setRecordId] = useState(""); 
+  const handleRecordClick = (record) => {
+    setCurrentScreen(2);
+    setRecordId(record)
+    console.log(record)
     console.log("current Screen:", currentScreen);
   };
 
@@ -102,10 +104,13 @@ export default function OtherRecords({patientId}) {
           <Button className="self-end max-w-[20%]" variant="outline" onClick={() => setCurrentScreen(1)}>
               Add Record
           </Button>
+
+
           {records.map((record, index) => (
             <button
               key={index}
-              onClick={handleRecordClick}
+              onClick={() => 
+                handleRecordClick(record.id)}
               className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[100%]"
             >
               <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
@@ -130,6 +135,14 @@ export default function OtherRecords({patientId}) {
           setCurrentScreen={setCurrentScreen}
           patientId={patientId}
           fetchRecords={fetchRecords}
+        />
+      )}
+
+      {currentScreen === 2 && (
+        <ViewRecords
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          recordId={recordId}
         />
       )}
     </>
