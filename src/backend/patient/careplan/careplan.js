@@ -1,6 +1,6 @@
 import { supabase } from "../../public/db";
 import { currentUser } from "@/app/store";
-import { sendNotification } from "../sendNotification";
+import { sendNotification } from "@/backend/sendNotification";
 export const careplanInfo = {
 	getCareplanInformation: async (patientID) => {
 		const { data, error } = await supabase.from("careplan").select("*").eq("resource->subject->>reference", patientID);
