@@ -121,7 +121,7 @@ export default function Navbar() {
     <>
       {path !== "/" && !pathIncluded(path) && (
         <div
-          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 pb-12 px-3 max-md:mt-10"
+          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 px-3 max-md:mt-10 h-screen"
           style={{
             background:
               "linear-gradient(180deg, #00296C 0%, rgba(0, 82, 216, 0.51) 99.99%, rgba(0, 97, 255, 0.57) 100%)",
