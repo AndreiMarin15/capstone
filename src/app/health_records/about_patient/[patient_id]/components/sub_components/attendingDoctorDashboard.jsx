@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 import ViewAttendingDoctor from "./viewAttendingDoctor";
 import AddAttendingDoctor from "./addAttendingDoctors";
 import { getAttendingDoctors, deleteAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
-//NO BACK END YET
-// import { client } from "@/backend//initSupabase";
-// import { MedicationHistoryPDF } from "./PDF_templates/medicationhistory";
 
 export default function AttendingDoctors({ currentScreen, setCurrentScreen, patientId }) {
 	const [atCurrentScreen, setAtCurrentScreen] = useState(1);
@@ -16,18 +13,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 	const [medications, setMedications] = useState([]);
 	const [attendingDoctors, setAttendingDoctors] = useState([]);
 
-	// const sampleAttendingDoctors = [
-	// 	{
-	// 		name: "Dr. Maria Santos",
-	// 		specialty: "Cardiologist",
-	// 		status: "Accepted",
-	// 	},
-	// 	{
-	// 		name: "Dr. Angelo Cruz",
-	// 		specialty: "Gastroenterologist",
-	// 		status: "Accepted",
-	// 	},
-	// ];
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
 
 	useEffect(() => {
 		// Load sample attending doctors when component mounts
@@ -40,6 +26,8 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 						name: doctor.doctor_first_name + " " + doctor.doctor_last_name,
 						specialty: doctor.doctor_specialization,
 						status: doctor.status,
+						clinic: doctor.clinic,
+						contact: doctor.contact,
 						attendingId: doctor.id,
 					};
 				})
@@ -145,6 +133,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 										className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
 										onClick={() => {
 											console.log({ currentScreen });
+											setSelectedDoctor(doctor);
 											setAtCurrentScreen(4);
 										}}
 									>
@@ -188,12 +177,16 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 			) : null}
 			{atCurrentScreen === 3 ? (
 				<>
-					<AddAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} patientId={patientId} />
+					<AddAttendingDoctor
+						currentScreen={atCurrentScreen}
+						setCurrentScreen={setAtCurrentScreen}
+						patientId={patientId}
+					/>
 				</>
 			) : null}
 			{atCurrentScreen === 4 ? (
 				<>
-					<ViewAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} />
+					<ViewAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} doctorInfo={selectedDoctor} />
 				</>
 			) : null}
 		</>

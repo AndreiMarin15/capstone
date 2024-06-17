@@ -6,37 +6,33 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/components/ui/button";
 
-export default function ViewAttendingDoctors({ currentScreen, setCurrentScreen, patientId }) {
+export default function ViewAttendingDoctors({ currentScreen, setCurrentScreen, patientId, doctorInfo }) {
 	const handleSave = async () => {
 		setCurrentScreen(2);
 	};
 
 	const attendingDoctors = [
-		{
-			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-			variable: "Date:",
-			value: "2024-01-24",
-		},
+		
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
 			variable: "Name of Doctor:",
-			value: "Kyla Reyes",
+			value: doctorInfo.name,
 		},
 
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?",
 			variable: "Specialization:",
-			value: "Cardiology",
+			value: doctorInfo.specialty,
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
 			variable: "Place of Clinic:",
-			value: "RM 123 Philippine General Hospital",
+			value: doctorInfo.clinic,
 		},
 		{
 			src: "https://cdn.builder.io/api/v1/image/assets/TEMP/2f5262fe18cacfe2ba811c7540eac580928c9def3078b6ed62ce856926ce2393?",
 			variable: "Contact",
-			value: "0999 999 9999",
+			value: doctorInfo.contact,
 		},
 	];
 

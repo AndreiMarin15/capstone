@@ -1,143 +1,195 @@
 "use client";
 import Image from "next/image";
+// import BackButton from "./BackButton";
 import * as React from "react";
-import Link from "next/link";
-// import { ImageError } from "next/dist/server/image-optimizer";
-import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+// import ViewAttendingDoctor from "./viewAttendingDoctor";
+// import AddAttendingDoctor from "./addAttendingDoctors";
+import { getAttendingDoctors, deleteAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
 
-export default function ViewDoctors() {
-	const defaultIconSrc =
-		"https://cdn.builder.io/api/v1/image/assets/TEMP/a8dedf603ab1b2738fdec0d172ab06fda7dd43e50364fe6839a4b4b5bacc7b06?apiKey=7e8c8e70f3bd479289a042d9c544736c&";
+export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId }) {
+	const [atCurrentScreen, setAtCurrentScreen] = useState(1);
+	// const supabase = client("public");
+	const [medications, setMedications] = useState([]);
+	const [attendingDoctors, setAttendingDoctors] = useState([]);
 
-	const [doctors, setDoctors] = React.useState([
-		{
-			name: "Dr. Johnny Santos",
-			hospital: "Philippine General Hospital",
-			specialization: "Endocrinology",
-			yearsOfExperience: 8,
-		},
-		{
-			name: "Dr. John Doe",
-			hospital: "Philippine General Hospital",
-			specialization: "Internal Medicine",
-			yearsOfExperience: 5,
-		},
-	]);
+	// const sampleAttendingDoctors = [
+	// 	{
+	// 		name: "Dr. Maria Santos",
+	// 		specialty: "Cardiologist",
+	// 		status: "Accepted",
+	// 	},
+	// 	{
+	// 		name: "Dr. Angelo Cruz",
+	// 		specialty: "Gastroenterologist",
+	// 		status: "Accepted",
+	// 	},
+	// ];
 
-	React.useEffect(() => {
-		const fetchDoctors = async () => {
-			const doctors = await getAttendingDoctors(null);
-			console.log(doctors);
-			// setDoctors(doctors);
-			setDoctors(
-				doctors.map((doctor) => ({
-					name: `${doctor.doctor_first_name} ${doctor.doctor_last_name}`,
-					hospital: doctor.clinic,
-					specialization: doctor.doctor_specialization,
-					yearsOfExperience: doctor.doctor_years,
-					
-				}))
+	useEffect(() => {
+		// Load sample attending doctors when component mounts
+		const fetchData = async () => {
+			const data = await getAttendingDoctors(patientId);
+			console.log(data);
+			setAttendingDoctors(
+				data.map((doctor, index) => {
+					return {
+						name: doctor.doctor_first_name + " " + doctor.doctor_last_name,
+						specialty: doctor.doctor_specialization,
+						status: doctor.status,
+						attendingId: doctor.id,
+					};
+				})
 			);
 		};
+		fetchData();
+		// setAttendingDoctors(sampleAttendingDoctors);
+	}, [patientId]);
 
-		fetchDoctors();
+	useEffect(() => {
+		console.log(attendingDoctors);
+	}, [attendingDoctors]);
+
+	const [status, setStatus] = useState("ACCEPTED");
+	// const [currentUser, setCurrentUser] = useState(null);
+	const [refresh, setRefresh] = useState(false);
+
+	React.useEffect(() => {
+		const fetchCurrentUser = async () => {
+			try {
+				const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
+				setCurrentUser(currentUserData);
+			} catch (error) {
+				console.error("Error fetching current user:", error);
+			}
+		};
+		fetchCurrentUser();
 	}, []);
+
+	React.useEffect(() => {
+		const interval = setInterval(() => {
+			setRefresh((prevRefresh) => !prevRefresh);
+		}, 1000); // Adjust the interval time as needed
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
+
+	const toggleStatus = () => {
+		setStatus(status === "ACCEPTED" ? "PENDING" : "ACCEPTED");
+	};
+	async function handleRemoveDoctor(doctorId) {
+		try {
+			// Attempt to delete the doctor from the database
+			await deleteAttendingDoctor(doctorId);
+
+			// If successful, update the attendingDoctors array to remove the deleted doctor
+			setAttendingDoctors((currentDoctors) => currentDoctors.filter((doctor) => doctor.attendingId !== doctorId));
+
+			// Optionally, show a success message or update the UI accordingly
+			console.log("Doctor removed successfully");
+		} catch (error) {
+			// Handle any errors, such as showing an error message to the user
+			console.error("Failed to remove doctor:", error);
+		}
+	}
 	return (
-		<>
-			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 h-[100vh] pt-10">
-				<div className="w-full max-md:max-w-full">
-					<div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-						<div className="flex flex-col items-stretch w-[82%] ml-5 max-md:w-full max-md:ml-0">
-							<span className="flex flex-col my-auto px-5 max-md:max-w-full max-md:mt-10">
-								<div className="text-black text-xl font-semibold leading-8 self-stretch max-md:max-w-full">
-									Attending Doctors
+		<div className="p-10">
+			{atCurrentScreen === 1 ? (
+				<>
+					<div>
+						<div className="flex flex-col">
+							<div className="text-black text-base font-bold leading-5 mt-8  max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+								ATTENDING DOCTOR/S
+								{/* <Button
+									variant="outline"
+									onClick={() => {
+										setAtCurrentScreen(3);
+									}}
+								>
+									Add
+								</Button> */}
+							</div>
+							<div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
+								<div className="flex gap-1.5 p-2.5">
+									{/* <div className="mt-3 font-semibold text-black flex gap-1 items-center">
+										Status:
+										<button
+											className={`flex flex-col flex-1 justify-center font-bold ${
+												status === "ACCEPTED" ? "text-green-600" : "text-red-600"
+											} whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
+											onClick={toggleStatus}
+										>
+											<div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
+												{status}
+											</div>
+										</button>
+									</div> */}
 								</div>
-								<div className="flex items-stretch gap-2.5 mt-3.5 pr-7 self-end max-md:pr-5">
-									<span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
-										<Image
-											alt="picture"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=66e07193974a40e683930e95115a1cfd&"
-											className="aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full ml-1"
-										/>
-										<input
-											type="text"
-											className="text-stone-300 text-xs leading-5 my-auto"
-											placeholder="SEARCH"
-										></input>
-									</span>
-									<span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
-										<Image
-											alt="picture"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/872489d37c6f07090c71fb194a8c077334f5ee8d7e865b4e470f49f5a27b95ba?apiKey=66e07193974a40e683930e95115a1cfd&"
-											className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
-										/>
-										<div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">
-											FILTER
+							</div>
+							{attendingDoctors
+								.filter((doctor) => {
+									if (status === "ACCEPTED") {
+										return doctor.status === "accepted" || doctor.status === "pending";
+									} else {
+										return doctor.status === "pending";
+									}
+								})
+								?.map((doctor, index) => (
+									<button
+										key={index}
+										className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
+										onClick={() => {
+											console.log({ currentScreen });
+											setAtCurrentScreen(4);
+										}}
+									>
+										<div className="items-start text-xs text-black">
+											<div className="flex gap-2 font-medium whitespace-nowrap">
+												<Image
+													alt="image"
+													height={0}
+													width={0}
+													loading="lazy"
+													src={
+														"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+													}
+													className="w-4 aspect-square"
+												/>
+												<div className="text-left flex-shrink-0">{doctor.name}</div>
+											</div>
+											<div className="flex justify-between mt-2 ml-5 gap-5">
+												<div>{doctor.specialty}</div>
+												<div className="flex flex-grow justify-end">
+													{/* {(doctor.status === "accepted" || doctor.status === "pending") && (
+														<Button
+															onClick={() => {
+																handleRemoveDoctor(doctor.attendingId);
+															}}
+															variant="destructive"
+														>
+															Remove
+														</Button>
+													)} */}
+												</div>
+											</div>
 										</div>
-									</span>
-									<span className="flex items-stretch justify-between gap-1 px-2.5 py-2 rounded-md border-[0.5px] border-solid border-black">
-										<Image
-											alt="picture"
-											height={0}
-											width={0}
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/49eeb01b15c87289299d3123ede7ccfbf333d278cb9ddfc7f5674a94c5d52e26?apiKey=66e07193974a40e683930e95115a1cfd&"
-											className="aspect-[0.86] object-contain object-center w-3 overflow-hidden shrink-0 max-w-full"
-										/>
-										<div className="text-black text-xs leading-5 self-center grow whitespace-nowrap my-auto">SORT</div>
-									</span>
-								</div>
-							</span>
-							<table className="min-w-full divide-y divide-gray-200 mt-10">
-								<thead className="bg-gray-50 border border-gray-200 drop-shadow-xl rounded-md">
-									<tr>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider ">
-											Name
-										</th>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											Hospital
-										</th>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											Specialization
-										</th>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider">
-											Years of Experience
-										</th>
-										<th className="px-6 py-3 text-left text-m font-semibold text-black uppercase tracking-wider"></th>
-									</tr>
-								</thead>
-								<tbody className="bg-white divide-y divide-gray-200">
-									{doctors?.map((doctor, index) => (
-										<tr key={index}>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.name}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.hospital}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.specialization}</td>
-											<td className="px-6 py-4 whitespace-nowrap">{doctor.yearsOfExperience}</td>
-											<td className="px-6 py-4 whitespace-nowrap">
-												<Link href="/patient/messages">
-													<Image
-														src={doctor.iconSrc || defaultIconSrc}
-														height={0}
-														width={0}
-														alt="Icon"
-														className="h-8 w-8 cursor-pointer"
-													/>
-												</Link>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
+									</button>
+								))}
 						</div>
 					</div>
-				</div>
-			</div>
-		</>
+				</>
+			) : null}
+			{atCurrentScreen === 3 ? (
+				<>
+					{/* <AddAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} patientId={patientId} /> */}
+				</>
+			) : null}
+			{atCurrentScreen === 4 ? (
+				<>{/* <ViewAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} /> */}</>
+			) : null}
+		</div>
 	);
 }
