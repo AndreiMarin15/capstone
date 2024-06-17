@@ -181,7 +181,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 									</button>
 								))}
 
-							<BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
+							<BackButton currentScreen={1} setCurrentScreen={setCurrentScreen} />
 						</div>
 					</div>
 				</>
