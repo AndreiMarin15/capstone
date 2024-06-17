@@ -60,8 +60,8 @@ export const getRequestedLabTests = async () => {
 		.from("observation")
 		.select()
 		.eq("resource->subject->>reference", currentUser.getState().info.id)
-		.eq("resource->>id", "labtest")
-		// .eq("resource->>status", "requested");
+		.eq("resource->>id", "labtest");
+	// .eq("resource->>status", "requested");
 
 	return data;
 };
@@ -102,11 +102,13 @@ export const getDoctorSpecialization = async (doctor_license) => {
 
 	const specialization = specializations.find((specialization) => specialization.id === data[0]?.specialization_id);
 
+	console.log(specialization?.doctor_specialization_name);
 	return specialization?.doctor_specialization_name;
 };
 
 export const getDoctorHospital = async (doctor_license) => {
 	const { data, error } = await project.from("doctors").select().eq("license_id", doctor_license);
 
+	console.log(data[0]?.hospital?.name);
 	return data[0]?.hospital?.name;
-}
+};

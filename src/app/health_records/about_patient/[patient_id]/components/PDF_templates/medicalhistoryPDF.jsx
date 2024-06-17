@@ -46,13 +46,13 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 			const medicalHistoryPromises = response
 				.filter((medicalhistory) => medicalhistory.resource.valueString)
 				.map(async (medicalhistory, index) => {
-					const specializationPromise = getDoctorSpecialization(medicalhistory.resource.participant.license_id);
-					const hospitalPromise = getDoctorHospital(medicalhistory.resource.participant.license_id);
-
+					const specialization = await getDoctorSpecialization(medicalhistory.resource.participant.license_id);
+					const hospital = await getDoctorHospital(medicalhistory.resource.participant.license_id);
+					console.log(medicalhistory)
+					console.log(medicalhistory.resource.participant.license_id)
 					// Await for both promises to resolve
-					const specialization = (await specializationPromise) ?? "Endocrinologist";
-					const hospital = (await hospitalPromise) ?? "";
 
+					console.log(specialization, hospital);
 					return {
 						number: index + 1,
 						diagnosis: medicalhistory.resource.valueString || "",
