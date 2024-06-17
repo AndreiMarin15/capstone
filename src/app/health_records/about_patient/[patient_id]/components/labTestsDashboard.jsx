@@ -4,9 +4,7 @@ import ViewLabRequest from "./sub_components/viewLabRequest";
 import RecordLabTest from "./sub_components/recordLabTest";
 import VisitLabTests from "./sub_components/visitLabTests";
 import { useState, useEffect } from "react";
-import {
-  getEncounterByPatientId,
-} from "@/backend/health_records/getEncounter";
+import { getEncounterByPatientId } from "@/backend/health_records/getEncounter";
 import { getObservationsByPatientId } from "@/backend/health_records/getObservation";
 import doctor from "@/backend/health_records/doctor";
 import { Button } from "@/components/ui/button";
@@ -14,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ViewSelfPrick from "./sub_components/viewSelfPrick";
 import ViewSelfPrickList from "./sub_components/viewSelfPrickList";
 import useLabTestStore from "@/app/labTestStore";
-
 
 async function fetchEncounters(patientId, setLabTests) {
   console.log(patientId);
@@ -43,8 +40,7 @@ async function fetchEncounters(patientId, setLabTests) {
         doctor: observation.resource.participant.actor,
         srcdoctor:
           "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
-        src:
-          "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
+        src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
         remarks: observation.resource.remarks,
         variable: observation.resource.codeText,
         update: observation.resource.uploadedDateTime,
@@ -68,13 +64,17 @@ async function fetchEncounters(patientId, setLabTests) {
 }
 
 export default function LabTests({ patientId }) {
-
-
   const [containedIDs, setContainedIDs] = useState([]);
   const [dateOfRequest, setDateOfRequest] = useState("");
 
-  const [labTests, setLabTests] = useLabTestStore((state) => [state.labTests, state.setLabTests]);
-  const [currentScreen, setCurrentScreen] = useLabTestStore((state) => [state.currentScreen, state.setCurrentScreen]);
+  const [labTests, setLabTests] = useLabTestStore((state) => [
+    state.labTests,
+    state.setLabTests,
+  ]);
+  const [currentScreen, setCurrentScreen] = useLabTestStore((state) => [
+    state.currentScreen,
+    state.setCurrentScreen,
+  ]);
 
   const [selectedEncounterId, setSelectedEncounterId] = useState(null);
   const observationId = useLabTestStore((state) => state.observationId);
@@ -151,131 +151,168 @@ export default function LabTests({ patientId }) {
             </Tabs>
 
             {Object.entries(labTests)
-              .sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
+              .sort(
+                (a, b) =>
+                  new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate)
+              )
               .map(([encounterId, labTestGroup], groupIndex) => (
-                <tr key={groupIndex} onClick={() => handleRowClick(labTestGroup[0]?.id, encounterId)}>
-                  {labTestGroup && labTestGroup[0] && (
-                    <div className="flex justify-between text-xs leading-5 text-black max-w-[650px] mt-5">
-                      <Image
-                        alt="image"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src={labTestGroup[0]?.src}
-                        className="aspect-square fill-black w-[15px] mr-2"
-                      />
-                      <div className="grow my-auto text-sm font-medium">Lab Test Request {labTestGroup[0]?.reqdate}</div>
-                    </div>
-                  )}
+                <div className="w-full flex justify-between">
+                  <div className="mb-5">
+                    <tr
+                      key={groupIndex}
+                      onClick={() =>
+                        handleRowClick(labTestGroup[0]?.id, encounterId)
+                      }
+                    >
+                      {labTestGroup && labTestGroup[0] && (
+                        <div className="flex justify-between text-xs leading-5 text-black w-[100%] mt-5 mb-3">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={labTestGroup[0]?.src}
+                            className="aspect-square fill-black w-[15px] mr-2"
+                          />
+                          <div className="grow my-auto text-xs font-semibold">
+                            Lab Test Request {labTestGroup[0]?.reqdate}
+                          </div>
+                        </div>
+                      )}
 
-      {labTestGroup && labTestGroup[0] && (
-        <div key={groupIndex}>
-          <table style={{ width: '100%' }}>
-            <tr>
-              <td style={{ width: '50%' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <img
-                    alt="image"
-                    src={labTestGroup[0]?.srcdoctor}
-                    height={0}
-                    width={0}
-                    loading="lazy"
-                    style={{ aspectRatio: '1', fill: 'black', width: '15px', marginRight: '2px' }}
-                  />
-                  <div className="text-xs" style={{ whiteSpace: 'nowrap' }}>
-                    Dr. {labTestGroup[0]?.doctor}
+                      {labTestGroup && labTestGroup[0] && (
+                        <div key={groupIndex}>
+                          <table style={{ width: "100%" }}>
+                            <tr>
+                              <div className="w-full">
+                                <td>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <img
+                                      alt="image"
+                                      src={labTestGroup[0]?.srcdoctor}
+                                      height={0}
+                                      width={0}
+                                      loading="lazy"
+                                      style={{
+                                        aspectRatio: "1",
+                                        fill: "black",
+                                        width: "15px",
+                                        marginRight: "2px",
+                                      }}
+                                    />
+                                    <div
+                                      className="text-xs"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      Dr. {labTestGroup[0]?.doctor}
+                                    </div>
+                                  </div>
+                                </td>
+                                {/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
+                                <td style={{ textAlign: "right" }}>
+                                  <div
+                                    className="text-xs"
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    {labTestGroup.every(
+                                      (test) => test.status === "final"
+                                    ) ? (
+                                      <>
+                                        <svg
+                                          className="h-3 w-3 ml-1 text-green-500"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <circle cx="10" cy="10" r="5" />
+                                        </svg>
+                                        <span style={{ marginLeft: "0.25rem" }}>
+                                          Complete
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <svg
+                                          className="h-3 w-3 ml-1 text-red-500"
+                                          fill="currentColor"
+                                          viewBox="0 0 20 20"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <circle cx="10" cy="10" r="5" />
+                                        </svg>
+                                        <span style={{ marginLeft: "0.25rem" }}>
+                                          Incomplete
+                                        </span>
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                              </div>
+                            </tr>
+                            <tr></tr>
+                          </table>
+                        </div>
+                      )}
+                    </tr>
+                  </div>
+                  <div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
+                    <Button variant="download"> ↓ Download (.pdf)</Button>
                   </div>
                 </div>
-              </td>
-              {/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
-              <td style={{ textAlign: 'right' }}>
-                <div className="text-xs" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                  {labTestGroup.every(test => test.status === "final") ? (
-                    <>
-                      <svg
-                        className="h-3 w-3 ml-1 text-green-500"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle cx="10" cy="10" r="5" />
-                      </svg>
-                      <span style={{ marginLeft: '0.25rem' }}>Complete</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        className="h-3 w-3 ml-1 text-red-500"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle cx="10" cy="10" r="5" />
-                      </svg>
-                      <span style={{ marginLeft: '0.25rem' }}>Incomplete</span>
-                    </>
-                  )}
-                </div>
-              </td>
-              <td style={{ width: '50%' }}>
-                <div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
-                  <Button variant="download"> ↓ Download (.pdf)</Button>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
+              ))}
+            <BackButton onClick={handleBackButtonClick} />
+          </div>
+        </>
+      ) : currentScreen === 1 ? (
+        <ViewLabRequest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          observationId={observationId}
+          labTests={labTests[selectedEncounterId]}
+          fetchEncounters={() => fetchEncounters(patientId, setLabTests)}
+        />
+      ) : currentScreen === 2 ? (
+        <RecordLabTest
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          observationId={observationId}
+          patientId={patientId}
+          labTests={labTests}
+          encounterId={selectedEncounterId}
+          fetchEncounters={() => fetchEncounters()}
+        />
+      ) : currentScreen === 3 ? (
+        <VisitLabTests
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          observationId={observationId}
+        />
+      ) : currentScreen === 4 ? (
+        <ViewSelfPrickList
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          observationId={observationId}
+          patientId={patientId}
+        />
+      ) : currentScreen === 5 ? (
+        <ViewSelfPrick
+          currentScreen={currentScreen}
+          setCurrentScreen={setCurrentScreen}
+          observationId={observationId}
+          patientId={patientId}
+        />
+      ) : (
+        ""
       )}
-    </tr>
-  ))}
-        <BackButton onClick={handleBackButtonClick} />
-      </div>
     </>
-  ) : currentScreen === 1 ? (
-    <ViewLabRequest
-      currentScreen={currentScreen}
-      setCurrentScreen={setCurrentScreen}
-      observationId={observationId}
-      labTests={labTests[selectedEncounterId]} 
-      fetchEncounters={() => fetchEncounters(patientId, setLabTests)} 
-    />
-  ) :  currentScreen === 2 ? (
-    <RecordLabTest
-      currentScreen={currentScreen}
-      setCurrentScreen={setCurrentScreen}
-      observationId={observationId}
-      patientId={patientId}
-      labTests={labTests}
-      encounterId={selectedEncounterId}
-      fetchEncounters={() => fetchEncounters()} 
-    />
-  ) : currentScreen === 3 ? (
-    <VisitLabTests
-      currentScreen={currentScreen}
-      setCurrentScreen={setCurrentScreen}
-      observationId={observationId}
-    />
-  
-  ) : currentScreen === 4 ? (
-    <ViewSelfPrickList
-      currentScreen={currentScreen}
-      setCurrentScreen={setCurrentScreen}
-      observationId={observationId}
-      patientId={patientId}
-    />
-  
-  ) : currentScreen === 5 ? (
-    <ViewSelfPrick
-      currentScreen={currentScreen}
-      setCurrentScreen={setCurrentScreen}
-      observationId={observationId}
-      patientId={patientId}
-    />
-  
-  ) : (
-    ""
-  )}
-</>
-);
+  );
 }
-               
