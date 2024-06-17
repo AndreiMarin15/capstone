@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import ViewAttendingDoctor from "@/app/health_records/about_patient/[patient_id]/components/sub_components/viewAttendingDoctor";
 // import AddAttendingDoctor from "./addAttendingDoctors";
 import { getAttendingDoctors, deleteAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
+import { currentUser } from "@/app/store";
 
-export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId }) {
+export default function ViewDoctors() {
+	const patientId = currentUser.getState().user.id;
 	const [atCurrentScreen, setAtCurrentScreen] = useState(1);
 	// const supabase = client("public");
 	const [medications, setMedications] = useState([]);
@@ -146,7 +148,7 @@ export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId
 										key={index}
 										className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
 										onClick={() => {
-											console.log({ currentScreen });
+											
 											setSelectedDoctor(doctor);
 											setAtCurrentScreen(4);
 										}}
