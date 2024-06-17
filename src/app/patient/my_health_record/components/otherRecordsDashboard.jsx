@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
 import ViewRecords from "./sub_components/viewRecord"; 
-import { getRecord } from "@/backend/health_records/getRecord";
+import { getRecordByPatient } from "@/backend/health_records/getRecord";
 
 
 export default function OtherRecords() {
@@ -49,7 +49,9 @@ export default function OtherRecords() {
 
   const fetchRecords = async () => {
     try {
-      const otherRecords = await getRecord();
+        const data = await getPatientRawData();
+        console.log(data.id)
+      const otherRecords = await getRecordByPatient(data.id);
       console.log(otherRecords);
       setRecords(otherRecords.reverse());
     } catch (error) {

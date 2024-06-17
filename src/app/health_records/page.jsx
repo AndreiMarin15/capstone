@@ -21,7 +21,7 @@ export default function MyComponent() {
 	const [navigation, setNavigation] = React.useState([]);
 	const [originalPatients, setOriginalPatients] = React.useState([]);
 	const [sortOptionName, setSortOptionName] = React.useState("asc");
-	const [sortOptionAge, setSortOptionAge] = React.useState("youngest");
+	const [sortOptionAge, setSortOptionAge] = React.useState(null);
 	const [selectedGenders, setSelectedGenders] = React.useState([]);
 
 	function computeAge(birthdate) {
@@ -60,7 +60,9 @@ export default function MyComponent() {
 			}
 		};
 
-		patients?.sort(ageSortFunction);
+		if (sortOptionAge) {
+			patients?.sort(ageSortFunction);
+		}
 
 		setNavigation(
 			patients?.map((patient) => ({
