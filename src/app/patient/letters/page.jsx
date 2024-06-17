@@ -13,7 +13,7 @@ import { ReferralLetterPDF } from "./components/pdfs/referralletter";
 import { Prescription } from "./components/pdfs/prescription";
 import referralLetters from "@/backend/referral_letters/getData";
 import { getPatient, getMedications, getRequestedLabTests, getLabTests } from "@/backend/pdfBackend/getPDFData";
-import { getPrescriptions }  from "@/backend/health_records/getPrescription";
+import { getPrescriptionsByPatient }  from "@/backend/health_records/getPrescription";
 import ViewPrescription from './components/sub_components/viewPrescription'; 
 
 export default function Letters() {
@@ -41,8 +41,10 @@ export default function Letters() {
 			fetchLetters();
 		} else if (selectedTab === "prescription") {
 			const fetchLetters = async () => {
-				const medications = await getPrescriptions();
 				const patient = await getPatient();
+				console.log(patient.id)
+				const medications = await getPrescriptionsByPatient(patient.id);
+				console.log(medications)
 
 				setPatientData(patient);
 				setPrescriptions(medications);
@@ -63,7 +65,7 @@ export default function Letters() {
 			fetchLabTests();
 		}
 	}, [selectedTab]);
-	console.log(prescriptions)
+
 	return (
 		<>
 			<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen min-w-full">
