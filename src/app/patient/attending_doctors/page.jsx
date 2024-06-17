@@ -4,7 +4,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-// import ViewAttendingDoctor from "./viewAttendingDoctor";
+// import ViewAttendingDoctor from "src\app\health_records\about_patient\[patient_id]\components\sub_components\viewAttendingDoctor.jsx";
+import ViewAttendingDoctor from "@/app/health_records/about_patient/[patient_id]/components/sub_components/viewAttendingDoctor";
 // import AddAttendingDoctor from "./addAttendingDoctors";
 import { getAttendingDoctors, deleteAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
 
@@ -13,6 +14,7 @@ export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId
 	// const supabase = client("public");
 	const [medications, setMedications] = useState([]);
 	const [attendingDoctors, setAttendingDoctors] = useState([]);
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
 
 	// const sampleAttendingDoctors = [
 	// 	{
@@ -38,6 +40,8 @@ export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId
 						name: doctor.doctor_first_name + " " + doctor.doctor_last_name,
 						specialty: doctor.doctor_specialization,
 						status: doctor.status,
+						clinic: doctor.clinic,
+						contact: doctor.contact,
 						attendingId: doctor.id,
 					};
 				})
@@ -143,6 +147,7 @@ export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId
 										className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
 										onClick={() => {
 											console.log({ currentScreen });
+											setSelectedDoctor(doctor);
 											setAtCurrentScreen(4);
 										}}
 									>
@@ -188,7 +193,14 @@ export default function ViewDoctors({ currentScreen, setCurrentScreen, patientId
 				</>
 			) : null}
 			{atCurrentScreen === 4 ? (
-				<>{/* <ViewAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} /> */}</>
+				<>
+					{" "}
+					<ViewAttendingDoctor
+						currentScreen={atCurrentScreen}
+						setCurrentScreen={setAtCurrentScreen}
+						doctorInfo={selectedDoctor}
+					/>{" "}
+				</>
 			) : null}
 		</div>
 	);
