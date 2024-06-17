@@ -74,7 +74,7 @@ export default function ViewAttendingDoctors({ currentScreen, setCurrentScreen, 
 				</div>
 			</div>
 			<div className="flex justify-between items-center mt-5">
-				<BackButton currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+				<BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
 				<div></div>
 			</div>
 		</>
