@@ -6,16 +6,20 @@ import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { getOverduePatients, getPatientAndFinalDiagnosis, remindPatients } from "@/backend/reports/getReportsData";
 import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableFooter,
-	TableHead,
-	TableHeader,
-	TableRow,
+  getOverduePatients,
+  getPatientAndFinalDiagnosis,
+  remindPatients,
+} from "@/backend/reports/getReportsData";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
@@ -24,93 +28,103 @@ import { useRef } from "react";
 import { FollowUpListPDF } from "./pdf/download";
 
 export default function FollowUpList() {
-	const router = useRouter(); // Initialize useRouter
-	const pdfRef = useRef();
-	const [overduePatients, setOverduePatients] = useState([]);
-	const [patientsDiagnosis, setPatientsDiagnosis] = useState([]);
-	const [patientInfo, setPatientInfo] = useState([]);
+  const router = useRouter(); // Initialize useRouter
+  const pdfRef = useRef();
+  const [overduePatients, setOverduePatients] = useState([]);
+  const [patientsDiagnosis, setPatientsDiagnosis] = useState([]);
+  const [patientInfo, setPatientInfo] = useState([]);
 
-	const downloadPDF = () => {
-		const input = pdfRef.current;
+  const downloadPDF = () => {
+    const input = pdfRef.current;
 
-		// Remove the 'hidden' class
-		input.classList.remove("hidden");
+    // Remove the 'hidden' class
+    input.classList.remove("hidden");
 
-		const width = input.offsetWidth;
-		const height = input.offsetHeight;
-		let computedWidth = width;
-		let computedHeight = height;
-		console.log(width, height);
-		if (width < 1920 / 2) {
-			computedWidth = 1920 / 2;
-			// computedHeight = computedWidth / 2;
-		}
-		if (height < 1080 / 2) {
-			computedHeight = 1080 / 2;
-			// computedWidth = computedHeight * 2;
-		}
+    const width = input.offsetWidth;
+    const height = input.offsetHeight;
+    let computedWidth = width;
+    let computedHeight = height;
+    console.log(width, height);
+    if (width < 1920 / 2) {
+      computedWidth = 1920 / 2;
+      // computedHeight = computedWidth / 2;
+    }
+    if (height < 1080 / 2) {
+      computedHeight = 1080 / 2;
+      // computedWidth = computedHeight * 2;
+    }
 
-		console.log(computedWidth, computedHeight);
-		const date = new Date().toLocaleDateString();
-		html2canvas(input)
-			.then((canvas) => {
-				const imgData = canvas.toDataURL("image/png");
-				const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
-				pdf.addImage(imgData, "PNG", 0, 0, width, height);
-				pdf.save(`follow_up_list_${date}.pdf`);
-			})
-			.finally(() => {
-				// Add the 'hidden' class back after the PDF has been downloaded
-				// input.classList.add("hidden");
-			});
-	};
-	useEffect(() => {
-		const fetchOverduePatients = async () => {
-			const overduePatients = await getOverduePatients();
-			console.log(overduePatients);
-			setOverduePatients(overduePatients);
-		};
-		fetchOverduePatients();
-	}, []);
+    console.log(computedWidth, computedHeight);
+    const date = new Date().toLocaleDateString();
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
+        pdf.addImage(imgData, "PNG", 0, 0, width, height);
+        pdf.save(`follow_up_list_${date}.pdf`);
+      })
+      .finally(() => {
+        // Add the 'hidden' class back after the PDF has been downloaded
+        // input.classList.add("hidden");
+      });
+  };
+  useEffect(() => {
+    const fetchOverduePatients = async () => {
+      const overduePatients = await getOverduePatients();
+      console.log(overduePatients);
+      setOverduePatients(overduePatients);
+    };
+    fetchOverduePatients();
+  }, []);
 
-	useEffect(() => {
-		const fetchPatientsDiagnoses = async () => {
-			const diagnosesPromises = overduePatients.map((overduePatient) =>
-				getPatientAndFinalDiagnosis(overduePatient?.resource?.subject?.reference).then((patientsDiagnosis) => ({
-					patient: patientsDiagnosis.patient[0].personal_information,
-					diagnosis: patientsDiagnosis.diagnosis[0],
-					visit: overduePatient,
-				}))
-			);
+  useEffect(() => {
+    const fetchPatientsDiagnoses = async () => {
+      const diagnosesPromises = overduePatients.map((overduePatient) =>
+        getPatientAndFinalDiagnosis(
+          overduePatient?.resource?.subject?.reference
+        ).then((patientsDiagnosis) => ({
+          patient: patientsDiagnosis.patient[0].personal_information,
+          diagnosis: patientsDiagnosis.diagnosis[0],
+          visit: overduePatient,
+        }))
+      );
 
-			const patientsDiagnoses = await Promise.all(diagnosesPromises);
-			console.log(patientsDiagnoses);
-			setPatientsDiagnosis(patientsDiagnoses);
-		};
+      const patientsDiagnoses = await Promise.all(diagnosesPromises);
+      console.log(patientsDiagnoses);
+      setPatientsDiagnosis(patientsDiagnoses);
+    };
 
-		fetchPatientsDiagnoses();
-	}, [overduePatients]);
+    fetchPatientsDiagnoses();
+  }, [overduePatients]);
 
-	useEffect(() => {
-		console.log("PATIENTS DIAGNOSIS", patientsDiagnosis);
-		setPatientInfo(
-			patientsDiagnosis.map((patientDiagnoses) => {
-				console.log(patientDiagnoses.diagnosis?.resource?.subject?.reference);
-				return {
-					name: patientDiagnoses.patient?.first_name + " " + patientDiagnoses.patient?.last_name,
-					diagnosis: patientDiagnoses.diagnosis?.resource?.valueString,
-					currentDate: new Date().toLocaleDateString(),
-					supposedClinicVisit: new Date(patientDiagnoses.visit?.resource?.valueString).toLocaleDateString(),
-					dateLastClinicVisit: new Date(patientDiagnoses.visit?.ts).toLocaleDateString(),
-					id: patientDiagnoses.diagnosis?.resource?.subject?.reference,
-				};
-			})
-		);
-	}, [patientsDiagnosis]);
+  useEffect(() => {
+    console.log("PATIENTS DIAGNOSIS", patientsDiagnosis);
+    setPatientInfo(
+      patientsDiagnosis.map((patientDiagnoses) => {
+        console.log(patientDiagnoses.diagnosis?.resource?.subject?.reference);
+        return {
+          name:
+            patientDiagnoses.patient?.first_name +
+            " " +
+            patientDiagnoses.patient?.last_name,
+          diagnosis: patientDiagnoses.diagnosis?.resource?.valueString,
+          currentDate: new Date().toLocaleDateString(),
+          supposedClinicVisit: new Date(
+            patientDiagnoses.visit?.resource?.valueString
+          ).toLocaleDateString(),
+          dateLastClinicVisit: new Date(
+            patientDiagnoses.visit?.ts
+          ).toLocaleDateString(),
+          id: patientDiagnoses.diagnosis?.resource?.subject?.reference,
+        };
+      })
+    );
+  }, [patientsDiagnosis]);
 
-	useEffect(() => {
-		console.log("DATA", patientInfo);
-	}, [patientInfo]);
+  useEffect(() => {
+    console.log("DATA", patientInfo);
+  }, [patientInfo]);
+
 
 	return (
 		<>
@@ -238,4 +252,5 @@ export default function FollowUpList() {
 			</div>
 		</>
 	);
+
 }

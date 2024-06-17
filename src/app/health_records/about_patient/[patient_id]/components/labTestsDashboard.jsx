@@ -12,7 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ViewSelfPrick from "./sub_components/viewSelfPrick";
 import ViewSelfPrickList from "./sub_components/viewSelfPrickList";
 import useLabTestStore from "@/app/labTestStore";
+
 import { ReusableLabTest } from "./reusable";
+
 
 async function fetchEncounters(patientId, setLabTests) {
 	console.log(patientId);
@@ -34,6 +36,7 @@ async function fetchEncounters(patientId, setLabTests) {
 		const observationsData = await getObservationsByPatientId(patientId);
 		console.log(observationsData);
 
+
 		const labTestObservations = observationsData
 			.filter((observation) => observation.resource.id === "labtest")
 			.map((observation) => ({
@@ -51,6 +54,7 @@ async function fetchEncounters(patientId, setLabTests) {
 				encounterId: labTestToEncounterMap[observation.id], // Map lab test to its encounter ID
 			}));
 
+
 		const labTestsGrouped = labTestObservations.reduce((acc, labTest) => {
 			acc[labTest.encounterId] = acc[labTest.encounterId] || [];
 			acc[labTest.encounterId].push(labTest);
@@ -65,6 +69,7 @@ async function fetchEncounters(patientId, setLabTests) {
 }
 
 export default function LabTests({ patientId }) {
+
 	const [containedIDs, setContainedIDs] = useState([]);
 	const [dateOfRequest, setDateOfRequest] = useState("");
 
@@ -75,6 +80,7 @@ export default function LabTests({ patientId }) {
 	const observationId = useLabTestStore((state) => state.observationId);
 	const setObservationId = useLabTestStore((state) => state.setObservationId);
 	const resetLabTestStore = useLabTestStore((state) => state.reset);
+
 
 	const handleRowClick = (observationId, encounterId) => {
 		setSelectedEncounterId(encounterId);
@@ -128,6 +134,7 @@ export default function LabTests({ patientId }) {
 							<TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
 							<TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
 						</Tabs>
+
 
 						{Object.entries(labTests)
 							.sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
@@ -289,4 +296,5 @@ export default function LabTests({ patientId }) {
 			)}
 		</>
 	);
+
 }

@@ -6,16 +6,19 @@ import { Link } from "next/link"; // Import Link component
 import { currentUser } from "@/app/store";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { getCriticalPatients, getPatientAndFinalDiagnosis } from "@/backend/reports/getReportsData";
 import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableFooter,
-	TableHead,
-	TableHeader,
-	TableRow,
+  getCriticalPatients,
+  getPatientAndFinalDiagnosis,
+} from "@/backend/reports/getReportsData";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import html2canvas from "html2canvas";
@@ -25,6 +28,7 @@ import { useRef } from "react";
 import { ReferPatients } from "./refer_patients/referPage";
 
 export default function CriticalConditionPatients() {
+
 	const router = useRouter(); // Initialize useRouter
 	const pdfRef = useRef();
 	const [criticalPatients, setCriticalPatients] = useState([]);
@@ -244,4 +248,5 @@ export default function CriticalConditionPatients() {
 			)}
 		</>
 	);
+
 }
