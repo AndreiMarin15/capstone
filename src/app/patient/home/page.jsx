@@ -17,6 +17,8 @@ export default function Home() {
 		contact: "+63 917 000 000",
 		memberSince: "06 January 2024",
 		bmi: "24.9",
+		photo:
+			"https://cdn.builder.io/api/v1/image/assets/TEMP/2973ce194094175870e4010225d7995b70a4add3f96a4c16d2302409e5e7ccd8?",
 	});
 
 	const [careplanData, setCareplan] = React.useState({});
@@ -69,7 +71,7 @@ export default function Home() {
 										width={0}
 										height={0}
 										loading="lazy"
-										src="https://cdn.builder.io/api/v1/image/assets/TEMP/2973ce194094175870e4010225d7995b70a4add3f96a4c16d2302409e5e7ccd8?"
+										src={patientData.photo}
 										className="w-14 aspect-square max-md:mt-10"
 									/>
 								</div>

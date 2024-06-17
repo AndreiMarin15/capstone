@@ -52,6 +52,7 @@ const dashboard = {
 			contact: `+63 ${data.personal_information.contact_number}`,
 			memberSince: formatTimestamp(data.created_at),
 			bmi: "24.9",
+			photo: data.personal_information.photo,
 		};
 	},
 

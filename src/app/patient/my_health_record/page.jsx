@@ -8,16 +8,15 @@ import MasterData from "./components/masterDataDashboard";
 import FamilySocial from "./components/family&socialHistoryDashboard";
 import ClinicVisits from "./components/clinicVisitsDashboard";
 import VitalsBiometrics from "./components/vitalsDashboard";
-import OtherRecords from "./components/otherRecordsDashboard"
+import OtherRecords from "./components/otherRecordsDashboard";
 import Diagnoses from "./components/diagnosesDashboard";
 import { usePatientHRNav } from "@/app/store";
 import { healthRecords } from "@/backend//health_records/health_records";
 
 export default function PatientData() {
-  const { selected } = usePatientHRNav();
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = React.useState(0);
-
+	const { selected } = usePatientHRNav();
+	const router = useRouter();
+	const [currentPage, setCurrentPage] = React.useState(0);
 
 	return (
 		<>
@@ -49,22 +48,20 @@ export default function PatientData() {
 									<>
 										<ClinicVisits />
 									</>
-
 								) : selected === "Other Records" ? (
 									<>
 										<OtherRecords />
 									</>
-								)  : (
+								) : (
 									""
 								)}
 							</span>
 
-
-              <div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-5"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+							<div className="flex flex-col items-start justify-end text-xs font-semibold text-black whitespace-nowrap rounded max-w-[137px] mt-5"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
 }
