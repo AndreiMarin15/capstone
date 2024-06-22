@@ -87,7 +87,7 @@ export default function WriteReferral({ referralData, setReferralData, selectedP
 	useEffect(() => {
 		const fetchData = async () => {
 			const diagnosis = await getMedicalHistory(selectedPatientId);
-
+			console.log(diagnosis)
 			const medication = await getMedications(selectedPatientId);
 
 			setDiagnoses(
