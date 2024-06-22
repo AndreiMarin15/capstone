@@ -50,6 +50,7 @@ const retrieveReferralData = {
 				age: computeAge(patient.personal_information.birthdate),
 				id: patient.id,
 				gender: patient.personal_information.gender,
+				photo: patient.personal_information.photo,
 			};
 		});
 

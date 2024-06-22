@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
 
-const ReferralPatients = ({ name, age, id, selectedId }) => {
+const ReferralPatients = ({ name, age, id, photo, selectedId }) => {
 	const [selected, setSelected] = React.useState(false);
-	
+
 	React.useEffect(() => {
 		if (id === selectedId) {
 			setSelected(true);
@@ -31,7 +31,10 @@ const ReferralPatients = ({ name, age, id, selectedId }) => {
 					height={0}
 					width={0}
 					loading="lazy"
-					src="https://cdn.builder.io/api/v1/image/assets/TEMP/5fee24394139ee09d61af596b82e9174ea8a73c2e68f5ff59e2c793c7b2e08ee?"
+					src={
+						photo ??
+						"https://cdn.builder.io/api/v1/image/assets/TEMP/5fee24394139ee09d61af596b82e9174ea8a73c2e68f5ff59e2c793c7b2e08ee?"
+					}
 					className="aspect-square object-contain object-center w-[49px] overflow-hidden shrink-0 max-w-full"
 				/>
 				<span className="self-center flex flex-col items-stretch my-auto">

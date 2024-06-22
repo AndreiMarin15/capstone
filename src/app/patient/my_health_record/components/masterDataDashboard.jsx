@@ -48,7 +48,7 @@ export default function MasterData() {
 			value: (
 				<Button
 					onClick={() => {
-						router.push("/patient/personal_details/allergies");
+						router.push("/patient/my_health_record/allergies");
 					}}
 				>
 					VIEW
