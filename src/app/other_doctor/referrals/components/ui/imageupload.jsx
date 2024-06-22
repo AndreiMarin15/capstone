@@ -45,7 +45,7 @@ export function ImageUploader({ recepient, setUploadFlag, uploadFlag, patient_id
 						{/* <img src={imageBase64} alt="Uploaded" style={{ maxWidth: "100%", height: "auto" }} /> */}
 						<p className="w-1/2 text-wrap">To Upload: {fileName ?? "No Image Selected"}</p>
 					</div>
-					<Button onClick={handleSubmit}>Save</Button> {/* Custom button */}
+					<Button onClick={handleSubmit}>Send</Button> {/* Custom button */}
 				</>
 			)}
 		</div>
