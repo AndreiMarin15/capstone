@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DeleteReferral } from "./ui/deleteReferral";
+
 export function ReferralList({ setCurrentInfo, referral, retrieveReferralData, referralFlag, setReferralFlag }) {
 	const [accepted, setAccepted] = useState(referral.accepted);
 	const [displayAccept, setDisplayAccept] = useState(referral.display_accept);
