@@ -8,7 +8,7 @@ import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend/referral/referralMessages";
 import { Attachments } from "@/app/referral/components/ui/attachments";
-
+import {ScrollArea} from "@/components/ui/scroll-area"
 export default function Referral() {
 	const router = useRouter();
 	const [otp, setOtp] = React.useState(null);
@@ -288,6 +288,7 @@ export default function Referral() {
 				<div className="flex">
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
+					<ScrollArea className="h-[70dvh]" >
 						{referralsList?.map((referral) => {
 							return (
 								<div
@@ -307,7 +308,7 @@ export default function Referral() {
 								</div>
 							);
 						})}
-
+						</ScrollArea>
 						{/* Another left side tab with bg-orange-500 */}
 					</div>
 
