@@ -26,7 +26,13 @@ export const getMedicalHistory = async (patientId) => {
 		.from("observation")
 		.select()
 		.eq("resource->subject->>reference", patientId)
-		.eq("resource->>id", "finalDiagnosis");
+
+		.or(`resource->>id.eq.${"initialDiagnosis"},resource->>id.eq.${"finalDiagnosis"}`)
+		.order("ts", { ascending: false })
+		.limit(1);
+
+	console.log(data);
+	console.log(error);
 
 	return data;
 };
@@ -35,7 +41,9 @@ export const getMedications = async (patientId) => {
 	const { data, error } = await supabase
 		.from("medicationrequest")
 		.select()
-		.eq("resource->subject->>reference", patientId ?? currentUser.getState().info.id);
+		.eq("resource->subject->>reference", patientId ?? currentUser.getState().info.id)
+		.gte("resource->dispenseRequest->validityPeriod->>end", new Date().toISOString().slice(0, 10))
+		.lte("resource->dispenseRequest->validityPeriod->>start", new Date().toISOString().slice(0, 10));
 
 	return data;
 };

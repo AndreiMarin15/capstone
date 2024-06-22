@@ -4,6 +4,7 @@ import { sendNotification } from "@/backend/sendNotification";
 export const careplanInfo = {
 	getCareplanInformation: async (patientID) => {
 		const { data, error } = await supabase.from("careplan").select("*").eq("resource->subject->>reference", patientID);
+		console.log(data)
 		return data ? data : error;
 	},
 };
