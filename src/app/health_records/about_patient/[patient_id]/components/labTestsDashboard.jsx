@@ -12,9 +12,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ViewSelfPrick from "./sub_components/viewSelfPrick";
 import ViewSelfPrickList from "./sub_components/viewSelfPrickList";
 import useLabTestStore from "@/app/labTestStore";
+import { LabTest } from "@/app/patient/letters/components/pdfs/labtest";
+import { currentUser } from "@/app/store";
+import { getFullPatientData } from "@/backend/pdfBackend/getPatientData";
 
 import { ReusableLabTest } from "./reusable";
-
 
 async function fetchEncounters(patientId, setLabTests) {
 	console.log(patientId);
@@ -36,7 +38,6 @@ async function fetchEncounters(patientId, setLabTests) {
 		const observationsData = await getObservationsByPatientId(patientId);
 		console.log(observationsData);
 
-
 		const labTestObservations = observationsData
 			.filter((observation) => observation.resource.id === "labtest")
 			.map((observation) => ({
@@ -54,7 +55,6 @@ async function fetchEncounters(patientId, setLabTests) {
 				encounterId: labTestToEncounterMap[observation.id], // Map lab test to its encounter ID
 			}));
 
-
 		const labTestsGrouped = labTestObservations.reduce((acc, labTest) => {
 			acc[labTest.encounterId] = acc[labTest.encounterId] || [];
 			acc[labTest.encounterId].push(labTest);
@@ -69,7 +69,6 @@ async function fetchEncounters(patientId, setLabTests) {
 }
 
 export default function LabTests({ patientId }) {
-
 	const [containedIDs, setContainedIDs] = useState([]);
 	const [dateOfRequest, setDateOfRequest] = useState("");
 
@@ -80,14 +79,18 @@ export default function LabTests({ patientId }) {
 	const observationId = useLabTestStore((state) => state.observationId);
 	const setObservationId = useLabTestStore((state) => state.setObservationId);
 	const resetLabTestStore = useLabTestStore((state) => state.reset);
-
-
+	const [patientData, setPatientData] = useState({});
 	const handleRowClick = (observationId, encounterId) => {
 		setSelectedEncounterId(encounterId);
 		setCurrentScreen(1); // Assuming 1 is the screen for ViewLabRequest
 	};
 
 	useEffect(() => {
+		const fetchPatientData = async () => {
+			const data = await getFullPatientData(patientId);
+			setPatientData(data);
+		};
+		fetchPatientData();
 		fetchEncounters(patientId, setLabTests); // Call fetchEncounters when patientId changes
 	}, [patientId]);
 
@@ -134,7 +137,6 @@ export default function LabTests({ patientId }) {
 							<TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
 							<TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
 						</Tabs>
-
 
 						{Object.entries(labTests)
 							.sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
@@ -236,13 +238,19 @@ export default function LabTests({ patientId }) {
 									<div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
 										<ReusableLabTest
 											child={
-												<ViewLabRequest
-													currentScreen={1}
-													setCurrentScreen={setCurrentScreen}
-													observationId={observationId}
+												// <ViewLabRequest
+												// 	currentScreen={1}
+												// 	setCurrentScreen={setCurrentScreen}
+												// 	observationId={observationId}
+												// 	labTests={labTests[encounterId]}
+												// 	fetchEncounters={() => fetchEncounters(patientId, setLabTests)}
+												// 	hideBackButton={true}
+												// />
+
+												<LabTest
 													labTests={labTests[encounterId]}
-													fetchEncounters={() => fetchEncounters(patientId, setLabTests)}
-                          hideBackButton={true}
+													referred_by_id={currentUser.getState().user.license_id}
+													patientData={patientData}
 												/>
 											}
 											filename={"Lab Test"}
@@ -296,5 +304,4 @@ export default function LabTests({ patientId }) {
 			)}
 		</>
 	);
-
 }

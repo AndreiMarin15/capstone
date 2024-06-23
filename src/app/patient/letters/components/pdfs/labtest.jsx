@@ -2,7 +2,10 @@ import * as React from "react";
 import Image from "next/image";
 import { getDoctorByLicense, getDoctorSpecialization } from "@/backend/pdfBackend/getPDFData";
 
-export function LabTest({ labtest, patientData, referred_by_id }) {
+export function LabTest({ labTests, patientData, referred_by_id }) {
+	React.useEffect(() => {
+		console.log(labTests);
+	}, [labTests]);
 	function getAge(birthdate) {
 		const birthDate = new Date(birthdate);
 		const today = new Date();
@@ -15,9 +18,7 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 
 		return age;
 	}
-	React.useEffect(() => {
-		console.log(labtest);
-	}, [labtest]);
+
 	React.useEffect(() => {
 		console.log(patientData);
 	}, [patientData]);
@@ -25,16 +26,14 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 	const [specialization, setSpecialization] = React.useState("");
 	React.useEffect(() => {
 		const fetchDoctor = async () => {
-			const doctor = await getDoctorByLicense(referred_by_id.length > 0 ? referred_by_id.length : "00298731");
+			const doctor = await getDoctorByLicense(referred_by_id.length > 0 ? referred_by_id : "");
 			console.log(referred_by_id);
 			console.log(doctor);
 			setReferredBy(doctor);
 		};
 
 		const fetchSpecialization = async () => {
-			const specialization = await getDoctorSpecialization(
-				referred_by_id.length > 0 ? referred_by_id.length : "00298731"
-			);
+			const specialization = await getDoctorSpecialization(referred_by_id.length > 0 ? referred_by_id : "");
 			// console.log(specialization);
 			setSpecialization(specialization);
 		};
@@ -61,7 +60,7 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 							</span>
 						</div>
 						<div className="justify-between text-right">
-							Date Requested <br /> <span className="font-normal">{labtest.resource?.requestedDateTime ?? ""}</span>
+							Date Requested <br /> <span className="font-normal">{labTests[0].date ?? ""}</span>
 						</div>
 					</div>
 					{/* <div className="mt-4 items-start text-start text-xs max-md:max-w-full">
@@ -110,7 +109,67 @@ export function LabTest({ labtest, patientData, referred_by_id }) {
 				<br />
 				<br />
 				<ul className="list-disc mt-0">
-					<li className="ml-2">{labtest?.resource?.codeText ?? ""}</li>
+					<table className="max-w-fit border-spacing-y-3 border-separate">
+						<tbody className="text-xs leading-5 text-black">
+							{Array.isArray(labTests) &&
+								labTests.map((item, index) => (
+									<tr key={index} onClick={() => handleRowClick(item.id, item.encounterId, item.status)}>
+										<td className="pl-2 pr-0">
+											<Image
+												alt="image"
+												height={0}
+												width={0}
+												loading="lazy"
+												src={item.src}
+												className="self-start aspect-square fill-black w-[15px]"
+											/>
+										</td>
+										<td className="border-l-[16px] border-transparent">
+											<button>
+												<div className="flex justify-between">
+													{item.variable}
+													<div
+														className="text-xs ml-10"
+														style={{
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "flex-end",
+															textAlign: "right",
+														}}
+													>
+														{item.status === "requested" ? (
+															<>
+																<svg
+																	className="h-3 w-3 ml-1 text-red-500"
+																	fill="currentColor"
+																	viewBox="0 0 20 20"
+																	xmlns="http://www.w3.org/2000/svg"
+																>
+																	<circle cx="10" cy="10" r="5" />
+																</svg>
+																<span style={{ marginLeft: "0.25rem" }}>Requested</span>
+															</>
+														) : item.status === "final" ? (
+															<>
+																<svg
+																	className="h-3 w-3 ml-1 text-green-500"
+																	fill="currentColor"
+																	viewBox="0 0 20 20"
+																	xmlns="http://www.w3.org/2000/svg"
+																>
+																	<circle cx="10" cy="10" r="5" />
+																</svg>
+																<span style={{ marginLeft: "0.25rem" }}>Uploaded</span>
+															</>
+														) : null}
+													</div>
+												</div>
+											</button>
+										</td>
+									</tr>
+								))}
+						</tbody>
+					</table>
 					{/* <li className="ml-2">Fasting Blood Sugar Test</li>{" "}
 					<li className="ml-2">Sample Lab Test</li>{" "} */}
 				</ul>
