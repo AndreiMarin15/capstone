@@ -48,6 +48,19 @@ export const getMedications = async (patientId) => {
 	return data;
 };
 
+export const getPrescriptions = async (patientId) => {
+	const { data, error } = await project
+		.from("prescriptions")
+		.select()
+		.eq("resource->subject->>reference", patientId)
+		.order("created_at", { ascending: false })
+		.limit(1);
+
+	console.log(data);
+	console.log(error);
+	return data[0]?.resource?.medicationData;
+};
+
 export const getCarePlan = async (patientId) => {
 	const { data, error } = await supabase.from("careplan").select().eq("resource->subject->>reference", patientId);
 
