@@ -23,6 +23,10 @@ const uploadPrescription = async (prescription, patientId) => {
 						license_id: doctorInfo.license,
 					},
 				},
+				subject: {
+					type: "Patient",
+					reference: patientId,
+				},
 				medicationData: medicationDataArray,
 				resource_type: prescription.resource.resource_type,
 			},
