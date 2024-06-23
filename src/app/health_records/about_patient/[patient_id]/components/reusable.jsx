@@ -13,24 +13,24 @@ export function ReusableLabTest({ child, filename }) {
 
 		const width = input.offsetWidth;
 		const height = input.offsetHeight;
-		let computedWidth = width;
-		let computedHeight = height;
-		console.log(width, height);
-		if (width < 1920 / 2) {
-			computedWidth = 1920 / 2;
-			// computedHeight = computedWidth / 2;
-		}
-		if (height < 1080 / 2) {
-			computedHeight = 1080 / 2;
-			// computedWidth = computedHeight * 2;
-		}
+		// let computedWidth = width;
+		// let computedHeight = height;
+		// console.log(width, height);
+		// if (width < 1920 / 2) {
+		// 	computedWidth = 1920 / 2;
+		// 	// computedHeight = computedWidth / 2;
+		// }
+		// if (height < 1080 / 2) {
+		// 	computedHeight = 1080 / 2;
+		// 	// computedWidth = computedHeight * 2;
+		// }
 
-		console.log(computedWidth, computedHeight);
+		// console.log(computedWidth, computedHeight);
 
 		html2canvas(input)
 			.then((canvas) => {
 				const imgData = canvas.toDataURL("image/png");
-				const pdf = new jsPDF("l", "px", [computedWidth, computedHeight]);
+				const pdf = new jsPDF("p", "px", [width, height]);
 				pdf.addImage(imgData, "PNG", 0, 0, width, height);
 				pdf.save(`${filename}.pdf`);
 			})

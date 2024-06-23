@@ -99,7 +99,9 @@ export const getReferralHistory = async (patientId) => {
 
 export const getDoctorByLicense = async (doctor_license) => {
 	const { data, error } = await project.from("doctors").select().eq("license_id", doctor_license);
-
+	console.log(data[0]);
+	console.log(doctor_license);
+	console.log(error);
 	return data[0];
 };
 
