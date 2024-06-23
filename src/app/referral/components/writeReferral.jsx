@@ -3,13 +3,13 @@
 import * as React from "react";
 import Image from "next/image";
 
-
 import { useEffect, useState } from "react";
 import { getMedicalHistory, getMedications } from "@/backend/pdfBackend/getPDFData";
 
 import { getLabTests } from "@/backend/pdfBackend/getPDFData";
 import { SelectLabtests } from "./subcomponents/selectLabTests";
 import { Label } from "@/components/ui/label";
+import { getPrescriptions } from "@/backend/pdfBackend/getPDFData";
 
 export default function WriteReferral({ referralData, setReferralData, selectedPatientId }) {
 	const [diagnoses, setDiagnoses] = useState([]);
@@ -87,15 +87,24 @@ export default function WriteReferral({ referralData, setReferralData, selectedP
 	useEffect(() => {
 		const fetchData = async () => {
 			const diagnosis = await getMedicalHistory(selectedPatientId);
-			console.log(diagnosis)
+			console.log(diagnosis);
 			const medication = await getMedications(selectedPatientId);
-
+			const prescriptions = await getPrescriptions(selectedPatientId);
+			console.log(prescriptions);
 			setDiagnoses(
 				diagnosis
 					.filter((medicalhistory) => medicalhistory.resource.valueString)
 					.map((medicalhistory) => medicalhistory.resource.valueString)
 			);
-			setMedications(medication.map((medication) => medication.resource.medicationCodeableConcept[0].text));
+			setMedications(
+				prescriptions
+					.filter(
+						(prescription) =>
+							prescription.resource?.dispenseRequest?.validityPeriod?.end >= new Date().toISOString().slice(0, 10) &&
+							prescription.resource?.dispenseRequest?.validityPeriod?.start <= new Date().toISOString().slice(0, 10)
+					)
+					.map((prescription) => prescription.resource.medicationCodeableConcept[0].text)
+			);
 		};
 		fetchData();
 	}, []);
@@ -276,7 +285,10 @@ export default function WriteReferral({ referralData, setReferralData, selectedP
 					<Image
 						alt="img"
 						loading="lazy"
-						src={referralData.signature ?? "https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"}
+						src={
+							referralData.signature ??
+							"https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"
+						}
 						className="aspect-[1.02] w-[53px]"
 						width="0"
 						height="0"
