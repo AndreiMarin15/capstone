@@ -10,6 +10,7 @@ import { getMedicalHistory, getMedications } from "@/backend/pdfBackend/getPDFDa
 import { getLabTests } from "@/backend/pdfBackend/getPDFData";
 import { SelectLabtests } from "./subcomponents/selectLabTests";
 import { Label } from "@/components/ui/label";
+import { getPrescriptions } from "@/backend/pdfBackend/getPDFData";
 
 export default function WriteReferral({ referralData, setReferralData, selectedPatientId }) {
 	const [diagnoses, setDiagnoses] = useState([]);
@@ -89,13 +90,14 @@ export default function WriteReferral({ referralData, setReferralData, selectedP
 			const diagnosis = await getMedicalHistory(selectedPatientId);
 			console.log(diagnosis)
 			const medication = await getMedications(selectedPatientId);
-
+			const prescriptions = await getPrescriptions(selectedPatientId);
+			console.log(prescriptions);
 			setDiagnoses(
 				diagnosis
 					.filter((medicalhistory) => medicalhistory.resource.valueString)
 					.map((medicalhistory) => medicalhistory.resource.valueString)
 			);
-			setMedications(medication.map((medication) => medication.resource.medicationCodeableConcept[0].text));
+			setMedications(prescriptions.map((prescription) => prescription.resource.medicationCodeableConcept[0].text));
 		};
 		fetchData();
 	}, []);
