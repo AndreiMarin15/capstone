@@ -114,57 +114,10 @@ export function LabTest({ labTests, patientData, referred_by_id }) {
 							{Array.isArray(labTests) &&
 								labTests.map((item, index) => (
 									<tr key={index} onClick={() => handleRowClick(item.id, item.encounterId, item.status)}>
-										<td className="pl-2 pr-0">
-											<Image
-												alt="image"
-												height={0}
-												width={0}
-												loading="lazy"
-												src={item.src}
-												className="self-start aspect-square fill-black w-[15px]"
-											/>
-										</td>
 										<td className="border-l-[16px] border-transparent">
-											<button>
-												<div className="flex justify-between">
-													{item.variable}
-													<div
-														className="text-xs ml-10"
-														style={{
-															display: "flex",
-															alignItems: "center",
-															justifyContent: "flex-end",
-															textAlign: "right",
-														}}
-													>
-														{item.status === "requested" ? (
-															<>
-																<svg
-																	className="h-3 w-3 ml-1 text-red-500"
-																	fill="currentColor"
-																	viewBox="0 0 20 20"
-																	xmlns="http://www.w3.org/2000/svg"
-																>
-																	<circle cx="10" cy="10" r="5" />
-																</svg>
-																<span style={{ marginLeft: "0.25rem" }}>Requested</span>
-															</>
-														) : item.status === "final" ? (
-															<>
-																<svg
-																	className="h-3 w-3 ml-1 text-green-500"
-																	fill="currentColor"
-																	viewBox="0 0 20 20"
-																	xmlns="http://www.w3.org/2000/svg"
-																>
-																	<circle cx="10" cy="10" r="5" />
-																</svg>
-																<span style={{ marginLeft: "0.25rem" }}>Uploaded</span>
-															</>
-														) : null}
-													</div>
-												</div>
-											</button>
+											<div className="flex justify-between">
+												{index + 1}. {item.variable}
+											</div>
 										</td>
 									</tr>
 								))}
