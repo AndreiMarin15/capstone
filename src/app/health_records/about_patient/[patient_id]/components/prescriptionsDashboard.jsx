@@ -117,6 +117,7 @@ export default function Prescriptions({ patientId }) {
                 />
             ) : (
                 <>
+            
                     <div className="flex flex-col">
                         <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
                             MEDICATIONS
@@ -142,21 +143,7 @@ export default function Prescriptions({ patientId }) {
                             <TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
                         </Tabs>
                         <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
-                            <div className="flex gap-1.5 p-2.5">
-                                <div className="mt-3 font-semibold text-black flex gap-1 items-center">
-                                    Status:
-                                    <button
-                                        className={`flex flex-col flex-1 justify-center font-bold ${
-                                            status === "ACTIVE" ? "text-green-600" : "text-red-600"
-                                        } whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none`}
-                                        onClick={toggleStatus}
-                                    >
-                                        <div className="justify-center items-start py-2 pr-4 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
-                                            {status}
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
+                           
                         </div>
 
                         {prescriptions
@@ -169,13 +156,14 @@ export default function Prescriptions({ patientId }) {
                             //     }
                             // })
                             ?.map((prescription, index) => (
+                                <div key={prescription.id} className="flex justify-between items-center mt-5 text-xs leading-5 text-black w-full">
                                 <button
-                                    key={prescription.id}
                                     onClick={() => {
-                                        console.log(prescription.id)
-                                        setPrescriptionId(prescription.id)
+                                        console.log(prescription.id);
+                                        setPrescriptionId(prescription.id);
                                         setCurrentScreen(2);
                                     }}
+                                    className="flex-grow text-left"
                                 >
                                     <div key={index} className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full">
                                         <div className="flex gap-3.5 font-semibold whitespace-nowrap">
@@ -209,16 +197,21 @@ export default function Prescriptions({ patientId }) {
                                                 <div className="grow my-auto">{prescription.resource.requester.agent.reference}</div>
                                                 <div className="grow my-auto ml-10">Provided On: {new Date(prescription.created_at).toLocaleDateString()}</div>
                                             </div>
-                                         
-
-                                            <Button variant="download"> ↓ Download (.pdf)</Button>
                                         </div>
                                     </div>
-                                </button>
+                                    </button>
+                                    <Button
+                                        variant="download"
+                                        onClick={(e) => {
+                                            console.log("download button is clicked")
+                                        }}
+                                    >
+                                        ↓ Download (.pdf)
+                                    </Button>
+                            </div>
+                            
                             ))}
-							<BackButton
-							
-								/>
+							<BackButton/>
                     </div>
                 </>
             )}
