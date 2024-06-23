@@ -123,12 +123,14 @@ export const useDoctorInfo = create(
 
 			setFirst_name: (item) => set(() => ({ first_name: item })),
 
-			setSpecializationId: (id) => set(() => ({ 
-				specialization_id: id,
-			})),
-			setSpecializationName: (name) => set(() => ({ 
-				specialization_name: name,
-			})),
+			setSpecializationId: (id) =>
+				set(() => ({
+					specialization_id: id,
+				})),
+			setSpecializationName: (name) =>
+				set(() => ({
+					specialization_name: name,
+				})),
 
 			// setBirthdate: (item) => set(() => ({ birthdate: item })),
 
