@@ -1,5 +1,6 @@
 import { supabase, PROJECT } from "../project/db";
 import { currentUser } from "@/app/store";
+import {sendNotification} from "../sendNotification";
 
 export const newChat = async (doctorId) => {
 	return PROJECT.insertInto("messages_header_referral", {
