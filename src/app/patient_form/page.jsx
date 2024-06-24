@@ -40,17 +40,17 @@ export default function PatientInformation() {
 
 		// Check if all required fields in SignUpPersonalInformation are filled
 		if (
-			personalInfo.philhealth_id.trim() !== "" &&
-			personalInfo.attendingDoctor.trim() !== "" &&
-			personalInfo.first_name.trim() !== "" &&
-			personalInfo.last_name.trim() !== "" &&
-			personalInfo.contact_number.trim() !== "" &&
-			personalInfo.gender.trim() !== "" &&
-			personalInfo.birthdate.trim() !== "" &&
-			personalInfo.street_address.trim() !== "" &&
-			personalInfo.state.trim() !== "" &&
-			personalInfo.city.trim() !== "" &&
-			personalInfo.postal_code.trim() !== ""
+			personalInfo.philhealth_id?.trim() !== "" &&
+			personalInfo.attendingDoctor?.trim() !== "" &&
+			personalInfo.first_name?.trim() !== "" &&
+			personalInfo.last_name?.trim() !== "" &&
+			personalInfo.contact_number?.trim() !== "" &&
+			personalInfo.gender?.trim() !== "" &&
+			personalInfo.birthdate?.trim() !== "" &&
+			personalInfo.street_address?.trim() !== "" &&
+			personalInfo.state?.trim() !== "" &&
+			personalInfo.city?.trim() !== "" &&
+			personalInfo.postal_code?.trim() !== ""
 		) {
 			return true; // All fields are filled
 		}
