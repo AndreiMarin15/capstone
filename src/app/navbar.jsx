@@ -57,31 +57,31 @@ const patientNavigation = [
     href: "/patient/letters",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d3e9000904abf60c99bac7a9a7c190e556583d3c8e0cb2c6ba0298a2bed56d6d?",
   },
-  {
-    name: "Medications",
-    href: "/patient/medications",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
-  },
+  // {
+  //   name: "Medications",
+  //   href: "/patient/medications",
+  //   src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
+  // },
   {
     name: "Care Plans",
     href: "/patient/careplan",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/46cc5725acb618df69825eb223b3a750ecd1f916b972ef6d4cd581c01c80a752?",
   },
-  {
-    name: "Lab Tests",
-    href: "/patient/lab_tests",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d9227b6298b463189efefc5f7ac4076d3f31e5c8cf805f3377eeac6b717d533b?",
-  },
-  {
-    name: "Sharing Request",
-    href: "/patient/sharing_request",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/83dda067dae7a93c2533039e7b5c4922a5216df1fd9d3775dd133dc76cdf3f39?",
-  },
-  {
-    name: "Referral Letters",
-    href: "/patient/referral_letters",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/80ec5745b3c89f516b630be3539da47b763b7777db5771da5e6cad082d8b954e?apiKey=66e07193974a40e683930e95115a1cfd&",
-  },
+  // {
+  //   name: "Lab Tests",
+  //   href: "/patient/lab_tests",
+  //   src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d9227b6298b463189efefc5f7ac4076d3f31e5c8cf805f3377eeac6b717d533b?",
+  // },
+  // {
+  //   name: "Sharing Request",
+  //   href: "/patient/sharing_request",
+  //   src: "https://cdn.builder.io/api/v1/image/assets/TEMP/83dda067dae7a93c2533039e7b5c4922a5216df1fd9d3775dd133dc76cdf3f39?",
+  // },
+  // {
+  //   name: "Referral Letters",
+  //   href: "/patient/referral_letters",
+  //   src: "https://cdn.builder.io/api/v1/image/assets/TEMP/80ec5745b3c89f516b630be3539da47b763b7777db5771da5e6cad082d8b954e?apiKey=66e07193974a40e683930e95115a1cfd&",
+  // },
   {
     name: "Attending Doctors",
     href: "/patient/attending_doctors",
