@@ -371,7 +371,7 @@ export default function Referral() {
 										{/* Start Message */}
 										{messageInfo.messages_referral &&
 											messageInfo.messages_referral?.map((item, index) => {
-												if (item.message_status === "received" || item.message_status === "read") {
+												if (item.sender !== currentUser.getState().user.id) {
 													return (
 														<div
 															key={index}
@@ -390,7 +390,7 @@ export default function Referral() {
 															</span>
 														</div>
 													);
-												} else if (item.message_status === "sent" || item.message_status === "seen") {
+												} else if (item.sender === currentUser.getState().user.id) {
 													return (
 														<div
 															key={index}

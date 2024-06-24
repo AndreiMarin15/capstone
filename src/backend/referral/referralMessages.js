@@ -1,6 +1,7 @@
 import { supabase, PROJECT } from "../project/db";
 import { currentUser } from "@/app/store";
-import {sendNotification} from "../sendNotification";
+import { sendNotification } from "../sendNotification";
+
 
 export const newChat = async (doctorId) => {
 	return PROJECT.insertInto("messages_header_referral", {
@@ -30,6 +31,7 @@ export const getMessages = {
 			message_status: status,
 			message: message,
 			message_header_id: header,
+			sender: currentUser.getState().user.id,
 		});
 
 		const { data: headerData, error: headerError } = await supabase
@@ -63,7 +65,8 @@ export const getMessages = {
         messages_referral:id(
           message,
           created_at,
-          message_status
+          message_status,
+		  sender
         ),
         doctor1:doctor1(
 			id,
