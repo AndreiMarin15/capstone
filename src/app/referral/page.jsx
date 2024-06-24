@@ -338,103 +338,90 @@ export default function Referral() {
             {/* Another left side tab with bg-orange-500 */}
           </div>
 
-          {/* Right side tabs */}
-          <div className="flex flex-col w-1/2 max-w-[50%] md:order-last px-5">
-            <div className="flex flex-col grow max-md:mt-10 max-md:max-w-full">
-              <div className="pt-12 pr-2 pb-5 pl-6 bg-white shadow-sm max-md:px-5 max-md:max-w-full">
-                <div className="flex max-md">
-                  <div className="flex flex-col">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
-                      className="mt-4 aspect-square w-[43px]"
-                    />
-                  </div>
-                  <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
-                    <div className="flex items-center justify-between mt-2 text-lg font-semibold text-black">
-                      <span>{currentInfo?.name ? currentInfo.name : ""}</span>
-                      {/*<Button variant="outline">Create Care Plan</Button>*/}
-                    </div>
-                    <div className="mr-5 text-m text-zinc-600">
-                      <span className="text-black font-medium">
-                        {currentInfo?.specialty ?? ""}
-                      </span>
-                    </div>
-                    <div className="text-m text-zinc-600">
-                      <span className="text-black text-sm">
-                        PATIENT:{" "}
-                        <span className="font-normal">
-                          {currentInfo?.patient ?? ""}
-                        </span>
-                      </span>
-                    </div>
-                    <div className="text-xs text-zinc-600">
-                      <span className="text-black text-sm">
-                        Referral Note:{" "}
-                        <span className="font-normal">
-                          {currentInfo?.notes ?? ""}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {currentInfo?.name && (
-                <>
-                  <div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-80 h-80 px-7 overflow-y-auto gap-3">
-                    {/* Start Message */}
-                    {messageInfo.messages_referral &&
-                      messageInfo.messages_referral?.map((item, index) => {
-                        if (
-                          item.message_status === "received" ||
-                          item.message_status === "read"
-                        ) {
-                          return (
-                            <div
-                              key={index}
-                              className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]"
-                            >
-                              <Image
-                                alt="picture"
-                                height={0}
-                                width={0}
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
-                                className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
-                              />
-                              <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
-                                {item.message}
-                              </span>
-                            </div>
-                          );
-                        } else if (
-                          item.message_status === "sent" ||
-                          item.message_status === "seen"
-                        ) {
-                          return (
-                            <div
-                              key={index}
-                              className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
-                            >
-                              <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
-                                {item.message}
-                              </span>
-                              <Image
-                                alt="picture"
-                                height={0}
-                                width={0}
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
-                                className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
-                              />
-                            </div>
-                          );
-                        }
-                      })}
-                  </div>
+					{/* Right side tabs */}
+					<div className="flex flex-col w-1/2 max-w-[50%] md:order-last px-5">
+						<div className="flex flex-col grow max-md:mt-10 max-md:max-w-full">
+							<div className="pt-12 pr-2 pb-5 pl-6 bg-white shadow-sm max-md:px-5 max-md:max-w-full">
+								<div className="flex max-md">
+									<div className="flex flex-col">
+										<Image
+											alt="image"
+											height={0}
+											width={0}
+											loading="lazy"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+											className="mt-4 aspect-square w-[43px]"
+										/>
+									</div>
+									<div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
+										<div className="flex items-center justify-between mt-2 text-lg font-semibold text-black">
+											<span>{currentInfo?.name ? currentInfo.name : ""}</span>
+											<Button variant="outline">Create Care Plan</Button>
+										</div>
+										<div className="mr-5 text-m text-zinc-600">
+											<span className="text-black font-medium">{currentInfo?.specialty ?? ""}</span>
+										</div>
+										<div className="text-m text-zinc-600">
+											<span className="text-black text-sm">
+												PATIENT: <span className="font-normal">{currentInfo?.patient ?? ""}</span>
+											</span>
+										</div>
+										<div className="text-xs text-zinc-600">
+											<span className="text-black text-sm">
+												Referral Note: <span className="font-normal">{currentInfo?.notes ?? ""}</span>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							{currentInfo?.name && (
+								<>
+									<div className="bg-stone-50 self-center flex w-full max-w-full flex-col-reverse items-stretch pt-6 pb-12 max-md:max-w-full max-h-80 h-80 px-7 overflow-y-auto gap-3">
+										{/* Start Message */}
+										{messageInfo.messages_referral &&
+											messageInfo.messages_referral?.map((item, index) => {
+												if (item.sender !== currentUser.getState().user.id) {
+													return (
+														<div
+															key={index}
+															className="flex gap-4 items-start max-md:max-w-full max-md:flex-wrap max-w-[50%]"
+														>
+															<Image
+																alt="picture"
+																height={0}
+																width={0}
+																loading="lazy"
+																src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+																className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+															/>
+															<span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+																{item.message}
+															</span>
+														</div>
+													);
+												} else if (item.sender === currentUser.getState().user.id) {
+													return (
+														<div
+															key={index}
+															className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
+														>
+															<span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+																{item.message}
+															</span>
+															<Image
+																alt="picture"
+																height={0}
+																width={0}
+																loading="lazy"
+																src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
+																className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
+															/>
+														</div>
+													);
+												}
+											})}
+									</div>
+
 
                   <form
                     className="shadow-sm bg-white self-center flex w-full max-w-full flex-col items-stretch px-12 py-3.5 max-md:max-w-full max-md:px-5"
