@@ -88,7 +88,6 @@ async function fetchEncounters(patientId, setLabTests) {
 export default function LabTests({ labtests, patientId, patientData }) {
 	const [sortOptionDate, setSortOptionDate] = useState("Recent");
 	const [renderingOptions, setRenderingOptions] = useState(5);
-
 	const handleDateSort = (option) => {
 		setSortOptionDate(option);
 	};
