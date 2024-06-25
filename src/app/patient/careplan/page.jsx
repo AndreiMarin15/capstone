@@ -6,15 +6,13 @@ import { useCPNav } from "@/app/store";
 import ViewCarePlan from "../careplan/components/viewCarePlan";
 import { careplanInfo } from "@/backend/patient/careplan/careplan";
 import { currentUser } from "@/app/store";
-{
-  /* TO DO: Turn into component */
-}
 
 export default function CarePlanDashboard() {
   const { selected } = useCPNav();
   const [careplanInfor, setCareplanInfor] = useState([]);
   const [currentScreen, setCurrentScreen] = useState(0);
   const [carePlan, setCarePlan] = useState({});
+  const [showActivePlans, setShowActivePlans] = useState(true); // State to control the visibility
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,11 +28,20 @@ export default function CarePlanDashboard() {
 
   const [isTest, setTest] = useState(false);
   const handleSetCurrentScreen = (screen) => {
-    // Reset isTest to false when navigating back to screen 2
     setCurrentScreen(screen);
     // if (screen === 2) {
     //   setTest(false);
     // }
+  };
+
+  const isDateNotLaterThanToday = (dateString) => {
+    const today = new Date();
+    const date = new Date(dateString);
+    return date >= today;
+  };
+
+  const toggleActivePlansVisibility = () => {
+    setShowActivePlans(!showActivePlans);
   };
 
   return (
@@ -49,7 +56,7 @@ export default function CarePlanDashboard() {
         <>
           <div className="w-full max-md:max-w-full">
             <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-              <div className="flex flex-col items-stretch w-[70%] ml-5 max-md:w-full max-md:ml-0">
+              <div className="flex flex-col items-stretch w-[70%] pl-5 max-md:w-full max-md:ml-0">
                 <span className="flex flex-col mt-8 px-5 max-md:max-w-full max-md:mt-10">
                   <span className="flex w-[100%] max-w-full flex-col items-stretch self-start mb-5">
                     <div className="text-black text-xl font-semibold leading-8">
@@ -60,39 +67,30 @@ export default function CarePlanDashboard() {
                     style={{ borderTop: "1px solid #9CA3AF", width: "100%" }}
                   />
                 </span>
-                <div className="w-full">
-                  <div className="flex items-stretch gap-2.5 mt-8 self-end">
-                    <span className="flex items-stretch justify-between gap-2 py-2 rounded-md border-[0.5px] border-solid border-black">
-                      <Image
-                        alt="picture"
-                        height={0}
-                        width={0}
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?"
-                        className=" ml-2 aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full"
-                      />
-                      <input
-                        className="text-stone-300 text-xs leading-5 my-auto"
-                        placeholder="SEARCH"
-                      ></input>
-                    </span>
-                  </div>
-                </div>
-                <div className=" bg-white flex flex-col items-stretch min-h-screen w-full">
+
+                <div className="pl-5 bg-white flex flex-col items-stretch h-full w-full">
                   <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
-                    <div className="flex gap-1.5 p-2.5">
+                    <div className="mt-8 flex gap-1.5">
                       <div className="mt-3 grow font-semibold text-black">
                         Status:{" "}
                       </div>
-                      <button className="flex flex-col flex-1 justify-center font-bold text-green-600 whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                      <button
+                        className="flex flex-col flex-1 justify-center font-bold text-green-600 whitespace-nowrap leading-[150%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                        onClick={toggleActivePlansVisibility}
+                      >
                         <div className="justify-center items-start py-2 pr-16 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
-                          ACTIVE
+                          {showActivePlans ? "ACTIVE" : "INACTIVE"}
                         </div>
                       </button>
                     </div>
                   </div>
-                  {careplanInfor &&
-                    careplanInfor?.map((value, index) => (
+                  {careplanInfor
+                    .filter((value) =>
+                      showActivePlans
+                        ? isDateNotLaterThanToday(value.resource?.period.end)
+                        : true
+                    )
+                    .map((value, index) => (
                       <button
                         key={index}
                         className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[800px]"
@@ -101,7 +99,7 @@ export default function CarePlanDashboard() {
                           setCurrentScreen(1);
                         }}
                       >
-                        <div className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[1000px]">
+                        <div className="flex flex-col mt-10 items-start text-xs leading-5 text-black">
                           <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                             <Image
                               alt="image"
@@ -115,7 +113,7 @@ export default function CarePlanDashboard() {
                               {value["resource"]?.["title"]}
                             </div>
                           </div>
-                          <div className="flex gap-5 justify-between ml-7 max-md:ml-2.5 max-w-[1000px]">
+                          <div className="flex gap-5 self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
                             <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                               <Image
                                 alt="image"
@@ -133,7 +131,7 @@ export default function CarePlanDashboard() {
                                       value["resource"]?.contributor.length - 1
                                     } other/s`}
                               </div>
-                              <div className=" ml-16 justify-between flex-auto my-auto">{`${value.resource?.period.start} - ${value.resource?.period.end}`}</div>
+                              <div className="pl-6 flex-auto my-auto">{`${value.resource?.period.start} - ${value.resource?.period.end}`}</div>
                             </div>
                           </div>
                         </div>
