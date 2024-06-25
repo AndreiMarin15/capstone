@@ -2,10 +2,12 @@
 import Image from "next/image";
 import * as React from "react";
 import dashboard from "@/backend/patient/patient_dashboard/dashboard";
-import { getNotifications } from "@/backend/sendNotification";
+import { getNotifications, getSenderData, markAsRead } from "@/backend/sendNotification";
 import { getReminders } from "@/backend/reports/getReportsData";
 import { currentUser } from "@/app/store";
 import { Bell } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 export default function Home() {
 	const [patientData, setPatient] = React.useState({
 		name: "Juan Dela Cruz",
@@ -26,12 +28,24 @@ export default function Home() {
 	const [reminders, setReminders] = React.useState([]);
 
 	React.useEffect(() => {
-		const getNotificationsData = async () => {
+		const fetchNotifs = async () => {
 			const notifications = await getNotifications(currentUser.getState().info.id);
-			setNotifications(notifications.map((notif) => ({ title: notif.title, content: notif.content })));
+			const notificationsWithSender = await Promise.all(
+				notifications.map(async (notif) => ({
+					title: notif.title,
+					content: notif.content,
+					sender: await getSenderData(notif.id),
+				}))
+			);
+			setNotifications(notificationsWithSender);
 		};
-		getNotificationsData();
+
+		fetchNotifs();
 	}, []);
+
+	React.useEffect(() => {
+		console.log(notifications);
+	}, [notifications]);
 
 	React.useEffect(() => {
 		const getRemindersData = async () => {
@@ -157,64 +171,82 @@ export default function Home() {
 					</div>
 				</div>
 				<div className="flex-col mt-14 ml-5 w-[40%] max-md:ml-0 max-md:w-full">
-					<div className="flex flex-col self-stretch px-10 pt-7 pb-12 m-auto w-full text-xs text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:mt-10">
-						<div className="flex gap-3 justify-between text-base font-semibold leading-6">
-							<Image
-								alt="image"
-								width={0}
-								height={0}
-								loading="lazy"
-								src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
-								className="w-5 aspect-[1.18] fill-black"
-							/>
-							<div className="flex-auto">Notifications</div>
-						</div>
-						{notifications?.length > 0
-							? notifications?.map((notification) => (
-									<div
-										key={notification.title}
-										className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
-									>
-										<Bell size={20} />
-										<span className="flex grow basis-[0%] flex-col items-stretch">
-											<div className="text-black text-xs font-medium leading-5">{notification.title}</div>
-											<div className="text-black text-xs leading-5 mt-2.5">{notification.content} </div>
-										</span>
-									</div>
-								))
-							: "No notifications"}
+					<ScrollArea className="max-md:mt-10 h-[80dvh]">
+						<div className="flex flex-col self-stretch px-10 pt-7 pb-12 m-auto w-full text-xs text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:mt-10">
+							<div className="flex gap-3 justify-between text-base font-semibold leading-6">
+								<Image
+									alt="image"
+									width={0}
+									height={0}
+									loading="lazy"
+									src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
+									className="w-5 aspect-[1.18] fill-black"
+								/>
+								<div className="flex-auto">Notifications</div>
 
-						<div className="flex gap-3 justify-between text-base font-semibold leading-6 mt-10">
-							<Image
-								alt="image"
-								width={0}
-								height={0}
-								loading="lazy"
-								src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
-								className="w-5 aspect-[1.18] fill-black"
-							/>
-							<div className="flex-auto">Reminders</div>
-						</div>
+								<Button
+									className="underline"
+									onClick={() => {
+										notifications.forEach(async (notification) => {
+											await markAsRead(notification.id);
+										});
+									}}
+								>
+									Mark all as read
+								</Button>
+							</div>
+							{notifications?.length > 0
+								? notifications?.map((notification) => (
+										<div
+											key={notification.title}
+											className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
+										>
+											<Bell size={20} />
+											<span className="flex grow basis-[0%] flex-col items-stretch">
+												<div className="text-black text-xs font-medium leading-5">{notification.title}</div>
+												<div className="text-black text-xs leading-5 mt-2.5">
+													{notification.content}{" "}
+													{notification.title === "New Message"
+														? `from ${notification.sender}`
+														: `by ${notification.sender}`}{" "}
+												</div>
+											</span>
+										</div>
+									))
+								: "No notifications"}
 
-						{reminders?.length > 0
-							? reminders?.map((reminder) => (
-									<div
-										key={reminder.reminderText}
-										className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
-									>
-										<Bell size={20} />
-										<span className="flex grow basis-[0%] flex-col items-stretch">
-											<div className="text-black text-xs font-medium leading-5">{reminder.reminderText}</div>
-											<div className="text-black text-xs leading-5 mt-2.5">Your Last Visit: {reminder.lastVisit}</div>
-											<div className="text-black text-xs leading-5 mt-2.5">
-												Your Supposed Visit: {reminder.supposedVisit}
-											</div>
-											<div className="text-black text-xs leading-5 mt-2.5">From Dr. {reminder.doctor_name}</div>
-										</span>
-									</div>
-								))
-							: "No reminders"}
-					</div>
+							<div className="flex gap-3 justify-between text-base font-semibold leading-6 mt-10">
+								<Image
+									alt="image"
+									width={0}
+									height={0}
+									loading="lazy"
+									src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?"
+									className="w-5 aspect-[1.18] fill-black"
+								/>
+								<div className="flex-auto">Reminders</div>
+							</div>
+
+							{reminders?.length > 0
+								? reminders?.map((reminder) => (
+										<div
+											key={reminder.reminderText}
+											className="border border-[color:var(--background-background-600,#E8E8E8)] shadow-sm bg-white flex justify-between gap-3.5 mt-3.5 pl-5 pr-20 pt-3 pb-6 rounded border-solid items-start max-md:pr-5"
+										>
+											<Bell size={20} />
+											<span className="flex grow basis-[0%] flex-col items-stretch">
+												<div className="text-black text-xs font-medium leading-5">{reminder.reminderText}</div>
+												<div className="text-black text-xs leading-5 mt-2.5">Your Last Visit: {reminder.lastVisit}</div>
+												<div className="text-black text-xs leading-5 mt-2.5">
+													Your Supposed Visit: {reminder.supposedVisit}
+												</div>
+												<div className="text-black text-xs leading-5 mt-2.5">From Dr. {reminder.doctor_name}</div>
+											</span>
+										</div>
+									))
+								: "No reminders"}
+						</div>
+					</ScrollArea>
 				</div>
 			</div>
 		</div>
