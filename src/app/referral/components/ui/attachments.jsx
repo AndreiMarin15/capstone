@@ -22,12 +22,18 @@ export function Attachments({ recepient }) {
 	useEffect(() => {
 		console.log(recepient);
 		console.log(recepient.recepientId);
-		getAttachments();
+		const fetchAttachments = async () => {
+			const attachments = await getAttachments(recepient.patient_id, recepient.referred_to, recepient.referred_by);
+			console.log(attachments);
+			setAttachments(attachments);
+		};
+		fetchAttachments();
 	}, [recepient]);
 
 	useEffect(() => {
 		const fetchAttachments = async () => {
 			const attachments = await getAttachments(recepient.patient_id);
+			console.log(attachments);
 			setAttachments(attachments);
 		};
 		fetchAttachments();
@@ -37,7 +43,7 @@ export function Attachments({ recepient }) {
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button type="button" variant="link">
-					<div className="flex gap-2">
+					<div className="flex gap-2 text-xs">
 						<Image
 							alt="picture"
 							height={0}
