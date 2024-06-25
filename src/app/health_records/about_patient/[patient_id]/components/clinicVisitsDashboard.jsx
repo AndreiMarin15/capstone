@@ -225,7 +225,7 @@ export default function ClinicVisits({ patientId }) {
 													</div>
 												</div>
 											</div>
-											<span className="text-xs text-gray-500">Last Opened: {encounter.lastOpened}</span>
+											
 										</div>
 									</button>
 								))
@@ -265,7 +265,7 @@ export default function ClinicVisits({ patientId }) {
 												</div>
 											</div>
 										</div>
-										<span className="text-xs text-gray-500">Last Opened: {encounter.lastOpened}</span>
+										
 									</div>
 								</button>
 							))}

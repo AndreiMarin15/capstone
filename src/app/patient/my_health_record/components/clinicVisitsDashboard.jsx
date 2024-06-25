@@ -250,9 +250,6 @@ export default function ClinicVisits() {
                         
                         </div>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        Last Opened: {encounter.lastOpened}
-                      </span>
                     </div>
                   </button>
                 ))
@@ -274,7 +271,7 @@ export default function ClinicVisits() {
                     {/* Display encounter data */}
                     <div className="flex flex-col flex-1 px-3.5 text-left">
                       <div className="font-semibold whitespace-nowrap">
-                        Clinic Visit {index + 1}
+                        Clinic Visit {encounter.resource.period.start}
                       </div>
                       <div className="flex justify-between w-fit">
                         <Image
@@ -290,11 +287,11 @@ export default function ClinicVisits() {
                             encounter.resource.participant.actor &&
                             encounter.resource.participant.actor}
                         </div>
-                        <div>{encounter.resource.period.start}</div>
+                        
                       </div>
                     </div>
                     <span className="text-xs text-gray-500">
-                      Last Opened: {encounter.lastOpened}
+                     
                     </span>
                   </div>
                 </button>
