@@ -13,9 +13,9 @@ export const deleteReferral = async (referralId) => {
 
 export const deleteAttendingDoctor = async (referralId) => {
 	const referral = await sProject.from("referrals").select("*").eq("id", referralId);
-
-	const patient_id = referral.data[0].patient_id;
-	const referred_to = referral.data[0].referred_to;
+	console.log(referral);
+	const patient_id = referral?.data[0]?.patient_id;
+	const referred_to = referral?.data[0]?.referred_to;
 
 	const deleted = await sProject
 		.from("attending_doctors")
