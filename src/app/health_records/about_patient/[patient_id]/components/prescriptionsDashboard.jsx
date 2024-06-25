@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend/initSupabase";
 import uploadPrescription from "@/backend/health_records/uploadPrescription";
-import { getPrescriptions } from "@/backend/health_records/getPrescription";
+import { getPrescriptionsByPatient } from "@/backend/health_records/getPrescription";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -78,7 +78,7 @@ export default function Prescriptions({ patientId }) {
 
   const fetchPrescriptions = async () => {
     try {
-      const fetchedPrescriptions = await getPrescriptions();
+      const fetchedPrescriptions = await getPrescriptionsByPatient(patientId);
       setPrescriptions(fetchedPrescriptions.reverse());
       console.log("Fetched Prescriptions:", fetchedPrescriptions);
     } catch (error) {
