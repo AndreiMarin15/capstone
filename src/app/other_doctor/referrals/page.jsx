@@ -8,7 +8,7 @@ import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import { ReferralList } from "./components/referralList";
 import { getMessages, getMessagesAndSubscribe } from "@/backend/referral/referralMessages";
 import { Attachments } from "@/app/referral/components/ui/attachments";
-import {ScrollArea} from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 export default function Referral() {
 	const router = useRouter();
 	const [otp, setOtp] = React.useState(null);
@@ -47,7 +47,7 @@ export default function Referral() {
 	const [currentInfo, setCurrentInfo] = React.useState({});
 
 	const [referralsList, setList] = React.useState([]);
-
+	const [filteredReferrals, setFilteredReferrals] = React.useState([]);
 	const handleMessageChange = (event) => {
 		setMessage(event.target.value);
 	};
@@ -57,7 +57,9 @@ export default function Referral() {
 	};
 
 	getMessagesAndSubscribe(handleInserts);
-
+	React.useEffect(() => {
+		setFilteredReferrals(referralsList);
+	}, [referralsList]);
 	React.useEffect(() => {
 		const importMessage = async () => {
 			const chatList = await getMessages.getChats();
@@ -206,6 +208,30 @@ export default function Referral() {
 		fetchData();
 	}, []);
 
+	const [searchTerm, setSearchTerm] = React.useState("");
+	function searchReferrals(referrals, searchTerm) {
+		if (searchTerm.length < 3) {
+			return []; // Return an empty array or possibly the whole list, depending on desired behavior
+		}
+
+		return referrals.filter(
+			(referral) =>
+				referral.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				referral.patient.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+	}
+
+	React.useEffect(() => {
+		if (searchTerm.length > 2) {
+			setFilteredReferrals(searchReferrals(referralsList, searchTerm));
+		} else if (searchTerm.length === 0) {
+			setFilteredReferrals(referralsList);
+		}
+	}, [searchTerm]);
+
+	React.useEffect(() => {
+		console.log(filteredReferrals);
+	}, [filteredReferrals]);
 	React.useEffect(() => {
 		console.log(referralsList);
 	}, [referralsList]);
@@ -272,7 +298,15 @@ export default function Referral() {
 								src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
 								className="aspect-square fill-stone-300 w-[13px] ml-4"
 							/>
-							<input type="text" placeholder="Search..." />
+							<input
+								type="text"
+								placeholder="Search..."
+								className="p-2"
+								value={searchTerm}
+								onChange={(e) => {
+									setSearchTerm(e.target.value);
+								}}
+							/>
 						</div>
 						<button
 							onClick={() => {
@@ -288,26 +322,26 @@ export default function Referral() {
 				<div className="flex">
 					{/* Left side tabs */}
 					<div className="flex flex-col w-1/2 max-w-[50%] md:w-full px-5 mt-9">
-					<ScrollArea className="h-[70dvh]" >
-						{referralsList?.map((referral) => {
-							return (
-								<div
-									key={referral.id}
-									onClick={() => {
-										getUser(referral.chat_id);
-										console.log(referral);
-									}}
-								>
-									<ReferralList
-										setCurrentInfo={setCurrentInfo}
-										referral={referral}
-										retrieveReferralData={retrieveReferralData}
-										referralFlag={referralFlag}
-										setReferralFlag={setReferralFlag}
-									/>
-								</div>
-							);
-						})}
+						<ScrollArea className="h-[70dvh]">
+							{referralsList?.map((referral) => {
+								return (
+									<div
+										key={referral.id}
+										onClick={() => {
+											getUser(referral.chat_id);
+											console.log(referral);
+										}}
+									>
+										<ReferralList
+											setCurrentInfo={setCurrentInfo}
+											referral={referral}
+											retrieveReferralData={retrieveReferralData}
+											referralFlag={referralFlag}
+											setReferralFlag={setReferralFlag}
+										/>
+									</div>
+								);
+							})}
 						</ScrollArea>
 						{/* Another left side tab with bg-orange-500 */}
 					</div>
