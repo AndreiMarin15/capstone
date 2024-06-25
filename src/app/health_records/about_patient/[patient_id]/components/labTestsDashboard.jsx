@@ -15,8 +15,17 @@ import useLabTestStore from "@/app/labTestStore";
 import { LabTest } from "@/app/patient/letters/components/pdfs/labtest";
 import { currentUser } from "@/app/store";
 import { getFullPatientData } from "@/backend/pdfBackend/getPatientData";
-
 import { ReusableLabTest } from "./reusable";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+	DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
 
 async function fetchEncounters(patientId, setLabTests) {
 	console.log(patientId);
@@ -85,6 +94,17 @@ export default function LabTests({ patientId }) {
 		setCurrentScreen(1); // Assuming 1 is the screen for ViewLabRequest
 	};
 
+
+	const [sortOptionDate, setSortOptionDate] = useState("Recent");
+	const [renderingOptions, setRenderingOptions] = useState(5);
+
+	const handleDateSort = (option) => {
+		setSortOptionDate(option);
+	};
+
+
+
+	
 	useEffect(() => {
 		const fetchPatientData = async () => {
 			const data = await getFullPatientData(patientId);
@@ -137,10 +157,50 @@ export default function LabTests({ patientId }) {
 							<TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
 							<TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
 						</Tabs>
+						<div className="flex justify-between">
+						<div className="flex items-center">
+						<span className="text-black text-sm text-base font-bold leading-5">Rendering Options:</span>
+							<select
+								className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+								onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+								defaultValue="5"
+							>
+								<option value="5" disabled hidden>
+									5
+								</option>
+								<option value="3">3</option>
+								<option value="5">5</option>
+								<option value="7">7</option>
+								<option value="10">10</option>
+							</select>
+							<span className="ml-2 text-black text-base leading-5 text-sm font-normal">Lab test requests</span>
+							</div>
+						<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<span className="flex items-center gap-1 px-1 py-1 rounded-md">
+										<Button variant="sortfilter">SORT</Button>
+									</span>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent className="w-56">
+									<DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
+										<DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							</div>
 
-						{Object.entries(labTests)
-							.sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
-							.map(([encounterId, labTestGroup], groupIndex) => (
+							{Object.entries(labTests)
+                            .sort((a, b) => {
+                                if (sortOptionDate === "Recent") {
+                                    return new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate);
+                                } else {
+                                    return new Date(a[1][0]?.reqdate) - new Date(b[1][0]?.reqdate);
+                                }
+                            }).slice(0, renderingOptions)
+                            .map(([encounterId, labTestGroup], groupIndex) => (
 								<div key={groupIndex} className="w-full flex justify-between">
 									<div className="mb-5">
 										<tr key={groupIndex} onClick={() => handleRowClick(labTestGroup[0]?.id, encounterId)}>

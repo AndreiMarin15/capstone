@@ -86,6 +86,12 @@ async function fetchEncounters(patientId, setLabTests) {
 
 
 export default function LabTests({ labtests, patientId, patientData }) {
+	const [sortOptionDate, setSortOptionDate] = useState("Recent");
+	const [renderingOptions, setRenderingOptions] = useState(5);
+
+	const handleDateSort = (option) => {
+		setSortOptionDate(option);
+	};
 
 	const fetchSelfPrickObservations = async () => {
         try {
@@ -150,30 +156,14 @@ export default function LabTests({ labtests, patientId, patientData }) {
 	  }, []);
 
 	  console.log(labTests)
-	return (
+	
+	  return (
 		<>
 			{currentScreen === 0 ? (
 				<TabsContent value="labtestrequest">
 					<div className="flex justify-between items-center mt-4">
 						<div className="font-semibold items-center self-center text-s ml-5">Lab Test Requests</div>
 						<div className="flex gap-2">
-							<div>
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<button className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid">
-											SORT
-										</button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent className="w-56">
-										<DropdownMenuLabel>Sort By Doctor Name</DropdownMenuLabel>
-										<DropdownMenuSeparator />
-										<DropdownMenuRadioGroup>
-											<DropdownMenuRadioItem value="asc">A-Z</DropdownMenuRadioItem>
-											<DropdownMenuRadioItem value="desc">Z-A</DropdownMenuRadioItem>
-										</DropdownMenuRadioGroup>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</div>
 							<div className="">
 								<Button
 									variant="outline"
@@ -186,14 +176,55 @@ export default function LabTests({ labtests, patientId, patientData }) {
 							</div>
 						</div>
 					</div>
+					<div className="flex justify-between mt-2">
+						<div className="flex items-center">
+						<span className="ml-5 text-black text-sm text-base font-bold leading-5">Rendering Options:</span>
+							<select
+								className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+								onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+								defaultValue="5"
+							>
+								<option value="5" disabled hidden>
+									5
+								</option>
+								<option value="3">3</option>
+								<option value="5">5</option>
+								<option value="7">7</option>
+								<option value="10">10</option>
+							</select>
+							<span className="ml-2 text-black text-base leading-5 text-sm font-normal">Lab test requests</span>
+							</div>
+						<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<span className="flex items-center gap-1 px-1 py-1 rounded-md">
+										<Button variant="sortfilter">SORT</Button>
+									</span>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent className="w-56">
+									<DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
+										<DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							</div>
+							
 					<>
 					<button
 							className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
 							onClick={() => handleRowClick}
 						>
 					{Object.entries(labTests)
-						.sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
-						.map(([encounterId, labTestGroup], groupIndex) => (
+                            .sort((a, b) => {
+                                if (sortOptionDate === "Recent") {
+                                    return new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate);
+                                } else {
+                                    return new Date(a[1][0]?.reqdate) - new Date(b[1][0]?.reqdate);
+                                }
+                            }).slice(0, renderingOptions)
+                            .map(([encounterId, labTestGroup], groupIndex) => (
 							<tr key={groupIndex} onClick={() => handleRowClick(encounterId)}>
 							{labTestGroup && labTestGroup[0] && (
 								<div className="flex justify-between text-xs leading-5 text-black max-w-[650px] mt-5 ml-5">
