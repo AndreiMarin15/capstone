@@ -88,6 +88,7 @@ async function fetchEncounters(patientId, setLabTests) {
 export default function LabTests({ labtests, patientId, patientData }) {
 	const [sortOptionDate, setSortOptionDate] = useState("Recent");
 	const [renderingOptions, setRenderingOptions] = useState(5);
+	
 	const handleDateSort = (option) => {
 		setSortOptionDate(option);
 	};
@@ -125,7 +126,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
 
 	  useEffect(() => {
 		console.log(labtests);
-
+		console.log(patientData)
 		}, [labtests]);
 
 
@@ -297,12 +298,12 @@ export default function LabTests({ labtests, patientId, patientData }) {
 												<Reusable
 													child={
 														<LabTest
-															labtest={labTests}
+															labtest={labTests[encounterId]}
 															patientData={patientData}
-															referred_by_id={labTests.resource?.participant?.actor}
+															referred_by_id={labTests[encounterId].resource?.participant?.actor}
 														/>
 													}
-													filename={`labtest_${labTests?.resource?.codeText}`}
+													filename={"Lab Test"}
 												/>
 											</div> */}
 										</div>
