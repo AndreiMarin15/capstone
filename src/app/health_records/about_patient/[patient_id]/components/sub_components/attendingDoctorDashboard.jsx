@@ -12,6 +12,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 	// const supabase = client("public");
 	const [medications, setMedications] = useState([]);
 	const [attendingDoctors, setAttendingDoctors] = useState([]);
+	const [filteredDoctors, setFilteredDoctors] = useState([]);
 
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
 
@@ -21,6 +22,19 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 			const data = await getAttendingDoctors(patientId);
 			console.log(data);
 			setAttendingDoctors(
+				data.map((doctor, index) => {
+					return {
+						name: doctor.doctor_first_name + " " + doctor.doctor_last_name,
+						specialty: doctor.doctor_specialization,
+						status: doctor.status,
+						clinic: doctor.clinic,
+						contact: doctor.contact,
+						attendingId: doctor.id,
+					};
+				})
+			);
+
+			setFilteredDoctors(
 				data.map((doctor, index) => {
 					return {
 						name: doctor.doctor_first_name + " " + doctor.doctor_last_name,
@@ -45,17 +59,17 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 	// const [currentUser, setCurrentUser] = useState(null);
 	const [refresh, setRefresh] = useState(false);
 
-	React.useEffect(() => {
-		const fetchCurrentUser = async () => {
-			try {
-				const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
-				setCurrentUser(currentUserData);
-			} catch (error) {
-				console.error("Error fetching current user:", error);
-			}
-		};
-		fetchCurrentUser();
-	}, []);
+	// React.useEffect(() => {
+	// 	const fetchCurrentUser = async () => {
+	// 		try {
+	// 			const currentUserData = await doctor.getDoctorByCurrentUser(); // Fetch current user data using the doctor module
+	// 			setCurrentUser(currentUserData);
+	// 		} catch (error) {
+	// 			console.error("Error fetching current user:", error);
+	// 		}
+	// 	};
+	// 	fetchCurrentUser();
+	// }, []);
 
 	React.useEffect(() => {
 		const interval = setInterval(() => {
@@ -70,6 +84,12 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 	const toggleStatus = () => {
 		setStatus(status === "ACCEPTED" ? "PENDING" : "ACCEPTED");
 	};
+
+	useEffect(() => {
+		status === "ACCEPTED"
+			? setFilteredDoctors(attendingDoctors.filter((doctor) => doctor.status === "accepted"))
+			: setFilteredDoctors(attendingDoctors.filter((doctor) => doctor.status === "pending"));
+	}, [status]);
 	async function handleRemoveDoctor(doctorId) {
 		try {
 			// Attempt to delete the doctor from the database
@@ -77,7 +97,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 
 			// If successful, update the attendingDoctors array to remove the deleted doctor
 			setAttendingDoctors((currentDoctors) => currentDoctors.filter((doctor) => doctor.attendingId !== doctorId));
-
+			setFilteredDoctors((currentDoctors) => currentDoctors.filter((doctor) => doctor.attendingId !== doctorId));
 			// Optionally, show a success message or update the UI accordingly
 			console.log("Doctor removed successfully");
 		} catch (error) {
@@ -122,7 +142,7 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 							{attendingDoctors
 								.filter((doctor) => {
 									if (status === "ACCEPTED") {
-										return doctor.status === "accepted" || doctor.status === "pending";
+										return doctor.status === "accepted" ;
 									} else {
 										return doctor.status === "pending";
 									}
@@ -186,7 +206,11 @@ export default function AttendingDoctors({ currentScreen, setCurrentScreen, pati
 			) : null}
 			{atCurrentScreen === 4 ? (
 				<>
-					<ViewAttendingDoctor currentScreen={atCurrentScreen} setCurrentScreen={setAtCurrentScreen} doctorInfo={selectedDoctor} />
+					<ViewAttendingDoctor
+						currentScreen={atCurrentScreen}
+						setCurrentScreen={setAtCurrentScreen}
+						doctorInfo={selectedDoctor}
+					/>
 				</>
 			) : null}
 		</>
