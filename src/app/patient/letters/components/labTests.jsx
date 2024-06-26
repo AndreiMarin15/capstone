@@ -293,6 +293,18 @@ export default function LabTests({ labtests, patientId, patientData }) {
 										</button>
 										<div className=" mt-9 text-xs text-blue-500 leading-5 flex items-center">
 											<Button variant="download"> ↓ Download (.pdf)</Button>
+											{/* <div className="flex gap-5 justify-between ml-7  max-md:ml-2.5 w-[100%]">
+												<Reusable
+													child={
+														<LabTest
+															labtest={labTests}
+															patientData={patientData}
+															referred_by_id={labTests.resource?.participant?.actor}
+														/>
+													}
+													filename={`labtest_${labTests?.resource?.codeText}`}
+												/>
+											</div> */}
 										</div>
 									</div>
 								))}
