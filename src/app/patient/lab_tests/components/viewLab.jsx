@@ -81,6 +81,7 @@ export default function VisitLabtests({
     <>
       {
         <>
+       
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - TESTS
           </div>
@@ -127,32 +128,29 @@ export default function VisitLabtests({
                       )
                     }
                   />
-                 <div className="flex gap-16">
-                    <div className=" self-start text-sm text-black">
-                      <span className=" font-semibold">Lab Values:</span>
-                      <div className="mt-5 text-sm">
-                        {labTestData.valueQuantities?.map(
-                          (valueQuantity, index) => (
-                            <div key={index} style={{ whiteSpace: "nowrap" }}>
-                              {valueQuantity.display} = {valueQuantity.value}{" "}
-                              {valueQuantity.unit}
+                <div className="flex gap-16">
+                    <div className="self-start text-sm text-black">
+
+                      <div className="mt-8 text-sm">
+                      
+                        {labTestData.valueQuantities?.map((valueQuantity, index) => (
+                          <div key={index} className="mt-3" style={{ whiteSpace: "nowrap" }}>
+                            <span className="font-semibold">{valueQuantity.display}</span> = {valueQuantity.value}{" "}
+                            {valueQuantity.unit}
+                            <div><span className="font-semibold">Ranges:</span>
+                            {labTestData.rangeQuantities?.slice(index * 3, index * 3 + 3).map((rangeQuantity, rangeIndex) => (
+                              <div key={`${index}-${rangeIndex}`} className="mt-1" style={{ whiteSpace: "nowrap" }}>
+                                {rangeQuantity.level}: {rangeQuantity.min} - {rangeQuantity.max}
+                              </div>
+                            
+                            ))}
+                            
                             </div>
-                          )
-                        )}
-                      </div>
-                    </div>
-                    <div className=" self-start text-sm text-black">
-                      <span className=" font-semibold">Value Range:</span>
-                      {/* HARDCODED */}
-                      <div className="mt-5 text-sm">
-                        {labTestData.rangeQuantities?.map(
-                          (rangeQuantity, index) => (
-                            <div key={index} style={{ whiteSpace: "nowrap" }}>
-                              {rangeQuantity.level} = {rangeQuantity.min} - {" "}
-                              {rangeQuantity.max}
-                            </div>
-                          )
-                        )}
+                            
+                        
+                          </div>
+                        ))}
+                        
                       </div>
                     </div>
                   </div>
