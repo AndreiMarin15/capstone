@@ -251,7 +251,7 @@ export default function Letters() {
                                     </div>
                                   </div>
                                 </button>
-                                <Button className=" ml-2 " variant="download">
+                                <Button className="ml-10" variant="download">
                                   {" "}
                                   ↓ Download (.pdf)
                                 </Button>
@@ -313,7 +313,7 @@ export default function Letters() {
                       </TabsContent>
                       <TabsContent
                         value="labtestrequest"
-                        className="flex-1 min-h-screen w-full"
+                        className="flex-1 max-h-screen w-full"
                       >
                         <LabTest
                           labtests={labtests}

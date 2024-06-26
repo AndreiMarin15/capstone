@@ -61,8 +61,6 @@ export default function Diagnoses() {
 				const allFinalDiagnoses = await getFinalDiagnosisObservations(data.id);
 				const patientEncounters = await getEncounterByPatientId(data.id);
 				setEncounters(patientEncounters);
-			
-				// After setting encounters, update diagnoses
 				updateDiagnoses(allFinalDiagnoses, patientEncounters);
 			} catch (error) {
 				console.error("Error fetching patient data:", error);
@@ -82,8 +80,6 @@ export default function Diagnoses() {
 		  const [specialization, hospital] = await Promise.all([specializationPromise, hospitalPromise]);
 	
 		  const dateOfDiagnosis = getDateOfDiagnosis(diagnosis.id, patientEncounters);
-		  console.log(diagnosis.id);
-		  console.log(dateOfDiagnosis);
 	
 		  return {
 			...diagnosis,
@@ -96,7 +92,6 @@ export default function Diagnoses() {
 		const updatedDiagnoses = await Promise.all(promises);
 		setFinalDiagnoses(updatedDiagnoses);
 	  }
-
 	  const handleDateSort = (option) => {
 		setSortOptionDate(option);
 	  };
@@ -122,10 +117,7 @@ export default function Diagnoses() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
-
-
-			</div>
+		</div>
 
 			<table className="pt-1.5 leading-5 text-black mt-10 max-w-[100%]">
 				<thead>
