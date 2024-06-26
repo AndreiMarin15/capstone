@@ -102,9 +102,6 @@ export default function LabTests({ patientId }) {
 		setSortOptionDate(option);
 	};
 
-
-
-	
 	useEffect(() => {
 		const fetchPatientData = async () => {
 			const data = await getFullPatientData(patientId);
