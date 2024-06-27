@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 
-export function Reusable({ child, filename }) {
+export function Reusable({ child, filename, orientation, h, w }) {
 	const pdfRef = useRef();
 	const downloadPDF = () => {
 		const input = pdfRef.current;
@@ -13,20 +13,13 @@ export function Reusable({ child, filename }) {
 
 		const width = input.offsetWidth;
 		const height = input.offsetHeight;
-		let computedWidth = width;
-		let computedHeight = height;
 
-		html2canvas(input)
-			.then((canvas) => {
-				const imgData = canvas.toDataURL("image/png");
-				const pdf = new jsPDF("p", "px", [computedWidth, computedHeight]);
-				pdf.addImage(imgData, "PNG", 0, 0, width, height);
-				pdf.save(`${filename}.pdf`);
-			})
-			.finally(() => {
-				// Add the 'hidden' class back after the PDF has been downloaded
-				input.classList.add("hidden");
-			});
+		html2canvas(input).then((canvas) => {
+			const imgData = canvas.toDataURL("image/png");
+			const pdf = new jsPDF(orientation ?? "p", "px");
+			pdf.addImage(imgData, "PNG", 0, 0);
+			pdf.save(`${filename}.pdf`);
+		});
 	};
 	return (
 		<div className="flex items-center justify-center text-center m-2">
