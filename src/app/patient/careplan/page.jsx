@@ -88,7 +88,7 @@ export default function CarePlanDashboard() {
                     .filter((value) =>
                       showActivePlans
                         ? isDateNotLaterThanToday(value.resource?.period.end)
-                        : true
+                        : !isDateNotLaterThanToday(value.resource?.period.end)
                     )
                     .map((value, index) => (
                       <button

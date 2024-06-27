@@ -108,7 +108,7 @@ export default function CarePlan({ patientId, patientData }) {
               .filter((careplan) =>
                 showActivePlans
                   ? isDateNotLaterThanToday(careplan.resource?.period.end)
-                  : true
+                  : !isDateNotLaterThanToday(careplan.resource?.period.end)
               )
               .map((careplan, index) => (
                 <button
