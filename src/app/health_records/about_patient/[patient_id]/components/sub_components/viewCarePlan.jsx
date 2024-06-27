@@ -27,7 +27,7 @@ export default function ViewCarePlan({
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-        CARE PLAN #1
+        CARE PLAN
         <div className="flex gap-3">
           <Button variant="outline">Edit</Button>
           {/* <div onClick={downloadPDF} className="text-blue-500 text-xs  flex items-center hover:cursor-pointer">

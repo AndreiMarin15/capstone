@@ -9,6 +9,7 @@ import BackButton from "./BackButton";
 import { currentUser } from "@/app/store";
 import { importCarePlan } from "@/backend/patient/careplan/careplan";
 import { Button } from "@/components/ui/button";
+import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
 
 export default function AddCarePlan({
   setCurrentScreen,
@@ -39,6 +40,8 @@ export default function AddCarePlan({
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [compactActivity, setCompactActivity] = useState("");
+  const [attendingDoctors, setAttendingDoctors] = useState([]);
+
   // useEffect(() => {
   //   console.log(doctorFullName, doctorId, patientFullName, patientsId);
   // }, []);
@@ -106,6 +109,21 @@ export default function AddCarePlan({
       value: "",
     },
   ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const val = await getAttendingDoctors(patientId);
+        setAttendingDoctors(val);
+        return val;
+      } catch (error) {
+        console.error("Error fetching attending doctors:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Assuming patientId is a dependency that triggers the effect
+
   useEffect(() => {
     if (Object.keys(compactActivity).length > 0) {
       // Check if compactActivity is not empty
@@ -163,8 +181,41 @@ export default function AddCarePlan({
                           setTitle(e.target.value);
                         }}
                         type="text"
-                        className="justify-center items-start py-1.5 pl-2 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                        className="justify-center items-start py-1.5 pr-14 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
                       />
+                    </td>
+                  </tr>
+                  <tr className="flex gap-3 justify-between mb-3 w-full">
+                    <td className="flex gap-2 my-auto font-semibold text-black">
+                      <div className="flex gap-4 my-auto font-semibold text-black">
+                        <Image
+                          alt="image"
+                          height={0}
+                          width={0}
+                          loading="lazy"
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                          className="aspect-square fill-black w-[15px]"
+                        />
+                        <div className="my-auto">Collaborating Doctor</div>
+                      </div>
+                    </td>
+                    <td>
+                      <select
+                        value={title}
+                        onChange={(e) => {
+                          setTitle(e.target.value);
+                        }}
+                        className="justify-center items-start py-1.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                      >
+                        <option value="">Select...</option>
+                        {attendingDoctors?.map((doctor) => (
+                          <option value={doctor.id}>
+                            {doctor.doctor_last_name},{" "}
+                            {doctor.doctor_first_name} -{" "}
+                            {doctor.doctor_specialization}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                   </tr>
                   <tr className="flex gap-3 justify-between mb-3 w-full">
@@ -188,7 +239,7 @@ export default function AddCarePlan({
                         }}
                         value={dietaryManagement}
                         style={{ overflow: "hidden" }}
-                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        className="justify-center items-start py-1.5 pr-14 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />{" "}
                     </td>
                   </tr>
@@ -213,7 +264,7 @@ export default function AddCarePlan({
                         }}
                         value={physicalActivities}
                         style={{ overflow: "hidden" }}
-                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        className="justify-center items-start py-1.5 pr-14 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />{" "}
                     </td>
                   </tr>
@@ -238,14 +289,14 @@ export default function AddCarePlan({
                         }}
                         value={selfMonitoring}
                         style={{ overflow: "hidden" }}
-                        className="justify-center items-start py-1.5 pl-3 pr-3 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
+                        className="justify-center items-start py-1.5 pr-14 w-full rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5"
                       />
                     </td>
                   </tr>
                 </tbody>
               </table>
 
-              <div className="flex flex-col ml-5 w-[40%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col ml-5 w-[35%] max-md:ml-0 max-md:w-full">
                 <table className="w-full  text-xs">
                   <tbody>
                     {date?.map((item, index) => (
