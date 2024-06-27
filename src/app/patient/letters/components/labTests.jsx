@@ -86,6 +86,12 @@ async function fetchEncounters(patientId, setLabTests) {
 
 
 export default function LabTests({ labtests, patientId, patientData }) {
+	const [sortOptionDate, setSortOptionDate] = useState("Recent");
+	const [renderingOptions, setRenderingOptions] = useState(5);
+	
+	const handleDateSort = (option) => {
+		setSortOptionDate(option);
+	};
 
 	const fetchSelfPrickObservations = async () => {
         try {
@@ -120,7 +126,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
 
 	  useEffect(() => {
 		console.log(labtests);
-
+		console.log(patientData)
 		}, [labtests]);
 
 
@@ -150,30 +156,14 @@ export default function LabTests({ labtests, patientId, patientData }) {
 	  }, []);
 
 	  console.log(labTests)
-	return (
+	
+	  return (
 		<>
 			{currentScreen === 0 ? (
 				<TabsContent value="labtestrequest">
 					<div className="flex justify-between items-center mt-4">
 						<div className="font-semibold items-center self-center text-s ml-5">Lab Test Requests</div>
 						<div className="flex gap-2">
-							<div>
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<button className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid">
-											SORT
-										</button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent className="w-56">
-										<DropdownMenuLabel>Sort By Doctor Name</DropdownMenuLabel>
-										<DropdownMenuSeparator />
-										<DropdownMenuRadioGroup>
-											<DropdownMenuRadioItem value="asc">A-Z</DropdownMenuRadioItem>
-											<DropdownMenuRadioItem value="desc">Z-A</DropdownMenuRadioItem>
-										</DropdownMenuRadioGroup>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</div>
 							<div className="">
 								<Button
 									variant="outline"
@@ -186,103 +176,141 @@ export default function LabTests({ labtests, patientId, patientData }) {
 							</div>
 						</div>
 					</div>
-					<>
-					<button
-							className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
-							onClick={() => handleRowClick}
-						>
-					{Object.entries(labTests)
-						.sort((a, b) => new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate))
-						.map(([encounterId, labTestGroup], groupIndex) => (
-							<tr key={groupIndex} onClick={() => handleRowClick(encounterId)}>
-							{labTestGroup && labTestGroup[0] && (
-								<div className="flex justify-between text-xs leading-5 text-black max-w-[650px] mt-5 ml-5">
-								<img
-									alt="image"
-									src={labTestGroup[0]?.src}
-									height={0}
-									width={0}
-									loading="lazy"
-									style={{ aspectRatio: '1', fill: 'black', width: '15px', marginRight: '2px', marginBottom: '0' }}
-									/>
-								<div className="grow text-sm font-medium mr-40 ml-1">Lab Test Request {labTestGroup[0]?.reqdate}</div>
-								</div>
-								
-							)}
-						{labTestGroup && labTestGroup[0] && (
-							<div key={groupIndex}>
-							<table style={{ width: '100%' }}>
-								<tr>
-								<td style={{ width: '50%' }}>
-									<div className="ml-5" style={{ display: 'flex', alignItems: 'center' }}>
-									<img
-										alt="image"
-										src={labTestGroup[0]?.srcdoctor}
-										height={0}
-										width={0}
-										loading="lazy"
-										style={{ aspectRatio: '1', fill: 'black', width: '15px', marginRight: '2px' }}
-									/>
-									<div className="text-xs" style={{ whiteSpace: 'nowrap' }}>
-										Dr. {labTestGroup[0]?.doctor}
-									</div>
-									</div>
-								</td>
-								{/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
-								<td style={{ textAlign: 'right' }}>
-									<div className="text-xs" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-									{labTestGroup.every(test => test.status === "final") ? (
-										<>
-										<svg
-											className="h-3 w-3 ml-1 text-green-500"
-											fill="currentColor"
-											viewBox="0 0 20 20"
-											xmlns="http://www.w3.org/2000/svg"
-										>
-											<circle cx="10" cy="10" r="5" />
-										</svg>
-										<span style={{ marginLeft: '0.25rem' }}>Complete</span>
-										</>
-									) : (
-										<>
-										<svg
-											className="h-3 w-3 ml-1 text-red-500"
-											fill="currentColor"
-											viewBox="0 0 20 20"
-											xmlns="http://www.w3.org/2000/svg"
-										>
-											<circle cx="10" cy="10" r="5" />
-										</svg>
-										<span style={{ marginLeft: '0.25rem' }}>Incomplete</span>
-										</>
-									)}
-									</div>
-								</td>
-								<td style={{ width: '50%' }}>
-									<div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
-									<Button variant="download"> ↓ Download (.pdf)</Button>
-									</div>
-								</td>
-								</tr>
-							</table>
+					<div className="flex justify-between mt-2">
+						<div className="flex items-center">
+						<span className="ml-5 text-black text-sm text-base font-bold leading-5">Rendering Options:</span>
+							<select
+								className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+								onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+								defaultValue="5"
+							>
+								<option value="5" disabled hidden>
+									5
+								</option>
+								<option value="3">3</option>
+								<option value="5">5</option>
+								<option value="7">7</option>
+								<option value="10">10</option>
+							</select>
+							<span className="ml-2 text-black text-base leading-5 text-sm font-normal">Lab test requests</span>
 							</div>
-						)}
-						</tr>
-					))}
-						{/* <div className="flex gap-5 justify-between ml-7  max-md:ml-2.5 w-[100%]">
-							<Reusable
-								child={
-									<LabTest
-										labtest={labTests}
-										patientData={patientData}
-										referred_by_id={labTests.resource?.participant?.actor}
-									/>
-								}
-								filename={`labtest_${labTests?.resource?.codeText}`}
-							/>
-						</div> */}
-					</button>
-				</>
+						<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<span className="flex items-center gap-1 px-1 py-1 rounded-md">
+										<Button variant="sortfilter">SORT</Button>
+									</span>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent className="w-56">
+									<DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
+										<DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							</div>
+							
+							<>
+							{Object.entries(labTests)
+								.sort((a, b) => {
+									if (sortOptionDate === "Recent") {
+										return new Date(b[1][0]?.reqdate) - new Date(a[1][0]?.reqdate);
+									} else {
+										return new Date(a[1][0]?.reqdate) - new Date(b[1][0]?.reqdate);
+									}
+								}).slice(0, renderingOptions)
+								.map(([encounterId, labTestGroup], groupIndex) => (
+									<div className="flex justify-between" key={groupIndex}>
+										<button
+											className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
+											onClick={() => handleRowClick(encounterId)}
+										>
+											{labTestGroup && labTestGroup[0] && (
+												<div className="flex justify-between text-xs leading-5 text-black max-w-[650px] mt-5 ml-5">
+													<img
+														alt="image"
+														src={labTestGroup[0]?.src}
+														height={0}
+														width={0}
+														loading="lazy"
+														style={{ aspectRatio: '1', fill: 'black', width: '15px', marginRight: '2px', marginBottom: '0' }}
+													/>
+													<div className="grow text-sm font-medium mr-40 ml-1">Lab Test Request {labTestGroup[0]?.reqdate}</div>
+												</div>
+											)}
+
+											{labTestGroup && labTestGroup[0] && (
+												<table style={{ width: '100%' }}>
+													<tr>
+														<td style={{ width: '50%' }}>
+															<div className="ml-5" style={{ display: 'flex', alignItems: 'center' }}>
+																<img
+																	alt="image"
+																	src={labTestGroup[0]?.srcdoctor}
+																	height={0}
+																	width={0}
+																	loading="lazy"
+																	style={{ aspectRatio: '1', fill: 'black', width: '15px', marginRight: '2px' }}
+																/>
+																<div className="text-xs" style={{ whiteSpace: 'nowrap' }}>
+																	Dr. {labTestGroup[0]?.doctor}
+																</div>
+															</div>
+														</td>
+														{/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
+														<td style={{ textAlign: 'right' }}>
+															<div className="text-xs" style={{ display: 'flex', alignItems: 'center'}}>
+																{labTestGroup.every(test => test.status === "final") ? (
+																	<>
+																		<svg
+																			className="h-3 w-3 ml-1 text-green-500"
+																			fill="currentColor"
+																			viewBox="0 0 20 20"
+																			xmlns="http://www.w3.org/2000/svg"
+																		>
+																			<circle cx="10" cy="10" r="5" />
+																		</svg>
+																		<span style={{ marginLeft: '0.25rem' }}>Complete</span>
+																	</>
+																) : (
+																	<>
+																		<svg
+																			className="h-3 w-3 ml-1 text-red-500"
+																			fill="currentColor"
+																			viewBox="0 0 20 20"
+																			xmlns="http://www.w3.org/2000/svg"
+																		>
+																			<circle cx="10" cy="10" r="5" />
+																		</svg>
+																		<span style={{ marginLeft: '0.25rem' }}>Incomplete</span>
+																	</>
+																)}
+															</div>
+														</td>
+													</tr>
+												</table>
+											)}
+										</button>
+										<div className=" mt-9 text-xs text-blue-500 leading-5 flex items-center">
+											<Button variant="download"> ↓ Download (.pdf)</Button>
+											{/* <div className="flex gap-5 justify-between ml-7  max-md:ml-2.5 w-[100%]">
+												<Reusable
+													child={
+														<LabTest
+															labtest={labTests[encounterId]}
+															patientData={patientData}
+															referred_by_id={labTests[encounterId].resource?.participant?.actor}
+														/>
+													}
+													filename={"Lab Test"}
+												/>
+											</div> */}
+										</div>
+									</div>
+								))}
+							
+							</>
 							
 		
 				</TabsContent>

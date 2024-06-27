@@ -37,7 +37,11 @@ export default function UploadLab({
   const [observations, setObservations] = useState([]);
   const [dateTaken, setDateTaken] = useState("");
   const [labValues, setLabValues] = useState([{ labValueName: "", value: "", unit: "" }]);
-  const [ranges, setRanges] = useState([{ level: "", min: "", max: "" }]);
+  const [ranges, setRanges] = useState([
+    { level: "High", min: "", max: "" },
+    { level: "Medium", min: "", max: "" },
+    { level: "Low", min: "", max: "" },
+  ]);
   const [dateUntil, setDateUntil] = useState("")
 
   
@@ -164,12 +168,14 @@ export default function UploadLab({
     fileInputRef.current.click();
   };
 
-  const handleAddLabValueRow = () => {
+  const handleAddRow = () => {
     setLabValues([...labValues, { labValueName: "", value: "", unit: "" }]);
-  };
-
-  const handleAddRangeRow = () => {
-    setRanges([...ranges, { level: "", min: "", max: "" }]);
+    setRanges([
+      ...ranges,
+      { level: "High", min: "", max: "" },
+      { level: "Medium", min: "", max: "" },
+      { level: "Low", min: "", max: "" },
+    ]);
   };
 
   const handleRemoveLabValueRow = (index) => {
@@ -397,179 +403,123 @@ export default function UploadLab({
                   </table>
 
                   <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
-                    <table className="max-w-fit border-separate">
+                
+                  <table className="max-w-fit border-spacing-y-2 border-separate">
+                    <tbody className="text-xs leading-5 text-black">
+                      {labValues?.map((row, index) => (
+                          <React.Fragment key={index}>
+                              <td>
+                                  <div className="flex gap-4 mt-10 my-auto font-semibold text-black">
+                                    <Image
+                                      alt="image"
+                                      height={0}
+                                      width={0}
+                                      loading="lazy"
+                                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
+                                      className="aspect-square fill-black w-[15px]"
+                                    />
+                                    <div className="my-auto text-xs">Lab Values</div>
+                                  </div>
+                            </td>
+                            <tr>
+                              <td className="border-l-[16px] border-transparent">
+                            
+                                <input
+                                  className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                                  type="text"
+                                  placeholder={`Lab Value ${index + 1}`}
+                                  value={row.labValueName}
+                                  onChange={(e) => handleLabValueNameChange(e.target.value, index)}
+                                />
+                              </td>
+                              <td className="border-l-[8px] border-transparent flex items-center">
+                                <span className="mt-2 flex items-center text-black font-medium">=</span>
+                              </td>
+                              <td className="border-l-[8px] border-transparent">
+                            
+                                <input
+                                  className="justify-center py-2 pr-4 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                                  type="text"
+                                  placeholder="Enter value"
+                                  value={row.value}
+                                  onChange={(e) => handleValueChange(e.target.value, index)}
+                                />
+                              </td>
+                              <td className="border-l-[20px] border-transparent">
+                              
+                                <input
+                                  className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                                  type="text"
+                                  placeholder="Unit"
+                                  value={row.unit}
+                                  onChange={(e) => handleUnitChange(e.target.value, index)}
+                                />
+                              </td>
+                            </tr>
+                            {/* Ranges */}
+                            <td>
+                            <div className="flex gap-4 my-auto font-semibold text-black">
+                              <Image
+                                alt="image"
+                                height={0}
+                                width={0}
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
+                                className="aspect-square fill-black w-[22px]"
+                              />
+                              <div className="my-auto text-xs">Ranges</div>
+                            </div>
+                          </td>
+                            {ranges.slice(index * 3, index * 3 + 3).map((range, rangeIndex) => (
+                              <tr key={`${index}-${rangeIndex}`}>
+                                <td colSpan="4" className="border-l-[16px] border-transparent">
+                              
+                                  <input
+                                    className="justify-center py-2 pr-2 pl-2 mr-4 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-[100px]"
+                                    type="text"
+                                    value={range.level}
+                                    onChange={(e) => handleLevelChange(e.target.value, index * 3 + rangeIndex)}
+                                  />
+                              
+                                  <input
+                                    className="justify-center py-2 px-2 mr-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16 ml-1"
+                                    type="text"
+                                    placeholder="Min"
+                                    value={range.min}
+                                    onChange={(e) => handleMinChange(e.target.value, index * 3 + rangeIndex)}
+                                  />
+                                <span>-</span>
+                                  <input
+                                    className="justify-center py-2 px-2 ml-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                                    type="text"
+                                    placeholder="Max"
+                                    value={range.max}
+                                    onChange={(e) => handleMaxChange(e.target.value, index * 3 + rangeIndex)}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </React.Fragment>
+                        ))}
                       <tr>
-                        <td>
-                          <div className="flex gap-4 my-auto font-semibold text-black">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
-                              className="aspect-square fill-black w-[15px]"
-                            />
-                            <div className="my-auto text-xs">Lab Values</div>
-                          </div>
-                        </td>
-                        <td className="pl-80">
-                          <div className="flex gap-4 my-auto font-semibold text-black">
-                            <div className="my-auto text-xs">Unit</div>
-                          </div>
+                        <td colSpan="4" className="text-center">
+                          <button
+                            className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+                            onClick={() => handleAddRow()}
+                          >
+                            <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
+                              +
+                            </div>
+                            <div className=" my-auto text-xs text-gray-400">
+                              Add another row
+                            </div>
+                          </button> 
                         </td>
                       </tr>
-                    </table>
-                    <table className="max-w-fit border-spacing-y-2 border-separate">
-                      <tbody className="text-xs leading-5 text-black">
-                        <tr></tr>
-                     
-                        {labValues?.map((row, index) => (
-                          <tr key={index}>
-                            <td className="border-l-[16px] border-transparent">
-                              <input
-                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                type="text"
-                                placeholder="Enter lab value name"
-                                value={row.labValueName}
-                                onChange={(e) =>
-                                  handleLabValueNameChange(
-                                    e.target.value,
-                                    index
-                                  )
-                                }
-                              />
-                            </td>
-                            <td className="border-l-[8px] border-transparent flex items-center">
-                              <span className="mt-2 flex items-center text-black font-medium">
-                                =
-                              </span>
-                            </td>
-                            <td className="border-l-[8px] border-transparent">
-                              <input
-                                className="justify-center py-2 pr-4 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                type="text"
-                                placeholder="Enter value"
-                                value={row.value}
-                                onChange={(e) =>
-                                  handleValueChange(e.target.value, index)
-                                }
-                              />
-                            </td>
-                            <td className="border-l-[20px] border-transparent">
-                              <input
-                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                type="text"
-                                placeholder="Unit"
-                                value={row.unit}
-                                onChange={(e) =>
-                                  handleUnitChange(e.target.value, index)
-                                }
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                       
-                        <tr>
-                          <td colSpan="4" className="text-center">
-                            <button
-                              className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                              onClick={handleAddLabValueRow}
-                            >
-                              <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
-                                +
-                              </div>
-                              <div className=" my-auto text-xs text-gray-400">
-                                Add another lab value row
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <table className="max-w-fit border-separate mt-8">
-                      <tr>
-                        <td>
-                          <div className="flex gap-4 my-auto font-semibold text-black">
-                            <Image
-                              alt="image"
-                              height={0}
-                              width={0}
-                              loading="lazy"
-                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
-                              className="aspect-square fill-black w-[22px]"
-                            />
-                            <div className="my-auto text-xs">Ranges</div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                    <table className="max-w-fit border-spacing-y-2 border-separate">
-                      <tbody className="text-xs leading-5 text-black">
-                        <tr></tr>
-                      
-                        {ranges?.map((row, index) => (
-                          <tr key={index}>
-                            <td className="border-l-[16px] border-transparent">
-                            <input
-                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                type="text"
-                                placeholder="Normal"
-                                value={row.level}
-                                onChange={(e) => handleLevelChange(e.target.value, index)}
-                              />
-                            </td>
-                            <td className="border-l-[8px] border-transparent flex items-center">
-                              <span className="mt-2 flex items-center text-black font-lg font-bold">
-                                :
-                              </span>
-                            </td>
-                            <td className="border-l-[8px] border-transparent">
-                            <input
-                                className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
-                                type="text"
-                                placeholder="Min"
-                                value={row.min}
-                                onChange={(e) => handleMinChange(e.target.value, index)}
-                              />
-                            </td>
-                            <td className="border-l-[20px] border-transparent">
-                              -
-                            </td>
-                            <td className="border-l-[20px] border-transparent">
-                            <input
-                                className="justify-center py-2 px-2  font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
-                                type="text"
-                                placeholder="Max"
-                                value={row.max}
-                                onChange={(e) => handleMaxChange(e.target.value, index)}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                 
-                        <tr>
-                          <td colSpan="4" className="text-center">
-                            <button
-                              className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                              onClick={handleAddRangeRow} // Assuming you have a function handleAddRow for adding rows
-                            >
-                              <div className=" justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
-                                +
-                              </div>
-                              <div className=" my-auto text-xs text-gray-400">
-                                Add another range row
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    </tbody>
+                  </table>
                   </div>
                 </div>
-            
-           
-       
           <div className="flex justify-between items-center">
             <BackButton
               currentScreen={5}

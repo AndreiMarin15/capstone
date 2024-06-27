@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
 import ViewRecords from "./sub_components/viewRecords"; 
-import { getRecord } from "@/backend/health_records/getRecord";
+import { getRecordByPatient } from "@/backend/health_records/getRecord";
 
 
 export default function OtherRecords({patientId}) {
@@ -33,7 +33,7 @@ export default function OtherRecords({patientId}) {
 
   const fetchRecords = async () => {
     try {
-      const otherRecords = await getRecord();
+      const otherRecords = await getRecordByPatient(patientId);
       console.log(otherRecords);
       setRecords(otherRecords.reverse());
     } catch (error) {
@@ -49,7 +49,7 @@ export default function OtherRecords({patientId}) {
     <>
       {currentScreen === 0 && (
         <>
-          <div className="flex gap-3 text-black text-base justify-between items-center leading-5 mt-8 max-md:ml-1 max-md:mt-10 mb-10">
+          <div className="flex gap-3 text-black text-base justify-between items-center leading-5 mt-5 max-md:ml-1 max-md:mt-10 mb-10">
             <span className="inline-block  font-bold  align-middle">
               UPLOADED RECORDS
             </span>
@@ -111,7 +111,7 @@ export default function OtherRecords({patientId}) {
               key={index}
               onClick={() => 
                 handleRecordClick(record.id)}
-              className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[100%]"
+              className="flex flex-col mt-8 items-start text-xs leading-5 text-black max-w-[100%]"
             >
               <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
                 <Image
@@ -128,7 +128,7 @@ export default function OtherRecords({patientId}) {
           ))}
         </>
       )}
-
+     
       {currentScreen === 1 && (
         <AddRecord
           currentScreen={currentScreen}
@@ -145,6 +145,11 @@ export default function OtherRecords({patientId}) {
           recordId={recordId}
         />
       )}
+       <div className="mt-4">
+          <BackButton
+          />
+        </div>
     </>
+    
   );
 }

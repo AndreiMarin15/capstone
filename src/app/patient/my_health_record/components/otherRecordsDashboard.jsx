@@ -129,7 +129,7 @@ export default function OtherRecords() {
               key={index}
               onClick={() => 
                 handleRecordClick(record.id)}
-              className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[100%]"
+              className="flex flex-col mt-8 items-start text-xs leading-5 text-black max-w-[100%]"
             >
               <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
                 <Image
