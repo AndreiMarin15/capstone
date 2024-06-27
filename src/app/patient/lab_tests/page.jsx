@@ -98,7 +98,7 @@ export default function LaboratoryDashboard() {
 
   return [
     currentPage === 0 ? (
-      <div className="w-full bg-white flex flex-col items-center px-20 py-12 h-auto max-md:px-5">
+      <div className="w-full bg-white flex flex-col items-center px-20 py-12 max-md:px-5">
         <span className="flex flex-col items-stretch mt-8 ml-5 w-full max-md:max-w-full max-md:mt-10">
           <span className="flex w-full items-center justify-between gap-5 mt-8 mb-8 max-md:max-w-full max-md:flex-wrap max-md:mt-10 max-md:pr-5">
             <div className="text-black text-xl text-base font-semibold leading-6 my-auto">
@@ -206,7 +206,7 @@ export default function LaboratoryDashboard() {
         />
       </div>
     ) : currentPage === 4 ? (
-      <div className="w-full bg-white flex flex-col  px-20 py-12 h-auto max-md:px-5">
+      <div className="w-full bg-white flex flex-col px-20 py-12 ">
         <ViewLab
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

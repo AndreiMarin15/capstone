@@ -20,6 +20,15 @@ import {
 } from "@/backend/pdfBackend/getPDFData";
 import { getPrescriptionsByPatient } from "@/backend/health_records/getPrescription";
 import ViewPrescription from "./components/sub_components/viewPrescription";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Letters() {
   const [written_referrals, setWrittenReferrals] = useState([]);
@@ -29,10 +38,15 @@ export default function Letters() {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionId, setPrescriptionId] = useState("");
   const [labtests, setLabTests] = useState([]);
-
   const handleTabChange = (value) => {
     setSelectedTab(value);
   };
+  const [sortOptionDate, setSortOptionDate] = useState("Recent");
+  const [renderingOptions, setRenderingOptions] = useState(5);
+  const handleDateSort = (option) => {
+    setSortOptionDate(option);
+  };
+
 
   useEffect(() => {
     if (selectedTab === "referral") {
@@ -115,7 +129,7 @@ export default function Letters() {
                         <div className="font-semibold text-s ml-5 mt-5">
                           Prescriptions
                         </div>
-                        <Tabs defaultValue="all" className="w-[600px] mt-10">
+                        <Tabs defaultValue="all" className="w-[600px] mt-10 ml-4">
                           <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
                             <TabsTrigger value="endocrinologist">
@@ -128,8 +142,57 @@ export default function Letters() {
                               Gastroenterologist
                             </TabsTrigger>
                           </TabsList>
+
+                          <div className="flex justify-between ml-2 mt-2">
+                            <div className="flex items-center">
+                              <span className="text-black text-sm text-base font-bold leading-5">
+                                Rendering Options:
+                              </span>
+                              <select
+                                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs font-normal"
+                                onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+                                defaultValue="5"
+                              >
+                                <option value="5" disabled hidden>
+                                  5
+                                </option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                              </select>
+                              <span className="ml-2 text-black text-base leading-5 text-sm font-normal">
+                                Prescriptions
+                              </span>
+                            </div>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <span className="flex items-center gap-1 px-1 py-1 rounded-md">
+                                  <Button variant="sortfilter">SORT</Button>
+                                </span>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-56">
+                                <DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
+                                  <DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+
                           <TabsContent value="all">
-                            {prescriptions?.map((prescription, index) => (
+                        {prescriptions
+                              .sort((a, b) => {
+                                if (sortOptionDate === "Recent") {
+                                  return new Date(b?.created_at) - new Date(a?.created_at);
+                                } else {
+                                  return new Date(a?.created_at) - new Date(b?.created_at);
+                                }
+                              })
+                              .slice(0, renderingOptions)
+                              ?.map((prescription, index, sortedArray) => (
                               <div key={prescription.id}>
                                 <button
                                   onClick={() => {
@@ -142,7 +205,7 @@ export default function Letters() {
                                     key={index}
                                     className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full"
                                   >
-                                    <div className="flex gap-3.5 font-semibold whitespace-nowrap">
+                                    <div className="flex gap-3.5 font-semibold whitespace-nowrap mt-3 ml-2">
                                       <Image
                                         alt="image"
                                         height={0}
@@ -153,13 +216,15 @@ export default function Letters() {
                                         }
                                         className="aspect-square fill-black w-[15px]"
                                       />
-                                      <div className="my-auto">
+                                     <div className="my-auto">
                                         Prescription #
-                                        {prescriptions.length - index}
+                                        {sortOptionDate === "Recent"
+                                          ? prescriptions.length - prescriptions.findIndex(p => p.id === prescription.id)
+                                          : prescriptions.findIndex(p => p.id === prescription.id) + 1}
                                       </div>
                                     </div>
-                                    <div className="flex w-full justify-between text-xs">
-                                      <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+                                    <div className="flex w-full justify-between text-xs mt-2 ml-2">
+                                      <div className="flex gap-1 font-medium whitespace-nowrap ">
                                         <Image
                                           alt="image"
                                           height={0}
@@ -186,7 +251,7 @@ export default function Letters() {
                                     </div>
                                   </div>
                                 </button>
-                                <Button variant="download">
+                                <Button className="ml-10" variant="download">
                                   {" "}
                                   ↓ Download (.pdf)
                                 </Button>
@@ -248,7 +313,7 @@ export default function Letters() {
                       </TabsContent>
                       <TabsContent
                         value="labtestrequest"
-                        className="flex-1 min-h-screen w-full"
+                        className="flex-1 max-h-screen w-full"
                       >
                         <LabTest
                           labtests={labtests}

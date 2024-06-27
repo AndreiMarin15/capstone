@@ -124,31 +124,28 @@ console.log(labTestData)
                     }
                   />
                   <div className="flex gap-16">
-                    <div className=" self-start text-sm text-black">
-                      <span className=" font-semibold">Lab Values:</span>
-                      <div className="mt-5 text-sm">
-                        {labTestData.valueQuantities?.map(
-                          (valueQuantity, index) => (
-                            <div key={index} style={{ whiteSpace: "nowrap" }}>
-                              {valueQuantity.display} = {valueQuantity.value}{" "}
-                              {valueQuantity.unit}
-                            </div>
-                          )
-                        )}
-                      </div>
-                    </div>
+                    <div className="self-start text-sm text-black">
 
-                    <div className=" self-start text-sm text-black">
-                      <span className=" font-semibold">Value Range:</span>
-                      <div className="mt-5 text-sm">
-                        {labTestData.rangeQuantities?.map(
-                          (rangeQuantity, index) => (
-                            <div key={index} style={{ whiteSpace: "nowrap" }}>
-                              {rangeQuantity.level} = {rangeQuantity.min} - {" "}
-                              {rangeQuantity.max}
+                      <div className="mt-8 text-sm">
+                      
+                        {labTestData.valueQuantities?.map((valueQuantity, index) => (
+                          <div key={index} className="mt-3" style={{ whiteSpace: "nowrap" }}>
+                            <span className="font-semibold">{valueQuantity.display}</span> = {valueQuantity.value}{" "}
+                            {valueQuantity.unit}
+                            <div><span className="font-semibold">Ranges:</span>
+                            {labTestData.rangeQuantities?.slice(index * 3, index * 3 + 3).map((rangeQuantity, rangeIndex) => (
+                              <div key={`${index}-${rangeIndex}`} className="mt-1" style={{ whiteSpace: "nowrap" }}>
+                                {rangeQuantity.level}: {rangeQuantity.min} - {rangeQuantity.max}
+                              </div>
+                            
+                            ))}
+                            
                             </div>
-                          )
-                        )}
+                            
+                        
+                          </div>
+                        ))}
+                        
                       </div>
                     </div>
                   </div>

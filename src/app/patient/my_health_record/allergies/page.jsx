@@ -8,6 +8,7 @@ import FoodAllergies from "./components/viewFoodAllergies";
 import EnvAllergies from "./components/viewEnvAllergies";
 import AddAllergy from "./components/addAllergies";
 import { getAllergies } from "@/backend/patient/personal_details/master_data";
+import BackButton from "../../my_health_record/components/sub_components/BackButton";
 export default function PatientAllergies() {
   const { selected } = useAllergyNav();
   const [medication, setMedication] = React.useState([]);
@@ -62,7 +63,11 @@ export default function PatientAllergies() {
             </div>
           </div>
         </div>
+          <div className="ml-10">
+          <BackButton/>
+          </div>
       </div>
+      
     </>
   );
 }

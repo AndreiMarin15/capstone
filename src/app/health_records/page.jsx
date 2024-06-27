@@ -23,139 +23,112 @@ export default function MyComponent() {
 	const [sortOptionName, setSortOptionName] = React.useState("asc");
 	const [sortOptionAge, setSortOptionAge] = React.useState(null);
 	const [selectedGenders, setSelectedGenders] = React.useState([]);
+	const [searchQuery, setSearchQuery] = React.useState("");
 
-	function computeAge(birthdate) {
-		const dob = new Date(birthdate);
-		const today = new Date();
-		let age = today.getFullYear() - dob.getFullYear();
-		const m = today.getMonth() - dob.getMonth();
-		if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-			age--;
-		}
-		return age;
-	}
+    function computeAge(birthdate) {
+        const dob = new Date(birthdate);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+        return age;
+    }
 
-	const fetchData = async () => {
-		const patients = await healthRecords.getPatients();
-		setOriginalPatients(patients);
+    const fetchData = async () => {
+        const patients = await healthRecords.getPatients();
+        setOriginalPatients(patients);
+        filterAndSortPatients(patients, searchQuery, selectedGenders, sortOptionName, sortOptionAge);
+    };
 
-		const nameSortFunction = (a, b) => {
-			const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
-			const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
+    const filterAndSortPatients = (patients, searchQuery, selectedGenders, sortOptionName, sortOptionAge) => {
+        let filteredPatients = [...patients];
 
-			if (sortOptionName === "asc") {
-				return nameA.localeCompare(nameB);
-			} else if (sortOptionName === "desc") {
-				return nameB.localeCompare(nameA);
-			}
-		};
+        if (searchQuery) {
+            filteredPatients = filteredPatients.filter((patient) =>
+                `${patient.personal_information.first_name} ${patient.personal_information.last_name}`
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+            );
+        }
 
-		patients?.sort(nameSortFunction);
+        if (selectedGenders.length > 0) {
+            filteredPatients = filteredPatients.filter((patient) =>
+                selectedGenders.includes(patient.personal_information.gender.toLowerCase())
+            );
+        }
 
-		const ageSortFunction = (a, b) => {
-			if (sortOptionAge === "youngest") {
-				return computeAge(a.personal_information.birthdate) - computeAge(b.personal_information.birthdate);
-			} else if (sortOptionAge === "oldest") {
-				return computeAge(b.personal_information.birthdate) - computeAge(a.personal_information.birthdate);
-			}
-		};
+        const nameSortFunction = (a, b) => {
+            const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
+            const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
 
-		if (sortOptionAge) {
-			patients?.sort(ageSortFunction);
-		}
+            if (sortOptionName === "asc") {
+                return nameA.localeCompare(nameB);
+            } else if (sortOptionName === "desc") {
+                return nameB.localeCompare(nameA);
+            }
+            return 0;
+        };
 
-		setNavigation(
-			patients?.map((patient) => ({
-				name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
-				age: computeAge(patient.personal_information.birthdate),
-				href: `/health_records/about_patient/${patient.id}`,
-				src: patient.personal_information.photo,
-				gender: patient.personal_information.gender,
-			}))
-		);
-	};
+        filteredPatients.sort(nameSortFunction);
 
-	React.useEffect(() => {
-		fetchData();
-	}, [sortOptionName, sortOptionAge]);
+        if (sortOptionAge) {
+            const ageSortFunction = (a, b) => {
+                if (sortOptionAge === "youngest") {
+                    return computeAge(a.personal_information.birthdate) - computeAge(b.personal_information.birthdate);
+                } else if (sortOptionAge === "oldest") {
+                    return computeAge(b.personal_information.birthdate) - computeAge(a.personal_information.birthdate);
+                }
+                return 0;
+            };
+            filteredPatients.sort(ageSortFunction);
+        }
 
-	React.useEffect(() => {
-		console.log(navigation);
-	}, [navigation]);
+        setNavigation(
+            filteredPatients.map((patient) => ({
+                name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
+                age: computeAge(patient.personal_information.birthdate),
+                href: `/health_records/about_patient/${patient.id}`,
+                src: patient.personal_information.photo,
+                gender: patient.personal_information.gender,
+            }))
+        );
+    };
 
-	const router = useRouter();
+    React.useEffect(() => {
+        fetchData();
+    }, [sortOptionName, sortOptionAge]);
 
-	const handleGenderFilter = (gender) => {
-		setSelectedGenders((prevSelectedGenders) => {
-			if (prevSelectedGenders.includes(gender)) {
-				return prevSelectedGenders.filter((selectedGender) => selectedGender !== gender);
-			} else {
-				return [...prevSelectedGenders, gender];
-			}
-		});
-	};
+    React.useEffect(() => {
+        filterAndSortPatients(originalPatients, searchQuery, selectedGenders, sortOptionName, sortOptionAge);
+    }, [searchQuery, selectedGenders, sortOptionName, sortOptionAge, originalPatients]);
 
-	React.useEffect(() => {
-		const filterAndSortPatients = () => {
-			if (selectedGenders.length === 0) {
-				// If no filters are applied, show original patients
-				setNavigation(
-					originalPatients?.map((patient) => ({
-						name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
-						age: computeAge(patient.personal_information.birthdate),
-						href: `/health_records/about_patient/${patient.id}`,
-						src: patient.personal_information.photo,
-						gender: patient.personal_information.gender,
-					}))
-				);
-				return; // Exit early to prevent further processing
-			}
+    const router = useRouter();
 
-			let filteredPatients = [...originalPatients];
+    const handleGenderFilter = (gender) => {
+        setSelectedGenders((prevSelectedGenders) => {
+            if (prevSelectedGenders.includes(gender)) {
+                return prevSelectedGenders.filter((selectedGender) => selectedGender !== gender);
+            } else {
+                return [...prevSelectedGenders, gender];
+            }
+        });
+    };
 
-			filteredPatients = filteredPatients.filter((patient) =>
-				selectedGenders.includes(patient.personal_information.gender.toLowerCase())
-			);
+    const handleNameSort = (option) => {
+        setSortOptionName(option);
+        if (option === "asc" || option === "desc") {
+            setSortOptionAge(null);
+        }
+    };
 
-			const sortedPatients = filteredPatients?.sort((a, b) => {
-				const nameA = `${a.personal_information.first_name} ${a.personal_information.last_name}`.toLowerCase();
-				const nameB = `${b.personal_information.first_name} ${b.personal_information.last_name}`.toLowerCase();
-				if (sortOptionName === "asc") {
-					return nameA.localeCompare(nameB);
-				} else if (sortOptionName === "desc") {
-					return nameB.localeCompare(nameA);
-				}
-				return 0;
-			});
-
-			setNavigation(
-				sortedPatients?.map((patient) => ({
-					name: `${patient.personal_information.first_name} ${patient.personal_information.last_name}`,
-					age: computeAge(patient.personal_information.birthdate),
-					href: `/health_records/about_patient/${patient.id}`,
-					src: patient.personal_information.photo,
-					gender: patient.personal_information.gender,
-				}))
-			);
-		};
-
-		filterAndSortPatients();
-	}, [selectedGenders, sortOptionName, originalPatients]);
-
-	const handleNameSort = (option) => {
-		setSortOptionName(option);
-		if (option === "asc" || option === "desc") {
-			setSortOptionAge(null);
-		}
-	};
-
-	const handleAgeSort = (option) => {
-		setSortOptionAge(option);
-		if (option === "youngest" || option === "oldest") {
-			setSortOptionName(null);
-		}
-	};
-
+    const handleAgeSort = (option) => {
+        setSortOptionAge(option);
+        if (option === "youngest" || option === "oldest") {
+            setSortOptionName(null);
+        }
+    };
 	return (
 		<div className="border bg-white flex flex-col items-stretch border-solid border-stone-300 min-h-screen w-full">
 			<div className="w-full max-md:max-w-full h-full">
@@ -175,9 +148,14 @@ export default function MyComponent() {
 											src="https://cdn.builder.io/api/v1/image/assets/TEMP/e2aee5eaae6c8b317fa94c9456603d2ba5c59247e65984390a06ee8f8b01312c?"
 											className="aspect-square object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full"
 										/>
-										<div className="text-stone-300 text-xs leading-5 my-auto" style={{ paddingRight: "300px" }}>
-											SEARCH
-										</div>
+										  <input
+                                            type="text"
+                                            placeholder="SEARCH"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className=" text-xs leading-5 my-auto outline-none"
+                                            style={{ paddingRight: "300px" }}
+                                        />
 									</span>
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
