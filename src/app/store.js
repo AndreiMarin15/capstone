@@ -194,6 +194,7 @@ export const usePatientInfo = create(
 				attendingDoctor: "",
 				postal_code: "",
 				photo: "",
+				education: "",
 			},
 			allergies: [],
 			family_history: [],

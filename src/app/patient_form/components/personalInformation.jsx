@@ -190,26 +190,49 @@ export default function SignUpPersonalInformation() {
           </span>
         </div>
 
-        <div className="mt-10">
-          <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
-              Education
-            </div>
-            <select
-              //   onChange={(e) => {
-              //     patientStore.setPersonalInformation({ gender: e.target.value });
-              //   }}
-              className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
-              //   value={patientStore.personal_information.gender}
-            >
-              <option value="">Select</option>
-              <option value="1">1 - Less than high school"</option>
-              <option value="2">2 - High school</option>
-              <option value="3">3 - Some college or vocational school</option>
-              <option value="4">4 - College</option>
-            </select>
-          </span>
-        </div>
+
+				<div className="mt-10">
+					<span className="items-stretch flex grow basis-[0%] flex-col">
+						<div className="text-black text-sm font-semibold leading-5">Education</div>
+						<select
+							onChange={(e) => {
+								patientStore.setPersonalInformation({ education: e.target.value });
+							}}
+							className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+							value={patientStore.personal_information.education}
+						>
+							<option value="">Select</option>
+							<option value="1">1 - Less than high school</option>
+							<option value="2">2 - High school</option>
+							<option value="3">3 - Some college or vocational school</option>
+							<option value="4">4 - College</option>
+						</select>
+					</span>
+				</div>
+
+				<div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+					<span className="items-stretch flex grow basis-[0%] flex-col self-start">
+						<div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">Contact number</div>
+						<span className="items-stretch rounded shadow-sm flex justify-between gap-1 mt-2 px-3 py-1.5 border-[0.5px] border-solid border-black">
+							<div className="text-zinc-600 text-sm leading-5 whitespace-nowrap justify-center pl-2.5 pr-1 py-1 items-start max-md:pr-5">
+								+63
+							</div>
+							<input
+								type="text"
+								onChange={(e) => {
+									patientStore.setPersonalInformation({
+										contact_number: e.target.value,
+									});
+									handleInputChange(e, "contact_number");
+								}}
+								value={patientStore.personal_information.contact_number}
+								className="text-black-300 text-sm leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5"
+								placeholder="9171234567"
+							></input>
+						</span>
+						{errors.contact_number && <div className="text-red-500 text-xs mt-2">{errors.contact_number}</div>}
+					</span>
+
 
         <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
@@ -263,23 +286,23 @@ export default function SignUpPersonalInformation() {
                 Birthdate
               </div>
 
-              <div className="flex items-stretch justify-between gap-2.5 mt-2">
-                <div className="flex justify-between gap-2.5">
-                  <input
-                    type="date"
-                    onChange={(e) => {
-                      patientStore.setPersonalInformation({
-                        birthdate: e.target.value,
-                      });
-                    }}
-                    value={patientStore.personal_information.birthdate}
-                    className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
-                  />
-                </div>
-              </div>
-            </span>
-          </div>
-        </div>
+
+				<div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+					Street address
+				</div>
+				<input
+					type="text"
+					onChange={(e) => {
+						patientStore.setPersonalInformation({
+							street_address: e.target.value,
+						});
+						handleInputChange(e, "street_address");
+					}}
+					value={patientStore.personal_information.street_address}
+					className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
+				/>
+				{errors.street_address && <div className="text-red-500 mt-2 text-xs">{errors.street_address}</div>}
+
 
         <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           Street address
