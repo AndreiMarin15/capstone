@@ -49,7 +49,7 @@ export function MasterDataPDF({ patientId, patientData }) {
         " " +
         patientData?.personal_information?.city, // patient table: address (string)
       contact: patientData?.personal_information?.contact_number, // hindi pa sinesave sa tables sa supabase
-      stroke: patientData?.medical_history.stroke.toString(), // hindi pa sinesave sa tables sa supabase
+      stroke: patientData?.medical_history?.stroke?.toString(), // hindi pa sinesave sa tables sa supabase
       allergies:
         patientData?.allergies.length > 0
           ? patientData?.allergies.map((obj) => obj.allergen).join(", ")

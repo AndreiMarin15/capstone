@@ -46,10 +46,20 @@ export const currentUser = create(
 	)
 );
 
-export const useSignature = create((set) => ({
-	signature: "",
-	setSignature: (item) => set(() => ({ signature: item })),
-}));
+export const useSignature = create(
+	persist(
+		(set) => ({
+			id: "",
+			signature: "",
+			setSignature: (item) => set(() => ({ signature: item })),
+			setId: (item) => set(() => ({ id: item })),
+		}),
+		{
+			name: "ENDO_TRACKER_SIGNATURE",
+		}
+	)
+);
+
 export const useUserInfo = create(
 	persist(
 		(set) => ({
@@ -333,3 +343,10 @@ export const usePatientInfo = create(
 		}
 	)
 );
+
+export const useRecordValidity = create((set) => ({
+	start: null,
+	end: null,
+	setStart: (item) => set(() => ({ start: item })),
+	setEnd: (item) => set(() => ({ end: item })),
+}));

@@ -1,7 +1,10 @@
 import { client } from "../initSupabase";
 import { currentUser } from "@/app/store";
+import { useRecordValidity } from "@/app/store";
+
 const supabase = client("public");
 const project = client("project");
+
 
 const formatTimestamp = (timestamp) => {
 	const date = new Date(timestamp);
@@ -22,14 +25,22 @@ export const getFamilyMemberHistory = async (patientId) => {
 };
 
 export const getMedicalHistory = async (patientId) => {
-	const { data, error } = await supabase
+	let query = supabase
 		.from("observation")
 		.select()
 		.eq("resource->subject->>reference", patientId)
+		.or(`resource->>id.eq.${"initialDiagnosis"},resource->>id.eq.${"finalDiagnosis"}`);
 
-		.or(`resource->>id.eq.${"initialDiagnosis"},resource->>id.eq.${"finalDiagnosis"}`)
-		.order("ts", { ascending: false })
-		.limit(1);
+	// Check if both start and end dates are not null
+	console.log(useRecordValidity.getState().start);
+	console.log(useRecordValidity.getState().end);
+	if (useRecordValidity.getState().start !== null && useRecordValidity.getState().end !== null) {
+		console.log("triggered")
+		query = query.gte("ts", useRecordValidity.getState().start).lte("ts", useRecordValidity.getState().end);
+	}
+
+	console.log(query);
+	const { data, error } = await query.order("ts", { ascending: false }).limit(1);
 
 	console.log(data);
 	console.log(error);
@@ -62,17 +73,35 @@ export const getPrescriptions = async (patientId) => {
 };
 
 export const getCarePlan = async (patientId) => {
-	const { data, error } = await supabase.from("careplan").select().eq("resource->subject->>reference", patientId);
+	let query = supabase.from("careplan").select().eq("resource->subject->>reference", patientId);
+
+	// Check if both start and end dates are not null
+	if (useRecordValidity.getState().start !== null && useRecordValidity.getState().end !== null) {
+		query = query
+			.gte("resource->validityPeriod->>start", useRecordValidity.getState().start)
+			.lte("resource->validityPeriod->>end", useRecordValidity.getState().end);
+	}
+
+	const { data, error } = await query;
 
 	return data;
 };
 
 export const getLabTests = async (patientId) => {
-	const { data, error } = await supabase
+	let query = supabase
 		.from("observation")
 		.select()
 		.eq("resource->subject->>reference", patientId ?? currentUser.getState().info.id)
 		.eq("resource->>id", "labtest");
+
+	// Check if both start and end dates are not null
+	console.log(useRecordValidity.getState().start);
+	console.log(useRecordValidity.getState().end);
+	if (useRecordValidity.getState().start !== null && useRecordValidity.getState().end !== null) {
+		query = query.gte("ts", useRecordValidity.getState().start).lte("ts", useRecordValidity.getState().end);
+	}
+
+	const { data, error } = await query;
 	return data;
 };
 

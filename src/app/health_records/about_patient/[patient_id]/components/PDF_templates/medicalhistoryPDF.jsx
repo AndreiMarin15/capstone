@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { getMedicalHistory, getDoctorSpecialization, getDoctorHospital } from "@/backend/pdfBackend/getPDFData";
 import { useEffect, useState } from "react";
 import { currentUser } from "@/app/store";
-
+import { useRecordValidity } from "@/app/store";
 export function MedicalHistoryPDF({ patientId, patientData }) {
 	const [medicalhistory, setMedicalHistory] = useState([
 		{
@@ -69,7 +69,7 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 		};
 
 		fetchData();
-	}, [patientId]);
+	}, [patientId, useRecordValidity.getState()]);
 
 	const pdfRef = useRef();
 	const downloadPDF = () => {

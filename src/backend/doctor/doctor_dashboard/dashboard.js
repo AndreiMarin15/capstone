@@ -24,6 +24,7 @@ const dashboard = {
 			photo:
 				doctor[0].photo ??
 				"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
+			signature: doctor[0].signature,
 		};
 	},
 

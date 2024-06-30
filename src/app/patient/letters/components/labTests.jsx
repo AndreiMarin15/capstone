@@ -49,10 +49,11 @@ async function fetchEncounters(patientId, setLabTests) {
 		console.log(observationsData);
 
 		const labTestObservations = observationsData
-			.filter((observation) => observation.resource.id === "labtest")
+			.filter((observation) => observation.resource.id === "labtest" && observation.resource.participant.license_id)
 			.map((observation) => ({
 				id: observation.id,
 				doctor: observation.resource.participant.actor,
+				license_id: observation.resource.participant.license_id,
 				srcdoctor:
 					"https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?",
 				src: "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?",
@@ -65,6 +66,7 @@ async function fetchEncounters(patientId, setLabTests) {
 				encounterId: labTestToEncounterMap[observation.id], // Map lab test to its encounter ID
 			}));
 
+		console.log(labTestObservations);
 		const labTestsGrouped = labTestObservations.reduce((acc, labTest) => {
 			acc[labTest.encounterId] = acc[labTest.encounterId] || [];
 			acc[labTest.encounterId].push(labTest);
@@ -291,9 +293,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
 											</table>
 										)}
 									</button>
-									{/* <div className=" mt-9 text-xs text-blue-500 leading-5 flex items-center">
-										<Button variant="download"> ↓ Download (.pdf)</Button>
-									</div> */}
+
 									<Reusable
 										child={
 											<ViewLab
