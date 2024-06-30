@@ -10,65 +10,86 @@ import { currentUser } from "@/app/store";
 import { importCarePlan } from "@/backend/patient/careplan/careplan";
 import { Button } from "@/components/ui/button";
 import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
+import getCollaborationByPatientId from "@/backend/referral/getCollaboration"
 
 export default function ViewChatResult({
   setCurrentScreen,
   patientData,
   patientId,
+  isAdd,
+  setAdd,
 }) {
-  const chatMap = [
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?",
-      variable: "Doctor",
-      value: "Dr. Johnny Santos - Cardiologist",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?",
-      variable: "Description",
-      value:
-        "Remind patient not to take so much artificial sweeteners. Even though good for diabetic patients, it may have adverse effect on heart health. ",
-    },
-  ];
+  // const chatMap = [
+  //   {
+  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?",
+  //     variable: "Doctor",
+  //     value: "Dr. Johnny Santos - Cardiologist",
+  //   },
+  //   {
+  //     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?",
+  //     variable: "Description",
+  //     value:
+  //       "Remind patient not to take so much artificial sweeteners. Even though good for diabetic patients, it may have adverse effect on heart health. ",
+  //   },
+  // ];
+
+  const [collaborationData, setCollaborationData] = useState([]);
+
+  useEffect(() => {
+    // Fetch collaboration data when component mounts
+    const fetchCollaborationData = async () => {
+      try {
+        const data = await getCollaborationByPatientId(patientId);
+        setCollaborationData(data);
+      } catch (error) {
+        console.error("Error fetching collaboration data:", error);
+      }
+    };
+
+    fetchCollaborationData();
+  }, [patientId]);
+
+  console.log(collaborationData)
+
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toISOString().split('T')[0];
+  };
+
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-10 max-md:ml-1 max-md:mt-10">
         COLLABORATION THROUGH CHAT RESULTS
       </div>
 
-      {chatMap?.map((item, index) => (
-        <tr key={index} className="flex gap-5 justify-between mb-3 w-full">
+      {collaborationData.slice().reverse().map((item, index) => (
+        <div key={index} className="flex gap-5 justify-between mb-8 w-full">
+          <tr>
+          <div>
           <td className="flex gap-2 my-auto font-semibold text-xs text-black">
             <Image
               alt="image"
               height={0}
               width={0}
               loading="lazy"
-              src={item.src}
+              src={"https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?"}
               className="aspect-square fill-black w-[15px]"
             />
-            <div className="flex-auto my-auto">{item.variable}</div>
+            <div className="flex-auto my-auto">Dr. {item.doctor}  -  {item.specialty}</div>
+          
+            
           </td>
-          <td>
-            {item.variable === "Start Date" || item.variable === "End Date" ? (
-              <input
-                type="date"
-                className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5 w-[205px]"
-                //   value={
-                //     item.variable === "Start Date"
-                //       ? startDate
-                //       : endDate
-                //   }
-                //   onChange={(e) => {
-                //     item.variable === "Start Date"
-                //       ? setStartDate(e.target.value)
-                //       : setEndDate(e.target.value);
-                //   }}
-              />
-            ) : (
-              ""
-            )}
-          </td>
-        </tr>
+          </div>
+
+            <div className="flex-auto my-auto ml-6 font-semibold text-xs text-black"> {formatDate(item.created_at)}</div>
+            <div className="flex-auto my-auto ml-6 mt-3 text-xs text-black overflow-hidden overflow-ellipsis">
+            {item.note}
+          </div>
+          </tr>
+          
+        </div>
+        
       ))}
       <div className="flex justify-between items-center mt-5">
         <div className="flex items-start justify-between mt-5">
@@ -88,9 +109,9 @@ export default function ViewChatResult({
         </div>
         <div>
           <Button
-          // onClick={() => {
-          //   Should be directed to add care plan page
-          // }}
+          onClick={() => {
+            setAdd(true)
+          }}
           >
             CREATE CARE PLAN
           </Button>
