@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { currentUser } from "@/app/store";
 
+
 export function MasterDataPDF({ patientId, patientData }) {
   function getAge(birthdate) {
     const birthDate = new Date(birthdate);

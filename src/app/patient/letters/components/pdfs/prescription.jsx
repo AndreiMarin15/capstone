@@ -4,6 +4,7 @@ import Image from "next/image";
 import referralLetters from "@/backend/referral_letters/getData";
 import { Label } from "@/components/ui/label";
 import { getDoctorByLicense, getDoctorSpecialization } from "@/backend/pdfBackend/getPDFData";
+import { useSignature } from "@/app/store";
 export function Prescription({ medicationData, patientData, referred_by_id }) {
 	function getAge(birthdate) {
 		const birthDate = new Date(birthdate);
