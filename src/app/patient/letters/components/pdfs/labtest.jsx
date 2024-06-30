@@ -1,6 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { getDoctorByLicense, getDoctorSpecialization } from "@/backend/pdfBackend/getPDFData";
+import { useSignature } from "@/app/store";
 
 export function LabTest({ labTests, patientData, referred_by_id }) {
 	React.useEffect(() => {

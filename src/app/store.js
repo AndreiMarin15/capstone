@@ -46,6 +46,10 @@ export const currentUser = create(
 	)
 );
 
+export const useSignature = create((set) => ({
+	signature: "",
+	setSignature: (item) => set(() => ({ signature: item })),
+}));
 export const useUserInfo = create(
 	persist(
 		(set) => ({
@@ -195,6 +199,8 @@ export const usePatientInfo = create(
 				postal_code: "",
 				photo: "",
 				education: "",
+				deceased: false,
+				date_of_death: "",
 			},
 			allergies: [],
 			family_history: [],
