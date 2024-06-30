@@ -15,8 +15,10 @@ import { ReferralHistoryPDF } from "./PDF_templates/referralhistoryPDF";
 import { ClinicVisitsPDF } from "./PDF_templates/clinicvisitPDF";
 import { VitalsPDF } from "./PDF_templates/vitalsPDF";
 import { UploadSignature } from "./sub_components/uploadSignature";
+import { useRecordValidity } from "@/app/store";
 
 export default function GenerateRecords({ patientId, patientData }) {
+	const validityStore = useRecordValidity.getState();
 	const [date, setDate] = useState();
 
 	const dates = [
@@ -72,8 +74,14 @@ export default function GenerateRecords({ patientId, patientData }) {
 										const { value } = e.target;
 										if (item.variable === "Start Date") {
 											setValidityStart(value);
+											validityStore.setStart(value);
+											console.log("Start Date", value);
+											console.log("validityStore", validityStore);
 										} else if (item.variable === "End Date") {
 											setValidityEnd(value);
+											validityStore.setEnd(value);
+											console.log("End Date", value);
+											console.log("validityStore", validityStore);
 										}
 									}}
 								/>
@@ -145,7 +153,7 @@ export default function GenerateRecords({ patientId, patientData }) {
 					</tr>
 				</table>
 
-				<UploadSignature />
+				{/* <UploadSignature /> */}
 			</div>
 		</>
 	);
