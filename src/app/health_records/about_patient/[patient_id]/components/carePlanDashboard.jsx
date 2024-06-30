@@ -7,6 +7,7 @@ import ViewChatResult from "./sub_components/viewChatResult";
 import { careplanInfo } from "@/backend//patient/careplan/careplan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+;
 
 export default function CarePlan({ patientId, patientData }) {
   const [careplanInfor, setCareplanInfor] = useState([]);
@@ -61,8 +62,10 @@ export default function CarePlan({ patientId, patientData }) {
       ) : isResult ? (
         <ViewChatResult
           setCurrentScreen={handleSetCurrentScreen}
-          // patientData={patientData}
-          // patientId={patientId}
+          patientData={patientData}
+          patientId={patientId}
+          isAdd={isAdd}
+          setAdd={setAdd}
         />
       ) : (
         <>

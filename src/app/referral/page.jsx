@@ -317,10 +317,12 @@ export default function Referral() {
         const data = await uploadCollaboration({
             name:collab.name,
             specialty:collab.specialty,
-            note: textareaValue
+            note: textareaValue,
+            patient: collab.patient,
+            patientId: collab.patient_id
         });
       
-        console.log('Collaboration saved:', data);
+        console.log('Collaboration Results saved:', data);
         toast.success("Collaboration saved successfully!", {
             position: "top-left",
             theme: "colored",

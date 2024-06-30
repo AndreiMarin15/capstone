@@ -1,18 +1,33 @@
 import { PROJECT } from "../project/db"; // Adjust the import path as necessary
-// Adjust the import path as necessary
+
+// const getCollaborationByPatientId = async (patientId) => {
+//     try {
+//         const collaborationData = await PROJECT.from('collaborations').select('*').eq('patientId', patientId);
+
+//         if (collaborationData instanceof Error) {
+//             throw collaborationData;
+//         }
+
+//         console.log("Fetched collaboration data:", collaborationData);
+//         return collaborationData;
+//     } catch (error) {
+//         console.error("Error fetching collaboration data:", error);
+//         throw error;
+//     }
+// };
 
 const uploadCollaboration = async (collaboration) => {
     console.log("Collaboration data received:", collaboration);
 
     try {
-        // Get the current doctor's information
-
 
         // Construct collaboration data for insertion
         const collaborationData = {
             doctor: collaboration.name,
             specialty: collaboration.specialty,
             note: collaboration.note,
+            patient: collaboration.patient,
+            patientId: collaboration.patientId,
         };
         console.log("Collaboration data to insert:", collaborationData);
 
@@ -38,4 +53,3 @@ const uploadCollaboration = async (collaboration) => {
 };
 
 export default uploadCollaboration;
-
