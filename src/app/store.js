@@ -333,3 +333,10 @@ export const usePatientInfo = create(
 		}
 	)
 );
+
+export const useRecordValidity = create((set) => ({
+	start: null,
+	end: null,
+	setStart: (item) => set(() => ({ start: item })),
+	setEnd: (item) => set(() => ({ end: item })),
+}));
