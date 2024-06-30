@@ -3,16 +3,21 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import BackButton from "../../../my_health_record/components/sub_components/BackButton";
 import { getPrescriptionById } from "@/backend/health_records/getPrescription";
-
+import { getDoctorSignature } from "@/backend/signatures/doctor_signature";
 export default function ViewPrescription({ currentScreen, setCurrentScreen, prescriptionId }) {
 	const [prescription, setPrescription] = useState(null);
 
+	const [doctor, setDoctor] = useState(null);
 	useEffect(() => {
 		const fetchPrescription = async () => {
 			try {
 				const fetchedPrescription = await getPrescriptionById(prescriptionId);
 				setPrescription(fetchedPrescription);
 				console.log("Fetched Prescription:", fetchedPrescription);
+				console.log(fetchedPrescription[0]?.resource?.requester?.agent?.license_id);
+				const fetchedDoctor = await getDoctorSignature(fetchedPrescription[0]?.resource?.requester?.agent?.license_id);
+				setDoctor(fetchedDoctor);
+				console.log("Fetched Doctor:", fetchedDoctor);
 			} catch (error) {
 				console.error("Error fetching prescription:", error);
 			}
@@ -105,6 +110,34 @@ export default function ViewPrescription({ currentScreen, setCurrentScreen, pres
 					{currentScreen === 1 && (
 						<div className="ml-10">
 							<BackButton currentScreen={1} setCurrentScreen={setCurrentScreen} />
+						</div>
+					)}
+					{currentScreen === 10 && (
+						<div className="ml-10">
+							<div className="flex justify-between items-center mt-10 ml-10">
+								<div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">Prescribed By:</div>
+							</div>
+							<div className="flex justify-between items-center mt-10 ml-10">
+								<div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">
+									Name: {doctor?.first_name} {doctor?.last_name}
+								</div>
+							</div>
+							<div className="flex justify-between items-center mt-10 ml-10">
+								<div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">
+									License ID: {doctor?.license_id}
+								</div>
+							</div>
+							<div className="flex justify-start items-start gap-2 mt-10 ml-10">
+								<div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">Signature: </div>
+								<Image
+									alt="image"
+									height={100}
+									width={100}
+									src={
+										doctor?.signature // Replace with actual item.src if available
+									}
+								/>
+							</div>
 						</div>
 					)}
 				</>

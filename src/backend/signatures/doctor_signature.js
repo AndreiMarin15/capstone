@@ -12,3 +12,10 @@ export const uploadSignature = async () => {
 
 	console.log(update);
 };
+
+export const getDoctorSignature = async (license_id) => {
+	console.log(license_id);
+	const signature = await project.from("doctors").select().eq("license_id", license_id);
+	console.log(signature);
+	return signature.data[0];
+};
