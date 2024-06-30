@@ -3,6 +3,7 @@ import Image from "next/image";
 import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
+import ViewChatResult from "./sub_components/viewChatResult";
 import { careplanInfo } from "@/backend//patient/careplan/careplan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -26,9 +27,11 @@ export default function CarePlan({ patientId, patientData }) {
 
   const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
+  const [isResult, setResult] = useState(false);
   const handleSetCurrentScreen = () => {
     setTest(false);
     setAdd(false);
+    setResult(false);
   };
 
   const isDateNotLaterThanToday = (dateString) => {
@@ -55,20 +58,36 @@ export default function CarePlan({ patientId, patientData }) {
           patientData={patientData}
           patientId={patientId}
         />
+      ) : isResult ? (
+        <ViewChatResult
+          setCurrentScreen={handleSetCurrentScreen}
+          // patientData={patientData}
+          // patientId={patientId}
+        />
       ) : (
         <>
           <div className="flex justify-between items-center mt-8 mb-5">
             <div className="text-black text-base font-bold leading-5 max-md:ml-1 max-md:mt-10">
               CARE PLANS
             </div>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setAdd(true);
-              }}
-            >
-              Add
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setAdd(true);
+                }}
+              >
+                Add
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setResult(true);
+                }}
+              >
+                View Collab Result
+              </Button>
+            </div>
           </div>
           <Tabs defaultValue="all" className="w-[400px] mb-10">
             <TabsList>
