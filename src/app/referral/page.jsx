@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Attachments } from "./components/ui/attachments";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import uploadCollaboration from "@/backend/referral/uploadCollaboration";
 
 export default function Referral() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function Referral() {
   const [changeUser, setChangeUser] = React.useState(false);
   const [newMessage, setNewMessage] = React.useState(false);
   const [message, setMessage] = React.useState("");
+  const [collab, setCollab] = React.useState("");
   const [chatId, setChatId] = React.useState("");
   const [chats, setChats] = React.useState([
     { id: "", doctor: "", doctor_full_name: "" },
@@ -253,6 +255,7 @@ export default function Referral() {
 
   React.useEffect(() => {
     console.log(referralsList);
+  
   }, [referralsList]);
 
   const sendOTP = () => {
@@ -304,6 +307,34 @@ export default function Referral() {
       })
       .catch((error) => console.error(error));
   };
+
+
+  const handleSaveCollab = async () => {
+    const textareaValue = document.getElementById("textareaId").value;
+    try {
+        console.log(collab)
+        console.log(collab.specialty)
+        const data = await uploadCollaboration({
+            name:collab.name,
+            specialty:collab.specialty,
+            note: textareaValue
+        });
+      
+        console.log('Collaboration saved:', data);
+        toast.success("Collaboration saved successfully!", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 2000,
+        });
+        setShowModal(false); // Close the modal after saving
+    } catch (error) {
+        toast.error("Error saving collaboration. Please try again.", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 2000,
+        });
+    }
+};
 
   return (
     <div className="bg-white h-screen flex">
@@ -362,6 +393,8 @@ export default function Referral() {
                     key={referral.id}
                     onClick={() => {
                       getUser(referral.chat_id);
+                      setCollab(referral)
+                      console.log(collab)
                       console.log(referral);
                     }}
                   >
@@ -600,23 +633,22 @@ export default function Referral() {
             </div>
             <textarea
               rows="4"
+              id="textareaId"
               className="shrink-0 mt-9 w-96 px-3 py-5 max-w-full bg-white rounded-xl border border-solid shadow-sm border-black border-opacity-30 h-[100px] overflow-auto"
               placeholder="Enter Text..."
             ></textarea>
 
             <button
               className="justify-center px-[6rem] py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-sky-900 rounded max-md:px-6"
-              //  onClick={() => {
-              //    handleOTPSubmit(true);
-              //  }}
+              onClick={handleSaveCollab}
             >
               Save
             </button>
             <button
               className="justify-center px-[6rem] py-2.5 mt-8 text-lg text-white whitespace-nowrap bg-red-900 rounded max-md:px-6"
-              //  onClick={() => {
-              //    handleOTPSubmit(true);
-              //  }}
+               onClick={() => {
+                 setShowModal(false);
+               }}
             >
               Close
             </button>
