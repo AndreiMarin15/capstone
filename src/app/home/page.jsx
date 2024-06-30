@@ -7,8 +7,11 @@ import { getNotifications, getSenderData, markAsRead } from "@/backend/sendNotif
 import { currentUser } from "@/app/store";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSignature } from "@/app/store";
+import { UploadSignature } from "../health_records/about_patient/[patient_id]/components/sub_components/uploadSignature";
 export default function Home() {
 	const [editState, setEditState] = React.useState(false);
+	const [signatureFlag, setSignatureFlag] = React.useState(false);
 	const [doctorInfo, setDoctor] = React.useState({
 		photoSrc:
 			"https://cdn.builder.io/api/v1/image/assets/TEMP/e08e006064acc91eb2be418d8e3ebc37f55fda5b8a64767df11d658a5723ca26?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -18,6 +21,22 @@ export default function Home() {
 		about:
 			"I am an Endocrinologist practicing for 5 years. You can reach me through Cardinal Santos clinic’s telephone number +888888.",
 	});
+
+	React.useEffect(() => {
+		if (currentUser.getState().info.id !== useSignature.getState().id) {
+			useSignature.getState().setSignature(null);
+			useSignature.getState().setId(null);
+		}
+	}, []);
+	React.useEffect(() => {
+		console.log("triggered");
+		if (useSignature.getState().signature) {
+			setDoctor({
+				...doctorInfo,
+				signature: <Image src={useSignature.getState().signature} alt="signature" width={100} height={100} />,
+			});
+		}
+	}, [signatureFlag]);
 
 	const [managedPatients, setPatients] = React.useState([
 		{
@@ -64,6 +83,15 @@ export default function Home() {
 				specialization: doctor.specialization,
 				yearsOfExperience: doctor.yearsOfExperience,
 				about: doctor.about ?? "No Information Provided",
+
+				signature: doctor.signature ? (
+					<Image src={doctor.signature} alt="signature" width={100} height={100} />
+				) : useSignature.getState().signature != null && useSignature.getState().signature.length > 0 ? (
+					<Image src={useSignature.getState().signature} alt="signature" width={100} height={100} />
+				) : (
+					// <UploadSignature />
+					""
+				),
 			});
 		};
 
@@ -173,6 +201,12 @@ export default function Home() {
 												}}
 											/>
 										)}
+									</div>
+									<div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
+										Signature: {`(will only be used for letters generated for your patients)`} <br />
+										{doctorInfo.signature}
+										<br />
+										<UploadSignature signatureFlag={signatureFlag} setSignatureFlag={setSignatureFlag} />
 									</div>
 									{editState && (
 										<button

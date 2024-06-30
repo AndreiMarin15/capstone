@@ -7,6 +7,7 @@ import BackButton from "./BackButton";
 import { Button } from "@/components/ui/button";
 import doctor from "@/backend//health_records/doctor";
 import useClinicVisitStore from '@/app/clinicVisitStore';
+import {UploadSignature} from "./uploadSignature";
 
 export default function RequestLabTest({
   currentScreen,
@@ -94,6 +95,7 @@ export default function RequestLabTest({
       <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
         REQUEST LAB TEST
       </div>
+      {/* <UploadSignature /> */}
 
       <div>
         <div className="flex gap-[5rem] align-baseline">
