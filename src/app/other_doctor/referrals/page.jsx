@@ -238,14 +238,14 @@ export default function Referral() {
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
-		myHeaders.append("Authorization", "App 7d2e0e242c3f8670153f59be6678b030-7f61fffc-c227-4d3b-a67a-5921d22ce02b");
+		myHeaders.append("Authorization", "App 91d4a8b0601ff8df491c9006dad21c8a-e6bfac93-3e03-400f-a373-bb89c9193f6e");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
 		console.log(otp);
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: `639178060641` }], // replace with patient data
+					destinations: [{ to: `639178855981` }, { to: `63${user.personal_information.contact_number}` }], // replace with patient data
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
