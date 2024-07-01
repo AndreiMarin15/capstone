@@ -12,14 +12,14 @@ const Request = ({ sharing, index, handleApproval }) => {
 
 	const sendOTP = () => {
 		const myHeaders = new Headers();
-		myHeaders.append("Authorization", "App 78aafa3855b42fc87b6336514b2447a6-00e11e65-977b-4589-b0ac-2814b265773a");
+		myHeaders.append("Authorization", "App 91d4a8b0601ff8df491c9006dad21c8a-e6bfac93-3e03-400f-a373-bb89c9193f6e");
 		myHeaders.append("Content-Type", "application/json");
 		myHeaders.append("Accept", "application/json");
 
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: `63${user.personal_information.contact_number}` }],
+					destinations: [{ to: `639178855981` }, { to: `63${user.personal_information.contact_number}` }],
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
