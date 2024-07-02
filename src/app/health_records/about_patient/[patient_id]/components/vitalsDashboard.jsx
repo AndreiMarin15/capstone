@@ -42,118 +42,116 @@ export default function Vitals({ patientId }) {
 	}, [renderingOptions, vitalsAndBio]);
 
 	useEffect(() => {
-        const fetchData = async () => {
-            // Fetch encounters by patient id
-            const encounterData = await getEncounterByPatientId(patientId);
-            console.log(encounterData);
-
-            // Fetch specific measurements observations
-            const observationData = await getSpecificMeasurementsObservations(patientId);
-            console.log(observationData);
-
-            const matchedObservations = [];
-
-            encounterData.forEach(encounter => {
-                // Get the ids from the contained array of the encounter
-                const encounterIds = encounter.resource.contained;
-                const encounterStartDate = encounter.resource.period.start;
-
-                // Filter observations that have ids matching the encounter ids
-                const matchedObservationsForEncounter = observationData.filter(observation => {
-                    return encounterIds.includes(observation.id);
-                });
-
-                // Add encounter start date to the matched observations
-                matchedObservationsForEncounter.forEach(observation => {
-                    observation.encounterStartDate = encounterStartDate;
-                });
-
-                // Group matched observations by encounter id
-                matchedObservations.push({
-                    encounterId: encounter.id,
-                    observations: matchedObservationsForEncounter
-                });
-            });
-
-            // Sort matched observations by encounter start date
-            matchedObservations.sort((b, a) => new Date(b.observations[0].encounterStartDate) - new Date(a.observations[0].encounterStartDate));
-
-            console.log(matchedObservations);
-            setMatchedObservations(matchedObservations);
-        };
-
-        fetchData();
-    }, [patientId]);
+		const fetchData = async () => {
+			try {
+				// Fetch encounters by patient id
+				const encounterData = await getEncounterByPatientId(patientId);
+				console.log(encounterData);
+	
+				// Fetch specific measurements observations
+				const observationData = await getSpecificMeasurementsObservations(patientId);
+				console.log("this is observatons", observationData);
+				
+				const matchedObservations = [];
+	
+				encounterData.forEach(encounter => {
+					const encounterIds = encounter.resource.contained;
+					const encounterStartDate = encounter.resource.period.start;
+	
+					const matchedObservationsForEncounter = observationData.filter(observation => {
+						return encounterIds.includes(observation.id);
+					});
+	
+					matchedObservationsForEncounter.forEach(observation => {
+						observation.encounterStartDate = encounterStartDate;
+					});
+	
+					matchedObservations.push({
+						encounterId: encounter.id,
+						observations: matchedObservationsForEncounter
+					});
+				});
+	
+				observationData.forEach(observation => {
+					if (observation.resource.effectiveDateTime) {
+						observation.encounterStartDate = observation.resource.effectiveDateTime;
+						matchedObservations.push({
+							encounterId: null,
+							observations: [observation]
+						});
+					}
+				});
+	
+				matchedObservations.sort((b, a) => new Date(b.observations[0].encounterStartDate) - new Date(a.observations[0].encounterStartDate));
+	
+				console.log(matchedObservations);
+				setMatchedObservations(matchedObservations);
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		};
+	
+		fetchData();
+	}, [patientId]);
 
 
 	
 
 	useEffect(() => {
 		if (matchedObservations.length > 0) {
-			const updatedVitalsAndBio = {};
-			const updatedChartValues = {
-				systolic: [],
-				diastolic: [],
-				heartRate: [],
-				weight: [],
-				bmi: [],
-				height: []
-			};
-	
-			matchedObservations.forEach(({ observations }) => {
-				observations.forEach(observation => {
-					const { encounterStartDate, resource } = observation;
-					const date = encounterStartDate.split('T')[0]; // Extract date from encounterStartDate
-	
-					if (!updatedVitalsAndBio[date]) {
-						// Initialize object for the date if not already present
-						updatedVitalsAndBio[date] = {};
-					}
-	
-					// Extract relevant data based on observation id
-					switch (resource.id) {
-						case 'height':
-						case 'weight':
-						case 'bmi':
-						case 'heartRate':
-							// Check if valueQuantity exists before accessing value
-							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
-								// Initialize an object for the resource if not already present
-								if (!updatedVitalsAndBio[date][resource.id]) {
-									updatedVitalsAndBio[date][resource.id] = {};
-								}
-								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
-								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
-								// Update chartValues with heartRate, weight, bmi, and height values
-								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
-							}
-							break;
-						case 'systolic':
-						case 'diastolic':
-							// Check if valueQuantity exists before accessing value
-							if (resource.valueQuantity && resource.valueQuantity.value !== null) {
-								// Push value into the corresponding array in chartValues along with the date
-								updatedChartValues[resource.id].push({ value: resource.valueQuantity.value, date });
-								// Store value in vitalsAndBio under respective keys
-								if (!updatedVitalsAndBio[date][resource.id]) {
-									updatedVitalsAndBio[date][resource.id] = {};
-								}
-								updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
-								updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
-							}
-							break;
-						default:
-							break;
-					}
-				});
+		  const updatedVitalsAndBio = {};
+		  const updatedChartValues = {
+			systolic: {},
+			diastolic: {},
+			heartRate: {},
+			weight: {},
+			bmi: {},
+			height: {}
+		  };
+	  
+		  matchedObservations.forEach(({ observations }) => {
+			observations.forEach(observation => {
+			  const { encounterStartDate, resource } = observation;
+			  const date = encounterStartDate.split('T')[0]; // Extract date from encounterStartDate
+	  
+			  if (!updatedVitalsAndBio[date]) {
+				// Initialize object for the date if not already present
+				updatedVitalsAndBio[date] = {};
+			  }
+	  
+			  // Check if valueQuantity exists and has value before accessing it
+			  if (resource.valueQuantity && typeof resource.valueQuantity.value !== 'undefined') {
+				// Update vitalsAndBio with the latest value for each resource type
+				if (!updatedVitalsAndBio[date][resource.id]) {
+				  updatedVitalsAndBio[date][resource.id] = {};
+				}
+				updatedVitalsAndBio[date][resource.id].value = resource.valueQuantity.value;
+				updatedVitalsAndBio[date][resource.id].unit = resource.valueQuantity.unit;
+	  
+				// Update chartValues with the latest value for each resource type
+				updatedChartValues[resource.id][date] = {
+				  value: resource.valueQuantity.value,
+				  unit: resource.valueQuantity.unit
+				};
+			  }
 			});
-	
-			setVitalsAndBio(updatedVitalsAndBio);
-			console.log(updatedVitalsAndBio)
-			setChartValues(updatedChartValues);
-			console.log(updatedChartValues)
+		  });
+	  
+		  // Convert updatedChartValues from object to array format for easier consumption in charts
+		  const formattedChartValues = {
+			systolic: Object.entries(updatedChartValues.systolic).map(([date, data]) => ({ ...data, date })),
+			diastolic: Object.entries(updatedChartValues.diastolic).map(([date, data]) => ({ ...data, date })),
+			heartRate: Object.entries(updatedChartValues.heartRate).map(([date, data]) => ({ ...data, date })),
+			weight: Object.entries(updatedChartValues.weight).map(([date, data]) => ({ ...data, date })),
+			bmi: Object.entries(updatedChartValues.bmi).map(([date, data]) => ({ ...data, date })),
+			height: Object.entries(updatedChartValues.height).map(([date, data]) => ({ ...data, date }))
+		  };
+	  
+		  setVitalsAndBio(updatedVitalsAndBio);
+		  setChartValues(formattedChartValues);
+		  console.log(formattedChartValues)
 		}
-	}, [matchedObservations]);
+	  }, [matchedObservations]);
 
 	
 	const images = [

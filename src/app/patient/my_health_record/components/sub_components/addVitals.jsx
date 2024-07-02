@@ -9,7 +9,7 @@ import BackButton from "./BackButton";
 import { currentUser, useUserInfo } from "@/app/store";
 import { Button } from "@/components/ui/button";
 
-export default function AddVitals() {
+export default function AddVitals({currentPage, setCurrentPage}) {
 	const [userId, setUserId] = useState(null);
 	const [height, setHeight] = useState(null);
 	const [weight, setWeight] = useState(null);
@@ -18,7 +18,8 @@ export default function AddVitals() {
 	const [diastolic, setDiastolic] = useState(null);
 	const [heartRate, setHeartRate] = useState(null);
 	const [compactObservation, setCompactObservation] = useState([]);
-
+	
+	
 	useEffect(() => {
 		const insertObservations = async () => {
 			if (compactObservation.length > 0) {
@@ -31,7 +32,7 @@ export default function AddVitals() {
 				setDiastolic(null);
 				setHeartRate(null);
 				setCompactObservation([]);
-				// toast notification
+				setCurrentPage(0);
 				toast.success("Vitals saved successfully!", {
 					position: "top-left",
 					theme: "colored",
@@ -51,7 +52,10 @@ export default function AddVitals() {
 		heartRate: { code: "8867-4", unit: "beats/minute" }, //heartRate
 	};
 
+
+
 	function convertToObservation(type, value) {
+		const today = new Date().toISOString()
 		return {
 			status: "created",
 			resource: {
@@ -64,7 +68,11 @@ export default function AddVitals() {
 						},
 					],
 				},
-				subject: currentUser.getState().info.id,
+				subject: {
+					type: "Patient",
+					reference: currentUser.getState().info.id,
+				},
+				effectiveDateTime: today,
 				resource_type: "Observation",
 				valueQuantity: {
 					unit: lookup[type].unit,
@@ -228,11 +236,15 @@ export default function AddVitals() {
 			</table>
 			{/* BACK & SAVE BUTTON */}
 			<div className="flex justify-between items-center mt-5">
-				<BackButton />
+			<BackButton
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
 				<div>
 					<Button
 						onClick={() => {
 							createCompactObservation();
+							
 						}}
 					>
 						SAVE
