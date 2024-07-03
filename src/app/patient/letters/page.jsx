@@ -123,7 +123,7 @@ export default function Letters() {
 
 													<div className="flex justify-between ml-2 mt-2">
 														<div className="flex items-center">
-															<span className="text-black text-sm text-base font-bold leading-5">
+															<span className="text-black text-sm font-bold leading-5">
 																Rendering Options:
 															</span>
 															<select
@@ -139,7 +139,7 @@ export default function Letters() {
 																<option value="7">7</option>
 																<option value="10">10</option>
 															</select>
-															<span className="ml-2 text-black text-base leading-5 text-sm font-normal">
+															<span className="ml-2 text-black leading-5 text-sm font-normal">
 																Prescriptions
 															</span>
 														</div>
@@ -248,7 +248,7 @@ export default function Letters() {
 
 											<TabsContent value="referral">
 												<div className="font-semibold text-s ml-5 mt-5">Referral Letters</div>
-												{written_referrals.map((referral, index) => (
+												{written_referrals?.map((referral, index) => (
 													<div key={index} className="flex justify-between mt-5">
 														<div className="ml-5 flex gap-2 items-center">
 															<Image
