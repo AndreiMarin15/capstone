@@ -228,6 +228,7 @@ export default function SendReferral({ params }) {
 						} else if (currentState === 3) {
 							const referralData = {
 								patient_id: patientId,
+								
 								doctor_id: selectedDoctorId,
 								notes: notes,
 							};
