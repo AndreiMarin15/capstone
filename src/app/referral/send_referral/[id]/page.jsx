@@ -212,7 +212,7 @@ export default function SendReferral({ params }) {
 				{currentState === 1 && (
 					<button
 						onClick={() => {
-							router.push("/referral");
+							router.back();
 						}}
 						className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
 						style={{ marginRight: "auto" }}
@@ -227,7 +227,7 @@ export default function SendReferral({ params }) {
 							setCurrentState(currentState + 1);
 						} else if (currentState === 3) {
 							const referralData = {
-								patient_id: selectedPatientId,
+								patient_id: patientId,
 								doctor_id: selectedDoctorId,
 								notes: notes,
 							};
