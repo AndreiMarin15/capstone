@@ -245,7 +245,7 @@ export default function Referral() {
 		const raw = JSON.stringify({
 			messages: [
 				{
-					destinations: [{ to: `639178855981` }, { to: `63${user.personal_information.contact_number}` }], // replace with patient data
+					destinations: [{ to: `639178855981` }, { to: `63${user?.personal_information?.contact_number}` }], // replace with patient data
 					from: "ServiceSMS",
 					text: `Hello! Your OTP is  ${otp}
 					
