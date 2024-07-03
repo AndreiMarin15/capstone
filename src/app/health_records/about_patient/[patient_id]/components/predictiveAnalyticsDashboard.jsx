@@ -49,8 +49,8 @@ export default function PredictiveAnalytics(patientId) {
     glucose: "Glucose",
   };
   const pAnalytics = {
-    male: 1,
-    age: 50,
+    male: 0,
+    age: 22,
     education: 4,
     currentSmoker: 1,
     cigsPerDay: 6,
@@ -58,12 +58,12 @@ export default function PredictiveAnalytics(patientId) {
     prevalentStroke: 0,
     prevalentHyp: 1,
     diabetes: 1,
-    totChol: 238,
-    sysBP: 125,
-    diaBP: 100,
-    BMI: 26,
-    heartRate: 70,
-    glucose: 100,
+    totChol: 150,
+    sysBP: 150,
+    diaBP: 70,
+    BMI: 21.9,
+    heartRate: 60,
+    glucose: 87,
   };
   const formatValue = (key, value) => {
     const boolean = [
@@ -104,7 +104,7 @@ export default function PredictiveAnalytics(patientId) {
       <div className="text-black text-m font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10">
         PREDICTIVE ANALYTICS
       </div>
-      <div className="text-justify w-[80%]">
+      <div className="text-justify w-[100%]">
         {" "}
         <div className="font-normal text-xs italic mt-5 mb-5">
           The 10-year chronic heart disease (CHD) risk is a percentage that
