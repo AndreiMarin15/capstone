@@ -122,7 +122,7 @@ export default function CriticalConditionPatients() {
 			patientsDiagnosis.map((patientDiagnoses) => {
 				return {
 					name: patientDiagnoses.patient?.first_name + " " + patientDiagnoses.patient?.last_name,
-					diagnosis: patientDiagnoses.diagnosis?.resource?.valueString,
+					diagnosis: patientDiagnoses.diagnosis?.resource?.valueString?.length > 0 ? patientDiagnoses.diagnosis?.resource?.valueString : "No Diagnosis Yet",
 					age: getAge(patientDiagnoses.patient?.birthdate),
 					gender: patientDiagnoses.patient?.gender,
 				};

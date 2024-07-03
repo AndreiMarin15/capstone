@@ -103,11 +103,12 @@ export default function FollowUpList() {
       patientsDiagnosis.map((patientDiagnoses) => {
         console.log(patientDiagnoses.diagnosis?.resource?.subject?.reference);
         return {
+		  type: patientDiagnoses.diagnosis?.resource?.id,
           name:
             patientDiagnoses.patient?.first_name +
             " " +
             patientDiagnoses.patient?.last_name,
-          diagnosis: patientDiagnoses.diagnosis?.resource?.valueString,
+          diagnosis: patientDiagnoses.diagnosis?.resource?.valueString?.length > 0 ? patientDiagnoses.diagnosis?.resource?.valueString : "No Diagnosis Yet",
           currentDate: new Date().toLocaleDateString(),
           supposedClinicVisit: new Date(
             patientDiagnoses.visit?.resource?.valueString
