@@ -82,7 +82,7 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
 
       const combinedReviewOfSystems = { ...reviewOfSystems };
       const reviewOfSystemsJSON = JSON.stringify(combinedReviewOfSystems);
-
+      console.log(combinedReviewOfSystems)
       // Construct contained array with observations
       const contained = [
       
@@ -105,7 +105,8 @@ const AddClinicVisit = ({ currentPage, setCurrentPage, patientId, fetchEncounter
             actor: doctorInfo.fullName,
             license_id: doctorInfo.license,
           },
-          valueString: reviewOfSystemsJSON, // Serialize to JSON string
+          valueString: reviewOfSystemsJSON,
+          values: combinedReviewOfSystems,
           resource_type: "Observation",
         },
         {
