@@ -229,12 +229,27 @@ export const getDoctorSpecialization = async (doctor_license) => {
   return specialization?.doctor_specialization_name;
 };
 
-export const getDoctorHospital = async (doctor_license) => {
+export const getAttendingDoctors = async (patientId) => {
   const { data, error } = await project
-    .from("doctors")
+    .from("attending_doctors")
     .select()
-    .eq("license_id", doctor_license);
+    .eq("patient_id", patientId);
 
-  console.log(data[0]?.hospital?.name);
-  return data[0]?.hospital?.name;
+  if (error) {
+    // Handle the error appropriately
+    console.error(error);
+    return [];
+  }
+
+  // Filter out duplicates based on license_id
+  const uniqueDoctors = data.reduce((acc, current) => {
+    const x = acc.find((item) => item.license_id === current.license_id);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
+
+  return uniqueDoctors;
 };

@@ -12,7 +12,10 @@ import {
 import { getLabTests } from "@/backend/pdfBackend/getPDFData";
 import { SelectLabtests } from "./subcomponents/selectLabTests";
 import { Label } from "@/components/ui/label";
-import { getPrescriptions } from "@/backend/pdfBackend/getPDFData";
+import {
+  getPrescriptions,
+  getAttendingDoctors,
+} from "@/backend/pdfBackend/getPDFData";
 
 export default function WriteReferral({
   referralData,
@@ -24,6 +27,7 @@ export default function WriteReferral({
 
   const [diagnosisText, setDiagnosisText] = useState("");
   const [medicationText, setMedicationText] = useState("");
+  const [attending_doctors, setAttendingDoctors] = useState([]);
 
   const [labtests, setLabtests] = useState([]);
 
@@ -93,6 +97,14 @@ export default function WriteReferral({
   }, []);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const attendingDoctors = await getAttendingDoctors(selectedPatientId);
+      console.log("docs", attendingDoctors);
+      setAttendingDoctors(attendingDoctors);
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
     console.log(labtests);
   }, [labtests]);
 
@@ -152,6 +164,26 @@ export default function WriteReferral({
     }));
   }, [medicationText]);
 
+  const handleDoctorNameChange = (e) => {
+    const fullName = e.target.value;
+    // Assuming `attendingDoctors` is an array of doctor objects
+    const matchedDoctor = attending_doctors.find(
+      (doctor) =>
+        `${doctor.doctor_first_name} ${doctor.doctor_last_name}` === fullName
+    );
+
+    if (matchedDoctor) {
+      // Assuming you have a way to set these (e.g., setState in a class component or useState in a functional component)
+
+      setReferralData((prevReferralData) => ({
+        ...prevReferralData,
+        specialization: matchedDoctor.doctor_specialization,
+        place_of_clinic: matchedDoctor.clinic,
+        contact: matchedDoctor.contact,
+      }));
+    }
+  };
+
   useEffect(() => {}, [referralData]);
   return (
     <div className="flex flex-col m-5 max-md:mt-10 max-md:max-w-full">
@@ -175,15 +207,30 @@ export default function WriteReferral({
                   <div className=" my-auto mr-5">{"Doctor's Name"}</div>
                   <input
                     value={referralData.doctor_name}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setReferralData({
                         ...referralData,
                         doctor_name: e.target.value,
-                      })
-                    }
+                      });
+
+                      handleDoctorNameChange(e);
+                    }}
+                    list="options"
                     type="text"
                     className="p-2 shrink-0 rounded border border-black border-solid h-[22px] w-[170px]"
                   />
+                  <datalist id="options">
+                    {attending_doctors.map((doctor) => (
+                      <option
+                        key={doctor.id}
+                        value={
+                          doctor.doctor_first_name +
+                          " " +
+                          doctor.doctor_last_name
+                        }
+                      />
+                    ))}
+                  </datalist>
                 </div>
                 <div className="flex mt-3.5 text-xs font-semibold  text-black whitespace-nowrap">
                   <div className=" my-auto mr-5">Specialization</div>
@@ -204,7 +251,7 @@ export default function WriteReferral({
           </div>
           <div className="flex flex-col w-[44%] ">
             <div className="flex gap-5 text-xs font-semibold  text-black max-md:mt-10">
-              <div className=" my-auto mr-5">Place of Clinic</div>
+              <div className=" my-auto ml-10 mr-5">Place of Clinic</div>
               <input
                 value={referralData.place_of_clinic}
                 onChange={(e) =>
@@ -218,7 +265,7 @@ export default function WriteReferral({
               />
             </div>
             <div className="flex gap-14 mt-3.5 text-xs font-semibold  text-black max-md:mt-10">
-              <div className=" my-auto mr-5">Contact</div>
+              <div className=" my-auto ml-10 mr-5">Contact</div>
               <input
                 value={referralData.contact}
                 onChange={(e) =>
@@ -327,17 +374,20 @@ export default function WriteReferral({
           Signature
         </div>
         <div className="flex items-center gap-2.5 mt-3">
-          <Image
-            alt="img"
-            loading="lazy"
-            src={
-              (referralData.signature.length > 1 && referralData.signature) ??
-              "https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"
-            }
-            className="aspect-[1.02] w-[53px]"
-            width="0"
-            height="0"
-          />
+          {referralData.signature.length > 1 && referralData.signature && (
+            <Image
+              alt="img"
+              loading="lazy"
+              src={
+                (referralData.signature.length > 1 && referralData.signature) ??
+                "https://cdn.builder.io/api/v1/image/assets/TEMP/596265a182574cc61f242ab133d8eb6a440ed2cadf7d0f1b97fa247bd319b459?"
+              }
+              className="aspect-[1.02] w-[53px]"
+              width="0"
+              height="0"
+            />
+          )}
+
           <label
             htmlFor="fileInput"
             className="justify-center px-3 py-1.5 my-auto bg-white rounded-sm border-solid shadow-sm aspect-[2.48] border-[0.5px] border-zinc-600 cursor-pointer"
