@@ -209,7 +209,7 @@ export default function AddCarePlan({
                       >
                         <option value="">Select...</option>
                         {attendingDoctors?.map((doctor) => (
-                          <option value={doctor.id}>
+                          <option key={doctor.id} value={doctor.id}>
                             {doctor.doctor_last_name},{" "}
                             {doctor.doctor_first_name} -{" "}
                             {doctor.doctor_specialization}
