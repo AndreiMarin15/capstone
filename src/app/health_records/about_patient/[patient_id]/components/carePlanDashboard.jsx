@@ -4,29 +4,30 @@ import BackButton from "./sub_components/BackButton";
 import ViewCarePlan from "./sub_components/viewCarePlan";
 import AddCarePlan from "./sub_components/addCarePlan";
 import ViewChatResult from "./sub_components/viewChatResult";
-import { careplanInfo } from "@/backend//patient/careplan/careplan";
+import { careplanInfo } from "@/backend/patient/careplan/careplan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+
 export default function CarePlan({ patientId, patientData }) {
   const [careplanInfor, setCareplanInfor] = useState([]);
   const [currentScreen, setCurrentScreen] = useState(0);
   const [carePlan, setCarePlan] = useState({});
   const [showActivePlans, setShowActivePlans] = useState(true); // Visibility state
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const careplanInformation =
-        await careplanInfo.getCareplanInformation(patientId);
-      console.log(careplanInformation);
-      setCareplanInfor(careplanInformation);
-    };
+  const fetchData = async () => {
+    const careplanInformation = await careplanInfo.getCareplanInformation(patientId);
+    console.log(careplanInformation);
+    setCareplanInfor(careplanInformation);
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
-  const [isTest, setTest] = useState(false);
+  const [isTest, setTest] = useState(false);  
   const [isAdd, setAdd] = useState(false);
   const [isResult, setResult] = useState(false);
+
   const handleSetCurrentScreen = () => {
     setTest(false);
     setAdd(false);
@@ -39,7 +40,6 @@ export default function CarePlan({ patientId, patientData }) {
     return date >= today;
   };
 
-  //func for visibility of care plans
   const toggleActivePlansVisibility = () => {
     setShowActivePlans(!showActivePlans);
   };
@@ -56,6 +56,7 @@ export default function CarePlan({ patientId, patientData }) {
           setCurrentScreen={handleSetCurrentScreen}
           patientData={patientData}
           patientId={patientId}
+          fetchData={fetchData} // Pass fetchData here
         />
       ) : isResult ? (
         <ViewChatResult
@@ -178,12 +179,6 @@ export default function CarePlan({ patientId, patientData }) {
                     <div>
                       <div className="flex-auto my-auto">{`${careplan.resource?.period.start} - ${careplan.resource?.period.end}`}</div>
                     </div>
-                    {/* <div>
-                      <div className="flex gap-2 px-5 text-xs leading-5 text-black whitespace-nowrap">
-                        <div className="shrink-0 self-start mt-2 w-2 h-2 bg-green-700 rounded-full" />
-                        <div>Active</div>
-                      </div>{" "}
-                    </div>*/}
                   </div>
                 </button>
               ))}
