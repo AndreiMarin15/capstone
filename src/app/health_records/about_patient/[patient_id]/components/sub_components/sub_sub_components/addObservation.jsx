@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import BackButton from "../BackButton";
 import useClinicVisitStore from '@/app/clinicVisitStore';
+import { toast } from 'react-toastify';
 
 export default function AddObservation({
   currentScreen,
@@ -110,7 +111,7 @@ export default function AddObservation({
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Signs and Symptoms",
+      variable: "*Signs and Symptoms",
       name: "signsAndSymptoms",
       value: signsAndSymptoms,
       type: "textarea",
@@ -175,6 +176,26 @@ export default function AddObservation({
     },
   
   ];
+
+  // Function to handle "NEXT" button click
+  const handleNextClick = () => {
+    if (validateFields()) {
+      handleNext();
+    } else {
+      // Set error styles for empty fields
+      toast.error("Please Fill In All Required Fields", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000,
+      });
+      const newErrorStyles = {
+        clinicDate: !clinicDate,
+        reviewOfSystems: !Object.keys(reviewOfSystems).length,
+        signsAndSymptoms: !signsAndSymptoms,
+      };
+      setErrorStyles(newErrorStyles);
+    }
+  };
 
   return (
     <>
@@ -313,7 +334,7 @@ export default function AddObservation({
                 resetReviewOfSystems={resetReviewOfSystems} // Pass the resetReviewOfSystems function
               />
               <div>
-                <Button onClick={handleNext}>NEXT</Button>
+                <Button onClick={handleNextClick}>NEXT</Button>
               </div>
             </div>
           </div>
