@@ -66,7 +66,7 @@ export function Prescription({ medicationData, patientData, doctor_id }) {
             </div>
             <div className="justify-between text-right">
               Date Requested <br />{" "}
-              <span className="font-normal">April 30, 2024</span>
+              <span className="font-normal">{medicationData?.created_at}</span>
             </div>
           </div>
           <div className="items-start text-start mt-4 text-xs max-md:max-w-full">
@@ -117,7 +117,10 @@ export function Prescription({ medicationData, patientData, doctor_id }) {
       {Array.isArray(medicationData?.resource?.medicationData) &&
         medicationData?.resource?.medicationData.map(
           (medicationData, index) => (
-            <div key={index} className="mt-8 items-start text-start ml-5 text-xs leading-5 text-black max-md:mt-10 max-md:max-w-full">
+            <div
+              key={index}
+              className="mt-8 items-start text-start ml-5 text-xs leading-5 text-black max-md:mt-10 max-md:max-w-full"
+            >
               <span className="font-semibold">
                 [
                 {medicationData?.resource?.medicationCodeableConcept[0]?.text ??
