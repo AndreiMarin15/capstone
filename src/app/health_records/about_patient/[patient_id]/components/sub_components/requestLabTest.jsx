@@ -23,6 +23,21 @@ export default function RequestLabTest({
   const setDoctorId = useClinicVisitStore(state => state.setDoctorId);
   const [doctorInfo, setDoctorInfo] = useState(null);
   const [labTests, setLabTests] = useState([{ labTestName: "", remarks: "" }]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const validateFields = () => {
+    let valid = true;
+
+    labTests.forEach(({ labTestName, remarks }, index) => {
+      if (!labTestName) {
+        valid = false;
+        toast.error(`Lab Test Name ${index + 1} is required.`, {
+          autoClose: 2000,
+        });
+      }
+    });
+
+    return valid;
+  };
 
 
   useEffect(() => {
@@ -41,22 +56,28 @@ export default function RequestLabTest({
   }, [setDoctorId]);
 
   const handleSaveLabTestRequest = async () => {
+    setFormSubmitted(true);
+    
     if (!doctorInfo) {
       console.error("Doctor information is not available");
       return;
     }
-  
+
+    if (!validateFields()) {
+      return;
+    }
+
     labTests.forEach(({ labTestName, remarks }) => {
       // Pass lab test data to the handleSave function of AddClinicVisit
       handleSaveLabTest(labTestName, remarks, doctorInfo);
     });
-    
+
     toast.success("Lab Tests Requested", {
       position: "top-left",
       theme: "colored",
       autoClose: 2000,
     });
-  
+
     setCurrentScreen(0);
   };
 
@@ -119,8 +140,10 @@ export default function RequestLabTest({
                     </div>
                   </td>
                   <td className="border-l-[5rem] border-transparent">
-                    <input
-                      className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                  <input
+                      className={`grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                        formSubmitted && !labTest.labTestName ? "border-red-500" : ""
+                      }`}
                       value={labTest.labTestName}
                       onChange={(e) => {
                         const updatedLabTests = [...labTests];
