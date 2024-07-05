@@ -95,7 +95,7 @@ export default function Messaging() {
 					</div>
 					<div className="flex flex-col items-stretch w-[74%] max-md:w-full max-md:ml-0">
 						<span className="text-black text-lg font-semibold leading-7 whitespace-nowrap items-stretch grow mt-3 pr-3 pb-5 max-md:mt-10">
-							{chats[0].doctor_full_name ?? "Dr. John Doe"}
+							{chats[0]?.doctor_full_name ?? "No Chats Yet"}
 						</span>
 					</div>
 				</div>
