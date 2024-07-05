@@ -249,7 +249,7 @@ export default function AddObservation({
                             placeholder={
                               item.variable === "Other Concerns"
                                 ? "Add other concerns"
-                                : "Add signs and symptoms"
+                                : "*Add signs and symptoms"
                             }
                             name={item.name}
                             value={item.value}
