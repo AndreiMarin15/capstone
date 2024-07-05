@@ -15,6 +15,7 @@ export default function AddCarePlan({
   setCurrentScreen,
   patientData,
   patientId,
+  fetchData
 }) {
   const lookup = {
     dietaryManagement: { code: "18771-9", display: "Dietary Management" },
@@ -33,6 +34,7 @@ export default function AddCarePlan({
     patientData.personal_information.last_name;
   const patientsId = patientId;
 
+  const [saveClicked, setSaveClicked] = useState(false);
   const [title, setTitle] = useState("");
   const [dietaryManagement, setDietaryManagement] = useState("");
   const [physicalActivities, setPhysicalActivities] = useState("");
@@ -41,6 +43,23 @@ export default function AddCarePlan({
   const [endDate, setEndDate] = useState("");
   const [compactActivity, setCompactActivity] = useState("");
   const [attendingDoctors, setAttendingDoctors] = useState([]);
+  const [selectedDoctorId, setSelectedDoctorId] = useState("");
+  const [selectedDoctorFirstName, setSelectedDoctorFirstName] = useState("");
+  const [selectedDoctorLastName, setSelectedDoctorLastName] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const val = await getAttendingDoctors(patientId);
+        setAttendingDoctors(val);
+        return val;
+      } catch (error) {
+        console.error("Error fetching attending doctors:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Assuming patientId is a dependency that triggers the effect
 
   // useEffect(() => {
   //   console.log(doctorFullName, doctorId, patientFullName, patientsId);
@@ -65,17 +84,28 @@ export default function AddCarePlan({
   }
 
   const createCompactActivity = () => {
+    // Check if title is empty
+    if (!title || !startDate || !endDate) {
+      setSaveClicked(true); // Set saveClicked to true
+      toast.error("Please Fill In All Required Fields", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 2000,
+      });
+      return; // Prevent further execution if title is empty
+    }
+  
     const data = [];
-
+  
     if (dietaryManagement)
       data.push(convertToActivity("dietaryManagement", dietaryManagement));
     if (physicalActivities)
       data.push(convertToActivity("physicalActivities", physicalActivities));
     if (selfMonitoring)
       data.push(convertToActivity("selfMonitoring", selfMonitoring));
-
+  
     const today = new Date().toISOString().split("T")[0];
-
+  
     setCompactActivity({
       title: title,
       period: {
@@ -94,9 +124,16 @@ export default function AddCarePlan({
           reference: doctorId,
         },
       ],
+      careTeam: [
+        {
+          display: selectedDoctorFirstName + " " + selectedDoctorLastName,
+          reference: selectedDoctorId,
+        },
+      ],
       description: `Careplan for ${patientFullName}`,
     });
   };
+
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
@@ -109,20 +146,6 @@ export default function AddCarePlan({
       value: "",
     },
   ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const val = await getAttendingDoctors(patientId);
-        setAttendingDoctors(val);
-        return val;
-      } catch (error) {
-        console.error("Error fetching attending doctors:", error);
-      }
-    };
-
-    fetchData();
-  }, []); // Assuming patientId is a dependency that triggers the effect
 
   useEffect(() => {
     if (Object.keys(compactActivity).length > 0) {
@@ -144,11 +167,13 @@ export default function AddCarePlan({
             autoClose: 2000,
           });
         }
+        fetchData();
         setCurrentScreen(0);
       };
       insertCarePlan();
     }
   }, [compactActivity]);
+
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-10 max-md:ml-1 max-md:mt-10">
@@ -179,9 +204,13 @@ export default function AddCarePlan({
                       <input
                         onChange={(e) => {
                           setTitle(e.target.value);
+                          console.log(title)
                         }}
                         type="text"
-                        className="justify-center items-start py-1.5 pr-14 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                        className={`justify-center items-start py-1.5 pr-14 whitespace-nowrap border-black border-[0.5px] rounded shadow-sm 
+                            ${saveClicked && !title && 'border-red-500 border-[0.5px]'}
+                            ${!saveClicked && 'border-black border-[0.5px]'}
+                          `}
                       />
                     </td>
                   </tr>
@@ -200,22 +229,35 @@ export default function AddCarePlan({
                       </div>
                     </td>
                     <td>
-                      <select
-                        value={title}
-                        onChange={(e) => {
-                          setTitle(e.target.value);
-                        }}
-                        className="justify-center items-start py-1.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
-                      >
-                        <option value="">Select...</option>
-                        {attendingDoctors?.map((doctor) => (
-                          <option key={doctor.id} value={doctor.id}>
-                            {doctor.doctor_last_name},{" "}
-                            {doctor.doctor_first_name} -{" "}
-                            {doctor.doctor_specialization}
-                          </option>
-                        ))}
-                      </select>
+                    <select
+                      onChange={(e) => {
+                        const selectedDoctorId = e.target.value;
+                        console.log("Selected doctor ID:", selectedDoctorId);
+                        console.log("Attending doctors array:", attendingDoctors);
+
+                        const selectedDoctor = attendingDoctors.find(
+                          (doctor) => doctor.doctor_id === selectedDoctorId
+                        );
+
+                        console.log("Selected doctor object:", selectedDoctor);
+
+                        if (selectedDoctor) {
+                          setSelectedDoctorId(selectedDoctor.doctor_id);
+                          setSelectedDoctorFirstName(selectedDoctor.doctor_first_name);
+                          setSelectedDoctorLastName(selectedDoctor.doctor_last_name);
+                        }
+                      }}
+                      className="justify-center items-start py-1.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                    >
+                      <option value="">Select...</option>
+                      {attendingDoctors?.map((doctor) => (
+                        <option key={doctor.doctor_id} value={doctor.doctor_id}>
+                          {doctor.doctor_last_name}, {doctor.doctor_first_name} -{" "}
+                          {doctor.doctor_specialization}
+                        </option>
+                      ))}
+                    </select>
+                      
                     </td>
                   </tr>
                   <tr className="flex gap-3 justify-between mb-3 w-full">
@@ -269,7 +311,7 @@ export default function AddCarePlan({
                     </td>
                   </tr>
                   <tr className="flex gap-5 justify-between mb-3 w-full">
-                    <td className="flex gap-2 my-auto font-semibold text-black">
+                    <td className="flex gap-5 my-auto font-semibold text-black">
                       <div className="flex gap-4 my-auto font-semibold text-black">
                         <Image
                           alt="image"
@@ -279,7 +321,7 @@ export default function AddCarePlan({
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
                           className="aspect-square fill-black w-[15px]"
                         />
-                        <div className="flex auto my-auto">Self-Monitoring</div>
+                        <div className="my-auto">Self-Monitoring</div>
                       </div>
                     </td>
                     <td>
@@ -322,7 +364,11 @@ export default function AddCarePlan({
                           item.variable === "End Date" ? (
                             <input
                               type="date"
-                              className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px]  max-md:pr-5 w-[205px]"
+                              className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap border-black border-[0.5px] rounded shadow-sm 
+                                ${saveClicked && item.variable === "Start Date" && !startDate && 'border-red-500 border-[0.5px]'}
+                                ${saveClicked && item.variable === "End Date" && !endDate && 'border-red-500 border-[0.5px]'}
+                                ${!saveClicked && 'border-black border-[0.5px]'}
+                              `}
                               value={
                                 item.variable === "Start Date"
                                   ? startDate
@@ -367,6 +413,7 @@ export default function AddCarePlan({
           <Button
             onClick={() => {
               createCompactActivity();
+              
             }}
           >
             SAVE

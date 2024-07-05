@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import BackButton from "../BackButton";
 import useClinicVisitStore from '@/app/clinicVisitStore';
+import { toast } from 'react-toastify';
 
 export default function AddObservation({
   currentScreen,
@@ -176,6 +177,24 @@ export default function AddObservation({
   
   ];
 
+  // Function to handle "NEXT" button click
+  const handleNextClick = () => {
+    if (validateFields()) {
+      handleNext();
+    } else {
+      // Set error styles for empty fields
+       toast.error("Signs and Symptoms is Required", {
+        autoClose: 2000,
+      });
+      const newErrorStyles = {
+        clinicDate: !clinicDate,
+        reviewOfSystems: !Object.keys(reviewOfSystems).length,
+        signsAndSymptoms: !signsAndSymptoms,
+      };
+      setErrorStyles(newErrorStyles);
+    }
+  };
+
   return (
     <>
       {currentScreen === 0 && (
@@ -228,7 +247,7 @@ export default function AddObservation({
                             placeholder={
                               item.variable === "Other Concerns"
                                 ? "Add other concerns"
-                                : "Add signs and symptoms"
+                                : "*Add signs and symptoms"
                             }
                             name={item.name}
                             value={item.value}
@@ -313,7 +332,7 @@ export default function AddObservation({
                 resetReviewOfSystems={resetReviewOfSystems} // Pass the resetReviewOfSystems function
               />
               <div>
-                <Button onClick={handleNext}>NEXT</Button>
+                <Button onClick={handleNextClick}>NEXT</Button>
               </div>
             </div>
           </div>

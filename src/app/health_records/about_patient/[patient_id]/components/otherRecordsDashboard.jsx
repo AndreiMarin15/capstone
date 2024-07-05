@@ -126,6 +126,10 @@ export default function OtherRecords({patientId}) {
               </div>
             </button>
           ))}
+           <div className="mt-4">
+          <BackButton
+          />
+        </div>
         </>
       )}
      
@@ -145,10 +149,7 @@ export default function OtherRecords({patientId}) {
           recordId={recordId}
         />
       )}
-       <div className="mt-4">
-          <BackButton
-          />
-        </div>
+      
     </>
     
   );
