@@ -1,50 +1,54 @@
 import { client } from "../initSupabase";
 const supabase = client("project");
-
-export const getPatients = async (patient_id) => {
+const supa = client("public");
+export const getPatient = async (patient_id) => {
   const { data, error } = await supabase
     .from("patients")
     .select("*")
-    .eq("id", patient_id);
+    .eq("id", patient_id.patientId);
   return data[0];
 };
 
 export const getObservations = async (patient_id) => {
-  const systolic = await supabase
-    .from("observations")
-    .select()
-    .eq("resource->subject->>reference", patient_id)
-    .eq("id", "systolic")
+  console.log("PATIENT ID", patient_id.patientId);
+  const systolic = await supa
+    .from("observation")
+    .select("*")
+    .eq("resource->subject->>reference", patient_id.patientId)
+    .eq("resource->>id", "systolic")
     .order("ts", { ascending: false })
     .limit(1);
-  const sysBP = systolic.data[0].resource.valueQuantity.value;
+  console.log("SYSTOLIC", systolic);
+  const sysBP = systolic.data[0].resource.valueQuantity.value ?? 0;
 
-  const diastolic = await supabase
-    .from("observations")
-    .select()
-    .eq("resource->subject->>reference", patient_id)
-    .eq("id", "diastolic")
+  const diastolic = await supa
+    .from("observation")
+    .select("*")
+    .eq("resource->subject->>reference", patient_id.patientId)
+    .eq("resource->>id", "diastolic")
     .order("ts", { ascending: false })
     .limit(1);
-  const diaBP = diastolic.data[0].resource.valueQuantity.value;
+  console.log("DIASTOLIC", diastolic);
+  const diaBP = diastolic.data[0].resource.valueQuantity.value ?? 0;
 
-  const BMIVal = await supabase
-    .from("observations")
-    .select()
-    .eq("resource->subject->>reference", patient_id)
-    .eq("id", "bmi")
+  const BMIVal = await supa
+    .from("observation")
+    .select("*")
+    .eq("resource->subject->>reference", patient_id.patientId)
+    .eq("resource->>id", "bmi")
     .order("ts", { ascending: false })
     .limit(1);
-
+  console.log("BMI", BMIVal);
   const BMI = BMIVal.data[0].resource.valueQuantity.value;
 
-  const rate = await supabase
-    .from("observations")
-    .select()
-    .eq("resource->subject->>reference", patient_id)
-    .eq("id", "heartRate")
+  const rate = await supa
+    .from("observation")
+    .select("*")
+    .eq("resource->subject->>reference", patient_id.patientId)
+    .eq("resource->>id", "heartRate")
     .order("ts", { ascending: false })
     .limit(1);
+  console.log("HEART RATE", rate);
   const heartRate = rate.data[0].resource.valueQuantity.value;
 
   return {
@@ -56,18 +60,19 @@ export const getObservations = async (patient_id) => {
 };
 
 export const getLabTests = async (patient_id) => {
-  const response = await supabase
-    .from("observations")
-    .select()
-    .eq("resource->subject->>reference", patient_id)
-    .eq("id", "labtest")
+  const response = await supa
+    .from("observation")
+    .select("*")
+    .eq("resource->subject->>reference", patient_id.patientId)
+    .eq("resource->>id", "labtest")
     .order("ts", { ascending: false })
     .limit(1);
 
+  console.log("LAB TEST RESPONSE", response);
   const labtest = response.data[0];
 
-  const valueQuantities = labtest.valueQuantity.valueQuantities;
-
+  const valueQuantities = labtest?.valueQuantity?.valueQuantities;
+  console.log("VALUE QUANTITIES", valueQuantities);
   let cholesterol, glucose, sucrose;
 
   valueQuantities.forEach((item) => {
@@ -84,6 +89,8 @@ export const getLabTests = async (patient_id) => {
     }
   });
 
+  console.log("CHOLESTEROL", cholesterol);
+  console.log("GLUCOSE", glucose);
   return {
     cholesterol,
     glucose,

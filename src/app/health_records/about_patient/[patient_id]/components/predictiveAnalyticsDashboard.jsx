@@ -64,17 +64,25 @@ export default function PredictiveAnalytics(patientId) {
   const [patient, setPatient] = useState({});
 
   React.useEffect(() => {
-    getPatient(patientId).then((data) => {
-      setPatient(data);
-    });
+    console.log("PA", pAnalytics);
+  }, [pAnalytics]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const patientData = await getPatient(patientId);
+      setPatient(patientData);
+    };
+    fetchData();
   }, [patientId]);
   const [observations, setObservations] = useState({});
   const [labtests, setLabtests] = useState({});
 
   React.useEffect(() => {
-    getObservations(patientId).then((data) => {
-      setObservations(data);
-    });
+    const fetchData = async () => {
+      const observationsData = await getObservations(patientId);
+      setObservations(observationsData);
+    };
+    fetchData();
   }, [patientId]);
 
   React.useEffect(() => {
@@ -98,8 +106,8 @@ export default function PredictiveAnalytics(patientId) {
       prevalentHyp: patient?.medical_history?.hypertensions === true ? 1 : 0,
       diabetes: patient?.medical_history?.diabetes === true ? 1 : 0,
       education: patient?.personal_information?.education ?? 4,
-      observations,
-      labtests,
+      ...observations,
+      ...labtests,
     });
   }, [patient, observations, labtests]);
 
@@ -176,14 +184,15 @@ export default function PredictiveAnalytics(patientId) {
       </div>
 
       <table className="max-w-fit border-spacing-y-5 border-spacing-x-[5em] border-separate text-xs">
-        {Object.keys(pAnalytics).map((keyValue, i) => (
-          <>
-            <tr key={i}>
-              <td>{wordMatch[keyValue]}</td>
-              <td>{formatValue(keyValue, pAnalytics[keyValue])}</td>
-            </tr>
-          </>
-        ))}
+        {typeof pAnalytics === "object" &&
+          Object.keys(pAnalytics).map((keyValue, i) => (
+            <>
+              <tr key={i}>
+                <td>{wordMatch[keyValue]}</td>
+                <td>{formatValue(keyValue, pAnalytics[keyValue])}</td>
+              </tr>
+            </>
+          ))}
       </table>
 
       <div className="font-extrabold text-sm mt-10" style={{ color: "blue" }}>
