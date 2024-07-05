@@ -166,14 +166,24 @@ export default function CarePlan({ patientId, patientData }) {
                       />
                       <div className="grow my-auto">
                         {careplan["resource"]?.contributor.length === 1
-                          ? careplan["resource"]?.contributor[0].display
+                          ? `${careplan["resource"]?.contributor[0].display}${
+                              careplan["resource"]?.careTeam?.[0]?.display
+                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                : ""
+                            }`
                           : careplan["resource"]?.contributor.length === 2
-                            ? careplan["resource"]?.contributor[0].display +
-                              ` & ${careplan["resource"]?.contributor[1].display}`
-                            : careplan["resource"]?.contributor[0].display +
-                              ` & ${
-                                careplan["resource"]?.contributor.length - 1
-                              } other/s`}
+                          ? `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
+                              careplan["resource"]?.careTeam?.[0]?.display
+                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                : ""
+                            }`
+                          : `${careplan["resource"]?.contributor[0].display} & ${
+                              careplan["resource"]?.contributor.length - 1
+                            } other/s${
+                              careplan["resource"]?.careTeam?.[0]?.display
+                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                : ""
+                            }`}
                       </div>
                     </div>
                     <div>
