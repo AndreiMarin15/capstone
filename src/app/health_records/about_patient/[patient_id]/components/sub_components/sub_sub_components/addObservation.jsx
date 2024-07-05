@@ -183,9 +183,7 @@ export default function AddObservation({
       handleNext();
     } else {
       // Set error styles for empty fields
-       toast.error("Please Fill In All Required Fields", {
-        position: "top-left",
-        theme: "colored",
+       toast.error("Signs and Symptoms is Required", {
         autoClose: 2000,
       });
       const newErrorStyles = {
