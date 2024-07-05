@@ -36,8 +36,50 @@ export default function AddMedications({
   const [validityStart, setValidityStart] = useState();
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
  
+  const validateFields = () => {
+    let valid = true;
+  
+    if (!medicationName) {
+      valid = false;
+    
+        console.log("Medication Name is required.");
+        toast.error("Medication Name is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+    if (!validityStart) {
+      valid = false;
+     
+        toast.error("Start Date is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+    if (!validityEnd) {
+      valid = false;
+     
+        toast.error("End Date is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+
+    if (!duration) {
+      valid = false;
+     
+        toast.error("Frequency is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+  
+    return valid;
+  };
+
+
   useEffect(() => {
     const fetchMedications = async () => {
       try {
@@ -68,11 +110,17 @@ export default function AddMedications({
     }
   }, [regis, medications]);
 
- const handleSave = async () => {
+  const handleSave = async () => {
+    setFormSubmitted(true);
+
+    if (!validateFields()) {
+      return;
+    }
+  
     try {
       const patientData = await healthRecords.getPatientData(patientId);
       const doctorInfo = await doctor.getDoctorByCurrentUser();
-
+  
       const dataToSave = {
         status: "Active",
         id: regis,
@@ -125,16 +173,16 @@ export default function AddMedications({
         },
         resource_type: "MedicationRequest",
       };
-
+  
       console.log("Data to save:", dataToSave);
-
+  
       const savedData = await uploadMedication(dataToSave);
-
+  
       console.log("Data saved successfully:", savedData);
-      console.log(savedData)
-
+      console.log(savedData);
+  
       addMedicationId(savedData);
-
+  
       toast.success("Medication Added", {
         position: "top-left",
         theme: "colored",
@@ -143,7 +191,7 @@ export default function AddMedications({
     } catch (error) {
       console.error("Error saving data:", error);
     }
-
+  
     setCurrentScreen(1);
   };
 
@@ -239,39 +287,40 @@ export default function AddMedications({
                                 </div>
                               </td>
                               <td>
-                                <input
-                                  type="text"
-                                  className="grow justify-center items-start py-1.5 pr-8 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
-                                  value={
-                                    item.variable === "Dose and Unit" &&
-                                    regis !== ""
-                                      ? doseUnit
-                                      : item.variable === "Form" // Check if regis is not empty
-                                        ? form // If regis is not empty, use the autofilled form
-                                        : item.variable === "Frequency"
-                                          ? duration
-                                          : patientInstructions
+                              <input
+                                type="text"
+                                className={`grow justify-center items-start py-1.5 pr-8 pl-3  rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                  item.variable === "Frequency" && formSubmitted && !duration ? "border-red-500" : ""
+                                }`}
+                                value={
+                                  item.variable === "Dose and Unit" && regis !== ""
+                                    ? doseUnit
+                                    : item.variable === "Form" && regis !== ""
+                                    ? form // If regis is not empty, use the autofilled form
+                                    : item.variable === "Frequency"
+                                    ? duration
+                                    : patientInstructions
+                                }
+                                onChange={(e) => {
+                                  const { value } = e.target;
+                                  switch (item.variable) {
+                                    case "Dose and Unit":
+                                      setDoseUnit(value);
+                                      break;
+                                    case "Form":
+                                      setForm(value);
+                                      break;
+                                    case "Frequency":
+                                      setDuration(value);
+                                      break;
+                                    case "Patient Instructions":
+                                      setPatientInstructions(value);
+                                      break;
+                                    default:
+                                      break;
                                   }
-                                  onChange={(e) => {
-                                    const { value } = e.target;
-                                    switch (item.variable) {
-                                      case "Dose and Unit":
-                                        setDoseUnit(value);
-                                        break;
-                                      case "Form":
-                                        setForm(value);
-                                        break;
-                                      case "Frequency":
-                                        setDuration(value);
-                                        break;
-                                      case "Patient Instructions":
-                                        setPatientInstructions(value);
-                                        break;
-                                      default:
-                                        break;
-                                    }
-                                  }}
-                                />
+                                }}
+                              />
                               </td>
                             </>
                           ) : (
@@ -291,21 +340,16 @@ export default function AddMedications({
                               </td>
                               <td>
                                 <div className="inline-block relative">
-                                  <textarea
+                                <textarea
                                     value={medicationName}
                                     onChange={(e) => {
-                                      const inputValue =
-                                        e.target.value.toLowerCase();
+                                      const inputValue = e.target.value.toLowerCase();
                                       const filteredMeds = medications
                                         .filter((medication) => {
                                           const genericName =
-                                            medication[
-                                              "Generic Name"
-                                            ]?.toLowerCase() || "";
+                                            medication["Generic Name"]?.toLowerCase() || "";
                                           const brandName =
-                                            medication[
-                                              "Brand Name"
-                                            ]?.toLowerCase() || "";
+                                            medication["Brand Name"]?.toLowerCase() || "";
                                           return (
                                             genericName.includes(inputValue) ||
                                             brandName.includes(inputValue)
@@ -315,7 +359,9 @@ export default function AddMedications({
                                       setFilteredMedications(filteredMeds);
                                       setMedicationName(e.target.value);
                                     }}
-                                    className="text-black rounded shadow-sm mt-2 border-[0.5px] px-6 py-4 border-solid border-black"
+                                    className={`text-black rounded shadow-sm mt-2 px-6 py-4 border-[0.5px] border-solid ${
+                                      formSubmitted && !medicationName ? "border-red-500" : "border-black"
+                                    }`}
                                     style={{ height: "auto" }}
                                     placeholder="Search for medication..."
                                   />
@@ -411,18 +457,24 @@ export default function AddMedications({
                             item.variable === "End Date" ? (
                               <input
                                 type="date"
-                                className="grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 w-[205px]"
+                                className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded shadow-sm text-xs font-medium  border-[0.5px] focus:border ${
+                                  (item.variable === "Start Date" && formSubmitted && !validityStart) ||
+                                  (item.variable === "End Date" && formSubmitted && !validityEnd)
+                                    ? "border-red-500"
+                                    : "border-black"
+                                }`}
                                 value={
                                   item.variable === "Start Date"
                                     ? validityStart
-                                    : validityEnd
+                                    : item.variable === "End Date"
+                                    ? validityEnd
+                                    : ""
                                 }
                                 onChange={(e) => {
-                                  const { value } = e.target;
                                   if (item.variable === "Start Date") {
-                                    setValidityStart(value);
+                                    setValidityStart(e.target.value);
                                   } else if (item.variable === "End Date") {
-                                    setValidityEnd(value);
+                                    setValidityEnd(e.target.value);
                                   }
                                 }}
                               />
