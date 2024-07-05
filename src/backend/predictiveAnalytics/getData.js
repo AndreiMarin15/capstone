@@ -54,3 +54,38 @@ export const getObservations = async (patient_id) => {
     heartRate,
   };
 };
+
+export const getLabTests = async (patient_id) => {
+  const response = await supabase
+    .from("observations")
+    .select()
+    .eq("resource->subject->>reference", patient_id)
+    .eq("id", "labtest")
+    .order("ts", { ascending: false })
+    .limit(1);
+
+  const labtest = response.data[0];
+
+  const valueQuantities = labtest.valueQuantity.valueQuantities;
+
+  let cholesterol, glucose, sucrose;
+
+  valueQuantities.forEach((item) => {
+    switch (item.display) {
+      case "Total Cholesterol":
+        cholesterol = item.value;
+        break;
+      case "Glucose":
+        glucose = item.value;
+        break;
+      case "Surcrose": // Assuming a typo in the original question, should be "Sucrose"
+        sucrose = item.value;
+        break;
+    }
+  });
+
+  return {
+    cholesterol,
+    glucose,
+  };
+};

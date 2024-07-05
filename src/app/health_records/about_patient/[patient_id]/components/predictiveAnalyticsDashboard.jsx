@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   getPatient,
   getObservations,
+  getLabTests,
 } from "@/backend/predictiveAnalytics/getData";
 import { useState } from "react";
 export default function PredictiveAnalytics(patientId) {
@@ -73,6 +74,12 @@ export default function PredictiveAnalytics(patientId) {
   React.useEffect(() => {
     getObservations(patientId).then((data) => {
       setObservations(data);
+    });
+  }, [patientId]);
+
+  React.useEffect(() => {
+    getLabTests(patientId).then((data) => {
+      setLabtests(data);
     });
   }, [patientId]);
 
