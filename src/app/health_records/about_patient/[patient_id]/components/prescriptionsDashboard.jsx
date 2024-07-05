@@ -9,12 +9,15 @@ import { doctor } from "@/backend/health_records/doctor";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { getMedicationRequests } from "@/backend/health_records/getMedicationRequest";
+import { Prescription } from "@/app/patient/letters/components/pdfs/prescription";
+import { Reusable } from "@/app/patient/letters/components/pdfs/reusable";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { client } from "@/backend/initSupabase";
 import uploadPrescription from "@/backend/health_records/uploadPrescription";
+import { getPatientById } from "@/backend/pdfBackend/getPDFData";
 import { getPrescriptionsByPatient } from "@/backend/health_records/getPrescription";
 import {
   DropdownMenu,
@@ -36,6 +39,8 @@ export default function Prescriptions({ patientId }) {
   const [prescriptionId, setPrescriptionId] = useState("");
   const [sortOptionDate, setSortOptionDate] = useState("Recent");
   const [renderingOptions, setRenderingOptions] = useState(5);
+  const [patientInfo, setPatientInfo] = useState({});
+
   const handleDateSort = (option) => {
     setSortOptionDate(option);
   };
@@ -52,12 +57,22 @@ export default function Prescriptions({ patientId }) {
 
     fetchCurrentUser();
   }, []);
+  React.useEffect(() => {
+    const fetchPatientInfo = async () => {
+      const patient = await getPatientById(patientId);
+      setPatientInfo(patient);
+    };
+    fetchPatientInfo();
+  }, [patientId]);
 
   const handleSavePrescription = async (prescriptionData) => {
     try {
       console.log(prescriptionData);
       // Call your backend API or function to save the prescription data
-      const savedPrescription = await uploadPrescription(prescriptionData, patientId); // Assuming uploadPrescription function handles the backend integration
+      const savedPrescription = await uploadPrescription(
+        prescriptionData,
+        patientId
+      ); // Assuming uploadPrescription function handles the backend integration
 
       console.log("Prescription saved successfully:", savedPrescription);
 
@@ -77,6 +92,7 @@ export default function Prescriptions({ patientId }) {
   };
 
   const fetchPrescriptions = async () => {
+    console.log("hello");
     try {
       const fetchedPrescriptions = await getPrescriptionsByPatient(patientId);
       setPrescriptions(fetchedPrescriptions.reverse());
@@ -89,6 +105,10 @@ export default function Prescriptions({ patientId }) {
   useEffect(() => {
     fetchPrescriptions();
   }, []);
+
+  useEffect(() => {
+    console.log(prescriptions);
+  }, [prescriptions]);
 
   return (
     <>
@@ -136,14 +156,26 @@ export default function Prescriptions({ patientId }) {
             <Tabs defaultValue="all" className="w-[400px] mb-2">
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="endocrinologist">Endocrinologist</TabsTrigger>
+                <TabsTrigger value="endocrinologist">
+                  Endocrinologist
+                </TabsTrigger>
                 <TabsTrigger value="cardiologist">Cardiologist</TabsTrigger>
-                <TabsTrigger value="gastroenterologist">Gastroenterologist</TabsTrigger>
+                <TabsTrigger value="gastroenterologist">
+                  Gastroenterologist
+                </TabsTrigger>
               </TabsList>
-              <TabsContent value="account">{/* Add contents here */}</TabsContent>
-              <TabsContent value="endocrinologist">{/* Add contents here */}</TabsContent>
-              <TabsContent value="cardiologist">{/* Add contents here */}</TabsContent>
-              <TabsContent value="gastroenterologist">{/* Add contents here */}</TabsContent>
+              <TabsContent value="account">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="endocrinologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="cardiologist">
+                {/* Add contents here */}
+              </TabsContent>
+              <TabsContent value="gastroenterologist">
+                {/* Add contents here */}
+              </TabsContent>
             </Tabs>
 
             <div className="flex justify-between">
@@ -153,7 +185,9 @@ export default function Prescriptions({ patientId }) {
                 </span>
                 <select
                   className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs font-normal"
-                  onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
+                  onChange={(e) =>
+                    setRenderingOptions(parseInt(e.target.value))
+                  }
                   defaultValue="5"
                 >
                   <option value="5" disabled hidden>
@@ -177,9 +211,16 @@ export default function Prescriptions({ patientId }) {
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
-                    <DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+                  <DropdownMenuRadioGroup
+                    value={sortOptionDate}
+                    onValueChange={handleDateSort}
+                  >
+                    <DropdownMenuRadioItem value="Recent">
+                      Sort by Most Recent
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Oldest">
+                      Sort By Oldest
+                    </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -225,8 +266,13 @@ export default function Prescriptions({ patientId }) {
                         <div className="my-auto">
                           Prescription #
                           {sortOptionDate === "Recent"
-                            ? prescriptions.length - prescriptions.findIndex(p => p.id === prescription.id)
-                            : prescriptions.findIndex(p => p.id === prescription.id) + 1}
+                            ? prescriptions.length -
+                              prescriptions.findIndex(
+                                (p) => p.id === prescription.id
+                              )
+                            : prescriptions.findIndex(
+                                (p) => p.id === prescription.id
+                              ) + 1}
                         </div>
                       </div>
 
@@ -246,20 +292,28 @@ export default function Prescriptions({ patientId }) {
                             {prescription.resource.requester.agent.reference}
                           </div>
                           <div className="grow my-auto ml-10">
-                            Provided On: {new Date(prescription.created_at).toLocaleDateString()}
+                            Provided On:{" "}
+                            {new Date(
+                              prescription.created_at
+                            ).toLocaleDateString()}
                           </div>
                         </div>
                       </div>
                     </div>
                   </button>
-                  <Button
-                    variant="download"
-                    onClick={(e) => {
-                      console.log("download button is clicked");
-                    }}
-                  >
-                    ↓ Download (.pdf)
-                  </Button>
+                  <Reusable
+                    child={
+                      <Prescription
+                        medicationData={prescription}
+                        patientData={patientInfo}
+                        doctor_id={
+                          prescription.resource.requester.agent.license_id
+                        }
+                      />
+                    }
+                    orientation={"p"}
+                    filename={"prescription"}
+                  />
                 </div>
               ))}
             <div className="mt-5">
