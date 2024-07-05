@@ -143,8 +143,8 @@ export default function Letters() {
                             </TabsTrigger>
                             <TabsTrigger value="gastroenterologist">
                               Gastroenterologist
-                            </TabsTrigger>
-                          </TabsList>
+                              </TabsTrigger>
+                            </TabsList>
 
                           <div className="flex justify-between ml-2 mt-2">
                             <div className="flex items-center">
@@ -223,9 +223,9 @@ export default function Letters() {
                                   >
                                     <div
                                       key={index}
-                                      className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full"
+                                      className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
                                     >
-                                      <div className="flex gap-3.5 font-semibold whitespace-nowrap mt-3 ml-2">
+                                      <div className="flex gap-1.5 font-semibold whitespace-nowrap mt-3 ml-2">
                                         <Image
                                           alt="image"
                                           height={0}
@@ -248,7 +248,7 @@ export default function Letters() {
                                               ) + 1}
                                         </div>
                                       </div>
-                                      <div className="flex w-full justify-between text-xs mt-2 ml-2">
+                                      <div className="flex w-full justify-between text-xs ml-2 mt-1">
                                         <div className="flex gap-1 font-medium whitespace-nowrap ">
                                           <Image
                                             alt="image"
@@ -273,29 +273,33 @@ export default function Letters() {
                                             ).toLocaleDateString()}
                                           </div>
                                         </div>
+                                      
                                       </div>
                                     </div>
                                   </button>
-                                  <Reusable
-                                    child={
-                                      <>
-                                        <Prescription
-                                          medicationData={prescription}
-                                          patientData={
-                                            currentUser.getState().user
-                                          }
-                                          doctor_id={
-                                            prescription.resource.requester
-                                              .agent.license_id
-                                          }
-                                        />
-                                      </>
-                                    }
-                                    w={1920}
-                                    h={1080}
-                                    orientation={"p"}
-                                    filename={`prescription_${prescription.id}`}
-                                  />
+                                  <div className="flex w-full ml-40 mt-5">
+                                          <Reusable
+                                            child={
+                                              <>
+                                                <Prescription
+                                                  medicationData={prescription}
+                                                  patientData={
+                                                    currentUser.getState().user
+                                                  }
+                                                  doctor_id={
+                                                    prescription.resource
+                                                      .requester.agent
+                                                      .license_id
+                                                  }
+                                                />
+                                              </>
+                                            }
+                                            w={1920}
+                                            h={1080}
+                                            orientation={"p"}
+                                            filename={`prescription_${prescription.id}`}
+                                          />
+                                        </div>
                                 </div>
                               ))}
                           </TabsContent>
