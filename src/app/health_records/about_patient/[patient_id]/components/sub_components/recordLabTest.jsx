@@ -39,6 +39,7 @@ export default function RecordLabTest({
   const [doctorId, setDoctorId] = useState("");
   const [selectedLabTest, setSelectedLabTest] = useState(null);
   const [labTestsList, setLabTestsList] = useState([]);
+  const [filteredLabTests, setFilteredLabTests] = useState([]);
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -241,12 +242,6 @@ export default function RecordLabTest({
     ]);
   };
 
-  const handleLabValueNameChange = (value, index) => {
-    const updatedlabValues = [...labValues];
-    updatedlabValues[index].labValueName = value;
-    setLabValues(updatedlabValues);
-  };
-
   const handleValueChange = (value, index) => {
     const updatedlabValues = [...labValues];
     updatedlabValues[index].value = value;
@@ -302,8 +297,7 @@ export default function RecordLabTest({
 
     const reqdate = labTestsList.length > 0 ? labTestsList[0].reqdate : null;
 
-  
-
+    
     const labTestData = {
       
       loincCode: "YOUR_LOINC_CODE",
@@ -342,6 +336,27 @@ export default function RecordLabTest({
 
     setCurrentScreen(0);
   };
+
+  const handleLabValueNameChange = (value, index) => {
+    const updatedlabValues = [...labValues];
+    updatedlabValues[index].labValueName = value;
+    setLabValues(updatedlabValues);
+  };
+
+
+  const handleLabInputChange = (e, rowIndex) => {
+    const inputValue = e.target.value.toLowerCase();
+    const filteredTests = ["Total Cholesterol", "Glucose"].filter((test) =>
+      test.toLowerCase().includes(inputValue)
+    );
+  
+    // Update the filteredLabTests state specific to the current lab value index
+    setFilteredLabTests(prevState => ({
+      ...prevState,
+      [rowIndex]: filteredTests,
+    }));
+  };
+  
 console.log(labTestsList)
   return (
     <>
@@ -518,13 +533,54 @@ console.log(labTestsList)
                             <tr>
                               <td className="border-l-[16px] border-transparent">
                             
-                                <input
-                                  className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                  type="text"
-                                  placeholder={`Lab Value ${index + 1}`}
-                                  value={row.labValueName}
-                                  onChange={(e) => handleLabValueNameChange(e.target.value, index)}
-                                />
+                              <div className="inline-block relative">
+                              <input
+                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                                type="text"
+                                placeholder={`Lab Value ${index + 1}`}
+                                value={row.labValueName}
+                                onChange={(e) => handleLabValueNameChange(e.target.value, index)}
+                                onInput={(e) => handleLabInputChange(e, index)} // Pass rowIndex to handleLabInputChange
+                              />
+                              {filteredLabTests[index]?.length >= 0 && (
+                                  <ul
+                                  style={{
+                                    listStyle: "none",
+                                    padding: "unset",
+                                    margin: "unset",
+                                    position: "absolute",
+                                    width: "175px", // Adjust width as needed
+                                    maxHeight: "100px", // Adjust max height as needed
+                                    overflowY: "auto",
+                                    overflowX: "hidden",
+                                  }}>
+                                    {filteredLabTests[index].map((labTest, idx) => (
+                                      <li  
+                                      className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300" 
+                                      key={idx}>
+                                        <button
+                                          className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                                          onClick={() => {
+                                            const updatedLabValues = [...labValues];
+                                            updatedLabValues[index] = {
+                                              ...updatedLabValues[index],
+                                              labValueName: labTest,
+                                            };
+                                            setLabValues(updatedLabValues);
+                                            // Reset filteredLabTests for this index after selection
+                                            setFilteredLabTests(prevState => ({
+                                              ...prevState,
+                                              [index]: [],
+                                            }));
+                                          }}
+                                        >
+                                          {labTest}
+                                        </button>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </div>
                               </td>
                               <td className="border-l-[8px] border-transparent flex items-center">
                                 <span className="mt-2 flex items-center text-black font-medium">=</span>

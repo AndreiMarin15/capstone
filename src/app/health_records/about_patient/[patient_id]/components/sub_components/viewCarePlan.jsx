@@ -77,7 +77,7 @@ export default function ViewCarePlan({
       </div>
 
       <div className="flex items-start justify-between mt-5">
-        <BackButton />
+        <BackButton currentScreen={1} setCurrentScreen={setCurrentScreen}/>
       </div>
     </>
   );
