@@ -75,19 +75,20 @@ export const getLabTests = async (patient_id) => {
   console.log("VALUE QUANTITIES", valueQuantities);
   let cholesterol, glucose, sucrose;
 
-  valueQuantities.forEach((item) => {
-    switch (item.display) {
-      case "Total Cholesterol":
-        cholesterol = item.value;
-        break;
-      case "Glucose":
-        glucose = item.value;
-        break;
-      case "Surcrose": // Assuming a typo in the original question, should be "Sucrose"
-        sucrose = item.value;
-        break;
-    }
-  });
+  Array.isArray(valueQuantities) &&
+    valueQuantities.forEach((item) => {
+      switch (item.display) {
+        case "Total Cholesterol":
+          cholesterol = item.value ?? 0;
+          break;
+        case "Glucose":
+          glucose = item.value ?? 0;
+          break;
+        case "Surcrose": // Assuming a typo in the original question, should be "Sucrose"
+          sucrose = item.value ?? 0;
+          break;
+      }
+    });
 
   console.log("CHOLESTEROL", cholesterol);
   console.log("GLUCOSE", glucose);
