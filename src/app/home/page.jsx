@@ -329,7 +329,7 @@ export default function Home() {
                 </div>
 
                 <Button
-                  className="underline"
+                  variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
                       await markAsRead(notification.id);

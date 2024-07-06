@@ -211,7 +211,7 @@ export default function Home() {
                 <div className="flex-auto">Notifications</div>
 
                 <Button
-                  className="underline"
+                  variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
                       await markAsRead(notification.id);
