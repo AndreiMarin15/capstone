@@ -71,7 +71,7 @@ export const getLabTests = async (patient_id) => {
   console.log("LAB TEST RESPONSE", response);
   const labtest = response.data[0];
 
-  const valueQuantities = labtest?.valueQuantity?.valueQuantities;
+  const valueQuantities = labtest?.resource?.valueQuantity?.valueQuantities;
   console.log("VALUE QUANTITIES", valueQuantities);
   let cholesterol, glucose, sucrose;
 
@@ -93,7 +93,7 @@ export const getLabTests = async (patient_id) => {
   console.log("CHOLESTEROL", cholesterol);
   console.log("GLUCOSE", glucose);
   return {
-    cholesterol,
+    totChol: cholesterol,
     glucose,
   };
 };
