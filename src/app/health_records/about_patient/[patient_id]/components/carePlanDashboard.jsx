@@ -164,27 +164,19 @@ export default function CarePlan({ patientId, patientData }) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
                         className="w-4 aspect-square"
                       />
-                      <div className="grow my-auto">
-                        {careplan["resource"]?.contributor.length === 1
-                          ? `${careplan["resource"]?.contributor[0].display}${
-                              careplan["resource"]?.careTeam?.[0]?.display
-                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
-                                : ""
-                            }`
-                          : careplan["resource"]?.contributor.length === 2
-                          ? `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
-                              careplan["resource"]?.careTeam?.[0]?.display
-                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
-                                : ""
-                            }`
-                          : `${careplan["resource"]?.contributor[0].display} & ${
-                              careplan["resource"]?.contributor.length - 1
-                            } other/s${
-                              careplan["resource"]?.careTeam?.[0]?.display
-                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
-                                : ""
-                            }`}
-                      </div>
+                     <div className="grow my-auto">
+                      {careplan["resource"]?.contributor.length === 1
+                        ? `${careplan["resource"]?.contributor[0].display}${
+                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
+                          }`
+                        : careplan["resource"]?.contributor.length === 2
+                        ? `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
+                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
+                          }`
+                        : `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor.length - 1} other/s${
+                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
+                          }`}
+                    </div>
                     </div>
                     <div>
                       <div className="flex-auto my-auto">{`${careplan.resource?.period.start} - ${careplan.resource?.period.end}`}</div>

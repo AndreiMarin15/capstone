@@ -99,7 +99,7 @@ export default function CarePlanDashboard() {
                           setCurrentScreen(1);
                         }}
                       >
-                        <div className="flex flex-col mt-10 items-start text-xs leading-5 text-black">
+                        <div className="flex flex-col mt-5 items-start text-xs leading-5 text-black">
                           <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                             <Image
                               alt="image"
@@ -126,22 +126,14 @@ export default function CarePlanDashboard() {
                              <div className="grow my-auto">
                                 {value["resource"]?.contributor.length === 1
                                   ? `${value["resource"]?.contributor[0].display}${
-                                    value["resource"]?.careTeam?.[0]?.display
-                                        ? ` & ${value["resource"]?.careTeam[0].display}`
-                                        : ""
+                                    value["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${value["resource"]?.careTeam[0].display}` : ""
                                     }`
                                   : value["resource"]?.contributor.length === 2
                                   ? `${value["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
-                                    value["resource"]?.careTeam?.[0]?.display
-                                        ? ` & ${value["resource"]?.careTeam[0].display}`
-                                        : ""
+                                    value["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${value["resource"]?.careTeam[0].display}` : ""
                                     }`
-                                  : `${value["resource"]?.contributor[0].display} & ${
-                                    value["resource"]?.contributor.length - 1
-                                    } other/s${
-                                      value["resource"]?.careTeam?.[0]?.display
-                                        ? ` & ${value["resource"]?.careTeam[0].display}`
-                                        : ""
+                                  : `${value["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor.length - 1} other/s${
+                                    value["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${value["resource"]?.careTeam[0].display}` : ""
                                     }`}
                               </div>
                               <div className="pl-6 flex-auto my-auto">{`${value.resource?.period.start} - ${value.resource?.period.end}`}</div>
