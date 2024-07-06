@@ -73,7 +73,8 @@ export const getLabTests = async (patient_id) => {
 
   const valueQuantities = labtest?.resource?.valueQuantity?.valueQuantities;
   console.log("VALUE QUANTITIES", valueQuantities);
-  let cholesterol, glucose, sucrose;
+  let cholesterol = 0,
+    glucose = 0;
 
   Array.isArray(valueQuantities) &&
     valueQuantities.forEach((item) => {
@@ -84,9 +85,6 @@ export const getLabTests = async (patient_id) => {
         case "Glucose":
           glucose = item.value ?? 0;
           break;
-        case "Surcrose": // Assuming a typo in the original question, should be "Sucrose"
-          sucrose = item.value ?? 0;
-          break;
       }
     });
 
@@ -94,6 +92,6 @@ export const getLabTests = async (patient_id) => {
   console.log("GLUCOSE", glucose);
   return {
     totChol: cholesterol,
-    glucose,
+    glucose: glucose,
   };
 };

@@ -86,9 +86,11 @@ export default function PredictiveAnalytics(patientId) {
   }, [patientId]);
 
   React.useEffect(() => {
-    getLabTests(patientId).then((data) => {
-      setLabtests(data);
-    });
+    const fetchData = async () => {
+      const labtestsData = await getLabTests(patientId);
+      setLabtests(labtestsData);
+    };
+    fetchData();
   }, [patientId]);
 
   React.useEffect(() => {
