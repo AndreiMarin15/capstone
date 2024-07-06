@@ -323,7 +323,7 @@ export default function UploadLab({
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Date Taken</div>
+                            <div className="my-auto">*Date Taken</div>
                           </div>
                           <td>
                             <input
@@ -370,7 +370,7 @@ export default function UploadLab({
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Valid Until</div>
+                            <div className="my-auto">*Valid Until</div>
                           </div>
                           <td>
                           <input
@@ -431,7 +431,7 @@ export default function UploadLab({
                                   className="aspect-[1.03] w-[38px]"
                                 />
                                 <div className="self-stretch mt-1.5 text-black">
-                                  Drag or drop here.
+                                *Drag or drop here.
                                 </div>
                                 <div
                                   className="mt-3.5 font-light text-sky-600 underline"

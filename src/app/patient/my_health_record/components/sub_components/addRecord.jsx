@@ -29,7 +29,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef(null);
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -136,9 +136,33 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     handleFileUpload(e.target.files);
   };
 
+  const validateFields = () => {
+    let valid = true;
+
+    if (!formData.title.trim()) {
+      valid = false;
+        toast.error("Title is required.", {
+          autoClose: 2000,
+        });
+    }
+
+    if (!formData.upload) {
+      valid = false; 
+        toast.error("Upload is required.", {
+          autoClose: 2000,
+        });
+    }
+
+    return valid;
+  };
 
   const handleSubmit = async () => {
-    console.log(formData)
+    setFormSubmitted(true);
+
+    if (!validateFields()) {
+      return;
+    }
+
     const result = await uploadRecord(formData);
    
     if (result.success) {
@@ -170,9 +194,9 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
           <table className="max-w-fit border-spacing-y-5 border-separate">
             <tbody className="text-xs leading-5 text-black">
               {[
-                { variable: "Title", type: "input" },
+                { variable: "*Title", type: "input" },
                 { variable: "Description", type: "textarea" },
-                { variable: "Upload", type: "upload" },
+                { variable: "*Upload", type: "upload" },
               ].map((item, index) => (
                 <tr key={index} className="align-top">
                   <td className="w-5">
@@ -194,11 +218,13 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                     {item.type === "input" ? (
                       <input
                         name="title"
-                        placeholder={`Add ${item.variable}`}
+                        placeholder={`Add Title`}
                         type="text"
                         value={formData.title}
                         onChange={handleChange}
-                        className="justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5 w-full"
+                        className={`justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5 w-full ${
+                          formSubmitted && !formData.title.trim() ? "border-red-500" : ""
+                        }`}
                       />
                     ) : item.type === "textarea" ? (
                       <textarea
@@ -214,7 +240,11 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                       onDrop={(e) => handleDrop(e)}
                       onDragOver={(e) => handleDragOver(e)}
                       >
-                      <div className="flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] w-25%]">
+                      <div
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-[0.5px] border-solid ${
+                              formSubmitted && !formData.upload ? "border-red-500" : "border-black"
+                            } w-25%`}
+                          >
                       {uploadedImageSrc ? (
                               <>
                                 <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
