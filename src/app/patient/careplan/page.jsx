@@ -123,13 +123,26 @@ export default function CarePlanDashboard() {
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
                                 className="w-4 aspect-square"
                               />
-                              <div className="grow my-auto">
+                             <div className="grow my-auto">
                                 {value["resource"]?.contributor.length === 1
-                                  ? value["resource"]?.contributor[0].display
-                                  : value["resource"]?.contributor[0].display +
-                                    ` +${
-                                      value["resource"]?.contributor.length - 1
-                                    } other/s`}
+                                  ? `${value["resource"]?.contributor[0].display}${
+                                    value["resource"]?.careTeam?.[0]?.display
+                                        ? ` & ${value["resource"]?.careTeam[0].display}`
+                                        : ""
+                                    }`
+                                  : value["resource"]?.contributor.length === 2
+                                  ? `${value["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
+                                    value["resource"]?.careTeam?.[0]?.display
+                                        ? ` & ${value["resource"]?.careTeam[0].display}`
+                                        : ""
+                                    }`
+                                  : `${value["resource"]?.contributor[0].display} & ${
+                                    value["resource"]?.contributor.length - 1
+                                    } other/s${
+                                      value["resource"]?.careTeam?.[0]?.display
+                                        ? ` & ${value["resource"]?.careTeam[0].display}`
+                                        : ""
+                                    }`}
                               </div>
                               <div className="pl-6 flex-auto my-auto">{`${value.resource?.period.start} - ${value.resource?.period.end}`}</div>
                             </div>
