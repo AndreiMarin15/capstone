@@ -185,9 +185,9 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
           <table className="max-w-fit border-spacing-y-5 border-separate">
             <tbody className="text-xs leading-5 text-black">
               {[
-                { variable: "Title", type: "input" },
+                { variable: "*Title", type: "input" },
                 { variable: "Description", type: "textarea" },
-                { variable: "Upload", type: "upload" },
+                { variable: "*Upload", type: "upload" },
               ].map((item, index) => (
                 <tr key={index} className="align-top">
                   <td className="w-5">
@@ -209,7 +209,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                     {item.type === "input" ? (
                       <input
                         name="title"
-                        placeholder={`Add ${item.variable}`}
+                        placeholder={`Add Title`}
                         type="text"
                         value={formData.title}
                         onChange={handleChange}

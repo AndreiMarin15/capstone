@@ -43,6 +43,8 @@ export default function UploadLab({
     { level: "Low", min: "", max: "" },
   ]);
   const [dateUntil, setDateUntil] = useState("")
+  const [filteredLabTests, setFilteredLabTests] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   
   useEffect(() => {
@@ -67,7 +69,10 @@ export default function UploadLab({
 
 
   const handleSave = async () => {
-   
+    setFormSubmitted(true);
+    if (!validateFields()) {
+      return;
+    }
 
     try {
       // Construct payload with updated data
@@ -162,7 +167,36 @@ export default function UploadLab({
     });
   };
 
+  const validateFields = () => {
+    let valid = true;
+  
+    if (!dateTaken) {
+      valid = false;
+    
+        toast.error("Date Taken is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+    if (!dateUntil) {
+      valid = false;
+     
+        toast.error("Valid Until is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+   
+    if (!uploadedImageSrc) {
+      valid = false; 
+        toast.error("Upload is required.", {
+          autoClose: 2000,
+        });
+    }
 
+  
+    return valid;
+  };
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -193,13 +227,6 @@ export default function UploadLab({
   const handleDateTakenChange = (event) => {
     setDateTaken(event.target.value); // Update the dateTaken state
   };
-
-   const handleLabValueNameChange = (value, index) => {
-    const updatedlabValues = [...labValues];
-    updatedlabValues[index].labValueName = value;
-    setLabValues(updatedlabValues);
-  };
-
 
   const handleValueChange = (value, index) => {
     const updatedlabValues = [...labValues];
@@ -243,6 +270,26 @@ export default function UploadLab({
     e.preventDefault();
   };
 
+  const handleLabValueNameChange = (value, index) => {
+    const updatedlabValues = [...labValues];
+    updatedlabValues[index].labValueName = value;
+    setLabValues(updatedlabValues);
+  };
+
+
+  const handleLabInputChange = (e, rowIndex) => {
+    const inputValue = e.target.value.toLowerCase();
+    const filteredTests = ["Total Cholesterol", "Glucose"].filter((test) =>
+      test.toLowerCase().includes(inputValue)
+    );
+  
+    // Update the filteredLabTests state specific to the current lab value index
+    setFilteredLabTests(prevState => ({
+      ...prevState,
+      [rowIndex]: filteredTests,
+    }));
+  };
+
   const handleFileUpload = async (files) => {
     const file = files[0];
     try {
@@ -276,11 +323,13 @@ export default function UploadLab({
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Date Taken</div>
+                            <div className="my-auto">*Date Taken</div>
                           </div>
                           <td>
                             <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                               className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                formSubmitted && !dateTaken ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Taken:", e.target.value);
@@ -303,9 +352,9 @@ export default function UploadLab({
                             />
                             <div className="my-auto">Name of Lab Test</div>
                           </div>
-                          <td>
+                          <td className="ml-10">
                           <input
-                            className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                            className="ml-1 justify-center items-start py-1.5 pr-10 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
                             value={ observations?.resource?.codeText ?? ""}
                             readOnly
                           />
@@ -321,11 +370,13 @@ export default function UploadLab({
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Valid Until</div>
+                            <div className="my-auto">*Valid Until</div>
                           </div>
                           <td>
                           <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                             className={`flex justify-center items-start ml-1.5 py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                              formSubmitted && !dateUntil ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Until:", e.target.value);
@@ -336,10 +387,12 @@ export default function UploadLab({
                         </td>
                       </tr>
                       <tr>
-                        <td className="flex gap-10 mt-6">
+                        <td className="flex gap-10 mt-6 mt-2">
                           <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
-                            }`}
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px] ${
+                              formSubmitted && !uploadedImageSrc ? "border-red-500" : "border-black"
+                            }
+                            `}
                             onDrop={(e) => handleDrop(e)}
                             onDragOver={(e) => handleDragOver(e)}
                           >
@@ -378,7 +431,7 @@ export default function UploadLab({
                                   className="aspect-[1.03] w-[38px]"
                                 />
                                 <div className="self-stretch mt-1.5 text-black">
-                                  Drag or drop here.
+                                *Drag or drop here.
                                 </div>
                                 <div
                                   className="mt-3.5 font-light text-sky-600 underline"
@@ -423,14 +476,54 @@ export default function UploadLab({
                             </td>
                             <tr>
                               <td className="border-l-[16px] border-transparent">
-                            
+                              <div className="inline-block relative">
                                 <input
                                   className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                                   type="text"
                                   placeholder={`Lab Value ${index + 1}`}
                                   value={row.labValueName}
                                   onChange={(e) => handleLabValueNameChange(e.target.value, index)}
+                                  onInput={(e) => handleLabInputChange(e, index)} // Pass rowIndex to handleLabInputChange
                                 />
+                                {filteredLabTests[index]?.length >= 0 && (
+                                    <ul
+                                    style={{
+                                      listStyle: "none",
+                                      padding: "unset",
+                                      margin: "unset",
+                                      position: "absolute",
+                                      width: "175px", // Adjust width as needed
+                                      maxHeight: "100px", // Adjust max height as needed
+                                      overflowY: "auto",
+                                      overflowX: "hidden",
+                                    }}>
+                                      {filteredLabTests[index].map((labTest, idx) => (
+                                        <li  
+                                        className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300" 
+                                        key={idx}>
+                                          <button
+                                            className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                                            onClick={() => {
+                                              const updatedLabValues = [...labValues];
+                                              updatedLabValues[index] = {
+                                                ...updatedLabValues[index],
+                                                labValueName: labTest,
+                                              };
+                                              setLabValues(updatedLabValues);
+                                              // Reset filteredLabTests for this index after selection
+                                              setFilteredLabTests(prevState => ({
+                                                ...prevState,
+                                                [index]: [],
+                                              }));
+                                            }}
+                                          >
+                                            {labTest}
+                                          </button>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                              </div>
                               </td>
                               <td className="border-l-[8px] border-transparent flex items-center">
                                 <span className="mt-2 flex items-center text-black font-medium">=</span>

@@ -29,9 +29,7 @@ export default function RecordLabTest({
   currentScreen,
   setCurrentScreen,
   patientId,
-  labTests,
   encounterId,
-  fetchEncounters
 }) {
 
   const observationId = useLabTestStore((state) => state.observationId);
@@ -40,7 +38,9 @@ export default function RecordLabTest({
   const [selectedLabTest, setSelectedLabTest] = useState(null);
   const [labTestsList, setLabTestsList] = useState([]);
   const [filteredLabTests, setFilteredLabTests] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
+  
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
@@ -90,6 +90,10 @@ export default function RecordLabTest({
   }, [encounterId]);
 
   const handleSaveLabTest = async () => {
+    setFormSubmitted(true);
+    if (!validateFields()) {
+      return;
+    }
     try {
       const doctorInfo = await doctor.getDoctorByCurrentUser();
       // Get the observation data from labTestsList
@@ -178,7 +182,36 @@ export default function RecordLabTest({
   const [dateUntil, setDateUntil] = useState("")
 
   
+  const validateFields = () => {
+    let valid = true;
   
+    if (!dateTaken) {
+      valid = false;
+    
+        toast.error("Date Taken is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+    if (!dateUntil) {
+      valid = false;
+     
+        toast.error("Valid Until is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+   
+    if (!uploadedImageSrc) {
+      valid = false; 
+        toast.error("Upload is required.", {
+          autoClose: 2000,
+        });
+    }
+
+  
+    return valid;
+  };
   
   const [labValues, setLabValues] = useState([{ labValueName: "", value: "", unit: "" }]);
   const [ranges, setRanges] = useState([
@@ -385,11 +418,13 @@ console.log(labTestsList)
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Date Taken</div>
+                            <div className="my-auto">*Date Taken</div>
                           </div>
                           <td>
                             <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                               className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                formSubmitted && !dateTaken ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Taken:", e.target.value);
@@ -430,11 +465,14 @@ console.log(labTestsList)
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto">Valid Until</div>
+                            <div className="my-auto">*Valid Until</div>
                           </div>
                           <td>
+                          
                           <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                              className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                formSubmitted && !dateUntil ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Until:", e.target.value);
@@ -447,8 +485,10 @@ console.log(labTestsList)
                       <tr>
                         <td className="flex gap-10 mt-6">
                           <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
-                            }`}
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px] ${
+                              formSubmitted && !uploadedImageSrc ? "border-red-500" : "border-black"
+                            }
+                            `}
                             onDrop={(e) => handleDrop(e)}
                             onDragOver={(e) => handleDragOver(e)}
                           >
@@ -487,7 +527,7 @@ console.log(labTestsList)
                                   className="aspect-[1.03] w-[38px]"
                                 />
                                 <div className="self-stretch mt-1.5 text-black">
-                                  Drag or drop here.
+                                *Drag or drop here.
                                 </div>
                                 <div
                                   className="mt-3.5 font-light text-sky-600 underline"
