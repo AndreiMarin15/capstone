@@ -44,6 +44,7 @@ export default function UploadLab({
   ]);
   const [dateUntil, setDateUntil] = useState("")
   const [filteredLabTests, setFilteredLabTests] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   
   useEffect(() => {
@@ -68,7 +69,10 @@ export default function UploadLab({
 
 
   const handleSave = async () => {
-   
+    setFormSubmitted(true);
+    if (!validateFields()) {
+      return;
+    }
 
     try {
       // Construct payload with updated data
@@ -163,7 +167,36 @@ export default function UploadLab({
     });
   };
 
+  const validateFields = () => {
+    let valid = true;
+  
+    if (!dateTaken) {
+      valid = false;
+    
+        toast.error("Date Taken is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+    if (!dateUntil) {
+      valid = false;
+     
+        toast.error("Valid Until is required.", {
+          autoClose: 2000,
+        });
+      
+    }
+   
+    if (!uploadedImageSrc) {
+      valid = false; 
+        toast.error("Upload is required.", {
+          autoClose: 2000,
+        });
+    }
 
+  
+    return valid;
+  };
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -294,7 +327,9 @@ export default function UploadLab({
                           </div>
                           <td>
                             <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                               className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                formSubmitted && !dateTaken ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Taken:", e.target.value);
@@ -317,9 +352,9 @@ export default function UploadLab({
                             />
                             <div className="my-auto">Name of Lab Test</div>
                           </div>
-                          <td>
+                          <td className="ml-10">
                           <input
-                            className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                            className="ml-1 justify-center items-start py-1.5 pr-10 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
                             value={ observations?.resource?.codeText ?? ""}
                             readOnly
                           />
@@ -339,7 +374,9 @@ export default function UploadLab({
                           </div>
                           <td>
                           <input
-                              className="justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                             className={`flex justify-center items-start ml-1.5 py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                              formSubmitted && !dateUntil ? "border-red-500" : ""
+                              }`}
                               type="date"
                               onChange={(e) => {
                                 console.log("date Until:", e.target.value);
@@ -350,10 +387,12 @@ export default function UploadLab({
                         </td>
                       </tr>
                       <tr>
-                        <td className="flex gap-10 mt-6">
+                        <td className="flex gap-10 mt-6 mt-2">
                           <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
-                            }`}
+                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px] ${
+                              formSubmitted && !uploadedImageSrc ? "border-red-500" : "border-black"
+                            }
+                            `}
                             onDrop={(e) => handleDrop(e)}
                             onDragOver={(e) => handleDragOver(e)}
                           >
