@@ -21,6 +21,8 @@ export default function WriteReferral({
   referralData,
   setReferralData,
   selectedPatientId,
+  isMatched,
+  setIsMatched
 }) {
   const [diagnoses, setDiagnoses] = useState([]);
   const [medications, setMedications] = useState([]);
@@ -28,7 +30,7 @@ export default function WriteReferral({
   const [diagnosisText, setDiagnosisText] = useState("");
   const [medicationText, setMedicationText] = useState("");
   const [attending_doctors, setAttendingDoctors] = useState([]);
-
+  // const [isMatched, setIsMatched] = useState(false);
   const [labtests, setLabtests] = useState([]);
 
   function addLabTest(newLabTest) {
@@ -174,7 +176,7 @@ export default function WriteReferral({
 
     if (matchedDoctor) {
       // Assuming you have a way to set these (e.g., setState in a class component or useState in a functional component)
-
+      setIsMatched(true);
       setReferralData((prevReferralData) => ({
         ...prevReferralData,
         specialization: matchedDoctor.doctor_specialization,

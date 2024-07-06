@@ -229,6 +229,16 @@ export const getDoctorSpecialization = async (doctor_license) => {
   return specialization?.doctor_specialization_name;
 };
 
+export const getDoctorHospital = async (doctor_license) => {
+  const { data, error } = await project
+    .from("doctors")
+    .select()
+    .eq("license_id", doctor_license);
+
+  console.log(data[0]?.hospital?.name);
+  return data[0]?.hospital?.name;
+};
+
 export const getAttendingDoctors = async (patientId) => {
   const { data, error } = await project
     .from("attending_doctors")
@@ -252,4 +262,13 @@ export const getAttendingDoctors = async (patientId) => {
   }, []);
 
   return uniqueDoctors;
+};
+
+export const getClinicVisits = async (patientId) => {
+  const { data, error } = await supabase
+    .from("encounters")
+    .select()
+    .eq("patient_id", patientId);
+
+  return data;
 };

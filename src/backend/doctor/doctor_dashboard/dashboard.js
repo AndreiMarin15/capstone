@@ -12,6 +12,7 @@ const dashboard = {
 			column: "id",
 			value: user.id,
 		});
+		console.log(doctor);
 		const specialization = await project.selectFrom("specializations", {
 			column: "id",
 			value: doctor[0].specialization_id,

@@ -2,35 +2,13 @@ import Image from "next/image";
 import axios from "axios";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import {
+  getPatient,
+  getObservations,
+  getLabTests,
+} from "@/backend/predictiveAnalytics/getData";
+import { useState } from "react";
 export default function PredictiveAnalytics(patientId) {
-  // PUBLIC
-  // patient:
-  //     gender(Female/Male) //convert to 1 for male
-  //     birthdate // convert to age
-  //     identifier
-  // Observation:
-  //     systolic //sysBP
-  //     diastolic //diaBP
-  //     bmi //BMI
-  //     heartRate //heartRate
-
-  // PROJECT
-  // ----
-  // patients:
-  //     medical_history
-  //         prevalentHyp //hypertensions
-  //         BPMeds //blood_pressure_medications
-  //         prevalentStroke: 0,
-  //     social_history
-  //         currentSmoker: 1,
-  //         cigsPerDay: 15,
-  //     glucose
-
-  // education: 4,
-  // diabetes: 0,
-  // totChol: 238,
-  // sysBP: 125,
-
   const wordMatch = {
     male: "Gender",
     age: "Age",
@@ -48,7 +26,24 @@ export default function PredictiveAnalytics(patientId) {
     heartRate: "Heart Rate",
     glucose: "Glucose",
   };
-  const pAnalytics = {
+
+  function getAge(birthdate) {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
+  const [pAnalytics, setPAnalytics] = useState({
     male: 0,
     age: 22,
     education: 4,
@@ -64,7 +59,60 @@ export default function PredictiveAnalytics(patientId) {
     BMI: 21.9,
     heartRate: 60,
     glucose: 87,
-  };
+  });
+
+  const [patient, setPatient] = useState({});
+
+  React.useEffect(() => {
+    console.log("PA", pAnalytics);
+  }, [pAnalytics]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const patientData = await getPatient(patientId);
+      setPatient(patientData);
+    };
+    fetchData();
+  }, [patientId]);
+  const [observations, setObservations] = useState({});
+  const [labtests, setLabtests] = useState({});
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const observationsData = await getObservations(patientId);
+      setObservations(observationsData);
+    };
+    fetchData();
+  }, [patientId]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const labtestsData = await getLabTests(patientId);
+      setLabtests(labtestsData);
+    };
+    fetchData();
+  }, [patientId]);
+
+  React.useEffect(() => {
+    setPAnalytics({
+      male:
+        patient?.personal_information?.gender.toLowerCase() === "male" ? 1 : 0,
+      age: getAge(patient?.personal_information?.birthdate),
+      education: patient?.personal_information?.education ?? 4,
+      currentSmoker:
+        patient?.social_history?.smoker_status === "Smoker" ? 1 : 0,
+      cigsPerDay: patient?.social_history?.cigarettes_per_day ?? 0,
+      BPMeds:
+        patient?.medical_history?.blood_pressure_medications === true ? 1 : 0,
+      prevalentStroke: patient?.medical_history?.stroke === true ? 1 : 0,
+      prevalentHyp: patient?.medical_history?.hypertensions === true ? 1 : 0,
+      diabetes: patient?.medical_history?.diabetes === true ? 1 : 0,
+      education: patient?.personal_information?.education ?? 4,
+      ...observations,
+      ...labtests,
+    });
+  }, [patient, observations, labtests]);
+
   const formatValue = (key, value) => {
     const boolean = [
       "currentSmoker",
@@ -138,14 +186,15 @@ export default function PredictiveAnalytics(patientId) {
       </div>
 
       <table className="max-w-fit border-spacing-y-5 border-spacing-x-[5em] border-separate text-xs">
-        {Object.keys(pAnalytics).map((keyValue, i) => (
-          <>
-            <tr key={i}>
-              <td>{wordMatch[keyValue]}</td>
-              <td>{formatValue(keyValue, pAnalytics[keyValue])}</td>
-            </tr>
-          </>
-        ))}
+        {typeof pAnalytics === "object" &&
+          Object.keys(pAnalytics).map((keyValue, i) => (
+            <>
+              <tr key={i}>
+                <td>{wordMatch[keyValue]}</td>
+                <td>{formatValue(keyValue, pAnalytics[keyValue])}</td>
+              </tr>
+            </>
+          ))}
       </table>
 
       <div className="font-extrabold text-sm mt-10" style={{ color: "blue" }}>
