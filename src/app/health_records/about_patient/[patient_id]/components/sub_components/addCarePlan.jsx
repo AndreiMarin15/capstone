@@ -61,10 +61,6 @@ export default function AddCarePlan({
     fetchData();
   }, []); // Assuming patientId is a dependency that triggers the effect
 
-  // useEffect(() => {
-  //   console.log(doctorFullName, doctorId, patientFullName, patientsId);
-  // }, []);
-
   function convertToActivity(type, value) {
     return {
       detail: {
@@ -105,7 +101,10 @@ export default function AddCarePlan({
       data.push(convertToActivity("selfMonitoring", selfMonitoring));
   
     const today = new Date().toISOString().split("T")[0];
-  
+
+    var patientInformation = patientData.personal_information;
+    delete patientInformation.photo;
+
     setCompactActivity({
       title: title,
       period: {
@@ -116,14 +115,29 @@ export default function AddCarePlan({
       subject: {
         display: patientFullName,
         reference: patientsId,
+        patient: patientInformation,
       },
       activity: data,
       contributor: [
         {
           display: doctorFullName,
           reference: doctorId,
+          doctor_license: currentUser.getState().user.license_id,
         },
       ],
+      insert: {
+        end_date: [endDate, endDate, endDate],
+        type: [
+          data[0].detail.code.text,
+          data[1].detail.code.text,
+          data[2].detail.code.text,
+        ],
+        description: [
+          data[0].detail.description,
+          data[1].detail.description,
+          data[2].detail.description,
+        ],
+      },
       careTeam: [
         {
           display: selectedDoctorFirstName + " " + selectedDoctorLastName,

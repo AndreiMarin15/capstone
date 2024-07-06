@@ -12,15 +12,10 @@ import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
 
-
-export default function AddMedications({
-
-  patientId,
-  onAddMedication
-
-}) {
+export default function AddMedications({ patientId, onAddMedication }) {
   const [regis, setRegis] = useState("");
-  const { currentScreen, setCurrentScreen, addMedicationId } = usePrescriptionsStore(); 
+  const { currentScreen, setCurrentScreen, addMedicationId } =
+    usePrescriptionsStore();
   const [medicationName, setMedicationName] = useState("");
   const [name, setName] = useState("");
   const [genName, setGenName] = useState("");
@@ -138,6 +133,7 @@ export default function AddMedications({
         subject: {
           type: "Patient",
           reference: patientData.id,
+          patient: patientData,
         },
         dosageInstruction: [
           {
@@ -180,7 +176,7 @@ export default function AddMedications({
   
       console.log("Data saved successfully:", savedData);
       console.log(savedData);
-  
+
       addMedicationId(savedData);
   
       toast.success("Medication Added", {
@@ -194,7 +190,6 @@ export default function AddMedications({
   
     setCurrentScreen(1);
   };
-
 
   const dosage = [
     {
@@ -247,7 +242,7 @@ export default function AddMedications({
     },
   ];
 
-  return (
+ return (
     <>
       {currentScreen === 3 ? (
         <>
