@@ -80,6 +80,14 @@ export default function PredictiveAnalytics(patientId) {
   React.useEffect(() => {
     const fetchData = async () => {
       const observationsData = await getObservations(patientId);
+
+      for (let key in observationsData) {
+        if (observationsData.hasOwnProperty(key)) {
+          // Convert the value to a number (integer)
+          observationsData[key] = parseInt(observationsData[key]);
+        }
+      }
+
       setObservations(observationsData);
     };
     fetchData();
@@ -88,6 +96,13 @@ export default function PredictiveAnalytics(patientId) {
   React.useEffect(() => {
     const fetchData = async () => {
       const labtestsData = await getLabTests(patientId);
+
+      for (let key in labtestsData) {
+        if (labtestsData.hasOwnProperty(key)) {
+          labtestsData[key] = parseInt(labtestsData[key]);
+        }
+      }
+
       setLabtests(labtestsData);
     };
     fetchData();
@@ -107,9 +122,12 @@ export default function PredictiveAnalytics(patientId) {
       prevalentStroke: patient?.medical_history?.stroke === true ? 1 : 0,
       prevalentHyp: patient?.medical_history?.hypertensions === true ? 1 : 0,
       diabetes: patient?.medical_history?.diabetes === true ? 1 : 0,
-      education: patient?.personal_information?.education ?? 4,
-      ...observations,
-      ...labtests,
+      totChol: labtests.totChol ?? 0,
+      sysBP: observations.sysBP ?? 0,
+      diaBP: observations.diaBP ?? 0,
+      BMI: observations.BMI ?? 0,
+      heartRate: observations.heartRate ?? 0,
+      glucose: labtests.glucose ?? 0,
     });
   }, [patient, observations, labtests]);
 
