@@ -39,7 +39,7 @@ export const getObservations = async (patient_id) => {
     .order("ts", { ascending: false })
     .limit(1);
   console.log("BMI", BMIVal);
-  const BMI = BMIVal.data[0].resource.valueQuantity.value;
+  const BMI = BMIVal.data[0].resource.valueQuantity.value ?? 0;
 
   const rate = await supa
     .from("observation")
@@ -49,7 +49,7 @@ export const getObservations = async (patient_id) => {
     .order("ts", { ascending: false })
     .limit(1);
   console.log("HEART RATE", rate);
-  const heartRate = rate.data[0].resource.valueQuantity.value;
+  const heartRate = rate.data[0].resource.valueQuantity.value ?? 0;
 
   return {
     sysBP,
