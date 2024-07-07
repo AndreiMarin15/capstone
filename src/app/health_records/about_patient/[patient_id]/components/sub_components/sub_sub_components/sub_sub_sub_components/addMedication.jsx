@@ -32,6 +32,7 @@ export default function AddMedications({ patientId, onAddMedication }) {
   const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  
  
   const validateFields = () => {
     let valid = true;
@@ -194,7 +195,7 @@ export default function AddMedications({ patientId, onAddMedication }) {
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Medicine Name",
+      variable: "*Medicine Name",
       value: "",
     },
     {
@@ -210,7 +211,7 @@ export default function AddMedications({ patientId, onAddMedication }) {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Frequency",
+      variable: "*Frequency",
       value: "",
       component: 2,
     },
@@ -224,12 +225,12 @@ export default function AddMedications({ patientId, onAddMedication }) {
   const prescription = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Start Date",
+      variable: "*Start Date",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "End Date",
+      variable: "*End Date",
       value: "",
     },
   ];
@@ -266,7 +267,7 @@ export default function AddMedications({ patientId, onAddMedication }) {
                           key={index}
                           className="flex gap-5 justify-between mt-6 w-full"
                         >
-                          {item.variable !== "Medicine Name" ? (
+                          {item.variable !== "*Medicine Name" ? (
                             <>
                               <td className="flex gap-2 my-auto font-semibold text-black">
                                 <Image
@@ -285,14 +286,14 @@ export default function AddMedications({ patientId, onAddMedication }) {
                               <input
                                 type="text"
                                 className={`grow justify-center items-start py-1.5 pr-8 pl-3  rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
-                                  item.variable === "Frequency" && formSubmitted && !duration ? "border-red-500" : ""
+                                  item.variable === "*Frequency" && formSubmitted && !duration ? "border-red-500" : ""
                                 }`}
                                 value={
                                   item.variable === "Dose and Unit" && regis !== ""
                                     ? doseUnit
                                     : item.variable === "Form" && regis !== ""
                                     ? form // If regis is not empty, use the autofilled form
-                                    : item.variable === "Frequency"
+                                    : item.variable === "*Frequency"
                                     ? duration
                                     : patientInstructions
                                 }
@@ -305,7 +306,7 @@ export default function AddMedications({ patientId, onAddMedication }) {
                                     case "Form":
                                       setForm(value);
                                       break;
-                                    case "Frequency":
+                                    case "*Frequency":
                                       setDuration(value);
                                       break;
                                     case "Patient Instructions":
@@ -448,27 +449,27 @@ export default function AddMedications({ patientId, onAddMedication }) {
                             </div>
                           </td>
                           <td>
-                            {item.variable === "Start Date" ||
-                            item.variable === "End Date" ? (
+                            {item.variable === "*Start Date" ||
+                            item.variable === "*End Date" ? (
                               <input
                                 type="date"
                                 className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded shadow-sm text-xs font-medium  border-[0.5px] focus:border ${
-                                  (item.variable === "Start Date" && formSubmitted && !validityStart) ||
-                                  (item.variable === "End Date" && formSubmitted && !validityEnd)
+                                  (item.variable === "*Start Date" && formSubmitted && !validityStart) ||
+                                  (item.variable === "*End Date" && formSubmitted && !validityEnd)
                                     ? "border-red-500"
                                     : "border-black"
                                 }`}
                                 value={
-                                  item.variable === "Start Date"
+                                  item.variable === "*Start Date"
                                     ? validityStart
-                                    : item.variable === "End Date"
+                                    : item.variable === "*End Date"
                                     ? validityEnd
                                     : ""
                                 }
                                 onChange={(e) => {
-                                  if (item.variable === "Start Date") {
+                                  if (item.variable === "*Start Date") {
                                     setValidityStart(e.target.value);
-                                  } else if (item.variable === "End Date") {
+                                  } else if (item.variable === "*End Date") {
                                     setValidityEnd(e.target.value);
                                   }
                                 }}

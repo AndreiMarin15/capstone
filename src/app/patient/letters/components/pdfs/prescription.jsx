@@ -66,7 +66,7 @@ export function Prescription({ medicationData, patientData, doctor_id }) {
             </div>
             <div className="justify-between text-right">
               Date Requested <br />{" "}
-              <span className="font-normal">{medicationData?.created_at}</span>
+              <span className="font-normal">{new Date(medicationData?.created_at).toLocaleDateString()}</span>
             </div>
           </div>
           <div className="items-start text-start mt-4 text-xs max-md:max-w-full">

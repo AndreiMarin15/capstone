@@ -111,7 +111,7 @@ export default function AddObservation({
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Signs and Symptoms",
+      variable: "*Signs and Symptoms",
       name: "signsAndSymptoms",
       value: signsAndSymptoms,
       type: "textarea",
@@ -247,7 +247,7 @@ export default function AddObservation({
                             placeholder={
                               item.variable === "Other Concerns"
                                 ? "Add other concerns"
-                                : "*Add signs and symptoms"
+                                : "Add signs and symptoms"
                             }
                             name={item.name}
                             value={item.value}
@@ -264,7 +264,7 @@ export default function AddObservation({
                                   borderColor: "red",
                                   borderWidth: "2px",
                                 }
-                                : item.variable === "Signs and Symptoms" &&
+                                : item.variable === "*Signs and Symptoms" &&
                                   errorStyles.signsAndSymptoms
                                   ? {
                                     ...errorStyles.signsAndSymptoms,
