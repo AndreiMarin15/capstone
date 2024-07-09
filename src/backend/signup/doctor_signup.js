@@ -31,6 +31,7 @@ export const DoctorSignUp = {
       about: doctorData.about,
       photo: doctorData.photo,
       hospital: doctorData.hospital,
+      ptr: doctorData.ptr,
     };
 
     const practitionerResource = {
