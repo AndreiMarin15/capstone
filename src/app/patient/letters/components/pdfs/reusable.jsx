@@ -47,10 +47,17 @@ export function Reusable({ child, filename, orientation, h, w }) {
       }
 
       // Calculate the scaled dimensions using the adjusted scale factor
-      const scaledWidth = canvas.width * adjustedScaleToFit;
-      const scaledHeight = canvas.height * adjustedScaleToFit;
+      let scaledWidth = canvas.width * adjustedScaleToFit;
+      let scaledHeight = canvas.height * adjustedScaleToFit;
 
-      // Center the image on the page
+      if (scaledHeight > pdfHeight) {
+        // If the scaled height is greater than PDF height, adjust scale to fit height instead
+        adjustedScaleToFit = pdfHeight / canvas.height;
+        scaledWidth = canvas.width * adjustedScaleToFit;
+        scaledHeight = canvas.height * adjustedScaleToFit;
+      }
+
+      // Recalculate positions with possibly updated dimensions
       const xPosition = (pdfWidth - scaledWidth) / 2;
       const yPosition = (pdfHeight - scaledHeight) / 2;
 

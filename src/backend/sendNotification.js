@@ -67,6 +67,6 @@ export const markAsRead = async (notification_id) => {
 		.from("notifications")
 		.update({ read: true })
 		.eq("id", notification_id);
-
+	console.log(notification);
 	return notification;
 };

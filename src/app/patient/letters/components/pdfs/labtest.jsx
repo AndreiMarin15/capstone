@@ -79,7 +79,7 @@ export function LabTest({ labTests, patientData, referred_by_id }) {
             </div>
             <div className="justify-between text-right">
               Date Requested <br />{" "}
-              <span className="font-normal">{labTests[0].date ?? ""}</span>
+              <span className="font-normal">{labTests[0].reqdate ?? ""}</span>
             </div>
           </div>
           {/* <div className="mt-4 items-start text-start text-xs max-md:max-w-full">
