@@ -21,6 +21,12 @@ const uploadEncounter = async (encounter) => {
         }
       })
     );
+    var patient = {
+      type: encounter.subject.type,
+      reference: encounter.subject.reference,
+      patient: encounter.subject.patient,
+    };
+
     const doctorInfo = await doctor.getDoctorByCurrentUser();
     const data = {
       status: "created",
@@ -46,6 +52,28 @@ const uploadEncounter = async (encounter) => {
     const enc = await PUBLIC.insertInto(data.resource_type.toLowerCase(), data);
 
     var resource = data;
+    await fetch("http://localhost:6001/endotracker/patient-get", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        last_name:
+          resource.resource.subject.patient.personal_information.last_name,
+        first_name:
+          resource.resource.subject.patient.personal_information.first_name,
+        middle_name: null,
+        birthdate:
+          resource.resource.subject.patient.personal_information.birthdate,
+        gender: resource.resource.subject.patient.personal_information.gender,
+        contact_number:
+          resource.resource.subject.patient.personal_information.contact_number,
+        postal_code:
+          resource.resource.subject.patient.personal_information.postal_code,
+        state: resource.resource.subject.patient.personal_information.state,
+        city: resource.resource.subject.patient.personal_information.city,
+        street_address:
+          resource.resource.subject.patient.personal_information.street_address,
+      }),
+    });
     delete resource.resource.subject.patient.personal_information.photo;
     // encounter
     await fetch("http://localhost:6001/endotracker/encounter", {
