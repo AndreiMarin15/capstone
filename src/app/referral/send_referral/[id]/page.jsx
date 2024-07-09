@@ -271,6 +271,12 @@ export default function SendReferral({ params }) {
                 patient_id: patientId,
 
                 doctor_id: selectedDoctorId,
+                license_id: selectedDoctor?.license_id,
+                first_name: selectedDoctor?.first_name,
+                last_name: selectedDoctor?.last_name,
+                specialization: selectedDoctor?.specialization,
+                years: selectedDoctor?.years,
+                
                 notes: notes,
               };
               sendReferralData.newReferralRequest(referralData);
