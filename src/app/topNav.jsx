@@ -56,7 +56,11 @@ export default function TopNav() {
               height={0}
               width={0}
               loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/bdb718aff695bf5b5acafd7d7d097231aa261109f542eef272693d4f0668c75b?"
+              src={
+                current.photo ??
+                current.personal_information?.photo ??
+                "https://cdn.builder.io/api/v1/image/assets/TEMP/bdb718aff695bf5b5acafd7d7d097231aa261109f542eef272693d4f0668c75b?"
+              }
               className="aspect-square object-contain object-center w-[21px] overflow-hidden shrink-0 max-w-full"
             />
             <div className="text-black text-xs font-semibold leading-5 self-center my-auto">

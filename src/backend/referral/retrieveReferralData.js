@@ -30,6 +30,7 @@ const retrieveReferralData = {
 				age: computeAge(patient.personal_information.birthdate),
 				id: patient.id,
 				gender: patient.personal_information.gender,
+				photo: patient.personal_information.photo,
 			};
 		});
 
@@ -75,6 +76,7 @@ const retrieveReferralData = {
 				years: doctor.years_of_practice,
 				contact: doctor.hospital?.contact,
 				clinic: doctor.hospital?.name + " " + doctor.hospital?.clinic,
+				photo: doctor.photo,
 			};
 			return data;
 		});

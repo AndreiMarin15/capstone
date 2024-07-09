@@ -141,6 +141,7 @@ export default function SendReferral({ params }) {
                         age={item.age}
                         id={item.id}
                         selectedId={patientId}
+                        photo={item.photo}
                       />
                     </div>
                   </div>
@@ -215,6 +216,7 @@ export default function SendReferral({ params }) {
                           specialization={item.specialization}
                           id={item.id}
                           selectedId={selectedDoctorId}
+                          photo={item.photo}
                         />
                       </div>
                     </div>
