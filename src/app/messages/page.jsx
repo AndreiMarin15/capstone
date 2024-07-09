@@ -142,8 +142,8 @@ export default function Messaging() {
                   ? messageInfo.patients.first_name +
                     " " +
                     messageInfo.patients.last_name
-                  : "undefined"}
-              </span>π
+                  : " "}
+              </span>
             </div>
           </div>
         </div>
