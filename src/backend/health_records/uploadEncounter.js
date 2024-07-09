@@ -45,72 +45,72 @@ const uploadEncounter = async (encounter) => {
     };
     const enc = await PUBLIC.insertInto(data.resource_type.toLowerCase(), data);
 
-    // var resource = data;
-    // delete resource.resource.subject.patient.personal_information.photo;
-    // // encounter
-    // await fetch("http://localhost:6001/endotracker/encounter", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     resource: resource.resource,
-    //     initialDiagnosis: encounter.contained,
-    //   }),
-    // });
+    var resource = data;
+    delete resource.resource.subject.patient.personal_information.photo;
+    // encounter
+    await fetch("http://localhost:6001/endotracker/encounter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        resource: resource.resource,
+        initialDiagnosis: encounter.contained,
+      }),
+    });
 
-    // //ros
-    // await fetch("http://localhost:6001/endotracker/signs-and-symptoms", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     resource: data,
-    //     ros: {
-    //       ...encounter.contained[0].values,
-    //       weight_loss: encounter.contained[0].values["Weight Loss"],
-    //       poor_appetite: encounter.contained[0].values["Poor Appetite"],
-    //       heart_palpitation:
-    //         encounter.contained[0].values["Heart Palpitations"],
-    //       shortness_of_breath:
-    //         encounter.contained[0].values["Shortness of Breath"],
-    //       abdominal_pain: encounter.contained[0].values["Abdominal Pain"],
-    //       chest_pain: encounter.contained[0].values["Chest Pain"],
-    //     },
-    //   }),
-    // });
+    //ros
+    await fetch("http://localhost:6001/endotracker/signs-and-symptoms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        resource: data,
+        ros: {
+          ...encounter.contained[0].values,
+          weight_loss: encounter.contained[0].values["Weight Loss"],
+          poor_appetite: encounter.contained[0].values["Poor Appetite"],
+          heart_palpitation:
+            encounter.contained[0].values["Heart Palpitations"],
+          shortness_of_breath:
+            encounter.contained[0].values["Shortness of Breath"],
+          abdominal_pain: encounter.contained[0].values["Abdominal Pain"],
+          chest_pain: encounter.contained[0].values["Chest Pain"],
+        },
+      }),
+    });
 
-    // //observation
-    // await fetch("http://localhost:6001/endotracker/vitals-and-biometrics", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     resource: data,
-    //     observation: {
-    //       height: {
-    //         value: encounter.contained[7].valueQuantity.value,
-    //         unit: encounter.contained[7].valueQuantity.unit,
-    //       },
-    //       weight: {
-    //         value: encounter.contained[8].valueQuantity.value,
-    //         unit: encounter.contained[8].valueQuantity.unit,
-    //       },
-    //       bmi: {
-    //         value: encounter.contained[9].valueQuantity.value,
-    //         unit: encounter.contained[9].valueQuantity.unit,
-    //       },
-    //       systolic: {
-    //         value: encounter.contained[10].valueQuantity.value,
-    //         unit: encounter.contained[10].valueQuantity.unit,
-    //       },
-    //       diastolic: {
-    //         value: encounter.contained[11].valueQuantity.value,
-    //         unit: encounter.contained[11].valueQuantity.unit,
-    //       },
-    //       heartrate: {
-    //         value: encounter.contained[12].valueQuantity.value,
-    //         unit: encounter.contained[12].valueQuantity.unit,
-    //       },
-    //     },
-    //   }),
-    // });
+    //observation
+    await fetch("http://localhost:6001/endotracker/vitals-and-biometrics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        resource: data,
+        observation: {
+          height: {
+            value: encounter.contained[7].valueQuantity.value,
+            unit: encounter.contained[7].valueQuantity.unit,
+          },
+          weight: {
+            value: encounter.contained[8].valueQuantity.value,
+            unit: encounter.contained[8].valueQuantity.unit,
+          },
+          bmi: {
+            value: encounter.contained[9].valueQuantity.value,
+            unit: encounter.contained[9].valueQuantity.unit,
+          },
+          systolic: {
+            value: encounter.contained[10].valueQuantity.value,
+            unit: encounter.contained[10].valueQuantity.unit,
+          },
+          diastolic: {
+            value: encounter.contained[11].valueQuantity.value,
+            unit: encounter.contained[11].valueQuantity.unit,
+          },
+          heartrate: {
+            value: encounter.contained[12].valueQuantity.value,
+            unit: encounter.contained[12].valueQuantity.unit,
+          },
+        },
+      }),
+    });
 
     return { enc, containedIDs: contained };
   } catch (error) {
