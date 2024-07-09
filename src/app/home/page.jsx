@@ -73,6 +73,7 @@ export default function Home() {
           title: notif.title,
           content: notif.content,
           sender: await getSenderData(notif.id),
+          id: notif.id,
         }))
       );
       setNotifications(notificationsWithSender);

@@ -41,6 +41,7 @@ export default function Home() {
           title: notif.title,
           content: notif.content,
           sender: await getSenderData(notif.id),
+          id: notif.id,
         }))
       );
       setNotifications(notificationsWithSender);
@@ -214,6 +215,7 @@ export default function Home() {
                   variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
+                      console.log(notification)
                       await markAsRead(notification.id);
                     });
                   }}

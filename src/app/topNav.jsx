@@ -25,7 +25,7 @@ export default function TopNav() {
 
   return (
     <div className="flex flex-col justify-center items-stretch">
-      <div className="shadow-sm bg-white flex w-full items-stretch border border-stone-200 justify-between w-[100%] gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
+      <div className="shadow-sm bg-white flex items-stretch border border-stone-200 justify-between w-[100%] gap-5 pl-4 pr-10 py-3 max-md:max-w-full max-md:flex-wrap max-md:pr-5">
         <span className="flex items-stretch justify-between gap-2">
           <div className="flex-col fill-[radial-gradient(59.93%_59.93%_at_50%_50%,#D9D9D9_0%,#3B82F6_0.01%,#A4CFFF_45.83%,#00358C_100%)] overflow-hidden relative flex aspect-square w-[22px] items-center pt-2.5">
             <Image
