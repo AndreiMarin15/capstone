@@ -194,7 +194,7 @@ export default function ClinicVisits({ patientId }) {
 										key={encounter.id}
 										className="flex mt-4 mb-4 text-xs text-black"
 										onClick={() => addHandleVisitClick(encounter.id, encounters.length - index)}
-									>
+										>
 										<div className="flex justify-between w-full">
 											<Image
 												alt="image"

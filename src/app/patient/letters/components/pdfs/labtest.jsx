@@ -38,7 +38,7 @@ export function LabTest({ labTests, patientData, referred_by_id }) {
   React.useEffect(() => {
     const fetchDoctor = async () => {
       const doctor = await getDoctorByLicense(
-        referred_by_id.length > 0 ? referred_by_id : ""
+        referred_by_id?.length > 0 ? referred_by_id : ""
       );
       console.log(referred_by_id);
       console.log(doctor);
@@ -47,7 +47,7 @@ export function LabTest({ labTests, patientData, referred_by_id }) {
 
     const fetchSpecialization = async () => {
       const specialization = await getDoctorSpecialization(
-        referred_by_id.length > 0 ? referred_by_id : ""
+        referred_by_id?.length > 0 ? referred_by_id : ""
       );
       // console.log(specialization);
       setSpecialization(specialization);
