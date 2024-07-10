@@ -50,7 +50,7 @@ export function MasterDataPDF({ patientId, patientData }) {
       contact: patientData?.personal_information?.contact_number, // hindi pa sinesave sa tables sa supabase
       stroke: patientData?.medical_history?.stroke?.toString(), // hindi pa sinesave sa tables sa supabase
       allergies:
-        patientData?.allergies.length > 0
+        patientData?.allergies?.length > 0
           ? patientData?.allergies.map((obj) => obj.allergen).join(", ")
           : "None", // allegyintolerance table: type & reaction (string)
       attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase

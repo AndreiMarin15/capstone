@@ -18,18 +18,7 @@ import { currentUser } from "@/app/store";
 
 export function MedicationHistoryPDF({ patientId, patientData }) {
 	const [medicationhistory, setMedicationHistory] = useState([
-		{
-			number: "1",
-			provider: "Dr. Johnny Santos", // resource.requester.agent.reference
-			specialization: "Cardiologist", // resource.getSpecialization
-			generic: "Ibuprofen", // resource.medicationCodeableConcept[0].text
-			brand: "Paracetamol", // resource.medicationCodeableConcept[0].coding[0].display
-			form: "Tablet", // resource.form.text
-			dose: "500mg", // resource.dosageInstruction[0].doseAndRate[0].doseQuantity.doseUnit
-			frequency: "3x a day", // resource.dispenseRequest.dispenseInterval
-			start: "2024-04-21", // resource.dispenseRequest.validityPeriod.start
-			end: "2024-04-29", // resource.dispenseRequest.validityPeriod.end
-		},
+		
 	]);
 	function getCurrentDateFormatted() {
 		const date = new Date();

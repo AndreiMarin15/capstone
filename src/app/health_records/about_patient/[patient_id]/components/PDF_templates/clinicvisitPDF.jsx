@@ -10,32 +10,13 @@ import {
 } from "@/components/ui/table";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { currentUser } from "@/app/store";
-
-const clinicvisitlist = [
-  {
-    number: "1",
-    date: "2024-04-21",
-    provider: "Dr. John Doe",
-    specialization: "Endocrinologist",
-    signsandsymptoms: "Increased thirst and hunger",
-    ros: "Fatigue, muscle pain",
-    otherconcerns: "Dizziness with new medicine",
-  },
-  {
-    number: "2",
-    date: "2024-06-16",
-    provider: "Dr. John Doe",
-    specialization: "Endocrinologist",
-    signsandsymptoms: "Lower extremities pain",
-    ros: "Muscle pain",
-    otherconcerns: "Wounds not getting better",
-  },
-];
+import { getClinicVisits } from "@/backend/pdfBackend/getPDFData";
 
 export function ClinicVisitsPDF({ patientId, patientData }) {
+  const [clinicvisitlist, setClinicVisitList] = useState([]);
   const pdfRef = useRef();
   const downloadPDF = () => {
     const input = pdfRef.current;
@@ -71,6 +52,16 @@ export function ClinicVisitsPDF({ patientId, patientData }) {
         input.classList.add("hidden");
       });
   };
+
+  useEffect(() => {
+    const fetchClinicVisits = async () => {
+      const clinicvisits = await getClinicVisits(patientId);
+      console.log(clinicvisits);
+      setClinicVisitList(clinicvisits);
+    };
+    fetchClinicVisits();
+  }, [patientId]);
+
   function getCurrentDateFormatted() {
     const date = new Date();
     const monthNames = [
@@ -132,7 +123,7 @@ export function ClinicVisitsPDF({ patientId, patientData }) {
             <TableBody>
               {clinicvisitlist?.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="font-medium">{item.number}</TableCell>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{item.date}</TableCell>
                   <TableCell>{item.provider}</TableCell>
                   <TableCell>{item.specialization}</TableCell>

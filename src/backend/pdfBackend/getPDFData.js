@@ -78,7 +78,7 @@ export const getMedications = async (patientId) => {
       "resource->dispenseRequest->validityPeriod->>start",
       new Date().toISOString().slice(0, 10)
     );
-
+  console.log(data);
   return data;
 };
 
@@ -264,11 +264,96 @@ export const getAttendingDoctors = async (patientId) => {
   return uniqueDoctors;
 };
 
-export const getClinicVisits = async (patientId) => {
-  const { data, error } = await supabase
-    .from("encounters")
-    .select()
-    .eq("patient_id", patientId);
+function generateSystemsString(systems) {
+  let systemsString = "";
+  Object.entries(systems).forEach(([key, value]) => {
+    if (value) {
+      systemsString += `${key}, `;
+    }
+  });
 
-  return data;
+  if (systemsString === "") {
+    systemsString = "No Symptoms Reported";
+  } else {
+    // Remove the last comma and space
+    systemsString = systemsString.slice(0, -2);
+  }
+
+  return systemsString;
+}
+
+export const getClinicVisits = async (patientId) => {
+  try {
+    console.log(patientId);
+    const { data, error } = await supabase
+      .from("encounter")
+      .select("*")
+      .eq("resource->subject->patient->>id", patientId);
+
+    if (error) throw error;
+
+    console.log(data);
+    const observationObjects = data.map((encounter) => ({
+      date: formatTimestamp(encounter.ts),
+      doctor: encounter.resource?.participant,
+      observations: encounter.resource?.contained,
+    }));
+
+    console.log(observationObjects);
+
+    const clinicVisits = [];
+    for (const observationObject of observationObjects) {
+      const observationsData = await fetchObservationsData(
+        observationObject.observations
+      );
+      const doctorSpecialization = await getDoctorSpecialization(
+        observationObject.doctor.license
+      );
+
+      const visitObject = {
+        date: observationObject.date ?? "",
+        provider: observationObject.doctor.actor ?? "",
+        specialization: doctorSpecialization ?? "",
+        signsandsymptoms: observationsData.signsAndSymptoms ?? "",
+        ros: observationsData.reviewOfSystems ?? "",
+        otherconcerns: observationsData.otherConcerns ?? "",
+      };
+
+      clinicVisits.push(visitObject);
+    }
+
+    console.log(clinicVisits);
+    return clinicVisits;
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return [];
+  }
 };
+
+async function fetchObservationsData(observations) {
+  const observationsData = {
+    signsAndSymptoms: "",
+    reviewOfSystems: "",
+    otherConcerns: "",
+  };
+
+  for (const observationType of Object.keys(observationsData)) {
+    const { data, error } = await supabase
+      .from("observation")
+      .select("*")
+      .eq("resource->>id", observationType)
+      .in("id", observations);
+
+    if (error) throw error;
+
+    if (data.length > 0) {
+      const observationValue = data[0].resource.valueString;
+      observationsData[observationType] =
+        observationType === "reviewOfSystems"
+          ? generateSystemsString(JSON.parse(observationValue))
+          : observationValue;
+    }
+  }
+
+  return observationsData;
+}
