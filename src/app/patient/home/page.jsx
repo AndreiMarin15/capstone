@@ -67,7 +67,7 @@ export default function Home() {
       const patient = await dashboard.getPatientData();
       const careplan = await dashboard.getLatestCarePlan();
       console.log(patient);
-
+      console.log(careplan);
       if (careplan?.resource !== undefined && careplan?.resource !== null) {
         setCareplan(careplan.resource);
       }
@@ -77,6 +77,10 @@ export default function Home() {
 
     getData();
   }, []);
+
+  React.useEffect(() => {
+    console.log(careplanData);
+  }, [careplanData]);
 
   return (
     <div className="px-5 w-full max-md:max-w-full h-auto bg-white">
@@ -187,8 +191,14 @@ export default function Home() {
                   {careplanData.title &&
                     careplanData.activity?.map((activity) => {
                       return (
-                        <div key={activity.detail.code.text} className="mt-1.5">
-                          {activity.detail.code.text}
+                        <div
+                          className="flex gap-3"
+                          key={activity.detail.code.text}
+                        >
+                          <div className="mt-1.5">
+                            {activity.detail.code.text}:{" "}
+                           <span className="font-normal"> {activity.detail.description}</span>
+                          </div>
                         </div>
                       );
                     })}
@@ -215,7 +225,7 @@ export default function Home() {
                   variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
-                      console.log(notification)
+                      console.log(notification);
                       await markAsRead(notification.id);
                     });
                   }}

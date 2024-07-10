@@ -1,76 +1,85 @@
 import { PROJECT as project } from "../../project/db";
 import { authentication as auth } from "../../auth";
 import { PUBLIC } from "../../public/db";
-import { currentUser, useUserInfo, useDoctorInfo, usePatientInfo } from "@/app/store";
+import {
+  currentUser,
+  useUserInfo,
+  useDoctorInfo,
+  usePatientInfo,
+} from "@/app/store";
 import { client } from "../../initSupabase";
 
 const fhir = client("public");
 const dashboard = {
-	getPatientData: async () => {
-		const result = await auth.getSession();
-		const user = await result.session.user;
+  getPatientData: async () => {
+    const result = await auth.getSession();
+    const user = await result.session.user;
 
-		const patient = await project.selectFrom("patients", {
-			column: "id",
-			value: user.id,
-		});
+    const patient = await project.selectFrom("patients", {
+      column: "id",
+      value: user.id,
+    });
 
-		const data = patient[0];
-		const formatTimestamp = (timestamp) => {
-			let date = new Date(timestamp);
-			let formattedDate =
-				date.getFullYear() +
-				"-" +
-				(date.getMonth() + 1).toString().padStart(2, "0") +
-				"-" +
-				date.getDate().toString().padStart(2, "0");
-			return formattedDate;
-		};
-		const calculateAge = (birthdayString) => {
-			const birthday = new Date(birthdayString);
-			const today = new Date();
+    const data = patient[0];
+    const formatTimestamp = (timestamp) => {
+      let date = new Date(timestamp);
+      let formattedDate =
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        date.getDate().toString().padStart(2, "0");
+      return formattedDate;
+    };
+    const calculateAge = (birthdayString) => {
+      const birthday = new Date(birthdayString);
+      const today = new Date();
 
-			let age = today.getFullYear() - birthday.getFullYear();
-			const monthDifference = today.getMonth() - birthday.getMonth();
+      let age = today.getFullYear() - birthday.getFullYear();
+      const monthDifference = today.getMonth() - birthday.getMonth();
 
-			if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthday.getDate())) {
-				age--;
-			}
+      if (
+        monthDifference < 0 ||
+        (monthDifference === 0 && today.getDate() < birthday.getDate())
+      ) {
+        age--;
+      }
 
-			return age;
-		};
+      return age;
+    };
 
-		console.log(data);
+    console.log(data);
 
-		return {
-			name: `${data.personal_information.first_name} ${data.personal_information.last_name}`,
-			age: calculateAge(data.personal_information.birthdate),
-			gender: data.personal_information.gender,
-			birthday: data.personal_information.birthdate,
-			address: `${data.personal_information.street_address}, ${data.personal_information.city}, ${data.personal_information.state}, ${data.personal_information.postal_code}`,
-			allergies: data.allergies,
-			contact: `+63 ${data.personal_information.contact_number}`,
-			memberSince: formatTimestamp(data.created_at),
-			bmi: "24.9",
-			photo: data.personal_information.photo,
-		};
-	},
+    return {
+      name: `${data.personal_information.first_name} ${data.personal_information.last_name}`,
+      age: calculateAge(data.personal_information.birthdate),
+      gender: data.personal_information.gender,
+      birthday: data.personal_information.birthdate,
+      address: `${data.personal_information.street_address}, ${data.personal_information.city}, ${data.personal_information.state}, ${data.personal_information.postal_code}`,
+      allergies: data.allergies,
+      contact: `+63 ${data.personal_information.contact_number}`,
+      memberSince: formatTimestamp(data.created_at),
+      bmi: "24.9",
+      photo: data.personal_information.photo,
+    };
+  },
 
-	getLatestCarePlan: async () => {
-		const result = await auth.getSession();
-		const user = await result.session.user;
+  getLatestCarePlan: async () => {
+    const result = await auth.getSession();
+    const user = await result.session.user;
 
-		const last_careplan = await fhir
-			.from("careplan")
-			.select("*")
-			.filter("resource->subject->>reference", "eq", user.id)
-			.order("ts", { ascending: false })
-			.limit(1);
+    const last_careplan = await fhir
+      .from("careplan")
+      .select("*")
+      .filter("resource->subject->>reference", "eq", user.id)
+      .order("ts", { ascending: false })
+      .limit(1);
 
-		const data = last_careplan.data[0];
+	console.log(last_careplan);
+    const data = last_careplan.data[0];
 
-		return data;
-	},
+    return data;
+  },
 };
 
 export default dashboard;
