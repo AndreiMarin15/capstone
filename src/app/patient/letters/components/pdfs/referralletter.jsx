@@ -101,13 +101,7 @@ export function ReferralLetterPDF({
             </div>
           </div>
           <div className="flex flex-col ml-5 w-[63%] max-md:ml-0 max-md:w-full">
-            <div className="items-start text-start self-stretch my-auto text-xs font-semibold leading-5 text-black max-md:mt-10">
-              Clinic
-              <br />
-              <span className="font-normal">
-                {referralData?.referral_data.place_of_clinic ?? ""}
-              </span>
-            </div>
+            
             <div className="items-start text-start self-stretch my-auto text-xs font-semibold leading-5 text-black max-md:mt-10">
               Contact
               <br />
