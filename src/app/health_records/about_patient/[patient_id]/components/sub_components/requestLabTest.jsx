@@ -94,7 +94,7 @@ export default function RequestLabTest({
   const labtest = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "*Name of Lab Test",
+      variable: "Name of Lab Test *",
       value: labTestName,
     }
   ];
@@ -136,7 +136,7 @@ export default function RequestLabTest({
                   </td>
                   <td className="border-l-[16px] border-transparent">
                     <div className="text-black text-xs font-semibold leading-5 self-center my-auto whitespace-nowrap">
-                      *Lab Test Name {index + 1}
+                      Lab Test Name {index + 1} *
                     </div>
                   </td>
                   <td className="border-l-[5rem] border-transparent">

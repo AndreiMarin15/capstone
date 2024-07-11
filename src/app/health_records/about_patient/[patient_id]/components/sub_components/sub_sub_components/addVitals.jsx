@@ -76,17 +76,17 @@ export default function AddVitals({
   const clinicVitals = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*Systolic Blood Pressure",
+      variable: "Systolic Blood Pressure *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*Diastolic Blood Pressure",
+      variable: "Diastolic Blood Pressure *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*Heart Rate (beats/min)",
+      variable: "Heart Rate (beats/min) *",
       value: "",
     },
   ];
@@ -94,17 +94,17 @@ export default function AddVitals({
   const clinicBiometrics = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
-      variable: "*Height (cm)",
+      variable: "Height (cm) *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
-      variable: "*Weight (kg)",
+      variable: "Weight (kg) *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*Body Mass Index",
+      variable: "Body Mass Index *",
       value: "",
     },
   ];
@@ -177,15 +177,15 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          value={item.variable === "*Systolic Blood Pressure" ? vitals.systolic || "" :
-                                 item.variable === "*Diastolic Blood Pressure" ? vitals.diastolic || "" :
-                                 item.variable === "*Heart Rate (beats/min)" ? vitals.heartRate || "" : ""}
+                          value={item.variable === "Systolic Blood Pressure *" ? vitals.systolic || "" :
+                                 item.variable === "Diastolic Blood Pressure *" ? vitals.diastolic || "" :
+                                 item.variable === "Heart Rate (beats/min) *" ? vitals.heartRate || "" : ""}
                           onChange={(e) => {
-                            if (item.variable === "*Systolic Blood Pressure") {
+                            if (item.variable === "Systolic Blood Pressure *") {
                               setVitals({ ...vitals, systolic: e.target.value });
-                            } else if (item.variable === "*Diastolic Blood Pressure") {
+                            } else if (item.variable === "Diastolic Blood Pressure *") {
                               setVitals({ ...vitals, diastolic: e.target.value });
-                            } else if (item.variable === "*Heart Rate (beats/min)") {
+                            } else if (item.variable === "Heart Rate (beats/min) *") {
                               setVitals({ ...vitals, heartRate: e.target.value });
                             }
                           }}
@@ -196,9 +196,9 @@ export default function AddVitals({
                             height: "30px",
                             resize: "none",
                             borderColor: isNextPressed && !(
-                              item.variable === "*Systolic Blood Pressure" && vitals.systolic ||
-                              item.variable === "*Diastolic Blood Pressure" && vitals.diastolic ||
-                              item.variable === "*Heart Rate (beats/min)" && vitals.heartRate
+                              item.variable === "Systolic Blood Pressure *" && vitals.systolic ||
+                              item.variable === "Diastolic Blood Pressure *" && vitals.diastolic ||
+                              item.variable === "Heart Rate (beats/min) *" && vitals.heartRate
                             ) ? "red" : "black"
                           }}
                         />
@@ -231,15 +231,15 @@ export default function AddVitals({
                         <input
                           type="number"
                           placeholder={"Add"}
-                          value={item.variable === "*Height (cm)" ? vitals.height || "" :
-                                 item.variable === "*Weight (kg)" ? vitals.weight || "" :
-                                 item.variable === "*Body Mass Index" ? vitals.bmi || "" : ""}
+                          value={item.variable === "Height (cm) *" ? vitals.height || "" :
+                                 item.variable === "Weight (kg) *" ? vitals.weight || "" :
+                                 item.variable === "Body Mass Index *" ? vitals.bmi || "" : ""}
                           onChange={(e) => {
-                            if (item.variable === "*Height (cm)") {
+                            if (item.variable === "Height (cm) *") {
                               setVitals({ ...vitals, height: e.target.value });
-                            } else if (item.variable === "*Weight (kg)") {
+                            } else if (item.variable === "Weight (kg) *") {
                               setVitals({ ...vitals, weight: e.target.value });
-                            } else if (item.variable === "*Body Mass Index") {
+                            } else if (item.variable === "Body Mass Index *") {
                               setVitals({ ...vitals, bmi: e.target.value });
                             }
                           }}
@@ -250,9 +250,9 @@ export default function AddVitals({
                             height: "30px",
                             resize: "none",
                             borderColor: isNextPressed && !(
-                              item.variable === "*Height (cm)" && vitals.height ||
-                              item.variable === "*Weight (kg)" && vitals.weight ||
-                              item.variable === "*Body Mass Index" && vitals.bmi
+                              item.variable === "Height (cm) *" && vitals.height ||
+                              item.variable === "Weight (kg) *" && vitals.weight ||
+                              item.variable === "Body Mass Index *" && vitals.bmi
                             ) ? "red" : "black"
                           }}
                         />

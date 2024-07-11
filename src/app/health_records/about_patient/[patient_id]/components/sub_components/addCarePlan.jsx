@@ -29,7 +29,7 @@ export default function AddCarePlan({
   const doctorId = currentUser.getState().user.id;
 
   const patientFullName =
-    patientData.personal_information.first_name +
+    patientData.personal_information.first_name + 
     " " +
     patientData.personal_information.last_name;
   const patientsId = patientId;
@@ -149,12 +149,12 @@ export default function AddCarePlan({
   const date = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*Start Date",
+      variable: "Start Date *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "*End Date",
+      variable: "End Date *",
       value: "",
     },
   ];
@@ -209,7 +209,7 @@ export default function AddCarePlan({
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
                           className="aspect-square fill-black w-[15px]"
                         />
-                        <div className="my-auto">*Title</div>
+                        <div className="my-auto">Title *</div>
                       </div>
                     </td>
                     <td>
@@ -372,22 +372,22 @@ export default function AddCarePlan({
                           </div>
                         </td>
                         <td>
-                          {item.variable === "*Start Date" ||
-                          item.variable === "*End Date" ? (
+                          {item.variable === "Start Date *" ||
+                          item.variable === "End Date *" ? (
                             <input
                               type="date"
                               className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap border-black border-[0.5px] rounded shadow-sm 
-                                ${saveClicked && item.variable === "*Start Date" && !startDate && 'border-red-500 border-[0.5px]'}
-                                ${saveClicked && item.variable === "*End Date" && !endDate && 'border-red-500 border-[0.5px]'}
+                                ${saveClicked && item.variable === "Start Date *" && !startDate && 'border-red-500 border-[0.5px]'}
+                                ${saveClicked && item.variable === "End Date *" && !endDate && 'border-red-500 border-[0.5px]'}
                                 ${!saveClicked && 'border-black border-[0.5px]'}
                               `}
                               value={
-                                item.variable === "*Start Date"
+                                item.variable === "Start Date *"
                                   ? startDate
                                   : endDate
                               }
                               onChange={(e) => {
-                                item.variable === "*Start Date"
+                                item.variable === "Start Date *"
                                   ? setStartDate(e.target.value)
                                   : setEndDate(e.target.value);
                               }}
