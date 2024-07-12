@@ -163,7 +163,7 @@ export const PatientSignUp = {
                 }, // mag for each na loop to populate and isa isa ilagay sa db
               };
 
-              await PUBLIC.insertIntoNoSelect("allergyintolerance", aller);
+            await PUBLIC.insertIntoNoSelect("allergyintolerance", aller);
             });
 
             // const addFamilyMemberHistory = await PUBLIC.insertInto("familymemberhistory", fhirResources.familymemberhistory)

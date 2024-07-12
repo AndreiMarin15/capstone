@@ -87,8 +87,8 @@ export default function TopNav() {
                 className="p-[10px]"
                 onClick={async () => {
                   toggleDropdown();
-                  router.push("/login");
-                  await authentication.signOut();
+
+                  await authentication.signOut(() => router.push("/login"));
                 }}
               >
                 Logout
