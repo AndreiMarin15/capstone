@@ -19,10 +19,12 @@ const TermsOfService = () => {
             Legal Notices
           </div>
           <div className="flex flex-col w-4/12 max-md:ml-0 max-md:w-full">
-            <button onClick={() => {
+            <button
+              onClick={() => {
                 router.push("/patient/patient_legal/privacy_policy");
               }}
-              className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-sky-900 bg-white rounded border border-sky-900 hover:bg-blue-500 hover:text-white border-solid max-md:px-5 max-md:mt-10">
+              className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-sky-900 bg-white rounded border border-sky-900 hover:bg-blue-500 hover:text-white border-solid max-md:px-5 max-md:mt-10"
+            >
               Privacy Policy
             </button>
           </div>
@@ -31,8 +33,8 @@ const TermsOfService = () => {
               onClick={() => {
                 router.push("/patient/patient_legal/terms_of_service");
               }}
-              className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-white bg-blue-500 rounded border border-white border-solid max-md:px-5 max-md:mt-10">
-              
+              className="grow justify-center px-3 py-2.5 w-full text-lg font-semibold text-white bg-blue-500 rounded border border-white border-solid max-md:px-5 max-md:mt-10"
+            >
               Terms of Service
             </button>
           </div>
@@ -42,7 +44,7 @@ const TermsOfService = () => {
         <div className="max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow text-xs leading-5 text-black max-md:mt-10 max-md:max-w-full">
+              <div className="flex flex-col grow text-sm leading-5 text-black max-md:mt-10 max-md:max-w-full">
                 <div className="italic max-md:max-w-full">
                   Effective March 22, 2024
                 </div>

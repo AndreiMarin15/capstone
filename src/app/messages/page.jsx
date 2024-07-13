@@ -168,7 +168,7 @@ export default function Messaging() {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
                       className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
                     />
-                    <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+                    <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
                       {item.message}
                     </span>
                   </div>
@@ -182,7 +182,7 @@ export default function Messaging() {
                     key={index}
                     className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
                   >
-                    <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+                    <span className="text-white text-sm font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
                       {item.message}
                     </span>
                     <Image
@@ -215,7 +215,7 @@ export default function Messaging() {
             <span className="flex items-stretch gap-2 my-auto"></span>
             <button
               type="submit"
-              className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
+              className="text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
             >
               SEND
             </button>

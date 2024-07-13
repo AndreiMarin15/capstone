@@ -27,7 +27,7 @@ const TabsTrigger = React.forwardRef(
       <TabsPrimitive.Trigger
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium",
+          "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-base font-medium",
           {
             "border-2": selected, // Apply border only when selected
             "border-[#1E40AF]": selected, // Border color
@@ -35,7 +35,7 @@ const TabsTrigger = React.forwardRef(
             "bg-transparent": !selected, // Background transparent when not selected
             "text-black": !selected, // Text color black when not selected
             "text-white": selected, // Text color white when selected
-            "text-xs": true,
+            "text-sm": true,
             "px-6 py-3": true,
             "focus-visible:outline-none": true,
             "focus-visible:ring-2": true,

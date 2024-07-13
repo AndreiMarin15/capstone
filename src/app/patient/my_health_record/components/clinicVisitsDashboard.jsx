@@ -160,7 +160,7 @@ export default function ClinicVisits() {
               </span>
 
               <select
-                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs text-gray-500 font-normal"
+                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm text-gray-500 font-normal"
                 onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
                 defaultValue="5"
               >
@@ -172,7 +172,7 @@ export default function ClinicVisits() {
                 <option value="7">7</option>
                 <option value="10">10</option>
               </select>
-              <span className="ml-2 text-black text-base text-xs leading-5 font-normal">
+              <span className="ml-2 text-black text-base text-sm leading-5 font-normal">
                 Appointments
               </span>
             </div>
@@ -211,7 +211,7 @@ export default function ClinicVisits() {
                 ?.map((encounter, index) => (
                   <button
                     key={encounter.id}
-                    className="flex mt-4 mb-4 text-xs text-black"
+                    className="flex mt-4 mb-4 text-sm text-black"
                     onClick={() =>
                       addHandleVisitClick(
                         encounter.id,
@@ -243,11 +243,11 @@ export default function ClinicVisits() {
                             className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                           />
                           <div className="ml-2 mr-10">
+                            Dr.{" "}
                             {encounter.resource.participant &&
                               encounter.resource.participant.actor &&
                               encounter.resource.participant.actor}
                           </div>
-                        
                         </div>
                       </div>
                     </div>
@@ -256,7 +256,7 @@ export default function ClinicVisits() {
             : encounters.slice(0, renderingOptions)?.map((encounter, index) => (
                 <button
                   key={encounter.id}
-                  className="flex mt-4 mb-4 text-xs text-black"
+                  className="flex mt-4 mb-4 text-sm text-black"
                   onClick={() => addHandleVisitClick(encounter.id, index + 1)}
                 >
                   <div className="flex justify-between w-full">
@@ -287,12 +287,9 @@ export default function ClinicVisits() {
                             encounter.resource.participant.actor &&
                             encounter.resource.participant.actor}
                         </div>
-                        
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">
-                     
-                    </span>
+                    <span className="text-sm text-gray-500"></span>
                   </div>
                 </button>
               ))}

@@ -22,7 +22,7 @@ export default function WriteReferral({
   setReferralData,
   selectedPatientId,
   isMatched,
-  setIsMatched
+  setIsMatched,
 }) {
   const [diagnoses, setDiagnoses] = useState([]);
   const [medications, setMedications] = useState([]);
@@ -205,7 +205,7 @@ export default function WriteReferral({
                 className="shrink-0 w-14 aspect-square"
               />
               <div className="flex flex-col grow shrink-0 my-auto basis-0 w-fit">
-                <div className="flex text-xs font-semibold  text-black whitespace-nowrap">
+                <div className="flex text-sm font-semibold  text-black whitespace-nowrap">
                   <div className=" my-auto mr-5">{"Doctor's Name"}</div>
                   <input
                     value={referralData.doctor_name}
@@ -234,7 +234,7 @@ export default function WriteReferral({
                     ))}
                   </datalist>
                 </div>
-                <div className="flex mt-3.5 text-xs font-semibold  text-black whitespace-nowrap">
+                <div className="flex mt-3.5 text-sm font-semibold  text-black whitespace-nowrap">
                   <div className=" my-auto mr-5">Specialization</div>
                   <input
                     value={referralData.specialization}
@@ -252,7 +252,7 @@ export default function WriteReferral({
             </div>
           </div>
           <div className="flex flex-col w-[44%] ">
-            <div className="flex gap-5 text-xs font-semibold  text-black max-md:mt-10">
+            <div className="flex gap-5 text-sm font-semibold  text-black max-md:mt-10">
               <div className=" my-auto ml-10 mr-5">Place of Clinic</div>
               <input
                 value={referralData.place_of_clinic}
@@ -266,7 +266,7 @@ export default function WriteReferral({
                 className="p-2 shrink-0 rounded border border-black border-solid h-[22px] w-[170px]"
               />
             </div>
-            <div className="flex gap-14 mt-3.5 text-xs font-semibold  text-black max-md:mt-10">
+            <div className="flex gap-14 mt-3.5 text-sm font-semibold  text-black max-md:mt-10">
               <div className=" my-auto ml-10 mr-5">Contact</div>
               <input
                 value={referralData.contact}
@@ -372,7 +372,7 @@ export default function WriteReferral({
       </div>
 
       <div className="mt-5 mr-9 max-md:max-w-full max-md:mr-2.5 max-md:mt-10">
-        <div className="text-black text-sm font-semibold leading-5">
+        <div className="text-black text-base font-semibold leading-5">
           Signature
         </div>
         <div className="flex items-center gap-2.5 mt-3">

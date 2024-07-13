@@ -71,33 +71,34 @@ export default function VisitLabtests({
           valueQuantities:
             selectedObservation.resource.valueQuantity?.valueQuantities || [],
           rangeQuantities:
-          selectedObservation.resource.rangeQuantity?.rangeQuantities || [],
+            selectedObservation.resource.rangeQuantity?.rangeQuantities || [],
         },
       ]
     : [];
 
-    console.log(labTestData)
+  console.log(labTestData);
   return (
     <>
       {
         <>
-       
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             VISITS - TESTS
           </div>
 
-       {labTestData?.map((labTestData, index) => (
+          {labTestData?.map((labTestData, index) => (
             <div
               key={index}
               className="self-start w-full max-w-[925px] mt-12 mb-56 max-md:max-w-full max-md:my-10"
             >
-               <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
+              <div className="flex gap-3.5 px-5 font-semibold whitespace-nowrap">
                 <Image
                   alt="image"
                   height={0}
                   width={0}
                   loading="lazy"
-                  src={  "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"}
+                  src={
+                    "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                  }
                   className="aspect-square fill-black w-[15px]"
                 />
                 <div className="my-auto">{labTestData.labTestName}</div>
@@ -108,49 +109,53 @@ export default function VisitLabtests({
                   {`${labTestData.startdate}`}
                 </div>
                 <div className="flex-auto my-auto">
-                
-
                   <span className="font-semibold">Valid Until: </span>
                   {`${labTestData.untildate}`}
                 </div>
               </div>
 
-
-                <div className="flex flex-col ml-5 w-[100%] mt-10 text-xs max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col ml-5 w-[100%] mt-10 text-sm max-md:ml-0 max-md:w-full">
                 <div className="flex gap-10">
                   <img
                     src={` ${labTestData.imageSrc}`} // Update the src attribute
                     alt="uploaded"
                     style={{ maxWidth: "600px", maxHeight: "600px" }} // Adjust max-width and max-height as needed
                     onClick={() =>
-                      handleOpenImageModal(
-                        ` ${labTestData.imageSrc}`
-                      )
+                      handleOpenImageModal(` ${labTestData.imageSrc}`)
                     }
                   />
-                <div className="flex gap-16">
-                    <div className="self-start text-sm text-black">
-
+                  <div className="flex gap-16">
+                    <div className="self-start text-base text-black">
                       <div className="mt-8 text-sm">
-                      
-                        {labTestData.valueQuantities?.map((valueQuantity, index) => (
-                          <div key={index} className="mt-3" style={{ whiteSpace: "nowrap" }}>
-                            <span className="font-semibold">{valueQuantity.display}</span> = {valueQuantity.value}{" "}
-                            {valueQuantity.unit}
-                            <div><span className="font-semibold">Ranges:</span>
-                            {labTestData.rangeQuantities?.slice(index * 3, index * 3 + 3).map((rangeQuantity, rangeIndex) => (
-                              <div key={`${index}-${rangeIndex}`} className="mt-1" style={{ whiteSpace: "nowrap" }}>
-                                {rangeQuantity.level}: {rangeQuantity.min} - {rangeQuantity.max}
+                        {labTestData.valueQuantities?.map(
+                          (valueQuantity, index) => (
+                            <div
+                              key={index}
+                              className="mt-3"
+                              style={{ whiteSpace: "nowrap" }}
+                            >
+                              <span className="font-semibold">
+                                {valueQuantity.display}
+                              </span>{" "}
+                              = {valueQuantity.value} {valueQuantity.unit}
+                              <div>
+                                <span className="font-semibold">Ranges:</span>
+                                {labTestData.rangeQuantities
+                                  ?.slice(index * 3, index * 3 + 3)
+                                  .map((rangeQuantity, rangeIndex) => (
+                                    <div
+                                      key={`${index}-${rangeIndex}`}
+                                      className="mt-1"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      {rangeQuantity.level}: {rangeQuantity.min}{" "}
+                                      - {rangeQuantity.max}
+                                    </div>
+                                  ))}
                               </div>
-                            
-                            ))}
-                            
                             </div>
-                            
-                        
-                          </div>
-                        ))}
-                        
+                          )
+                        )}
                       </div>
                     </div>
                   </div>

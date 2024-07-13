@@ -141,7 +141,7 @@ export default function ViewMedications({
             <div className="items-stretch justify-between gap-5 mt-11 px-20 py-10">
               <div
                 onClick={downloadPDF}
-                className="text-blue-500 text-xs  flex items-center hover:cursor-pointer"
+                className="text-blue-500 text-sm  flex items-center hover:cursor-pointer"
               >
                 <Image
                   height={0}
@@ -159,8 +159,8 @@ export default function ViewMedications({
               </span>
               <div ref={pdfRef} className="flex gap-[4rem] p-3">
                 <table className="border-spacing-y-7 border-separate">
-                  <tbody className="text-xs leading-5 text-black">
-                    <div className="text-xs leading-5 text-black">
+                  <tbody className="text-sm leading-5 text-black">
+                    <div className="text-sm leading-5 text-black">
                       <span className="font-bold"> Dosage Instructions</span>
                       {dosage?.map((item, index) => (
                         <tr key={index} className="h-8">
@@ -175,20 +175,20 @@ export default function ViewMedications({
                             />
                           </td>
                           <td className="border-l-[16px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                               {item.variable}
                             </div>
                           </td>
                           <td className="border-l-[5rem] border-transparent">
                             {typeof item.value === "string" ? (
-                              <div className="text-black text-xs leading-5 ml-auto">
+                              <div className="text-black text-sm leading-5 ml-auto">
                                 {item.value}
                               </div>
                             ) : (
                               <div className="ml-auto">
                                 <button
                                   onClick={item.value.onClick}
-                                  className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
+                                  className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-sm border-1.5 bg-blue-900 text-white"
                                 >
                                   {item.value.label}
                                 </button>
@@ -201,8 +201,8 @@ export default function ViewMedications({
                   </tbody>
                 </table>
                 <table className="border-spacing-y-7 border-separate">
-                  <tbody className="text-xs leading-5 text-black">
-                    <div className="text-xs leading-5 text-black font-bold">
+                  <tbody className="text-sm leading-5 text-black">
+                    <div className="text-sm leading-5 text-black font-bold">
                       Prescription Duration
                       {prescription?.map((item, index) => (
                         <tr key={index} className="h-8">
@@ -217,12 +217,12 @@ export default function ViewMedications({
                             />
                           </td>
                           <td className="border-l-[16px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                               {item.variable}
                             </div>
                           </td>
                           <td className="border-l-[5rem] border-transparent">
-                            <div className="text-black text-xs font-normal leading-5 ml-auto">
+                            <div className="text-black text-sm font-normal leading-5 ml-auto">
                               {item.variable === "Heart Rate" ? 70 : item.value}
                             </div>
                           </td>{" "}
@@ -230,7 +230,7 @@ export default function ViewMedications({
                       ))}
                     </div>
 
-                    <div className="text-xs leading-5 text-black font-bold">
+                    <div className="text-sm leading-5 text-black font-bold">
                       Other Remarks
                       {others?.map((item, index) => (
                         <tr key={index} className="h-8">
@@ -245,12 +245,12 @@ export default function ViewMedications({
                             />
                           </td>
                           <td className="border-l-[16px] border-transparent">
-                            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                            <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                               {item.variable}
                             </div>
                           </td>
                           <td className="border-l-[5rem] border-transparent">
-                            <div className="text-black text-xs font-normal leading-5 ml-10">
+                            <div className="text-black text-sm font-normal leading-5 ml-10">
                               {item.value}
                             </div>
                           </td>
@@ -264,7 +264,7 @@ export default function ViewMedications({
               <BackButton
                 currentScreen={3}
                 setCurrentScreen={setCurrentScreen}
-					  />
+              />
             </div>
           </div>
         </>

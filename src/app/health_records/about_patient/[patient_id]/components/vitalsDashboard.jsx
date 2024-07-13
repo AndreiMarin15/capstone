@@ -244,7 +244,7 @@ export default function Vitals({ patientId }) {
               </span>
 
               <select
-                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm  font-normal"
                 onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
                 defaultValue={renderingOptions.toString()}
               >
@@ -262,7 +262,7 @@ export default function Vitals({ patientId }) {
 					<a
 						href="/path/to/pdf"
 						download="full_vitals_history.pdf"
-						className="text-blue-500 text-xs block flex items-center"
+						className="text-blue-500 text-sm block flex items-center"
 					>
 						<Image
 							height={0}
@@ -283,7 +283,7 @@ export default function Vitals({ patientId }) {
               {vitalsName?.map((item, index) => (
                 <div
                   key={index}
-                  className="text-black text-xs font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
+                  className="text-black text-sm font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
                 >
                   <Image
                     alt="picture"
@@ -309,20 +309,20 @@ export default function Vitals({ patientId }) {
                       key={index}
                       className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
                     >
-                      <div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {date}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {latestVitalsAndBio[date]["systolic"]
                           ? latestVitalsAndBio[date]["systolic"].value
                           : "-"}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {latestVitalsAndBio[date]["diastolic"]
                           ? latestVitalsAndBio[date]["diastolic"].value
                           : "-"}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {latestVitalsAndBio[date]["heartRate"]
                           ? latestVitalsAndBio[date]["heartRate"].value
                           : "-"}
@@ -338,7 +338,7 @@ export default function Vitals({ patientId }) {
               {vitalsName?.map((item, index) => (
                 <div
                   key={index}
-                  className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
+                  className="text-black text-sm font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
                 >
                   <Image
                     height={0}
@@ -348,7 +348,7 @@ export default function Vitals({ patientId }) {
                     className="w-3 mr-2"
                   />
                   <button
-                    className="text-blue-500 text-xs underline"
+                    className="text-blue-500 text-sm underline"
                     onClick={() => {
                       let increment = 1;
                       switch (vitalsName[index]) {
@@ -383,7 +383,7 @@ export default function Vitals({ patientId }) {
             {/*  <a
               href="/path/to/pdf"
               download="full_vitals_history.pdf"
-              className="text-blue-500 text-xs block mb-2 flex items-center"
+              className="text-blue-500 text-sm block mb-2 flex items-center"
             >
               <Image
                 height={0}
@@ -405,7 +405,7 @@ export default function Vitals({ patientId }) {
               {biometricsName?.map((item, index) => (
                 <div
                   key={index}
-                  className="text-black text-xs font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
+                  className="text-black text-sm font-bold leading-5 h-6 max-h-6 flex gap-1 items-center justify-start"
                 >
                   <Image
                     alt="picture"
@@ -431,20 +431,20 @@ export default function Vitals({ patientId }) {
                       key={index}
                       className="h-6 max-h-6 max-w-[10rem] w-[10rem] flex flex-col gap-3 items-center min-w-[10rem]"
                     >
-                      <div className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {date}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {vitalsAndBio[date]["height"]
                           ? vitalsAndBio[date]["height"].value
                           : "-"}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {vitalsAndBio[date]["weight"]
                           ? vitalsAndBio[date]["weight"].value
                           : "-"}
                       </div>
-                      <div className="text-black text-xs font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
+                      <div className="text-black text-sm font-regular leading-5 px-4 h-6 max-h-6 flex gap-1 items-center">
                         {vitalsAndBio[date]["bmi"]
                           ? vitalsAndBio[date]["bmi"].value
                           : "-"}
@@ -460,7 +460,7 @@ export default function Vitals({ patientId }) {
               {biometricsName?.map((item, index) => (
                 <div
                   key={index}
-                  className="text-black text-xs font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
+                  className="text-black text-sm font-bold leading-5 px-4 h-6 max-h-6 flex gap-1 items-center"
                 >
                   <Image
                     height={0}
@@ -470,7 +470,7 @@ export default function Vitals({ patientId }) {
                     className="w-5 mr-2"
                   />
                   <button
-                    className="text-blue-500 text-xs underline"
+                    className="text-blue-500 text-sm underline"
                     onClick={() => {
                       let defaultMetric;
                       switch (biometricsName[index]) {

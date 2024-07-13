@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
         <div className="max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow text-xs leading-5 text-black max-md:mt-10 max-md:max-w-full">
+              <div className="flex flex-col grow text-sm leading-5 text-black max-md:mt-10 max-md:max-w-full">
                 <div className="italic max-md:max-w-full">
                   Effective February 04, 2024
                 </div>
@@ -61,7 +61,7 @@ export default function PrivacyPolicy() {
                 >
                   Introduction
                 </div>
-                <div className="text-sm mt-6 leading-5 max-md:max-w-full">
+                <div className="text-base mt-6 leading-5 max-md:max-w-full">
                   EndoTracker is committed to protecting your personal
                   information and your right to privacy. Should you have any
                   questions or concerns regarding our policy or with how we
@@ -86,10 +86,10 @@ export default function PrivacyPolicy() {
             </div>
             <div className="flex flex-col ml-5 w-[30%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow items-start py-5 pr-5 pl-5 mt-2.5 rounded-md border border-solid border-zinc-500 max-md:px-5 max-md:mt-10">
-                <div className="text-sm font-semibold leading-5 text-black">
+                <div className="text-base font-semibold leading-5 text-black">
                   Table of Contents
                 </div>
-                <div className="mt-3 text-sm leading-6 text-sky-900">
+                <div className="mt-3 text-base leading-6 text-sky-900">
                   <button
                     className="hover:underline"
                     onClick={() =>
@@ -178,7 +178,7 @@ export default function PrivacyPolicy() {
         >
           Definitions
         </div> */}
-        {/* <div className="mt-6 text-sm leading-5 text-black max-md:max-w-full">
+        {/* <div className="mt-6 text-baseleading-5 text-black max-md:max-w-full">
           For the purposes of this Privacy Policy:
           <br />
           <br />
@@ -240,7 +240,7 @@ export default function PrivacyPolicy() {
         >
           Data We Collect
         </div>
-        <div className="mt-6 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 text-baseleading-5 text-black  max-md:max-w-full">
           Our EndoTracker may collect, document, use and store your personal
           data and health data to ensure that you will be given the highest
           possible quality of patient care that you deserve. These personal and
@@ -287,7 +287,7 @@ export default function PrivacyPolicy() {
         >
           When and How We Collect Your Data
         </div>
-        <div className="mt-6 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 text-base leading-5 text-black  max-md:max-w-full">
           EndoTracker collects personal data about you when you:
           <ul className="list-disc ml-5 mt-4">
             <li>Sign up to use EndoTracker</li>
@@ -328,7 +328,7 @@ export default function PrivacyPolicy() {
           How We Use and Why We Collect Your Data
         </div>
 
-        <div className="mt-6 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 text-base leading-5 text-black  max-md:max-w-full">
           <span className="font-semibold mb-2">
             For Patient Care and Medical Treatment
           </span>{" "}
@@ -372,7 +372,7 @@ export default function PrivacyPolicy() {
         >
           Your Privacy Choices and Rights
         </div>
-        <div className="mt-3 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-3 text-base leading-5 text-black  max-md:max-w-full">
           <ul className="list-disc ml-5 mt-4">
             <li>
               You have the right to request a copy of your personal and health
@@ -407,7 +407,7 @@ export default function PrivacyPolicy() {
         >
           For how long do we store your data?
         </div>
-        <div className="mt-6 mb-8 text-sm leading-5 text-black  max-md:max-w-full">
+        <div className="mt-6 mb-8 text-base leading-5 text-black  max-md:max-w-full">
           {
             "We retain your health data for as long as required by law or as necessary to accomplish a legitimate purpose. Here's a breakdown of our data retention policy:"
           }

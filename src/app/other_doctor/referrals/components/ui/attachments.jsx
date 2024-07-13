@@ -72,7 +72,7 @@ export function Attachments({ recepient }) {
                     </div>
                     {/* <div className="text-sm">Uploaded By: {"hello"}</div> */}
 
-                    {/* <div className="text-xs text-zinc-600">{attachment.date}</div> */}
+                    {/* <div className="text-sm text-zinc-600">{attachment.date}</div> */}
                   </div>
                   <Image
                     alt="picture"

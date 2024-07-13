@@ -138,7 +138,7 @@ export default function AddAllergy({
     {
       label: "Category of Allergen",
       field: (
-        <div className="rounded shadow-sm text-xs h-12 border-[0.5px] px-2 py-2 border-solid border-black">
+        <div className="rounded shadow-sm text-sm h-12 border-[0.5px] px-2 py-2 border-solid border-black">
           {/* Display the selected category as text */}
           <span>{allergy.category_of_allergen}</span>
         </div>
@@ -158,7 +158,7 @@ export default function AddAllergy({
               };
             });
           }}
-          className="rounded shadow-sm text-xs h-8 border-[0.5px] px-2 py-2 border-solid border-black"
+          className="rounded shadow-sm text-sm h-8 border-[0.5px] px-2 py-2 border-solid border-black"
           placeholder="Enter allergen"
         />
       ),
@@ -177,7 +177,7 @@ export default function AddAllergy({
               };
             });
           }}
-          className="rounded shadow-sm text-xs h-8 border-[0.5px] px-2 py-2 border-solid border-black"
+          className="rounded shadow-sm text-sm h-8 border-[0.5px] px-2 py-2 border-solid border-black"
           placeholder="Enter Reactions"
         />
       ),
@@ -196,7 +196,7 @@ export default function AddAllergy({
             });
           }}
           value={allergy.severity_of_allergy}
-          className="rounded shadow-sm text-xs h-8 border-[0.5px] px-2 py-2 border-solid border-black"
+          className="rounded shadow-sm text-sm h-8 border-[0.5px] px-2 py-2 border-solid border-black"
         >
           <option value="Mild">Mild</option>
           <option value="Moderate">Moderate</option>
@@ -220,7 +220,7 @@ export default function AddAllergy({
           }}
           type="date"
           value={allergy.date_of_onset}
-          className=" rounded shadow-sm text-xs h-12 border-[0.5px] px-2 py-2 border-solid border-black"
+          className=" rounded shadow-sm text-sm h-12 border-[0.5px] px-2 py-2 border-solid border-black"
         />
       ),
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
@@ -296,7 +296,7 @@ export default function AddAllergy({
               {form?.map((item) => (
                 <tr key={item.label}>
                   <td className="border-l-[16px] border-transparent">
-                    <div className="text-black text-xs font-semibold flex">
+                    <div className="text-black text-sm font-semibold flex">
                       <Image
                         alt="image"
                         height={18}
@@ -342,7 +342,7 @@ export default function AddAllergy({
                   }
                 }}
                 className={
-                  "text-white text-xs font-semibold whitespace-nowrap" +
+                  "text-white text-sm font-semibold whitespace-nowrap" +
                   (saved ? " bg-lime-600 " : " bg-sky-900 ") +
                   "px-4 rounded"
                 }

@@ -10,7 +10,7 @@ import { currentUser } from "@/app/store";
 import { importCarePlan } from "@/backend/patient/careplan/careplan";
 import { Button } from "@/components/ui/button";
 import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
-import getCollaborationByPatientId from "@/backend/referral/getCollaboration"
+import getCollaborationByPatientId from "@/backend/referral/getCollaboration";
 
 export default function ViewChatResult({
   setCurrentScreen,
@@ -49,12 +49,11 @@ export default function ViewChatResult({
     fetchCollaborationData();
   }, [patientId]);
 
-  console.log(collaborationData)
-
+  console.log(collaborationData);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
   return (
@@ -63,34 +62,40 @@ export default function ViewChatResult({
         COLLABORATION THROUGH CHAT RESULTS
       </div>
 
-      {collaborationData.slice().reverse().map((item, index) => (
-        <div key={index} className="flex gap-5 justify-between mb-8 w-full">
-          <tr>
-          <div>
-          <td className="flex gap-2 my-auto font-semibold text-xs text-black">
-            <Image
-              alt="image"
-              height={0}
-              width={0}
-              loading="lazy"
-              src={"https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?"}
-              className="aspect-square fill-black w-[15px]"
-            />
-            <div className="flex-auto my-auto">Dr. {item.doctor}  -  {item.specialty}</div>
-          
-            
-          </td>
-          </div>
+      {collaborationData
+        .slice()
+        .reverse()
+        .map((item, index) => (
+          <div key={index} className="flex gap-5 justify-between mb-8 w-full">
+            <tr>
+              <div>
+                <td className="flex gap-2 my-auto font-semibold text-sm text-black">
+                  <Image
+                    alt="image"
+                    height={0}
+                    width={0}
+                    loading="lazy"
+                    src={
+                      "https://cdn.builder.io/api/v1/image/assets/TEMP/cd7ef48fec0b27406add8f68cfc5040179fb9ef40f086b20214ad05498e6b6b9?"
+                    }
+                    className="aspect-square fill-black w-[15px]"
+                  />
+                  <div className="flex-auto my-auto">
+                    Dr. {item.doctor} - {item.specialty}
+                  </div>
+                </td>
+              </div>
 
-            <div className="flex-auto my-auto ml-6 font-semibold text-xs text-black"> {formatDate(item.created_at)}</div>
-            <div className="flex-auto my-auto ml-6 mt-3 text-xs text-black overflow-hidden overflow-ellipsis">
-            {item.note}
+              <div className="flex-auto my-auto ml-6 font-semibold text-sm text-black">
+                {" "}
+                {formatDate(item.created_at)}
+              </div>
+              <div className="flex-auto my-auto ml-6 mt-3 text-sm text-black overflow-hidden overflow-ellipsis">
+                {item.note}
+              </div>
+            </tr>
           </div>
-          </tr>
-          
-        </div>
-        
-      ))}
+        ))}
       <div className="flex justify-between items-center mt-5">
         <div className="flex items-start justify-between mt-5">
           <Button variant="outline" onClick={setCurrentScreen}>
@@ -103,15 +108,15 @@ export default function ViewChatResult({
                 className="w-3 h-3 aspect-square"
                 alt="Back Arrow"
               />
-              <div className="text-xs">BACK</div>
+              <div className="text-sm">BACK</div>
             </div>
           </Button>
         </div>
         <div>
           <Button
-          onClick={() => {
-            setAdd(true)
-          }}
+            onClick={() => {
+              setAdd(true);
+            }}
           >
             CREATE CARE PLAN
           </Button>

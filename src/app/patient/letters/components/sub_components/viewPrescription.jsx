@@ -68,7 +68,7 @@ export default function ViewPrescription({
                           />
                         </td>
                         <td className="border-l-[10px] border-transparent">
-                          <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                          <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                             {
                               medication.resource.medicationCodeableConcept[0]
                                 ?.coding[0]?.display
@@ -79,7 +79,7 @@ export default function ViewPrescription({
                       <tr>
                         <td></td>
                         <td className="border-l-[5px] border-transparent">
-                          <div className="text-black text-xs font-regular leading-5 ml-1">
+                          <div className="text-black text-sm font-regular leading-5 ml-1">
                             From{" "}
                             {
                               medication.resource.dispenseRequest.validityPeriod
@@ -97,7 +97,7 @@ export default function ViewPrescription({
                         <td></td>
                         <td className="flex  border-l-[5px] border-transparent">
                           <div
-                            className="text-black text-xs font-regular leading-5"
+                            className="text-black text-sm font-regular leading-5"
                             style={{ whiteSpace: "normal", maxWidth: "200px" }}
                           >
                             <span className="font-semibold">Dosage:</span>{" "}
@@ -107,14 +107,14 @@ export default function ViewPrescription({
                             }
                           </div>
                           <div
-                            className="text-black text-xs font-regular leading-5 ml-10"
+                            className="text-black text-sm font-regular leading-5 ml-10"
                             style={{ whiteSpace: "normal", maxWidth: "200px" }}
                           >
                             <span className="font-semibold">Form:</span>{" "}
                             {medication.resource.form?.text}
                           </div>
                           <div
-                            className="text-black text-xs font-regular leading-5 ml-10"
+                            className="text-black text-sm font-regular leading-5 ml-10"
                             style={{ whiteSpace: "normal", maxWidth: "200px" }}
                           >
                             <span className="font-semibold">Frequency:</span>{" "}
@@ -124,7 +124,7 @@ export default function ViewPrescription({
                             }
                           </div>
                           <div
-                            className="text-black text-xs font-regular leading-5 ml-10"
+                            className="text-black text-sm font-regular leading-5 ml-10"
                             style={{ whiteSpace: "normal", maxWidth: "200px" }}
                           >
                             <span className="font-semibold">Instructions:</span>{" "}

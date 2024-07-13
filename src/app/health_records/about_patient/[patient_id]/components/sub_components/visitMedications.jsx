@@ -76,14 +76,14 @@ export default function VisitMedications({ currentScreen, setCurrentScreen }) {
             VISITS - MEDICATIONS & CARE PLAN
           </div>
 
-          <div className="text-start text-sm mt-7 whitespace-nowrap font-semibold text-black">
+          <div className="text-start text-base mt-7 whitespace-nowrap font-semibold text-black">
             Medications
           </div>
 
           {medications?.map((medication, index) => (
             <div
               key={index}
-              className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[701px]"
+              className="flex flex-col mt-5 items-start text-sm leading-5 text-black max-w-[701px]"
             >
               <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                 <Image
@@ -125,14 +125,14 @@ export default function VisitMedications({ currentScreen, setCurrentScreen }) {
           ))}
 
           {/* CARE PLAN */}
-          <div className="text-start text-sm mt-10 whitespace-nowrap font-semibold text-black">
+          <div className="text-start text-base mt-10 whitespace-nowrap font-semibold text-black">
             Care Plan
           </div>
 
           {careplan?.map((careplan, index) => (
             <div
               key={index}
-              className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[701px]"
+              className="flex flex-col mt-5 items-start text-sm leading-5 text-black max-w-[701px]"
             >
               <div className="flex gap-3.5 mb-5 font-semibold whitespace-nowrap">
                 <Image

@@ -52,11 +52,11 @@ export function ReferralList({
                   />
                 </span>
               </div>
-              <div className="text-m text-zinc-600">
+              <div className="text-base text-zinc-600">
                 <span className="text-zinc-300 font-medium">
                   {referral.specialty}
                 </span>
-                <div className="mt-4 text-xs font-medium text-zinc-600">
+                <div className="mt-4 text-sm font-medium text-zinc-600">
                   <span className="font-bold">PATIENT</span>: {referral.patient}
                 </div>
                 {displayAccept && (
@@ -74,7 +74,7 @@ export function ReferralList({
                         console.log(approval);
                       }}
                     >
-                      <div className="px-2 py-2 text-white text-xs bg-sky-900 rounded max-md:px-2">
+                      <div className="px-2 py-2 text-white text-sm bg-sky-900 rounded max-md:px-2">
                         Accept
                       </div>
                     </button>
@@ -89,7 +89,7 @@ export function ReferralList({
                         console.log(approval);
                       }}
                     >
-                      <div className="px-2 py-2 text-sky-900  text-xs rounded border border-sky-900 border-solid max-md:px-5">
+                      <div className="px-2 py-2 text-sky-900  text-sm rounded border border-sky-900 border-solid max-md:px-5">
                         Decline
                       </div>
                     </button>

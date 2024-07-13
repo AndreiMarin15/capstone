@@ -62,7 +62,7 @@ export default function DoctorRegistration() {
       <div>
         <div className="flex gap-5 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               License ID
             </div>
             <input
@@ -78,7 +78,7 @@ export default function DoctorRegistration() {
             />
           </span>
           <span className="items-stretch flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Professional Tax Receipt (PTR)
             </div>
             <input
@@ -94,7 +94,7 @@ export default function DoctorRegistration() {
 
         <div className="flex gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Last Name
             </div>
             <input
@@ -103,11 +103,11 @@ export default function DoctorRegistration() {
               }}
               type="text"
               value={doctorStore.last_name}
-              className="mt-[10px] text-black text-sm w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="mt-[10px] text-black text-base w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
             />
           </span>
           <span className="items-stretch flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               First Name
             </div>
             <input
@@ -116,11 +116,11 @@ export default function DoctorRegistration() {
               }}
               value={doctorStore.first_name}
               type="text"
-              className="mt-[10px] text-black text-sm w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="mt-[10px] text-black text-base w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
             />
           </span>
           <span className="items-stretch flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Gender
             </div>
             <select
@@ -130,7 +130,7 @@ export default function DoctorRegistration() {
               }}
               value={doctorStore.gender}
               type="text"
-              className="text-black text-sm w-36 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="text-black text-base w-36 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
             >
               {" "}
               <option value="">Select</option>
@@ -143,7 +143,7 @@ export default function DoctorRegistration() {
 
         <div className="flex gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-basefont-semibold leading-5">
               Hospital
             </div>
             <input
@@ -151,11 +151,11 @@ export default function DoctorRegistration() {
                 doctorStore.setHospitalName(e.target.value);
               }}
               value={doctorStore.hospital.name}
-              className="mt-[10px] text-black text-sm w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="mt-[10px] text-black text-base w-64 whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
             />
           </span>
           <span className="items-stretch flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Specialization
             </div>
             <select
@@ -165,7 +165,7 @@ export default function DoctorRegistration() {
                 doctorStore.setSpecializationId(id);
                 doctorStore.setSpecializationName(name);
               }}
-              className="text-black text-sm whitespace-nowrap w-64 rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="text-black text-base whitespace-nowrap w-64 rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
             >
               {Array.isArray(specializations) &&
                 specializations?.map((item) => {
@@ -179,7 +179,7 @@ export default function DoctorRegistration() {
           </span>
           <div className="flex items-stretch gap-2.5 mt-1. self-start">
             <span className="flex grow basis-[0%] flex-col items-stretch">
-              <div className="text-black text-sm font-semibold leading-5">
+              <div className="text-black text-basefont-semibold leading-5">
                 Years of Practice
               </div>
 
@@ -187,7 +187,7 @@ export default function DoctorRegistration() {
                 <div className="flex justify-between gap-2.5">
                   <input
                     type="number"
-                    className="mt-[10px] w-36 text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+                    className="mt-[10px] w-36 text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
                   />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function DoctorRegistration() {
         </div>
         <div className="flex gap-16 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mt-10 ">
           <div className="mt-10 mr-4 max-md:max-w-full max-md:mt-10">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Photo
             </div>
             <div className="flex items-center gap-2.5 mt-3">
@@ -229,7 +229,7 @@ export default function DoctorRegistration() {
           </div>
 
           <span className="items-stretch flex-col self-end">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               About Yourself
             </div>
             <textarea

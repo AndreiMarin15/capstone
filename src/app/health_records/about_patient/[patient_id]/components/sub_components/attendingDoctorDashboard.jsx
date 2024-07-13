@@ -137,7 +137,7 @@ export default function AttendingDoctors({
                   Add
                 </Button>
               </div>
-              <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
+              <div className="flex gap-5 justify-between text-sm max-w-[100%] max-md:flex-wrap">
                 <div className="flex gap-1.5 p-2.5">
                   <div className="mt-3 font-semibold text-black flex gap-1 items-center">
                     Status:
@@ -159,7 +159,7 @@ export default function AttendingDoctors({
               {attendingDoctors
                 .filter((doctor) => {
                   if (status === "ACCEPTED") {
-                    console.log("accepted",doctor);
+                    console.log("accepted", doctor);
                     return doctor.status === "accepted";
                   } else {
                     return doctor.status === "pending";
@@ -168,14 +168,14 @@ export default function AttendingDoctors({
                 ?.map((doctor, index) => (
                   <button
                     key={index}
-                    className="mt-5 items-start text-xs leading-5 text-black max-w-[100%]"
+                    className="mt-5 items-start text-sm leading-5 text-black max-w-[100%]"
                     onClick={() => {
                       console.log({ currentScreen });
                       setSelectedDoctor(doctor);
                       setAtCurrentScreen(4);
                     }}
                   >
-                    <div className="items-start text-xs text-black">
+                    <div className="items-start text-sm text-black">
                       <div className="flex gap-2 font-medium whitespace-nowrap">
                         <Image
                           alt="image"

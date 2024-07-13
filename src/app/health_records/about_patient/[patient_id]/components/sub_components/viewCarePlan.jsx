@@ -30,7 +30,7 @@ export default function ViewCarePlan({
         CARE PLAN
         <div className="flex gap-3">
           <Button variant="outline">Edit</Button>
-          {/* <div onClick={downloadPDF} className="text-blue-500 text-xs  flex items-center hover:cursor-pointer">
+          {/* <div onClick={downloadPDF} className="text-blue-500 text-sm  flex items-center hover:cursor-pointer">
 						<Image
 							height={0}
 							width={0}
@@ -46,7 +46,7 @@ export default function ViewCarePlan({
         {carePlan?.map((careplan, index) => (
           <div
             key={index}
-            className="flex flex-col mt-10 items-start text-xs leading-5 text-black max-w-[601px]"
+            className="flex flex-col mt-10 items-start text-sm leading-5 text-black max-w-[601px]"
           >
             <div className="flex gap-3.5 font-semibold whitespace-nowrap">
               <Image
@@ -77,7 +77,7 @@ export default function ViewCarePlan({
       </div>
 
       <div className="flex items-start justify-between mt-5">
-        <BackButton currentScreen={1} setCurrentScreen={setCurrentScreen}/>
+        <BackButton currentScreen={1} setCurrentScreen={setCurrentScreen} />
       </div>
     </>
   );

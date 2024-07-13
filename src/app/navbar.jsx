@@ -121,7 +121,7 @@ export default function Navbar() {
     <>
       {path !== "/" && !pathIncluded(path) && (
         <div
-          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 px-3 max-md:mt-10 h-screen"
+          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 px-3 max-md:mt-10 min-h-[200px] md:min-h-[300px]"
           style={{
             background:
               "linear-gradient(180deg, #00296C 0%, rgba(0, 82, 216, 0.51) 99.99%, rgba(0, 97, 255, 0.57) 100%)",
@@ -146,7 +146,7 @@ export default function Navbar() {
                     alt={item.name}
                     className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                   />
-                  <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                  <div className="text-white text-base font-semibold grow whitespace-nowrap self-start cursor-default">
                     {item.name}
                   </div>
                 </span>
@@ -170,7 +170,7 @@ export default function Navbar() {
                       alt={item.name}
                       className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                     />
-                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                    <div className="text-white text-basefont-semibold grow whitespace-nowrap self-start cursor-default">
                       {item.name}
                     </div>
                   </span>
@@ -193,7 +193,7 @@ export default function Navbar() {
                       alt={item.name}
                       className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                     />
-                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                    <div className="text-white text-basefont-semibold grow whitespace-nowrap self-start cursor-default">
                       {item.name}
                     </div>
                   </span>

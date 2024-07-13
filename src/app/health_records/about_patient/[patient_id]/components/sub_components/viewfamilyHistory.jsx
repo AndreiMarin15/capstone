@@ -71,12 +71,12 @@ export default function FamilyHistory({ setCurrentPage, data }) {
               />
             </td>
             <td className="border-l-[16px] border-transparent">
-              <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+              <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                 {item.variable}
               </div>
             </td>
             <td className="border-l-[5rem] border-transparent">
-              <div className="text-black text-xs leading-5 ml-auto">
+              <div className="text-black text-sm leading-5 ml-auto">
                 {item.value}
               </div>
             </td>
@@ -94,7 +94,7 @@ export default function FamilyHistory({ setCurrentPage, data }) {
               className="w-3 h-3 aspect-square"
               alt="Back Arrow"
             />
-            <div className="text-xs">BACK</div>
+            <div className="text-sm">BACK</div>
           </div>
         </Button>
       </div>

@@ -63,7 +63,7 @@ export default function TopNav() {
               }
               className="aspect-square object-contain object-center w-[21px] overflow-hidden shrink-0 max-w-full"
             />
-            <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+            <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
               {current.fullName ? current.fullName : ""}
             </div>
             <button className="text-[12px]" onClick={toggleDropdown}>

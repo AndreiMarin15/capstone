@@ -2,7 +2,7 @@
 import Image from "next/image";
 import BackButton from "./BackButton";
 import { getRecordById } from "@/backend/health_records/getRecord";
-import { useState,useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const ImageModal = ({ src, onClose }) => {
   return (
@@ -17,8 +17,11 @@ const ImageModal = ({ src, onClose }) => {
   );
 };
 
-export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }) {
- 
+export default function ViewRecord({
+  currentScreen,
+  setCurrentScreen,
+  recordId,
+}) {
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [record, setRecord] = useState(null);
@@ -27,11 +30,11 @@ export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }
 
   useEffect(() => {
     const fetchRecordsById = async () => {
-        console.log(recordId)
+      console.log(recordId);
       try {
         const fetchedRecord = await getRecordById(recordId);
         setRecord(fetchedRecord);
-        console.log(fetchedRecord)
+        console.log(fetchedRecord);
       } catch (error) {
         console.error("Error fetching record:", error);
       }
@@ -40,18 +43,15 @@ export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }
     fetchRecordsById();
   }, [recordId]);
 
-
   const handleOpenImageModal = (imageSrc) => {
     setModalImageSrc(imageSrc);
     setIsImageModalOpen(true);
   };
 
-    const handleCloseImageModal = () => {
+  const handleCloseImageModal = () => {
     setIsImageModalOpen(false);
     setModalImageSrc(null);
   };
-
-
 
   if (!record) {
     return <div>Loading...</div>;
@@ -60,13 +60,13 @@ export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }
   return (
     <>
       <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-       OTHER RECORDS
+        OTHER RECORDS
       </div>
 
       <div>
         <div className="flex flex-col max-w-full">
           <table className="max-w-fit border-spacing-y-5 border-separate">
-          <tbody className="text-xs leading-5 text-black">
+            <tbody className="text-sm leading-5 text-black">
               {record.map((key, index) => (
                 <tr key={index} className="align-top">
                   <td className="w-5">
@@ -80,42 +80,41 @@ export default function ViewRecord({ currentScreen, setCurrentScreen, recordId }
                     />
                   </td>
                   <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                       {key.resource.title}
                     </div>
-                    <div className="text-black text-xs leading-5 self-center my-auto">
+                    <div className="text-black text-sm leading-5 self-center my-auto">
                       {key.resource.description}
                     </div>
-                    
-                  
-                  {key.resource.upload && (
-                  
+
+                    {key.resource.upload && (
                       <div className="flex gap-10 mt-6">
                         <img
                           src={key.resource.upload}
                           alt="uploaded"
-                          style={{ maxWidth: "600px", maxHeight: "600px", cursor: "pointer" }}
+                          style={{
+                            maxWidth: "600px",
+                            maxHeight: "600px",
+                            cursor: "pointer",
+                          }}
                           onClick={() =>
-                            handleOpenImageModal(`${key.resource.upload}`)}
+                            handleOpenImageModal(`${key.resource.upload}`)
+                          }
                         />
-                        </div>  
-                  )}
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
-              
             </tbody>
           </table>
 
           <div className="flex justify-between items-center">
-            <BackButton
-              currentScreen={1}
-              setCurrentScreen={setCurrentScreen}
-            />
-            
+            <BackButton currentScreen={1} setCurrentScreen={setCurrentScreen} />
+
             {isImageModalOpen && (
-            <ImageModal src={modalImageSrc} onClose={handleCloseImageModal} />
-          )}
+              <ImageModal src={modalImageSrc} onClose={handleCloseImageModal} />
+            )}
           </div>
         </div>
       </div>

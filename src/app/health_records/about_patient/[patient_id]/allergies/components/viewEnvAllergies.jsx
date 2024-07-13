@@ -57,7 +57,7 @@ export default function EnvAllergies({ handleAdd, allergy, patientId }) {
           ENVIRONMENTAL ALLERGIES
         </div>
 
-        <table className="pt-1.5 text-xs leading-5 text-black mt-5 max-w-[914px]">
+        <table className="pt-1.5 text-sm leading-5 text-black mt-5 max-w-[914px]">
           <thead>
             <tr className="font-medium text-left">
               {header?.map((item, index) => (
@@ -89,24 +89,16 @@ export default function EnvAllergies({ handleAdd, allergy, patientId }) {
 
         {/* BACK BUTTON */}
         <div className="w-full flex justify-between max-md:max-w-full mt-10 max-md:px-5">
-          <button
+          <Button
+            variant="outline"
             onClick={() => {
               router.push(`/health_records/about_patient/${patientId}`);
             }}
-            className="flex items-center justify-center px-2 py-1 rounded text-xs border border-sky-900 border-solid font-semibold border-1.5"
           >
             <div className="flex gap-0.5 justify-between items-center">
-              <Image
-                height={0}
-                width={0}
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/0de7471415fd70bdaba9dd1e6f7c2e7075e37988a454dfb91c7aed9b11350077?"
-                className="w-3 h-3 aspect-square"
-                alt="Back Arrow"
-              />
-              <div className="text-xs">BACK</div>
+              <div className="text-sm"> ← BACK</div>
             </div>
-          </button>
+          </Button>
         </div>
       </>
     );

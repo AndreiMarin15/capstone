@@ -302,7 +302,7 @@ export default function Referral() {
       <div className="flex flex-col ml-5 w-full max-w-screen-xl mx-auto">
         <div className="flex gap-5 justify-between px-5 md:px-14 py-9 w-full">
           <div className="text-xl font-semibold text-black">Referral</div>
-          <div className="flex gap-3.5 justify-between text-xs">
+          <div className="flex gap-3.5 justify-between text-sm">
             <div className="flex gap-2 border-gray-300 border-[1px] rounded-lg">
               <Image
                 alt="image"
@@ -326,7 +326,7 @@ export default function Referral() {
               onClick={() => {
                 router.push("referrals/send_referral");
               }}
-              className="text-white text-xs font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
+              className="text-white text-sm font-semibold bg-sky-900 px-4 py-1.5 rounded mr-2"
             >
               Refer a Patient
             </button>
@@ -378,18 +378,18 @@ export default function Referral() {
                   <div className="flex flex-col ml-5 w-[79%] max-md:ml-0 max-md:w-full">
                     <div className="mt-2 text-lg font-semibold text-black">
                       {currentInfo?.name ? currentInfo.name : ""}
-                      <div className="mr-5 text-m text-zinc-600">
+                      <div className="mr-5 text-base text-zinc-600">
                         <span className="text-black font-medium">
                           {currentInfo?.specialty ?? ""}
                         </span>
                       </div>
-                      <div className="text-m text-zinc-600">
+                      <div className="text-base text-zinc-600">
                         <span className="text-black text-sm">About: </span>
-                        <span className="text-black text-sm font-normal">
+                        <span className="text-black text-base font-normal">
                           {currentInfo?.patient ?? ""}
                         </span>
                       </div>
-                      <div className="text-xs text-zinc-600">
+                      <div className="text-sm text-zinc-600">
                         <span className="text-black text-sm">
                           Referral Note:{" "}
                           <span className="font-normal">
@@ -424,7 +424,7 @@ export default function Referral() {
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
                                 className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
                               />
-                              <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+                              <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
                                 {item.message}
                               </span>
                             </div>
@@ -438,7 +438,7 @@ export default function Referral() {
                               key={index}
                               className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
                             >
-                              <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+                              <span className="text-white text-sm font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
                                 {item.message}
                               </span>
                               <Image
@@ -481,7 +481,7 @@ export default function Referral() {
                         />
                         <button
                           type="button"
-                          className="text-zinc-500 text-xs font-medium leading-5 self-center grow whitespace-nowrap my-auto"
+                          className="text-zinc-500 text-sm font-medium leading-5 self-center grow whitespace-nowrap my-auto"
                           onClick={() => {
                             sendOTP();
                             handlePullRecords();
@@ -496,7 +496,7 @@ export default function Referral() {
                       </div>
                       <button
                         type="submit"
-                        className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
+                        className="text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
                       >
                         SEND
                       </button>
@@ -518,7 +518,7 @@ export default function Referral() {
             <div className="px-16 pb-2 text-3xl leading-10 text-black max-md:pr-7 max-md:pl-7 max-md:max-w-full">
               OTP Authentication
             </div>
-            <div className="text-xs text-zinc-400">
+            <div className="text-sm text-zinc-400">
               Enter the 4-digit OTP sent to your patient’s mobile device via SMS
             </div>
             <input
@@ -547,7 +547,7 @@ export default function Referral() {
               Patient Rejected the Request
             </button>
             <div className="shrink-0 self-stretch mt-8 h-px bg-gray-200 border border-gray-200 border-solid max-md:max-w-full" />
-            <div className="mt-6 text-sm leading-5 text-center text-zinc-400">
+            <div className="mt-6 text-base leading-5 text-center text-zinc-400">
               Patient did not receive the OTP?
               <br />
               <button

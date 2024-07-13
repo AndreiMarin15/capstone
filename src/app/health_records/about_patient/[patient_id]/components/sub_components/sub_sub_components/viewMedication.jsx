@@ -142,8 +142,8 @@ export default function ViewMedication({
 
           <div className="flex gap-[4rem] align-baseline">
             <table className="max-w-fit border-spacing-y-7 border-separate">
-              <tbody className=" text-xs leading-5 text-black">
-                <div className="text-xs leading-5 text-black ">
+              <tbody className=" text-sm leading-5 text-black">
+                <div className="text-sm leading-5 text-black ">
                   {" "}
                   <span className="font-bold"> Dosage Instructions</span>
                   {dosage?.map((item, index) => (
@@ -159,20 +159,20 @@ export default function ViewMedication({
                         />
                       </td>
                       <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
                         {typeof item.value === "string" ? (
-                          <div className="text-black text-xs leading-5 ml-auto">
+                          <div className="text-black text-sm leading-5 ml-auto">
                             {item.value}
                           </div>
                         ) : (
                           <div className="ml-auto">
                             <button
                               onClick={item.value.onClick}
-                              className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-xs border-1.5 bg-blue-900 text-white"
+                              className="flex items-center px-8 py-1 rounded border-sky-900 border-solid aspect-[3.33] font-semibold text-sm border-1.5 bg-blue-900 text-white"
                             >
                               {item.value.label}
                             </button>
@@ -185,8 +185,8 @@ export default function ViewMedication({
               </tbody>
             </table>
             <table className="max-w-fit border-spacing-y-7 border-separate">
-              <tbody className=" text-xs leading-5 text-black">
-                <div className="text-xs leading-5 text-black font-bold">
+              <tbody className=" text-sm leading-5 text-black">
+                <div className="text-sm leading-5 text-black font-bold">
                   {" "}
                   Prescription Duration
                   {prescription?.map((item, index) => (
@@ -202,12 +202,12 @@ export default function ViewMedication({
                         />
                       </td>
                       <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <div className="text-black text-xs font-normal leading-5 ml-auto">
+                        <div className="text-black text-sm font-normal leading-5 ml-auto">
                           {item.variable === "Heart Rate" ? 70 : item.value}
                         </div>
                       </td>
@@ -215,7 +215,7 @@ export default function ViewMedication({
                   ))}
                 </div>
 
-                <div className="text-xs leading-5 text-black font-bold">
+                <div className="text-sm leading-5 text-black font-bold">
                   {" "}
                   Other Remarks
                   {others?.map((item, index) => (
@@ -231,12 +231,12 @@ export default function ViewMedication({
                         />
                       </td>
                       <td className="border-l-[16px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[5rem] border-transparent">
-                        <div className="text-black text-xs font-normal leading-5">
+                        <div className="text-black text-sm font-normal leading-5">
                           {item.value}
                         </div>
                       </td>
