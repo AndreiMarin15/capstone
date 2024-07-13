@@ -257,9 +257,6 @@ export default function PredictiveAnalytics(patientId) {
 
       <div className="self-center flex aspect-[3.3333333333333335] flex-col justify-center items-stretch my-auto mb-10">
         <Button onClick={() => analyze()}>Generate</Button>
-        {isLoading && (
-          <div>Loading...</div> // Display loading message or spinner here
-        )}
       </div>
     </>
   );

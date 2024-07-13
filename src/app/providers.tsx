@@ -7,6 +7,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { authentication } from "@/backend/auth";
 import { AuthError } from "@supabase/supabase-js";
 import { currentUser } from "./store";
+import { LoadingProvider } from "./context/loadingContext";
+import LoadingScreen from "./components/LoadingScreen";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -27,7 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           pathname !== "/patient_form" &&
           pathname !== "/doctor_form" &&
           pathname !== "/require_auth" &&
-          pathname !== "/logout" &&
+pathname !== "/logout" &&
           !pathname.includes("/legal") &&
           !pathname.includes("/middleware")
         ) {
@@ -56,5 +58,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
     getAuth();
   }, [router, pathname, current.user]);
-  return <NextUIProvider>{children}</NextUIProvider>;
+  return <LoadingProvider>
+            <LoadingScreen/>
+            <NextUIProvider>{children}</NextUIProvider>
+        </LoadingProvider>
 }

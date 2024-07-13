@@ -7,8 +7,6 @@ import Navbar from "./navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
-import { LoadingProvider } from "./context/loadingContext";
-import LoadingScreen from "./components/LoadingScreen";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +23,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={inter.className}>
-        <LoadingProvider>
-          <LoadingScreen />
           <ToastContainer />
           <Providers>
             <TopNav />
@@ -35,7 +31,6 @@ export default function RootLayout({
               <div className="w-full">{children}</div>
             </div>
           </Providers>
-        </LoadingProvider>
       </body>
     </html>
   );
