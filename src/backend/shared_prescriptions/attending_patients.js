@@ -5,15 +5,23 @@ import { currentUser } from "@/app/store";
 
 const supabase = client("public");
 const proj = client("project");
-export const healthRecords = {
+export const attendingPatients = {
   getPatients: async () => {
     console.log("user", currentUser.getState().info.id);
-    const { data: patients, error } = await proj
+    const { data: attendingPatients, error } = await proj
+      .from("attending_doctors")
+      .select("*")
+      .eq("doctor_id", currentUser.getState().info.id);
+
+    console.log(attendingPatients);
+    console.log(error);
+
+    const patientIds = attendingPatients.map((patient) => patient.patient_id);
+
+    const { data: patients } = await proj
       .from("patients")
       .select("*")
-      .contains("handled_by", {
-        main_practitioner: currentUser.getState().info.id,
-      });
+      .in("id", patientIds);
 
     console.log(patients);
     return patients;
