@@ -17,19 +17,117 @@ import {
   getVitalsAndBiometricsDoctor,
   getBiometricsDoctor,
 } from "@/backend/patient/vitalsAndBiometrics/vitalsAndBiometrics";
-
+import { getEncounterByPatientId } from "@/backend/health_records/getEncounter";
+import { getSpecificMeasurementsObservations } from "@/backend/health_records/getObservation";
 export function VitalsPDF({ patientId, patientData }) {
   const [vitalslist, setVitalslist] = useState([]);
   const [vitalsAndBio, setVitalsAndBio] = useState({});
   const pdfRef = useRef();
+
+  const [matchedObservations, setMatchedObservations] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getVitalsAndBiometricsDoctor(patientId);
-      setVitalsAndBio(data);
-      console.log(data);
+      try {
+        // Fetch encounters by patient id
+        const encounterData = await getEncounterByPatientId(patientId);
+        console.log(encounterData);
+
+        // Fetch specific measurements observations
+        const observationData =
+          await getSpecificMeasurementsObservations(patientId);
+        console.log("this is observatons", observationData);
+
+        const matchedObservations = [];
+
+        encounterData.forEach((encounter) => {
+          const encounterIds = encounter.resource.contained;
+          const encounterStartDate = encounter.resource.period.start;
+
+          const matchedObservationsForEncounter = observationData.filter(
+            (observation) => {
+              return encounterIds.includes(observation.id);
+            }
+          );
+
+          matchedObservationsForEncounter.forEach((observation) => {
+            observation.encounterStartDate = encounterStartDate;
+          });
+
+          matchedObservations.push({
+            encounterId: encounter.id,
+            observations: matchedObservationsForEncounter,
+          });
+        });
+
+        observationData.forEach((observation) => {
+          if (observation.resource.effectiveDateTime) {
+            observation.encounterStartDate =
+              observation.resource.effectiveDateTime;
+            matchedObservations.push({
+              encounterId: null,
+              observations: [observation],
+            });
+          }
+        });
+
+        matchedObservations.sort(
+          (b, a) =>
+            new Date(b.observations[0].encounterStartDate) -
+            new Date(a.observations[0].encounterStartDate)
+        );
+
+        console.log(matchedObservations);
+        setMatchedObservations(matchedObservations);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
+
     fetchData();
   }, [patientId]);
+
+  useEffect(() => {
+    if (matchedObservations.length > 0) {
+      const updatedVitalsAndBio = {};
+
+      matchedObservations.forEach(({ observations }) => {
+        observations.forEach((observation) => {
+          const { encounterStartDate, resource } = observation;
+          const date = encounterStartDate.split("T")[0]; // Extract date from encounterStartDate
+
+          if (!updatedVitalsAndBio[date]) {
+            // Initialize object for the date if not already present
+            updatedVitalsAndBio[date] = {};
+          }
+
+          // Check if valueQuantity exists and has value before accessing it
+          if (
+            resource.valueQuantity &&
+            typeof resource.valueQuantity.value !== "undefined"
+          ) {
+            // Update vitalsAndBio with the latest value for each resource type
+            if (!updatedVitalsAndBio[date][resource.id]) {
+              updatedVitalsAndBio[date][resource.id] = {};
+            }
+            updatedVitalsAndBio[date][resource.id].value =
+              resource.valueQuantity.value;
+            updatedVitalsAndBio[date][resource.id].unit =
+              resource.valueQuantity.unit;
+          }
+        });
+      });
+
+      setVitalsAndBio(updatedVitalsAndBio);
+      console.log("UPDATED PDF", updatedVitalsAndBio);
+    }
+  }, [matchedObservations]);
+
+  useEffect(() => {
+    console.log("I AM VITALS",vitalsAndBio);
+  }, [vitalsAndBio]);
+
+
   useEffect(() => {
     if (vitalsAndBio) {
       const vitals = [];
@@ -39,25 +137,25 @@ export function VitalsPDF({ patientId, patientData }) {
           number: index + 1,
           date: key,
           systolic:
-            item.systolic?.valueQuantity?.value +
+            item.systolic?.value +
             " " +
-            item.systolic?.valueQuantity?.unit,
+            item.systolic?.unit,
           diastolic:
-            item.diastolic?.valueQuantity?.value +
+            item.diastolic?.value +
             " " +
-            item.diastolic?.valueQuantity?.unit,
+            item.diastolic?.unit,
           heartrate:
-            item.heartRate?.valueQuantity?.value +
+            item.heartRate?.value +
             " " +
-            item.heartRate?.valueQuantity?.unit,
+            item.heartRate?.unit,
           height:
-            item.height?.valueQuantity?.value +
+            item.height?.value +
             " " +
-            item.height?.valueQuantity?.unit,
+            item.height?.unit,
           weight:
-            item.weight?.valueQuantity?.value +
+            item.weight?.value +
             " " +
-            item.weight?.valueQuantity?.unit,
+            item.weight?.unit,
         });
       });
       setVitalslist(vitals);
