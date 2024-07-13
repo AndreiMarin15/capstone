@@ -5,21 +5,13 @@ import { useRouter } from "next/navigation";
 
 import HealthRecordsNav from "../../healthRecordsNav";
 import PatientProfile from "../../patientProfile";
-import ClinicVisits from "./components/clinicVisitsDashboard";
-import Diagnoses from "./components/diagnosesDashboard";
+
 import MasterData from "./components/masterDataDashboard";
-import Vitals from "./components/vitalsDashboard";
+
 import Prescriptions from "./components/prescriptionsDashboard";
-import CarePlans from "./components/carePlanDashboard";
-import LabTests from "./components/labTestsDashboard";
-import GenerateRecords from "./components/generateRecordsDashboard";
-import OtherRecords from "./components/otherRecordsDashboard";
 
 import { useHRNav } from "@/app/store";
-import FamilyHistory from "./components/sub_components/viewfamilyHistory";
-import SocialHistory from "./components/socialHistory";
-import FamilySocialHistory from "./components/familysocialHistoryDashboard";
-import PredictiveAnalytics from "./components/predictiveAnalyticsDashboard";
+
 import useLabTestStore from "@/app/labTestStore";
 import { healthRecords } from "@/backend//health_records/health_records";
 
@@ -97,44 +89,8 @@ export default function AboutPatient({ params }) {
                     setCurrentPage={setCurrentPage}
                     patientId={patientId}
                   />
-                ) : selected === "Clinic Visits" ? (
-                  <ClinicVisits
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    patientId={patientId}
-                  />
-                ) : selected === "Diagnoses" ? (
-                  <Diagnoses patientId={patientId} />
                 ) : selected === "Medications" ? (
                   <Prescriptions patientId={patientId} />
-                ) : selected === "Care Plans" ? (
-                  <CarePlans patientId={patientId} patientData={patientData} />
-                ) : selected === "Lab Tests" ? (
-                  <>
-                    {useLabTestStore.getState().reset()}
-                    <LabTests patientId={patientId} />
-                  </>
-                ) : selected === "Vitals & Biometrics" ? (
-                  <Vitals patientId={patientId} />
-                ) : selected === "Family & Social History" ? (
-                  <>
-                    <FamilySocialHistory patientId={patientId} />
-                  </>
-                ) : selected === "Other Records" ? (
-                  <>
-                    <OtherRecords patientId={patientId} />
-                  </>
-                ) : selected === "Generate Records" ? (
-                  <>
-                    <GenerateRecords
-                      patientId={patientId}
-                      patientData={patientData}
-                    />
-                  </>
-                ) : selected === "Predictive Analytics" ? (
-                  <>
-                    <PredictiveAnalytics patientId={patientId} />
-                  </>
                 ) : (
                   ""
                 )}
