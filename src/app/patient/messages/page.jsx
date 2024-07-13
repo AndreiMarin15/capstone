@@ -4,11 +4,13 @@ import Image from "next/image";
 import {
   getMessages,
   getMessagesAndSubscribe,
+  getProfilePictureDoctor,
 } from "@/backend//message/getMessages";
 export default function Messaging() {
   const [newMessage, setNewMessage] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [chat, setChat] = React.useState("");
+  const [doctorPhoto, setDoctorPhoto] = React.useState(null);
   const [chats, setChats] = React.useState([
     { id: "", chat: "", doctor_full_name: "" },
   ]);
@@ -63,11 +65,21 @@ export default function Messaging() {
     const importMessage = async () => {
       const chatList = await getMessages.getChats();
       setChats(chatList);
+      console.log("PATIENT CHATLIST", chatList);
       setChat(chatList[0]?.id || "");
     };
 
     importMessage();
   }, [newMessage]);
+
+  React.useEffect(() => {
+    const getDoctorPhoto = async () => {
+      const photo = await getProfilePictureDoctor(chats[0]?.doctor);
+      setDoctorPhoto(photo);
+    };
+
+    getDoctorPhoto();
+  }, [chats]);
 
   //get the chats under the doctor
   React.useEffect(() => {
@@ -94,7 +106,10 @@ export default function Messaging() {
               height={0}
               width={0}
               loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/e6422eb52375a50afd15b70553c37dc9849d7544cde4956bbb282ba7a868bffd?"
+              src={
+                doctorPhoto ??
+                "https://cdn.builder.io/api/v1/image/assets/TEMP/e6422eb52375a50afd15b70553c37dc9849d7544cde4956bbb282ba7a868bffd?"
+              }
               className="aspect-square object-contain object-center w-[43px] overflow-hidden shrink-0 max-w-full ml-2 mt-1.5 max-md:mt-10"
             />
           </div>
