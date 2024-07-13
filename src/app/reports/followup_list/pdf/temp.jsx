@@ -210,7 +210,7 @@ export default function FollowUpList() {
                   <TableCell className="text-left">
                     {item.dateLastClinicVisit}
                   </TableCell>
-                  <TableCell className="w-[20%] flex items-center">
+                  {/* <TableCell className="w-[20%] flex items-center">
                     <Image
                       height={0}
                       width={0}
@@ -235,8 +235,8 @@ export default function FollowUpList() {
                     >
                       Remind Patient
                     </Button>
-                  </TableCell>
-                  <TableCell>
+                  </TableCell> */}
+                  {/* <TableCell>
                     <Button
                       onClick={() => {
                         router.push(`/messages`);
@@ -245,7 +245,7 @@ export default function FollowUpList() {
                     >
                       Message
                     </Button>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

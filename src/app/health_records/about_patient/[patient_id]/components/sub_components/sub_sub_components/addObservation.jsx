@@ -267,7 +267,7 @@ export default function AddObservation({
                             onChange={item.onChange}
                             className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
                             style={{
-                              fontSize: "12px",
+                              fontSize: "14px",
                               height: "auto",
                               whiteSpace: "pre-wrap",
                               ...(item.variable === "Review of Systems" &&
@@ -332,7 +332,7 @@ export default function AddObservation({
                               }
                               className="grow justify-center items-start mt-5 py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]"
                               style={{
-                                fontSize: "12px",
+                                fontSize: "14px",
                                 height: "auto",
                                 whiteSpace: "pre-wrap",
                               }}
