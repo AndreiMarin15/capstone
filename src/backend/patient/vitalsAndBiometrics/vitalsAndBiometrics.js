@@ -60,9 +60,10 @@ export const getVitalsAndBiometricsDoctor = async (userId) => {
 	const query = await supabase.rpc("get_vitals_and_biometrics", {
 		user_id: userId,
 	});
+	console.log("VITALSQUERY",query);
 	const sortedJson = {};
 	const data = query.data[0]?.data;
-
+	console.log("VITALSDATA",data);
 	if (data == {}) {
 		const dataKeys = Object.keys(data);
 		if (dataKeys) {

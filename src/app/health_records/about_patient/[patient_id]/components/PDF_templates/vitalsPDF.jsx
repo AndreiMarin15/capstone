@@ -26,7 +26,7 @@ export function VitalsPDF({ patientId, patientData }) {
     const fetchData = async () => {
       const data = await getVitalsAndBiometricsDoctor(patientId);
       setVitalsAndBio(data);
-      console.log(data);
+      console.log("VITALS",data);
     };
     fetchData();
   }, [patientId]);

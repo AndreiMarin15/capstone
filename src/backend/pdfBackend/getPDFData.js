@@ -30,14 +30,15 @@ export const getFamilyMemberHistory = async (patientId) => {
 };
 
 export const getMedicalHistory = async (patientId) => {
-  let query = supabase
+  let query = await supabase
     .from("observation")
-    .select()
+    .select("*")
     .eq("resource->subject->>reference", patientId)
     .or(
       `resource->>id.eq.${"initialDiagnosis"},resource->>id.eq.${"finalDiagnosis"}`
     );
-
+  
+    console.log("MEDICALHIST", query);
   // Check if both start and end dates are not null
   console.log(useRecordValidity.getState().start);
   console.log(useRecordValidity.getState().end);

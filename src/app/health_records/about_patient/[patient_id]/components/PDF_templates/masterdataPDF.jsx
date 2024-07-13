@@ -17,8 +17,26 @@ import { Button } from "@/components/ui/button";
 // import { getPatientData } from "@/backend/pdfBackend/getPatientData";
 import { useEffect, useState } from "react";
 import { currentUser } from "@/app/store";
+import { getAttendingDoctors } from "@/backend/attending_doctors/attending_doctors";
 
 export function MasterDataPDF({ patientId, patientData }) {
+  const [attendingDoctors, setAttendingDoctors] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const val = await getAttendingDoctors(patientId);
+        console.log("ATTENDINGVAL", val);
+        const doctorNames = val.map((doctor) => `${doctor.doctor_first_name} ${doctor.doctor_last_name}`).join(", ");
+        console.log("ATTENDING", doctorNames);
+        setAttendingDoctors(doctorNames);
+        return val;
+      } catch (error) {
+        console.error("Error fetching attending doctors:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Assuming patientId is a dependency that triggers the effect
   function getAge(birthdate) {
     const birthDate = new Date(birthdate);
     const today = new Date();
@@ -53,7 +71,7 @@ export function MasterDataPDF({ patientId, patientData }) {
         patientData?.allergies?.length > 0
           ? patientData?.allergies.map((obj) => obj.allergen).join(", ")
           : "None", // allegyintolerance table: type & reaction (string)
-      attendingDoctor: "Dr. Maria Johnson", // hindi pa sinesave sa tables sa supabase
+      attendingDoctor: attendingDoctors, // hindi pa sinesave sa tables sa supabase
     },
   ];
   const pdfRef = useRef();
