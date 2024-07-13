@@ -151,11 +151,12 @@ export const remindPatients = async (
   triggerShouldSend
 ) => {
   // Assuming sendReminder is a function that sends a reminder to the patient
-  const reminded_by = currentUser.getState().info.id;
+  const reminded_by = currentUser.getState().user.license_id;
   const shouldTrigger = triggerShouldSend ?? false;
   patientIds.forEach(async (patient) => {
     if (shouldTrigger) {
       const shouldSend = await shouldSendReminder(patient, reminded_by);
+      console.log("Should send reminder:", shouldSend);
       if (shouldSend) {
         const reminder = {
           ...reminderDetails,
@@ -212,17 +213,35 @@ export const getReminders = async () => {
 };
 
 export const shouldSendReminder = async (patientId, remindedBy) => {
+  // Start of today (00:00:00)
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  // End of today (23:59:59)
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
+
+  // Convert both to ISO strings for comparison
+  const startOfDayISO = startOfDay.toISOString();
+  const endOfDayISO = endOfDay.toISOString();
+
   const { data: reminders, error } = await project
     .from("patient_reminders")
     .select("*")
     .eq("patient_id", patientId)
     .eq("reminded_by", remindedBy)
-    .lt("created_at", new Date().toISOString().split("T")[0]);
+    .gte("created_at", startOfDayISO) // Greater than or equal to start of today
+    .lte("created_at", endOfDayISO); // Less than or equal to end of today
 
   if (error) {
     console.error("Error fetching reminders:", error);
     return;
   }
+  console.log("PATIENTID", patientId);
+  console.log("Reminded by:", remindedBy);
 
+  console.log("Reminders for today:", reminders);
+
+  // If reminders.length is 0, no reminder has been sent today, so we should send one.
   return reminders.length === 0;
 };

@@ -90,7 +90,7 @@ export default function Home() {
       console.log("done")
     };
 
-    // handleReminder();
+    handleReminder();
   }, []);
 
   React.useEffect(() => {
