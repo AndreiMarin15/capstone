@@ -155,7 +155,7 @@ export default function FollowUpList() {
                   ↓ Download (.pdf)
                 </Button>
               </div>
-              <Button
+              {/* <Button
                 onClick={() => {
                   patientInfo?.forEach(async (item) => {
                     await remindPatients([item.id], {
@@ -170,7 +170,7 @@ export default function FollowUpList() {
                 variant="remind"
               >
                 Remind All Patients
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="flex justify-between items-center gap-5 px-5 w-full max-md:flex-wrap max-md:max-w-full">
@@ -181,7 +181,7 @@ export default function FollowUpList() {
               {currentUser.getState().user.last_name}
             </div>
 
-            <Button variant="sortfilter">SORT</Button>
+            {/* <Button variant="sortfilter">SORT</Button> */}
           </div>
           <div className="w-full flex justify-center items-center"></div>
 
@@ -213,7 +213,7 @@ export default function FollowUpList() {
                     <TableCell className="text-left">
                       {item.dateLastClinicVisit}
                     </TableCell>
-                    <TableCell className="w-[20%] flex items-center">
+                    {/* <TableCell className="w-[20%] flex items-center">
                       <Image
                         height={0}
                         width={0}
@@ -248,7 +248,7 @@ export default function FollowUpList() {
                       >
                         Message
                       </Button>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

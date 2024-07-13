@@ -314,7 +314,7 @@ export default function AddClinicalDiagnosis({
                           }
                           className={`grow justify-center items-start py-1.5 pl-2 px-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             height: "80px",
                             width: "400px",
                           }}

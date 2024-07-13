@@ -106,7 +106,7 @@ export default function GenerateRecords({ patientId, patientData }) {
               <MasterDataPDF patientId={patientId} patientData={patientData} />
             </td>
 
-            <td>Family & Social History</td>
+            <td>Family History</td>
             <td>
               <FamilySocialHistoryPDF
                 patientId={patientId}

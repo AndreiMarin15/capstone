@@ -209,7 +209,7 @@ export default function AddVitals({
                           }}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             width: "50px",
                             height: "30px",
                             resize: "none",
@@ -278,7 +278,7 @@ export default function AddVitals({
                           }}
                           className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             width: "50px",
                             height: "30px",
                             resize: "none",
