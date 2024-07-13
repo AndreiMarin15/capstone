@@ -109,8 +109,8 @@ export const getMessages = {
       )
       .order("created_at", { ascending: false });
 
-	  console.log("CHAT DATA", data)
-	  console.log("CHAT ERROR", error)
+    console.log("CHAT DATA", data);
+    console.log("CHAT ERROR", error);
     return data ? data : [];
   },
   getNotifications: async () => {
@@ -134,4 +134,23 @@ export const getMessages = {
     console.log(data);
     return data;
   },
+};
+
+export const getProfilePicturePatient = async (patientId) => {
+  const { data, error } = await supabase
+    .from("patients")
+    .select("personal_information")
+    .eq("id", patientId);
+
+  console.log(data);
+  return data[0]?.personal_information?.photo;
+};
+
+export const getProfilePictureDoctor = async (doctorId) => {
+  const { data, error } = await supabase
+    .from("doctors")
+    .select("photo")
+    .eq("id", doctorId);
+
+  return data[0]?.photo;
 };

@@ -33,7 +33,10 @@ export function ReferralList({
             height={0}
             width={0}
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+            src={
+              referral.photo ??
+              "https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+            }
             className="self-start mt-7 w-[43px]"
           />
           <div className="flex flex-col flex-1 my-auto">

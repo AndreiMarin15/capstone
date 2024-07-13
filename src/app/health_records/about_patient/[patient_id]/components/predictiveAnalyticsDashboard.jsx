@@ -8,7 +8,7 @@ import {
   getLabTests,
 } from "@/backend/predictiveAnalytics/getData";
 import { useState } from "react";
-import useLoading from "../../../../../hooks/useLoading";
+import useLoading from "@/hooks/useLoading";
 
 export default function PredictiveAnalytics(patientId) {
   const wordMatch = {

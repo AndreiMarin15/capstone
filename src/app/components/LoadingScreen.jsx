@@ -1,6 +1,6 @@
 // src/components/LoadingScreen.js
 import React from "react";
-import useLoading from "../../hooks/useLoading";
+import useLoading from "@/hooks/useLoading";
 import './LoadingScreen.css';
 const LoadingScreen = () => {
   const { isLoading } = useLoading();

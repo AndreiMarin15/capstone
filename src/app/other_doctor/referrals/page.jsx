@@ -371,7 +371,10 @@ export default function Referral() {
                       height={0}
                       width={0}
                       loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                      src={
+                        currentInfo?.photo ??
+                        "https://cdn.builder.io/api/v1/image/assets/TEMP/39731ee2758b1eb02660dc6f2d0e828ff80ed03d23c48b7c7070fb88d8da4492?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                      }
                       className="mt-4 aspect-square w-[43px]"
                     />
                   </div>
