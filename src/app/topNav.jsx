@@ -66,7 +66,7 @@ export default function TopNav() {
             <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
               {current.fullName ? current.fullName : ""}
             </div>
-            <button className="text-[12px]" onClick={toggleDropdown}>
+            <button className="text-[14px]" onClick={toggleDropdown}>
               v
             </button>
           </span>
