@@ -135,7 +135,7 @@ export default function LabTests({ patientId }) {
                 LAB TESTS
               </div>
               <div className="flex items-center">
-                <span className="flex items-center gap-1 px-1 py-1 mt-8 rounded-md font-normal mr-2">
+                <span className="flex items-center py-1 mt-8 rounded-md font-normal">
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -161,11 +161,11 @@ export default function LabTests({ patientId }) {
 						</Tabs> */}
             <div className="flex justify-between">
               <div className="flex items-center">
-                <span className="text-black text-sm text-base font-bold leading-5">
+                <span className="text-black text-base text-base font-bold leading-5">
                   Rendering Options:
                 </span>
                 <select
-                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm  font-normal"
                   onChange={(e) =>
                     setRenderingOptions(parseInt(e.target.value))
                   }
@@ -179,13 +179,13 @@ export default function LabTests({ patientId }) {
                   <option value="7">7</option>
                   <option value="10">10</option>
                 </select>
-                <span className="ml-2 text-black text-base leading-5 text-sm font-normal">
-                  Lab test requests
+                <span className="ml-2 text-black text-base leading-5 text-basefont-normal">
+                  Lab Test Requests
                 </span>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <span className="flex items-center gap-1 px-1 py-1 rounded-md">
+                  <span className="flex items-center py-1 rounded-md">
                     <Button variant="sortfilter">SORT</Button>
                   </span>
                 </DropdownMenuTrigger>
@@ -230,7 +230,7 @@ export default function LabTests({ patientId }) {
                       }
                     >
                       {labTestGroup && labTestGroup[0] && (
-                        <div className="flex justify-between text-xs leading-5 text-black w-[100%] mt-5 mb-3">
+                        <div className="flex justify-between text-sm leading-5 text-black w-[100%] mt-5 mb-3">
                           <Image
                             alt="image"
                             height={0}
@@ -239,7 +239,7 @@ export default function LabTests({ patientId }) {
                             src={labTestGroup[0]?.src}
                             className="aspect-square fill-black w-[15px] mr-2"
                           />
-                          <div className="grow my-auto text-xs font-semibold">
+                          <div className="grow my-auto text-sm font-semibold">
                             Lab Test Request {labTestGroup[0]?.reqdate}
                           </div>
                         </div>
@@ -271,7 +271,7 @@ export default function LabTests({ patientId }) {
                                       }}
                                     />
                                     <div
-                                      className="text-xs"
+                                      className="text-sm"
                                       style={{ whiteSpace: "nowrap" }}
                                     >
                                       Dr. {labTestGroup[0]?.doctor}
@@ -281,7 +281,7 @@ export default function LabTests({ patientId }) {
                                 {/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
                                 <td style={{ textAlign: "right" }}>
                                   <div
-                                    className="text-xs"
+                                    className="text-sm"
                                     style={{
                                       display: "flex",
                                       alignItems: "center",
@@ -329,7 +329,7 @@ export default function LabTests({ patientId }) {
                       )}
                     </tr>
                   </div>
-                  <div className="text-xs text-blue-500 leading-5 flex ml-5 items-center">
+                  <div className="text-sm text-blue-500 leading-5 flex ml-5 items-center">
                     <ReusableLabTest
                       child={
                         // <ViewLabRequest

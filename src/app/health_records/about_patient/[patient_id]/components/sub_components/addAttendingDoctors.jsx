@@ -97,7 +97,7 @@ export default function AddAttendingDoctors({
               <div className="w-full max-md:max-w-full">
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
                   <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">
-                    <div className="flex flex-col w-[90%] text-xs max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col w-[90%] text-sm max-md:ml-0 max-md:w-full">
                       <table className="w-full">
                         <tbody>
                           {attendingDoctors?.map((item, index) => (

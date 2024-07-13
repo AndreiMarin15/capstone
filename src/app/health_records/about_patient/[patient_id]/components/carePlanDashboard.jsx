@@ -15,7 +15,8 @@ export default function CarePlan({ patientId, patientData }) {
   const [showActivePlans, setShowActivePlans] = useState(true); // Visibility state
 
   const fetchData = async () => {
-    const careplanInformation = await careplanInfo.getCareplanInformation(patientId);
+    const careplanInformation =
+      await careplanInfo.getCareplanInformation(patientId);
     console.log(careplanInformation);
     setCareplanInfor(careplanInformation);
   };
@@ -24,7 +25,7 @@ export default function CarePlan({ patientId, patientData }) {
     fetchData();
   }, []);
 
-  const [isTest, setTest] = useState(false);  
+  const [isTest, setTest] = useState(false);
   const [isAdd, setAdd] = useState(false);
   const [isResult, setResult] = useState(false);
 
@@ -111,7 +112,7 @@ export default function CarePlan({ patientId, patientData }) {
               {/* Add contents here */}
             </TabsContent>
           </Tabs>
-          <div className="flex gap-5 justify-between text-xs max-w-[100%] max-md:flex-wrap">
+          <div className="flex gap-5 justify-between text-sm max-w-[100%] max-md:flex-wrap">
             <div className="flex gap-1.5 mb-10">
               <div className="mt-3 grow font-semibold text-black">Status: </div>
               <button
@@ -134,7 +135,7 @@ export default function CarePlan({ patientId, patientData }) {
               .map((careplan, index) => (
                 <button
                   key={index}
-                  className="flex flex-col mt-5 mb-5 items-start text-xs leading-5 text-black max-w-[800px]"
+                  className="flex flex-col mt-5 mb-5 items-start text-sm leading-5 text-black max-w-[800px]"
                   onClick={() => {
                     setCarePlan(careplan.resource);
                     setTest(true);
@@ -164,19 +165,39 @@ export default function CarePlan({ patientId, patientData }) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
                         className="w-4 aspect-square"
                       />
-                     <div className="grow my-auto">
-                      {careplan["resource"]?.contributor.length === 1
-                        ? `${careplan["resource"]?.contributor[0].display}${
-                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
-                          }`
-                        : careplan["resource"]?.contributor.length === 2
-                        ? `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor[1].display}${
-                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
-                          }`
-                        : `${careplan["resource"]?.contributor[0].display} & ${careplan["resource"]?.contributor.length - 1} other/s${
-                            careplan["resource"]?.careTeam?.[0]?.display?.trim() ? ` & ${careplan["resource"]?.careTeam[0].display}` : ""
-                          }`}
-                    </div>
+                      <div className="grow my-auto">
+                        {careplan["resource"]?.contributor.length === 1
+                          ? `${careplan["resource"]?.contributor[0].display}${
+                              careplan[
+                                "resource"
+                              ]?.careTeam?.[0]?.display?.trim()
+                                ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                : ""
+                            }`
+                          : careplan["resource"]?.contributor.length === 2
+                            ? `${
+                                careplan["resource"]?.contributor[0].display
+                              } & ${
+                                careplan["resource"]?.contributor[1].display
+                              }${
+                                careplan[
+                                  "resource"
+                                ]?.careTeam?.[0]?.display?.trim()
+                                  ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                  : ""
+                              }`
+                            : `${
+                                careplan["resource"]?.contributor[0].display
+                              } & ${
+                                careplan["resource"]?.contributor.length - 1
+                              } other/s${
+                                careplan[
+                                  "resource"
+                                ]?.careTeam?.[0]?.display?.trim()
+                                  ? ` & ${careplan["resource"]?.careTeam[0].display}`
+                                  : ""
+                              }`}
+                      </div>
                     </div>
                     <div>
                       <div className="flex-auto my-auto">{`${careplan.resource?.period.start} - ${careplan.resource?.period.end}`}</div>

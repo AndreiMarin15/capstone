@@ -93,12 +93,6 @@ const patientNavigation = [
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/063c268a9f424e0e0c97823839d31d7e6e4a6fe89c695fae78cd54a65904d508?apiKey=66e07193974a40e683930e95115a1cfd&",
   },
   {
-    name: "Account",
-    href: "/patient/account",
-    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/64cfae19a1f1172eaa2aebcdfb3bc8b64a258ba1c3da5eed2e8e3dd58470d1dc?apiKey=66e07193974a40e683930e95115a1cfd&",
-  },
-
-  {
     name: "Legal Notices",
     href: "/patient/patient_legal",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/5b215db570dce3331c1d756a9bd33ac4707518a8b2db9764d3818bef87b91718?apiKey=7e8c8e70f3bd479289a042d9c544736c&",
@@ -111,6 +105,11 @@ const otherDoctorNavigation = [
     href: "/other_doctor/referrals",
     src: "https://cdn.builder.io/api/v1/image/assets/TEMP/a5e4e41b96b3a1133c733ca6c34896fe7a85b581c2bce0b6d63f16bd85dd4deb?",
   },
+  {
+    name: "Shared Prescriptions",
+    href: "/other_doctor/sharedprescriptions",
+    src: "https://cdn.builder.io/api/v1/image/assets/TEMP/d0530957375d29476580c18ca0f3a166492a2a8583dc34c0eb5aaad1888f625b?",
+  },
 ];
 
 export default function Navbar() {
@@ -121,7 +120,7 @@ export default function Navbar() {
     <>
       {path !== "/" && !pathIncluded(path) && (
         <div
-          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 px-3 max-md:mt-10 h-screen"
+          className="items-stretch shadow-sm flex w-1/5 grow flex-col mx-auto pt-7 px-3 max-md:mt-10 min-h-[200px] md:min-h-[300px]"
           style={{
             background:
               "linear-gradient(180deg, #00296C 0%, rgba(0, 82, 216, 0.51) 99.99%, rgba(0, 97, 255, 0.57) 100%)",
@@ -146,7 +145,7 @@ export default function Navbar() {
                     alt={item.name}
                     className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                   />
-                  <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                  <div className="text-white text-base font-semibold grow whitespace-nowrap self-start cursor-default">
                     {item.name}
                   </div>
                 </span>
@@ -170,7 +169,7 @@ export default function Navbar() {
                       alt={item.name}
                       className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                     />
-                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                    <div className="text-white text-base font-semibold grow whitespace-nowrap self-start cursor-default">
                       {item.name}
                     </div>
                   </span>
@@ -193,7 +192,7 @@ export default function Navbar() {
                       alt={item.name}
                       className="aspect-square object-contain object-center w-4 overflow-hidden shrink-0 max-w-full"
                     />
-                    <div className="text-white text-sm font-semibold grow whitespace-nowrap self-start cursor-default">
+                    <div className="text-white text-base font-semibold grow whitespace-nowrap self-start cursor-default">
                       {item.name}
                     </div>
                   </span>

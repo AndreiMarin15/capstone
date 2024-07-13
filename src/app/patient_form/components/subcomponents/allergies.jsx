@@ -110,7 +110,7 @@ export default function AllergyForm() {
             });
           }}
           value={allergy.category_of_allergen}
-          className="rounded shadow-sm text-xs h-8 border-[0.5px] px-2 py-2 border-solid border-black"
+          className="rounded shadow-sm text-sm h-8 border-[0.5px] px-2 py-2 border-solid border-black"
         >
           <option value="Food">Food</option>
           <option value="Medication">Medication</option>
@@ -365,7 +365,7 @@ export default function AllergyForm() {
         {form?.map((item) => (
           <tr key={item.label}>
             <td className="border-transparent">
-              <div className="text-black text-xs w-full font-semibold flex">
+              <div className="text-black text-sm w-full font-semibold flex">
                 <Image
                   alt="image"
                   height={18}
@@ -404,7 +404,7 @@ export default function AllergyForm() {
           }
         }}
         className={
-          "text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch" +
+          "text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch" +
           (saved ? " bg-lime-600 " : " bg-sky-900 ") +
           "self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
         }

@@ -10,7 +10,7 @@ const AddLab = () => {
       value: (
         <input
           type="date"
-          className="text-zinc-400 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          className="text-zinc-400 text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
           placeholder="YYYY-MM-DD"
         />
       ),
@@ -23,7 +23,7 @@ const AddLab = () => {
       value: (
         <input
           type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          className="text-zinc-400 mt-3 text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
           placeholder="ABC Machine"
         />
       ),
@@ -35,7 +35,7 @@ const AddLab = () => {
       value: (
         <input
           type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          className="text-zinc-400 mt-3 text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
           placeholder="120"
         />
       ),
@@ -47,7 +47,7 @@ const AddLab = () => {
       value: (
         <input
           type="text"
-          className="text-zinc-400 mt-3 text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+          className="text-zinc-400 mt-3 text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
           placeholder="g/moL"
         />
       ),
@@ -60,7 +60,7 @@ const AddLab = () => {
         <div className="flex flex-col">
           <input
             type="text"
-            className="text-xs font-semibold leading-5 text-black"
+            className="text-sm font-semibold leading-5 text-black"
             placeholder="Low"
           />
           <div className="flex gap-4 px-px mt-1.5">
@@ -79,7 +79,7 @@ const AddLab = () => {
           </div>
           <input
             type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
+            className="mt-7 text-sm font-semibold leading-5 text-black"
             placeholder="Normal"
           />
           <div className="flex gap-4 px-px mt-1.5">
@@ -98,7 +98,7 @@ const AddLab = () => {
           </div>
           <input
             type="text"
-            className="mt-7 text-xs font-semibold leading-5 text-black"
+            className="mt-7 text-sm font-semibold leading-5 text-black"
             placeholder="High"
           />
           <div className="flex gap-4 px-px">
@@ -144,12 +144,12 @@ const AddLab = () => {
                   )}
                 </td>
                 <td className="border-l-[16px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                  <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                     {item.variable}
                   </div>
                 </td>
                 <td className="border-l-[5rem] border-transparent">
-                  <div className="text-black text-xs leading-5 ml-auto">
+                  <div className="text-black text-sm leading-5 ml-auto">
                     {item.value}
                   </div>
                 </td>
@@ -158,7 +158,7 @@ const AddLab = () => {
           </table>
           <div className="flex flex-col items-stretch w-full ml-5 max-md:w-full max-md:ml-0">
             <div className="flex grow flex-col max-md:max-w-full max-md:mt-7">
-              <button className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
+              <button className="text-white text-sm font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5">
                 SAVE
               </button>
             </div>

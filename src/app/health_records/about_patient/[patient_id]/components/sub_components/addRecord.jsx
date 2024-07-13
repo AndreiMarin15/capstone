@@ -20,7 +20,12 @@ const ImageModal = ({ src, onClose }) => {
   );
 };
 
-export default function AddRecord({ currentScreen, setCurrentScreen, patientId, fetchRecords }) {
+export default function AddRecord({
+  currentScreen,
+  setCurrentScreen,
+  patientId,
+  fetchRecords,
+}) {
   const [doctorInfo, setDoctorInfo] = useState({});
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,13 +39,13 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     patientInfo: {
       subject: {
         reference: patientId,
-      }
+      },
     },
     doctorInfo: {
       type: "",
-      fullName: "", 
+      fullName: "",
       license: "",
-    }
+    },
   });
 
   useEffect(() => {
@@ -56,10 +61,10 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
             type: doctorId.type,
             fullName: doctorId.fullName,
             license: doctorId.license,
-          }
+          },
         }));
       } catch (error) {
-        console.error('Error fetching doctorId:', error);
+        console.error("Error fetching doctorId:", error);
       }
     };
 
@@ -132,16 +137,16 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
 
     if (!formData.title.trim()) {
       valid = false;
-        toast.error("Title is required.", {
-          autoClose: 2000,
-        });
+      toast.error("Title is required.", {
+        autoClose: 2000,
+      });
     }
 
     if (!formData.upload) {
-      valid = false; 
-        toast.error("Upload is required.", {
-          autoClose: 2000,
-        });
+      valid = false;
+      toast.error("Upload is required.", {
+        autoClose: 2000,
+      });
     }
 
     return valid;
@@ -161,7 +166,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
       toast.success("Other Record Added", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 2000,
       });
       fetchRecords();
       setCurrentScreen(0);
@@ -169,7 +174,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
       toast.error("Error Adding Record", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 2000,
       });
     }
   };
@@ -183,7 +188,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
       <div>
         <div className="flex flex-col max-w-full">
           <table className="max-w-fit border-spacing-y-5 border-separate">
-            <tbody className="text-xs leading-5 text-black">
+            <tbody className="text-sm leading-5 text-black">
               {[
                 { variable: "Title *", type: "input" },
                 { variable: "Description", type: "textarea" },
@@ -201,7 +206,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                     />
                   </td>
                   <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                       {item.variable}
                     </div>
                   </td>
@@ -214,7 +219,9 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                         value={formData.title}
                         onChange={handleChange}
                         className={`justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5 w-full ${
-                          formSubmitted && !formData.title.trim() ? "border-red-500" : ""
+                          formSubmitted && !formData.title.trim()
+                            ? "border-red-500"
+                            : ""
                         }`}
                       />
                     ) : item.type === "textarea" ? (
@@ -232,10 +239,12 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                         onDragOver={(e) => handleDragOver(e)}
                       >
                         <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-[0.5px] border-solid ${
-                              formSubmitted && !formData.upload ? "border-red-500" : "border-black"
-                            } w-25%`}
-                          >
+                          className={`flex flex-col items-center px-20 py-8 text-sm leading-5 text-center bg-white border-black border-[0.5px] border-solid ${
+                            formSubmitted && !formData.upload
+                              ? "border-red-500"
+                              : "border-black"
+                          } w-25%`}
+                        >
                           {uploadedImageSrc ? (
                             <>
                               <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
@@ -282,7 +291,9 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                               <input
                                 type="file"
                                 className="hidden"
-                                onChange={(e) => handleFileUpload(e.target.files)}
+                                onChange={(e) =>
+                                  handleFileUpload(e.target.files)
+                                }
                                 ref={fileInputRef}
                               />
                             </>
@@ -309,7 +320,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
             />
 
             <Button
-              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-basebg-sky-900 text-white"
               onClick={handleSubmit}
             >
               Save

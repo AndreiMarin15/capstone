@@ -4,7 +4,11 @@ import { useState, useEffect } from "react";
 import BackButton from "./BackButton";
 import { getPrescriptionById } from "@/backend/health_records/getPrescription";
 
-export default function ViewPrescription({currentScreen, setCurrentScreen, prescriptionId}) {
+export default function ViewPrescription({
+  currentScreen,
+  setCurrentScreen,
+  prescriptionId,
+}) {
   const [prescription, setPrescription] = useState(null);
 
   useEffect(() => {
@@ -23,7 +27,6 @@ export default function ViewPrescription({currentScreen, setCurrentScreen, presc
     }
   }, [prescriptionId]);
 
-
   return (
     <>
       {currentScreen === 4 ? (
@@ -39,78 +42,94 @@ export default function ViewPrescription({currentScreen, setCurrentScreen, presc
           <table className="gap-1 whitespace-nowrap mt-10">
             {prescription?.map((prescriptionItem, index) => (
               <React.Fragment key={index}>
-                {prescriptionItem.resource.medicationData.map((medication, medIndex) => (
-                  <React.Fragment key={medIndex}>
-                    <tr className="h-8">
-                      <td className="w-5">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={
-                            "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?" // Replace with actual item.src if available
-                          }
-                          className="self-start aspect-square fill-black w-[15px]"
-                        />
-                      </td>
-                      <td className="border-l-[10px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
-                          {medication.resource.medicationCodeableConcept[0]?.coding[0]?.display}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-regular leading-5 ml-1">
-                          From {medication.resource.dispenseRequest.validityPeriod?.start} to{" "}
-                          {medication.resource.dispenseRequest.validityPeriod?.end}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td className="flex  border-l-[5px] border-transparent">
-                        <div
-                          className="text-black text-xs font-regular leading-5"
-                          style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                        >
-                          <span className="font-semibold">Dosage:</span>{" "}
-                          {medication.resource.dosageInstruction?.[0]?.doseAndRate?.[0]?.doseQuantity?.doseUnit}
-                        </div>
-                        <div
-                          className="text-black text-xs font-regular leading-5 ml-10"
-                          style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                        >
-                          <span className="font-semibold">Form:</span>{" "}
-                          {medication.resource.form?.text}
-                        </div>
-                        <div
-                          className="text-black text-xs font-regular leading-5 ml-10"
-                          style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                        >
-                          <span className="font-semibold">Frequency:</span>{" "}
-                          {medication.resource.dispenseRequest?.dispenseInterval}
-                        </div>
-                        <div
-                          className="text-black text-xs font-regular leading-5 ml-10"
-                          style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                        >
-                          <span className="font-semibold">Instructions:</span>{" "}
-                          {medication.resource.note}
-                        </div>
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))}
+                {prescriptionItem.resource.medicationData.map(
+                  (medication, medIndex) => (
+                    <React.Fragment key={medIndex}>
+                      <tr className="h-8">
+                        <td className="w-5">
+                          <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src={
+                              "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?" // Replace with actual item.src if available
+                            }
+                            className="self-start aspect-square fill-black w-[15px]"
+                          />
+                        </td>
+                        <td className="border-l-[10px] border-transparent">
+                          <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
+                            {
+                              medication.resource.medicationCodeableConcept[0]
+                                ?.coding[0]?.display
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td className="border-l-[5px] border-transparent">
+                          <div className="text-black text-sm font-regular leading-5 ml-1">
+                            From{" "}
+                            {
+                              medication.resource.dispenseRequest.validityPeriod
+                                ?.start
+                            }{" "}
+                            to{" "}
+                            {
+                              medication.resource.dispenseRequest.validityPeriod
+                                ?.end
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td className="flex  border-l-[5px] border-transparent">
+                          <div
+                            className="text-black text-sm font-regular leading-5"
+                            style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                          >
+                            <span className="font-semibold">Dosage:</span>{" "}
+                            {
+                              medication.resource.dosageInstruction?.[0]
+                                ?.doseAndRate?.[0]?.doseQuantity?.doseUnit
+                            }
+                          </div>
+                          <div
+                            className="text-black text-sm font-regular leading-5 ml-10"
+                            style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                          >
+                            <span className="font-semibold">Form:</span>{" "}
+                            {medication.resource.form?.text}
+                          </div>
+                          <div
+                            className="text-black text-sm font-regular leading-5 ml-10"
+                            style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                          >
+                            <span className="font-semibold">Frequency:</span>{" "}
+                            {
+                              medication.resource.dispenseRequest
+                                ?.dispenseInterval
+                            }
+                          </div>
+                          <div
+                            className="text-black text-sm font-regular leading-5 ml-10"
+                            style={{ whiteSpace: "normal", maxWidth: "200px" }}
+                          >
+                            <span className="font-semibold">Instructions:</span>{" "}
+                            {medication.resource.note}
+                          </div>
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  )
+                )}
               </React.Fragment>
             ))}
           </table>
-          <BackButton
-            currentScreen={1}
-            setCurrentScreen={setCurrentScreen}
-          />
+          <BackButton currentScreen={1} setCurrentScreen={setCurrentScreen} />
         </>
       )}
     </>

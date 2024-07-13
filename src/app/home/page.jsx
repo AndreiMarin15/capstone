@@ -200,14 +200,14 @@ export default function Home() {
                     }}
                     className="aspect-square object-contain object-center w-5 overflow-hidden max-w-full self-end"
                   />
-                  <div className="text-black text-xs font-semibold leading-5 self-stretch max-md:max-w-full">
+                  <div className="text-black text-sm font-semibold leading-5 self-stretch max-md:max-w-full">
                     Dr. {doctorInfo.name}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-2.5 max-md:max-w-full">
+                  <div className="text-black text-sm leading-5 self-stretch mt-2.5 max-md:max-w-full">
                     <span className="font-medium">Specialization</span>:{" "}
                     {doctorInfo.specialization}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-2 max-md:max-w-full">
+                  <div className="text-black text-sm leading-5 self-stretch mt-2 max-md:max-w-full">
                     <span className="font-medium">Years of Experience</span>:{" "}
                     {!editState ? (
                       doctorInfo.yearsOfExperience
@@ -225,7 +225,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
+                  <div className="text-black text-sm leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
                     About Doctor: <br />
                     {!editState ? (
                       doctorInfo.about
@@ -239,7 +239,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
+                  <div className="text-black text-sm leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
                     Signature:{" "}
                     {`(will only be used for letters generated for your patients)`}{" "}
                     <br />
@@ -276,7 +276,7 @@ export default function Home() {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/859711bfb179eea2831ffb5fb15c526ddcabc0f40d5059ab0fdd63e056afa3bb?apiKey=66e07193974a40e683930e95115a1cfd&"
                     className="aspect-square object-contain object-center w-[17px] overflow-hidden shrink-0 max-w-full"
                   />
-                  <div className="text-black text-xs font-semibold leading-5 self-center grow shrink basis-auto my-auto">
+                  <div className="text-black text-sm font-semibold leading-5 self-center grow shrink basis-auto my-auto">
                     Multidisciplinary Managed Patients
                   </div>
                 </span>
@@ -289,7 +289,7 @@ export default function Home() {
                       .filter((patient) => patient.handledBy.length > 0) // Filter patients with more than 1 doctor
                       ?.map((patient) => (
                         <>
-                          <div className="text-black text-xs font-semibold leading-5">
+                          <div className="text-black text-sm font-semibold leading-5">
                             {patient.name}
                           </div>
                           <span className="flex flex-col items-stretch  mb-2">
@@ -298,7 +298,7 @@ export default function Home() {
                               return (
                                 <>
                                   {" "}
-                                  <div className="text-black text-xs leading-5 mt-2">
+                                  <div className="text-black text-sm leading-5 mt-2">
                                     Handled by Dr. {doctor.name} -{" "}
                                     {doctor.specialty}
                                   </div>
@@ -325,7 +325,7 @@ export default function Home() {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?apiKey=66e07193974a40e683930e95115a1cfd&"
                   className="aspect-[1.18] object-contain object-center w-5 fill-black overflow-hidden shrink-0 max-w-full"
                 />
-                <div className="text-black text-xs font-semibold leading-5 self-center grow shrink basis-auto my-auto">
+                <div className="text-black text-sm font-semibold leading-5 self-center grow shrink basis-auto my-auto">
                   Notifications
                 </div>
 
@@ -348,10 +348,10 @@ export default function Home() {
                     >
                       <Bell size={20} />
                       <span className="flex grow basis-[0%] flex-col items-stretch">
-                        <div className="text-black text-xs font-medium leading-5">
+                        <div className="text-black text-sm font-medium leading-5">
                           {notification.title}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           {notification.content}{" "}
                           {notification.title === "New Message"
                             ? `from ${notification.sender}`

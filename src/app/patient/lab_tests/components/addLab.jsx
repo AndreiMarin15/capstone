@@ -227,7 +227,7 @@ export default function AddLabTest({
             <div className="flex flex-col max-w-full">
               <div className="w-full max-md:max-w-full">
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
-                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
+                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-sm">
                     <tbody>
                       <tr>
                         <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
@@ -284,7 +284,7 @@ export default function AddLabTest({
                       <tr>
                         <td className="flex gap-10 mt-6">
                           <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
+                            className={`flex flex-col items-center px-20 py-8 text-sm leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px]'
                             }`}
                             onDrop={(e) => handleDrop(e)}
                             onDragOver={(e) => handleDragOver(e)}
@@ -361,13 +361,13 @@ export default function AddLabTest({
                               src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
                               className="aspect-square fill-black w-[15px]"
                             />
-                            <div className="my-auto text-xs">Lab Values</div>
+                            <div className="my-auto text-sm">Lab Values</div>
                           </div>
                         </td>
                       </tr>
                     </table>
                     <table className="max-w-fit border-spacing-y-7 border-separate">
-                      <tbody className="text-xs leading-5 text-black">
+                      <tbody className="text-sm leading-5 text-black">
                         <tr></tr>
                         {/* Your existing row */}
                         {rows?.map((row, index) => (
@@ -425,7 +425,7 @@ export default function AddLabTest({
                               <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[20] w-[24]">
                                 +
                               </div>
-                              <div className=" my-auto text-xs text-gray-400">
+                              <div className=" my-auto text-sm text-gray-400">
                                 Add another row
                               </div>
                             </button>
@@ -445,7 +445,7 @@ export default function AddLabTest({
             />
 
             <button
-              className="flex items-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+              className="flex items-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-base bg-sky-900 text-white"
               onClick={handleAddLabTest}
             >
               Save

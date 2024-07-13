@@ -15,7 +15,7 @@ export default function AddCarePlan({
   setCurrentScreen,
   patientData,
   patientId,
-  fetchData
+  fetchData,
 }) {
   const lookup = {
     dietaryManagement: { code: "18771-9", display: "Dietary Management" },
@@ -29,7 +29,7 @@ export default function AddCarePlan({
   const doctorId = currentUser.getState().user.id;
 
   const patientFullName =
-    patientData.personal_information.first_name + 
+    patientData.personal_information.first_name +
     " " +
     patientData.personal_information.last_name;
   const patientsId = patientId;
@@ -88,16 +88,16 @@ export default function AddCarePlan({
       });
       return; // Prevent further execution if title is empty
     }
-  
+
     const data = [];
-  
+
     if (dietaryManagement)
       data.push(convertToActivity("dietaryManagement", dietaryManagement));
     if (physicalActivities)
       data.push(convertToActivity("physicalActivities", physicalActivities));
     if (selfMonitoring)
       data.push(convertToActivity("selfMonitoring", selfMonitoring));
-  
+
     const today = new Date().toISOString().split("T")[0];
 
     var patientInformation = patientData.personal_information;
@@ -196,7 +196,7 @@ export default function AddCarePlan({
         <div className="flex flex-col max-w-full">
           <div className="w-full max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
-              <table className="w-[40%] max-md:ml-0 max-md:w-full text-xs">
+              <table className="w-[40%] max-md:ml-0 max-md:w-full text-sm">
                 <tbody>
                   <tr className="flex gap-3 justify-between mb-3 w-full">
                     <td className="flex gap-2 my-auto font-semibold text-black">
@@ -216,12 +216,16 @@ export default function AddCarePlan({
                       <input
                         onChange={(e) => {
                           setTitle(e.target.value);
-                          console.log(title)
+                          console.log(title);
                         }}
                         type="text"
                         className={`justify-center items-start py-1.5 pl-2 pr-14 whitespace-nowrap border-black border-[0.5px] rounded shadow-sm 
-                            ${saveClicked && !title && 'border-red-500 border-[0.5px]'}
-                            ${!saveClicked && 'border-black border-[0.5px]'}
+                            ${
+                              saveClicked &&
+                              !title &&
+                              "border-red-500 border-[0.5px]"
+                            }
+                            ${!saveClicked && "border-black border-[0.5px]"}
                           `}
                       />
                     </td>
@@ -241,35 +245,48 @@ export default function AddCarePlan({
                       </div>
                     </td>
                     <td>
-                    <select
-                      onChange={(e) => {
-                        const selectedDoctorId = e.target.value;
-                        console.log("Selected doctor ID:", selectedDoctorId);
-                        console.log("Attending doctors array:", attendingDoctors);
+                      <select
+                        onChange={(e) => {
+                          const selectedDoctorId = e.target.value;
+                          console.log("Selected doctor ID:", selectedDoctorId);
+                          console.log(
+                            "Attending doctors array:",
+                            attendingDoctors
+                          );
 
-                        const selectedDoctor = attendingDoctors.find(
-                          (doctor) => doctor.doctor_id === selectedDoctorId
-                        );
+                          const selectedDoctor = attendingDoctors.find(
+                            (doctor) => doctor.doctor_id === selectedDoctorId
+                          );
 
-                        console.log("Selected doctor object:", selectedDoctor);
+                          console.log(
+                            "Selected doctor object:",
+                            selectedDoctor
+                          );
 
-                        if (selectedDoctor) {
-                          setSelectedDoctorId(selectedDoctor.doctor_id);
-                          setSelectedDoctorFirstName(selectedDoctor.doctor_first_name);
-                          setSelectedDoctorLastName(selectedDoctor.doctor_last_name);
-                        }
-                      }}
-                      className="justify-center items-start py-1.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
-                    >
-                      <option value="">Select...</option>
-                      {attendingDoctors?.map((doctor) => (
-                        <option key={doctor.doctor_id} value={doctor.doctor_id}>
-                          {doctor.doctor_last_name}, {doctor.doctor_first_name} -{" "}
-                          {doctor.doctor_specialization}
-                        </option>
-                      ))}
-                    </select>
-                      
+                          if (selectedDoctor) {
+                            setSelectedDoctorId(selectedDoctor.doctor_id);
+                            setSelectedDoctorFirstName(
+                              selectedDoctor.doctor_first_name
+                            );
+                            setSelectedDoctorLastName(
+                              selectedDoctor.doctor_last_name
+                            );
+                          }
+                        }}
+                        className="justify-center items-start py-1.5 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5"
+                      >
+                        <option value="">Select...</option>
+                        {attendingDoctors?.map((doctor) => (
+                          <option
+                            key={doctor.doctor_id}
+                            value={doctor.doctor_id}
+                          >
+                            {doctor.doctor_last_name},{" "}
+                            {doctor.doctor_first_name} -{" "}
+                            {doctor.doctor_specialization}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                   </tr>
                   <tr className="flex gap-3 justify-between mb-3 w-full">
@@ -351,7 +368,7 @@ export default function AddCarePlan({
               </table>
 
               <div className="flex flex-col ml-5 w-[35%] max-md:ml-0 max-md:w-full">
-                <table className="w-full  text-xs">
+                <table className="w-full  text-sm">
                   <tbody>
                     {date?.map((item, index) => (
                       <tr
@@ -377,9 +394,19 @@ export default function AddCarePlan({
                             <input
                               type="date"
                               className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap border-black border-[0.5px] rounded shadow-sm 
-                                ${saveClicked && item.variable === "Start Date *" && !startDate && 'border-red-500 border-[0.5px]'}
-                                ${saveClicked && item.variable === "End Date *" && !endDate && 'border-red-500 border-[0.5px]'}
-                                ${!saveClicked && 'border-black border-[0.5px]'}
+                                ${
+                                  saveClicked &&
+                                  item.variable === "Start Date *" &&
+                                  !startDate &&
+                                  "border-red-500 border-[0.5px]"
+                                }
+                                ${
+                                  saveClicked &&
+                                  item.variable === "End Date *" &&
+                                  !endDate &&
+                                  "border-red-500 border-[0.5px]"
+                                }
+                                ${!saveClicked && "border-black border-[0.5px]"}
                               `}
                               value={
                                 item.variable === "Start Date *"
@@ -417,7 +444,7 @@ export default function AddCarePlan({
                 className="w-3 h-3 aspect-square"
                 alt="Back Arrow"
               />
-              <div className="text-xs">BACK</div>
+              <div className="text-sm">BACK</div>
             </div>
           </Button>
         </div>
@@ -425,7 +452,6 @@ export default function AddCarePlan({
           <Button
             onClick={() => {
               createCompactActivity();
-              
             }}
           >
             SAVE

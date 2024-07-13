@@ -101,7 +101,7 @@ export default function SendReferral() {
                 setCurrentState(currentState - 1);
               }
             }}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
+            className="mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
           >
             BACK
           </button>
@@ -114,7 +114,7 @@ export default function SendReferral() {
             onClick={() => {
               router.back();
             }}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
+            className="mt-5 text-white text-sm font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
             style={{ marginRight: "auto" }}
           >
             BACK
@@ -158,7 +158,7 @@ export default function SendReferral() {
               router.push("/referral");
             }
           }}
-          className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
+          className={`mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
         >
           {currentState === 3 ? "SEND" : "NEXT"}
         </button>

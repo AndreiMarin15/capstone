@@ -108,11 +108,11 @@ export default function Letters() {
                   />
                 </span>
                 <div className="w-full">
-                  <div className="flex justify-between items-center mb-10 mt-10">
+                  <div className="flex justify-between items-center mb-10 mt-5">
                     <Tabs
                       defaultValue="prescription"
                       onValueChange={handleTabChange}
-                      className="w-[600px]"
+                      className="w-[800px]"
                     >
                       <TabsList>
                         <TabsTrigger value="prescription" color="#003168">
@@ -125,14 +125,12 @@ export default function Letters() {
                           Lab Test Request
                         </TabsTrigger>
                       </TabsList>
+                      {/*Prescription */}
                       <TabsContent value="prescription">
-                        <div className="font-semibold text-s ml-5 mt-5">
+                        <div className="font-semibold text-s ml-5 mt-10">
                           Prescriptions
                         </div>
-                        <Tabs
-                          defaultValue="all"
-                          className="w-[600px] mt-10 ml-4"
-                        >
+                        <Tabs defaultValue="all" className="w-[100%] mt-5 ml-4">
                           <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
                             <TabsTrigger value="endocrinologist">
@@ -143,16 +141,16 @@ export default function Letters() {
                             </TabsTrigger>
                             <TabsTrigger value="gastroenterologist">
                               Gastroenterologist
-                              </TabsTrigger>
-                            </TabsList>
+                            </TabsTrigger>
+                          </TabsList>
 
                           <div className="flex justify-between ml-2 mt-2">
                             <div className="flex items-center">
-                              <span className="text-black text-sm font-bold leading-5">
+                              <span className="text-black text-base font-bold leading-5">
                                 Rendering Options:
                               </span>
                               <select
-                                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs font-normal"
+                                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm font-normal"
                                 onChange={(e) =>
                                   setRenderingOptions(parseInt(e.target.value))
                                 }
@@ -166,7 +164,7 @@ export default function Letters() {
                                 <option value="7">7</option>
                                 <option value="10">10</option>
                               </select>
-                              <span className="ml-2 text-black leading-5 text-sm font-normal">
+                              <span className="ml-2 text-black leading-5 text-base font-normal">
                                 Prescriptions
                               </span>
                             </div>
@@ -248,8 +246,8 @@ export default function Letters() {
                                               ) + 1}
                                         </div>
                                       </div>
-                                      <div className="flex w-full justify-between text-xs ml-2 mt-1">
-                                        <div className="flex gap-1 font-medium whitespace-nowrap ">
+                                      <div className="flex w-full justify-between text-sm ml-2 mt-1">
+                                        <div className="flex gap-1 font-regular whitespace-nowrap ">
                                           <Image
                                             alt="image"
                                             height={0}
@@ -261,6 +259,7 @@ export default function Letters() {
                                             className="w-4 aspect-square"
                                           />
                                           <div className="grow my-auto">
+                                            Dr.{" "}
                                             {
                                               prescription.resource.requester
                                                 .agent.reference
@@ -273,33 +272,31 @@ export default function Letters() {
                                             ).toLocaleDateString()}
                                           </div>
                                         </div>
-                                      
                                       </div>
                                     </div>
                                   </button>
-                                  <div className="flex w-full ml-40 mt-5">
-                                          <Reusable
-                                            child={
-                                              <>
-                                                <Prescription
-                                                  medicationData={prescription}
-                                                  patientData={
-                                                    currentUser.getState().user
-                                                  }
-                                                  doctor_id={
-                                                    prescription.resource
-                                                      .requester.agent
-                                                      .license_id
-                                                  }
-                                                />
-                                              </>
+                                  <div className="flex w-full ml-[350px] mt-5">
+                                    <Reusable
+                                      child={
+                                        <>
+                                          <Prescription
+                                            medicationData={prescription}
+                                            patientData={
+                                              currentUser.getState().user
                                             }
-                                            w={1920}
-                                            h={1080}
-                                            orientation={"p"}
-                                            filename={`prescription_${prescription.id}`}
+                                            doctor_id={
+                                              prescription.resource.requester
+                                                .agent.license_id
+                                            }
                                           />
-                                        </div>
+                                        </>
+                                      }
+                                      w={1920}
+                                      h={1080}
+                                      orientation={"p"}
+                                      filename={`prescription_${prescription.id}`}
+                                    />
+                                  </div>
                                 </div>
                               ))}
                           </TabsContent>
@@ -316,7 +313,7 @@ export default function Letters() {
                       </TabsContent>
 
                       <TabsContent value="referral">
-                        <div className="font-semibold text-s ml-5 mt-5">
+                        <div className="font-semibold text-base ml-5 mt-10">
                           Referral Letters
                         </div>
                         {written_referrals?.map((referral, index) => (
@@ -336,7 +333,7 @@ export default function Letters() {
                                 className="aspect-square fill-black w-[10px]"
                               />
                               {/* Name of Medicine */}
-                              <div className="text-xs font-semibold">
+                              <div className="text-sm font-semibold">
                                 {/*  {medication.resource.medicationCodeableConcept[0].text} */}
                                 Referral Letter to Dr.{" "}
                                 {referral.referral_data?.doctor_name}

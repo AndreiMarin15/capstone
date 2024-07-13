@@ -167,7 +167,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
     <>
       {currentScreen === 0 ? (
         <TabsContent value="labtestrequest">
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex justify-between items-center mt-10">
             <div className="font-semibold items-center self-center text-s ml-5">
               Lab Test Requests
             </div>
@@ -186,11 +186,11 @@ export default function LabTests({ labtests, patientId, patientData }) {
           </div>
           <div className="flex justify-between mt-2">
             <div className="flex items-center">
-              <span className="ml-5 text-black text-sm font-bold leading-5">
+              <span className="ml-5 text-black text-base font-bold leading-5">
                 Rendering Options:
               </span>
               <select
-                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs  font-normal"
+                className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm  font-normal"
                 onChange={(e) => setRenderingOptions(parseInt(e.target.value))}
                 defaultValue="5"
               >
@@ -202,8 +202,8 @@ export default function LabTests({ labtests, patientId, patientData }) {
                 <option value="7">7</option>
                 <option value="10">10</option>
               </select>
-              <span className="ml-2 text-black  leading-5 text-sm font-normal">
-                Lab test requests
+              <span className="ml-2 text-black leading-5 text-base font-normal">
+                Lab Test Requests
               </span>
             </div>
             <DropdownMenu>
@@ -247,11 +247,11 @@ export default function LabTests({ labtests, patientId, patientData }) {
               .map(([encounterId, labTestGroup], groupIndex) => (
                 <div className="flex justify-between" key={groupIndex}>
                   <button
-                    className="flex flex-col mt-5 items-start text-xs leading-5 text-black max-w-[650px]"
+                    className="flex flex-col mt-5 items-start text-sm leading-5 text-black max-w-[650px]"
                     onClick={() => handleRowClick(encounterId)}
                   >
                     {labTestGroup && labTestGroup[0] && (
-                      <div className="flex justify-between text-xs leading-5 text-black max-w-[650px] mt-5 ml-5">
+                      <div className="flex justify-between text-sm leading-5 text-black max-w-[650px] mt-5 ml-5">
                         <Image
                           alt="image"
                           src={labTestGroup[0]?.src}
@@ -266,7 +266,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
                             marginBottom: "0",
                           }}
                         />
-                        <div className="grow text-sm font-medium mr-40 ml-1">
+                        <div className="grow text-sm font-semibold mr-20 ml-1">
                           Lab Test Request {labTestGroup[0]?.reqdate}
                         </div>
                       </div>
@@ -294,7 +294,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
                                 }}
                               />
                               <div
-                                className="text-xs"
+                                className="text-sm"
                                 style={{ whiteSpace: "nowrap" }}
                               >
                                 Dr. {labTestGroup[0]?.doctor}
@@ -304,7 +304,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
                           {/* Replace this with the complete and incomplete depending on whether all the statuses are final here */}
                           <td style={{ textAlign: "right" }}>
                             <div
-                              className="text-xs"
+                              className="text-sm"
                               style={{ display: "flex", alignItems: "center" }}
                             >
                               {labTestGroup.every(

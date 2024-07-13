@@ -84,7 +84,7 @@ export default function Messaging() {
     <div className="bg-white flex flex-col items-end max-md:pl-5 h-[100vh]">
       <div className=" shadow-sm flex gap-5 justify-between px-14 py-9 mt-1.5 w-full whitespace-nowrap bg-white max-md:flex-wrap max-md:px-5 max-md:max-w-full">
         <div className="mt-2.5 text-xl font-semibold text-black">Messages</div>
-        <div className="flex gap-3.5 justify-between text-xs"></div>
+        <div className="flex gap-3.5 justify-between text-sm"></div>
       </div>
       <div className="shadow-sm bg-white mt-0 w-full max-w-full pl-5 pr-20 pt-8 pb-4 max-md:px-5">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -126,7 +126,7 @@ export default function Messaging() {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
                     className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
                   />
-                  <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+                  <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
                     {item.message}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export default function Messaging() {
                   key={index}
                   className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
                 >
-                  <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+                  <span className="text-white text-sm font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
                     {item.message}
                   </span>
                   <Image
@@ -167,14 +167,14 @@ export default function Messaging() {
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
               className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
             />
-            <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
+            <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
               {
                 "Hi, how are you dealing with the care plan? Do you have any concerns?"
               }
             </span>
           </div>
           <div className="justify-end items-stretch flex gap-4 mt-12 self-end max-md:max-w-full max-md:flex-wrap max-md:mt-10">
-            <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
+            <span className="text-white text-sm font-medium leading-5 shadow-sm bg-blue-500 grow justify-center items-stretch p-4 rounded max-md:max-w-full">
               {
                 "Yes, regarding my diet. I think our weight goal is too challenging for me. It makes me dizzy."
               }
@@ -198,7 +198,7 @@ export default function Messaging() {
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/4b22ea85d41d4f064a89b11204518bb621ac7e3a8c3c3468a5e2e1d018b44e95?"
             className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
           />
-          <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
+          <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch grow justify-center items-stretch px-5 py-4 rounded max-md:max-w-full max-md:px-5">
             {
               "Okay. I'll adjust them as necessary. Kindly view your adjusted care plan in a few minutes."
             }
@@ -221,7 +221,7 @@ export default function Messaging() {
           <span className="flex items-stretch gap-2 my-auto"></span>
           <button
             type="submit"
-            className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
+            className="text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
           >
             SEND
           </button>

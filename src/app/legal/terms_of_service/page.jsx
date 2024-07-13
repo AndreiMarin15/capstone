@@ -44,7 +44,7 @@ const TermsOfService = () => {
         <div className="max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow text-xs leading-5 text-black max-md:mt-10 max-md:max-w-full">
+              <div className="flex flex-col grow text-sm leading-5 text-black max-md:mt-10 max-md:max-w-full">
                 <div className="italic max-md:max-w-full">
                   Effective March 22, 2024
                 </div>

@@ -180,11 +180,11 @@ export default function Prescriptions({ patientId }) {
 
             <div className="flex justify-between">
               <div className="flex items-center">
-                <span className="text-black text-sm text-base font-bold leading-5">
+                <span className="text-black text-basetext-base font-bold leading-5">
                   Rendering Options:
                 </span>
                 <select
-                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-xs font-normal"
+                  className="ml-2 w-9 h-8 rounded-md border border-gray-500 text-black text-sm font-normal"
                   onChange={(e) =>
                     setRenderingOptions(parseInt(e.target.value))
                   }
@@ -198,7 +198,7 @@ export default function Prescriptions({ patientId }) {
                   <option value="7">7</option>
                   <option value="10">10</option>
                 </select>
-                <span className="ml-2 text-black text-base leading-5 text-sm font-normal">
+                <span className="ml-2 text-black text-base leading-5 text-basefont-normal">
                   Prescriptions
                 </span>
               </div>
@@ -237,7 +237,7 @@ export default function Prescriptions({ patientId }) {
               ?.map((prescription, index, sortedArray) => (
                 <div
                   key={prescription.id}
-                  className="flex justify-between items-center mt-4 text-xs leading-5 text-black w-full"
+                  className="flex justify-between items-center mt-4 text-sm leading-5 text-black w-full"
                 >
                   <button
                     onClick={() => {
@@ -249,7 +249,7 @@ export default function Prescriptions({ patientId }) {
                   >
                     <div
                       key={index}
-                      className="flex flex-col mt-5 items-start text-xs leading-5 text-black w-full"
+                      className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
                     >
                       <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                         <Image
@@ -276,7 +276,7 @@ export default function Prescriptions({ patientId }) {
                         </div>
                       </div>
 
-                      <div className="flex w-full justify-between text-xs">
+                      <div className="flex w-full justify-between text-sm">
                         <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
                           <Image
                             alt="image"
@@ -288,10 +288,11 @@ export default function Prescriptions({ patientId }) {
                             }
                             className="w-4 aspect-square"
                           />
-                          <div className="grow my-auto">
+                          <div className="grow my-auto font-normal">
+                            Dr.{" "}
                             {prescription.resource.requester.agent.reference}
                           </div>
-                          <div className="grow my-auto ml-10">
+                          <div className="grow my-auto ml-10 font-normal">
                             Provided On:{" "}
                             {new Date(
                               prescription.created_at

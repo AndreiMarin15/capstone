@@ -49,16 +49,16 @@ export default function ViewLab({
           <div className="text-black text-base font-bold leading-5 mt-8 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             LAB TESTS
           </div>
-          <div className="text-black text-sm font-semibold leading-5 mt-8 mb-1 ml-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
+          <div className="text-black text-base font-semibold leading-5 mt-8 mb-1 ml-5 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
             Lab Test Request {labTests[0]?.reqdate}
           </div>{" "}
           <hr
             className="ml-5 mt-2"
             style={{ borderTop: "1px solid #9CA3AF", width: "100%" }}
           />
-          <div className="flex-1 mr-4 text-xs ml-6 mt-3">
+          <div className="flex-1 mr-4 text-sm ml-6 mt-3">
             <table className="max-w-fit border-spacing-y-3 border-separate">
-              <tbody className="text-xs leading-5 text-black">
+              <tbody className="text-sm leading-5 text-black">
                 {labTests.map((item, index) => (
                   <tr
                     key={index}
@@ -81,7 +81,7 @@ export default function ViewLab({
                         <div className="flex justify-between">
                           {item.variable}
                           <div
-                            className="text-xs ml-10"
+                            className="text-sm ml-10"
                             style={{
                               display: "flex",
                               alignItems: "center",

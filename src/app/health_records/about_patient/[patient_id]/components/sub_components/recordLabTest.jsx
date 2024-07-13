@@ -4,7 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import BackButton from "./BackButton";
 import doctor from "@/backend//health_records/doctor";
 import { getEncounterById } from "@/backend//health_records/getEncounter";
-import { getObservationsByPatientId, updateObservation } from "@/backend//health_records/getObservation";
+import {
+  getObservationsByPatientId,
+  updateObservation,
+} from "@/backend//health_records/getObservation";
 import { healthRecords } from "@/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
@@ -31,16 +34,14 @@ export default function RecordLabTest({
   patientId,
   encounterId,
 }) {
-
   const observationId = useLabTestStore((state) => state.observationId);
-  console.log("observationID: ", observationId)
+  console.log("observationID: ", observationId);
   const [doctorId, setDoctorId] = useState("");
   const [selectedLabTest, setSelectedLabTest] = useState(null);
   const [labTestsList, setLabTestsList] = useState([]);
   const [filteredLabTests, setFilteredLabTests] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
@@ -59,10 +60,10 @@ export default function RecordLabTest({
       try {
         const encounter = await getEncounterById(encounterId);
         const observationsData = await getObservationsByPatientId(patientId);
-        
+
         // Filter lab tests based on observationId
         const labTestObservations = observationsData
-          .filter((observation) => observation.resource.id === 'labtest')
+          .filter((observation) => observation.resource.id === "labtest")
           .filter((observation) => observation.id === observationId)
           .map((observation) => ({
             id: observation.resource.id,
@@ -77,13 +78,13 @@ export default function RecordLabTest({
             reqdate: encounter.resource.period.start,
             status: observation.resource.status,
           }));
-    
+
         setLabTestsList(labTestObservations);
       } catch (error) {
         console.error("Error fetching encounter:", error);
       }
     };
-  
+
     if (encounterId) {
       fetchEncounter();
     }
@@ -97,8 +98,7 @@ export default function RecordLabTest({
     try {
       const doctorInfo = await doctor.getDoctorByCurrentUser();
       // Get the observation data from labTestsList
-  
-  
+
       // Construct payload with updated data
       const updatedObservationData = {
         resource: {
@@ -107,15 +107,15 @@ export default function RecordLabTest({
             coding: [
               {
                 code: "YOUR_LOINC_CODE",
-                system: "http://loinc.org"
-              }
-            ]
+                system: "http://loinc.org",
+              },
+            ],
           },
           status: "final",
           remarks: labTestsList[0]?.remarks,
           subject: {
             type: "Patient",
-            reference: patientId
+            reference: patientId,
           },
           codeText: labTestsList[0]?.variable,
           // Assuming uploadedImageSrc is defined elsewhere
@@ -124,53 +124,55 @@ export default function RecordLabTest({
             type: "Doctor",
             actor: doctorId,
             license_id: doctorInfo.license,
-          
           },
-          
+
           resource_type: "Observation",
           rangeQuantity: {
             rangeQuantities: ranges.map((range) => ({
               level: range.level,
               min: range.min,
-              max: range.max
-            }))
+              max: range.max,
+            })),
           },
           valueQuantity: {
             valueQuantities: labValues.map((labValues) => ({
               display: labValues.labValueName,
               value: labValues.value,
-              unit: labValues.unit
-            }))
+              unit: labValues.unit,
+            })),
           },
           uploadedDateTime: dateTaken,
           effectiveDateTime: dateUntil,
-          requestedDateTime: labTestsList[0]?.reqdate
-        }
+          requestedDateTime: labTestsList[0]?.reqdate,
+        },
       };
-  
+
       // Send updated data to backend to update observation
-      const response = await updateObservation(observationId, updatedObservationData);
-  
+      const response = await updateObservation(
+        observationId,
+        updatedObservationData
+      );
+
       // Handle success response from backend
       console.log("Observation updated successfully:", response);
-  
+
       toast.success("Lab Test Recorded", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 2000,
       });
-  
+
       setCurrentScreen(1);
     } catch (error) {
       console.error("Error updating observation:", error);
       toast.error("Error updating observation", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 2000,
       });
     }
   };
-  
+
   const [labTestResults, setLabTestResults] = useState([]);
   const [dateOfResult, setDateOfResult] = useState("");
   const [dateOfRequest, setdateOfRequest] = useState("");
@@ -178,48 +180,45 @@ export default function RecordLabTest({
   const [labTestName, setLabTestName] = useState("");
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dateTaken, setDateTaken] = useState("")
-  const [dateUntil, setDateUntil] = useState("")
+  const [dateTaken, setDateTaken] = useState("");
+  const [dateUntil, setDateUntil] = useState("");
 
-  
   const validateFields = () => {
     let valid = true;
-  
+
     if (!dateTaken) {
       valid = false;
-    
-        toast.error("Date Taken is required.", {
-          autoClose: 2000,
-        });
-      
+
+      toast.error("Date Taken is required.", {
+        autoClose: 2000,
+      });
     }
     if (!dateUntil) {
       valid = false;
-     
-        toast.error("Valid Until is required.", {
-          autoClose: 2000,
-        });
-      
-    }
-   
-    if (!uploadedImageSrc) {
-      valid = false; 
-        toast.error("Upload is required.", {
-          autoClose: 2000,
-        });
+
+      toast.error("Valid Until is required.", {
+        autoClose: 2000,
+      });
     }
 
-  
+    if (!uploadedImageSrc) {
+      valid = false;
+      toast.error("Upload is required.", {
+        autoClose: 2000,
+      });
+    }
+
     return valid;
   };
-  
-  const [labValues, setLabValues] = useState([{ labValueName: "", value: "", unit: "" }]);
+
+  const [labValues, setLabValues] = useState([
+    { labValueName: "", value: "", unit: "" },
+  ]);
   const [ranges, setRanges] = useState([
     { level: "High", min: "", max: "" },
     { level: "Medium", min: "", max: "" },
     { level: "Low", min: "", max: "" },
   ]);
-
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -264,7 +263,6 @@ export default function RecordLabTest({
     setIsModalOpen(false);
   };
 
- 
   const handleAddRow = () => {
     setLabValues([...labValues, { labValueName: "", value: "", unit: "" }]);
     setRanges([
@@ -293,7 +291,6 @@ export default function RecordLabTest({
     setRanges(updatedranges);
   };
 
-  
   const handleMinChange = (value, index) => {
     const updatedranges = [...ranges];
     updatedranges[index].min = value;
@@ -305,7 +302,6 @@ export default function RecordLabTest({
     updatedranges[index].max = value;
     setRanges(updatedranges);
   };
-
 
   const handleAddLabTest = async () => {
     const currentDate = new Date();
@@ -330,9 +326,7 @@ export default function RecordLabTest({
 
     const reqdate = labTestsList.length > 0 ? labTestsList[0].reqdate : null;
 
-    
     const labTestData = {
-      
       loincCode: "YOUR_LOINC_CODE",
       status: "final",
       valueQuantities: rows?.map((row) => ({
@@ -376,21 +370,20 @@ export default function RecordLabTest({
     setLabValues(updatedlabValues);
   };
 
-
   const handleLabInputChange = (e, rowIndex) => {
     const inputValue = e.target.value.toLowerCase();
     const filteredTests = ["Total Cholesterol", "Glucose"].filter((test) =>
       test.toLowerCase().includes(inputValue)
     );
-  
+
     // Update the filteredLabTests state specific to the current lab value index
-    setFilteredLabTests(prevState => ({
+    setFilteredLabTests((prevState) => ({
       ...prevState,
       [rowIndex]: filteredTests,
     }));
   };
-  
-console.log(labTestsList)
+
+  console.log(labTestsList);
   return (
     <>
       {currentScreen === 2 ? (
@@ -402,10 +395,8 @@ console.log(labTestsList)
           <div>
             <div className="flex flex-col max-w-full">
               <div className="w-full max-md:max-w-full">
-            
-
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:w-full">
-                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-xs">
+                  <table className="ml-5 w-[50%] max-md:ml-0 max-md:w-full text-sm">
                     <tbody>
                       <tr>
                         <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
@@ -422,8 +413,10 @@ console.log(labTestsList)
                           </div>
                           <td>
                             <input
-                               className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
-                                formSubmitted && !dateTaken ? "border-red-500" : ""
+                              className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
+                                formSubmitted && !dateTaken
+                                  ? "border-red-500"
+                                  : ""
                               }`}
                               type="date"
                               onChange={(e) => {
@@ -448,11 +441,11 @@ console.log(labTestsList)
                             <div className="my-auto">Name of Lab Test</div>
                           </div>
                           <td>
-                          <input
-                            className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
-                            value={labTestsList[0]?.variable}
-                            readOnly
-                          />
+                            <input
+                              className="ml-6 justify-center items-start py-1.5 pr-14 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5"
+                              value={labTestsList[0]?.variable}
+                              readOnly
+                            />
                           </td>
                         </td>
                         <td className="flex gap-16 pr-14 mt-4 w-full whitespace-nowrap max-md:pr-5">
@@ -468,10 +461,11 @@ console.log(labTestsList)
                             <div className="my-auto">Valid Until *</div>
                           </div>
                           <td>
-                          
-                          <input
+                            <input
                               className={`justify-center items-start py-1.5 pr-3 pl-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
-                                formSubmitted && !dateUntil ? "border-red-500" : ""
+                                formSubmitted && !dateUntil
+                                  ? "border-red-500"
+                                  : ""
                               }`}
                               type="date"
                               onChange={(e) => {
@@ -485,8 +479,10 @@ console.log(labTestsList)
                       <tr>
                         <td className="flex gap-10 mt-6">
                           <div
-                            className={`flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px] ${
-                              formSubmitted && !uploadedImageSrc ? "border-red-500" : "border-black"
+                            className={`flex flex-col items-center px-20 py-8 text-sm leading-5 text-center bg-white border-black border-solid border-[0.5px] max-w-[600px] ${
+                              formSubmitted && !uploadedImageSrc
+                                ? "border-red-500"
+                                : "border-black"
                             }
                             `}
                             onDrop={(e) => handleDrop(e)}
@@ -527,7 +523,7 @@ console.log(labTestsList)
                                   className="aspect-[1.03] w-[38px]"
                                 />
                                 <div className="self-stretch mt-1.5 text-black">
-                                Drag or drop here *
+                                  Drag or drop here *
                                 </div>
                                 <div
                                   className="mt-3.5 font-light text-sky-600 underline"
@@ -552,163 +548,200 @@ console.log(labTestsList)
                   </table>
 
                   <div className="flex flex-col ml-5 w-[50%] max-md:ml-0 max-md:w-full">
-                
-                  <table className="max-w-fit border-spacing-y-2 border-separate">
-                    <tbody className="text-xs leading-5 text-black">
-                      {labValues?.map((row, index) => (
+                    <table className="max-w-fit border-spacing-y-2 border-separate">
+                      <tbody className="text-sm leading-5 text-black">
+                        {labValues?.map((row, index) => (
                           <React.Fragment key={index}>
-                              <td>
-                                  <div className="flex gap-4 mt-10 my-auto font-semibold text-black">
-                                    <Image
-                                      alt="image"
-                                      height={0}
-                                      width={0}
-                                      loading="lazy"
-                                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
-                                      className="aspect-square fill-black w-[15px]"
-                                    />
-                                    <div className="my-auto text-xs">Lab Values</div>
-                                  </div>
+                            <td>
+                              <div className="flex gap-4 mt-10 my-auto font-semibold text-black">
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
+                                  className="aspect-square fill-black w-[15px]"
+                                />
+                                <div className="my-auto text-sm">
+                                  Lab Values
+                                </div>
+                              </div>
                             </td>
                             <tr>
                               <td className="border-l-[16px] border-transparent">
-                            
-                              <div className="inline-block relative">
-                              <input
-                                className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
-                                type="text"
-                                placeholder={`Lab Value ${index + 1}`}
-                                value={row.labValueName}
-                                onChange={(e) => handleLabValueNameChange(e.target.value, index)}
-                                onInput={(e) => handleLabInputChange(e, index)} // Pass rowIndex to handleLabInputChange
-                              />
-                              {filteredLabTests[index]?.length >= 0 && (
-                                  <ul
-                                  style={{
-                                    listStyle: "none",
-                                    padding: "unset",
-                                    margin: "unset",
-                                    position: "absolute",
-                                    width: "175px", // Adjust width as needed
-                                    maxHeight: "100px", // Adjust max height as needed
-                                    overflowY: "auto",
-                                    overflowX: "hidden",
-                                  }}>
-                                    {filteredLabTests[index].map((labTest, idx) => (
-                                      <li  
-                                      className="border text-black text-sm border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300" 
-                                      key={idx}>
-                                        <button
-                                          className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
-                                          onClick={() => {
-                                            const updatedLabValues = [...labValues];
-                                            updatedLabValues[index] = {
-                                              ...updatedLabValues[index],
-                                              labValueName: labTest,
-                                            };
-                                            setLabValues(updatedLabValues);
-                                            // Reset filteredLabTests for this index after selection
-                                            setFilteredLabTests(prevState => ({
-                                              ...prevState,
-                                              [index]: [],
-                                            }));
-                                          }}
-                                        >
-                                          {labTest}
-                                        </button>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
-                              </div>
+                                <div className="inline-block relative">
+                                  <input
+                                    className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
+                                    type="text"
+                                    placeholder={`Lab Value ${index + 1}`}
+                                    value={row.labValueName}
+                                    onChange={(e) =>
+                                      handleLabValueNameChange(
+                                        e.target.value,
+                                        index
+                                      )
+                                    }
+                                    onInput={(e) =>
+                                      handleLabInputChange(e, index)
+                                    } // Pass rowIndex to handleLabInputChange
+                                  />
+                                  {filteredLabTests[index]?.length >= 0 && (
+                                    <ul
+                                      style={{
+                                        listStyle: "none",
+                                        padding: "unset",
+                                        margin: "unset",
+                                        position: "absolute",
+                                        width: "175px", // Adjust width as needed
+                                        maxHeight: "100px", // Adjust max height as needed
+                                        overflowY: "auto",
+                                        overflowX: "hidden",
+                                      }}
+                                    >
+                                      {filteredLabTests[index].map(
+                                        (labTest, idx) => (
+                                          <li
+                                            className="border text-black text-baseborder-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+                                            key={idx}
+                                          >
+                                            <button
+                                              className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
+                                              onClick={() => {
+                                                const updatedLabValues = [
+                                                  ...labValues,
+                                                ];
+                                                updatedLabValues[index] = {
+                                                  ...updatedLabValues[index],
+                                                  labValueName: labTest,
+                                                };
+                                                setLabValues(updatedLabValues);
+                                                // Reset filteredLabTests for this index after selection
+                                                setFilteredLabTests(
+                                                  (prevState) => ({
+                                                    ...prevState,
+                                                    [index]: [],
+                                                  })
+                                                );
+                                              }}
+                                            >
+                                              {labTest}
+                                            </button>
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  )}
+                                </div>
                               </td>
                               <td className="border-l-[8px] border-transparent flex items-center">
-                                <span className="mt-2 flex items-center text-black font-medium">=</span>
+                                <span className="mt-2 flex items-center text-black font-medium">
+                                  =
+                                </span>
                               </td>
                               <td className="border-l-[8px] border-transparent">
-                            
                                 <input
                                   className="justify-center py-2 pr-4 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                                   type="text"
                                   placeholder="Enter value"
                                   value={row.value}
-                                  onChange={(e) => handleValueChange(e.target.value, index)}
+                                  onChange={(e) =>
+                                    handleValueChange(e.target.value, index)
+                                  }
                                 />
                               </td>
                               <td className="border-l-[20px] border-transparent">
-                              
                                 <input
                                   className="justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                                   type="text"
                                   placeholder="Unit"
                                   value={row.unit}
-                                  onChange={(e) => handleUnitChange(e.target.value, index)}
+                                  onChange={(e) =>
+                                    handleUnitChange(e.target.value, index)
+                                  }
                                 />
                               </td>
                             </tr>
                             {/* Ranges */}
                             <td>
-                            <div className="flex gap-4 my-auto font-semibold text-black">
-                              <Image
-                                alt="image"
-                                height={0}
-                                width={0}
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
-                                className="aspect-square fill-black w-[22px]"
-                              />
-                              <div className="my-auto text-xs">Ranges</div>
-                            </div>
-                          </td>
-                            {ranges.slice(index * 3, index * 3 + 3).map((range, rangeIndex) => (
-                              <tr key={`${index}-${rangeIndex}`}>
-                                <td colSpan="4" className="border-l-[16px] border-transparent">
-                              
-                                  <input
-                                    className="justify-center py-2 pr-2 pl-2 mr-4 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-[100px]"
-                                    type="text"
-                                    value={range.level}
-                                    onChange={(e) => handleLevelChange(e.target.value, index * 3 + rangeIndex)}
-                                  />
-                              
-                                  <input
-                                    className="justify-center py-2 px-2 mr-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16 ml-1"
-                                    type="text"
-                                    placeholder="Min"
-                                    value={range.min}
-                                    onChange={(e) => handleMinChange(e.target.value, index * 3 + rangeIndex)}
-                                  />
-                                <span>-</span>
-                                  <input
-                                    className="justify-center py-2 px-2 ml-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
-                                    type="text"
-                                    placeholder="Max"
-                                    value={range.max}
-                                    onChange={(e) => handleMaxChange(e.target.value, index * 3 + rangeIndex)}
-                                  />
-                                </td>
-                              </tr>
-                            ))}
+                              <div className="flex gap-4 my-auto font-semibold text-black">
+                                <Image
+                                  alt="image"
+                                  height={0}
+                                  width={0}
+                                  loading="lazy"
+                                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
+                                  className="aspect-square fill-black w-[22px]"
+                                />
+                                <div className="my-auto text-sm">Ranges</div>
+                              </div>
+                            </td>
+                            {ranges
+                              .slice(index * 3, index * 3 + 3)
+                              .map((range, rangeIndex) => (
+                                <tr key={`${index}-${rangeIndex}`}>
+                                  <td
+                                    colSpan="4"
+                                    className="border-l-[16px] border-transparent"
+                                  >
+                                    <input
+                                      className="justify-center py-2 pr-2 pl-2 mr-4 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-[100px]"
+                                      type="text"
+                                      value={range.level}
+                                      onChange={(e) =>
+                                        handleLevelChange(
+                                          e.target.value,
+                                          index * 3 + rangeIndex
+                                        )
+                                      }
+                                    />
+
+                                    <input
+                                      className="justify-center py-2 px-2 mr-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16 ml-1"
+                                      type="text"
+                                      placeholder="Min"
+                                      value={range.min}
+                                      onChange={(e) =>
+                                        handleMinChange(
+                                          e.target.value,
+                                          index * 3 + rangeIndex
+                                        )
+                                      }
+                                    />
+                                    <span>-</span>
+                                    <input
+                                      className="justify-center py-2 px-2 ml-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black w-16"
+                                      type="text"
+                                      placeholder="Max"
+                                      value={range.max}
+                                      onChange={(e) =>
+                                        handleMaxChange(
+                                          e.target.value,
+                                          index * 3 + rangeIndex
+                                        )
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                              ))}
                           </React.Fragment>
                         ))}
-                      <tr>
-                        <td colSpan="4" className="text-center">
-                          <button
-                            className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                            onClick={() => handleAddRow()}
-                          >
-                            <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
-                              +
-                            </div>
-                            <div className=" my-auto text-xs text-gray-400">
-                              Add another row
-                            </div>
-                          </button>
-                        
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        <tr>
+                          <td colSpan="4" className="text-center">
+                            <button
+                              className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
+                              onClick={() => handleAddRow()}
+                            >
+                              <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
+                                +
+                              </div>
+                              <div className=" my-auto text-sm text-gray-400">
+                                Add another row
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -721,7 +754,7 @@ console.log(labTestsList)
             />
 
             <Button
-              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-basebg-sky-900 text-white"
               onClick={handleSaveLabTest}
             >
               Save
