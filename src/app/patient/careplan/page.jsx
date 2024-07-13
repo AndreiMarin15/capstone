@@ -68,8 +68,8 @@ export default function CarePlanDashboard() {
                   />
                 </span>
 
-                <div className="pl-5 bg-white flex flex-col items-stretch h-full w-full">
-                  <div className="flex gap-5 justify-between text-sm max-w-[100%] max-md:flex-wrap">
+                <div className="pl-5 bg-white flex flex-col items-stretch h-screen">
+                  <div className="flex gap-5 justify-between text-base max-w-[100%] max-md:flex-wrap">
                     <div className="mt-8 flex gap-1.5">
                       <div className="mt-3 grow font-semibold text-black">
                         Status:{" "}
@@ -93,13 +93,13 @@ export default function CarePlanDashboard() {
                     .map((value, index) => (
                       <button
                         key={index}
-                        className="flex flex-col mt-5 items-start text-sm leading-5 text-black max-w-[800px]"
+                        className="flex flex-col mt-5 items-start text-base leading-5 text-black max-w-[800px]"
                         onClick={() => {
                           setCarePlan(value.resource);
                           setCurrentScreen(1);
                         }}
                       >
-                        <div className="flex flex-col mt-5 items-start text-sm leading-5 text-black">
+                        <div className="flex flex-col mt-5 items-start text-base leading-5 text-black">
                           <div className="flex gap-3.5 font-semibold whitespace-nowrap ">
                             <Image
                               alt="image"
@@ -114,7 +114,7 @@ export default function CarePlanDashboard() {
                             </div>
                           </div>
                           <div className="flex gap-5 self-stretch ml-7 w-full max-md:flex-wrap max-md:max-w-full">
-                            <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
+                            <div className="flex gap-1 justify-between font-regular whitespace-nowrap">
                               <Image
                                 alt="image"
                                 height={0}
@@ -124,6 +124,7 @@ export default function CarePlanDashboard() {
                                 className="w-4 aspect-square"
                               />
                               <div className="grow my-auto">
+                                Dr.{" "}
                                 {value["resource"]?.contributor.length === 1
                                   ? `${
                                       value["resource"]?.contributor[0].display

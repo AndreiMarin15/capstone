@@ -167,7 +167,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
     <>
       {currentScreen === 0 ? (
         <TabsContent value="labtestrequest">
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex justify-between items-center mt-10">
             <div className="font-semibold items-center self-center text-s ml-5">
               Lab Test Requests
             </div>
@@ -266,7 +266,7 @@ export default function LabTests({ labtests, patientId, patientData }) {
                             marginBottom: "0",
                           }}
                         />
-                        <div className="grow text-base font-medium mr-40 ml-1">
+                        <div className="grow text-sm font-semibold mr-20 ml-1">
                           Lab Test Request {labTestGroup[0]?.reqdate}
                         </div>
                       </div>

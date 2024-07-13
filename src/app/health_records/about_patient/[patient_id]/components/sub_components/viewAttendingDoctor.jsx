@@ -47,7 +47,7 @@ export default function ViewAttendingDoctors({
       </div>
 
       <div>
-        <div className="flex flex-col max-w-[914px]">
+        <div className="flex flex-col max-w-[914px] h-screen">
           <div className="w-full max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
               <div className="flex flex-col w-[50%] max-md:ml-0 max-md:w-full">

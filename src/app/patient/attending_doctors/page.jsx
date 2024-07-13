@@ -111,9 +111,16 @@ export default function ViewDoctors() {
       {atCurrentScreen === 1 ? (
         <>
           <div>
-            <div className="flex flex-col">
-              <div className="text-black text-base font-bold leading-5 mt-8  max-md:ml-1 max-md:mt-10 flex justify-between items-center">
-                ATTENDING DOCTOR/S
+            <div className="flex flex-col h-screen">
+              <div className="text-black text-xl font-semibold leading-8 mb-5">
+                Attending Doctors
+                <hr
+                  style={{
+                    borderTop: "1px solid #9CA3AF",
+                    width: "100%",
+                    marginTop: "20px",
+                  }}
+                />
                 {/* <Button
 									variant="outline"
 									onClick={() => {

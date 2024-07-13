@@ -108,11 +108,11 @@ export default function Letters() {
                   />
                 </span>
                 <div className="w-full">
-                  <div className="flex justify-between items-center mb-10 mt-10">
+                  <div className="flex justify-between items-center mb-10 mt-5">
                     <Tabs
                       defaultValue="prescription"
                       onValueChange={handleTabChange}
-                      className="w-[600px]"
+                      className="w-[800px]"
                     >
                       <TabsList>
                         <TabsTrigger value="prescription" color="#003168">
@@ -125,14 +125,12 @@ export default function Letters() {
                           Lab Test Request
                         </TabsTrigger>
                       </TabsList>
+                      {/*Prescription */}
                       <TabsContent value="prescription">
-                        <div className="font-semibold text-s ml-5 mt-5">
+                        <div className="font-semibold text-s ml-5 mt-10">
                           Prescriptions
                         </div>
-                        <Tabs
-                          defaultValue="all"
-                          className="w-[600px] mt-10 ml-4"
-                        >
+                        <Tabs defaultValue="all" className="w-[100%] mt-5 ml-4">
                           <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
                             <TabsTrigger value="endocrinologist">
@@ -223,7 +221,7 @@ export default function Letters() {
                                   >
                                     <div
                                       key={index}
-                                      className="flex flex-col mt-5 items-start text-base leading-5 text-black w-full"
+                                      className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
                                     >
                                       <div className="flex gap-1.5 font-semibold whitespace-nowrap mt-3 ml-2">
                                         <Image
@@ -249,7 +247,7 @@ export default function Letters() {
                                         </div>
                                       </div>
                                       <div className="flex w-full justify-between text-sm ml-2 mt-1">
-                                        <div className="flex gap-1 font-medium whitespace-nowrap ">
+                                        <div className="flex gap-1 font-regular whitespace-nowrap ">
                                           <Image
                                             alt="image"
                                             height={0}
@@ -261,6 +259,7 @@ export default function Letters() {
                                             className="w-4 aspect-square"
                                           />
                                           <div className="grow my-auto">
+                                            Dr.{" "}
                                             {
                                               prescription.resource.requester
                                                 .agent.reference
@@ -276,7 +275,7 @@ export default function Letters() {
                                       </div>
                                     </div>
                                   </button>
-                                  <div className="flex w-full ml-40 mt-5">
+                                  <div className="flex w-full ml-[350px] mt-5">
                                     <Reusable
                                       child={
                                         <>
@@ -314,7 +313,7 @@ export default function Letters() {
                       </TabsContent>
 
                       <TabsContent value="referral">
-                        <div className="font-semibold text-s ml-5 mt-5">
+                        <div className="font-semibold text-base ml-5 mt-10">
                           Referral Letters
                         </div>
                         {written_referrals?.map((referral, index) => (

@@ -33,6 +33,11 @@ export default function MasterData() {
       value: "",
     },
     {
+      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/23f789239697f8a78777e02109dfca5430a50c87ad9728340db8e9d8b061ab26?",
+      variable: "Education",
+      value: "",
+    },
+    {
       src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/e77ec5f69c4c6a607193ae426085edd6fc84819ef906d2d9ebb491b796c8519b?"',
       variable: "Address",
       value: "",
@@ -47,6 +52,7 @@ export default function MasterData() {
       variable: "Allergies",
       value: (
         <Button
+          variant="outline"
           onClick={() => {
             router.push("/patient/my_health_record/allergies");
           }}
