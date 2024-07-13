@@ -171,6 +171,7 @@ export default function Vitals({ patientId }) {
       };
 
       setVitalsAndBio(updatedVitalsAndBio);
+      console.log("UPDATED", updatedVitalsAndBio);
       setChartValues(formattedChartValues);
       console.log(formattedChartValues);
     }

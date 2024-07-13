@@ -61,8 +61,8 @@ export const getVitalsAndBiometricsDoctor = async (userId) => {
 		user_id: userId,
 	});
 	console.log("VITALSQUERY",query);
-	const sortedJson = {};
-	const data = query.data[0]?.data;
+	let sortedJson = {};
+	const data = query?.data[0]?.data ?? {};
 	console.log("VITALSDATA",data);
 	if (data == {}) {
 		const dataKeys = Object.keys(data);
