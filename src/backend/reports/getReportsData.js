@@ -145,16 +145,37 @@ export const getCriticalPatients = async () => {
   return Object.values(latestObservations);
 };
 
-export const remindPatients = async (patientIds, reminderDetails) => {
+export const remindPatients = async (
+  patientIds,
+  reminderDetails,
+  triggerShouldSend
+) => {
   // Assuming sendReminder is a function that sends a reminder to the patient
-
+  const reminded_by = currentUser.getState().info.id;
+  const shouldTrigger = triggerShouldSend ?? false;
   patientIds.forEach(async (patient) => {
-    const reminder = {
-      ...reminderDetails,
-      patient_id: patient,
-    };
-    const reminders = await project.from("patient_reminders").insert(reminder);
-    console.log("Reminder sent to patient:", reminders);
+    if (shouldTrigger) {
+      const shouldSend = await shouldSendReminder(patient, reminded_by);
+      if (shouldSend) {
+        const reminder = {
+          ...reminderDetails,
+          patient_id: patient,
+        };
+        const reminders = await project
+          .from("patient_reminders")
+          .insert(reminder);
+        console.log("Reminder sent to patient:", reminders);
+      }
+    } else {
+      const reminder = {
+        ...reminderDetails,
+        patient_id: patient,
+      };
+      const reminders = await project
+        .from("patient_reminders")
+        .insert(reminder);
+      console.log("Reminder sent to patient:", reminders);
+    }
   });
 
   return true;
@@ -188,4 +209,20 @@ export const getReminders = async () => {
   });
 
   return reminderData;
+};
+
+export const shouldSendReminder = async (patientId, remindedBy) => {
+  const { data: reminders, error } = await project
+    .from("patient_reminders")
+    .select("*")
+    .eq("patient_id", patientId)
+    .eq("reminded_by", remindedBy)
+    .lt("created_at", new Date().toISOString().split("T")[0]);
+
+  if (error) {
+    console.error("Error fetching reminders:", error);
+    return;
+  }
+
+  return reminders.length === 0;
 };

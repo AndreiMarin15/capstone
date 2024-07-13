@@ -13,6 +13,7 @@ import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSignature } from "@/app/store";
 import { UploadSignature } from "../health_records/about_patient/[patient_id]/components/sub_components/uploadSignature";
+import { handleRemindAll } from "@/app/reports/followup_list/page";
 export default function Home() {
   const [editState, setEditState] = React.useState(false);
   const [signatureFlag, setSignatureFlag] = React.useState(false);
@@ -80,6 +81,16 @@ export default function Home() {
     };
 
     fetchNotifs();
+  }, []);
+
+  React.useEffect(() => {
+    const handleReminder = async () => {
+      const resp = await handleRemindAll();
+      console.log(resp);
+      console.log("done")
+    };
+
+    // handleReminder();
   }, []);
 
   React.useEffect(() => {
