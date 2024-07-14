@@ -138,14 +138,14 @@ export default function AddRecord({
     if (!formData.title.trim()) {
       valid = false;
       toast.error("Title is required.", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
 
     if (!formData.upload) {
       valid = false;
       toast.error("Upload is required.", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
 
@@ -166,7 +166,7 @@ export default function AddRecord({
       toast.success("Other Record Added", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
       fetchRecords();
       setCurrentScreen(0);
@@ -174,7 +174,7 @@ export default function AddRecord({
       toast.error("Error Adding Record", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
   };

@@ -30,27 +30,27 @@ export default function AddVitals({
     let valid = true;
 
     if (!vitals.systolic) {
-      toast.error("Systolic Blood Pressure is required.", { autoClose: 2000 });
+      toast.error("Systolic Blood Pressure is required.", { autoClose: 8000 });
       valid = false;
     }
     if (!vitals.diastolic) {
-      toast.error("Diastolic Blood Pressure is required.", { autoClose: 2000 });
+      toast.error("Diastolic Blood Pressure is required.", { autoClose: 8000 });
       valid = false;
     }
     if (!vitals.heartRate) {
-      toast.error("Heart Rate is required.", { autoClose: 2000 });
+      toast.error("Heart Rate is required.", { autoClose: 8000 });
       valid = false;
     }
     if (!vitals.height) {
-      toast.error("Height is required.", { autoClose: 2000 });
+      toast.error("Height is required.", { autoClose: 8000 });
       valid = false;
     }
     if (!vitals.weight) {
-      toast.error("Weight is required.", { autoClose: 2000 });
+      toast.error("Weight is required.", { autoClose: 8000 });
       valid = false;
     }
     if (!vitals.bmi) {
-      toast.error("Body Mass Index is required.", { autoClose: 2000 });
+      toast.error("Body Mass Index is required.", { autoClose: 8000 });
       valid = false;
     }
 

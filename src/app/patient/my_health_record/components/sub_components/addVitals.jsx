@@ -35,7 +35,7 @@ export default function AddVitals({ currentPage, setCurrentPage }) {
         toast.success("Vitals saved successfully!", {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
       }
     };

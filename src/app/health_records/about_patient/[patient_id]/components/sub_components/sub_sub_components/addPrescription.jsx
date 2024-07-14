@@ -49,7 +49,7 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
       toast.error("Medication Deleted", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     } catch (error) {
       console.error("Error deleting medication from database:", error);

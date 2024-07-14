@@ -59,7 +59,7 @@ const Request = ({ sharing, index, handleApproval }) => {
       .then(() => {
         toast.success(
           `OTP Requested. Kindly Wait for the message on your number, ${user.personal_information.contact_number}`,
-          { position: "top-left", theme: "colored", autoClose: 2000 }
+          { position: "top-left", theme: "colored", autoClose: 8000 }
         );
       })
       .catch((error) => console.error(error));
@@ -108,7 +108,7 @@ const Request = ({ sharing, index, handleApproval }) => {
                   toast.error("Invalid OTP", {
                     position: "top-left",
                     theme: "colored",
-                    autoClose: 2000,
+                    autoClose: 8000,
                   });
                 }
               }}

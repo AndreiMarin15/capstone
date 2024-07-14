@@ -1,7 +1,7 @@
 import Image from "next/image";
 // Corrected import statement
 import { useState, useEffect } from "react";
-import { getMasterData } from "@/backend//patient/personal_details/master_data";
+import { getMasterData } from "@/backend/patient/personal_details/master_data";
 import EditMasterData from "./sub_components/editMasterData";
 import { currentUser } from "@/app/store";
 import { PatientEditInfo as editInfo } from "@/backend//patient/edit/edit_info";
@@ -78,6 +78,8 @@ export default function MasterData() {
               return { ...item, value: masterData["birthday"] };
             case "Gender":
               return { ...item, value: masterData["gender"] };
+            case "Education":
+              return { ...item, value: masterData["education"] };
             case "Address":
               return { ...item, value: masterData["address"] };
             case "Stroke in the past year":

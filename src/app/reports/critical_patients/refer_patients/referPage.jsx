@@ -72,7 +72,7 @@ export function ReferPatients({
               toast.success("Successfully referred patients.", {
                 position: "top-left",
                 theme: "colored",
-                autoClose: 2000,
+                autoClose: 8000,
               });
             }
           }}

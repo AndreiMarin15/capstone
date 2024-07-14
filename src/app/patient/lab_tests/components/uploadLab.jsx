@@ -132,7 +132,7 @@ export default function UploadLab({
       toast.success("Lab Test Recorded", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       if (currentPage === 2) {
@@ -171,21 +171,21 @@ export default function UploadLab({
       valid = false;
 
       toast.error("Date Taken is required.", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
     if (!dateUntil) {
       valid = false;
 
       toast.error("Valid Until is required.", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
 
     if (!uploadedImageSrc) {
       valid = false;
       toast.error("Upload is required.", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
 

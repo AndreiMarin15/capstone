@@ -79,7 +79,7 @@ export default function Prescriptions({ patientId }) {
       toast.success("Prescription Created", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       setCurrentScreen(0);

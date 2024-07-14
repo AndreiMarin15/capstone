@@ -159,7 +159,7 @@ export default function UploadLab({
       toast.success("Lab Test Recorded", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       setCurrentPage(0);

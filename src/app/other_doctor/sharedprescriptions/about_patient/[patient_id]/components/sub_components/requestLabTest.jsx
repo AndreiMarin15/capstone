@@ -31,7 +31,7 @@ export default function RequestLabTest({
       if (!labTestName) {
         valid = false;
         toast.error(`Lab Test Name ${index + 1} is required.`, {
-          autoClose: 2000,
+          autoClose: 8000,
         });
       }
     });
@@ -74,7 +74,7 @@ export default function RequestLabTest({
     toast.success("Lab Tests Requested", {
       position: "top-left",
       theme: "colored",
-      autoClose: 2000,
+      autoClose: 8000,
     });
 
     setCurrentScreen(0);

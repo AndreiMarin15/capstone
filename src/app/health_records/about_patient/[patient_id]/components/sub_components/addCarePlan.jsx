@@ -84,7 +84,7 @@ export default function AddCarePlan({
     if (!title || !startDate || !endDate) {
       setSaveClicked(true); // Set saveClicked to true
       toast.error("Please Fill In All Required Fields", {
-        autoClose: 2000,
+        autoClose: 8000,
       });
       return; // Prevent further execution if title is empty
     }
@@ -169,14 +169,14 @@ export default function AddCarePlan({
           toast.success("Care Plan Added", {
             position: "top-left",
             theme: "colored",
-            autoClose: 2000,
+            autoClose: 8000,
           });
         } catch (error) {
           // errors
           console.error("Failed to care plan:", error);
           toast.error("Failed to add care plan.", {
             position: "top-left",
-            autoClose: 2000,
+            autoClose: 8000,
           });
         }
         fetchData();
