@@ -197,6 +197,8 @@ export default function AddObservation({
     } else {
       // Set error styles for empty fields
       toast.error("Signs and Symptoms is Required", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
       const newErrorStyles = {

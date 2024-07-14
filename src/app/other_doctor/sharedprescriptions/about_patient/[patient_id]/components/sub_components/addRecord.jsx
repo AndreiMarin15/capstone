@@ -138,14 +138,18 @@ export default function AddRecord({
     if (!formData.title.trim()) {
       valid = false;
       toast.error("Title is required.", {
-        autoClose: 8000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 
     if (!formData.upload) {
       valid = false;
       toast.error("Upload is required.", {
-        autoClose: 8000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 

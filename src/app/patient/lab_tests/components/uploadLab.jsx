@@ -171,6 +171,8 @@ export default function UploadLab({
       valid = false;
 
       toast.error("Date Taken is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
@@ -178,6 +180,8 @@ export default function UploadLab({
       valid = false;
 
       toast.error("Valid Until is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
@@ -185,6 +189,8 @@ export default function UploadLab({
     if (!uploadedImageSrc) {
       valid = false;
       toast.error("Upload is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }

@@ -190,21 +190,27 @@ export default function RecordLabTest({
       valid = false;
 
       toast.error("Date Taken is required.", {
-        autoClose: 8000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
     if (!dateUntil) {
       valid = false;
 
       toast.error("Valid Until is required.", {
-        autoClose: 8000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 
     if (!uploadedImageSrc) {
       valid = false;
       toast.error("Upload is required.", {
-        autoClose: 8000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 

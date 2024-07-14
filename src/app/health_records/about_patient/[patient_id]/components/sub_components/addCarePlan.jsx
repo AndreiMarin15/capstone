@@ -84,6 +84,8 @@ export default function AddCarePlan({
     if (!title || !startDate || !endDate) {
       setSaveClicked(true); // Set saveClicked to true
       toast.error("Please Fill In All Required Fields", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
       return; // Prevent further execution if title is empty

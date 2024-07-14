@@ -50,6 +50,8 @@ export default function EditMedications({ patientId }) {
 
       console.log("Medication Name is required.");
       toast.error("Medication Name is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
@@ -57,6 +59,8 @@ export default function EditMedications({ patientId }) {
       valid = false;
 
       toast.error("Start Date is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
@@ -64,6 +68,8 @@ export default function EditMedications({ patientId }) {
       valid = false;
 
       toast.error("End Date is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
@@ -72,6 +78,8 @@ export default function EditMedications({ patientId }) {
       valid = false;
 
       toast.error("Frequency is required.", {
+        position: "top-left",
+        theme: "colored",
         autoClose: 8000,
       });
     }
