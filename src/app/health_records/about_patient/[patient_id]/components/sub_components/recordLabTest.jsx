@@ -159,7 +159,7 @@ export default function RecordLabTest({
       toast.success("Lab Test Recorded", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       setCurrentScreen(1);
@@ -168,7 +168,7 @@ export default function RecordLabTest({
       toast.error("Error updating observation", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
   };
@@ -190,21 +190,27 @@ export default function RecordLabTest({
       valid = false;
 
       toast.error("Date Taken is required.", {
-        autoClose: 2000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
     if (!dateUntil) {
       valid = false;
 
       toast.error("Valid Until is required.", {
-        autoClose: 2000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 
     if (!uploadedImageSrc) {
       valid = false;
       toast.error("Upload is required.", {
-        autoClose: 2000,
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
 
@@ -358,7 +364,7 @@ export default function RecordLabTest({
     toast.success("Lab Test Recorded", {
       position: "top-left",
       theme: "colored",
-      autoClose: 2000,
+      autoClose: 8000,
     });
 
     setCurrentScreen(0);

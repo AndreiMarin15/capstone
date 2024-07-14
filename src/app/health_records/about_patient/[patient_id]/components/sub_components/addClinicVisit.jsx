@@ -103,7 +103,7 @@ const AddClinicVisit = ({
 
       const combinedReviewOfSystems = { ...reviewOfSystems };
       const reviewOfSystemsJSON = JSON.stringify(combinedReviewOfSystems);
-      console.log(combinedReviewOfSystems)
+      console.log(combinedReviewOfSystems);
       // Construct contained array with observations
       const contained = [
         {
@@ -491,12 +491,15 @@ const AddClinicVisit = ({
       };
 
       // Upload encounter data
-      await uploadEncounter(dataToSave);
-      toast.success("Clinic Visit Added", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 2000,
-      });
+      const { success } = await uploadEncounter(dataToSave);
+
+      if (success) {
+        toast.success("Clinic Visit Added", {
+          position: "top-left",
+          theme: "colored",
+          autoClose: 8000,
+        });
+      }
       setCurrentScreen(0);
       fetchEncounters();
       setCurrentPage(0);

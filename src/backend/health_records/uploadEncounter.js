@@ -140,7 +140,7 @@ const uploadEncounter = async (encounter) => {
       }),
     });
 
-    return { enc, containedIDs: contained };
+    return { enc, containedIDs: contained, success: true };
   } catch (error) {
     throw error;
   }

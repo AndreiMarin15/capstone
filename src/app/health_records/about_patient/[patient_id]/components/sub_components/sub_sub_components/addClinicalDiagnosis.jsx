@@ -99,7 +99,7 @@ export default function AddClinicalDiagnosis({
       toast.error("Please fill in all required fields before saving.", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
       return;
     }
@@ -136,7 +136,7 @@ export default function AddClinicalDiagnosis({
         toast.success("Clinic Visit Added", {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
         setCurrentPage(0);
       }

@@ -83,7 +83,7 @@ export default function AddPrick({
     toast.success("Self Prick Recorded", {
       position: "top-left",
       theme: "colored",
-      autoClose: 2000,
+      autoClose: 8000,
     });
 
     refetchSelfPrickObservations();

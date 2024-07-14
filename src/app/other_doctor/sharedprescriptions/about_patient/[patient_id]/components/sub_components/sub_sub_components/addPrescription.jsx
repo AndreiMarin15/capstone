@@ -49,11 +49,15 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
       toast.error("Medication Deleted", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     } catch (error) {
       console.error("Error deleting medication from database:", error);
-      toast.error("Failed to delete medication from database.");
+      toast.error("Failed to delete medication from database.", {
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
+      });
     }
   };
 
@@ -80,7 +84,11 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
       setCurrentScreen(0);
     } catch (error) {
       console.error("Error creating prescription:", error);
-      toast.error("Failed to create prescription.");
+      toast.error("Failed to create prescription.", {
+        position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
+      });
     }
   };
 

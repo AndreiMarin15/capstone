@@ -101,15 +101,27 @@ export default function EditFamilyHistory({ currentPage, setCurrentPage }) {
         familyHistoryData
       );
       if (response.success) {
-        toast.success(response.message);
+        toast.success(response.message, {
+          position: "top-left",
+          theme: "colored",
+          autoClose: 8000,
+        });
         // Additional success handling
       } else {
-        toast.error(response.message);
+        toast.error(response.message, {
+          position: "top-left",
+          theme: "colored",
+          autoClose: 8000,
+        });
         // Additional error handling
       }
     } catch (error) {
       console.error("Error saving family history:", error);
-      toast.error("Failed to save family history.");
+      toast.error("Failed to save family history.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
     }
   };
 

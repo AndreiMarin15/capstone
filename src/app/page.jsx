@@ -177,7 +177,7 @@ export default function Home() {
                     toast.success(result.message, {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     });
 
                     setTimeout(() => {
@@ -191,7 +191,7 @@ export default function Home() {
                     toast.error(result.message, {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     });
                   }
                 } else {
@@ -200,7 +200,7 @@ export default function Home() {
                     {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     }
                   );
                 }

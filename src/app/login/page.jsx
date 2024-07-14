@@ -81,7 +81,7 @@ export default function Home() {
                     {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     }
                   );
                 }

@@ -50,21 +50,27 @@ export default function EditMedications({ patientId }) {
 
       console.log("Medication Name is required.");
       toast.error("Medication Name is required.", {
-        autoClose: 2000,
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
       });
     }
     if (!validityStart) {
       valid = false;
 
       toast.error("Start Date is required.", {
-        autoClose: 2000,
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
       });
     }
     if (!validityEnd) {
       valid = false;
 
       toast.error("End Date is required.", {
-        autoClose: 2000,
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
       });
     }
 
@@ -72,7 +78,9 @@ export default function EditMedications({ patientId }) {
       valid = false;
 
       toast.error("Frequency is required.", {
-        autoClose: 2000,
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
       });
     }
 
@@ -316,7 +324,7 @@ export default function EditMedications({ patientId }) {
         toast.success("Medication Request Updated", {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
         setCurrentScreen(1);
       } else {
@@ -326,7 +334,7 @@ export default function EditMedications({ patientId }) {
         toast.error("Failed to update medication request", {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
       }
     } catch (error) {

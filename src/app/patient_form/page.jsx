@@ -80,7 +80,7 @@ export default function PatientInformation() {
         toast.error("Please fill in all fields before proceeding.", {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
       }
     } else if (currentState >= 4) {
@@ -92,7 +92,7 @@ export default function PatientInformation() {
         toast.error(account.message, {
           position: "top-left",
           theme: "colored",
-          autoClose: 2000,
+          autoClose: 8000,
         });
       }
     }
@@ -169,7 +169,7 @@ export default function PatientInformation() {
                       toast.error(account.message, {
                         position: "top-left",
                         theme: "colored",
-                        autoClose: 2000,
+                        autoClose: 8000,
                       });
                     }
                   }

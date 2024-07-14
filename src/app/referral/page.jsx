@@ -192,13 +192,13 @@ export default function Referral() {
       toast.success("OTP Verified", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     } else {
       toast.error("Invalid OTP. Please try again.", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
       // prompt("Invalid OTP. Please try again.");
     }
@@ -306,7 +306,7 @@ export default function Referral() {
       .then(() => {
         toast.success(
           `OTP Requested. Kindly Wait for the message on the patient's number, +639178060641`, // replace wth patient data
-          { position: "top-left", theme: "colored", autoClose: 2000 }
+          { position: "top-left", theme: "colored", autoClose: 8000 }
         );
       })
       .catch((error) => console.error(error));
@@ -329,14 +329,14 @@ export default function Referral() {
       toast.success("Collaboration saved successfully!", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
       setShowModal(false); // Close the modal after saving
     } catch (error) {
       toast.error("Error saving collaboration. Please try again.", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
     }
   };

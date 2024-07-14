@@ -162,7 +162,11 @@ export default function FollowUpList() {
                     reminded_by: `${currentUser.getState().user.license_id}`,
                   });
                 });
-                toast.success("Patients have been reminded");
+                toast.success("Patients have been reminded", {
+                  position: "top-left",
+                      theme: "colored",
+                      autoClose: 8000,
+                });
               }}
               variant="remind"
             >

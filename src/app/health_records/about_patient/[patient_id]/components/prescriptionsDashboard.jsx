@@ -79,7 +79,7 @@ export default function Prescriptions({ patientId }) {
       toast.success("Prescription Created", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       setCurrentScreen(0);
@@ -87,7 +87,11 @@ export default function Prescriptions({ patientId }) {
       console.error("Error saving prescription:", error);
 
       // Display error message to the user using toast notification
-      toast.error("Failed to save prescription. Please try again later.");
+      toast.error("Failed to save prescription. Please try again later.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
     }
   };
 
