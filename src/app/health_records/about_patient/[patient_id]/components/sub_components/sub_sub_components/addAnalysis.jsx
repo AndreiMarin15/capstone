@@ -218,7 +218,7 @@ export default function AddAnalysis({
                         className="justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black"
                         style={{
                           fontSize: "14px",
-                          width: "500px",
+                          width: "575px",
                           height: "20px",
                           resize: "none",
                         }}
