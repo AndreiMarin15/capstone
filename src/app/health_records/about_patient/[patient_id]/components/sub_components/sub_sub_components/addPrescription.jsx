@@ -17,6 +17,7 @@ import getMedicationComments from "@/backend/health_records/getMedicationComment
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import getDoctorInfo from "@/backend/health_records/getDoctorInfo";
 
+
 export default function AddPrescription({ onSave, fetchPrescriptions }) {
   const {
     currentScreen,
@@ -35,14 +36,22 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
   const [comments, setComments] = useState([]);
 
   const [currentInfo, setCurrentInfo] = useState("");
+  const [currentDoctor, setCurrentDoctor] = useState("");
+  const [status, setStatus] = useState("incomplete");
 
   useEffect(() => {
     const fetchDoctorInfo = async () => {
       try {
         const doctorInfo = await getDoctorInfo();
         console.log(doctorInfo);
-        // Handle the fetched doctor info as needed
         setCurrentInfo(doctorInfo)
+        const currentDoctor = await doctor.getDoctorByCurrentUser();
+        setCurrentDoctor(currentDoctor)
+        if (currentDoctor.specialization === "Endocrinologist") {
+          setStatus("complete");
+        } else {
+          setStatus("incomplete");
+        }
       } catch (error) {
         console.error("Error fetching doctor info:", error);
       }
@@ -50,8 +59,6 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
   
     fetchDoctorInfo();
   }, []);
-
-
 
 
   useEffect(() => {
@@ -102,6 +109,7 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
       resource: {
         medicationData: medicationDataArray,
         resource_type: "prescription",
+        status,
       },
     };
 
@@ -214,9 +222,6 @@ export default function AddPrescription({ onSave, fetchPrescriptions }) {
                 <tr>
                   <td></td>
                   <td className="border-l-[5px] border-transparent">
-                
-                     
-                   
                     <div className="text-black text-sm font-regular leading-5 ml-0.5">
                       <span className="font-semibold mr-4">Dr. {item.resource.requester?.agent?.reference} </span>
                       {" "}

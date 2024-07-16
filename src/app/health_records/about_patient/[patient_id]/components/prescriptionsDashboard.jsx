@@ -31,7 +31,7 @@ import {
 
 export default function Prescriptions({ patientId }) {
   const supabase = client("public");
-  const [status, setStatus] = useState("ACTIVE");
+  const [status, setStatus] = useState("FINALIZED");
   const [currentUser, setCurrentUser] = useState(null);
   const { currentScreen, setCurrentScreen } = usePrescriptionsStore();
   const [prescriptionMedications, setPrescriptionMedications] = useState([]);
@@ -96,7 +96,6 @@ export default function Prescriptions({ patientId }) {
   };
 
   const fetchPrescriptions = async () => {
-    console.log("hello");
     try {
       const fetchedPrescriptions = await getPrescriptionsByPatient(patientId);
       setPrescriptions(fetchedPrescriptions.reverse());
@@ -229,99 +228,98 @@ export default function Prescriptions({ patientId }) {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            {prescriptions
-              .sort((a, b) => {
-                if (sortOptionDate === "Recent") {
-                  return new Date(b?.created_at) - new Date(a?.created_at);
-                } else {
-                  return new Date(a?.created_at) - new Date(b?.created_at);
-                }
-              })
-              .slice(0, renderingOptions)
-              ?.map((prescription, index, sortedArray) => (
-                <div
-                  key={prescription.id}
-                  className="flex justify-between items-center mt-4 text-sm leading-5 text-black w-full"
+            <div className="flex  justify-between mt-3">
+              <div className="flex items-center font-semibold text-black">
+                Status: 
+                <button
+                  className={`ml-3 text-sm font-bold whitespace-nowrap leading-[100%] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100 ${status === "INCOMPLETE" ? "text-red-600" : "text-green-600"}`}
+                  onClick={() => setStatus(status === "FINALIZED" ? "INCOMPLETE" : "FINALIZED")}
                 >
-                  <button
-                    onClick={() => {
-                      console.log(prescription.id);
-                      setPrescriptionId(prescription.id);
-                      setCurrentScreen(2);
-                    }}
-                    className="flex-grow text-left"
+                  <div className="justify-center items-start py-2 pr-16 pl-3 rounded border border-black border-solid shadow-sm max-md:pr-5">
+                    {status}
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {prescriptions
+                .filter(prescription => 
+                  status === "FINALIZED" 
+                    ? prescription.resource.status === "complete" 
+                    : prescription.resource.status === "incomplete"
+                )
+                .sort((a, b) => {
+                  if (sortOptionDate === "Recent") {
+                    return new Date(b?.created_at) - new Date(a?.created_at);
+                  } else {
+                    return new Date(a?.created_at) - new Date(b?.created_at);
+                  }
+                })
+                .slice(0, renderingOptions)
+                .map((prescription) => (
+                  <div
+                    key={prescription.id}
+                    className="flex justify-between items-center mt-4 text-sm leading-5 text-black w-full"
                   >
-                    <div
-                      key={index}
-                      className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
+                    <button
+                      onClick={() => {
+                        console.log(prescription.id);
+                        setPrescriptionId(prescription.id);
+                        setCurrentScreen(2);
+                      }}
+                      className="flex-grow text-left"
                     >
-                      <div className="flex gap-3.5 font-semibold whitespace-nowrap">
-                        <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={
-                            "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                          }
-                          className="aspect-square fill-black w-[15px]"
-                        />
-
-                        <div className="my-auto">
-                          Prescription #
-                          {sortOptionDate === "Recent"
-                            ? prescriptions.length -
-                              prescriptions.findIndex(
-                                (p) => p.id === prescription.id
-                              )
-                            : prescriptions.findIndex(
-                                (p) => p.id === prescription.id
-                              ) + 1}
-                        </div>
-                      </div>
-
-                      <div className="flex w-full justify-between text-sm">
-                        <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+                      <div className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full">
+                        <div className="flex gap-3.5 font-semibold whitespace-nowrap">
                           <Image
                             alt="image"
                             height={0}
                             width={0}
                             loading="lazy"
                             src={
-                              "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                              "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
                             }
-                            className="w-4 aspect-square"
+                            className="aspect-square fill-black w-[15px]"
                           />
-                          <div className="grow my-auto font-normal">
-                            Dr.{" "}
-                            {prescription.resource.requester.agent.reference}
+                          <div className="my-auto">
+                            Prescription{" "}
+                            {new Date(prescription.created_at).toLocaleDateString()}
                           </div>
-                          <div className="grow my-auto ml-10 font-normal">
-                            Provided On:{" "}
-                            {new Date(
-                              prescription.created_at
-                            ).toLocaleDateString()}
+                        </div>
+
+                        <div className="flex w-full justify-between text-sm">
+                          <div className="flex gap-1 font-medium whitespace-nowrap ml-7">
+                            <Image
+                              alt="image"
+                              height={0}
+                              width={0}
+                              loading="lazy"
+                              src={
+                                "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                              }
+                              className="w-4 aspect-square"
+                            />
+                            <div className="grow my-auto font-normal">
+                              Dr. {prescription.resource.requester.agent.reference}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
-                  <Reusable
-                    child={
-                      <Prescription
-                        medicationData={prescription}
-                        patientData={patientInfo}
-                        doctor_id={
-                          prescription.resource.requester.agent.license_id
-                        }
-                      />
-                    }
-                    orientation={"p"}
-                    filename={"prescription"}
-                  />
-                </div>
-              ))}
-            <div className="mt-5">
+                    </button>
+                    <Reusable
+                      child={
+                        <Prescription
+                          medicationData={prescription}
+                          patientData={patientInfo}
+                          doctor_id={prescription.resource.requester.agent.license_id}
+                        />
+                      }
+                      orientation={"p"}
+                      filename={"prescription"}
+                    />
+                  </div>
+                ))}
+  <div className="mt-5">
               <BackButton />
             </div>
           </div>

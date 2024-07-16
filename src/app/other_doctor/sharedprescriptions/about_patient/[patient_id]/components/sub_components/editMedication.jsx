@@ -443,12 +443,10 @@ export default function EditMedications({ patientId }) {
                                           : ""
                                       }`}
                                       value={
-                                        item.variable === "Dose and Unit" &&
-                                        regis !== ""
+                                        item.variable === "Dose and Unit"
                                           ? doseUnit
-                                          : item.variable === "Form" &&
-                                              regis !== ""
-                                            ? form // If regis is not empty, use the autofilled form
+                                          : item.variable === "Form" 
+                                            ? form
                                             : item.variable === "Frequency"
                                               ? duration
                                               : patientInstructions

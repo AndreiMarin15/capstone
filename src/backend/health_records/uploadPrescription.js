@@ -27,6 +27,7 @@ const uploadPrescription = async (prescription, patientId) => {
 					type: "Patient",
 					reference: patientId,
 				},
+				status: prescription.resource.status,
 				medicationData: medicationDataArray,
 				resource_type: prescription.resource.resource_type,
 			},
