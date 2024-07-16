@@ -34,39 +34,12 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
   } = usePrescriptionsStore();
 
   const [showModal, setShowModal] = React.useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false); 
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState([]);
 
   const [currentInfo, setCurrentInfo] = useState("");
   const [currentDoctor, setCurrentDoctor] = useState("");
   const [status, setStatus] = useState("incomplete");
-
-  const handleFinalize = () => {
-    setShowConfirmModal(true); // Show confirmation modal
-  };
-
-  const confirmFinalize = async () => {
-    try {
-      await updatePrescriptionStatus(prescriptionId, "complete");
-      fetchPrescriptions();
-      setCurrentScreen(0);
-      toast.success("Prescription has been finalized.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 8000,
-      });
-    } catch (error) {
-      console.error("Error updating prescription status:", error);
-      toast.error("Failed to update prescription status.", {
-        position: "top-left",
-        theme: "colored",
-        autoClose: 8000,
-      });
-    }
-    setShowConfirmModal(false); // Close the confirmation modal
-  };
-
 
   useEffect(() => {
     const fetchDoctorInfo = async () => {
@@ -75,7 +48,6 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
         console.log(doctorInfo);
         setCurrentInfo(doctorInfo)
         const currentDoctor = await doctor.getDoctorByCurrentUser();
-        console.log(currentDoctor)
         setCurrentDoctor(currentDoctor)
         if (currentDoctor.specialization === "Endocrinologist") {
           setStatus("complete");
@@ -317,11 +289,7 @@ const handleRemoveMedication = async (index) => {
               currentScreen={currentScreen}
               setCurrentScreen={setCurrentScreen}
             />
-            <div className="flex space-x-2">
-            <Button onClick={handleFinalize}>
-                FINALIZE
-              </Button>
-            </div>
+
           </div>
 
           {showModal && (
@@ -378,7 +346,7 @@ const handleRemoveMedication = async (index) => {
                     Save
                   </button>
                   <button
-                    className="justify-center px-[2rem] py-2.5 mt-8 ml-20 text-lg text-white whitespace-nowrap bg-red-900 rounded  max-md:px-6"
+                    className="justify-center px-[2rem] py-2.5 mt-8 ml-20 text-lg text-white whitespace-nowrap bg-red-900 rounded max-md:px-6"
                     onClick={() => setShowModal(false)}
                   >
                     Close
@@ -387,32 +355,6 @@ const handleRemoveMedication = async (index) => {
               </div>
             </div>
           )}
-         {showConfirmModal && (
-            <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-60">
-                <div className="bg-white p-8 rounded shadow-lg flex flex-col items-center max-w-full w-[500px]">
-                <div className="px-16 pb-2 text-xl leading-10 font-semibold text-center text-black">
-                    Confirm Finalization
-                </div>
-                <div className="text-sm text-zinc-400">
-                    This prescription will be finalized and sent to the patient. Would you like to continue?
-                </div>
-                <div className="flex justify-between mt-8">
-                    <button
-                    className="px-[2rem] py-2.5 text-lg text-white bg-sky-900 rounded mr-4"
-                    onClick={confirmFinalize}
-                    >
-                    Yes
-                    </button>
-                    <button
-                    className="px-[2rem] py-2.5 text-lg text-white bg-red-900 rounded ml-4"
-                    onClick={() => setShowConfirmModal(false)}
-                    >
-                    No
-                    </button>
-                </div>
-                </div>
-            </div>
-            )}
         </>
       ) : (
         ""
