@@ -15,7 +15,7 @@ import doctor from "@/backend//health_records/doctor";
 import { client } from "@/backend//initSupabase";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
 import updatePrescription from "./sub_sub_components/updatePrescription";
-export default function EditMedications({ patientId }) {
+export default function EditPrescription({ patientId }) {
   const supabase = client("public");
 
   const {
@@ -326,7 +326,7 @@ export default function EditMedications({ patientId }) {
           theme: "colored",
           autoClose: 8000,
         });
-        setCurrentScreen(1);
+        setCurrentScreen(5);
       } else {
         // Handle error scenario
         console.error("Failed to update medication request");
@@ -395,7 +395,7 @@ export default function EditMedications({ patientId }) {
 
   return (
     <>
-      {currentScreen === 4 ? (
+      {currentScreen === 6 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             EDIT MEDICATION
@@ -708,12 +708,12 @@ export default function EditMedications({ patientId }) {
             </div>
           </div>
           <div className="flex justify-between items-center mt-5">
-            <BackButton  currentScreen={2} setCurrentScreen={setCurrentScreen} />
+            <BackButton  currentScreen={8} setCurrentScreen={setCurrentScreen} />
             <div>
               <button
                 onClick={() => {
                   handleSave();
-                }}
+                }} // Attach the handleSave function here
                 className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
               >
                 SAVE

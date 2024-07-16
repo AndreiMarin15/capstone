@@ -16,9 +16,10 @@ import uploadMedicationComment from "@/backend/health_records/uploadMedicationCo
 import getMedicationComments from "@/backend/health_records/getMedicationComments";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import getDoctorInfo from "@/backend/health_records/getDoctorInfo";
-
-
-export default function AddPrescription({ onSave, fetchPrescriptions, prescriptionId }) {
+import { getPrescriptionById } from "@/backend/health_records/getPrescription";
+import updatePrescription from "@/backend/health_records/updatePrescription";
+import { updatePrescriptionStatus } from "@/backend/health_records/updatePrescriptionStatus";
+export default function UpdatePrescription({ onSave, fetchPrescriptions, prescriptionId }) {
   const {
     currentScreen,
     setCurrentScreen,
@@ -61,16 +62,33 @@ export default function AddPrescription({ onSave, fetchPrescriptions, prescripti
   }, []);
 
 
-  useEffect(() => {
-    fetchMedications();
-  }, []);
+  const fetchPrescriptionData = async () => {
+    try {
+      const prescriptionData = await getPrescriptionById(prescriptionId);
+      console.log("Prescription Data:", prescriptionData);
+
+      const medicationData = prescriptionData[0]?.resource?.medicationData;
+        setMedications(medicationData);
+      
+    } catch (error) {
+      console.error("Error fetching prescription data:", error);
+    }
+  };
 
 
-  const handleEditMedication = (medicationId) => {
+
+  const handleEditMedication = async (medicationId) => {
     console.log("Edit medication with ID:", medicationId);
     setEditingMedicationId(medicationId);
-    setCurrentScreen(4);
+    setCurrentScreen(6);
   };
+
+  useEffect(() => {
+
+    fetchPrescriptionData();
+
+}, [prescriptionId]);
+
 
   const handleRemoveMedication = async (deletionId) => {
     // Remove locally
@@ -93,32 +111,22 @@ export default function AddPrescription({ onSave, fetchPrescriptions, prescripti
     }
   };
 
-  const handleSubmit = async (event, finalize = false) => {
-    event.preventDefault();
-  
-    const medicationDataArray = medications.map((medication) => ({
-      ...medication,
-      resource_type: "MedicationRequest",
-      comments: comments.filter(comment => comment.medicationId === medication.id)
-    }));
-  
-    const prescriptionData = {
-      resource: {
-        medicationData: medicationDataArray,
-        resource_type: "prescription",
-        status: finalize ? "complete" : "incomplete",
-      },
-    };
-  
+  const handleSubmit = async () => {
     try {
-      console.log(prescriptionData);
-      await onSave(prescriptionData);
-      setMedicationIds([]);
+      const status = "complete"; // Adjust based on your logic
+      await updatePrescriptionStatus(prescriptionId, status);
       fetchPrescriptions();
       setCurrentScreen(0);
+      toast.success("Prescription has been finalized.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+
+
     } catch (error) {
-      console.error("Error creating prescription:", error);
-      toast.error("Failed to create prescription.", {
+      console.error("Error updating prescription status:", error);
+      toast.error("Failed to update prescription status.", {
         position: "top-left",
         theme: "colored",
         autoClose: 8000,
@@ -180,122 +188,92 @@ export default function AddPrescription({ onSave, fetchPrescriptions, prescripti
 
   return (
     <>
-      {currentScreen === 1 ? (
+      {currentScreen === 5 ? (
         <>
           <div className="flex justify-between">
             <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-              CREATE PRESCRIPTION
+              UPDATE PRESCRIPTION
             </div>
-            <Button className="mt-5" onClick={() => setCurrentScreen(3)}>
+            <Button className="mt-5" onClick={() => setCurrentScreen(7)}>
               Add Medicine
             </Button>
           </div>
           {/* <UploadSignature /> */}
           <table className="gap-1 whitespace-nowrap mt-10">
-            {medications?.map((item, index) => (
-              <React.Fragment key={index}>
-                <tr className="h-8">
-                  <td className="w-5">
-                    <Image
-                      alt="image"
-                      height={0}
-                      width={0}
-                      loading="lazy"
-                      src={
-                        "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                      } // Assuming item.src is the URL of the medication image
-                      className="self-start aspect-square fill-black w-[15px]"
-                    />
-                  </td>
-                  <td className="border-l-[10px] border-transparent">
-                    <div className="text-black text-sm font-semibold leading-5 my-auto">
-                      {
-                        item.resource.medicationCodeableConcept?.[0]
-                          ?.coding?.[0]?.display
-                      }
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-sm font-regular leading-5 ml-0.5">
-                      <span className="font-semibold mr-4">Dr. {item.resource.requester?.agent?.reference} </span>
-                      {" "}
-                      {item.resource.dispenseRequest?.validityPeriod?.start} -{" "}
-                      {item.resource.dispenseRequest?.validityPeriod?.end}
-                    </div>
-                  </td>
-                  <td className="border-l-[5px] border-transparent">
-                    <div className="flex items-center text-black text-sm font-regular leading-5 ml-0.5">
-                      <Button
-                        className="mr-3"
-                        variant="outline"
-                        onClick={() => handleEditMedication(item.id)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                      className="mr-3"
-                        variant="destructive"
-                        onClick={() => handleRemoveMedication(item.id)}
-                      >
-                        Delete
-                      </Button>
-                      <button onClick={() => handleComments(item.id)}>
+          {medications?.map((item) => (
+                <React.Fragment key={item.id}>
+                    <tr className="h-8">
+                    <td className="w-5">
                         <Image
-                          alt="image"
-                          height={0}
-                          width={0}
-                          loading="lazy"
-                          src={
-                            "https://cdn.builder.io/api/v1/image/assets/TEMP/7930b31c5acc01abc6a3efdb5937439b27cad97685d0d9fef7ee1fdea237d022?"
-                          } // Assuming item.src is the URL of the medication image
-                          className="self-center aspect-square fill-black w-[30px]"
+                        alt="image"
+                        height={0}
+                        width={0}
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+                        className="self-start aspect-square fill-black w-[15px]"
                         />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td className="flex  border-l-[5px] border-transparent">
-                    <div
-                      className="text-black text-sm font-regular leading-5"
-                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                    >
-                      <span className="font-semibold">Dosage:</span>{" "}
-                      {
-                        item.resource.dosageInstruction?.[0]?.doseAndRate?.[0]
-                          ?.doseQuantity?.doseUnit
-                      }
-                    </div>
-                    <div
-                      className="text-black text-sm font-regular leading-5 ml-10"
-                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                    >
-                      <span className="font-semibold">Form:</span>{" "}
-                      {item.resource.form?.text}
-                    </div>
-                    <div
-                      className="text-black text-sm font-regular leading-5 ml-10"
-                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                    >
-                      <span className="font-semibold">Frequency:</span>{" "}
-                      {item.resource.dispenseRequest?.dispenseInterval}
-                    </div>
-
-                    <div
-                      className="text-black text-sm font-regular leading-5 ml-10"
-                      style={{ whiteSpace: "normal", maxWidth: "200px" }}
-                    >
-                      <span className="font-semibold">Instructions:</span>{" "}
-                      {item.resource.note}
-                    </div>
-                  </td>
-                </tr>
-              </React.Fragment>
-            ))}
+                    </td>
+                    <td className="border-l-[10px] border-transparent">
+                        <div className="text-black text-sm font-semibold leading-5 my-auto">
+                        {item.resource.medicationCodeableConcept?.[0]?.coding?.[0]?.display}
+                        </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td></td>
+                    <td className="border-l-[5px] border-transparent">
+                        <div className="text-black text-sm font-regular leading-5 ml-0.5">
+                        <span className="font-semibold mr-4">
+                            Dr. {item.resource.requester?.agent?.reference}
+                        </span>
+                        {item.resource.dispenseRequest?.validityPeriod?.start} -{" "}
+                        {item.resource.dispenseRequest?.validityPeriod?.end}
+                        </div>
+                    </td>
+                    <td className="border-l-[5px] border-transparent">
+                        <div className="flex items-center text-black text-sm font-regular leading-5 ml-0.5">
+                        <Button className="mr-3" variant="outline" onClick={() => handleEditMedication(item.id)}>
+                            Edit
+                        </Button>
+                        <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(item.id)}>
+                            Delete
+                        </Button>
+                        <button onClick={() => handleComments(item.id)}>
+                            <Image
+                            alt="image"
+                            height={0}
+                            width={0}
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/7930b31c5acc01abc6a3efdb5937439b27cad97685d0d9fef7ee1fdea237d022?"
+                            className="self-center aspect-square fill-black w-[30px]"
+                            />
+                        </button>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td></td>
+                    <td className="flex border-l-[5px] border-transparent">
+                        <div className="text-black text-sm font-regular leading-5" style={{ whiteSpace: "normal", maxWidth: "200px" }}>
+                        <span className="font-semibold">Dosage:</span>{" "}
+                        {item.resource.dosageInstruction?.[0]?.doseAndRate?.[0]?.doseQuantity?.doseUnit}
+                        </div>
+                        <div className="text-black text-sm font-regular leading-5 ml-10" style={{ whiteSpace: "normal", maxWidth: "200px" }}>
+                        <span className="font-semibold">Form:</span>{" "}
+                        {item.resource.form?.text}
+                        </div>
+                        <div className="text-black text-sm font-regular leading-5 ml-10" style={{ whiteSpace: "normal", maxWidth: "200px" }}>
+                        <span className="font-semibold">Frequency:</span>{" "}
+                        {item.resource.dispenseRequest?.dispenseInterval}
+                        </div>
+                        <div className="text-black text-sm font-regular leading-5 ml-10" style={{ whiteSpace: "normal", maxWidth: "200px" }}>
+                        <span className="font-semibold">Instructions:</span>{" "}
+                        {item.resource.note}
+                        </div>
+                    </td>
+                    </tr>
+                </React.Fragment>
+                ))}
           </table>
           <div className="flex justify-between mt-10">
             <BackButton
@@ -303,8 +281,7 @@ export default function AddPrescription({ onSave, fetchPrescriptions, prescripti
               setCurrentScreen={setCurrentScreen}
             />
             <div className="flex space-x-2">
-              <Button onClick={(e) => handleSubmit(e, false)}>SAVE</Button>
-              <Button onClick={(e) => handleSubmit(e, true)}>FINALIZE</Button>
+              <Button onClick={(e) => handleSubmit()}>FINALIZE</Button>
             </div>
           </div>
 
