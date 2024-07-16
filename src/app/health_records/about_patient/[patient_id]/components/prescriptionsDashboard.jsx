@@ -162,6 +162,7 @@ export default function Prescriptions({ patientId }) {
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
           patientId={patientId}
+          prescriptionId={prescriptionId}
         />
       ) : currentScreen === 7 ? (
         <AddMedicationToPrescription

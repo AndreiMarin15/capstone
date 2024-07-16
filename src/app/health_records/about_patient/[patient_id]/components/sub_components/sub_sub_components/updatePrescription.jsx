@@ -78,9 +78,9 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
 
 
 
-  const handleEditMedication = async (medicationId) => {
-    console.log("Edit medication with ID:", medicationId);
-    setEditingMedicationId(medicationId);
+  const handleEditMedication = async (index) => {
+    console.log("Edit medication with ID:", index);
+    setEditingMedicationId(index);
     setCurrentScreen(6);
   };
 
@@ -237,7 +237,7 @@ const handleRemoveMedication = async (index) => {
                     </td>
                     <td className="border-l-[5px] border-transparent">
                         <div className="flex items-center text-black text-sm font-regular leading-5 ml-0.5">
-                        <Button className="mr-3" variant="outline" onClick={() => handleEditMedication(item.id)}>
+                        <Button className="mr-3" variant="outline" onClick={() => handleEditMedication(index)}>
                             Edit
                         </Button>
                         <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(index)}>
