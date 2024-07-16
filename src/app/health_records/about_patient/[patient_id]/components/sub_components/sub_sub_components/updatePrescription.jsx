@@ -19,6 +19,7 @@ import getDoctorInfo from "@/backend/health_records/getDoctorInfo";
 import { getPrescriptionById } from "@/backend/health_records/getPrescription";
 import updatePrescription from "@/backend/health_records/updatePrescription";
 import { updatePrescriptionStatus } from "@/backend/health_records/updatePrescriptionStatus";
+import deletePrescriptionMedicationById from "@/backend/health_records/deletePrescriptionMedicationById";
 export default function UpdatePrescription({ onSave, fetchPrescriptions, prescriptionId }) {
   const {
     currentScreen,
@@ -90,12 +91,16 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
 }, [prescriptionId]);
 
 
-  const handleRemoveMedication = async (deletionId) => {
-    // Remove locally
-    const newMedications = medications.filter((item) => item.id !== deletionId);
-    setMedications(newMedications);
+const handleRemoveMedication = async (index) => {
     try {
-      await deleteMedicationById(deletionId);
+      console.log(index);
+      const newMedications = [...medications]; // Create a shallow copy of the medications array
+      newMedications.splice(index, 1); // Remove the medication at the specified index
+      setMedications(newMedications); // Update state with the new medications array
+  
+      // Ensure to pass the correct prescriptionId
+      await deletePrescriptionMedicationById(prescriptionId, index); // Pass prescriptionId and index
+  
       toast.error("Medication Deleted", {
         position: "top-left",
         theme: "colored",
@@ -200,7 +205,7 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
           </div>
           {/* <UploadSignature /> */}
           <table className="gap-1 whitespace-nowrap mt-10">
-          {medications?.map((item) => (
+          {medications?.map((item, index) => (
                 <React.Fragment key={item.id}>
                     <tr className="h-8">
                     <td className="w-5">
@@ -235,7 +240,7 @@ export default function UpdatePrescription({ onSave, fetchPrescriptions, prescri
                         <Button className="mr-3" variant="outline" onClick={() => handleEditMedication(item.id)}>
                             Edit
                         </Button>
-                        <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(item.id)}>
+                        <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(index)}>
                             Delete
                         </Button>
                         <button onClick={() => handleComments(item.id)}>
