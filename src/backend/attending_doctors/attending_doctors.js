@@ -29,7 +29,11 @@ export const addAttendingDoctor = async (doctor, patient) => {
   await sendNotification(
     patient.id,
     "New Referral",
-    "You have a new referral",
+    `You have a been referred to ${attendingDoctor.doctor_first_name} ${
+      attendingDoctor.doctor_last_name
+    } by ${currentUser.getState().user.first_name} ${
+      currentUser.getState().user.last_name
+    } on ${new Date().toLocaleString()}.`,
     doctor.id
   );
 
