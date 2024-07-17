@@ -28,6 +28,9 @@ export default function WriteReferral({
   const [diagnosisText, setDiagnosisText] = useState("");
   const [medicationText, setMedicationText] = useState("");
   const [attending_doctors, setAttendingDoctors] = useState([]);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  
+
 
   const [labtests, setLabtests] = useState([]);
 
@@ -80,6 +83,10 @@ export default function WriteReferral({
       ...currentReferralData,
       signature: base64.toString(),
     }));
+
+    setUploadSuccess(true);
+
+
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -189,6 +196,8 @@ export default function WriteReferral({
     <div className="flex flex-col m-5 max-md:mt-10 max-md:max-w-full">
       <div className="mt-5 text-xl font-semibold leading-8 text-black max-md:mt-10 max-md:max-w-full">
         Write a Referral Letter
+        <div className="text-xs font-normal">Fields marked <span className="text-red-500 text-xs">*</span> are required.
+          </div>
       </div>
       <div className="pt-7 pr-20 pb-12 pl-9 mt-9 bg-white rounded border border-gray-200 border-solid shadow-sm max-md:px-5 max-md:max-w-full">
         <div className="flex max-md:flex-col max-md:gap-0">
@@ -204,7 +213,8 @@ export default function WriteReferral({
               />
               <div className="flex flex-col grow shrink-0 my-auto basis-0 w-fit">
                 <div className="flex text-xs font-semibold  text-black whitespace-nowrap">
-                  <div className=" my-auto mr-5">{"Doctor's Name"}</div>
+                  <div className=" my-auto mr-5">Doctor's Name<span className="text-red-500 text-xs">*</span>
+                  </div>
                   <input
                     value={referralData.doctor_name}
                     onChange={(e) => {
@@ -233,7 +243,7 @@ export default function WriteReferral({
                   </datalist>
                 </div>
                 <div className="flex mt-3.5 text-xs font-semibold  text-black whitespace-nowrap">
-                  <div className=" my-auto mr-5">Specialization</div>
+                  <div className=" my-auto mr-5">Specialization<span className="text-red-500 text-xs">*</span></div>
                   <input
                     value={referralData.specialization}
                     onChange={(e) =>
@@ -251,7 +261,7 @@ export default function WriteReferral({
           </div>
           <div className="flex flex-col w-[44%] ">
             <div className="flex gap-5 text-xs font-semibold  text-black max-md:mt-10">
-              <div className=" my-auto ml-10 mr-5">Place of Clinic</div>
+              <div className=" my-auto ml-10 mr-5">Place of Clinic<span className="text-red-500 text-xs">*</span></div>
               <input
                 value={referralData.place_of_clinic}
                 onChange={(e) =>
@@ -265,7 +275,7 @@ export default function WriteReferral({
               />
             </div>
             <div className="flex gap-14 mt-3.5 text-xs font-semibold  text-black max-md:mt-10">
-              <div className=" my-auto ml-10 mr-5">Contact</div>
+              <div className=" my-auto ml-10 mr-5">Contact<span className="text-red-500 text-xs">*</span></div>
               <input
                 value={referralData.contact}
                 onChange={(e) =>
@@ -281,7 +291,7 @@ export default function WriteReferral({
       <div className="flex flex-col px-6 py-5 mt-2.5 bg-white rounded border border-gray-200 border-solid shadow-sm max-md:pl-5 max-md:max-w-full">
         <div className="flex flex-col px-6 py-5 rounded-lg bg-stone-50 max-md:px-5 max-md:max-w-full">
           <div className="text-base font-semibold leading-6 text-black max-md:max-w-full">
-            Reason for Referral
+            Reason for Referral  <span className="text-red-500 text-s">*</span>
           </div>
           <textarea
             value={referralData.reason_for_referral}
@@ -371,7 +381,7 @@ export default function WriteReferral({
 
       <div className="mt-5 mr-9 max-md:max-w-full max-md:mr-2.5 max-md:mt-10">
         <div className="text-black text-sm font-semibold leading-5">
-          Signature
+          Signature<span className="text-red-500 text-xs">*</span>
         </div>
         <div className="flex items-center gap-2.5 mt-3">
           {referralData.signature.length > 1 && referralData.signature && (
@@ -401,8 +411,15 @@ export default function WriteReferral({
               className="hidden"
             />
           </label>
+         
         </div>
+       
       </div>
+      {uploadSuccess && (
+  <div className="text-green-500 text-sm mt-2">
+    Signature uploaded successfully!
+  </div>
+)}
     </div>
   );
 }
