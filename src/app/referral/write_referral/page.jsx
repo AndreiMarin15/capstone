@@ -8,13 +8,15 @@ import WriteReferral from "../components/writeReferral";
 import retrieveReferralData from "@/backend/referral/retrieveReferralData";
 import sendReferralData from "@/backend/referral/sendReferralData";
 import { addAttendingDoctor } from "@/backend/attending_doctors/attending_doctors";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SendReferral() {
   const router = useRouter();
   const [patients, setPatients] = React.useState([]);
   const [currentState, setCurrentState] = React.useState(1);
   const [selectedPatientId, setSelectedPatientId] = React.useState(null);
-  const [isMatched, setIsMatched] = React.useState(false);
+
   const [referralData, setReferralData] = React.useState({
     doctor_name: "",
     specialization: "",
@@ -26,6 +28,21 @@ export default function SendReferral() {
     lab_tests: [],
     signature: "",
   });
+
+  const checkFieldsFilled = () => {
+    // Check if all required fields in SignUpPersonalInformation are filled
+    if (
+      referralData.doctor_name?.trim() !== "" &&
+      referralData.specialization?.trim() !== "" &&
+      referralData.place_of_clinic?.trim() !== "" &&
+      referralData.contact?.trim() !== "" &&
+      referralData.reason_for_referral?.trim() !== "" &&
+      referralData.signature?.trim() !== ""
+    ) {
+      return true; // All fields are filled
+    }
+    return false;
+  };
 
   React.useEffect(() => {
     console.log(referralData);
@@ -83,8 +100,6 @@ export default function SendReferral() {
                   referralData={referralData}
                   setReferralData={setReferralData}
                   selectedPatientId={selectedPatientId}
-                  isMatched={isMatched}
-                  setIsMatched={setIsMatched}
                 />
               )}
             </>
@@ -101,7 +116,7 @@ export default function SendReferral() {
                 setCurrentState(currentState - 1);
               }
             }}
-            className="mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
+            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
           >
             BACK
           </button>
@@ -114,13 +129,12 @@ export default function SendReferral() {
             onClick={() => {
               router.back();
             }}
-            className="mt-5 text-white text-sm font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
+            className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
             style={{ marginRight: "auto" }}
           >
             BACK
           </button>
         )}
-
         <button
           onClick={async () => {
             if (currentState < 2) {
@@ -145,20 +159,29 @@ export default function SendReferral() {
                   contact: referralData.contact,
                 },
               };
-              if (isMatched === false) {
+              const allFieldsFilled = checkFieldsFilled();
+              if (allFieldsFilled) {
+                setCurrentState(currentState + 1); // Proceed to the next page
                 await addAttendingDoctor(
                   attendingDoctor.doctor,
                   attendingDoctor.patient
                 );
+                await sendReferralData.sendWrittenReferral(
+                  referralData,
+                  selectedPatientId
+                );
+                router.push("/referral");
+              } else {
+                // Display an error message indicating that all fields must be filled
+                toast.error("Please fill in all fields before proceeding.", {
+                  position: "top-left",
+                  theme: "colored",
+                  autoClose: 5000,
+                });
               }
-              await sendReferralData.sendWrittenReferral(
-                referralData,
-                selectedPatientId
-              );
-              router.push("/referral");
             }
           }}
-          className={`mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
+          className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
         >
           {currentState === 3 ? "SEND" : "NEXT"}
         </button>
