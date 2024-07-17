@@ -491,15 +491,15 @@ const AddClinicVisit = ({
       };
 
       // Upload encounter data
-      const { success } = await uploadEncounter(dataToSave);
+      await uploadEncounter(dataToSave);
 
-      if (success) {
-        toast.success("Clinic Visit Added", {
+
+       toast.success("Clinic Visit Added", {
           position: "top-left",
           theme: "colored",
           autoClose: 8000,
         });
-      }
+     
       setCurrentScreen(0);
       fetchEncounters();
       setCurrentPage(0);
