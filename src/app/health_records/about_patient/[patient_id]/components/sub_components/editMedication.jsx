@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { client } from "@/backend//initSupabase";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
-
+import updatePrescription from "./sub_sub_components/updatePrescription";
 export default function EditMedications({ patientId }) {
   const supabase = client("public");
 
@@ -443,12 +443,10 @@ export default function EditMedications({ patientId }) {
                                           : ""
                                       }`}
                                       value={
-                                        item.variable === "Dose and Unit" &&
-                                        regis !== ""
+                                        item.variable === "Dose and Unit" 
                                           ? doseUnit
-                                          : item.variable === "Form" &&
-                                              regis !== ""
-                                            ? form // If regis is not empty, use the autofilled form
+                                          : item.variable === "Form"
+                                            ? form 
                                             : item.variable === "Frequency"
                                               ? duration
                                               : patientInstructions
@@ -710,12 +708,12 @@ export default function EditMedications({ patientId }) {
             </div>
           </div>
           <div className="flex justify-between items-center mt-5">
-            <BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
+            <BackButton  currentScreen={2} setCurrentScreen={setCurrentScreen} />
             <div>
               <button
                 onClick={() => {
                   handleSave();
-                }} // Attach the handleSave function here
+                }}
                 className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
               >
                 SAVE

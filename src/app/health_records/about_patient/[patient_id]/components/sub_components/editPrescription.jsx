@@ -14,9 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { client } from "@/backend//initSupabase";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
-
-export default function EditMedications({ patientId }) {
-  const supabase = client("public");
+import { getPrescriptions } from "@/backend/health_records/getPrescription";
+import updatePrescription from "./sub_sub_components/updatePrescription";
+import { saveUpdatePrescriptionMedicationData } from "@/backend/health_records/saveUpdatePrescriptionMedicationData";
+import retrievePrescriptionMedicationById from "@/backend/health_records/retrievePrescriptionMedicationById";
+export default function EditPrescription({ patientId, prescriptionId }) {
+  const supabase = client("project");
 
   const {
     editingMedicationId,
@@ -87,85 +90,6 @@ export default function EditMedications({ patientId }) {
     return valid;
   };
 
-  const updateMedicationRequest = async (editingMedicationId, updatedData) => {
-    try {
-      const patientData = await healthRecords.getPatientData(patientId);
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      const { data: medicationRequests, error } = await supabase
-        .from("medicationrequest")
-        .select("*");
-      console.log(editingMedicationId);
-      const medicationRequestToUpdate = medicationRequests.find(
-        (request) => request.id === editingMedicationId
-      );
-      console.log("Medication Request to Update:", medicationRequestToUpdate);
-
-      if (medicationRequestToUpdate) {
-        const updateData = await supabase
-          .from("medicationrequest")
-          .update({
-            resource: {
-              ...medicationRequestToUpdate.resource,
-              id: regis,
-              medicationCodeableConcept: [
-                {
-                  coding: [
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                      display: genName, // Assuming genName is a variable holding the updated value
-                    },
-                  ],
-                  text: name, // Assuming name is a variable holding the updated value
-                },
-              ],
-              dosageInstruction: [
-                {
-                  text: patientInstructions,
-                  doseAndRate: [
-                    {
-                      doseQuantity: {
-                        doseUnit: doseUnit,
-                      },
-                    },
-                  ],
-                },
-              ],
-              dispenseRequest: {
-                dispenseInterval: duration,
-                validityPeriod: {
-                  start: validityStart,
-                  end: validityEnd,
-                },
-              },
-              form: {
-                text: form,
-              },
-              note: patientInstructions,
-              adverseEvent: {
-                adverseReaction: adverseEvent,
-              },
-            },
-          })
-          .eq("id", medicationRequestToUpdate.id);
-        console.log("Updated Data:", updateData);
-
-        const updatedMedicationRequests = await getMedicationRequests();
-        setMedications(updatedMedicationRequests);
-        return updateData;
-      }
-
-      if (error) {
-        console.error("Error updating medication request:", error);
-        return null;
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Error updating medication request:", error);
-      return null;
-    }
-  };
-
   useEffect(() => {
     const fetchMedications = async () => {
       try {
@@ -180,44 +104,43 @@ export default function EditMedications({ patientId }) {
   }, []);
 
   useEffect(() => {
-    const fetchMedicationDetails = async () => {
-      try {
-        const med = await retrieveMedicationById(editingMedicationId);
-        console.log(med);
-        setMedication(med);
-        const genericName =
-          med.resource.medicationCodeableConcept[0]?.coding[0]?.display;
-        console.log(
-          med.resource.medicationCodeableConcept[0]?.coding[0]?.display
-        );
-        console.log(med.resource.form.text);
-        const brandName = med.resource.medicationCodeableConcept[0].text;
-        setName(`${brandName}`);
-        setGenName(`${genericName}`);
-        setMedicationName(`${genericName} - ${brandName}`);
-        setDoseUnit(
-          med.resource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity
-            ?.doseUnit
-        );
-        setForm(med.resource.form.text);
-        setPatientInstructions(med.resource.note);
-        setValidityStart(med.resource.dispenseRequest.validityPeriod.start);
-        setMedId(med.resource.id);
-        console.log(med.resource.id);
-        setValidityEnd(med.resource.dispenseRequest.validityPeriod.end);
-        setAdverseEvent(med.resource.adverseEvent.adverseReaction);
-        setDuration(med.resource.dispenseRequest.dispenseInterval);
+  const fetchMedicationDetails = async () => {
 
-        // You can set other fields similarly
-      } catch (error) {
-        console.error("Error fetching medication details:", error);
-      }
-    };
-
-    if (editingMedicationId) {
-      fetchMedicationDetails();
+   
+    try {
+      const med = await retrievePrescriptionMedicationById(prescriptionId, editingMedicationId);
+      console.log(med)
+      setMedication(med);
+      const genericName =
+        med.resource.medicationCodeableConcept[0]?.coding[0]?.display;
+      console.log(genericName);
+      console.log(med.resource.form.text);
+      const brandName = med.resource.medicationCodeableConcept[0].text;
+      setName(`${brandName}`);
+      setGenName(`${genericName}`);
+      setMedicationName(`${genericName} - ${brandName}`);
+      setDoseUnit(
+        med.resource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity?.doseUnit
+      );
+      setForm(med.resource.form.text);
+      setPatientInstructions(med.resource.note);
+      setValidityStart(med.resource.dispenseRequest.validityPeriod.start);
+      setMedId(med.resource.id);
+      console.log(med.resource.id);
+      setValidityEnd(med.resource.dispenseRequest.validityPeriod.end);
+      setAdverseEvent(med.resource.adverseEvent.adverseReaction);
+      setDuration(med.resource.dispenseRequest.dispenseInterval);
+      
+      // You can set other fields similarly
+    } catch (error) {
+      console.error("Error fetching medication details:", error);
     }
-  }, [editingMedicationId]);
+  };
+
+ 
+    fetchMedicationDetails();
+
+}, [editingMedicationId]);
 
   useEffect(() => {
     const findMedicationByRegis = () => {
@@ -239,108 +162,100 @@ export default function EditMedications({ patientId }) {
   const handleSave = async () => {
     setFormSubmitted(true);
     if (!validateFields()) {
-      return;
+        return;
     }
 
     try {
-      const patientData = await healthRecords.getPatientData(patientId);
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
+        const patientData = await healthRecords.getPatientData(patientId);
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
+        
+        const currentData = { ...medication }; // Copy medication
 
-      const dataToUpdate = {
-        status: "Active",
-        id: regis,
-
-        medicationCodeableConcept: [
-          {
-            coding: [
-              {
-                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                display: genName,
-              },
-            ],
-            text: name,
-          },
-        ],
-
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-
-        dosageInstruction: [
-          {
-            text: patientInstructions,
-            doseAndRate: [
-              {
-                doseQuantity: {
-                  doseUnit: doseUnit,
+        const updatedMedicationData = {
+            ...currentData,
+            ts: new Date().toISOString(),
+            status: "created",
+            comments: [],
+            resource: {
+                ...currentData.resource,
+                id: regis,
+                form: { text: form },
+                note: patientInstructions,
+                subject: {
+                    type: "Patient",
+                    patient: patientData,
+                    reference: patientData.id,
                 },
-              },
-            ],
-          },
-        ],
-        dispenseRequest: {
-          dispenseInterval: duration,
-          validityPeriod: {
-            start: validityStart,
-            end: validityEnd,
-          },
-        },
+                requester: {
+                    agent: {
+                        reference: doctorInfo.fullName,
+                        license_id: doctorInfo.license,
+                    },
+                },
+                adverseEvent: {
+                    adverseReaction: adverseEvent,
+                },
+                dispenseRequest: {
+                    validityPeriod: {
+                        start: validityStart,
+                        end: validityEnd,
+                    },
+                    dispenseInterval: duration,
+                },
+                dosageInstruction: [
+                    {
+                        doseAndRate: [
+                            {
+                                doseQuantity: {
+                                    doseUnit: doseUnit,
+                                },
+                            },
+                        ],
+                    },
+                ],
+                medicationCodeableConcept: [
+                    {
+                        text: name,
+                        coding: [
+                            {
+                                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                display: genName,
+                            },
+                        ],
+                    },
+                ],
+            },
+            resource_type: "MedicationRequest",
+        };
 
-        requester: {
-          agent: {
-            reference: doctorInfo,
-          },
-        },
+        // Instead of indexing, merge the updated data
+        const finalDataToSave = {
+            ...currentData,
+            ...updatedMedicationData
+        };
 
-        form: {
-          text: form,
-        },
-
-        note: patientInstructions,
-
-        adverseEvent: {
-          adverseReaction: adverseEvent,
-        },
-
-        resource_type: "MedicationRequest",
-      };
-
-      console.log("Data to save:", dataToUpdate);
-      // Call the uploadEncounter function with the data to save
-      const updatedMedicationRequest = await updateMedicationRequest(
-        editingMedicationId,
-        dataToUpdate
-      );
-      await fetchMedications();
-      if (updatedMedicationRequest) {
-        // Update state or perform any other actions
-        console.log(
-          "Medication request updated successfully:",
-          updatedMedicationRequest
+        const updatedMedicationRequest = await saveUpdatePrescriptionMedicationData(
+            prescriptionId,
+            editingMedicationId, // Ensure this is the correct identifier
+            finalDataToSave // Use the merged data
         );
 
-        // Display success message or perform other actions
-        toast.success("Medication Request Updated", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 8000,
-        });
-        setCurrentScreen(1);
-      } else {
-        // Handle error scenario
-        console.error("Failed to update medication request");
-        // Display error message or perform other actions
-        toast.error("Failed to update medication request", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 8000,
-        });
-      }
+        await getPrescriptions();
+
+       
+            console.log("Medication request updated successfully:", updatedMedicationRequest);
+            toast.success("Medication Request Updated", {
+                position: "top-left",
+                theme: "colored",
+                autoClose: 8000,
+            });
+            setCurrentScreen(5);
+      
     } catch (error) {
-      console.error("Error saving data:", error);
+        console.error("Error saving data:", error);
     }
-  };
+};
+
 
   const dosage = [
     {
@@ -395,7 +310,7 @@ export default function EditMedications({ patientId }) {
 
   return (
     <>
-      {currentScreen === 4 ? (
+      {currentScreen === 6 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
             EDIT MEDICATION
@@ -443,10 +358,10 @@ export default function EditMedications({ patientId }) {
                                           : ""
                                       }`}
                                       value={
-                                        item.variable === "Dose and Unit"
+                                        item.variable === "Dose and Unit" 
                                           ? doseUnit
-                                          : item.variable === "Form" 
-                                            ? form
+                                          : item.variable === "Form"
+                                            ? form 
                                             : item.variable === "Frequency"
                                               ? duration
                                               : patientInstructions
@@ -708,7 +623,7 @@ export default function EditMedications({ patientId }) {
             </div>
           </div>
           <div className="flex justify-between items-center mt-5">
-            <BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
+            <BackButton  currentScreen={8} setCurrentScreen={setCurrentScreen} />
             <div>
               <button
                 onClick={() => {

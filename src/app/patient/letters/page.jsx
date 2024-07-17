@@ -195,110 +195,92 @@ export default function Letters() {
                           </div>
 
                           <TabsContent value="all">
-                            {prescriptions
-                              .sort((a, b) => {
-                                if (sortOptionDate === "Recent") {
-                                  return (
-                                    new Date(b?.created_at) -
-                                    new Date(a?.created_at)
-                                  );
-                                } else {
-                                  return (
-                                    new Date(a?.created_at) -
-                                    new Date(b?.created_at)
-                                  );
-                                }
-                              })
-                              .slice(0, renderingOptions)
-                              ?.map((prescription, index, sortedArray) => (
-                                <div key={prescription.id} className="flex">
-                                  <button
-                                    onClick={() => {
-                                      console.log(prescription.id);
-                                      setPrescriptionId(prescription.id);
-                                      setCurrentScreen(1);
-                                    }}
-                                  >
-                                    <div
-                                      key={index}
-                                      className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
-                                    >
-                                      <div className="flex gap-1.5 font-semibold whitespace-nowrap mt-3 ml-2">
-                                        <Image
-                                          alt="image"
-                                          height={0}
-                                          width={0}
-                                          loading="lazy"
-                                          src={
-                                            "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
-                                          }
-                                          className="aspect-square fill-black w-[15px]"
-                                        />
-                                        <div className="my-auto">
-                                          Prescription #
-                                          {sortOptionDate === "Recent"
-                                            ? prescriptions.length -
-                                              prescriptions.findIndex(
-                                                (p) => p.id === prescription.id
-                                              )
-                                            : prescriptions.findIndex(
-                                                (p) => p.id === prescription.id
-                                              ) + 1}
-                                        </div>
-                                      </div>
-                                      <div className="flex w-full justify-between text-sm ml-2 mt-1">
-                                        <div className="flex gap-1 font-regular whitespace-nowrap ">
-                                          <Image
-                                            alt="image"
-                                            height={0}
-                                            width={0}
-                                            loading="lazy"
-                                            src={
-                                              "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
-                                            }
-                                            className="w-4 aspect-square"
-                                          />
-                                          <div className="grow my-auto">
-                                            Dr.{" "}
-                                            {
-                                              prescription.resource.requester
-                                                .agent.reference
-                                            }
-                                          </div>
-                                          <div className="grow my-auto ml-10">
-                                            Provided On:{" "}
-                                            {new Date(
-                                              prescription.created_at
-                                            ).toLocaleDateString()}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </button>
-                                  <div className="flex w-full ml-[350px] mt-5">
-                                    <Reusable
-                                      child={
-                                        <>
-                                          <Prescription
-                                            medicationData={prescription}
-                                            patientData={
-                                              currentUser.getState().user
-                                            }
-                                            doctor_id={
-                                              prescription.resource.requester
-                                                .agent.license_id
-                                            }
-                                          />
-                                        </>
-                                      }
-                                      w={1920}
-                                      h={1080}
-                                      orientation={"p"}
-                                      filename={`prescription_${prescription.id}`}
-                                    />
-                                  </div>
-                                </div>
-                              ))}
+                          {prescriptions
+  .filter(prescription => prescription.resource.status === "complete") // Filter for complete prescriptions
+  .sort((a, b) => {
+    if (sortOptionDate === "Recent") {
+      return new Date(b?.created_at) - new Date(a?.created_at);
+    } else {
+      return new Date(a?.created_at) - new Date(b?.created_at);
+    }
+  })
+  .slice(0, renderingOptions)
+  ?.map((prescription, index, sortedArray) => (
+    <div key={prescription.id} className="flex">
+      <button
+        onClick={() => {
+          console.log(prescription.id);
+          setPrescriptionId(prescription.id);
+          setCurrentScreen(1);
+        }}
+      >
+        <div
+          key={index}
+          className="flex flex-col mt-5 items-start text-sm leading-5 text-black w-full"
+        >
+          <div className="flex gap-1.5 font-semibold whitespace-nowrap mt-3 ml-2">
+            <Image
+              alt="image"
+              height={0}
+              width={0}
+              loading="lazy"
+              src={
+                "https://cdn.builder.io/api/v1/image/assets/TEMP/4a525f62acf85c2276bfc82251c6beb10b3d621caba2c7e3f2a4701177ce98c2?"
+              }
+              className="aspect-square fill-black w-[15px]"
+            />
+            <div className="my-auto">
+              Prescription{" "}
+              {new Date(prescription.created_at).toLocaleDateString()}
+            </div>
+          </div>
+          <div className="flex w-full justify-between text-sm ml-2 mt-1">
+            <div className="flex gap-1 font-regular whitespace-nowrap ">
+              <Image
+                alt="image"
+                height={0}
+                width={0}
+                loading="lazy"
+                src={
+                  "https://cdn.builder.io/api/v1/image/assets/TEMP/cafd760f8d1e87590398c40d6e223fabf124ae3120c9f867d6b2fc048ac936ec?"
+                }
+                className="w-4 aspect-square"
+              />
+              <div className="grow my-auto">
+                Dr.{" "}
+                {
+                  prescription.resource.requester.agent.reference
+                }
+              </div>
+              <div className="grow my-auto ml-10">
+              </div>
+            </div>
+          </div>
+        </div>
+      </button>
+      <div className="flex w-full ml-[350px] mt-5">
+        <Reusable
+          child={
+            <>
+              <Prescription
+                medicationData={prescription}
+                patientData={
+                  currentUser.getState().user
+                }
+                doctor_id={
+                  prescription.resource.requester.agent.license_id
+                }
+              />
+            </>
+          }
+          w={1920}
+          h={1080}
+          orientation={"p"}
+          filename={`prescription_${prescription.id}`}
+        />
+      </div>
+    </div>
+  ))}
                           </TabsContent>
                           <TabsContent value="endocrinologist">
                             {/* Add contents here */}

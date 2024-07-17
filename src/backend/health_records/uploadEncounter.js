@@ -1,82 +1,41 @@
 import { PUBLIC } from "../public/db";
 import { doctor } from "./doctor";
-const uploadEncounter = async (encounter) => {
+
+// FChecking if 6001 is running
+const checkPort6001 = async () => {
   try {
-    const contained = [];
+    const response = await fetch("http://localhost:6001", {
+      method: "GET",
+    });
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};
 
-    await Promise.all(
-      encounter.contained?.map(async (element) => {
-        const fhir = {
-          status: "created",
-          resource: element,
-        };
-
-        const inserted = await PUBLIC.insertInto(
-          element.resource_type.toLowerCase(),
-          fhir
-        );
-        contained.push(inserted[0].id);
-        if (inserted.status !== 201) {
-          return;
-        }
-      })
-    );
-    var patient = {
-      type: encounter.subject.type,
-      reference: encounter.subject.reference,
-      patient: encounter.subject.patient,
-    };
-
-    const doctorInfo = await doctor.getDoctorByCurrentUser();
-    const data = {
-      status: "created",
-      resource: {
-        id: encounter.id,
-        period: encounter.period,
-        participant: {
-          type: doctorInfo.type,
-          actor: doctorInfo.fullName,
-          license: doctorInfo.license,
-        },
-        subject: {
-          type: encounter.subject.type,
-          reference: encounter.subject.reference,
-          patient: encounter.subject.patient,
-        },
-
-        contained: contained,
-        resource_type: encounter.resource_type,
-      },
-      resource_type: encounter.resource_type,
-    };
-    const enc = await PUBLIC.insertInto(data.resource_type.toLowerCase(), data);
-
-    var resource = data;
-    await fetch("http://localhost:6001/endotracker/patient-get", {
+// Functions to Fetch if there is 6001
+const makeFetchRequests = async (resource, encounter) => {
+  try {
+    const patientGetPromise = fetch("http://localhost:6001/endotracker/patient-get", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        last_name:
-          resource.resource.subject.patient.personal_information.last_name,
-        first_name:
-          resource.resource.subject.patient.personal_information.first_name,
+        last_name: resource.resource.subject.patient.personal_information.last_name,
+        first_name: resource.resource.subject.patient.personal_information.first_name,
         middle_name: null,
-        birthdate:
-          resource.resource.subject.patient.personal_information.birthdate,
+        birthdate: resource.resource.subject.patient.personal_information.birthdate,
         gender: resource.resource.subject.patient.personal_information.gender,
-        contact_number:
-          resource.resource.subject.patient.personal_information.contact_number,
-        postal_code:
-          resource.resource.subject.patient.personal_information.postal_code,
+        contact_number: resource.resource.subject.patient.personal_information.contact_number,
+        postal_code: resource.resource.subject.patient.personal_information.postal_code,
         state: resource.resource.subject.patient.personal_information.state,
         city: resource.resource.subject.patient.personal_information.city,
-        street_address:
-          resource.resource.subject.patient.personal_information.street_address,
+        street_address: resource.resource.subject.patient.personal_information.street_address,
       }),
     });
+
     delete resource.resource.subject.patient.personal_information.photo;
-    // encounter
-    await fetch("http://localhost:6001/endotracker/encounter", {
+
+    const encounterPromise = fetch("http://localhost:6001/endotracker/encounter", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -85,32 +44,28 @@ const uploadEncounter = async (encounter) => {
       }),
     });
 
-    //ros
-    await fetch("http://localhost:6001/endotracker/signs-and-symptoms", {
+    const signsAndSymptomsPromise = fetch("http://localhost:6001/endotracker/signs-and-symptoms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        resource: data,
+        resource: resource,
         ros: {
           ...encounter.contained[0].values,
           weight_loss: encounter.contained[0].values["Weight Loss"],
           poor_appetite: encounter.contained[0].values["Poor Appetite"],
-          heart_palpitation:
-            encounter.contained[0].values["Heart Palpitations"],
-          shortness_of_breath:
-            encounter.contained[0].values["Shortness of Breath"],
+          heart_palpitation: encounter.contained[0].values["Heart Palpitations"],
+          shortness_of_breath: encounter.contained[0].values["Shortness of Breath"],
           abdominal_pain: encounter.contained[0].values["Abdominal Pain"],
           chest_pain: encounter.contained[0].values["Chest Pain"],
         },
       }),
     });
 
-    //observation
-    await fetch("http://localhost:6001/endotracker/vitals-and-biometrics", {
+    const vitalsAndBiometricsPromise = fetch("http://localhost:6001/endotracker/vitals-and-biometrics", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        resource: data,
+        resource: resource,
         observation: {
           height: {
             value: encounter.contained[7].valueQuantity.value,
@@ -140,7 +95,71 @@ const uploadEncounter = async (encounter) => {
       }),
     });
 
-    return { enc, containedIDs: contained, success: true };
+    await Promise.all([
+      patientGetPromise,
+      encounterPromise,
+      signsAndSymptomsPromise,
+      vitalsAndBiometricsPromise,
+    ]);
+  } catch (error) {
+    console.error("Error in fetch requests:", error);
+  }
+};
+
+const uploadEncounter = async (encounter) => {
+  try {
+    const contained = [];
+
+    await Promise.all(
+      encounter.contained?.map(async (element) => {
+        const fhir = {
+          status: "created",
+          resource: element,
+        };
+
+        const inserted = await PUBLIC.insertInto(
+          element.resource_type.toLowerCase(),
+          fhir
+        );
+        contained.push(inserted[0].id);
+        if (inserted.status !== 201) {
+          return;
+        }
+      })
+    );
+
+    const doctorInfo = await doctor.getDoctorByCurrentUser();
+    const data = {
+      status: "created",
+      resource: {
+        id: encounter.id,
+        period: encounter.period,
+        participant: {
+          type: doctorInfo.type,
+          actor: doctorInfo.fullName,
+          license: doctorInfo.license,
+        },
+        subject: {
+          type: encounter.subject.type,
+          reference: encounter.subject.reference,
+          patient: encounter.subject.patient,
+        },
+        contained: contained,
+        resource_type: encounter.resource_type,
+      },
+      resource_type: encounter.resource_type,
+    };
+    const enc = await PUBLIC.insertInto(data.resource_type.toLowerCase(), data);
+
+    const resource = data;
+
+    const portAvailable = await checkPort6001();
+
+    if (portAvailable) {
+      await makeFetchRequests(resource, encounter);
+    }
+
+    return { enc, containedIDs: contained };
   } catch (error) {
     throw error;
   }
