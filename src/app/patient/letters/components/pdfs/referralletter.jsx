@@ -53,7 +53,7 @@ export function ReferralLetterPDF({
                 : ""}{" "}
             </div>
           </div>
-          <div className="flex flex-row items-start text-start justify-between mt-16 text-xs max-md:mt-10 max-md:max-w-full w-full">
+          <div className="flex flex-row items-start text-start justify-between mt-16 text-sm max-md:mt-10 max-md:max-w-full w-full">
             <div className="items-start text-start">
               {referred_by?.hospital?.name ?? ""} <br />
               <span className="font-normal items-start text-start">
@@ -70,7 +70,7 @@ export function ReferralLetterPDF({
               </span>
             </div>
           </div>
-          <div className="mt-4 text-xs items-start text-start max-md:max-w-full">
+          <div className="mt-4 text-sm items-start text-start max-md:max-w-full">
             {referralData?.referral_data.place_of_clinic ?? ""}
             <br />
             <span className="font-normal">
@@ -82,7 +82,7 @@ export function ReferralLetterPDF({
       <div className="mt-14 max-w-full w-[436px] max-md:mt-10">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[37%] max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col grow text-xs font-semibold leading-5 text-black max-md:mt-10">
+            <div className="flex flex-col grow text-sm font-semibold leading-5 text-black max-md:mt-10">
               <div className="leading-[150%]">DOCTOR INFORMATION</div>
               <div className="mt-6 items-start text-start">
                 Name
@@ -101,14 +101,7 @@ export function ReferralLetterPDF({
             </div>
           </div>
           <div className="flex flex-col ml-5 w-[63%] max-md:ml-0 max-md:w-full">
-            <div className="items-start text-start self-stretch my-auto text-xs font-semibold leading-5 text-black max-md:mt-10">
-              Clinic
-              <br />
-              <span className="font-normal">
-                {referralData?.referral_data.place_of_clinic ?? ""}
-              </span>
-            </div>
-            <div className="items-start text-start self-stretch my-auto text-xs font-semibold leading-5 text-black max-md:mt-10">
+            <div className="items-start text-start self-stretch my-auto text-sm font-semibold leading-5 text-black max-md:mt-10">
               Contact
               <br />
               <span className="font-normal">
@@ -121,7 +114,7 @@ export function ReferralLetterPDF({
       <div className="mt-14 max-w-full w-[436px] max-md:mt-10">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[37%] max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col grow text-xs font-semibold leading-5 text-black max-md:mt-10">
+            <div className="flex flex-col grow text-sm font-semibold leading-5 text-black max-md:mt-10">
               <div className="leading-[150%]">PATIENT INFORMATION</div>
               <div className="mt-6 items-start text-start">
                 Name
@@ -141,7 +134,7 @@ export function ReferralLetterPDF({
             </div>
           </div>
           <div className="flex flex-col ml-5 w-[63%] max-md:ml-0 max-md:w-full">
-            <div className="items-start text-start self-stretch my-auto text-xs font-semibold leading-5 text-black max-md:mt-10">
+            <div className="items-start text-start self-stretch my-auto text-sm font-semibold leading-5 text-black max-md:mt-10">
               Address
               <br />
               <span className="font-normal">
@@ -153,14 +146,14 @@ export function ReferralLetterPDF({
           </div>
         </div>
       </div>
-      <div className="mt-16 whitespace-pre-wrap text-xs leading-5 text-black items-start text-start max-md:mt-10 max-md:max-w-full">
+      <div className="mt-16 whitespace-pre-wrap text-sm leading-5 text-black items-start text-start max-md:mt-10 max-md:max-w-full">
         <span className="font-semibold">Diagnosis</span>:
         {referralData?.referral_data.reason_for_referral ?? ""}
       </div>
-      <div className="mt-5 whitespace-pre-wrap text-xs leading-5 items-start text-start text-black max-md:max-w-full">
+      <div className="mt-5 whitespace-pre-wrap text-sm leading-5 items-start text-start text-black max-md:max-w-full">
         {referralData?.referral_data.medications ?? ""}
       </div>
-      <div className="flex gap-5 justify-between items-start mt-11 w-full text-xs leading-5 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
+      <div className="flex gap-5 justify-between items-start mt-11 w-full text-sm leading-5 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 justify-between self-start font-semibold">
           <div className="flex flex-col self-start">
             {referralData?.referral_data.lab_tests?.map((labtest, index) => (

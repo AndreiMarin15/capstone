@@ -4,12 +4,14 @@ import Image from "next/image";
 import {
   getMessages,
   getMessagesAndSubscribe,
+  getProfilePicturePatient,
 } from "@/backend/message/getMessages";
 export default function Messaging() {
   const [patient, setPatient] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [changeUser, setChangeUser] = React.useState(false);
   const [newMessage, setNewMessage] = React.useState(false);
+  const [currentPhoto, setCurrentPhoto] = React.useState(null);
   const [chats, setChats] = React.useState([
     { id: "", patient: "", patient_full_name: "" },
   ]);
@@ -55,7 +57,17 @@ export default function Messaging() {
   React.useEffect(() => {
     const importMessage = async () => {
       const chatList = await getMessages.getChats();
-      setChats(chatList);
+      const chatsWithPhotos = await Promise.all(
+        chatList.map(async (item) => {
+          const photo = await getProfilePicturePatient(item.patient);
+          return {
+            ...item,
+            photo,
+          };
+        })
+      );
+      setChats(chatsWithPhotos);
+      console.log("THESE ARE CHATS", chatList);
       setPatient(chatList[0]?.id || ""); // Set the initial patient ID
     };
 
@@ -63,17 +75,23 @@ export default function Messaging() {
   }, [newMessage]);
 
   React.useEffect(() => {
+    console.log("CHATSS", chats);
+  }, [chats]);
+
+  React.useEffect(() => {
     const importMessage = async () => {
       const messages = await getMessages.getMessage(patient);
       // update to read
       await getMessages.updateRead(patient, "received", "read");
+      console.log("THESE ARE MSGS", messages);
       setMessageInfo(messages);
     };
 
     importMessage();
   }, [changeUser, newMessage]);
 
-  function getUser(userId) {
+  function getUser(userId, photo) {
+    setCurrentPhoto(photo);
     setPatient(userId);
     setChangeUser(!changeUser);
   }
@@ -89,7 +107,7 @@ export default function Messaging() {
                 <div
                   key={index}
                   className="w-full group"
-                  onClick={() => getUser(item.id)}
+                  onClick={() => getUser(item.id, item.photo)}
                 >
                   <div className="flex gap-5 items-center group-hover:bg-neutral-200">
                     {/* IF SELECTED DISPLAY THE BLUE */}
@@ -104,7 +122,10 @@ export default function Messaging() {
                       height={0}
                       width={0}
                       loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                      src={
+                        item.photo ??
+                        "https://cdn.builder.io/api/v1/image/assets/TEMP/a7c15d8e78fed1700b5a41fe03386945de7b86991164dd8f5e36bb4f2a9286b8?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                      }
                       className="w-[25px]"
                     />
                     <div className="flex flex-col flex-1">
@@ -132,7 +153,7 @@ export default function Messaging() {
                 height={0}
                 width={0}
                 loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/e6422eb52375a50afd15b70553c37dc9849d7544cde4956bbb282ba7a868bffd?"
+                src={currentPhoto ?? "https://cdn.builder.io/api/v1/image/assets/TEMP/e6422eb52375a50afd15b70553c37dc9849d7544cde4956bbb282ba7a868bffd?"}
                 className="aspect-square object-contain object-center w-[43px] overflow-hidden shrink-0 max-w-full ml-2 mt-1.5 max-md:mt-10"
               />
             </div>
@@ -142,7 +163,7 @@ export default function Messaging() {
                   ? messageInfo.patients.first_name +
                     " " +
                     messageInfo.patients.last_name
-                  : "undefined"}
+                  : " "}
               </span>
             </div>
           </div>
@@ -168,7 +189,7 @@ export default function Messaging() {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/dffd38d13978a933c893f2eb7821e2e2acf925db34c9fb328f0cab15f6120276?"
                       className="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full"
                     />
-                    <span className="text-zinc-600 text-xs font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
+                    <span className="text-zinc-600 text-sm font-medium leading-5 shadow-sm bg-white self-stretch justify-center items-stretch px-5 py-4 rounded">
                       {item.message}
                     </span>
                   </div>
@@ -182,7 +203,7 @@ export default function Messaging() {
                     key={index}
                     className="flex gap-4 justify-end items-start max-md:max-w-full max-md:flex-wrap self-end max-w-[50%]"
                   >
-                    <span className="text-white text-xs font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
+                    <span className="text-white text-sm font-medium leading-5 shadow-sm bg-blue-500 self-stretch justify-center items-stretch px-5 py-4 rounded">
                       {item.message}
                     </span>
                     <Image
@@ -215,7 +236,7 @@ export default function Messaging() {
             <span className="flex items-stretch gap-2 my-auto"></span>
             <button
               type="submit"
-              className="text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
+              className="text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-blue-500 self-stretch px-7 py-2 rounded max-md:px-5"
             >
               SEND
             </button>

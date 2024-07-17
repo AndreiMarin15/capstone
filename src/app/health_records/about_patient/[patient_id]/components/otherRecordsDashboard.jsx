@@ -15,19 +15,18 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import AddRecord from "./sub_components/addRecord";
-import ViewRecords from "./sub_components/viewRecords"; 
+import ViewRecords from "./sub_components/viewRecords";
 import { getRecordByPatient } from "@/backend/health_records/getRecord";
 
-
-export default function OtherRecords({patientId}) {
+export default function OtherRecords({ patientId }) {
   const [date, setDate] = useState();
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [records, setRecords] = useState([]); 
-  const [recordId, setRecordId] = useState(""); 
+  const [records, setRecords] = useState([]);
+  const [recordId, setRecordId] = useState("");
   const handleRecordClick = (record) => {
     setCurrentScreen(2);
-    setRecordId(record)
-    console.log(record)
+    setRecordId(record);
+    console.log(record);
     console.log("current Screen:", currentScreen);
   };
 
@@ -64,7 +63,7 @@ export default function OtherRecords({patientId}) {
                   className="aspect-square ml-2 object-contain object-center w-[13px] fill-stone-300 overflow-hidden shrink-0 max-w-full"
                 />
                 <div
-                  className="text-stone-300 text-xs leading-5 my-auto"
+                  className="text-stone-300 text-sm leading-5 my-auto"
                   style={{ paddingRight: "300px" }}
                 >
                   SEARCH
@@ -79,7 +78,7 @@ export default function OtherRecords({patientId}) {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/872489d37c6f07090c71fb194a8c077334f5ee8d7e865b4e470f49f5a27b95ba?apiKey=66e07193974a40e683930e95115a1cfd&"
                   className="aspect-[0.86] object-contain object-center w-3 overflow-hidden"
                 />
-                <div className="text-black text-xs leading-5 self-center whitespace-nowrap">
+                <div className="text-black text-sm leading-5 self-center whitespace-nowrap">
                   FILTER
                 </div>
               </span>
@@ -101,17 +100,19 @@ export default function OtherRecords({patientId}) {
               </DropdownMenu>
             </div>
           </div>
-          <Button className="self-end max-w-[20%]" variant="outline" onClick={() => setCurrentScreen(1)}>
-              Add Record
+          <Button
+            className="self-end max-w-[20%]"
+            variant="outline"
+            onClick={() => setCurrentScreen(1)}
+          >
+            Add Record
           </Button>
-
 
           {records.map((record, index) => (
             <button
               key={index}
-              onClick={() => 
-                handleRecordClick(record.id)}
-              className="flex flex-col mt-8 items-start text-xs leading-5 text-black max-w-[100%]"
+              onClick={() => handleRecordClick(record.id)}
+              className="flex flex-col mt-8 items-start text-sm leading-5 text-black max-w-[100%]"
             >
               <div className="flex gap-3.5 justify-between font-semibold whitespace-nowrap">
                 <Image
@@ -126,9 +127,12 @@ export default function OtherRecords({patientId}) {
               </div>
             </button>
           ))}
+          <div className="mt-4">
+            <BackButton />
+          </div>
         </>
       )}
-     
+
       {currentScreen === 1 && (
         <AddRecord
           currentScreen={currentScreen}
@@ -145,11 +149,6 @@ export default function OtherRecords({patientId}) {
           recordId={recordId}
         />
       )}
-       <div className="mt-4">
-          <BackButton
-          />
-        </div>
     </>
-    
   );
 }

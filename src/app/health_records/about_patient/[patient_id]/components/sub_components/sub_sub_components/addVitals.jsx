@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { useRouter } from "next/router"; // Corrected import path
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import BackButton from "../BackButton";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import Analysis from "./addAnalysis";
-import useClinicVisitStore from '@/app/clinicVisitStore'; // Import Zustand store
+import useClinicVisitStore from "@/app/clinicVisitStore"; // Import Zustand store
+import { toast } from "react-toastify";
 
 export default function AddVitals({
   currentScreen,
@@ -14,37 +15,70 @@ export default function AddVitals({
   handleBack,
   patientId,
 }) {
-  const clinicDate = useClinicVisitStore(state => state.clinicDate);
-  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
-  
-  const [systolic, setSystolic] = useState("");
-  const [diastolic, setDiastolic] = useState("");
-  const [heartRate, setHeartRate] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [bmi, setBMI] = useState("");
+  const clinicDate = useClinicVisitStore((state) => state.clinicDate);
+  const setClinicDate = useClinicVisitStore((state) => state.setClinicDate);
 
   const { vitals, setVitals } = useClinicVisitStore(); // Access vitals from store
 
+  const [isNextPressed, setIsNextPressed] = useState(false); // State to track if the Next button is pressed
+
   const handleSave = () => {
-  
     setCurrentScreen(4);
   };
 
+  const validateInputs = () => {
+    let valid = true;
 
-  
-  const [errorStyles, setErrorStyles] = useState({
-    systolic: false,
-    diastolic: false,
-    heartRate: false,
-    height: false,
-    weight: false,
-    bmi: false,
-  });
+    if (!vitals.systolic) {
+      toast.error("Systolic Blood Pressure is required.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+      valid = false;
+    }
+    if (!vitals.diastolic) {
+      toast.error("Diastolic Blood Pressure is required.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+      valid = false;
+    }
+    if (!vitals.heartRate) {
+      toast.error("Heart Rate is required.", { position: "top-left",
+        theme: "colored",
+        autoClose: 8000, });
+      valid = false;
+    }
+    if (!vitals.height) {
+      toast.error("Height is required.", { position: "top-left",
+        theme: "colored",
+        autoClose: 8000, });
+      valid = false;
+    }
+    if (!vitals.weight) {
+      toast.error("Weight is required.", { position: "top-left",
+        theme: "colored",
+        autoClose: 8000, });
+      valid = false;
+    }
+    if (!vitals.bmi) {
+      toast.error("Body Mass Index is required.", { position: "top-left",
+        theme: "colored",
+        autoClose: 8000, });
+      valid = false;
+    }
 
+    return valid;
+  };
 
-
-
+  const handleNextClick = () => {
+    setIsNextPressed(true);
+    if (validateInputs()) {
+      handleNext();
+    }
+  };
 
   const date = [
     {
@@ -57,34 +91,35 @@ export default function AddVitals({
   const clinicVitals = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Systolic Blood Pressure",
+      variable: "Systolic Blood Pressure *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3989204c70d706bac6f9f46ddda5aa4e7e97fa6018e996dd7dc93112d8fd1b8b?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Diastolic Blood Pressure",
+      variable: "Diastolic Blood Pressure *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/f4d912f8102b745e1cadcdfa06bd7d42c5f96a1f5470e70c3e8d52350dbb2192?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Heart Rate (beats/min)",
+      variable: "Heart Rate (beats/min) *",
       value: "",
     },
   ];
+
   const clinicBiometrics = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/b947b8e54bf04f2cb0c3ec2f17d835819b72247144f9a6d4d213b09ee01afe5a?",
-      variable: "Height (cm)",
+      variable: "Height (cm) *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/abf6097d90bb41a27fe7af53db50a7e72d58f98784d373f3d96269100499e801?",
-      variable: "Weight (kg)",
+      variable: "Weight (kg) *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/936d5969435e0b8888fc1c49414bdbbea73d3ea25eb29b5a417543d297cd6624?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Body Mass Index",
+      variable: "Body Mass Index *",
       value: "",
     },
   ];
@@ -103,7 +138,7 @@ export default function AddVitals({
           <div>
             <div className="flex gap-[4rem] align-baseline">
               <table className="max-w-fit border-spacing-y-5 border-separate">
-                <tbody className="text-xs leading-5 text-black">
+                <tbody className="text-sm leading-5 text-black">
                   {date.map((item, index) => (
                     <tr key={index}>
                       <td className="w-5">
@@ -117,7 +152,7 @@ export default function AddVitals({
                         />
                       </td>
                       <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
@@ -127,17 +162,12 @@ export default function AddVitals({
                           value={clinicDate}
                           onChange={(e) => setClinicDate(e.target.value)}
                           className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5`}
-                          style={
-                            errorStyles.clinicDate
-                              ? { borderColor: "red", borderWidth: "2px" }
-                              : {}
-                          }
                         />
                       </td>
                     </tr>
                   ))}
                   <tr>
-                    <td colspan="3" className="font-semibold text-xs py-[20px]">
+                    <td colspan="3" className="font-semibold text-sm py-[20px]">
                       VITALS
                     </td>
                   </tr>
@@ -154,43 +184,72 @@ export default function AddVitals({
                         />
                       </td>
                       <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                      <input
-                  type="number"
-                  placeholder={"Add"}
-                  value={item.variable === "Systolic Blood Pressure" ? vitals.systolic || "" :
-                         item.variable === "Diastolic Blood Pressure" ? vitals.diastolic || "" :
-                         item.variable === "Heart Rate (beats/min)" ? vitals.heartRate || "" : ""}
-                  onChange={(e) => {
-                    if (item.variable === "Systolic Blood Pressure") {
-                      setVitals({ ...vitals, systolic: e.target.value });
-                      setErrorStyles({ ...errorStyles, systolic: false });
-                    } else if (item.variable === "Diastolic Blood Pressure") {
-                      setVitals({ ...vitals, diastolic: e.target.value });
-                      setErrorStyles({ ...errorStyles, diastolic: false });
-                    } else if (item.variable === "Heart Rate (beats/min)") {
-                      setVitals({ ...vitals, heartRate: e.target.value });
-                      setErrorStyles({ ...errorStyles, heartRate: false });
-                    }
-                  }}
-                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                  style={{
-                    fontSize: "12px",
-                    width: "50px",
-                    height: "30px",
-                    resize: "none",
-                    borderColor: errorStyles[item.variable] ? "red" : "black",
-                  }}
-                />
+                        <input
+                          type="number"
+                          placeholder={"Add"}
+                          value={
+                            item.variable === "Systolic Blood Pressure *"
+                              ? vitals.systolic || ""
+                              : item.variable === "Diastolic Blood Pressure *"
+                                ? vitals.diastolic || ""
+                                : item.variable === "Heart Rate (beats/min) *"
+                                  ? vitals.heartRate || ""
+                                  : ""
+                          }
+                          onChange={(e) => {
+                            if (item.variable === "Systolic Blood Pressure *") {
+                              setVitals({
+                                ...vitals,
+                                systolic: e.target.value,
+                              });
+                            } else if (
+                              item.variable === "Diastolic Blood Pressure *"
+                            ) {
+                              setVitals({
+                                ...vitals,
+                                diastolic: e.target.value,
+                              });
+                            } else if (
+                              item.variable === "Heart Rate (beats/min) *"
+                            ) {
+                              setVitals({
+                                ...vitals,
+                                heartRate: e.target.value,
+                              });
+                            }
+                          }}
+                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                          style={{
+                            fontSize: "14px",
+                            width: "50px",
+                            height: "30px",
+                            resize: "none",
+                            borderColor:
+                              isNextPressed &&
+                              !(
+                                (item.variable ===
+                                  "Systolic Blood Pressure *" &&
+                                  vitals.systolic) ||
+                                (item.variable ===
+                                  "Diastolic Blood Pressure *" &&
+                                  vitals.diastolic) ||
+                                (item.variable === "Heart Rate (beats/min) *" &&
+                                  vitals.heartRate)
+                              )
+                                ? "red"
+                                : "black",
+                          }}
+                        />
                       </td>
                     </tr>
                   ))}
                   <tr>
-                    <td colspan="3" className="font-semibold text-xs py-[20px]">
+                    <td colspan="3" className="font-semibold text-sm py-[20px]">
                       BIOMETRICS
                     </td>
                   </tr>
@@ -207,38 +266,52 @@ export default function AddVitals({
                         />
                       </td>
                       <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
                       <td className="border-l-[15px] border-transparent">
-                      <input
-                  type="number"
-                  placeholder={"Add"}
-                  value={item.variable === "Height (cm)" ? vitals.height || "" :
-                         item.variable === "Weight (kg)" ? vitals.weight || "" :
-                         item.variable === "Body Mass Index" ? vitals.bmi || "" : ""}
-                  onChange={(e) => {
-                    if (item.variable === "Height (cm)") {
-                      setVitals({ ...vitals, height: e.target.value });
-                      setErrorStyles({ ...errorStyles, height: false });
-                    } else if (item.variable === "Weight (kg)") {
-                      setVitals({ ...vitals, weight: e.target.value });
-                      setErrorStyles({ ...errorStyles, weight: false });
-                    } else if (item.variable === "Body Mass Index") {
-                      setVitals({ ...vitals, bmi: e.target.value });
-                      setErrorStyles({ ...errorStyles, bmi: false });
-                    }
-                  }}
-                  className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
-                  style={{
-                    fontSize: "12px",
-                    width: "50px",
-                    height: "30px",
-                    resize: "none",
-                    borderColor: errorStyles[item.variable] ? "red" : "black",
-                  }}
-                />
+                        <input
+                          type="number"
+                          placeholder={"Add"}
+                          value={
+                            item.variable === "Height (cm) *"
+                              ? vitals.height || ""
+                              : item.variable === "Weight (kg) *"
+                                ? vitals.weight || ""
+                                : item.variable === "Body Mass Index *"
+                                  ? vitals.bmi || ""
+                                  : ""
+                          }
+                          onChange={(e) => {
+                            if (item.variable === "Height (cm) *") {
+                              setVitals({ ...vitals, height: e.target.value });
+                            } else if (item.variable === "Weight (kg) *") {
+                              setVitals({ ...vitals, weight: e.target.value });
+                            } else if (item.variable === "Body Mass Index *") {
+                              setVitals({ ...vitals, bmi: e.target.value });
+                            }
+                          }}
+                          className={`justify-center items-start pl-2 rounded border-black border-solid shadow-sm border-[0.5px] text-black`}
+                          style={{
+                            fontSize: "14px",
+                            width: "50px",
+                            height: "30px",
+                            resize: "none",
+                            borderColor:
+                              isNextPressed &&
+                              !(
+                                (item.variable === "Height (cm) *" &&
+                                  vitals.height) ||
+                                (item.variable === "Weight (kg) *" &&
+                                  vitals.weight) ||
+                                (item.variable === "Body Mass Index *" &&
+                                  vitals.bmi)
+                              )
+                                ? "red"
+                                : "black",
+                          }}
+                        />
                       </td>
                     </tr>
                   ))}
@@ -248,16 +321,9 @@ export default function AddVitals({
           </div>
           {/* BACK & SAVE BUTTON */}
           <div className="flex justify-between items-center mt-5">
-            <BackButton
-              currentScreen={2}
-              setCurrentScreen={setCurrentScreen}
-            />
+            <BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
             <div>
-              <Button
-                onClick={handleNext}
-              >
-                NEXT
-              </Button>
+              <Button onClick={handleNextClick}>NEXT</Button>
             </div>
           </div>
         </>

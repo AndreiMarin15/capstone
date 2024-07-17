@@ -125,7 +125,7 @@ export default function SocialHistory() {
           {fHistory?.map((item, index) => (
             <button
               key={index}
-              className="flex gap-2.5 mt-3 mb-3 text-xs text-black"
+              className="flex gap-2.5 mt-3 mb-3 text-sm text-black"
               onClick={() => {
                 setCurrentFamily(familyHistory[index]);
                 handleVisitClick(index);
@@ -156,7 +156,7 @@ export default function SocialHistory() {
               )}
               {isEditingSocialHistory && (
                 <button
-                  className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-xs font-semibold border-1.5"
+                  className="flex gap-1.5 justify-between px-10 py-1 rounded border-blue-800 text-blue-800 border-solid text-sm font-semibold border-1.5"
                   onClick={() => {
                     setSocialHistory(originalSocialHistory); // Revert to original data
                     setIsEditingSocialHistory(false);
@@ -183,18 +183,18 @@ export default function SocialHistory() {
                   />
                 </td>
                 <td className="border-l-[16px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                  <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                     {item.variable}
                   </div>
                 </td>
                 <td className="border-l-[5rem] border-transparent">
-                  <div className="text-black text-xs leading-5 ml-auto">
+                  <div className="text-black text-sm leading-5 ml-auto">
                     {isEditingSocialHistory ? (
                       item.variable === "Smoking Status" ? (
                         <select
                           onChange={(e) => handleSocialHistoryChange(e, index)}
                           value={item.value}
-                          className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+                          className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
                         >
                           <option value="">Select</option>
                           <option value="Smoker">Smoker</option>
@@ -205,7 +205,7 @@ export default function SocialHistory() {
                           type="number"
                           value={item.value}
                           onChange={(e) => handleSocialHistoryChange(e, index)}
-                          className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+                          className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
                           disabled={sHistory[0].value === "Non-Smoker"}
                           style={
                             sHistory[0].value === "Non-Smoker"
@@ -217,7 +217,7 @@ export default function SocialHistory() {
                         <select
                           onChange={(e) => handleSocialHistoryChange(e, index)}
                           value={item.value}
-                          className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+                          className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
                         >
                           <option value="">Select</option>
                           <option value="Sedentary">Sedentary</option>
@@ -230,7 +230,7 @@ export default function SocialHistory() {
                         <select
                           onChange={(e) => handleSocialHistoryChange(e, index)}
                           value={item.value}
-                          className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+                          className="text-black text-basewhitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
                         >
                           <option value="">Select</option>
                           <option value="Non-Drinker">Non-Drinker</option>
@@ -242,7 +242,7 @@ export default function SocialHistory() {
                           type="text"
                           value={item.value}
                           onChange={(e) => handleSocialHistoryChange(e, index)}
-                          className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+                          className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
                         />
                       )
                     ) : (
@@ -255,7 +255,7 @@ export default function SocialHistory() {
           </table>
           {isEditingSocialHistory && (
             <button
-              className="self-end gap-1.5 justify-between px-10 py-1 rounded border-sky-900  bg-sky-900 text-white border-solid text-xs font-semibold border-1.5"
+              className="self-end gap-1.5 justify-between px-10 py-1 rounded border-sky-900  bg-sky-900 text-white border-solid text-sm font-semibold border-1.5"
               onClick={() => {
                 // Logic for saving changes
                 setIsEditingSocialHistory(false);

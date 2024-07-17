@@ -49,7 +49,9 @@ export default function LaboratoryDashboard() {
   const [dateOfRequest, setDateOfRequest] = useState("");
   const [labTests, setLabTests] = useState([]);
   const [selectedObservationId, setSelectedObservationId] = useState(null);
-  const sortedLabTests = labTests.sort((b,a) => new Date(a.reqdate) - new Date(b.reqdate));
+  const sortedLabTests = labTests.sort(
+    (b, a) => new Date(a.reqdate) - new Date(b.reqdate)
+  );
 
   useEffect(() => {
     async function fetchEncounters() {
@@ -105,7 +107,7 @@ export default function LaboratoryDashboard() {
               Lab Tests
             </div>
             <div className="self-stretch flex items-stretch justify-between gap-2.5">
-              <button className="flex gap-1 px-5 py-2 text-xs rounded-md border border-black border-solid">
+              <button className="flex gap-1 px-5 py-2 text-sm rounded-md border border-black border-solid">
                 <Image
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
@@ -115,7 +117,7 @@ export default function LaboratoryDashboard() {
                 />
                 <div className="self-start">FILTER</div>
               </button>
-              <button className="grow justify-center text-xs px-6 py-2 rounded-md border border-black border-solid">
+              <button className="grow justify-center text-sm px-6 py-2 rounded-md border border-black border-solid">
                 SORT
               </button>
             </div>
@@ -149,7 +151,7 @@ export default function LaboratoryDashboard() {
                   />
                   <div className="my-auto text-sm">{item.variable}</div>
                 </div>
-                <div className="flex gap-5 justify-between ml-7 text-sm max-md:ml-2.5">
+                <div className="flex gap-5 justify-between ml-7 text-base max-md:ml-2.5">
                   <div className="flex gap-1 justify-between font-medium whitespace-nowrap">
                     Requested on:
                     <div className="grow my-auto text-sm">{item.reqdate}</div>
@@ -162,7 +164,7 @@ export default function LaboratoryDashboard() {
                     </div>
                   )}
                   {item.status === "requested" && (
-                    <div className="text-black font-medium text-sm leading-5 flex items-center">
+                    <div className="text-black font-medium text-base leading-5 flex items-center">
                       <svg
                         className="h-3 w-3 ml-1 text-red-500 "
                         fill="currentColor"
@@ -175,7 +177,7 @@ export default function LaboratoryDashboard() {
                     </div>
                   )}
                   {item.status === "final" && (
-                    <div className="text-black text-m font-medium leading-5 text-sm flex items-center">
+                    <div className="text-black text-base font-medium leading-5 flex items-center">
                       <svg
                         className="h-3 w-3 ml-1 text-green-500"
                         fill="currentColor"

@@ -41,6 +41,7 @@ export default function Home() {
           title: notif.title,
           content: notif.content,
           sender: await getSenderData(notif.id),
+          id: notif.id,
         }))
       );
       setNotifications(notificationsWithSender);
@@ -66,7 +67,7 @@ export default function Home() {
       const patient = await dashboard.getPatientData();
       const careplan = await dashboard.getLatestCarePlan();
       console.log(patient);
-
+      console.log(careplan);
       if (careplan?.resource !== undefined && careplan?.resource !== null) {
         setCareplan(careplan.resource);
       }
@@ -76,6 +77,10 @@ export default function Home() {
 
     getData();
   }, []);
+
+  React.useEffect(() => {
+    console.log(careplanData);
+  }, [careplanData]);
 
   return (
     <div className="px-5 w-full max-md:max-w-full h-auto bg-white">
@@ -98,7 +103,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="flex flex-col max-md:ml-0 max-md:w-full">
-                  <div className="flex flex-col self-stretch my-auto text-xs leading-5 text-black max-md:mt-10">
+                  <div className="flex flex-col self-stretch my-auto text-sm leading-5 text-black max-md:mt-10">
                     <div className="font-semibold">{patientData.name}</div>
                     <div className="flex gap-5 justify-between">
                       <div>{patientData.age} years old</div>
@@ -108,31 +113,31 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center px-7 py-7 mt-6 text-xs font-semibold leading-4 bg-white border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] text-zinc-500 max-md:px-5 max-md:max-w-full">
+            <div className="flex flex-col justify-center px-7 py-7 mt-6 text-sm font-semibold leading-4 bg-white border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] text-zinc-500 max-md:px-5 max-md:max-w-full">
               <div className="flex gap-5 justify-between pr-5 max-md:flex-wrap max-md:max-w-full">
                 <div className="flex flex-col flex-1">
                   <div>Date of Birth</div>
-                  <div className="text-xs font-medium text-black whitespace-nowrap">
+                  <div className="text-sm font-medium text-black whitespace-nowrap">
                     {patientData.birthday}
                   </div>
                   <div className="mt-8 whitespace-nowrap">Contact Number</div>
-                  <div className="text-xs font-medium text-black whitespace-nowrap">
+                  <div className="text-sm font-medium text-black whitespace-nowrap">
                     {patientData.contact}
                   </div>
                 </div>
                 <div className="flex flex-col flex-1">
                   <div>Address</div>
-                  <div className="text-xs font-medium text-black ">
+                  <div className="text-sm font-medium text-black ">
                     {patientData.address}
                   </div>
                   <div className="mt-8">Member Since</div>
-                  <div className="text-xs font-medium text-black">
+                  <div className="text-sm font-medium text-black">
                     {patientData.memberSince}
                   </div>
                 </div>
                 <div className="flex flex-col flex-1 whitespace-nowrap">
                   <div>Allergies</div>
-                  <div className="text-xs font-medium text-black">
+                  <div className="text-sm font-medium text-black">
                     {patientData.allergies.length > 0
                       ? patientData.allergies?.map((allergy) => (
                           <>{allergy.allergen}</>
@@ -140,13 +145,13 @@ export default function Home() {
                       : "None"}
                   </div>
                   <div className="mt-8">BMI</div>
-                  <div className="text-xs font-medium text-black">
+                  <div className="text-sm font-medium text-black">
                     {patientData.bmi}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start py-6 pr-20 pl-8 mt-6 text-xs leading-5 text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:max-w-full">
+            <div className="flex flex-col items-start py-6 pr-20 pl-8 mt-6 text-sm leading-5 text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:max-w-full">
               <div className="text-base font-semibold">Latest Care Plan(s)</div>
               <div className="mt-4 font-semibold text-blue-500">
                 {careplanData.title ?? "No Careplans Yet"}
@@ -186,8 +191,17 @@ export default function Home() {
                   {careplanData.title &&
                     careplanData.activity?.map((activity) => {
                       return (
-                        <div key={activity.detail.code.text} className="mt-1.5">
-                          {activity.detail.code.text}
+                        <div
+                          className="flex gap-3"
+                          key={activity.detail.code.text}
+                        >
+                          <div className="mt-1.5">
+                            {activity.detail.code.text}:{" "}
+                            <span className="font-normal">
+                              {" "}
+                              {activity.detail.description}
+                            </span>
+                          </div>
                         </div>
                       );
                     })}
@@ -198,7 +212,7 @@ export default function Home() {
         </div>
         <div className="flex-col mt-14 ml-5 w-[40%] max-md:ml-0 max-md:w-full">
           <ScrollArea className="max-md:mt-10 h-[80dvh]">
-            <div className="mt-[50px] flex flex-col self-stretch px-10 pt-7 pb-12 m-auto w-full text-xs text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:mt-10">
+            <div className="mt-[50px] flex flex-col self-stretch px-10 pt-7 pb-12 m-auto w-full text-sm text-black bg-white rounded border border-solid shadow-sm border-[color:var(--background-background-600,#E8E8E8)] max-md:px-5 max-md:mt-10">
               <div className="flex gap-3 justify-between text-base font-semibold leading-6">
                 <Image
                   alt="image"
@@ -211,9 +225,10 @@ export default function Home() {
                 <div className="flex-auto">Notifications</div>
 
                 <Button
-                  className="underline"
+                  variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
+                      console.log(notification);
                       await markAsRead(notification.id);
                     });
                   }}
@@ -229,10 +244,10 @@ export default function Home() {
                     >
                       <Bell size={20} />
                       <span className="flex grow basis-[0%] flex-col items-stretch">
-                        <div className="text-black text-xs font-medium leading-5">
+                        <div className="text-black text-sm font-medium leading-5">
                           {notification.title}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           {notification.content}{" "}
                           {notification.title === "New Message"
                             ? `from ${notification.sender}`
@@ -263,16 +278,16 @@ export default function Home() {
                     >
                       <Bell size={20} />
                       <span className="flex grow basis-[0%] flex-col items-stretch">
-                        <div className="text-black text-xs font-medium leading-5">
+                        <div className="text-black text-sm font-medium leading-5">
                           {reminder.reminderText}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           Your Last Visit: {reminder.lastVisit}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           Your Supposed Visit: {reminder.supposedVisit}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           From Dr. {reminder.doctor_name}
                         </div>
                       </span>

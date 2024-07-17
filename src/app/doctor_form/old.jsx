@@ -114,13 +114,13 @@
 // 										toast.error(account.message, {
 // 											position: "top-left",
 // 											theme: "colored",
-// 											autoClose: 2000,
+// 											autoClose: 8000,
 // 										});
 // 									} else {
 // 										toast.success("Registration Success! Redirecting...", {
 // 											position: "top-left",
 // 											theme: "colored",
-// 											autoClose: 2000,
+// 											autoClose: 8000,
 // 										});
 
 // 										setTimeout(() => {

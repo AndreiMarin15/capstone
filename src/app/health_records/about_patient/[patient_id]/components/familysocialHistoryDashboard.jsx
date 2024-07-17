@@ -90,7 +90,7 @@ export default function SocialHistory({ patientId }) {
           {fHistory?.map((item, index) => (
             <button
               key={index}
-              className="flex gap-2.5 mt-3 mb-3 text-xs text-black"
+              className="flex gap-2.5 mt-3 mb-3 text-sm text-black"
               onClick={handleVisitClick}
             >
               <div className="flex flex-col flex-1 text-left">
@@ -120,12 +120,12 @@ export default function SocialHistory({ patientId }) {
                   />
                 </td>
                 <td className="border-l-[16px] border-transparent">
-                  <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                  <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                     {item.variable}
                   </div>
                 </td>
                 <td className="border-l-[5rem] border-transparent">
-                  <div className="text-black text-xs leading-5 ml-auto">
+                  <div className="text-black text-sm leading-5 ml-auto">
                     {item.value}
                   </div>
                 </td>

@@ -100,7 +100,7 @@ export default function SignUpPersonalInformation() {
       <div className="w-1/2 pl-8">
         <div className="flex items-stretch justify-between gap-5 mr-4 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               PhilHealth ID
             </div>
             <input
@@ -110,13 +110,13 @@ export default function SignUpPersonalInformation() {
               className="rounded shadow-sm flex shrink-0 h-[30px] w-70 flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
             />
             {errors.philhealth_id && (
-              <div className="text-red-500 text-xs mt-2">
+              <div className="text-red-500 text-sm mt-2">
                 {errors.philhealth_id}
               </div>
             )}
           </span>
           <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Endocrinologist
             </div>
             <select
@@ -126,7 +126,7 @@ export default function SignUpPersonalInformation() {
                 });
                 patientStore.setMainPractitioner(e.target.value);
               }}
-              className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
               value={patientStore.personal_information.attendingDoctor}
             >
               <option value="" disabled="true">
@@ -147,7 +147,7 @@ export default function SignUpPersonalInformation() {
 
         <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               First Name
             </div>
             <input
@@ -162,13 +162,13 @@ export default function SignUpPersonalInformation() {
               className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
             />
             {errors.first_name && (
-              <div className="text-red-500 mt-2 text-xs">
+              <div className="text-red-500 mt-2 text-sm">
                 {errors.first_name}
               </div>
             )}
           </span>
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Last Name
             </div>
             <input
@@ -183,7 +183,7 @@ export default function SignUpPersonalInformation() {
               className="rounded shadow-sm flex shrink-0 h-[30px] flex-col mt-2 border-[0.5px] px-2 py-4 border-solid border-black"
             />
             {errors.last_name && (
-              <div className="text-red-500 mt-2 text-xs">
+              <div className="text-red-500 mt-2 text-sm">
                 {errors.last_name}
               </div>
             )}
@@ -192,7 +192,7 @@ export default function SignUpPersonalInformation() {
 
         <div className="mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Education
             </div>
             <select
@@ -201,7 +201,7 @@ export default function SignUpPersonalInformation() {
                   education: e.target.value,
                 });
               }}
-              className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="text-black text-basewhitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
               value={patientStore.personal_information.education}
             >
               <option value="">Select</option>
@@ -215,11 +215,11 @@ export default function SignUpPersonalInformation() {
 
         <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">
+            <div className="text-black text-base font-semibold leading-5 whitespace-nowrap">
               Contact number
             </div>
             <span className="items-stretch rounded shadow-sm flex justify-between gap-1 mt-2 px-3 py-1.5 border-[0.5px] border-solid border-black">
-              <div className="text-zinc-600 text-sm leading-5 whitespace-nowrap justify-center pl-2.5 pr-1 py-1 items-start max-md:pr-5">
+              <div className="text-zinc-600 text-base leading-5 whitespace-nowrap justify-center pl-2.5 pr-1 py-1 items-start max-md:pr-5">
                 +63
               </div>
               <input
@@ -231,26 +231,26 @@ export default function SignUpPersonalInformation() {
                   handleInputChange(e, "contact_number");
                 }}
                 value={patientStore.personal_information.contact_number}
-                className="text-black-300 text-sm leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5"
+                className="text-black-300 text-base leading-5 grow whitespace-nowrap justify-center pl-1.5 pr-2 py-1 items-start max-md:pr-5"
                 placeholder="9171234567"
               ></input>
             </span>
             {errors.contact_number && (
-              <div className="text-red-500 text-xs mt-2">
+              <div className="text-red-500 text-sm mt-2">
                 {errors.contact_number}
               </div>
             )}
           </span>
 
           <span className="items-stretch flex grow basis-[0%] flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Gender
             </div>
             <select
               onChange={(e) => {
                 patientStore.setPersonalInformation({ gender: e.target.value });
               }}
-              className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+              className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
               value={patientStore.personal_information.gender}
             >
               <option value="">Select</option>
@@ -261,7 +261,7 @@ export default function SignUpPersonalInformation() {
           </span>
           <div className="flex items-stretch gap-2.5 mt-1. self-start">
             <span className="flex grow basis-[0%] flex-col items-stretch">
-              <div className="text-black text-sm font-semibold leading-5">
+              <div className="text-black text-base font-semibold leading-5">
                 Birthdate
               </div>
 
@@ -275,7 +275,7 @@ export default function SignUpPersonalInformation() {
                       });
                     }}
                     value={patientStore.personal_information.birthdate}
-                    className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+                    className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
                   />
                 </div>
               </div>
@@ -283,7 +283,7 @@ export default function SignUpPersonalInformation() {
           </div>
         </div>
 
-        <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+        <div className="text-black text-base font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           Street address
         </div>
         <input
@@ -298,14 +298,14 @@ export default function SignUpPersonalInformation() {
           className="w-full rounded shadow-sm items-stretch flex shrink-0 h-[30px] mt-2 flex-col px-2 py-4 border-[0.5px] border-solid border-black max-md:mr-2.5"
         />
         {errors.street_address && (
-          <div className="text-red-500 mt-2 text-xs">
+          <div className="text-red-500 mt-2 text-sm">
             {errors.street_address}
           </div>
         )}
 
         <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               State/Province
             </div>
             <input
@@ -319,7 +319,7 @@ export default function SignUpPersonalInformation() {
             />
           </span>
           <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               City
             </div>
             <input
@@ -333,7 +333,7 @@ export default function SignUpPersonalInformation() {
             />
           </span>
           <span className="flex items-stretch self-stretch flex-grow flex-col">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Postal Code
             </div>
             <input
@@ -349,11 +349,11 @@ export default function SignUpPersonalInformation() {
           </span>
         </div>
 
-        <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+        <div className="text-black text-base font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
           Photo
         </div>
 
-        <span className="flex gap-5 justify-between mt-3 max-w-full text-xs font-semibold whitespace-nowrap text-zinc-600 w-[146px]">
+        <span className="flex gap-5 justify-between mt-3 max-w-full text-sm font-semibold whitespace-nowrap text-zinc-600 w-[146px]">
           <Image
             alt="image"
             height={0}
@@ -383,7 +383,7 @@ export default function SignUpPersonalInformation() {
 
         <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
           <div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col text-sm font-semibold leading-5 mt-10 text-black">
+            <div className="flex flex-col text-base font-semibold leading-5 mt-10 text-black">
               <div>Allergies</div>
 
               {showAllergy && (

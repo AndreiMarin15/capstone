@@ -141,6 +141,7 @@ export default function SendReferral({ params }) {
                         age={item.age}
                         id={item.id}
                         selectedId={patientId}
+                        photo={item.photo}
                       />
                     </div>
                   </div>
@@ -151,7 +152,7 @@ export default function SendReferral({ params }) {
                     {/* Dropdown Menu */}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="flex gap-1 px-5 py-2 text-xs rounded-md border border-black border-solid">
+                        <button className="flex gap-1 px-5 py-2 text-sm rounded-md border border-black border-solid">
                           <Image
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/1815063a9248e003b79041a817235f1997954e6c1ef9ef5b1f105c020315d455?"
@@ -215,6 +216,7 @@ export default function SendReferral({ params }) {
                           specialization={item.specialization}
                           id={item.id}
                           selectedId={selectedDoctorId}
+                          photo={item.photo}
                         />
                       </div>
                     </div>
@@ -242,7 +244,7 @@ export default function SendReferral({ params }) {
                 setCurrentState(currentState - 1);
               }
             }}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
+            className="mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-gray-400 self-stretch mr-2 px-6 py-2 rounded max-md:px-3"
           >
             BACK
           </button>
@@ -255,7 +257,7 @@ export default function SendReferral({ params }) {
             onClick={() => {
               router.back();
             }}
-            className="mt-5 text-white text-xs font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
+            className="mt-5 text-white text-sm font-semibold whitespace-nowrap items-stretch bg-gray-400 mr-2 px-6 py-2 rounded"
             style={{ marginRight: "auto" }}
           >
             BACK
@@ -271,13 +273,19 @@ export default function SendReferral({ params }) {
                 patient_id: patientId,
 
                 doctor_id: selectedDoctorId,
+                license_id: selectedDoctor?.license_id,
+                first_name: selectedDoctor?.first_name,
+                last_name: selectedDoctor?.last_name,
+                specialization: selectedDoctor?.specialization,
+                years: selectedDoctor?.years,
+
                 notes: notes,
               };
               sendReferralData.newReferralRequest(referralData);
               router.push("/referral");
             }
           }}
-          className={`mt-5 text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
+          className={`mt-5 text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch bg-sky-900 self-stretch mr-2 px-6 py-2 rounded max-md:px-3`}
         >
           {currentState === 3 ? "SEND" : "NEXT"}
         </button>

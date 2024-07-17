@@ -41,7 +41,7 @@ export function MedicalHistoryPDF({ patientId, patientData }) {
 		const fetchData = async () => {
 			console.log(patientData);
 			const response = await getMedicalHistory(patientId);
-			console.log(response);
+			console.log("MEDHIST",response);
 
 			const medicalHistoryPromises = response
 				.filter((medicalhistory) => medicalhistory.resource.valueString)

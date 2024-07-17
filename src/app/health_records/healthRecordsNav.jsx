@@ -22,7 +22,7 @@ export default function HealthRecordsNav() {
       {items?.map((item) => (
         <button
           key={item}
-          className={`text-xs font-medium leading-5 whitespace-nowrap justify-center px-6 py-3 rounded-3xl max-md:px-5 ${
+          className={`text-sm font-medium leading-5 whitespace-nowrap justify-center px-6 py-3 rounded-3xl max-md:px-5 ${
             item === selected ? "text-white bg-sky-900" : "text-black"
           }`}
           onClick={() => {

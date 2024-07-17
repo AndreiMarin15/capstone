@@ -46,18 +46,18 @@ export default function AddLabTest() {
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
                             className="aspect-square fill-black w-[15px]"
                           />
-                          <div className="my-auto text-xs">Lab Values</div>
+                          <div className="my-auto text-sm">Lab Values</div>
                         </div>
                       </td>
                       <td className="pl-80">
                         <div className="flex gap-4 my-auto font-semibold text-black">
-                          <div className="my-auto text-xs">Unit</div>
+                          <div className="my-auto text-sm">Unit</div>
                         </div>
                       </td>
                     </tr>
                   </table>
                   <table className="max-w-fit border-spacing-y-2 border-separate">
-                    <tbody className="text-xs leading-5 text-black">
+                    <tbody className="text-sm leading-5 text-black">
                       <tr></tr>
                       {/* Your existing row */}
 
@@ -68,7 +68,7 @@ export default function AddLabTest() {
                             <div className="justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
                               +
                             </div>
-                            <div className=" my-auto text-xs text-gray-400">
+                            <div className=" my-auto text-sm text-gray-400">
                               Add another row
                             </div>
                           </button>
@@ -89,13 +89,13 @@ export default function AddLabTest() {
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
                             className="aspect-square fill-black w-[22px]"
                           />
-                          <div className="my-auto text-xs">Ranges</div>
+                          <div className="my-auto text-sm">Ranges</div>
                         </div>
                       </td>
                     </tr>
                   </table>
                   <table className="max-w-fit border-spacing-y-2 border-separate">
-                    <tbody className="text-xs leading-5 text-black">
+                    <tbody className="text-sm leading-5 text-black">
                       <tr></tr>
                       {/* Your existing row */}
                       <tr>
@@ -137,13 +137,11 @@ export default function AddLabTest() {
                       {/* Add another row button */}
                       <tr>
                         <td colSpan="4" className="text-center">
-                          <button
-                            className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]"
-                          >
+                          <button className="mt-3 flex gap-1.5 px-5 font-semibold whitespace-nowrap leading-[150%]">
                             <div className=" justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
                               +
                             </div>
-                            <div className=" my-auto text-xs text-gray-400">
+                            <div className=" my-auto text-sm text-gray-400">
                               Add another row
                             </div>
                           </button>
@@ -163,13 +161,12 @@ export default function AddLabTest() {
             />
 
             <Button
-              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-basebg-sky-900 text-white"
               onClick={handleAddLabTest}
             >
               Save
             </Button> */}
         </div>
-      
       </>
     </>
   );

@@ -19,7 +19,7 @@ export default function FamilyMemberForm() {
     <>
       <div className="flex items-stretch justify-between gap-5 mr-4  max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
         <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-          <div className="text-black text-sm font-semibold leading-5">
+          <div className="text-black text-base font-semibold leading-5">
             Family member first name
           </div>
           <input
@@ -36,7 +36,7 @@ export default function FamilyMemberForm() {
           />
         </span>
         <span className="items-stretch flex grow basis-[0%] flex-col self-start">
-          <div className="text-black text-sm font-semibold leading-5">
+          <div className="text-black text-base font-semibold leading-5">
             Family member last name
           </div>
           <input
@@ -55,7 +55,7 @@ export default function FamilyMemberForm() {
       </div>
       <div className="flex items-stretch justify-between gap-3 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
         <span className="items-stretch flex-col self-start">
-          <div className="text-black text-sm font-semibold leading-5 whitespace-nowrap">
+          <div className="text-black text-base font-semibold leading-5 whitespace-nowrap">
             Age
           </div>
           <input
@@ -72,7 +72,7 @@ export default function FamilyMemberForm() {
           />
         </span>
         <span className="items-stretch flex-grow basis-[0%] flex-col">
-          <div className="text-black text-sm font-semibold leading-5">
+          <div className="text-black text-base font-semibold leading-5">
             Gender
           </div>
           <select
@@ -85,7 +85,7 @@ export default function FamilyMemberForm() {
               });
             }}
             value={familyMember.gender}
-            className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+            className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
           >
             {" "}
             <option value="">Select</option>
@@ -94,7 +94,7 @@ export default function FamilyMemberForm() {
           </select>{" "}
         </span>
         <div className="flex items-stretch self-stretch flex-grow flex-col">
-          <div className="text-black text-sm font-semibold leading-5">
+          <div className="text-black text-base font-semibold leading-5">
             Patient Relationship with Family Member
           </div>
           <input
@@ -113,7 +113,7 @@ export default function FamilyMemberForm() {
       </div>
       <div className="flex items-stretch justify-between gap-5 mr-4 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
         <div className="flex items-stretch self-stretch flex-grow flex-col">
-          <div className="text-black text-sm font-semibold leading-5">
+          <div className="text-black text-base font-semibold leading-5">
             Medical Condition of the Family Member
           </div>
           <input
@@ -131,7 +131,7 @@ export default function FamilyMemberForm() {
         </div>
         <div className="flex items-stretch gap-2.5 mt-1. self-start">
           <span className="flex grow basis-[0%] flex-col items-stretch">
-            <div className="text-black text-sm font-semibold leading-5">
+            <div className="text-black text-base font-semibold leading-5">
               Date when Condition Started
             </div>
 
@@ -148,7 +148,7 @@ export default function FamilyMemberForm() {
                   }}
                   value={familyMember.medical_condition_date}
                   type="number"
-                  className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
+                  className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch px-2 py-2.5 border-[0.5px] border-solid border-black"
                   placeholder="YYYY"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function FamilyMemberForm() {
           </span>
         </div>
       </div>
-      <div className="text-black text-sm font-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
+      <div className="text-black text-basefont-semibold leading-5 flex items-stretch justify-between gap-5 mr-9 mt-10 max-md:max-w-full max-md:flex-wrap max-md:mr-2.5 max-md:mt-10">
         Medical Condition Outcomes of the Family Member
       </div>
       <select
@@ -169,7 +169,7 @@ export default function FamilyMemberForm() {
           });
         }}
         value={familyMember.medical_condition_outcome}
-        className="text-black text-sm whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
+        className="text-black text-base whitespace-nowrap rounded shadow-sm flex-shrink-0 justify-center items-stretch mt-[10px] px-2 py-2.5 border-[0.5px] border-solid border-black"
       >
         {" "}
         <option value="">Select</option>
@@ -179,7 +179,7 @@ export default function FamilyMemberForm() {
         <option value="chronic">Improved</option>
       </select>{" "}
       <div className="flex items-stretch self-stretch mt-8 flex-grow flex-col">
-        <div className="text-black text-sm font-semibold leading-5">
+        <div className="text-black text-base font-semibold leading-5">
           Medical Procedures Performed on the Family Member (if any){" "}
         </div>
 
@@ -227,7 +227,7 @@ export default function FamilyMemberForm() {
           }
         }}
         className={
-          "text-white text-xs font-semibold whitespace-nowrap justify-center items-stretch mt-5" +
+          "text-white text-sm font-semibold whitespace-nowrap justify-center items-stretch mt-5" +
           (saved ? " bg-lime-600 " : " bg-sky-900 ") +
           "self-stretch mr-2  px-6 py-2 rounded max-md:px-5"
         }

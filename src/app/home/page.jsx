@@ -13,6 +13,85 @@ import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSignature } from "@/app/store";
 import { UploadSignature } from "../health_records/about_patient/[patient_id]/components/sub_components/uploadSignature";
+import {
+  getOverduePatients,
+  getPatientAndFinalDiagnosis,
+  remindPatients,
+  shouldSendReminder
+} from "@/backend/reports/getReportsData";
+const fetchOverduePatients = async () => {
+  const overduePatients = await getOverduePatients();
+  console.log(overduePatients);
+  return overduePatients;
+};
+
+const fetchPatientsDiagnoses = async (overduePatients) => {
+  const diagnosesPromises = overduePatients.map((overduePatient) =>
+    getPatientAndFinalDiagnosis(
+      overduePatient?.resource?.subject?.reference
+    ).then((patientsDiagnosis) => ({
+      patient: patientsDiagnosis.patient[0].personal_information,
+      diagnosis: patientsDiagnosis.diagnosis[0],
+      visit: overduePatient,
+    }))
+  );
+
+  const patientsDiagnoses = await Promise.all(diagnosesPromises);
+  console.log(patientsDiagnoses);
+  return patientsDiagnoses;
+};
+
+const getPatientInfo = (patientsDiagnosis) => {
+  const toReturn = patientsDiagnosis.map((patientDiagnoses) => {
+    console.log(patientDiagnoses.diagnosis?.resource?.subject?.reference);
+    return {
+      type: patientDiagnoses.diagnosis?.resource?.id,
+      name:
+        patientDiagnoses.patient?.first_name +
+        " " +
+        patientDiagnoses.patient?.last_name,
+      diagnosis:
+        patientDiagnoses.diagnosis?.resource?.valueString?.length > 0
+          ? patientDiagnoses.diagnosis?.resource?.valueString
+          : "No Diagnosis Yet",
+      currentDate: new Date().toLocaleDateString(),
+      supposedClinicVisit: new Date(
+        patientDiagnoses.visit?.resource?.valueString
+      ).toLocaleDateString(),
+      dateLastClinicVisit: new Date(
+        patientDiagnoses.visit?.ts
+      ).toLocaleDateString(),
+      id: patientDiagnoses.diagnosis?.resource?.subject?.reference,
+    };
+  });
+
+  return toReturn;
+};
+
+const handleRemindAll = async () => {
+  console.log("called");
+  const overduePatients = await fetchOverduePatients();
+  const patientsDiagnosis = await fetchPatientsDiagnoses(overduePatients);
+  const patientInfo = getPatientInfo(patientsDiagnosis);
+
+  console.log("HANDLE REMIND", patientInfo, overduePatients, patientsDiagnosis);
+  patientInfo?.forEach(async (item) => {
+    await remindPatients(
+      [item.id],
+      {
+        reminder: "Please remember to visit the clinic",
+        supposed_visit: item.supposedClinicVisit,
+        last_visit: item.dateLastClinicVisit,
+        reminded_by: `${currentUser.getState().user.license_id}`,
+      },
+      true
+    );
+  });
+
+  console.log("Patients have been reminded");
+
+  return true;
+};
 export default function Home() {
   const [editState, setEditState] = React.useState(false);
   const [signatureFlag, setSignatureFlag] = React.useState(false);
@@ -73,12 +152,23 @@ export default function Home() {
           title: notif.title,
           content: notif.content,
           sender: await getSenderData(notif.id),
+          id: notif.id,
         }))
       );
       setNotifications(notificationsWithSender);
     };
 
     fetchNotifs();
+  }, []);
+
+  React.useEffect(() => {
+    const handleReminder = async () => {
+      const resp = await handleRemindAll();
+      console.log(resp);
+      console.log("done");
+    };
+
+    handleReminder();
   }, []);
 
   React.useEffect(() => {
@@ -199,14 +289,14 @@ export default function Home() {
                     }}
                     className="aspect-square object-contain object-center w-5 overflow-hidden max-w-full self-end"
                   />
-                  <div className="text-black text-xs font-semibold leading-5 self-stretch max-md:max-w-full">
+                  <div className="text-black text-sm font-semibold leading-5 self-stretch max-md:max-w-full">
                     Dr. {doctorInfo.name}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-2.5 max-md:max-w-full">
+                  <div className="text-black text-sm leading-5 self-stretch mt-2.5 max-md:max-w-full">
                     <span className="font-medium">Specialization</span>:{" "}
                     {doctorInfo.specialization}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-2 max-md:max-w-full">
+                  <div className="text-black text-sm leading-5 self-stretch mt-2 max-md:max-w-full">
                     <span className="font-medium">Years of Experience</span>:{" "}
                     {!editState ? (
                       doctorInfo.yearsOfExperience
@@ -224,7 +314,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
+                  <div className="text-black text-sm leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
                     About Doctor: <br />
                     {!editState ? (
                       doctorInfo.about
@@ -238,7 +328,7 @@ export default function Home() {
                       />
                     )}
                   </div>
-                  <div className="text-black text-xs leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
+                  <div className="text-black text-sm leading-5 self-stretch mt-11 max-md:max-w-full max-md:mt-10">
                     Signature:{" "}
                     {`(will only be used for letters generated for your patients)`}{" "}
                     <br />
@@ -275,7 +365,7 @@ export default function Home() {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/859711bfb179eea2831ffb5fb15c526ddcabc0f40d5059ab0fdd63e056afa3bb?apiKey=66e07193974a40e683930e95115a1cfd&"
                     className="aspect-square object-contain object-center w-[17px] overflow-hidden shrink-0 max-w-full"
                   />
-                  <div className="text-black text-xs font-semibold leading-5 self-center grow shrink basis-auto my-auto">
+                  <div className="text-black text-sm font-semibold leading-5 self-center grow shrink basis-auto my-auto">
                     Multidisciplinary Managed Patients
                   </div>
                 </span>
@@ -288,7 +378,7 @@ export default function Home() {
                       .filter((patient) => patient.handledBy.length > 0) // Filter patients with more than 1 doctor
                       ?.map((patient) => (
                         <>
-                          <div className="text-black text-xs font-semibold leading-5">
+                          <div className="text-black text-sm font-semibold leading-5">
                             {patient.name}
                           </div>
                           <span className="flex flex-col items-stretch  mb-2">
@@ -297,7 +387,7 @@ export default function Home() {
                               return (
                                 <>
                                   {" "}
-                                  <div className="text-black text-xs leading-5 mt-2">
+                                  <div className="text-black text-sm leading-5 mt-2">
                                     Handled by Dr. {doctor.name} -{" "}
                                     {doctor.specialty}
                                   </div>
@@ -324,12 +414,12 @@ export default function Home() {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cf686ec2e95bccdc2019a3ed27571cb8d91814d20d6e3653960477e65ab4a27?apiKey=66e07193974a40e683930e95115a1cfd&"
                   className="aspect-[1.18] object-contain object-center w-5 fill-black overflow-hidden shrink-0 max-w-full"
                 />
-                <div className="text-black text-xs font-semibold leading-5 self-center grow shrink basis-auto my-auto">
+                <div className="text-black text-sm font-semibold leading-5 self-center grow shrink basis-auto my-auto">
                   Notifications
                 </div>
 
                 <Button
-                  className="underline"
+                  variant="outline"
                   onClick={() => {
                     notifications.forEach(async (notification) => {
                       await markAsRead(notification.id);
@@ -347,10 +437,10 @@ export default function Home() {
                     >
                       <Bell size={20} />
                       <span className="flex grow basis-[0%] flex-col items-stretch">
-                        <div className="text-black text-xs font-medium leading-5">
+                        <div className="text-black text-sm font-medium leading-5">
                           {notification.title}
                         </div>
-                        <div className="text-black text-xs leading-5 mt-2.5">
+                        <div className="text-black text-sm leading-5 mt-2.5">
                           {notification.content}{" "}
                           {notification.title === "New Message"
                             ? `from ${notification.sender}`

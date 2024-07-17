@@ -25,14 +25,17 @@ export default function NotesAndReview({
                     height={0}
                     width={0}
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/07caaf7b2d9f9eabf73cbe715abbbb917f30a4c0fe09aaba01a573f2fa4c3bd3?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    src={
+                      selectedDoctor.photo ??
+                      "https://cdn.builder.io/api/v1/image/assets/TEMP/07caaf7b2d9f9eabf73cbe715abbbb917f30a4c0fe09aaba01a573f2fa4c3bd3?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    }
                     className="aspect-square object-contain object-center w-14 overflow-hidden shrink-0 max-w-full"
                   />
                   <span className="self-center flex grow basis-[0%] flex-col items-stretch my-auto">
-                    <div className="text-black text-xs font-semibold leading-5">
+                    <div className="text-black text-sm font-semibold leading-5">
                       Dr. {selectedDoctor.name}
                     </div>
-                    <div className="text-black text-xs font-medium leading-5 whitespace-nowrap mt-1.5">
+                    <div className="text-black text-sm font-medium leading-5 whitespace-nowrap mt-1.5">
                       Specialization: {selectedDoctor.specialization}
                     </div>
                   </span>
@@ -40,7 +43,7 @@ export default function NotesAndReview({
               </>
             ) : (
               <>
-                <div className="text-black text-xs font-semibold leading-5">
+                <div className="text-black text-sm font-semibold leading-5">
                   No Doctor Selected
                 </div>{" "}
               </>
@@ -59,14 +62,17 @@ export default function NotesAndReview({
                     height={0}
                     width={0}
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4178b5990d00702a3619d42e29bbf590bee01c15535b3a80454a72296a27f759?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    src={
+                      selectedPatient.photo ??
+                      "https://cdn.builder.io/api/v1/image/assets/TEMP/4178b5990d00702a3619d42e29bbf590bee01c15535b3a80454a72296a27f759?apiKey=7e8c8e70f3bd479289a042d9c544736c&"
+                    }
                     className="aspect-square object-contain object-center w-14 overflow-hidden shrink-0 max-w-full"
                   />
                   <span className="self-center flex grow basis-[0%] flex-col">
-                    <div className="text-black text-xs font-semibold leading-5">
+                    <div className="text-black text-sm font-semibold leading-5">
                       {selectedPatient.name}
                     </div>
-                    <div className="text-black text-xs leading-5 whitespace-nowrap mt-2">
+                    <div className="text-black text-sm leading-5 whitespace-nowrap mt-2">
                       <span className="font-medium">
                         {selectedPatient.age} years old |{" "}
                         {selectedPatient.gender}
@@ -77,7 +83,7 @@ export default function NotesAndReview({
               </>
             ) : (
               <>
-                <div className="text-black text-xs font-semibold leading-5">
+                <div className="text-black text-sm font-semibold leading-5">
                   No Patient Selected
                 </div>
               </>

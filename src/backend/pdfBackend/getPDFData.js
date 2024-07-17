@@ -32,12 +32,13 @@ export const getFamilyMemberHistory = async (patientId) => {
 export const getMedicalHistory = async (patientId) => {
   let query = supabase
     .from("observation")
-    .select()
+    .select("*")
     .eq("resource->subject->>reference", patientId)
     .or(
       `resource->>id.eq.${"initialDiagnosis"},resource->>id.eq.${"finalDiagnosis"}`
     );
-
+  
+   
   // Check if both start and end dates are not null
   console.log(useRecordValidity.getState().start);
   console.log(useRecordValidity.getState().end);
@@ -54,7 +55,7 @@ export const getMedicalHistory = async (patientId) => {
   console.log(query);
   const { data, error } = await query
     .order("ts", { ascending: false })
-    .limit(1);
+    console.log("MEDICALHIST", data);
 
   console.log(data);
   console.log(error);
@@ -78,7 +79,7 @@ export const getMedications = async (patientId) => {
       "resource->dispenseRequest->validityPeriod->>start",
       new Date().toISOString().slice(0, 10)
     );
-
+  console.log(data);
   return data;
 };
 
@@ -229,6 +230,16 @@ export const getDoctorSpecialization = async (doctor_license) => {
   return specialization?.doctor_specialization_name;
 };
 
+export const getDoctorHospital = async (doctor_license) => {
+  const { data, error } = await project
+    .from("doctors")
+    .select()
+    .eq("license_id", doctor_license);
+
+  console.log(data[0]?.hospital?.name);
+  return data[0]?.hospital?.name;
+};
+
 export const getAttendingDoctors = async (patientId) => {
   const { data, error } = await project
     .from("attending_doctors")
@@ -253,3 +264,97 @@ export const getAttendingDoctors = async (patientId) => {
 
   return uniqueDoctors;
 };
+
+function generateSystemsString(systems) {
+  let systemsString = "";
+  Object.entries(systems).forEach(([key, value]) => {
+    if (value) {
+      systemsString += `${key}, `;
+    }
+  });
+
+  if (systemsString === "") {
+    systemsString = "No Symptoms Reported";
+  } else {
+    // Remove the last comma and space
+    systemsString = systemsString.slice(0, -2);
+  }
+
+  return systemsString;
+}
+
+export const getClinicVisits = async (patientId) => {
+  try {
+    console.log(patientId);
+    const { data, error } = await supabase
+      .from("encounter")
+      .select("*")
+      .eq("resource->subject->patient->>id", patientId);
+
+    if (error) throw error;
+
+    console.log(data);
+    const observationObjects = data.map((encounter) => ({
+      date: formatTimestamp(encounter.ts),
+      doctor: encounter.resource?.participant,
+      observations: encounter.resource?.contained,
+    }));
+
+    console.log(observationObjects);
+
+    const clinicVisits = [];
+    for (const observationObject of observationObjects) {
+      const observationsData = await fetchObservationsData(
+        observationObject.observations
+      );
+      const doctorSpecialization = await getDoctorSpecialization(
+        observationObject.doctor.license
+      );
+
+      const visitObject = {
+        date: observationObject.date ?? "",
+        provider: observationObject.doctor.actor ?? "",
+        specialization: doctorSpecialization ?? "",
+        signsandsymptoms: observationsData.signsAndSymptoms ?? "",
+        ros: observationsData.reviewOfSystems ?? "",
+        otherconcerns: observationsData.otherConcerns ?? "",
+      };
+
+      clinicVisits.push(visitObject);
+    }
+
+    console.log(clinicVisits);
+    return clinicVisits;
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return [];
+  }
+};
+
+async function fetchObservationsData(observations) {
+  const observationsData = {
+    signsAndSymptoms: "",
+    reviewOfSystems: "",
+    otherConcerns: "",
+  };
+
+  for (const observationType of Object.keys(observationsData)) {
+    const { data, error } = await supabase
+      .from("observation")
+      .select("*")
+      .eq("resource->>id", observationType)
+      .in("id", observations);
+
+    if (error) throw error;
+
+    if (data.length > 0) {
+      const observationValue = data[0].resource.valueString;
+      observationsData[observationType] =
+        observationType === "reviewOfSystems"
+          ? generateSystemsString(JSON.parse(observationValue))
+          : observationValue;
+    }
+  }
+
+  return observationsData;
+}

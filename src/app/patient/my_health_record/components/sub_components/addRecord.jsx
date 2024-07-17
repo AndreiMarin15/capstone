@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import BackButton from "./BackButton";
 import { uploadRecord } from "@/backend/health_records/uploadRecord";
 import { doctor } from "@/backend/health_records/doctor";
-import { useState,useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,15 +21,17 @@ const ImageModal = ({ src, onClose }) => {
   );
 };
 
-
-
-
-export default function AddRecord({ currentScreen, setCurrentScreen, patientId, fetchRecords }) {
+export default function AddRecord({
+  currentScreen,
+  setCurrentScreen,
+  patientId,
+  fetchRecords,
+}) {
   const [doctorInfo, setDoctorInfo] = useState({});
   const [uploadedImageSrc, setUploadedImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef(null);
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,40 +40,38 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     patientInfo: {
       subject: {
         reference: patientId,
-      }
+      },
     },
     doctorInfo: {
       type: "",
-      fullName: "", 
+      fullName: "",
       license: "",
-    }
+    },
   });
 
-//   useEffect(() => {
-//     const fetchDoctorInfo = async () => {
-//       try {
-//         const doctorId = await doctor.getDoctorByCurrentUser();
-//         console.log(doctorId);
-//         setDoctorInfo(doctorId);
+  //   useEffect(() => {
+  //     const fetchDoctorInfo = async () => {
+  //       try {
+  //         const doctorId = await doctor.getDoctorByCurrentUser();
+  //         console.log(doctorId);
+  //         setDoctorInfo(doctorId);
 
-//         // Update formData with the fetched doctorInfo
-//         setFormData((prevFormData) => ({
-//           ...prevFormData,
-//           doctorInfo: {
-//             type: doctorId.type,
-//             fullName: doctorId.fullName,
-//             license: doctorId.license,
-//           }
-//         }));
-//       } catch (error) {
-//         console.error('Error fetching doctorId:', error);
-//       }
-//     };
+  //         // Update formData with the fetched doctorInfo
+  //         setFormData((prevFormData) => ({
+  //           ...prevFormData,
+  //           doctorInfo: {
+  //             type: doctorId.type,
+  //             fullName: doctorId.fullName,
+  //             license: doctorId.license,
+  //           }
+  //         }));
+  //       } catch (error) {
+  //         console.error('Error fetching doctorId:', error);
+  //       }
+  //     };
 
-//     fetchDoctorInfo();
-//   }, []);
-
-
+  //     fetchDoctorInfo();
+  //   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,7 +95,6 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     }
   };
 
-
   const getImageBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -112,7 +111,6 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -136,25 +134,52 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
     handleFileUpload(e.target.files);
   };
 
+  const validateFields = () => {
+    let valid = true;
+
+    if (!formData.title.trim()) {
+      valid = false;
+      toast.error("Title is required.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+    }
+
+    if (!formData.upload) {
+      valid = false;
+      toast.error("Upload is required.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+    }
+
+    return valid;
+  };
 
   const handleSubmit = async () => {
-    console.log(formData)
+    setFormSubmitted(true);
+
+    if (!validateFields()) {
+      return;
+    }
+
     const result = await uploadRecord(formData);
-   
+
     if (result.success) {
       toast.success("Other Record Added", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 8000,
       });
       fetchRecords();
-      setCurrentScreen(0)
- 
+      setCurrentScreen(0);
     } else {
       toast.error("Error Adding Record", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000
+        autoClose: 8000,
       });
     }
   };
@@ -168,11 +193,11 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
       <div>
         <div className="flex flex-col max-w-full">
           <table className="max-w-fit border-spacing-y-5 border-separate">
-            <tbody className="text-xs leading-5 text-black">
+            <tbody className="text-sm leading-5 text-black">
               {[
-                { variable: "Title", type: "input" },
+                { variable: "Title *", type: "input" },
                 { variable: "Description", type: "textarea" },
-                { variable: "Upload", type: "upload" },
+                { variable: "Upload *", type: "upload" },
               ].map((item, index) => (
                 <tr key={index} className="align-top">
                   <td className="w-5">
@@ -186,7 +211,7 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                     />
                   </td>
                   <td className="border-l-[5px] border-transparent">
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                    <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                       {item.variable}
                     </div>
                   </td>
@@ -194,11 +219,15 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                     {item.type === "input" ? (
                       <input
                         name="title"
-                        placeholder={`Add ${item.variable}`}
+                        placeholder={`Add Title`}
                         type="text"
                         value={formData.title}
                         onChange={handleChange}
-                        className="justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5 w-full"
+                        className={`justify-center items-start py-1.5 pl-3 pr-3 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] max-md:pr-5 w-full ${
+                          formSubmitted && !formData.title.trim()
+                            ? "border-red-500"
+                            : ""
+                        }`}
                       />
                     ) : item.type === "textarea" ? (
                       <textarea
@@ -210,66 +239,77 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
                       />
                     ) : item.type === "upload" ? (
                       <div
-                      className="flex gap-10 mt-6"
-                      onDrop={(e) => handleDrop(e)}
-                      onDragOver={(e) => handleDragOver(e)}
+                        className="flex gap-10 mt-6"
+                        onDrop={(e) => handleDrop(e)}
+                        onDragOver={(e) => handleDragOver(e)}
                       >
-                      <div className="flex flex-col items-center px-20 py-8 text-xs leading-5 text-center bg-white border-black border-solid border-[0.5px] w-25%]">
-                      {uploadedImageSrc ? (
-                              <>
-                                <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
-                                  <div
-                                    className="w-auto max-w-full h-[400px] cursor-pointer flex justify-center" // Adjusted classes
-                                    onClick={handleOpenModal}
-                                  >
-                                    <img
-                                      src={uploadedImageSrc}
-                                      alt="uploaded"
-                                      style={{
-                                        maxWidth: "100%",
-                                        maxHeight: "80%",
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                                <button
-                                  className="mt-2 text-sky-600 underline cursor-pointer"
-                                  onClick={() => setUploadedImageSrc(null)}
-                                >
-                                  Cancel
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <Image
-                                  alt="image"
-                                  height={0}
-                                  width={0}
-                                  loading="lazy"
-                                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
-                                  className="aspect-[1.03] w-[38px]"
-                                />
-                                <div className="self-stretch mt-1.5 text-black">
-                                  Drag or drop here.
-                                </div>
+                        <div
+                          className={`flex flex-col items-center px-20 py-8 text-sm leading-5 text-center bg-white border-black border-[0.5px] border-solid ${
+                            formSubmitted && !formData.upload
+                              ? "border-red-500"
+                              : "border-black"
+                          } w-25%`}
+                        >
+                          {uploadedImageSrc ? (
+                            <>
+                              <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
                                 <div
-                                  className="mt-3.5 font-light text-sky-600 underline"
-                                  onClick={handleUploadClick}
+                                  className="w-auto max-w-full h-[400px] cursor-pointer flex justify-center" // Adjusted classes
+                                  onClick={handleOpenModal}
                                 >
-                                  Upload
+                                  <img
+                                    src={uploadedImageSrc}
+                                    alt="uploaded"
+                                    style={{
+                                      maxWidth: "100%",
+                                      maxHeight: "80%",
+                                    }}
+                                  />
                                 </div>
-                                <input
-                                  type="file"
-                                  className="hidden"
-                                  onChange={(e) =>
-                                    handleFileUpload(e.target.files)
-                                  }
-                                  ref={fileInputRef}
-                                />
-                              </>
-                            )}
-                        <input type="file" className="hidden" onChange={handleFileChange} ref={fileInputRef} />
-                      </div>
+                              </div>
+                              <button
+                                className="mt-2 text-sky-600 underline cursor-pointer"
+                                onClick={() => setUploadedImageSrc(null)}
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <Image
+                                alt="image"
+                                height={0}
+                                width={0}
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/d670cd5944e41d3f0d0ba9e28820c872d801df2a901fa93765c19dc39e0b53f7?"
+                                className="aspect-[1.03] w-[38px]"
+                              />
+                              <div className="self-stretch mt-1.5 text-black">
+                                Drag or drop here.
+                              </div>
+                              <div
+                                className="mt-3.5 font-light text-sky-600 underline"
+                                onClick={handleUploadClick}
+                              >
+                                Upload
+                              </div>
+                              <input
+                                type="file"
+                                className="hidden"
+                                onChange={(e) =>
+                                  handleFileUpload(e.target.files)
+                                }
+                                ref={fileInputRef}
+                              />
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            ref={fileInputRef}
+                          />
+                        </div>
                       </div>
                     ) : null}
                   </td>
@@ -285,14 +325,14 @@ export default function AddRecord({ currentScreen, setCurrentScreen, patientId, 
             />
 
             <Button
-              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+              className="flex items-center ml-12 px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-base bg-sky-900 text-white"
               onClick={handleSubmit}
             >
               Save
             </Button>
             {isModalOpen && (
-            <ImageModal src={uploadedImageSrc} onClose={handleCloseModal} />
-          )}
+              <ImageModal src={uploadedImageSrc} onClose={handleCloseModal} />
+            )}
           </div>
         </div>
       </div>

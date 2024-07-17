@@ -59,7 +59,7 @@ export default function UploadLab({
   //       <div className="flex flex-col">
   //         <input
   //           type="text"
-  //           className="text-xs font-semibold leading-5 text-black"
+  //           className="text-sm font-semibold leading-5 text-black"
   //           placeholder="Low"
   //         />
   //         <div className="flex gap-4 px-px mt-1.5">
@@ -78,7 +78,7 @@ export default function UploadLab({
   //         </div>
   //         <input
   //           type="text"
-  //           className="mt-7 text-xs font-semibold leading-5 text-black"
+  //           className="mt-7 text-sm font-semibold leading-5 text-black"
   //           placeholder="Normal"
   //         />
   //         <div className="flex gap-4 px-px mt-1.5">
@@ -97,7 +97,7 @@ export default function UploadLab({
   //         </div>
   //         <input
   //           type="text"
-  //           className="mt-7 text-xs font-semibold leading-5 text-black"
+  //           className="mt-7 text-sm font-semibold leading-5 text-black"
   //           placeholder="High"
   //         />
   //         <div className="flex gap-4 px-px">
@@ -159,7 +159,7 @@ export default function UploadLab({
       toast.success("Lab Test Recorded", {
         position: "top-left",
         theme: "colored",
-        autoClose: 2000,
+        autoClose: 8000,
       });
 
       setCurrentPage(0);
@@ -251,7 +251,7 @@ export default function UploadLab({
       <div className="text-black text-base font-bold leading-5 mt-6 ml-6 mb-1 max-md:ml-1 max-md:mt-10 flex justify-between items-center">
         Lab Test Request #1
       </div>
-      <div className="flex gap-2 text-black text-sm font-normal leading-5 mt-2 ml-6 mb-1 max-md:ml-1 max-md:mt-10">
+      <div className="flex gap-2 text-black text-base font-normal leading-5 mt-2 ml-6 mb-1 max-md:ml-1 max-md:mt-10">
         <Image
           alt="picture"
           height={0}
@@ -287,12 +287,12 @@ export default function UploadLab({
                     className="w-fit"
                   />
                 </div>
-                <div className="text-black text-xs mr-10 font-semibold leading-5 self-start my-auto">
+                <div className="text-black text-sm mr-10 font-semibold leading-5 self-start my-auto">
                   Date Taken
                 </div>
                 <input
                   type="date"
-                  className="text-black text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+                  className="text-black text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
                   placeholder="YYYY-MM-DD"
                   value={dateTaken} // Bind value to dateTaken state
                   onChange={handleDateTakenChange} // Call handleDateTakenChange on change
@@ -305,7 +305,7 @@ export default function UploadLab({
                   <div className="flex items-center">
                     {" "}
                     {/* Flex container */}
-                    <div className="text-black text-xs font-semibold leading-5 self-center my-auto  ml-10">
+                    <div className="text-black text-sm font-semibold leading-5 self-center my-auto  ml-10">
                       Upload Image
                     </div>{" "}
                     {/* Text */}
@@ -348,11 +348,11 @@ export default function UploadLab({
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/79b0db0334145eb24b0da5efd53f459ffdf3d0197e5eebe803fde6e67e9ed598?"
                             className="aspect-[1.05] object-contain object-center w-[39px] overflow-hidden max-w-full"
                           />
-                          <div className="text-black text-center text-xs leading-5 mt-1.5">
+                          <div className="text-black text-center text-sm leading-5 mt-1.5">
                             Drag or drop here.
                           </div>
                           <button
-                            className="text-sky-600 text-center text-xs font-light leading-5 underline whitespace-nowrap mt-3.5"
+                            className="text-sky-600 text-center text-sm font-light leading-5 underline whitespace-nowrap mt-3.5"
                             onClick={handleUploadClick}
                           >
                             Upload
@@ -385,12 +385,12 @@ export default function UploadLab({
                       className="w-fit"
                     />
                   </div>
-                  <div className="text-black text-xs mr-10 font-semibold leading-5 self-start my-auto">
+                  <div className="text-black text-sm mr-10 font-semibold leading-5 self-start my-auto">
                     Valid Until
                   </div>
                   <input
                     type="date"
-                    className="text-black text-xs font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
+                    className="text-black text-sm font-medium leading-5 whitespace-nowrap rounded justify-center items-stretch pl-2 pr-4 py-2 border-[0.5px] border-solid border-black self-start"
                     placeholder="YYYY-MM-DD"
                     //   value={dateTaken} // Bind value to dateTaken state
                     //   onChange={handleDateTakenChange} // Call handleDateTakenChange on change
@@ -414,13 +414,13 @@ export default function UploadLab({
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/835c2c533b5709aa853e0418efd68df6d00f1c923dd0dedb18dc8516044c5f8b?"
                       className="aspect-square fill-black w-[15px]"
                     />
-                    <div className="my-auto mr-2 ml-2 text-xs">Lab Values</div>
+                    <div className="my-auto mr-2 ml-2 text-sm">Lab Values</div>
                   </div>
                 </td>
                 {/* Text */}
                 <td className="pl-80">
                   <div className="flex gap-4 my-auto font-semibold text-black">
-                    <div className="my-auto text-xs">Unit</div>
+                    <div className="my-auto text-sm">Unit</div>
                   </div>
                 </td>
               </tr>
@@ -429,11 +429,11 @@ export default function UploadLab({
               <tbody key={index} className="ml-4  ">
                 <tr className="flex mt-4">
                   <td className="border-l-[8px] border-transparent flex items-center">
-                    <span className="text-black text-xs font-semibold leading-5 self-center my-auto ml-4 mr-4">
+                    <span className="text-black text-sm font-semibold leading-5 self-center my-auto ml-4 mr-4">
                       {/* Lab Value {index + 1} */}
                     </span>
                   </td>
-                  <td className="border-transparent text-xs">
+                  <td className="border-transparent text-sm">
                     <input
                       className="py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                       type="text"
@@ -449,7 +449,7 @@ export default function UploadLab({
                       =
                     </span>
                   </td>
-                  <td className=" border-transparent text-xs">
+                  <td className=" border-transparent text-sm">
                     <span className="flex items-center text-black font-medium">
                       <input
                         className="py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black max-w-[80%]"
@@ -462,7 +462,7 @@ export default function UploadLab({
                       />
                     </span>
                   </td>
-                  <td className=" border-transparent text-xs">
+                  <td className=" border-transparent text-sm">
                     <input
                       className="mr-8 justify-center py-2 pr-8 pl-2 font-medium whitespace-nowrap rounded border-black border-solid border-[0.5px] text-black"
                       type="text"
@@ -486,13 +486,13 @@ export default function UploadLab({
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/04feedd180d99a276d32b47268955875856411c5fd622922cd3c35776c289845?"
                       className="aspect-square fill-black w-[22px]"
                     />
-                    <div className="my-auto text-xs">Ranges</div>
+                    <div className="my-auto text-sm">Ranges</div>
                   </div>
                 </td>
               </tr>
             </table>
             <table className="ml-6 max-w-fit border-spacing-y-2 border-separate">
-              <tbody className="text-xs leading-5 text-black">
+              <tbody className="text-sm leading-5 text-black">
                 <tr></tr>
                 {/* Your existing row */}
                 <tr>
@@ -541,7 +541,7 @@ export default function UploadLab({
                       <div className=" justify-center items-center px-px text-lg text-white bg-gray-400 rounded-full aspect-square h-[26px] w-[26px]">
                         +
                       </div>
-                      <div className=" my-auto text-xs text-gray-400">
+                      <div className=" my-auto text-sm text-gray-400">
                         Add another row
                       </div>
                     </button>
@@ -559,7 +559,7 @@ export default function UploadLab({
             </div>
             <div className="flex flex-col max-md:max-w-full max-md:mt-7">
               <button
-                className="text-white text-xs font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5"
+                className="text-white text-sm font-semibold whitespace-nowrap bg-sky-900 justify-center items-stretch mt-12 px-14 py-2.5 rounded self-end max-md:mt-10 max-md:px-5"
                 onClick={handleSave}
               >
                 SAVE

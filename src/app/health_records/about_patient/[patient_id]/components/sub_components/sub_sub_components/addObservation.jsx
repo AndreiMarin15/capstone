@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import BackButton from "../BackButton";
-import useClinicVisitStore from '@/app/clinicVisitStore';
+import useClinicVisitStore from "@/app/clinicVisitStore";
+import { toast } from "react-toastify";
 
 export default function AddObservation({
   currentScreen,
@@ -13,16 +14,28 @@ export default function AddObservation({
   setCurrentPage,
   handleNext,
 }) {
-  const clinicDate = useClinicVisitStore(state => state.clinicDate);
-  const setClinicDate = useClinicVisitStore(state => state.setClinicDate);
-  const signsAndSymptoms = useClinicVisitStore(state => state.signsAndSymptoms);
-  const setSignsAndSymptoms = useClinicVisitStore(state => state.setSignsAndSymptoms);
-  const otherConcerns = useClinicVisitStore(state => state.otherConcerns);
-  const setOtherConcerns = useClinicVisitStore(state => state.setOtherConcerns);
-  const reviewOfSystemsStore = useClinicVisitStore(state => state.reviewOfSystems);
-  const otherReviewOfSystems = useClinicVisitStore(state => state.otherReviewOfSystems);
-  const setOtherReviewOfSystems = useClinicVisitStore(state => state.setOtherReviewOfSystems);
-  const labTestName = useClinicVisitStore(state => state.labTestName);
+  const clinicDate = useClinicVisitStore((state) => state.clinicDate);
+  const setClinicDate = useClinicVisitStore((state) => state.setClinicDate);
+  const signsAndSymptoms = useClinicVisitStore(
+    (state) => state.signsAndSymptoms
+  );
+  const setSignsAndSymptoms = useClinicVisitStore(
+    (state) => state.setSignsAndSymptoms
+  );
+  const otherConcerns = useClinicVisitStore((state) => state.otherConcerns);
+  const setOtherConcerns = useClinicVisitStore(
+    (state) => state.setOtherConcerns
+  );
+  const reviewOfSystemsStore = useClinicVisitStore(
+    (state) => state.reviewOfSystems
+  );
+  const otherReviewOfSystems = useClinicVisitStore(
+    (state) => state.otherReviewOfSystems
+  );
+  const setOtherReviewOfSystems = useClinicVisitStore(
+    (state) => state.setOtherReviewOfSystems
+  );
+  const labTestName = useClinicVisitStore((state) => state.labTestName);
 
   const [reviewOfSystems, setReviewOfSystems] = useState(reviewOfSystemsStore);
   const [errorStyles, setErrorStyles] = useState({
@@ -36,15 +49,17 @@ export default function AddObservation({
     setClinicDate(new Date().toISOString().split("T")[0]);
 
     const initialReviewOfSystems = {};
-    const storedReviewOfSystems = useClinicVisitStore.getState().reviewOfSystems;
+    const storedReviewOfSystems =
+      useClinicVisitStore.getState().reviewOfSystems;
 
     if (Object.keys(storedReviewOfSystems).length !== 0) {
       fields
-        .filter(item => item.type === "checkbox")
-        .forEach(item => {
-          item.checkboxLists.forEach(category => {
-            category.forEach(checkbox => {
-              initialReviewOfSystems[checkbox.name] = storedReviewOfSystems[checkbox.name] || false;
+        .filter((item) => item.type === "checkbox")
+        .forEach((item) => {
+          item.checkboxLists.forEach((category) => {
+            category.forEach((checkbox) => {
+              initialReviewOfSystems[checkbox.name] =
+                storedReviewOfSystems[checkbox.name] || false;
             });
           });
         });
@@ -57,7 +72,7 @@ export default function AddObservation({
   const handleCheckboxChange = (e, name) => {
     const updatedReviewOfSystems = {
       ...reviewOfSystems,
-      [name]: e.target.checked
+      [name]: e.target.checked,
     };
     setReviewOfSystems(updatedReviewOfSystems);
 
@@ -69,10 +84,10 @@ export default function AddObservation({
   const resetReviewOfSystems = () => {
     const reset = {};
     fields
-      .filter(item => item.type === "checkbox")
-      .forEach(item => {
-        item.checkboxLists.forEach(category => {
-          category.forEach(checkbox => {
+      .filter((item) => item.type === "checkbox")
+      .forEach((item) => {
+        item.checkboxLists.forEach((category) => {
+          category.forEach((checkbox) => {
             reset[checkbox.name] = false;
           });
         });
@@ -110,7 +125,7 @@ export default function AddObservation({
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/ca34a79ae329b93379bbd953f43e6ea160ba22c48c92444cb1f35e3abeb03a50?",
-      variable: "Signs and Symptoms",
+      variable: "Signs and Symptoms *",
       name: "signsAndSymptoms",
       value: signsAndSymptoms,
       type: "textarea",
@@ -173,8 +188,27 @@ export default function AddObservation({
         setCurrentScreen(4);
       },
     },
-  
   ];
+
+  // Function to handle "NEXT" button click
+  const handleNextClick = () => {
+    if (validateFields()) {
+      handleNext();
+    } else {
+      // Set error styles for empty fields
+      toast.error("Signs and Symptoms is Required", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+      const newErrorStyles = {
+        clinicDate: !clinicDate,
+        reviewOfSystems: !Object.keys(reviewOfSystems).length,
+        signsAndSymptoms: !signsAndSymptoms,
+      };
+      setErrorStyles(newErrorStyles);
+    }
+  };
 
   return (
     <>
@@ -191,7 +225,7 @@ export default function AddObservation({
           <div>
             <div className="flex gap-[4rem] align-baseline">
               <table className="max-w-fit border-spacing-y-5 border-separate">
-                <tbody className="text-xs leading-5 text-black">
+                <tbody className="text-sm leading-5 text-black">
                   {fields.map((item, index) => (
                     <tr key={index} className="align-top">
                       <td className="w-5">
@@ -205,7 +239,7 @@ export default function AddObservation({
                         />
                       </td>
                       <td className="border-l-[5px] border-transparent">
-                        <div className="text-black text-xs font-semibold leading-5 self-center my-auto">
+                        <div className="text-black text-sm font-semibold leading-5 self-center my-auto">
                           {item.variable}
                         </div>
                       </td>
@@ -235,46 +269,57 @@ export default function AddObservation({
                             onChange={item.onChange}
                             className={`grow justify-center items-start py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]`}
                             style={{
-                              fontSize: "12px",
+                              fontSize: "14px",
                               height: "auto",
                               whiteSpace: "pre-wrap",
                               ...(item.variable === "Review of Systems" &&
-                                errorStyles.reviewOfSystems
+                              errorStyles.reviewOfSystems
                                 ? {
-                                  ...errorStyles.reviewOfSystems,
-                                  borderColor: "red",
-                                  borderWidth: "2px",
-                                }
-                                : item.variable === "Signs and Symptoms" &&
-                                  errorStyles.signsAndSymptoms
-                                  ? {
-                                    ...errorStyles.signsAndSymptoms,
+                                    ...errorStyles.reviewOfSystems,
                                     borderColor: "red",
                                     borderWidth: "2px",
                                   }
+                                : item.variable === "Signs and Symptoms *" &&
+                                    errorStyles.signsAndSymptoms
+                                  ? {
+                                      ...errorStyles.signsAndSymptoms,
+                                      borderColor: "red",
+                                      borderWidth: "2px",
+                                    }
                                   : {}),
                             }}
                             wrap="soft"
                           />
                         )}
-                      {item.type === "checkbox" && (
+                        {item.type === "checkbox" && (
                           <div className="grid grid-cols-3">
                             {item.checkboxLists.map((category, catIndex) => (
                               <div key={`category_${catIndex}`}>
                                 <span>
-                                  {catIndex === 0 ? "General" : catIndex === 1 ? "Cardiovascular" : "Gastrointestinal"}
+                                  {catIndex === 0
+                                    ? "General"
+                                    : catIndex === 1
+                                      ? "Cardiovascular"
+                                      : "Gastrointestinal"}
                                 </span>
                                 {category.map((checkbox, checkboxIndex) => (
-                                  <div key={`checkbox_${checkboxIndex}`} className="">
+                                  <div
+                                    key={`checkbox_${checkboxIndex}`}
+                                    className=""
+                                  >
                                     <label className="inline-flex items-center">
                                       <input
                                         type="checkbox"
                                         name={checkbox.name}
                                         checked={reviewOfSystems[checkbox.name]}
-                                        onChange={(e) => handleCheckboxChange(e, checkbox.name)}
+                                        onChange={(e) =>
+                                          handleCheckboxChange(e, checkbox.name)
+                                        }
                                         className="form-checkbox h-5 w-5 text-blue-600"
                                       />
-                                      <span className="ml-2">{checkbox.value}</span>
+                                      <span className="ml-2">
+                                        {checkbox.value}
+                                      </span>
                                     </label>
                                   </div>
                                 ))}
@@ -284,21 +329,28 @@ export default function AddObservation({
                               placeholder="Other"
                               name="otherReviewOfSystems"
                               value={otherReviewOfSystems}
-                              onChange={(e) => setOtherReviewOfSystems(e.target.value)}
+                              onChange={(e) =>
+                                setOtherReviewOfSystems(e.target.value)
+                              }
                               className="grow justify-center items-start mt-5 py-1.5 pl-2 whitespace-nowrap rounded border-black border-solid shadow-sm border-[0.5px] text-black w-[180px]"
-                              style={{ fontSize: "12px", height: "auto", whiteSpace: "pre-wrap" }}
+                              style={{
+                                fontSize: "14px",
+                                height: "auto",
+                                whiteSpace: "pre-wrap",
+                              }}
                               wrap="soft"
                             />
                           </div>
                         )}
                         {item.type === "button" && (
-                          <Button className="w-[80px]" onClick={item.saveFunction}>
+                          <Button
+                            className="w-[80px]"
+                            onClick={item.saveFunction}
+                          >
                             Request
                           </Button>
                         )}
-                        {item.type === "label" && (
-                          <div>{item.value}</div>
-                        )}
+                        {item.type === "label" && <div>{item.value}</div>}
                       </td>
                     </tr>
                   ))}
@@ -313,7 +365,7 @@ export default function AddObservation({
                 resetReviewOfSystems={resetReviewOfSystems} // Pass the resetReviewOfSystems function
               />
               <div>
-                <Button onClick={handleNext}>NEXT</Button>
+                <Button onClick={handleNextClick}>NEXT</Button>
               </div>
             </div>
           </div>

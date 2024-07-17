@@ -99,7 +99,7 @@ export default function Home() {
               className="shadow-sm self-stretch flex w-full shrink-0 h-[38px] flex-col mt-2.5 rounded-md border-[0.638px] border-solid border-black max-md:ml-2 text-black px-3"
             />
             {emailError && (
-              <div className="text-red-500 text-xs mt-2">{emailError}</div>
+              <div className="text-red-500 text-sm mt-2">{emailError}</div>
             )}
 
             <div className="text-black text-lg font-semibold leading-7 self-stretch mt-5 max-md:ml-2">
@@ -147,7 +147,7 @@ export default function Home() {
                   setAgreed(e.target.checked);
                 }}
               />
-              <div className="text-black-500 text-sm leading-5 self-stretch grow whitespace-nowrap">
+              <div className="text-black-500 text-base leading-5 self-stretch grow whitespace-nowrap">
                 I agree to the{" "}
                 <span
                   className="underline text-blue-500 hover:cursor-pointer"
@@ -177,7 +177,7 @@ export default function Home() {
                     toast.success(result.message, {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     });
 
                     setTimeout(() => {
@@ -191,7 +191,7 @@ export default function Home() {
                     toast.error(result.message, {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     });
                   }
                 } else {
@@ -200,7 +200,7 @@ export default function Home() {
                     {
                       position: "top-left",
                       theme: "colored",
-                      autoClose: 2000,
+                      autoClose: 8000,
                     }
                   );
                 }

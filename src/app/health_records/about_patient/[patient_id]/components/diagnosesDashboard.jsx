@@ -10,9 +10,7 @@ import {
 } from "@nextui-org/react";
 import BackButton from "./sub_components/BackButton";
 import * as React from "react";
-import {
-  getFinalDiagnosisObservations,
-} from "@/backend/health_records/getObservation";
+import { getFinalDiagnosisObservations } from "@/backend/health_records/getObservation";
 import { getEncounterByPatientId } from "@/backend/health_records/getEncounter";
 import {
   getDoctorSpecialization,
@@ -70,11 +68,12 @@ export default function Diagnoses({ patientId }) {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const allFinalDiagnoses = await getFinalDiagnosisObservations(patientId);
+        const allFinalDiagnoses =
+          await getFinalDiagnosisObservations(patientId);
         const patientEncounters = await getEncounterByPatientId(patientId);
         setEncounters(patientEncounters);
         console.log(patientEncounters);
-        console.log(allFinalDiagnoses)
+        console.log(allFinalDiagnoses);
         // After setting encounters, update diagnoses
         updateDiagnoses(allFinalDiagnoses, patientEncounters);
       } catch (error) {
@@ -88,12 +87,22 @@ export default function Diagnoses({ patientId }) {
   // Update diagnoses with doctor specialization, hospital, and date of diagnosis
   async function updateDiagnoses(allFinalDiagnoses, patientEncounters) {
     const promises = allFinalDiagnoses.map(async (diagnosis) => {
-      const specializationPromise = getDoctorSpecialization(diagnosis.resource.participant.license);
-      const hospitalPromise = getDoctorHospital(diagnosis.resource.participant.license);
+      const specializationPromise = getDoctorSpecialization(
+        diagnosis.resource.participant.license
+      );
+      const hospitalPromise = getDoctorHospital(
+        diagnosis.resource.participant.license
+      );
 
-      const [specialization, hospital] = await Promise.all([specializationPromise, hospitalPromise]);
+      const [specialization, hospital] = await Promise.all([
+        specializationPromise,
+        hospitalPromise,
+      ]);
 
-      const dateOfDiagnosis = getDateOfDiagnosis(diagnosis.id, patientEncounters);
+      const dateOfDiagnosis = getDateOfDiagnosis(
+        diagnosis.id,
+        patientEncounters
+      );
       console.log(diagnosis.id);
       console.log(dateOfDiagnosis);
 
@@ -128,19 +137,34 @@ export default function Diagnoses({ patientId }) {
             <DropdownMenuContent className="w-56">
               <DropdownMenuLabel>Sort By Date</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup value={sortOptionDate} onValueChange={handleDateSort}>
-                <DropdownMenuRadioItem value="Recent">Sort by Most Recent</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="Oldest">Sort By Oldest</DropdownMenuRadioItem>
+              <DropdownMenuRadioGroup
+                value={sortOptionDate}
+                onValueChange={handleDateSort}
+              >
+                <DropdownMenuRadioItem value="Recent">
+                  Sort by Most Recent
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Oldest">
+                  Sort By Oldest
+                </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
-      <table className="pt-1.5 leading-5 text-black text-xs mt-10 max-w-[100%]">
+      <table className="pt-1.5 leading-5 text-black text-sm mt-10 max-w-[100%]">
         <thead>
-          <tr className="font-medium text-left text-xs">
+          <tr className="font-medium text-left text-sm">
             {variables?.map((variable, index) => (
-              <th key={index} className={index === 0 ? "" : ""}>
+              <th
+                key={index}
+                style={{
+                  // width: "70%",
+                  minWidth: "100px",
+                  paddingRight: "16px",
+                }}
+                className=""
+              >
                 <span className="text-sm">{variable}</span>
               </th>
             ))}
@@ -148,40 +172,54 @@ export default function Diagnoses({ patientId }) {
         </thead>
         <tbody>
           <tr>
-            <td colSpan={variables.length} className="h-8 text-xs"></td>
+            <td colSpan={variables.length} className="h-8 text-sm"></td>
           </tr>
-          {sortDiagnosesByDate(finalDiagnoses, sortOptionDate)?.map((diagnosis, index) => {
-            if (diagnosis.resource.valueString.length > 0) {
-              return (
-                <React.Fragment key={index}>
-                  {variables?.map((variable, variableIndex) => (
-                    <td key={variableIndex} className={`${variableIndex === 0 ? "font-normal" : "mt-4 mb-4"}`}>
-                      <span className={`text-xs ${variable === "Diagnoses" ? "font-regular" : ""}`}>
-                        {variable === "Diagnoses"
-                          ? diagnosis.resource.valueString
-                          : variable === "Date of Diagnosis"
-                          ? diagnosis.dateOfDiagnosis
-                          : variable === "Doctor"
-                          ? diagnosis.resource.participant.actor
-                          : variable === "Specialization"
-                          ? diagnosis.specialization ?? ""
-                          : variable === "Hospital"
-                          ? diagnosis.hospital ?? ""
-                          : ""}
-                      </span>
-                    </td>
-                  ))}
-                  {index < finalDiagnoses.length - 1 && (
-                    <tr key={`gap-${index}`}>
-                      <td colSpan={variables.length} className="border-t border-transparent h-4" />
-                    </tr>
-                  )}
-                </React.Fragment>
-              );
-            } else {
-              return "";
+          {sortDiagnosesByDate(finalDiagnoses, sortOptionDate)?.map(
+            (diagnosis, index) => {
+              if (diagnosis.resource.valueString.length > 0) {
+                return (
+                  <React.Fragment key={index}>
+                    {variables?.map((variable, variableIndex) => (
+                      <td
+                        key={variableIndex}
+                        className={`${
+                          variableIndex === 0 ? "font-normal" : "mt-4 mb-4"
+                        }`}
+                      >
+                        <span
+                          className={`text-sm ${
+                            variable === "Diagnoses" ? "font-regular" : ""
+                          }`}
+                        >
+                          {variable === "Diagnoses"
+                            ? diagnosis.resource.valueString
+                            : variable === "Date of Diagnosis"
+                              ? diagnosis.dateOfDiagnosis
+                              : variable === "Doctor"
+                                ? diagnosis.resource.participant.actor
+                                : variable === "Specialization"
+                                  ? diagnosis.specialization ?? ""
+                                  : variable === "Hospital"
+                                    ? diagnosis.hospital ?? ""
+                                    : ""}
+                        </span>
+                      </td>
+                    ))}
+                    {index < finalDiagnoses.length - 1 && (
+                      <tr key={`gap-${index}`}>
+                        <td
+                          colSpan={variables.length}
+                          className="border-t border-transparent h-4"
+                        />
+                      </tr>
+                    )}
+                  </React.Fragment>
+                );
+              } else {
+                return "";
+              }
             }
-          })}
+          )}
         </tbody>
       </table>
 
