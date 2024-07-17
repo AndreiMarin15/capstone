@@ -251,7 +251,9 @@ export default function Home() {
                           {notification.content}{" "}
                           {notification.title === "New Message"
                             ? `from ${notification.sender}`
-                            : `by ${notification.sender}`}{" "}
+                            : notification.title !== "New Referral"
+                              ? `by ${notification.sender}`
+                              : ""}
                         </div>
                       </span>
                     </div>
