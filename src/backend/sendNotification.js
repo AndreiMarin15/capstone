@@ -12,7 +12,7 @@ export const sendNotification = async (
     .insert({
       recepient_id,
       title,
-      content: content + " " + `on ${new Date().toLocaleString()}`,
+      content: content,
       sender,
     });
 
