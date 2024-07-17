@@ -47,7 +47,7 @@ export default function PatientProfile({
         <div className="flex space-x-4">
           {" "}
           {/* Wrap buttons in a div with flex and space-x-4 for spacing */}
-          <Button
+          {/* <Button
             variant="outline"
             onClick={() => {
               router.push(`/referral/send_referral/${patientId}`);
@@ -61,7 +61,7 @@ export default function PatientProfile({
             }}
           >
             Generate Records
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

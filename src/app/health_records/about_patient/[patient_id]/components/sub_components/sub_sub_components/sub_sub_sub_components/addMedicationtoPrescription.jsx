@@ -1,47 +1,43 @@
 import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import BackButton from "./BackButton";
+import BackButton from "../../BackButton";
 import uploadMedication from "@/backend//health_records/uploadMedication";
-import {
-  retrieveMedicationById,
-  getMedicationRequests,
-} from "@/backend//health_records/getMedicationRequest";
-import { retrieveMedications } from "@/backend//health_records/getMedication";
+import { retrieveMedications } from "@/backend/health_records/getMedication";
+import { getPrescriptionById } from "@/backend/health_records/getPrescription";
+import { formatDuration } from "date-fns/esm";
 import { healthRecords } from "@/backend//health_records/health_records";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
-import { client } from "@/backend//initSupabase";
+import { Button } from "@/components/ui/button";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
+import uploadPrescription from "@/backend/health_records/uploadPrescription";
+import updatePrescription from "@/backend/health_records/updatePrescription";
+import { MedicationHistoryPDF } from "../../../PDF_templates/medicationhistoryPDF";
+import { v4 as uuidv4 } from 'uuid';
 
-export default function EditMedications({ patientId }) {
-  const supabase = client("public");
-
-  const {
-    editingMedicationId,
-    setCurrentScreen,
-    setEditingMedicationId,
-    currentScreen,
-    fetchMedications,
-  } = usePrescriptionsStore();
-
+export default function AddMedicationToPrescription({ patientId, prescriptionId}) {
+  const [regis, setRegis] = useState("");
+  const { currentScreen, setCurrentScreen, addMedicationId } =
+    usePrescriptionsStore();
+  const [medicationName, setMedicationName] = useState("");
+  const [name, setName] = useState("");
+  const [genName, setGenName] = useState("");
   const [medications, setMedications] = useState([]);
   const [filteredMedications, setFilteredMedications] = useState([]);
-  const [regis, setRegis] = useState("");
-  const [medication, setMedication] = useState(null);
-  const [medicationName, setMedicationName] = useState("");
-  const [genName, setGenName] = useState("");
-  const [medId, setMedId] = useState("");
-  const [name, setName] = useState("");
+  const [refresh, setRefresh] = useState(false);
+
+  const [patientInstructions, setPatientInstructions] = useState("");
   const [doseUnit, setDoseUnit] = useState("");
+
   const [form, setForm] = useState("");
   const [duration, setDuration] = useState("");
-  const [validityStart, setValidityStart] = useState("");
-  const [validityEnd, setValidityEnd] = useState("");
-  const [patientInstructions, setPatientInstructions] = useState("");
+  const [validityStart, setValidityStart] = useState();
+  const [validityEnd, setValidityEnd] = useState();
   const [adverseEvent, setAdverseEvent] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+
   const validateFields = () => {
     let valid = true;
 
@@ -51,8 +47,8 @@ export default function EditMedications({ patientId }) {
       console.log("Medication Name is required.");
       toast.error("Medication Name is required.", {
         position: "top-left",
-        theme: "colored",
-        autoClose: 8000,
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
     if (!validityStart) {
@@ -60,8 +56,8 @@ export default function EditMedications({ patientId }) {
 
       toast.error("Start Date is required.", {
         position: "top-left",
-        theme: "colored",
-        autoClose: 8000,
+                      theme: "colored",
+                      autoClose: 8000,
       });
     }
     if (!validityEnd) {
@@ -87,89 +83,29 @@ export default function EditMedications({ patientId }) {
     return valid;
   };
 
-  const updateMedicationRequest = async (editingMedicationId, updatedData) => {
-    try {
-      const patientData = await healthRecords.getPatientData(patientId);
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
-      const { data: medicationRequests, error } = await supabase
-        .from("medicationrequest")
-        .select("*");
-      console.log(editingMedicationId);
-      const medicationRequestToUpdate = medicationRequests.find(
-        (request) => request.id === editingMedicationId
-      );
-      console.log("Medication Request to Update:", medicationRequestToUpdate);
+//   const fetchPrescriptionData = async () => {
+//     try {
+//       const prescriptionData = await getPrescriptionById(prescriptionId);
+//       console.log("Prescription Data:", prescriptionData);
 
-      if (medicationRequestToUpdate) {
-        const updateData = await supabase
-          .from("medicationrequest")
-          .update({
-            resource: {
-              ...medicationRequestToUpdate.resource,
-              id: regis,
-              medicationCodeableConcept: [
-                {
-                  coding: [
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                      display: genName, // Assuming genName is a variable holding the updated value
-                    },
-                  ],
-                  text: name, // Assuming name is a variable holding the updated value
-                },
-              ],
-              dosageInstruction: [
-                {
-                  text: patientInstructions,
-                  doseAndRate: [
-                    {
-                      doseQuantity: {
-                        doseUnit: doseUnit,
-                      },
-                    },
-                  ],
-                },
-              ],
-              dispenseRequest: {
-                dispenseInterval: duration,
-                validityPeriod: {
-                  start: validityStart,
-                  end: validityEnd,
-                },
-              },
-              form: {
-                text: form,
-              },
-              note: patientInstructions,
-              adverseEvent: {
-                adverseReaction: adverseEvent,
-              },
-            },
-          })
-          .eq("id", medicationRequestToUpdate.id);
-        console.log("Updated Data:", updateData);
+//       const medicationData = prescriptionData[0]?.resource?.medicationData;
+//       console.log(medicationData)
+//     } catch (error) {
+//       console.error("Error fetching prescription data:", error);
+//     }
+//   };
 
-        const updatedMedicationRequests = await getMedicationRequests();
-        setMedications(updatedMedicationRequests);
-        return updateData;
-      }
+//   useEffect(() => {
+//     fetchPrescriptionData();
+// }, [prescriptionId]);
 
-      if (error) {
-        console.error("Error updating medication request:", error);
-        return null;
-      }
 
-      return data;
-    } catch (error) {
-      console.error("Error updating medication request:", error);
-      return null;
-    }
-  };
 
   useEffect(() => {
     const fetchMedications = async () => {
       try {
         const meds = await retrieveMedications();
+        
         setMedications(meds);
       } catch (error) {
         console.error("Error fetching medications:", error);
@@ -179,45 +115,7 @@ export default function EditMedications({ patientId }) {
     fetchMedications();
   }, []);
 
-  useEffect(() => {
-    const fetchMedicationDetails = async () => {
-      try {
-        const med = await retrieveMedicationById(editingMedicationId);
-        console.log(med);
-        setMedication(med);
-        const genericName =
-          med.resource.medicationCodeableConcept[0]?.coding[0]?.display;
-        console.log(
-          med.resource.medicationCodeableConcept[0]?.coding[0]?.display
-        );
-        console.log(med.resource.form.text);
-        const brandName = med.resource.medicationCodeableConcept[0].text;
-        setName(`${brandName}`);
-        setGenName(`${genericName}`);
-        setMedicationName(`${genericName} - ${brandName}`);
-        setDoseUnit(
-          med.resource.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity
-            ?.doseUnit
-        );
-        setForm(med.resource.form.text);
-        setPatientInstructions(med.resource.note);
-        setValidityStart(med.resource.dispenseRequest.validityPeriod.start);
-        setMedId(med.resource.id);
-        console.log(med.resource.id);
-        setValidityEnd(med.resource.dispenseRequest.validityPeriod.end);
-        setAdverseEvent(med.resource.adverseEvent.adverseReaction);
-        setDuration(med.resource.dispenseRequest.dispenseInterval);
 
-        // You can set other fields similarly
-      } catch (error) {
-        console.error("Error fetching medication details:", error);
-      }
-    };
-
-    if (editingMedicationId) {
-      fetchMedicationDetails();
-    }
-  }, [editingMedicationId]);
 
   useEffect(() => {
     const findMedicationByRegis = () => {
@@ -238,114 +136,110 @@ export default function EditMedications({ patientId }) {
 
   const handleSave = async () => {
     setFormSubmitted(true);
+
     if (!validateFields()) {
-      return;
+        return;
     }
 
     try {
-      const patientData = await healthRecords.getPatientData(patientId);
-      const doctorInfo = await doctor.getDoctorByCurrentUser();
+        const patientData = await healthRecords.getPatientData(patientId);
+        const doctorInfo = await doctor.getDoctorByCurrentUser();
 
-      const dataToUpdate = {
-        status: "Active",
-        id: regis,
+        // Fetch current prescription data to get existing medicationData
+        const prescriptionData = await getPrescriptionById(prescriptionId);
+        const existingMedications = prescriptionData.resource?.medicationData || [];
 
-        medicationCodeableConcept: [
-          {
-            coding: [
-              {
-                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                display: genName,
-              },
-            ],
-            text: name,
-          },
-        ],
-
-        subject: {
-          type: "Patient",
-          reference: patientData.id,
-        },
-
-        dosageInstruction: [
-          {
-            text: patientInstructions,
-            doseAndRate: [
-              {
-                doseQuantity: {
-                  doseUnit: doseUnit,
+        const newMedication = {
+            id: uuidv4(),
+            status: "created",
+            resource: {
+                id: regis,
+                form: {
+                    text: form,
                 },
-              },
-            ],
-          },
-        ],
-        dispenseRequest: {
-          dispenseInterval: duration,
-          validityPeriod: {
-            start: validityStart,
-            end: validityEnd,
-          },
-        },
+                note: patientInstructions,
+                status: "Active",
+                subject: {
+                    type: "Patient",
+                    reference: patientData.id,
+                    patient: patientData,
+                  },
+                requester: {
+                    agent: {
+                        reference: doctorInfo.fullName,
+                        license_id: doctorInfo.license,
+                    },
+                },
+                adverseEvent: {
+                    adverseReaction: adverseEvent,
+                },
+                dispenseRequest: {
+                    validityPeriod: {
+                        start: validityStart,
+                        end: validityEnd,
+                    },
+                    dispenseInterval: duration,
+                },
+                dosageInstruction: [
+                    {
+                        text: patientInstructions,
+                        doseAndRate: [
+                            {
+                                doseQuantity: {
+                                    doseUnit: doseUnit,
+                                },
+                            },
+                        ],
+                    },
+                ],
+                medicationCodeableConcept: [
+                    {
+                        text: name,
+                        coding: [
+                            {
+                                system: "http://www.nlm.nih.gov/research/umls/rxnorm",
+                                display: genName,
+                            },
+                        ],
+                    },
+                ],
+            },
+            resource_type: "MedicationRequest",
+        };
 
-        requester: {
-          agent: {
-            reference: doctorInfo,
-          },
-        },
+        // Merge existing and new medications
+        const updatedMedicationData = [...existingMedications, newMedication];
 
-        form: {
-          text: form,
-        },
-
-        note: patientInstructions,
-
-        adverseEvent: {
-          adverseReaction: adverseEvent,
-        },
-
-        resource_type: "MedicationRequest",
-      };
-
-      console.log("Data to save:", dataToUpdate);
-      // Call the uploadEncounter function with the data to save
-      const updatedMedicationRequest = await updateMedicationRequest(
-        editingMedicationId,
-        dataToUpdate
-      );
-      await fetchMedications();
-      if (updatedMedicationRequest) {
-        // Update state or perform any other actions
-        console.log(
-          "Medication request updated successfully:",
-          updatedMedicationRequest
-        );
-
-        // Display success message or perform other actions
-        toast.success("Medication Request Updated", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 8000,
+        // Save the updated medicationData using updatePrescription
+        await updatePrescription(prescriptionId, {
+            patientId: patientData.id,
+            doctorName: doctorInfo.fullName,
+            doctorLicense: doctorInfo.license,
+            medicationData: updatedMedicationData,
         });
-        setCurrentScreen(1);
-      } else {
-        // Handle error scenario
-        console.error("Failed to update medication request");
-        // Display error message or perform other actions
-        toast.error("Failed to update medication request", {
-          position: "top-left",
-          theme: "colored",
-          autoClose: 8000,
+
+        toast.success("Medication Added", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 8000,
         });
-      }
     } catch (error) {
-      console.error("Error saving data:", error);
+        console.error("Error adding medication:", error);
+        toast.error("Error adding medication", {
+            position: "top-left",
+            theme: "colored",
+            autoClose: 8000,
+        });
     }
-  };
+
+    setCurrentScreen(5);
+};
+
 
   const dosage = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0bb69b9515bc818bc73ff5dde276a12e32e8a33d1ed30b5ec991895330f154db?",
-      variable: "Medicine Name",
+      variable: "Medicine Name *",
       value: "",
     },
     {
@@ -361,7 +255,7 @@ export default function EditMedications({ patientId }) {
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/9cf040cc2fe578c14734fb9453f32c80a0fee5cad6206277a97628c75d51fee5?",
-      variable: "Frequency",
+      variable: "Frequency *",
       value: "",
       component: 2,
     },
@@ -375,12 +269,12 @@ export default function EditMedications({ patientId }) {
   const prescription = [
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "Start Date",
+      variable: "Start Date *",
       value: "",
     },
     {
       src: "https://cdn.builder.io/api/v1/image/assets/TEMP/0d5b3fd16181b4dc9f9076e56dab03643403ad4fe1376a451f5d70c8bc0fcd95?apiKey=66e07193974a40e683930e95115a1cfd&",
-      variable: "End Date",
+      variable: "End Date *",
       value: "",
     },
   ];
@@ -395,10 +289,10 @@ export default function EditMedications({ patientId }) {
 
   return (
     <>
-      {currentScreen === 4 ? (
+      {currentScreen === 7 ? (
         <>
           <div className="text-black text-base font-bold leading-5 mt-8 mb-5 max-md:ml-1 max-md:mt-10">
-            EDIT MEDICATION
+            ADD MEDICATION
           </div>
 
           <div>
@@ -417,7 +311,7 @@ export default function EditMedications({ patientId }) {
                               key={index}
                               className="flex gap-5 justify-between mt-6 w-full"
                             >
-                              {item.variable !== "Medicine Name" ? (
+                              {item.variable !== "Medicine Name *" ? (
                                 <>
                                   <td className="flex gap-2 my-auto font-semibold text-black">
                                     <Image
@@ -436,18 +330,20 @@ export default function EditMedications({ patientId }) {
                                     <input
                                       type="text"
                                       className={`grow justify-center items-start py-1.5 pr-8 pl-3  rounded border-black border-solid shadow-sm border-[0.5px] text-black max-md:pr-5 ${
-                                        item.variable === "Frequency" &&
+                                        item.variable === "Frequency *" &&
                                         formSubmitted &&
                                         !duration
                                           ? "border-red-500"
                                           : ""
                                       }`}
                                       value={
-                                        item.variable === "Dose and Unit"
+                                        item.variable === "Dose and Unit" &&
+                                        regis !== ""
                                           ? doseUnit
-                                          : item.variable === "Form" 
-                                            ? form
-                                            : item.variable === "Frequency"
+                                          : item.variable === "Form" &&
+                                              regis !== ""
+                                            ? form // If regis is not empty, use the autofilled form
+                                            : item.variable === "Frequency *"
                                               ? duration
                                               : patientInstructions
                                       }
@@ -460,7 +356,7 @@ export default function EditMedications({ patientId }) {
                                           case "Form":
                                             setForm(value);
                                             break;
-                                          case "Frequency":
+                                          case "Frequency *":
                                             setDuration(value);
                                             break;
                                           case "Patient Instructions":
@@ -540,7 +436,7 @@ export default function EditMedications({ patientId }) {
                                           {filteredMedications?.map((med) => (
                                             <li
                                               key={med["Registration Number"]}
-                                              className="border text-black text-baseborder-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
+                                              className="border text-black text-base border-t-0 border-gray-300 bg-gray-200 hover:bg-blue-300"
                                             >
                                               <button
                                                 className="whitespace-pre-wrap border-none cursor-pointer block w-full text-left py-2 px-4"
@@ -554,23 +450,23 @@ export default function EditMedications({ patientId }) {
                                                   console.log(
                                                     `Brand Name: ${med["Brand Name"]}`
                                                   );
-
                                                   setName(
                                                     `${med["Brand Name"]}`
                                                   );
                                                   setGenName(
                                                     `${med["Generic Name"]}`
                                                   );
-                                                  console.log(med);
-                                                  // setMedId(med.resource.id)
-                                                  console.log(genName);
+                                                  console.log(name);
                                                   setRegis(
                                                     `${med["Registration Number"]}`
                                                   );
                                                   console.log(
                                                     `Regis number: ${med["Registration Number"]}`
                                                   );
-
+                                                  console.log(
+                                                    "Registed id",
+                                                    regis
+                                                  );
                                                   setFilteredMedications([]);
                                                 }}
                                               >
@@ -617,31 +513,34 @@ export default function EditMedications({ patientId }) {
                                 </div>
                               </td>
                               <td>
-                                {item.variable === "Start Date" ||
-                                item.variable === "End Date" ? (
+                                {item.variable === "Start Date *" ||
+                                item.variable === "End Date *" ? (
                                   <input
                                     type="date"
                                     className={`grow justify-center items-start py-1.5 pr-5 pl-3 whitespace-nowrap rounded shadow-sm text-sm font-medium  border-[0.5px] focus:border ${
-                                      (item.variable === "Start Date" &&
+                                      (item.variable === "Start Date *" &&
                                         formSubmitted &&
                                         !validityStart) ||
-                                      (item.variable === "End Date" &&
+                                      (item.variable === "End Date *" &&
                                         formSubmitted &&
                                         !validityEnd)
                                         ? "border-red-500"
                                         : "border-black"
                                     }`}
                                     value={
-                                      item.variable === "Start Date"
+                                      item.variable === "Start Date *"
                                         ? validityStart
-                                        : validityEnd
+                                        : item.variable === "End Date *"
+                                          ? validityEnd
+                                          : ""
                                     }
                                     onChange={(e) => {
-                                      const { value } = e.target;
-                                      if (item.variable === "Start Date") {
-                                        setValidityStart(value);
-                                      } else if (item.variable === "End Date") {
-                                        setValidityEnd(value);
+                                      if (item.variable === "Start Date *") {
+                                        setValidityStart(e.target.value);
+                                      } else if (
+                                        item.variable === "End Date *"
+                                      ) {
+                                        setValidityEnd(e.target.value);
                                       }
                                     }}
                                   />
@@ -708,16 +607,15 @@ export default function EditMedications({ patientId }) {
             </div>
           </div>
           <div className="flex justify-between items-center mt-5">
-            <BackButton currentScreen={2} setCurrentScreen={setCurrentScreen} />
+            <BackButton currentScreen={8} setCurrentScreen={setCurrentScreen} />
             <div>
-              <button
+              <Button
                 onClick={() => {
                   handleSave();
-                }} // Attach the handleSave function here
-                className="flex items-center justify-center px-5 py-1 rounded border border-sky-900 border-solid font-semibold border-1.5 text-sm bg-sky-900 text-white"
+                }}
               >
                 SAVE
-              </button>
+              </Button>
             </div>
           </div>
         </>
