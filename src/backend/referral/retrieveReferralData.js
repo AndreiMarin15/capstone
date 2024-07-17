@@ -79,7 +79,7 @@ const retrieveReferralData = {
         name: `${doctor.first_name} ${doctor.last_name}`,
         age: computeAge(doctor.birthdate),
         id: doctor.id,
-        specialization: specialization.data[0].doctor_specialization_name,
+        specialization: specialization.data[0]?.doctor_specialization_name,
         license_id: doctor.license_id,
         first_name: doctor.first_name,
         last_name: doctor.last_name,
@@ -142,7 +142,6 @@ const retrieveReferralData = {
         referral.accepted !== true
           ? true
           : false;
-     
 
       const photo =
         referral.referred_to === currentUser.getState().info.id
@@ -171,7 +170,7 @@ const retrieveReferralData = {
           : to_specialization.data[0].doctor_specialization_name,
         chat_id: referral.chat_id,
         email: patient.data[0].email ?? "testpatient@gmail.com",
-		photo: photo,
+        photo: photo,
       };
       return data;
     });
