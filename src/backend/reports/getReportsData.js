@@ -225,23 +225,33 @@ export const shouldSendReminder = async (patientId, remindedBy) => {
   const startOfDayISO = startOfDay.toISOString();
   const endOfDayISO = endOfDay.toISOString();
 
-  const { data: reminders, error } = await project
+  const { data: allreminders, error: err } = await project
     .from("patient_reminders")
     .select("*")
     .eq("patient_id", patientId)
-    .eq("reminded_by", remindedBy)
-    .gte("created_at", startOfDayISO) // Greater than or equal to start of today
-    .lte("created_at", endOfDayISO); // Less than or equal to end of today
+    .eq("reminded_by", remindedBy);
 
-  if (error) {
-    console.error("Error fetching reminders:", error);
-    return;
+  if (allreminders.length < 3) {
+    const { data: reminders, error } = await project
+      .from("patient_reminders")
+      .select("*")
+      .eq("patient_id", patientId)
+      .eq("reminded_by", remindedBy)
+      .gte("created_at", startOfDayISO) // Greater than or equal to start of today
+      .lte("created_at", endOfDayISO); // Less than or equal to end of today
+
+    if (error) {
+      console.error("Error fetching reminders:", error);
+      return;
+    }
+    console.log("PATIENTID", patientId);
+    console.log("Reminded by:", remindedBy);
+
+    console.log("Reminders for today:", reminders);
+
+    // If reminders.length is 0, no reminder has been sent today, so we should send one.
+    return reminders.length === 0;
   }
-  console.log("PATIENTID", patientId);
-  console.log("Reminded by:", remindedBy);
 
-  console.log("Reminders for today:", reminders);
-
-  // If reminders.length is 0, no reminder has been sent today, so we should send one.
-  return reminders.length === 0;
+  return false;
 };
