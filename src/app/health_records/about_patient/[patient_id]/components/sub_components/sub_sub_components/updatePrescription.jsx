@@ -239,6 +239,11 @@ const handleRemoveMedication = async (index) => {
     }
   };
 
+
+  const hasComments = (medicationId) => {
+    return comments.some((comment) => comment.medication_id === medicationId);
+  };
+
   return (
     <>
       {currentScreen === 5 ? (
@@ -293,9 +298,17 @@ const handleRemoveMedication = async (index) => {
                             <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(index)}>
                             Delete
                             </Button>
-                            <Button className="mr-3" variant="outline" onClick={() => handleResolveComments(item.id)}>
-                            Resolved
-                            </Button>
+                            <td>
+                            {hasComments(item.id) && (
+                              <Button
+                                className="mr-3"
+                                variant="outline"
+                                onClick={() => handleResolveComments(item.id)}
+                              >
+                                Resolved
+                              </Button>
+                            )}
+                          </td>
                         </>
                         )}
                         <button onClick={() => handleComments(item.id)}>
