@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import doctor from "@/backend//health_records/doctor";
 import { Button } from "@/components/ui/button";
 import usePrescriptionsStore from "@/app/prescriptionsStore";
+import deleteCommentsByMedicationId from "@/backend/health_records/deleteCommentsByMedicationId";
 import {
   deleteMedicationById,
   retrieveMedicationsByIds,
@@ -167,6 +168,25 @@ const handleRemoveMedication = async (index) => {
     }
   };
 
+  const handleResolveComments = async (medicationId) => {
+    try {
+      await deleteCommentsByMedicationId(medicationId);
+      setComments(comments.filter(comment => comment.medication_id !== medicationId)); // Remove comments from state
+      toast.success("Comments resolved successfully", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+    } catch (error) {
+      console.error("Error resolving comments:", error);
+      toast.error("Failed to resolve comments.", {
+        position: "top-left",
+        theme: "colored",
+        autoClose: 8000,
+      });
+    }
+  };
+
   const handleSaveComment = (medicationId) => {
     if (commentText.trim() !== '') {
       // Call the API to save the comment
@@ -272,6 +292,9 @@ const handleRemoveMedication = async (index) => {
                             </Button>
                             <Button className="mr-3" variant="destructive" onClick={() => handleRemoveMedication(index)}>
                             Delete
+                            </Button>
+                            <Button className="mr-3" variant="outline" onClick={() => handleResolveComments(item.id)}>
+                            Resolved
                             </Button>
                         </>
                         )}
@@ -383,6 +406,7 @@ const handleRemoveMedication = async (index) => {
                   >
                     Close
                   </button>
+                  
                 </div>
               </div>
             </div>
